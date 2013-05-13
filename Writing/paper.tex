@@ -1,0 +1,287 @@
+%Use this template for comments in the margin: \com{Note!} 
+
+
+%\date{December 2010}                           % Activate to display a given date or no date
+
+
+%
+%  From Riggle:
+%
+%----------------------------------------------------------------------------%
+%                    Basic page layout parameters                            %
+%----------------------------------------------------------------------------%
+
+% \documentclass[11pt,leqno,tbtags]{article}
+\documentclass[12pt,leqno,tbtags,twoside]{article}
+
+    % leqno = equations at the left
+    % tbtags (+leqno) = equation numbers at the top (rather than centered) 
+
+\usepackage[letterpaper,hmargin=1in,vmargin=1in]{geometry} 
+\usepackage[bottom]{footmisc}
+\usepackage{fancyhdr}
+
+\fancyhead{} % clear all header fields
+
+\fancyhead[LO]{Samuel R. Bowman}
+\fancyhead[RE]{Logical Reasoning in Compositional Vector Space Semantics}
+
+\fancyfoot{} % clear all footer fields
+\fancyfoot[CE, CO]{\thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+
+\renewcommand{\footrulewidth}{0.4pt}
+
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+
+
+\usepackage{setspace}
+\spacing{1}
+
+\usepackage{enumitem}
+\setlist{noitemsep}
+
+\usepackage{float}
+
+\usepackage[round]{natbib}
+\bibpunct[,~]{(}{)}{,}{a}{,}{,}
+\setlength{\bibsep}{0pt}
+
+%----------------------------------------------------------------------------%
+%                    Title, author, and affiliation                          %
+%----------------------------------------------------------------------------%
+
+\title{\Large Logical Reasoning in Compositional Vector Space Semantics}
+\author{Samuel R. Bowman\\\textsc{Ling 236}}
+%\\\\Qualifying Paper \textit{for}\\The Department of Linguistics, Stanford University\\\\Committee:\\Paul Kiparsky (chair), Arto Anttila, and Christopher Manning
+% \date{Edinburgh P-Workshop, May 2013}
+% \author{Max Bane and Jason Riggle}
+% \date{draft -- \today}
+
+%----------------------------------------------------------------------------%
+%                    Fonts and encoding                                      %
+%----------------------------------------------------------------------------%
+
+\usepackage[dirty,tipa]{ucs}	% Utf-8
+\usepackage[utf8x]{inputenc}	% fonts
+\usepackage[T1]{fontenc}		% in Tex
+
+
+\usepackage{tipa}\let\ipa\textipa
+\usepackage{vowel}
+
+\usepackage{pifont}
+\newcommand{\BlankCell}{}
+
+%\usepackage{palatino}           % body font 
+\renewcommand{\ttdefault}{lmtt} % tt set to latinmodern
+
+%----------------------------------------------------------------------------%
+%                    Graphics, tables, and figures                           %
+%----------------------------------------------------------------------------%
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{multido}
+\usepackage{ot-tableau}
+\usepackage{pstricks}
+\usepackage{pst-slpe}
+
+\psset{gridcolor=green, subgridcolor=white, dimen=middle,
+	   linewidth=1pt, subgriddiv=1, gridlabels=4pt, gridwidth=0.2pt}
+\psset{cornersize=absolute,linearc=0.06}
+		
+\newpsstyle{final}{linewidth=0.5pt,fillstyle=solid,fillcolor=gray95,%
+				   doubleline=true,doublesep=0.8pt,dimen=outer}
+
+
+%----------------------------------------------------------------------------%
+%                    Algorithms and Theorems                                 %
+%----------------------------------------------------------------------------%
+
+\usepackage[ruled,noend,linesnumbered]{algorithm2e}
+
+\usepackage[leqno,fleqn]{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{wasysym}
+ 
+\usepackage{stmaryrd}
+
+\newtheoremstyle%
+{dotless}%      name
+{\topsep}%      Space above
+{\topsep}%      Space below
+{\normalfont}%  Body font
+{}%             Indent amount (empty = no indent, \parindent = para indent)
+{\bfseries}%    Thm head font
+{}%             Punctuation after thm head
+{\newline}%     Space after head: " " = interword space, \newline = linebreak
+{}%             Thm head spec (can be left empty, meaning `normal')
+%               alternative spec: {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\theoremstyle{dotless}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+
+\newtheorem{exe}[thm]{Example}
+
+
+%----------------------------------------------------------------------------%
+%                    Hyperlinks                                              %
+%----------------------------------------------------------------------------%
+\newrgbcolor{lnkClr}{0.0 0.0 0.33}
+
+\usepackage{hyperref}			% Clickable links in pdfs
+\hypersetup{colorlinks,			% nice for large docs and 
+			breaklinks,			% for links to web pages
+            linkcolor=lnkClr,
+			urlcolor=lnkClr,
+            anchorcolor=lnkClr,
+			citecolor=lnkClr}
+
+%----------------------------------------------------------------------------%
+%  Example environment
+%----------------------------------------------------------------------------%
+
+\newenvironment{example}
+{\refstepcounter{equation}\begin{list}{(\theequation)}{\leftmargin=7mm \labelwidth=5mm}\item}%
+{\end{list}}
+
+
+\def\citeapos#1{\citeauthor{#1}'s (\citeyear{#1})}
+
+%%%%%%%%%-%%%%%%%%%-%%%%%%%%%-%%%%%%%%%-%%%%%%%%%-%%%%%%%%%-%%%%%%%%%-%%%%%%%%
+%./\..../\..../\..../\..../\..../\..../\..../\..../\..../\..../\..../\..../\.%
+%/  \../  \../  \../  \../  \../  \../  \../  \../  \../  \../  \../  \../  \%
+%    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    \/    %
+%%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%
+\usepackage{gb4e}
+
+
+
+\begin{document}
+\maketitle
+% \addtocounter{section}{-1}
+
+
+\def\Y{\textbabygamma}
+\def\P{\textceltpal}
+\def\Rs{\textsubwedge} % restore this
+\def\E{\tipaloweraccent[.1ex]{8}{e}} %restore this
+\def\A{\sublptr{\"{a}}}
+
+\maketitle
+
+%TODO: See leichturm margins
+
+%TODO: See Ken Shan slides
+
+\section{Introduction}
+
+Vector space models of semantic meaning have  substantially advanced the state of the art in applied natural language processing tasks like parsing, paraphrase detection, and sentiment analysis. These models have benefited in particular from two properties: The ability to learn representations of individual words that are \textit{optimized for the task at hand}, and their ability to compose those word representations into higher-order constituent representations \textit{in the same semantic vector space}. Together, these properties allow the model to capture nuanced compositional representations of sentence meaning without the need for any independent lexical semantic model.
+
+There is not at this time any general understanding of what \textit{kind} of information these models are capable of learning and encoding in the vector space. It is clear that they are able to learn various useful facets of meaning well, but it is possible that many of the properties that are necessary for a full account of linguistic meaning like quantification and monotonicity are missed: while these models achieve state-of-the-art performance, the models that they supplant are largely models based on simple expert-designed features with substantial known limitations.
+
+In this study, I propose to probe the representational capacities of these systems. In particular, I propose to build a model which learns task-specific compositional vector representations---in the style of Socher et al.---for the task of recognizing textual entailment in a regimented formal language. This model should shed light on the abilities of these schemes to capture reasoning patterns involving quantification, monotonicity, intersective and nonintersective modification, and other phenomena.
+
+\section{The Pilot Experiment: Reasoning with idealized data}
+
+If the pilot model works: Distributional system with X composition function gets quantification. Publish and push on how best to learn it in broader domain applications.
+
+If it fails: Can we say that the system isn't powerful enough? Squib and return to even more supervised approaches.
+
+\section{Background}
+
+\citet{baroni2012entailment} present a real world version of the entailment reasoning problem, and have the current state of the art on that task. [Ken Shan is the last author on this.]
+
+\begin{quote}
+Interestingly, on the QN entailment task, neither our classifier trained on AN-N pairs nor the balAPinc method beat baseline methods. This suggests that our successful QN classifiers tap into vector properties beyond such relations as feature inclusion that those methods for nominal entailment rely upon.
+\end{quote}
+
+\begin{quote}
+The FS definition of entailment has been modified
+by taking common sense into account. Instead of
+a relation from the truth of the consequent to the
+truth of the antecedent in any circumstance, the
+applied view looks at entailment in terms of plausibility \\\\... if a human who reads (and trusts) would most likely infer that is also true.
+\end{quote}
+
+\citet{erk2009representing} discusses notions of subsumption from distributional vectors. His results would be discouraging if we were trying to use pure distributional vectors rather than task-learned ones.
+
+\begin{quote}
+\textit{Baroni et al on Erk:} Erk (2009) suggests that it
+may not be possible to induce lexical entailment
+directly from a vector space representation, but it
+is possible to encode the relation in this space after it has been derived through other means.\\\\
+...run implies move in some contexts, but not all, for example not in the context computer runs.
+\end{quote}
+
+\citet{baroni2011we} present a corpus of word pairs manually annotated with relations like \textit{hypernym}, \textit{hyponym}, \textit{meronym}, \textit{associated event}, and \textit{common attribute}, as well as negative example relations.
+
+\begin{quote}
+\begin{verbatim}
+missile-n	weapon	hyper	rocket-n
+missile-n	weapon	hyper	vehicle-n
+missile-n	weapon	hyper	weapon-n
+missile-n	weapon	mero	engine-n
+missile-n	weapon	mero	explosive-n
+\end{verbatim}
+\end{quote}
+
+This may be useful as a fringe test case, but the lack of proper entailment/cover/equiv relationships may make it more difficult to test the logical capacity of the model by these means.
+
+\citet{lenci2012identifying} have more of the same: distributional inclusion does capture some entailment information.
+
+\begin{quote}
+We introduce BLESS, a data set specifically
+designed for the evaluation of distributional
+semantic models. BLESS contains a set of tuples instantiating different, explicitly typed semantic relations, plus a number of controlled
+random tuples. It is thus possible to assess the
+ability of a model to detect truly related word
+pairs, as well as to perform in-depth analyses of the types of semantic relations that a
+model favors. We discuss the motivations for
+BLESS, describe its construction and structure, and present examples of its usage in the
+evaluation of distributional semantic models.
+\end{quote}
+
+In my notes for some reason: LDC's ACE08 Local Relation Detection and Recognition (LRDR) task
+
+\citet{goller1996learning} present the core of the machine learning algorithm needed for the task-specific representations used in this project. I can't make heads or tails of their writing.
+
+\citeapos{widdows2004geometry} book primarily serves as an primer on vector space semantics for those without sufficient mathematical background, but it does briefly address some aspects of the logical capacities of such systems. In particular, he presents a system for constructing information-retrieval targeted query vectors, and builds a practical quasi-logic around it which is capable of conjunction (\textit{rock} AND \textit{blues}) using vector addition, and subtraction (\textit{rock} NOT \textit{blues}) through the the operation of finding the orthogonal vector, expressed as:
+
+\begin{equation}
+a \text{~NOT~} b = a - (a \cdot b)b
+\end{equation}
+
+\citet{maccartney2009extended} \citep[from Bill's dissertation][]{maccartney2009natural} presents the framing of entailment and monotonicity used here, and shows that they can (with a lot of hacks) be used to do the Recognizing Textual Entailment task on real language. No vectors here.
+
+\citet{icard2012inclusion} presents an extension to the NLI/MacCartney and Manning logic involving an elaborated notion of monotonicity. He uses the same seven basic entailment relations as MacCartney. The added detail relates to the model described in this paper as a formal description of what the model should ideally be able to learn, and not as a description of a formal property that should be externally introduced into the model.
+
+\citet{socher2011semi} is the primary introduction to the idea of learning a set of quasi-distributional vectors and a composition function on those vectors, all guided to optimize performance on some task.
+
+\citet{socher2011dynamic} extends this to paraphrase detection, an (easy, by our standards) task of comparing two learned sentence representations.
+
+Socher et al. (in prep; ACL 2013) and \citet{chen2013learning} define a more powerful version of the composition function based on a third-order tensor. I'm using this layer as the top node that builds the comparison vector from which relation types are extracted.
+
+Socher and co. have a few other recent and in-progress papers setting various task-performance records. Useful for motivation, but not that informative.
+
+
+% Distributional Models of the Representation and Acquisition of Natural Language Categories, Lapata and Fountain: Likely worth ignoring
+
+Basile et al: Encoding syntactic dependencies by vector permutation. Slides are a bit vague. Give it a closer look!
+
+
+
+\bibliography{../../Bibs/MLSemantics}{}
+\bibliographystyle{plainnat}
+
+\end{document}
+
+
