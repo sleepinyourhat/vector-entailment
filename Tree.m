@@ -1,4 +1,4 @@
-classdef Tree
+classdef Tree < handle
     
     % Represents a single binary branching syntactic tree with three representations at each node:
     % - The index with which the feature vector can be looked up - IF LEAF
@@ -15,24 +15,90 @@ classdef Tree
     methods(Static)
         % TODO: Constructors for multiword trees?
         
-        function t = makeLeaf(iText)
-            global wordMap;
-            global wordFeatures;
+        function t = makeTree(iText, wordMap)
+            % Parsing strategy:          
+            % ( a b ) ( c d )
+            % (
+            %  cache - a
+            %  cache - a b
+            % )
+            % cache -> ab - merge last two nodes
+            % (
+            %  cache ab c
+            %  cache ab c d
+            % )
+            % cache ab cd
+            % cache abcd
+            % 
+            % 
+            % ( a ( ( b c ) d ) )
+            % (
+            % cache a
+            % (
+            % (
+            % cache a b
+            % cache a b c
+            % )
+            % cache a bc
+            % cache a bc d
+            % )
+            % cache a bcd
+            % )
+            % cache abcd
+            
+            C = textscan(iText, '%s', 'delimiter', ' ');
+            C = C{1};
+             
+            stack = cell(length(C));
+            stackTop = 0;
+            
+            for i = 1:length(C)
+                if ~strcmp(C{i}, '(') && ~strcmp(C{i}, ')')
+                    % Turn words into leaf nodes
+                    stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap);
+                    stackTop = stackTop + 1;
+                elseif strcmp(C{i}, ')')
+                    % Merge at the ends of constituents
+                    r = stack{stackTop};
+                    l = stack{stackTop - 1};
+                    stack{stackTop - 1} = Tree.mergeTrees(l, r);
+                    stackTop = stackTop - 1;
+                end
+            end
+            
+            t = stack{stackTop};
+            stackTop = stackTop - 1;
+            
+            % Merge in any residual words to the left
+            while stackTop > 0
+                p = stack{stackTop};
+                stackTop = stackTop - 1;
+                
+                t = Tree.mergeTrees(p, t);
+            end            
+        end
+        
+        function t = makeLeaf(iText, wordMap)
             t = Tree();
             t.text = iText;
             t.wordIndex = wordMap(t.text);
-            t.features = wordFeatures(t.wordIndex, :);
+        end
+        
+        function t = mergeTrees(l, r)
+            t = Tree();
+            t.text = strcat(l.text, ' ', r.text);
+            t.daughters = [l r];
         end
         
     end
     methods
         
         function resp = isLeaf(obj)
-            resp = (length(obj.daughters) == 0); % TODO: Fill in for undefined.
+            resp = (isempty(obj.daughters)); % TODO: Fill in for undefined.
         end
         
         function ld = getLeftDaughter(obj)
-            if (length(obj.daughters) > 0)
+            if (~isempty(obj.daughters))
                 ld = obj.daughters(1);
             else
                 ld = 0;
@@ -63,18 +129,107 @@ classdef Tree
             i = obj.wordIndex;
         end
         
-        function updateFeatures(obj)
-            global wordFeatures;
+        function updateFeatures(obj, wordFeatures, compMatrices, compMatrix, compBias)
+            %if nargin < 5
+            %    % Use default (averaging) composition function
+            %    dim = size(wordFeatures, 2);
+            %    compMatrices = zeros(dim , (dim ^ 2));
+            %    compMatrix = [eye(dim), eye(dim)];
+            %    compBias = zeros(dim, 1);
+            %end
             
             if (~isempty(obj.daughters))
                 for (daughterIndex = 1:length(obj.daughters))
-                    obj.daughters(daughterIndex).updateFeatures();
+                    obj.daughters(daughterIndex).updateFeatures(...
+                        wordFeatures, compMatrices, compMatrix, compBias);
                 end
-                % TODO: APPLY COMPOSITION FUNCTION.
+                
+                lFeatures = obj.daughters(1).getFeatures();
+                rFeatures = obj.daughters(2).getFeatures();
+                
+                obj.features = Sigmoid(ComputeInnerTensorLayer( ...
+                    lFeatures, rFeatures, compMatrices, compMatrix, compBias));
             else
                 % In this case, we are a leaf.
-                features = wordFeatures(:, obj.wordIndex);
+                obj.features = wordFeatures(obj.wordIndex, :)';
             end
+        end
+        
+        function [ upwardWordGradients, ...
+                   upwardCompositionMatricesGradients, ...
+                   upwardCompositionMatrixGradients, ...
+                   upwardCompositionBiasGradients ] = ...
+            getGradient(obj, delta, wordFeatures, compMatrices, ...
+                        compMatrix, compBias)
+                    % Delta should be a column vector.
+                    
+            DIM = size(compBias, 1);
+            
+            upwardWordGradients = sparse([], [], [], ...
+                size(wordFeatures, 1), size(wordFeatures, 2), 10);            
+            upwardCompositionMatricesGradients = zeros(DIM , DIM * DIM);
+            upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM);
+            upwardCompositionBiasGradients = zeros(DIM, 1);
+
+            % Is this necessary? No. We have to have done this to get the
+            % objective.
+            % obj.updateFeatures(wordFeatures, compMatrix, compMatrix, compBias);
+            
+            if (~isempty(obj.daughters))
+                lFeatures = obj.daughters(1).getFeatures();
+                rFeatures = obj.daughters(2).getFeatures();
+               
+                [upwardCompositionMatricesGradients, ...
+                    upwardCompositionMatrixGradients, ...
+                    upwardCompositionBiasGradients, compDeltaLeft, ...
+                    compDeltaRight] = ...
+                  ComputeTensorLayerGradients(lFeatures, rFeatures, ...
+                      compMatrices, compMatrix, compBias, delta);
+
+                % Take gradients from below.
+                [ incomingWordGradients, ...
+                  incomingCompositionMatricesGradients, ...
+                  incomingCompositionMatrixGradients, ...
+                  incomingCompositionBiasGradients ] = ...
+                  obj.getLeftDaughter.getGradient( ...
+                                compDeltaLeft, wordFeatures, ...
+                                compMatrices, compMatrix, compBias);
+                upwardWordGradients = upwardWordGradients + ...
+                                      incomingWordGradients;
+                upwardCompositionMatricesGradients = ...
+                    upwardCompositionMatricesGradients + ...
+                    incomingCompositionMatricesGradients;
+                upwardCompositionMatrixGradients = ...
+                    upwardCompositionMatrixGradients + ...
+                    incomingCompositionMatrixGradients;
+                upwardCompositionBiasGradients = ...
+                    upwardCompositionBiasGradients + ...
+                    incomingCompositionBiasGradients;
+                
+                % Take gradients from below.
+                [ incomingWordGradients, ...
+                  incomingCompositionMatricesGradients, ...
+                  incomingCompositionMatrixGradients, ...
+                  incomingCompositionBiasGradients ] = ...
+                  obj.getRightDaughter.getGradient( ...
+                                compDeltaRight, wordFeatures, ...
+                                compMatrices, compMatrix, compBias);
+                upwardWordGradients = upwardWordGradients + ...
+                                      incomingWordGradients;
+                upwardCompositionMatricesGradients = ...
+                    upwardCompositionMatricesGradients + ...
+                    incomingCompositionMatricesGradients;
+                upwardCompositionMatrixGradients = ...
+                    upwardCompositionMatrixGradients + ...
+                    incomingCompositionMatrixGradients;
+                upwardCompositionBiasGradients = ...
+                    upwardCompositionBiasGradients + ...
+                    incomingCompositionBiasGradients;
+            else 
+               % Compute word feature gradients here.
+               upwardWordGradients(obj.getWordIndex, :) = ...
+                   upwardWordGradients(obj.getWordIndex, :) + delta';
+            end                
         end
     end
 end

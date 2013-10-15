@@ -182,6 +182,10 @@
 
 %TODO: See Ken Shan slides
 
+%TOOD: Mention Potts ministudy in 236 handout
+
+%TODO: Replicate Baroni et al 2012
+
 \section{Introduction}
 
 Vector space models of semantic meaning have  substantially advanced the state of the art in applied natural language processing tasks like parsing, paraphrase detection, and sentiment analysis. These models have benefited in particular from two properties: The ability to learn representations of individual words that are \textit{optimized for the task at hand}, and their ability to compose those word representations into higher-order constituent representations \textit{in the same semantic vector space}. Together, these properties allow the model to capture nuanced compositional representations of sentence meaning without the need for any independent lexical semantic model.
@@ -195,6 +199,8 @@ In this study, I propose to probe the representational capacities of these syste
 If the pilot model works: Distributional system with X composition function gets quantification. Publish and push on how best to learn it in broader domain applications.
 
 If it fails: Can we say that the system isn't powerful enough? Squib and return to even more supervised approaches.
+
+
 
 \section{Background}
 
@@ -277,9 +283,171 @@ Socher and co. have a few other recent and in-progress papers setting various ta
 
 Basile et al: Encoding syntactic dependencies by vector permutation. Slides are a bit vague. Give it a closer look!
 
+\section{Methods: The pilot model}
+
+The initial model is built upon three functions: The composition function, which takes individual word representations and composes them into higher-order constituent representations, the comparison function, which takes pairs of word representations and compares them to yield a relation representation, and the softmax function, which turns this abstract relation representation into a probability distribution over the seven relation types. Each of these has numerous parameters which we learn from training data, and when composed appropriately, they form a relation classifier for pairs of sentences of arbitrary length. 
+
+In this section, I lay out the definitions of these three functions, how they are applied, and how their parameters can be learned.
+
+\subsection{Forward computation: Identifying a single relation}
+
+The figure shows an example of the structure over which information flows in a forward (classifying) run of the model. The leaves of the tree are the vector representations of individual words. The left input, ``dog'', is comprised of only a single word, and can be fed directly into the comparison function. ``very big cat'', however, contains three of these representations, which need to be reduced to a single vector. This is done by applying the composition function twice, yielding a vector of the same length as the words themselves at each application. The order of application of the composition function is determined by a constituency structure (unlabeled binary parse tree) provided with the input text. This structure is annotated manually for these inputs, but could in other cases be derived from the outputs of any of a large number of extant tree parsers.
+
+Once the input has been reduced to two vectors of equal length, these are fed into the comparison layer, and subsequently into the softmax layer. The output of the softmax layer yields a distribution over possible relations between the two constituents, and choosing the maximum at this point yields the model's hypothesized relation.
+
+\subsubsection{The comparison function}
+
+The next layer is the comparison layer. This takes in the two $D$-dimensional representations of each constituent, $\vec{x^1}$ and $\vec{x^2}$, and transform them into a $D'$-dimensional vector $y$ representing the relation between the two. While this layer is not intended to be the same function as the composition function that builds up the individual constituents, I parameterize it in the same way, as an RNTN layer with three parameters, one a third-order tensor (in other words, a vector of matrices, marked $\mathbf{A^{[1...D']}}$), one a matrix  ($\mathbf{B}$), and one a vector ($\vec{c}$).
 
 
-\bibliography{../../Bibs/MLSemantics}{}
+Each element in the output vector is computed using a single matrix drawn from the third order tensor parameter, a single row of the matrix parameter, and a single entry of the vector parameter, as follows.
+
+\begin{equation}
+y_i = f(\vec{x^1}^T \mathbf{A^{[1...D']}} \vec{x^2} + \vec{B_{i,:}} [\vec{x^1}; \vec{x^2}] + c_i)
+\end{equation}
+
+\begin{equation}
+Cpr(\vec{x^1}, \vec{x^2}) = [y_1; y_2; ...; y_D']
+\end{equation}
+
+The result of each of these computations is fed into a sigmoid nonlinearity $f$. In my implementation, I use $f(x) = \tanh(x)$.
+
+
+\subsubsection{The composition function}
+
+
+As with the comparison layer, the composition layer is an RNTN layer with three parameters, one a third-order tensor ($\mathbf{K^{[1...D']}}$), one a matrix  ($\mathbf{L}$), and one a vector ($\vec{m}$). As above, the output of the layer is computed as follows.
+
+\begin{equation}
+p_i = f(\vec{x^1}^T \mathbf{K^{[1...D]}} \vec{x^2} + \vec{L_{i,:}} [\vec{x^1}; \vec{x^2}] + m_i)
+\end{equation}
+
+\begin{equation}
+Mrg(\vec{x^1}, \vec{x^2}) = [y_1; y_2; ...; y_D']
+\end{equation}
+
+
+\subsubsection{The softmax layer}
+
+TODO: Cite UFDL
+
+The top layer of the model is a softmax classifier, which takes the model output and transforms it into a multinomial probability distribution over the seven possible relation types.
+
+The softmax function takes the input from the layer below, denoted $\vec{y}$, appends a 1 to yield a bias term, multiplies the result by a matrix $\mathbf{S}$ and exponentiates it elementwise to yield an unnormalized probability measure.
+
+\begin{equation}
+\vec{\mu}(\vec{y}) = exp(\mathbf{S}\cdot[1; \vec{y}])
+\end{equation}
+
+From this, we can normalize to get a probability function by dividing each entry in the vector by the sum of the vector:
+\begin{equation}
+\vec{\pi}(\vec{y}) = \frac{\vec{\mu}(\vec{y})_r}{\sum_{r' = 1}^R \mu(\vec{y})_{r'}}
+\end{equation}
+
+\begin{equation}
+P(rel(x_1, x_2)=r) = \pi(\vec{y})_r
+\end{equation}
+
+$\mathbf{S}$ above is a $D' \times R$ matrix.
+
+
+\subsection{Backpropagation: Learning from a single relation}
+
+The parameters of the model---both the function parameters and the word parameters---are learned using the L-BFGS algorithm TODO: CITE. L-BFGS is a TODO: CHECK
+
+These gradients for each data point are computed using the backpropagation through structure algorithm \cite{goller1996learning}. In this algorithm, the model is first run forward in order to compute the predicted distribution, which is in turn used to compute the objective function. 
+
+\subsubsection{The Objective}
+
+For an objective function, I use the negative logarithm of the probability of the true relation to capture correctness, and the sum of the squared parameter values (L2 normalization) to minimize overfitting. I present it here as a function of the two top-level vectors of the inputs, and the single correct relation specification.
+
+\begin{equation}
+E(\vec{w_1}, \vec{w_2}, \vec{r}, \theta) = - \sum_{i=1}^N \log(\pi(Cpr(\vec{w_1}, \vec{w_2}))_{r_i}) + \frac{\lambda}{2}\sum_j\theta_j^2
+\end{equation}
+
+Where $\theta$ is a single vector containing all of the entries of all of the model parameters:
+\begin{equation}
+\theta = \text{linearize}([\mathbf{A^{[1...D']}}, \mathbf{B}, \vec{c}, \mathbf{K^{[1...D]}}, \mathbf{L}, \vec{m}, \mathbf{S}])
+\end{equation}
+
+
+
+\subsection{Gradients for S}
+
+The simplest gradient to compute is that of the last parameter to be applied, the matrix $\mathbf{S}$ in the probability function. Here I do so, assuming for simplicity that $N = 1$.
+
+\begin{equation}
+\frac{\partial E}{\partial S_{j,k}} = \lambda S_{j,k} - \frac{\partial E}{\partial \pi(\vec{\mu}(\vec{y}))_{r_i}}\frac{\partial \pi(\vec{\mu}(\vec{y}))_{r_i}}{\partial S_{j,k}} = 
+\end{equation}
+
+Where $\pi(\vec{\mu}(\vec{y}))_{r_i}$ is the probability of the true relation.
+
+\begin{equation}
+\frac{\partial E}{\partial \pi(\vec{\mu}(\vec{y}))_{r_i}} = -\frac{ 1 }{\pi(\vec{\mu}(\vec{y}))_{r_i}}
+\end{equation}
+
+\begin{equation}
+\vec{\mu}(\vec{y}) = exp(\mathbf{S}\cdot[1; \vec{y}])
+\end{equation}
+
+\begin{equation}
+\vec{\pi}(\vec{y})_r = \frac{\vec{\mu}(\vec{y})_r}{\sum_{r' = 1}^R \mu(\vec{y})_{r'}}
+\end{equation}
+
+if $r \neq j$
+
+
+%f = \vec{\mu}(\vec{y})_r
+%g = \sum_{r' = 1}^R \mu(\vec{y})_{r'}
+%f' = 0
+%g' = [1; \vec{y}]_{k}
+%
+%if r \neq j
+
+\begin{equation}
+\frac{\partial \pi(\vec{y})_{r_i}}{\partial S_{j,k}} = \frac{-\vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+\end{equation}
+
+
+\begin{equation}
+\frac{\partial E}{\partial S_{j,k}} = \lambda S_{j,k} - \frac{ }{\pi(\vec{y})_{r_i}} \frac{\vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+\end{equation}
+
+
+%f = \vec{\mu}(\vec{y})_r
+%g = \sum_{r' = 1}^R \mu(\vec{y})_{r'}
+%f' = [1; \vec{y}]_{k}
+%g' = [1; \vec{y}]_{k}
+%
+
+if eq
+
+
+\begin{equation}
+\frac{\partial \pi(\vec{y})_{r_i}}{\partial S_{j,k}} = \frac{[1; \vec{y}]_{k}\cdot \sum_{r' = 1}^R \mu(\vec{y})_{r'} - \vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+\end{equation}
+
+
+\begin{equation}
+\frac{\partial E}{\partial S_{j,k}} = \lambda S_{j,k}  + \frac{ 1 }{\pi(\vec{\mu}(\vec{y}))_{r_i}} \frac{[1; \vec{y}]_{k}\cdot \sum_{r' = 1}^R \mu(\vec{y})_{r'} - \vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+\end{equation}
+
+
+
+%d pi_ri  / d mu
+
+%f = \vec{\mu}(\vec{y})_r
+%g = 
+
+%\vec{\pi}(\vec{y}) = \frac{\vec{\mu}(\vec{y})_r}{\sum_{r' = 1}^R \mu(\vec{y})_{r'}}
+
+%\log(\pi(Cpr(\vec{w_1}, \vec{w_2}))_{r_i}) 
+
+\subsection{The comparison function}
+
+Since we use $\tanh(x)$ for the sigmoid function $f$, we have that $\frac{df}{dx} = sech^2(x)$.
+
+\bibliography{../../../Bibs/MLSemantics}{}
 \bibliographystyle{plainnat}
 
 \end{document}

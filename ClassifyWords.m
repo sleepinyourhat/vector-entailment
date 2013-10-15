@@ -3,6 +3,9 @@ global DIM;
 DIM = 25;
 global NUM_RELATIONS;
 NUM_RELATIONS = 7;
+global PENULT_DIM;
+PENULT_DIM = 10;
+
 
 % Import data
 fid = fopen('demo_wordpairs.tsv');
@@ -16,7 +19,7 @@ vocabulary = unique([C{2}, C{3}]);
 global wordFeatures;
 
 % Randomly initialize word features. 
-wordFeatures = normrnd(0, 1, length(vocabulary), DIM);
+wordFeatures = rand(length(vocabulary), DIM) .* .02 - .01;
 
 % Build word map
 global wordMap;
@@ -47,12 +50,20 @@ end
 global classifierParameters;
 
 % Randomly initialize softmax layer.
-classifierParameters = normrnd(0, 1, NUM_RELATIONS, NUM_RELATIONS);
+classifierParameters = rand(NUM_RELATIONS, PENULT_DIM + 1) .* .02 - .01;
 
 global classifierMatrices;
 
 % Randomly initialize tensor matrices.
-classifierMatrices = abs(normrnd(0, 0.1, (DIM * 2) , ((DIM * 2) ) * NUM_RELATIONS));
+classifierMatrices = rand(DIM , (DIM * PENULT_DIM)) .* .02 - .01;
+
+global classifierMatrix;
+
+classifierMatrix = rand(PENULT_DIM, DIM * 2) .* .02 - .01;
+
+global classifierBias;
+
+classifierBias = rand(PENULT_DIM, 1) .* .02 - .01;
 
 % read in examples; parse to n x 3 cell array, with Lword, Rword, relation
 % Lword and Rword should be tree objects.

@@ -10,7 +10,8 @@ objs = [];
 for polarity = -1:2:1
     classifierParameters(i,j) = originalValue + polarity * EPSILON;
     probs = ComputeSoftmaxProbabilities(tensorOutput, classifierParameters);
-    objs = [objs Objective(trueRelation, probs)];
+    params = param2stack(classifierParameters);
+    objs = [objs Objective(trueRelation, probs, params)];
 end
 
 localSlope = (objs(2) - objs(1)) / (2 * EPSILON);

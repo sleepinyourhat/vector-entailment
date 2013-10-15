@@ -12,9 +12,9 @@
 ### All constituents of more than two words get unlabeled binary parse trees, 
 ### marked with parens.
 
-### I assume (provisionally?) that all properties have non-zero extension.
+### I assume ( provisionally? ) that all properties have non-zero extension.
 ### Assuming this for dog allows for reasoning patterns like:
-### ^	(all dog) bark	(some dog) (not bark)
+### ^	( all dog ) bark	( some dog ) ( not bark )
 
 ###### NEGATION ######
 
@@ -34,43 +34,43 @@
 |	all dog	no dog
 
 ### Negated Quantifiers: some/not all
-#	some dog	not (all dog)
+#	some dog	not ( all dog )
 
 ### Negated Quantifiers: all/not all
-^	all dog	not (all dog)
+^	all dog	not ( all dog )
 
 ### Negated quantifiers: some/not some
-^	some dog	not (some dog)
+^	some dog	not ( some dog )
 
 ### Negated quantifiers: all/not some
-|	all dog	not (some dog)
+|	all dog	not ( some dog )
 
 ### Negated quantifiers: all/not no
-<	all dog	not (no dog)
+<	all dog	not ( no dog )
 
 ### Negated quantifiers: some/not no
-=	some dog	not (no dog)
+=	some dog	not ( no dog )
 
 ### Negation under quantification: all/some not
-^	(all dog) bark	(some dog) (not bark)
+^	( all dog ) bark	( some dog ) ( not bark )
 
 ### Negation under quantification: some/all not
-(some dog) bark	(all dog) (not bark)
+( some dog ) bark	( all dog ) ( not bark )
 
 ### Negation under quantification: some/some not
-# (some dog) bark	(some dog) (not bark)
+# ( some dog ) bark	( some dog ) ( not bark )
 
 ### Negation under quantification: all/all not
-| (all dog) bark	(all dog) (not bark)
+| ( all dog ) bark	( all dog ) ( not bark )
 
 ### Negation under quantification: no/no not
-| (no dog) bark	(no dog) (not bark)
+| ( no dog ) bark	( no dog ) ( not bark )
 
 ### Negation under quantification: some/no not
-> (Some dog) bark	(no dog) (not bark)
+> ( Some dog ) bark	( no dog ) ( not bark )
 
 ### Negation under quantification: all/no not
-= (all dog) bark	(no dog) (not bark)
+= ( all dog ) bark	( no dog ) ( not bark )
 
 ###### NON-BASIC QUANTIFICATION ######
 
@@ -124,7 +124,7 @@
 
 ### Insertion of nonintersective: hesitate to
 v	bark	hesitate bark
-|	not bark	not (hesitate bark)
+|	not bark	not ( hesitate bark )
 
 ###### MISC ######
 
@@ -145,10 +145,10 @@ v	some animal	no dog
 <	some puppy	some animal
 
 ### DeMorgan's laws [if we want to try to teach it conjunction]
-=	not cat and dog	not cat or not dog
-=	not cat or dog	not cat and not dog
+=	not ( cat ( and dog ) )	( not cat ) ( or ( not dog ) )
+=	not ( cat ( or dog ) )	( not cat ) ( and ( not dog ) )
 
-###### ADD TO WORD PAIR TRAINING DATA (work in progress) ######
+###### ADD TO WORD PAIR TRAINING DATA ( work in progress ) ######
 <	some	all
 =	all	all
 =	some	some

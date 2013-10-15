@@ -1,21 +1,24 @@
-function gradient_error = TestGradientInTensor (i, j, delta, classifierMatrices, classifierParameters, combinedFeatures, trueRelation)
-% TestGradientInTensor (i, j, delta, classifierMatrices, classifierParameters, combinedFeatures, trueRelation)
-% Find out how close a gradinent for one entry in classifierMatrices is to
+function gradient_error = TestGradientInTensor (i, grad, params, decoder, a, b, trueRelation)
+% TestGradientInTensor (i, delta, feats, decoder, a, b, trueRelation)
+% Find out how close a gradinent for one entry in tensor parameters is to
 % the local slope.
+% Use: feats = param2stack(classifierMatrices, classifierMatrix, classifierBias)
 
-EPSILON = 0.1;
+DELTA = 0.0001;
 
-originalValue = classifierMatrices(i, j);
+originalValue = params(i);
 objs = [];
 for polarity = -1:2:1
-    classifierMatrices(i,j) = originalValue + polarity * EPSILON;
-    tensorOutput = ComputeTensorLayer(combinedFeatures, classifierMatrices);    
+    params(i) = originalValue + polarity * DELTA;
+    [classifierMatrices, classifierMatrix, classifierBias, classifierParameters] = stack2param(params, decoder);
+    tensorOutput = ComputeTensorLayer(a, b, classifierMatrices, classifierMatrix, classifierBias);    
     probs = ComputeSoftmaxProbabilities(tensorOutput, classifierParameters);
-    objs = [objs Objective(trueRelation, probs)];
+    objs = [objs Objective(trueRelation, probs, params)];
 end
-    
-localSlope = (objs(2) - objs(1)) / (2 * EPSILON);
-gradient_error = (localSlope / delta);
+
+localSlope = (objs(2) - objs(1)) / (2 * DELTA);
+
+gradient_error = (grad / localSlope);
     
 % if localSlope > 0.1
 %     % For histogram of error:

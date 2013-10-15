@@ -1,0 +1,391 @@
+<	all hippo	some hippo
+<	all hungry	some hungry
+<	all non-ape	some non-ape
+<	all ape	some ape
+<	all animal	some animal
+<	all dog	some dog
+<	all cat	some cat
+<	all unable	some unable
+<	all able	some able
+<	all Thai	some Thai
+<	all Asian	some Asian
+<	all bird	some bird
+<	all crow	some crow
+<	all sofa	some sofa
+<	all couch	some couch
+<	all snail	some snail
+<	all vertebrate	some vertebrate
+<	all invertebrate	some invertebrate
+<	all bark	some bark
+<	all puppy	some puppy
+<	all feline	some feline
+<	all mobile	some mobile
+^	some hippo	no hippo
+^	some hungry	no hungry
+^	some non-ape	no non-ape
+^	some ape	no ape
+^	some animal	no animal
+^	some dog	no dog
+^	some cat	no cat
+^	some unable	no unable
+^	some able	no able
+^	some Thai	no Thai
+^	some Asian	no Asian
+^	some bird	no bird
+^	some crow	no crow
+^	some sofa	no sofa
+^	some couch	no couch
+^	some snail	no snail
+^	some vertebrate	no vertebrate
+^	some invertebrate	no invertebrate
+^	some bark	no bark
+^	some puppy	no puppy
+^	some feline	no feline
+^	some mobile	no mobile
+^	some immobile	no immobile
+^	some dead	no dead
+^	some live	no live
+^	some European	no European
+^	some French	no French
+^	some Parisian	no Parisian
+^	some human	no human
+^	some animate	no animate
+^	some inanimate	no inanimate
+^	some seat	no seat
+^	some bench	no bench
+^	some woody	no woody
+^	some plant	no plant
+^	some tree	no tree
+^	some oak	no oak
+^	some bush	no bush
+^	some destructible	no destructible
+^	some indestructible	no indestructible
+^	some mammal	no mammal
+|	all hippo	no hippo
+|	all hungry	no hungry
+|	all non-ape	no non-ape
+|	all ape	no ape
+|	all animal	no animal
+|	all dog	no dog
+|	all cat	no cat
+|	all unable	no unable
+|	all able	no able
+|	all Thai	no Thai
+|	all Asian	no Asian
+|	all bird	no bird
+|	all crow	no crow
+|	all sofa	no sofa
+|	all couch	no couch
+|	all snail	no snail
+|	all vertebrate	no vertebrate
+|	all invertebrate	no invertebrate
+|	all bark	no bark
+|	all puppy	no puppy
+|	all feline	no feline
+|	all mobile	no mobile
+|	all immobile	no immobile
+|	all dead	no dead
+|	all live	no live
+|	all European	no European
+|	all French	no French
+|	all Parisian	no Parisian
+|	all human	no human
+|	all animate	no animate
+|	all inanimate	no inanimate
+|	all seat	no seat
+|	all bench	no bench
+|	all woody	no woody
+|	all plant	no plant
+|	all tree	no tree
+|	all oak	no oak
+|	all bush	no bush
+|	all destructible	no destructible
+|	all indestructible	no indestructible
+|	all mammal	no mammal
+<	hungry hippo	hippo
+<	hungry hungry	hungry
+<	hungry non-ape	non-ape
+<	hungry ape	ape
+<	hungry animal	animal
+<	hungry dog	dog
+<	hungry cat	cat
+<	hungry unable	unable
+<	hungry able	able
+<	hungry Thai	Thai
+<	hungry Asian	Asian
+<	hungry bird	bird
+<	hungry crow	crow
+<	hungry sofa	sofa
+<	hungry couch	couch
+<	hungry snail	snail
+<	hungry vertebrate	vertebrate
+<	hungry invertebrate	invertebrate
+<	hungry bark	bark
+<	hungry puppy	puppy
+<	hungry feline	feline
+<	hungry mobile	mobile
+<	hungry immobile	immobile
+<	hungry dead	dead
+<	hungry live	live
+<	hungry European	European
+<	hungry French	French
+<	hungry Parisian	Parisian
+<	hungry human	human
+<	hungry animate	animate
+<	hungry inanimate	inanimate
+<	hungry seat	seat
+<	hungry bench	bench
+<	hungry woody	woody
+<	hungry plant	plant
+<	hungry tree	tree
+<	hungry oak	oak
+<	hungry bush	bush
+<	hungry destructible	destructible
+<	hungry indestructible	indestructible
+<	hungry mammal	mammal
+>	hippo	hungry hippo
+>	hungry	hungry hungry
+>	non-ape	hungry non-ape
+>	ape	hungry ape
+>	animal	hungry animal
+>	dog	hungry dog
+>	cat	hungry cat
+>	unable	hungry unable
+>	able	hungry able
+>	Thai	hungry Thai
+>	Asian	hungry Asian
+>	bird	hungry bird
+>	crow	hungry crow
+>	sofa	hungry sofa
+>	couch	hungry couch
+>	snail	hungry snail
+>	vertebrate	hungry vertebrate
+>	invertebrate	hungry invertebrate
+>	bark	hungry bark
+>	puppy	hungry puppy
+>	feline	hungry feline
+>	mobile	hungry mobile
+>	immobile	hungry immobile
+>	dead	hungry dead
+>	live	hungry live
+>	European	hungry European
+>	French	hungry French
+>	Parisian	hungry Parisian
+>	human	hungry human
+>	animate	hungry animate
+>	inanimate	hungry inanimate
+>	seat	hungry seat
+>	bench	hungry bench
+>	woody	hungry woody
+>	plant	hungry plant
+>	tree	hungry tree
+>	oak	hungry oak
+>	bush	hungry bush
+>	destructible	hungry destructible
+>	indestructible	hungry indestructible
+>	mammal	hungry mammal
+=	not ( not hippo )	hippo
+=	not ( not hungry )	hungry
+=	not ( not non-ape )	non-ape
+=	not ( not ape )	ape
+=	not ( not animal )	animal
+=	not ( not dog )	dog
+=	not ( not cat )	cat
+=	not ( not unable )	unable
+=	not ( not able )	able
+=	not ( not Thai )	Thai
+=	not ( not Asian )	Asian
+=	not ( not bird )	bird
+=	not ( not crow )	crow
+=	not ( not sofa )	sofa
+=	not ( not couch )	couch
+=	not ( not snail )	snail
+=	not ( not vertebrate )	vertebrate
+=	not ( not invertebrate )	invertebrate
+=	not ( not bark )	bark
+=	not ( not puppy )	puppy
+=	not ( not feline )	feline
+=	not ( not mobile )	mobile
+=	not ( not immobile )	immobile
+=	not ( not dead )	dead
+=	not ( not live )	live
+=	not ( not European )	European
+=	not ( not French )	French
+=	not ( not Parisian )	Parisian
+=	not ( not human )	human
+=	not ( not animate )	animate
+=	not ( not inanimate )	inanimate
+=	not ( not seat )	seat
+=	not ( not bench )	bench
+=	not ( not woody )	woody
+=	not ( not plant )	plant
+=	not ( not tree )	tree
+=	not ( not oak )	oak
+=	not ( not bush )	bush
+=	not ( not destructible )	destructible
+=	not ( not indestructible )	indestructible
+=	not ( not mammal )	mammal
+#	not ( hungry hippo )	hippo
+#	not ( hungry hungry )	hungry
+#	not ( hungry non-ape )	non-ape
+#	not ( hungry ape )	ape
+#	not ( hungry animal )	animal
+#	not ( hungry dog )	dog
+#	not ( hungry cat )	cat
+#	not ( hungry unable )	unable
+#	not ( hungry able )	able
+#	not ( hungry Thai )	Thai
+#	not ( hungry Asian )	Asian
+#	not ( hungry bird )	bird
+#	not ( hungry crow )	crow
+#	not ( hungry sofa )	sofa
+#	not ( hungry couch )	couch
+#	not ( hungry snail )	snail
+#	not ( hungry vertebrate )	vertebrate
+#	not ( hungry invertebrate )	invertebrate
+#	not ( hungry bark )	bark
+#	not ( hungry puppy )	puppy
+#	not ( hungry feline )	feline
+#	not ( hungry mobile )	mobile
+#	not ( hungry immobile )	immobile
+#	not ( hungry dead )	dead
+#	not ( hungry live )	live
+#	not ( hungry European )	European
+#	not ( hungry French )	French
+#	not ( hungry Parisian )	Parisian
+#	not ( hungry some )	some
+#	not ( hungry all )	all
+#	not ( hungry no )	no
+#	not ( hungry human )	human
+#	not ( hungry animate )	animate
+#	not ( hungry inanimate )	inanimate
+#	not ( hungry seat )	seat
+#	not ( hungry bench )	bench
+#	not ( hungry woody )	woody
+#	not ( hungry plant )	plant
+#	not ( hungry tree )	tree
+#	not ( hungry oak )	oak
+#	not ( hungry bush )	bush
+#	not ( hungry destructible )	destructible
+#	not ( hungry indestructible )	indestructible
+#	not ( hungry mammal )	mammal
+<	Asian hippo	animal
+<	Asian hungry	animal
+#	Asian non-ape	animal
+<	Asian ape	animal
+<	Asian animal	animal
+<	Asian dog	animal
+<	Asian cat	animal
+#	Asian unable	animal
+#	Asian able	animal
+#	Asian Thai	animal
+#	Asian Asian	animal
+<	Asian bird	animal
+<	Asian crow	animal
+|	Asian sofa	animal
+|	Asian couch	animal
+<	Asian snail	animal
+<	Asian vertebrate	animal
+<	Asian invertebrate	animal
+|	Asian bark	animal
+<	Asian puppy	animal
+<	Asian feline	animal
+#	Asian mobile	animal
+#	Asian immobile	animal
+#	Asian dead	animal
+#	Asian live	animal
+<	Asian human	animal
+<	Asian animate	animal
+<	Asian inanimate	animal
+|	Asian seat	animal
+|	Asian bench	animal
+|	Asian woody	animal
+|	Asian plant	animal
+|	Asian tree	animal
+|	Asian oak	animal
+|	Asian bush	animal
+<	Asian destructible	animal
+|	Asian indestructible	animal
+<	Asian mammal	animal
+#	all hippo	two hippo
+#	all hungry	two hungry
+#	all non-ape	two non-ape
+#	all ape	two ape
+#	all animal	two animal
+#	all dog	two dog
+#	all cat	two cat
+#	all unable	two unable
+#	all able	two able
+#	all Thai	two Thai
+#	all Asian	two Asian
+#	all bird	two bird
+#	all crow	two crow
+#	all sofa	two sofa
+#	all couch	two couch
+#	all snail	two snail
+#	all vertebrate	two vertebrate
+#	all invertebrate	two invertebrate
+#	all bark	two bark
+#	all puppy	two puppy
+#	all feline	two feline
+#	all mobile	two mobile
+#	all immobile	two immobile
+#	all dead	two dead
+#	all live	two live
+#	all European	two European
+#	all French	two French
+#	all Parisian	two Parisian
+#	all human	two human
+#	all animate	two animate
+#	all inanimate	two inanimate
+#	all seat	two seat
+#	all bench	two bench
+#	all woody	two woody
+#	all plant	two plant
+#	all tree	two tree
+#	all oak	two oak
+#	all bush	two bush
+#	all destructible	two destructible
+#	all indestructible	two indestructible
+#	all mammal	two mammal
+#	all hippo	three hippo
+#	all hungry	three hungry
+#	all non-ape	three non-ape
+#	all ape	three ape
+#	all animal	three animal
+#	all dog	three dog
+#	all cat	three cat
+#	all unable	three unable
+#	all able	three able
+#	all Thai	three Thai
+#	all Asian	three Asian
+#	all bird	three bird
+#	all crow	three crow
+#	all sofa	three sofa
+#	all couch	three couch
+#	all snail	three snail
+#	all vertebrate	three vertebrate
+#	all invertebrate	three invertebrate
+#	all bark	three bark
+#	all puppy	three puppy
+#	all feline	three feline
+#	all mobile	three mobile
+#	all immobile	three immobile
+#	all dead	three dead
+#	all live	three live
+#	all European	three European
+#	all French	three French
+#	all Parisian	three Parisian
+#	all human	three human
+#	all animate	three animate
+#	all inanimate	three inanimate
+#	all seat	three seat
+#	all bench	three bench
+#	all woody	three woody
+#	all plant	three plant
+#	all tree	three tree
+#	all oak	three oak
+#	all bush	three bush
+#	all destructible	three destructible
+#	all indestructible	three indestructible
+#	all mammal	three mammal

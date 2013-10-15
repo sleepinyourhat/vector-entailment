@@ -1,0 +1,430 @@
+% 
+% Annual Cognitive Science Conference
+
+% Modified: Niels Taatgen (taatgen@cmu.edu) 10/24/2006
+
+%% Change ``a4paper'' in the following line to ``letterpaper'' if you are
+%% producing a letter-format document.
+
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{cogsci}
+\usepackage{pslatex}
+\usepackage{apacite}
+\usepackage{amsmath}
+\usepackage{qtree}
+
+\title{Logical Reasoning in Compositional Vector Space Semantics}
+ 
+\author{{\large \bf Samuel R. Bowman (sbowman@stanford.edu)} \\
+  Department of Linguistics, 450 Serra Mall \\
+  Stanford, CA 94305-2150
+  \AND {\large \bf Sharon J. Derry (SDJ@Macc.Wisc.Edu)} \\
+  Department of Educational Psychology, 1025 W. Johnson Street \\
+  Madison, WI 53706 USA}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The abstract should be one paragraph, indented 1/8~inch on both sides,
+in 9~point font with single spacing. The heading {\bf Abstract} should
+be 10~point, bold, centered, with one line space below it. This
+one-paragraph abstract section is required only for standard spoken
+papers and standard posters (i.e., those presentations that will be
+represented by six page papers in the Proceedings).
+
+\textbf{Keywords:} 
+vector space models, computational semantics\end{abstract}
+
+%\section{Formalities, Footnotes, and Floats}
+
+%Use standard APA citation format. Citations within the text should
+%include the author's last name and year. If the authors' names are
+%included in the sentence, place only the year in parentheses, as in
+%\citeA{NewellSimon1972a}, but otherwise place the entire reference in
+%parentheses with the authors and year separated by a comma
+%\citeA{NewellSimon1972a}. List multiple references alphabetically and
+%separate them by semicolons
+%\citeA{ChalnickBillman1988a,NewellSimon1972a}. Use the
+%et~al. construction only after listing all the authors to a
+%publication in an earlier reference and for citations with four or
+%more authors.
+
+
+%\subsection{Footnotes}
+
+%Indicate footnotes with a number\footnote{Sample of the first
+%  footnote.} in the text. Place the footnotes in 9~point type at the
+%bottom of the page on which they appear. Precede the footnote with a
+%horizontal rule.\footnote{Sample of the second footnote.}
+
+
+%\subsection{Tables}
+
+%Number tables consecutively; place the table number and title (in
+%10~point) above the table with one line space above the caption and
+%one line space below it, as in Table~\ref{sample-table}. You may float
+%tables to the top or bottom of a column, set wide tables across both
+%columns.
+
+%\begin{table}[!ht]
+%\begin{center} 
+%\caption{Sample table title.} 
+%\label{sample-table} 
+%\vskip 0.12in
+%\begin{tabular}{ll} 
+%\hline
+%Error type    &  Example \\
+%\hline
+%Take smaller        &   63 - 44 = 21 \\
+%Always borrow~~~~   &   96 - 42 = 34 \\
+%0 - N = N           &   70 - 47 = 37 \\
+%0 - N = 0           &   70 - 47 = 30 \\
+%\hline
+%\end{tabular} 
+%\end{center} 
+%\end{table}
+
+
+%\subsection{Figures}
+
+%All artwork must be very dark for purposes of reproduction and should
+%not be hand drawn. Number figures sequentially, placing the figure
+%number and caption, in 10~point, after the figure with one line space
+%above the caption and one line space below it, as in
+%Figure~\ref{sample-figure}. If necessary, leave extra white space at
+%the bottom of the page to avoid splitting the figure and figure
+%caption. You may float figures to the top or bottom of a column, or
+%set wide figures across both columns.
+
+%\begin{figure}[ht]
+%\begin{center}
+%\fbox{CoGNiTiVe ScIeNcE}
+%\end{center}
+%\caption{This is a figure.} 
+%\label{sample-figure}
+%\end{figure}
+
+
+%TOOD: Mention Potts ministudy in 236 handout
+
+%TODO: Replicate Baroni et al 2012?
+
+\section{Introduction}
+
+Vector space models of semantic meaning have  substantially advanced the state of the art in applied natural language processing tasks like parsing, paraphrase detection, and sentiment analysis. These models have benefited in particular from two properties: The ability to learn representations of individual words that are \textit{optimized for the task at hand}, and their ability to compose those word representations into higher-order constituent representations \textit{in the same semantic vector space}. Together, these properties allow the model to capture nuanced compositional representations of sentence meaning without the need for any independent lexical semantic model.
+
+There is not at this time any general understanding of what \textit{kind} of information these models are capable of learning and encoding in the vector space. It is clear that they are able to learn various useful facets of meaning well, but it is possible that many of the properties that are necessary for a full account of linguistic meaning like quantification and monotonicity are missed: while these models achieve state-of-the-art performance, the models that they supplant are largely models based on simple expert-designed features with substantial known limitations.
+
+In this study, I propose to probe the representational capacities of these systems. In particular, I propose to build a model which learns task-specific compositional vector representations---in the style of Socher et al.---for the task of recognizing textual entailment in a regimented formal language. This model should shed light on the abilities of these schemes to capture reasoning patterns involving quantification, monotonicity, intersective and nonintersective modification, and other phenomena.
+
+\section{The Pilot Experiment: Reasoning with idealized data}
+
+If the pilot model works: Distributional system with X composition function gets quantification. Publish and push on how best to learn it in broader domain applications.
+
+If it fails: Can we say that the system isn't powerful enough? Squib and return to even more supervised approaches.
+
+\section{Background}
+
+\citeA{baroni2012entailment} present a real world version of the entailment reasoning problem, and have the current state of the art on that task. [Ken Shan is the last author on this.]
+
+\begin{quote}
+Interestingly, on the QN entailment task, neither our classifier trained on AN-N pairs nor the balAPinc method beat baseline methods. This suggests that our successful QN classifiers tap into vector properties beyond such relations as feature inclusion that those methods for nominal entailment rely upon.
+\end{quote}
+
+\begin{quote}
+The FS definition of entailment has been modified
+by taking common sense into account. Instead of
+a relation from the truth of the consequent to the
+truth of the antecedent in any circumstance, the
+applied view looks at entailment in terms of plausibility \\\\... if a human who reads (and trusts) would most likely infer that is also true.
+\end{quote}
+
+\citeA{erk2009representing} discusses notions of subsumption from distributional vectors. His results would be discouraging if we were trying to use pure distributional vectors rather than task-learned ones.
+
+\begin{quote}
+\textit{Baroni et al on Erk:} Erk (2009) suggests that it
+may not be possible to induce lexical entailment
+directly from a vector space representation, but it
+is possible to encode the relation in this space after it has been derived through other means.\\\\
+...run implies move in some contexts, but not all, for example not in the context computer runs.
+\end{quote}
+
+\citeA{baroni2011we} present a corpus of word pairs manually annotated with relations like \textit{hypernym}, \textit{hyponym}, \textit{meronym}, \textit{associated event}, and \textit{common attribute}, as well as negative example relations.
+
+\begin{quote}
+\begin{verbatim}
+missile-n    weapon	hyper	rocket-n
+missile-n	weapon	hyper	vehicle-n
+missile-n	weapon	hyper	weapon-n
+missile-n	weapon	mero	engine-n
+missile-n	weapon	mero	explosive-n
+\end{verbatim}
+\end{quote}
+
+This may be useful as a fringe test case, but the lack of proper entailment/cover/equiv relationships may make it more difficult to test the logical capacity of the model by these means.
+
+\citeA{lenci2012identifying} have more of the same: distributional inclusion does capture some entailment information.
+
+\begin{quote}
+We introduce BLESS, a data set specifically
+designed for the evaluation of distributional
+semantic models. BLESS contains a set of tuples instantiating different, explicitly typed semantic relations, plus a number of controlled
+random tuples. It is thus possible to assess the
+ability of a model to detect truly related word
+pairs, as well as to perform in-depth analyses of the types of semantic relations that a
+model favors. We discuss the motivations for
+BLESS, describe its construction and structure, and present examples of its usage in the
+evaluation of distributional semantic models.
+\end{quote}
+
+In my notes for some reason: LDC's ACE08 Local Relation Detection and Recognition (LRDR) task
+
+\citeA{goller1996learning} present the core of the machine learning algorithm needed for the task-specific representations used in this project. I can't make heads or tails of their writing.
+
+\citeA{widdows2004geometry} primarily serves as an primer on vector space semantics for those without sufficient mathematical background, but it does briefly address some aspects of the logical capacities of such systems. In particular, he presents a system for constructing information-retrieval targeted query vectors, and builds a practical quasi-logic around it which is capable of conjunction (\textit{rock} AND \textit{blues}) using vector addition, and subtraction (\textit{rock} NOT \textit{blues}) through the the operation of finding the orthogonal vector, expressed as:
+
+\begin{equation}
+a \text{~NOT~} b = a - (a \cdot b)b
+\end{equation}
+
+\citeA{maccartney2009extended} \cite{maccartney2009natural}  presents the framing of entailment and monotonicity used here, and shows that they can (with a lot of hacks) be used to do the Recognizing Textual Entailment task on real language. No vectors here.
+
+\citeA{icard2012inclusion} presents an extension to the NLI/MacCartney and Manning logic involving an elaborated notion of monotonicity. He uses the same seven basic entailment relations as MacCartney. The added detail relates to the model described in this paper as a formal description of what the model should ideally be able to learn, and not as a description of a formal property that should be externally introduced into the model.
+
+\citeA{socher2011semi} is the primary introduction to the idea of learning a set of quasi-distributional vectors and a composition function on those vectors, all guided to optimize performance on some task.
+
+\citeA{socher2011dynamic} extends this to paraphrase detection, an (easy, by our standards) task of comparing two learned sentence representations.
+
+Socher et al. (in prep; ACL 2013) and \citeA{chen2013learning} define a more powerful version of the composition function based on a third-order tensor. I'm using this layer as the top node that builds the comparison vector from which relation types are extracted.
+
+Socher and co. have a few other recent and in-progress papers setting various task-performance records. Useful for motivation, but not that informative.
+
+% Distributional Models of the Representation and Acquisition of Natural Language Categories, Lapata and Fountain: Likely worth ignoring
+
+Basile et al: Encoding syntactic dependencies by vector permutation. Slides are a bit vague. Give it a closer look!
+
+--------
+Worth naming at least one of the Clarke/Grefenstette/... papers:
+http://www.aclweb.org/anthology/W/W11/W11-0114.pdf
+
+http://arxiv.org/pdf/1003.4394v1.pdf
+http://www.aclweb.org/anthology-new/S/S13/S13-1001.pdf
+- Pure theory - no experiment yet.
+- Formalism treats prepositions as fifth-order tensors - not meant to be viable in a machine learning setting as presented.
+
+http://www.aclweb.org/anthology-new/S/S13/S13-1001.pdf
+- Might be the most overt presentation of the tensor approach
+- overfitting issues
+
+Work on similarity
+- http://www.aclweb.org/anthology-new/D/D11/D11-1129.pdf
+
+Most recent
+- http://www.cl.cam.ac.uk/~sc609/pubs/mol13.pdf
+
+\section{Methods}
+
+\section{Methods: The pilot model}
+
+The initial model is built upon three functions: The composition function, which takes individual word representations and composes them into higher-order constituent representations, the comparison function, which takes pairs of word representations and compares them to yield a relation representation, and the softmax function, which turns this abstract relation representation into a probability distribution over the seven relation types. Each of these has numerous parameters which we learn from training data, and when composed appropriately, they form a relation classifier for pairs of sentences of arbitrary length. 
+
+In this section, I lay out the definitions of these three functions, how they are applied, and how their parameters can be learned.
+
+\subsection{Forward computation: Identifying a single relation}
+
+\begin{figure}[ht]
+\begin{center}
+\fbox{\Tree [.{$\underset{r}{\operatorname{argmax}}(\pi_{\operatorname{index}(r)}) = \text{``}|\text{''}$\\Most probable relation.} [.{$\vec{\pi}$\\Probabilities of each relation.} [.{[Softmax layer]} [.{$\vec{y}$\\World pair representation.} [.{[Comparison layer]} [.{$x_1$\\``dog'' vector} ] [.{$x_6$\\``very big cat'' vector} [.{[Composition layer]} [.{$x_5$\\``very big'' vector} [.{[Composition layer]} [.{$x_2$\\``very'' vector} ] [.{$x_3$\\``big'' vector} ] ] ] [.{$x_4$\\``cat'' vector} ] ] ] ] ] ] ] ] }
+\end{center}
+\caption{Example model structure for comparing ``dog'' and ``very big cat''. When running the model forward to compute the predicted relation, information flows up the tree.} 
+\label{sample-figure}
+\end{figure}
+
+The figure shows an example of the structure over which information flows in a forward (classifying) run of the model. The leaves of the tree are the vector representations of individual words. The left input, ``dog'', is comprised of only a single word, and can be fed directly into the comparison function. ``very big cat'', however, contains three of these representations, which need to be reduced to a single vector. This is done by applying the composition function twice, yielding a vector of the same length as the words themselves at each application. The order of application of the composition function is determined by a constituency structure (unlabeled binary parse tree) provided with the input text. This structure is annotated manually for these inputs, but could in other cases be derived from the outputs of any of a large number of extant tree parsers.
+
+Once the input has been reduced to two vectors of equal length, these are fed into the comparison layer, and subsequently into the softmax layer. The output of the softmax layer yields a distribution over possible relations between the two constituents, and choosing the maximum at this point yields the model's hypothesized relation.
+
+\subsubsection{The comparison function}
+
+The next layer is the comparison layer. This takes in the two $D$-dimensional representations of each constituent, $\vec{x^1}$ and $\vec{x^2}$, and transform them into a $D'$-dimensional vector $y$ representing the relation between the two. While this layer is not intended to be the same function as the composition function that builds up the individual constituents, I parameterize it in the same way, as an RNTN layer with three parameters, one a third-order tensor (in other words, a vector of matrices, marked $\mathbf{A^{[1...D']}}$), one a matrix  ($\mathbf{B}$), and one a vector ($\vec{c}$).
+
+
+Each element in the output vector is computed using a single matrix drawn from the third order tensor parameter, a single row of the matrix parameter, and a single entry of the vector parameter, as follows.
+
+\begin{equation}
+y_i = f(\vec{x^1}^T \mathbf{A^{[1...D']}} \vec{x^2} + \vec{B_{i,:}} [\vec{x^1}; \vec{x^2}] + c_i)
+\end{equation}
+
+\begin{equation}
+Cpr(\vec{x^1}, \vec{x^2}) = [y_1; y_2; ...; y_D']
+\end{equation}
+
+The result of each of these computations is fed into a sigmoid nonlinearity $f$. In my implementation, I use $f(x) = \tanh(x)$.
+
+
+\subsubsection{The composition function}
+
+
+As with the comparison layer, the composition layer is an RNTN layer with three parameters, one a third-order tensor ($\mathbf{K^{[1...D']}}$), one a matrix  ($\mathbf{L}$), and one a vector ($\vec{m}$). As above, the output of the layer is computed as follows.
+
+\begin{equation}
+p_i = f(\vec{x^1}^T \mathbf{K^{[1...D]}} \vec{x^2} + \vec{L_{i,:}} [\vec{x^1}; \vec{x^2}] + m_i)
+\end{equation}
+
+\begin{equation}
+Mrg(\vec{x^1}, \vec{x^2}) = [y_1; y_2; ...; y_D']
+\end{equation}
+
+
+\subsubsection{The softmax layer}
+
+TODO: Cite UFDL
+
+The top layer of the model is a softmax classifier, which takes the model output and transforms it into a multinomial probability distribution over the seven possible relation types.
+
+The softmax function takes the input from the layer below, denoted $\vec{y}$, appends a 1 to yield a bias term, multiplies the result by a matrix $\mathbf{S}$ and exponentiates it elementwise to yield an unnormalized probability measure.
+
+\begin{equation}
+\vec{\mu}(\vec{y}) = exp(\mathbf{S}\cdot[1; \vec{y}])
+\end{equation}
+
+From this, we can normalize to get a probability function by dividing each entry in the vector by the sum of the vector:
+\begin{equation}
+\vec{\pi}(\vec{y}) = \frac{\vec{\mu}(\vec{y})_r}{\sum_{r' = 1}^R \mu(\vec{y})_{r'}}
+\end{equation}
+
+\begin{equation}
+P(rel(x_1, x_2)=r) = \pi(\vec{y})_r
+\end{equation}
+
+$\mathbf{S}$ above is a $D' \times R$ matrix.
+
+
+\subsection{Backpropagation: Learning from a single relation}
+
+The parameters of the model---both the function parameters and the word parameters---are learned using the minFunc package for multivariate optimization \citeA{schmidt2012minfunc}, configured to use L-BFGS. The update rule by which this algorithm optimizes the parameters requires a closed-form computation of the gradient at each iteration: the partial derivatives for each parameter with respect to the objective function.
+
+This gradient is computed using the sum of the gradients for each item of the training data set, combined with an L2 regularization term. The gradients for each data point are computed using the backpropagation through structure algorithm \cite{goller1996learning}. In this algorithm, the model is first run forward in order to compute the predicted distribution, which is in turn used to compute the objective function. 
+
+\subsubsection{The Objective}
+
+For an objective function, I use the negative logarithm of the probability of the true relation to capture correctness, and the sum of the squared parameter values (L2 normalization) to minimize overfitting. I present it here as a function of the two top-level vectors of the inputs, and the single correct relation specification.
+
+\begin{equation}
+E(\vec{w_1}, \vec{w_2}, \vec{r}, \theta) = - \sum_{i=1}^N \log(\pi(Cpr(\vec{w_1}, \vec{w_2}))_{r_i}) + \frac{\lambda}{2}\sum_j\theta_j^2
+\end{equation}
+
+Where $\theta$ is a single vector containing all of the entries of all of the model parameters:
+\begin{equation}
+\theta = \text{linearize}([\mathbf{A^{[1...D']}}, \mathbf{B}, \vec{c}, \mathbf{K^{[1...D]}}, \mathbf{L}, \vec{m}, \mathbf{S}])
+\end{equation}
+
+The gradient of this function can be decomposed as follows:
+
+\begin{equation}
+\frac{\partial E(\vec{w_1}, \vec{w_2}, \vec{r}, \theta)}{\partial \theta_i} = - \partial{\sum_{i=1}^N \log(\pi(Cpr(\vec{w_1}, \vec{w_2}))_{r_i})}{\partial \theat + \frac{\lambda}{2}\sum_j\theta_j^2
+\end{equation}
+
+
+
+\subsection{Gradients for S}
+
+The simplest gradient to compute is that of the last parameter to be applied, the matrix $\mathbf{S}$ in the probability function. Here I do so, assuming for simplicity that $N = 1$.
+
+\begin{equation}
+\frac{\partial E}{\partial S_{j,k}} = \lambda S_{j,k} - \frac{\partial E}{\partial \pi(\vec{\mu}(\vec{y}))_{r_i}}\frac{\partial \pi(\vec{\mu}(\vec{y}))_{r_i}}{\partial S_{j,k}} = 
+\end{equation}
+
+Where $\pi(\vec{\mu}(\vec{y}))_{r_i}$ is the probability of the true relation.
+
+%\begin{equation}
+%\frac{\partial E}{\partial \pi(\vec{\mu}(\vec{y}))_{r_i}} = -\frac{ 1 }{\pi(\vec{\mu}(\vec{y}))_{r_i}}
+%\end{equation}
+%
+%\begin{equation}
+%\vec{\mu}(\vec{y}) = exp(\mathbf{S}\cdot[1; \vec{y}])
+%\end{equation}
+%
+%\begin{equation}
+%\vec{\pi}(\vec{y})_r = \frac{\vec{\mu}(\vec{y})_r}{\sum_{r' = 1}^R \mu(\vec{y})_{r'}}
+%\end{equation}
+%
+%if $r \neq j$
+%
+%
+%%f = \vec{\mu}(\vec{y})_r
+%%g = \sum_{r' = 1}^R \mu(\vec{y})_{r'}
+%%f' = 0
+%%g' = [1; \vec{y}]_{k}
+%%
+%%if r \neq j
+%
+%\begin{equation}
+%\frac{\partial \pi(\vec{y})_{r_i}}{\partial S_{j,k}} = \frac{-\vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+%\end{equation}
+%
+%
+%\begin{equation}
+%\frac{\partial E}{\partial S_{j,k}} = \lambda S_{j,k} - \frac{ }{\pi(\vec{y})_{r_i}} \frac{\vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+%\end{equation}
+%
+%
+%%f = \vec{\mu}(\vec{y})_r
+%%g = \sum_{r' = 1}^R \mu(\vec{y})_{r'}
+%%f' = [1; \vec{y}]_{k}
+%%g' = [1; \vec{y}]_{k}
+%%
+%
+%if eq
+%
+%
+%\begin{equation}
+%\frac{\partial \pi(\vec{y})_{r_i}}{\partial S_{j,k}} = \frac{[1; \vec{y}]_{k}\cdot \sum_{r' = 1}^R \mu(\vec{y})_{r'} - \vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+%\end{equation}
+%
+%
+%\begin{equation}
+%\frac{\partial E}{\partial S_{j,k}} = \lambda S_{j,k}  + \frac{ 1 }{\pi(\vec{\mu}(\vec{y}))_{r_i}} \frac{[1; \vec{y}]_{k}\cdot \sum_{r' = 1}^R \mu(\vec{y})_{r'} - \vec{\mu}(\vec{y})_r\cdot [1; \vec{y}]_{k}}{(\sum_{r' = 1}^R \mu(\vec{y})_{r'})^2}
+%\end{equation}
+
+
+
+%d pi_ri  / d mu
+
+%f = \vec{\mu}(\vec{y})_r
+%g = 
+
+%\vec{\pi}(\vec{y}) = \frac{\vec{\mu}(\vec{y})_r}{\sum_{r' = 1}^R \mu(\vec{y})_{r'}}
+
+%\log(\pi(Cpr(\vec{w_1}, \vec{w_2}))_{r_i}) 
+
+% \subsection{The comparison function}
+
+% Since we use $\tanh(x)$ for the sigmoid function $f$, we have that $\frac{df}{dx} = sech^2(x)$.
+
+
+\section{Current status, results and discussion}
+
+We have not yet fully built the necessary gradient computation functions to learn the parameters of the composition layer or to propagate information past the composition layer down to the words. Aside from that... 
+
+% implemented in matlab
+
+% learning overall distribution
+
+% tuning needed
+
+% data set cut needed
+
+
+\bibliographystyle{apacite}
+
+\setlength{\bibleftmargin}{.125in}
+\setlength{\bibindent}{-\bibleftmargin}
+
+\bibliography{MLSemantics}
+
+
+\end{document}
