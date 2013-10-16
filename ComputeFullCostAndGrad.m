@@ -29,12 +29,9 @@ if nargout > 2
         
         localCorrect = localPred == data(i).relation;
         if ~localCorrect
-            disp('error. correct:')
-            disp(data(i).leftTree.getText)
-            disp(data(i).rightTree.getText)
-            disp(data(i).relation)
-            disp('predicted:')
-            disp(localPred)
+            disp(['for: ', data(i).leftTree.getText, ' - ', ...
+            	  data(i).rightTree.getText, ' h:' , ...
+                  num2str(data(i).relation), ' t: ', num2str(localPred)]);
         end
         
         if argout > 3
@@ -73,7 +70,7 @@ if nargout > 1
     grad = (1/length(data) * accumulatedGrad);
     grad = grad + (hyperParams.lambda * theta);
     if nargout > 2
-        trainingError = 1 - (accumulatedSuccess / N)
+        trainingError = 1 - (accumulatedSuccess / N);
     end
 end
 
