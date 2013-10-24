@@ -4,6 +4,11 @@ function [ data ] = LoadConstitData(filename, wordMap, relationMap)
 % 'constitpairs-v1.tsv'
 
 % Import data
+
+% Append data/ if we don't have a full path:
+if isempty(findstr(filename, '/'))
+    filename = ['data/', filename];
+end
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
 fclose(fid);

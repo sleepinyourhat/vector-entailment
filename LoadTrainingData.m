@@ -1,7 +1,12 @@
-function [ data, wordMap, relationMap ] = LoadTrainingData(filename)
+function [ data, wordMap, relationMap, relations ] = LoadTrainingData(filename)
 %[ dataset ] = LoadTrainingData()
 
-% Import data
+% Import data:
+
+% Append data/ if we don't have a full path:
+if isempty(findstr(filename, '/'))
+    filename = ['data/', filename];
+end
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
 fclose(fid);
@@ -73,6 +78,8 @@ for dataInd = 1:length(rawData)
     data(dataInd).rightTree = Tree.makeTree(rawData(dataInd).rightText, wordMap);
     data(dataInd).relation = rawData(dataInd).relation;
 end
+
+data = [data; Symmetrize(data)];
 
 end
 

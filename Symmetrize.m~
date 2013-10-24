@@ -1,0 +1,20 @@
+function [ flippedDataset ] = Symmetrize(dataset)
+% Flips the order of elements in an NL relation dataset and adjusts the
+% relation class to fit.
+
+flippedDataset = dataset
+[flippedDataset(:).leftTree] = dataset(:).rightTree;
+[flippedDataset(:).rightTree] = dataset(:).leftTree;
+
+%  1:#     2:=     3:>     4:<     5:|     6:^     7:v
+
+parfor i = 1:length(dataset) 
+    if dataset(i).relation == 3 % #
+        dataset(i).relation = 4;
+    elseif dataset(i).relation == 4 % 
+        dataset(i).relation = 3;
+    else 
+    
+end
+    
+end

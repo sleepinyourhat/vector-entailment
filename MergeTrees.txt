@@ -1,1 +1,0 @@
-function parent = MergeTrees (leftDaughter, rightDaughter)

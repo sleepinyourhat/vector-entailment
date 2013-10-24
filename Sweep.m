@@ -1,0 +1,8 @@
+TrainModel('not-not', 7, 0.01)
+TrainModel('not-not', 7, 0.005)
+TrainModel('not-not', 7, 0.001)
+TrainModel('not-not', 7, 0.0005)
+TrainModel('not-not', 15, 0.01)
+TrainModel('not-not', 15, 0.005)
+TrainModel('not-not', 15, 0.001)
+TrainModel('not-not', 15, 0.0005)

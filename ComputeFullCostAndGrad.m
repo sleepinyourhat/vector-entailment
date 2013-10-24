@@ -20,7 +20,7 @@ if matlabpool('size') == 0 % checking to see if my pool is already open
     matlabpool;
 end
 
-if nargout > 2
+if nargout > 1
     parfor i = 1:N
         [localCost, localGrad, localPred] = ...
             ComputeCostAndGrad(theta, decoder, data(i), hyperParams);
@@ -28,10 +28,11 @@ if nargout > 2
         accumulatedGrad = accumulatedGrad + localGrad;
         
         localCorrect = localPred == data(i).relation;
-        if ~localCorrect
-            disp(['for: ', data(i).leftTree.getText, ' - ', ...
-            	  data(i).rightTree.getText, ' h:' , ...
-                  num2str(data(i).relation), ' t: ', num2str(localPred)]);
+        if (~localCorrect) && (argout > 2)
+            disp(['for: ', data(i).leftTree.getText, ' ', ...
+                  hyperParams.relations{data(i).relation}, ' ', ... 
+            	  data(i).rightTree.getText, ...
+                  ' h:  ', hyperParams.relations{localPred}]);
         end
         
         if argout > 3
@@ -48,13 +49,6 @@ if nargout > 2
                confusion(confusions(i,1), confusions(i,2)) + 1;
         end
     end
-elseif nargout > 1
-    parfor i = 1:N
-        [localCost, localGrad] = ...
-            ComputeCostAndGrad(theta, decoder, data(i), hyperParams);
-        accumulatedCost = accumulatedCost + localCost;
-        accumulatedGrad = accumulatedGrad + localGrad;
-    end
 else
     parfor i = 1:N
         localCost = ...
@@ -64,14 +58,18 @@ else
 end
 
 cost = (1/length(data) * accumulatedCost);
+
+% Apply L2 regularization
 cost = cost + (hyperParams.lambda/2 * sum(theta.^2));
 
 if nargout > 1
     grad = (1/length(data) * accumulatedGrad);
-    grad = grad + (hyperParams.lambda * theta);
-    if nargout > 2
-        trainingError = 1 - (accumulatedSuccess / N);
-    end
+    
+    % Apply L2 regularization
+    grad = grad + hyperParams.lambda * theta;
+    
+    trainingError = 1 - (accumulatedSuccess / N);
+    % disp(['e: ', num2str(trainingError)]);
 end
 
 end

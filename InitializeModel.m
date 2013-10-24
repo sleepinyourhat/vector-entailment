@@ -8,7 +8,7 @@ PENULT = hyperParams.penultDim;
 % Randomly initialize softmax layer.
 classifierParameters = rand(hyperParams.numRelations, PENULT + 1) .* .02 - .01;
 
-% Randomly initialize tensor matrices.
+% Randomly initialize tensor parameters.
 classifierMatrices = rand(DIM , (DIM * PENULT)) .* .02 - .01;
 classifierMatrix = rand(PENULT, DIM * 2) .* .02 - .01;
 classifierBias = rand(PENULT, 1) .* .02 - .01;

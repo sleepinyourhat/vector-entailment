@@ -1,0 +1,42 @@
+% BQ+MTI all-some animal
+<	( all hippo ) able	( some animal ) able	
+<	( all hungry ) able	( some animal ) able	
+<	( all non-ape ) able	( some animal ) able	
+<	( all ape ) able	( some animal ) able	
+<	( all animal ) able	( some animal ) able	
+<	( all dog ) able	( some animal ) able	
+<	( all cat ) able	( some animal ) able	
+% <	( all unable ) able	( some animal ) able	
+% <	( all able ) able	( some animal ) able	
+<	( all Thai ) able	( some animal ) able	
+<	( all Asian ) able	( some animal ) able	
+<	( all bird ) able	( some animal ) able	
+<	( all crow ) able	( some animal ) able	
+#	( all sofa ) able	( some animal ) able	
+#	( all couch ) able	( some animal ) able	
+<	( all snail ) able	( some animal ) able	
+<	( all vertebrate ) able	( some animal ) able	
+<	( all invertebrate ) able	( some animal ) able	
+<	( all bark ) able	( some animal ) able	
+<	( all puppy ) able	( some animal ) able	
+<	( all feline ) able	( some animal ) able	
+<	( all mobile ) able	( some animal ) able	
+#	( all immobile ) able	( some animal ) able	
+<	( all dead ) able	( some animal ) able	
+<	( all live ) able	( some animal ) able	
+<	( all European ) able	( some animal ) able	
+<	( all French ) able	( some animal ) able	
+<	( all Parisian ) able	( some animal ) able	
+<	( all human ) able	( some animal ) able	
+<	( all animate ) able	( some animal ) able	
+<	( all inanimate ) able	( some animal ) able	
+#	( all seat ) able	( some animal ) able	
+#	( all bench ) able	( some animal ) able	
+#	( all woody ) able	( some animal ) able	
+#	( all plant ) able	( some animal ) able	
+#	( all tree ) able	( some animal ) able	
+#	( all oak ) able	( some animal ) able	
+#	( all bush ) able	( some animal ) able	
+<	( all destructible ) able	( some animal ) able	
+#	( all indestructible ) able	( some animal ) able	
+<	( all mammal ) able	( some animal ) able	

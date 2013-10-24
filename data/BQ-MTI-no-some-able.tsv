@@ -1,0 +1,41 @@
+% BQ+MTI no-some animal
+#	( no hippo ) able	( some animal ) able	
+#	( no hungry ) able	( some animal ) able	
+#	( no non-ape ) able	( some animal ) able	
+#	( no ape ) able	( some animal ) able	
+#	( no dog ) able	( some animal ) able	
+#	( no cat ) able	( some animal ) able	
+% #	( no unable ) able	( some animal ) able	
+% #	( no able ) able	( some animal ) able	
+#	( no Thai ) able	( some animal ) able	
+#	( no Asian ) able	( some animal ) able	
+#	( no bird ) able	( some animal ) able	
+#	( no crow ) able	( some animal ) able	
+#	( no sofa ) able	( some animal ) able	
+#	( no couch ) able	( some animal ) able	
+#	( no snail ) able	( some animal ) able	
+#	( no vertebrate ) able	( some animal ) able	
+#	( no invertebrate ) able	( some animal ) able	
+#	( no bark ) able	( some animal ) able	
+#	( no puppy ) able	( some animal ) able	
+#	( no feline ) able	( some animal ) able	
+|	( no mobile ) able	( some animal ) able	
+#	( no immobile ) able	( some animal ) able	
+#	( no dead ) able	( some animal ) able	
+#	( no live ) able	( some animal ) able	
+#	( no European ) able	( some animal ) able	
+#	( no French ) able	( some animal ) able	
+#	( no Parisian ) able	( some animal ) able	
+#	( no human ) able	( some animal ) able	
+#	( no animate ) able	( some animal ) able	
+#	( no inanimate ) able	( some animal ) able	
+#	( no seat ) able	( some animal ) able	
+#	( no bench ) able	( some animal ) able	
+#	( no woody ) able	( some animal ) able	
+#	( no plant ) able	( some animal ) able	
+#	( no tree ) able	( some animal ) able	
+#	( no oak ) able	( some animal ) able	
+#	( no bush ) able	( some animal ) able	
+|	( no destructible ) able	( some animal ) able	
+#	( no indestructible ) able	( some animal ) able	
+#	( no mammal ) able	( some animal ) able	
