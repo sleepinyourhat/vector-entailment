@@ -1,4 +1,4 @@
-function [ trainDataset, testDatasets ] = LoadConstitDatasets ...
+function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
     (trainFilenames, splitFilenames, testFilenames, wordMap, relationMap)
 
 % trainFilenames: Load these files as training data.
@@ -11,22 +11,26 @@ trainDataset = [];
 testDatasets = {};
 
 for i = 1:length(trainFilenames)
-    disp(['Loading ', trainFilenames{i}])
+    disp(['Loading training dataset ', trainFilenames{i}])
     dataset = LoadConstitData(trainFilenames{i}, wordMap, relationMap);
     trainDataset = [trainDataset; dataset];
 end
 
 for i = 1:length(testFilenames)
-    disp(['Loading ', testFilenames{i}])
+    disp(['Loading test dataset ', testFilenames{i}])
     dataset = LoadConstitData(testFilenames{i}, wordMap, relationMap);
-    testDatasets = [testDatasets{:}, {dataset}];
+    testDatasets = [testDatasets, {dataset}];
 end
 
 for i = 1:length(splitFilenames)
-    disp(['Loading ', splitFilenames{i}])
+    disp(['Loading split dataset ', splitFilenames{i}])
     dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap);
     endOfTrainPortion = ceil(length(dataset) * PERCENT_USED_FOR_TRAINING);
     testDatasets = [testDatasets, ...
                     {dataset(endOfTrainPortion + 1:length(dataset))}];
     trainDataset = [trainDataset; dataset(1:endOfTrainPortion)];
 end
+
+% Evaluate on test datasets, and show set-by-set results
+datasetNames = [testFilenames, splitFilenames];
+testDatasetsCell = {datasetNames, testDatasets};

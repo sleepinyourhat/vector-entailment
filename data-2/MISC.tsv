@@ -1,0 +1,101 @@
+<	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( no cat ) bark
+<	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( all dog ) bark
+|	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some dog ) ( not bark )
+|	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some cat ) bark
+|	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( ( all dog ) bark ) ( and ( ( some cat ) bark ) )
+>	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( ( some hippo ) bark ) ( and ( ( ( all dog ) bark ) ( and ( ( some cat ) bark ) ) ) )
+<	( ( all feline ) bark ) ( and ( ( no dog ) bark ) )	( no dog ) bark
+<	( ( all feline ) bark ) ( and ( ( no dog ) bark ) )	( all feline ) bark
+|	( ( all feline ) bark ) ( and ( ( no dog ) bark ) )	( some feline ) ( not bark )
+|	( ( all feline ) bark ) ( and ( ( no dog ) bark ) )	( some dog ) bark
+|	( ( all feline ) bark ) ( and ( ( no dog ) bark ) )	( ( all feline ) bark ) ( and ( ( some dog ) bark ) )
+>	( ( all feline ) bark ) ( and ( ( no dog ) bark ) )	( ( some crow ) bark ) ( and ( ( ( all feline ) bark ) ( and ( ( some dog ) bark ) ) ) )
+<	( ( all cat ) bark ) ( and ( ( no bird ) bark ) )	( no bird ) bark
+<	( ( all cat ) bark ) ( and ( ( no bird ) bark ) )	( all cat ) bark
+|	( ( all cat ) bark ) ( and ( ( no bird ) bark ) )	( some cat ) ( not bark )
+|	( ( all cat ) bark ) ( and ( ( no bird ) bark ) )	( some bird ) bark
+|	( ( all cat ) bark ) ( and ( ( no bird ) bark ) )	( ( all cat ) bark ) ( and ( ( some bird ) bark ) )
+>	( ( all cat ) bark ) ( and ( ( no bird ) bark ) )	( ( some dog ) bark ) ( and ( ( ( all cat ) bark ) ( and ( ( some bird ) bark ) ) ) )
+|	( most ( European dog ) ) bark	( all ( European animal ) ) ( not bark )
+|	( most ( European dog ) ) bark	( all ( European animal ) ) ( not animate )
+|	( most ( Thai sofa ) ) bark	( all ( Thai seat ) ) ( not bark )
+|	( most ( Thai sofa ) ) bark	( all ( Thai seat ) ) ( not animate )
+|	( most ( Asian crow ) ) bark	( all ( Asian bird ) ) ( not bark )
+|	( most ( Asian crow ) ) bark	( all ( Asian bird ) ) ( not animate )
+>	( some mammal ) ( bark ( or European ) )	( some mammal ) European
+>	( some mammal ) ( bark ( or European ) )	( some mammal ) bark
+>	( some mammal ) ( bark ( or European ) )	( some mammal ) ( bark ( and European ) )
+<	( some mammal ) ( bark ( or European ) )	( some mammal ) ( bark ( or ( European ( or Thai ) ) ) )
+>	( some plant ) ( bark ( or able ) )	( some plant ) able
+>	( some plant ) ( bark ( or able ) )	( some plant ) bark
+>	( some plant ) ( bark ( or able ) )	( some plant ) ( bark ( and able ) )
+<	( some plant ) ( bark ( or able ) )	( some plant ) ( bark ( or ( able ( or Thai ) ) ) )
+>	( some puppy ) ( bark ( or able ) )	( some puppy ) able
+>	( some puppy ) ( bark ( or able ) )	( some puppy ) bark
+>	( some puppy ) ( bark ( or able ) )	( some puppy ) ( bark ( and able ) )
+<	( some puppy ) ( bark ( or able ) )	( some puppy ) ( bark ( or ( able ( or Asian ) ) ) )
+#	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some hippo ) bark
+#	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some bird ) bark
+#	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some crow ) bark
+#	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some feline ) bark
+|	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some cat ) bark
+|	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( no puppy ) bark
+<	( ( all dog ) bark ) ( and ( ( no cat ) bark ) )	( some puppy ) bark
+=	( not ape )	non-ape
+=	( not ( not ape ) )	not non-ape
+|	( all French ) ape	( all French ) non-ape
+|	( all French ) cat	( all French ) dog
+|	( all French ) cat	( all French ) sofa
+=	not couch	not sofa
+#	not couch	seat
+<	not seat	not couch
+v	not dead	not live
+^	not unable	not able
+v	not ape	not hippo
+v	not animal	not seat
+v	not cat	not dog
+v	not cat	not hippo
+v	not cat	not ape
+v	not cat	not bird
+=	dog ( or cat )	not ( ( not dog ) ( and ( not cat ) ) )
+^	dog ( or cat )	( not dog ) ( and ( not cat ) )
+=	hippo ( or snail )	not ( ( not hippo ) ( and ( not snail ) ) )
+^	hippo ( or snail )	( not hippo ) ( and ( not snail ) )
+=	( able dog ) ( or ( able cat ) )	not ( ( not ( able dog ) ) ( and ( not ( able cat ) ) ) )
+^	( able dog ) ( or ( able cat ) )	( not ( able dog ) ) ( and ( not ( able cat ) ) )
+=	( able crow ) ( or ( able puppy ) )	not ( ( not ( able crow ) ) ( and ( not ( able puppy ) ) ) )
+^	( able crow ) ( or ( able puppy ) )	( not ( able crow ) ) ( and ( not ( able puppy ) ) )
+=	( able European ) ( or ( able puppy ) )	not ( ( not ( able European ) ) ( and ( not ( able puppy ) ) ) )
+^	( able European ) ( or ( able puppy ) )	( not ( able European ) ) ( and ( not ( able puppy ) ) )
+=	( vertebrate Thai ) ( or ( vertebrate Parisian ) )	not ( ( not ( vertebrate Thai ) ) ( and ( not ( vertebrate Parisian ) ) ) )
+^	( vertebrate Thai ) ( or ( vertebrate Parisian ) )	( not ( vertebrate Thai ) ) ( and ( not ( vertebrate Parisian ) ) )
+=	( French dog ) ( or ( French cat ) )	not ( ( not ( French dog ) ) ( and ( not ( French cat ) ) ) )
+^	( French dog ) ( or ( French cat ) )	( not ( French dog ) ) ( and ( not ( French cat ) ) )
+=	( French crow ) ( or ( French puppy ) )	not ( ( not ( French crow ) ) ( and ( not ( French puppy ) ) ) )
+^	( French crow ) ( or ( French puppy ) )	( not ( French crow ) ) ( and ( not ( French puppy ) ) )
+=	( French European ) ( or ( French puppy ) )	not ( ( not ( French European ) ) ( and ( not ( French puppy ) ) ) )
+^	( French European ) ( or ( French puppy ) )	( not ( French European ) ) ( and ( not ( French puppy ) ) )
+|	French ( dog ( or cat ) )	( not dog ) ( and ( not cat ) )
+^	French ( dog ( or cat ) )	( not ( French dog ) ) ( and ( not ( French cat ) ) )
+|	French ( hippo ( or couch ) )	( not hippo ) ( and ( not couch ) )
+^	French ( hippo ( or couch ) )	( not ( French hippo ) ) ( and ( not ( French couch ) ) )
+|	Thai ( hippo ( or couch ) )	( not hippo ) ( and ( not couch ) )
+^	Thai ( hippo ( or couch ) )	( not ( Thai hippo ) ) ( and ( not ( Thai couch ) ) )
+|	unable ( hippo ( or couch ) )	( not hippo ) ( and ( not couch ) )
+^	unable ( hippo ( or couch ) )	( not ( unable hippo ) ) ( and ( not ( unable couch ) ) )
+v	not ( ( all French ) cat )	not ( ( all French ) sofa )
+v	not ( ( all French ) invertebrate )	not ( ( all French ) sofa )
+=	( no dog ) ( not bark )	( all dog ) bark
+=	( no dog ) ( not unable )	( all dog ) unable
+=	( no tree ) ( not woody )	( all tree ) woody
+=	( no tree ) ( not unable )	( all tree ) unable
+=	( no ( hungry dog ) ) ( not bark )	( all ( hungry dog ) ) bark
+=	( no ( Asian dog ) ) ( not bark )	( all ( Asian dog ) ) bark
+=	( no ( ( hungry ( Asian dog ) ) ) ( not bark )	( all ( hungry ( Asian dog ) ) ) bark
+=	hungry ( able dog )	( hungry able ) dog
+=	hungry ( able cat )	( hungry able ) cat
+=	hungry dog	dog hungry
+=	hungry hippo	hippo hungry
+>	( ( all tree ) able ) ( and ( ( all bush ) able )	( all plant ) able
+>	( ( all dog ) able ) ( and ( ( all cat ) able )	( all mammal ) able
+>	( ( all dog ) able ) ( and ( ( all cat ) able )	( all animal ) able

@@ -1,0 +1,10 @@
+% MTI-ITERATED-hippo
+<	hippo	hippo
+<	hungry hippo	hippo
+<	unable ( hungry hippo )	hippo
+<	Thai ( unable ( hungry hippo ) )	hippo
+<	vertebrate ( Thai ( unable ( hungry hippo ) ) )	hippo
+<	mobile ( vertebrate ( Thai ( unable ( hungry hippo ) ) ) )	hippo
+<	live ( mobile ( vertebrate ( Thai ( unable ( hungry hippo ) ) ) ) )	hippo
+<	animate ( live ( mobile ( vertebrate ( Thai ( unable ( hungry hippo ) ) ) ) ) )	hippo
+<	destructible ( animate ( live ( mobile ( vertebrate ( Thai ( unable ( hungry hippo ) ) ) ) ) ) )	hippo

@@ -6,8 +6,8 @@ function [ data ] = LoadConstitData(filename, wordMap, relationMap)
 % Import data
 
 % Append data/ if we don't have a full path:
-if isempty(findstr(filename, '/'))
-    filename = ['data/', filename];
+if isempty(strfind(filename, '/'))
+    filename = ['data-2/', filename];
 end
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
@@ -18,14 +18,14 @@ fclose(fid);
 % Initialize the data array
 rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
     length(C{1}), 1);
-wordList = cell(length(C{1}), 1);
+% wordList = cell(length(C{1}), 1);
 
 % Parse the file
 itemNo = 1;
-wordNo = 1;
+% wordNo = 1;
 maxLine = length(C{1});
 % maxLine = 20; % Truncate data.
-for line = 1:maxLine;
+for line = 1:maxLine
     if ~isempty(C{1}{line}) 
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');
         splitLine = splitLine{1};

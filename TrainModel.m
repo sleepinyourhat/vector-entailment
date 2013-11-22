@@ -1,7 +1,16 @@
-function TrainModel(dim, lambda, pretrainingFilename, testFilenames, splitFilenames)
+function TrainModel(batch, penultDim, pretrainingFilename, testFilenames, splitFilenames, name)
 
+if nargin > 5
+    mkdir(name); 
+else
+    name = '.';
+end
+    
 [worddata, wordMap, relationMap, relations] = ...
     LoadTrainingData('wordpairs-v2.tsv');
+
+% disp('Uninformativizing:');
+% worddata = Uninformativize(worddata);
 
 % Set up minfunc
 addpath('minFunc/minFunc/')
@@ -10,12 +19,15 @@ addpath('minFunc/minFunc/mex/')
 addpath('minFunc/autoDif/')
 
 % Set up hyperparameters:
-hyperParams.dim = dim;
+hyperParams.dim = 11;
 hyperParams.numRelations = 7;
-hyperParams.penultDim = 21;
-hyperParams.lambda = lambda;
+hyperParams.penultDim = penultDim;
+hyperParams.lambda = 0.0005;
 hyperParams.relations = relations;
 hyperParams.minFunc = false;
+hyperParams.noPretraining = false;
+hyperParams.showExamples = false;
+hyperParams.showConfusions = false;
 
 disp(hyperParams)
 
@@ -31,9 +43,15 @@ options.LS_init = '2'; % Attempt to minimize evaluations per step...
 options.PlotFcns = [];
 
 % adaGradSGD options (not tuned)
-options.numPasses = 600;
-options.miniBatchSize = 32;
+options.numPasses = 800;
+options.miniBatchSize = batch;
 options.lr = 0.01;
+options.testFreq = 4;
+options.confusionFreq = 4; % should be a multiple of testfreq
+options.examplesFreq = 32; % should be a multiple of testfreq
+options.checkpointFreq = 8;
+options.name = name;
+options.runName = 'pre';
 
 % Add relation vector, so it can be ref'd in error reporting.
 disp(options)
@@ -44,7 +62,7 @@ if nargin > 3 && ~isempty(pretrainingFilename)
     v = load(pretrainingFilename);
     theta = v.theta;
     thetaDecoder = v.thetaDecoder;
-else
+elseif ~hyperParams.noPretraining
     % Pretrain words
     disp('Pretraining')
     if hyperParams.minFunc
@@ -56,10 +74,9 @@ else
     else
         theta = adaGradSGD(theta, options, thetaDecoder, worddata, hyperParams);
     end
-
-    save(['pretrained-theta-wordpairs-', num2str(hyperParams.dim), 'x', num2str(hyperParams.penultDim)],...
-      'theta', 'thetaDecoder')
 end
+    
+hyperParams.quiet = true;
   
 % Evalaute on word pair data
 [~, ~, preAcc, preConfusion] = ComputeFullCostAndGrad(theta, thetaDecoder, worddata, hyperParams);
@@ -75,35 +92,31 @@ theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 
 
 % Load training data
-allConstitFilenames = {'BQ-MTI-all-some.tsv', ...
-'BQ-MTI-no-all.tsv',		'MTI-MTI-Thai-animal.tsv', ...
-'BQ-MTI-no-some.tsv',		'MTI-Thai-null.tsv', ...
-'BQ-all-no.tsv',			'MTI-null-Thai.tsv', ...
-'BQ-all-some.tsv',			'NBQ-most-two.tsv', ...
-'BQ-some-no.tsv',			'NBQ-three-most.tsv', ...
-'MQ-all-most.tsv',			'NBQ-three-two.tsv', ...
-'MQ-all-three.tsv',         'NEG-MTI-not-Thai-null.tsv', ...
-'MQ-all-two.tsv',			'NEG-notnot-null.tsv', ...
-'MT-animal.tsv',            'BQ-all-no-able.tsv', ...
-'BQ-some-no-able.tsv',      'BQ-all-some-able.tsv', ...
-'BQ-some-no-Thai.tsv',      'BQ-MTI-all-some-able.tsv', ...
-'BQ-MTI-no-all-able.tsv',   'BQ-MTI-no-some-able.tsv'}
-trainFilenames = allConstitFilenames;
-testInd=find(ismember(allConstitFilenames,testFilenames));
-trainFilenames(testInd) = []
+
+listing = dir('data-2/*.tsv');
+splitFilenames = {listing.name};
+
+% allConstitFilenames = [allConstitFilenames, beyondQ];
+
+% trainFilenames = allConstitFilenames;
+% testInd = ismember(allConstitFilenames, testFilenames);
+% trainFilenames(testInd) = [];   
 [trainDataset, testDatasets] = ...
-    LoadConstitDatasets(trainFilenames, splitFilenames, testFilenames, wordMap, relationMap)
+    LoadConstitDatasets({}, splitFilenames, {}, wordMap, relationMap);
 
 % Train
 disp('Training')
 options.MaxFunEvals = 300;
 options.DerivativeCheck = 'off';
+options.runName = 'tr';
+
+trainDataset = Symmetrize(trainDataset);
 
 if hyperParams.minFunc
     theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, hyperParams);
     % Forget and repeat?
 else
-    theta = adaGradSGD(theta, options, thetaDecoder, trainDataset, hyperParams);
+    theta = adaGradSGD(theta, options, thetaDecoder, trainDataset, hyperParams, testDatasets);
 end
 
 % Evaluate on training data
@@ -114,20 +127,7 @@ disp('tr:  #     =     >     <     |     ^     v')
 disp(trConfusion)
 disp(trAcc)
 
-% Evaluate on test datasets, and show set-by-set results
-datasetNames = [testFilenames, splitFilenames];
-aggConfusion = zeros(hyperParams.numRelations);
-for i = 1:length(testDatasets)
-    [~, ~, acc, confusion] = ComputeFullCostAndGrad(theta, thetaDecoder, testDatasets{i}, hyperParams);
-    disp(['Test confusion, PER for ', datasetNames{i}, ':'])
-    disp('tr:  #     =     >     <     |     ^     v')
-    disp(confusion)
-    disp(acc) 
-    aggConfusion = aggConfusion + confusion;
-end
-
-% Compute error rate from summed confusion matrix
-aggAcc = 1 - sum(sum(eye(hyperParams.numRelations) .* aggConfusion)) / sum(sum(aggConfusion));    
+[teAcc, teConfusion] = TestModel(theta, thetaDecoder, testDatasets, hyperParams);
 
 % Print results for all three full datasets
 disp('Word pair confusion, PER: ')
@@ -142,7 +142,7 @@ disp(trAcc)
 
 disp('Test confusion, PER: ')
 disp('tr:  #     =     >     <     |     ^     v')
-disp(aggConfusion)
-disp(aggAcc)
+disp(teConfusion)
+disp(teAcc)
 
 end

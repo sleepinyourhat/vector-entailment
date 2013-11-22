@@ -28,7 +28,7 @@ if nargout > 1
         accumulatedGrad = accumulatedGrad + localGrad;
         
         localCorrect = localPred == data(i).relation;
-        if ~localCorrect &&  nargout > 2
+        if (~localCorrect) && (argout > 2) && ~hyperParams.quiet
             disp(['for: ', data(i).leftTree.getText, ' ', ...
                   hyperParams.relations{data(i).relation}, ' ', ... 
             	  data(i).rightTree.getText, ...
@@ -57,13 +57,22 @@ else
     end
 end
 
-cost = (1/length(data) * accumulatedCost);
-cost = cost + (hyperParams.lambda/2 * sum(theta.^2));
+normalizedCost = (1/length(data) * accumulatedCost);
+
+% Apply L2 regularization
+l2cost = (hyperParams.lambda/2 * sum(theta.^2))
+combinedCost = normalizedCost + (hyperParams.lambda/2 * sum(theta.^2));
+cost = [combinedCost]
+
 
 if nargout > 1
     grad = (1/length(data) * accumulatedGrad);
-    trainingError = 1 - (accumulatedSuccess / N)
-    end
+    
+    % Apply L2 regularization
+    grad = grad + hyperParams.lambda * theta;
+    
+    trainingError = 1 - (accumulatedSuccess / N);
+    % disp(['e: ', num2str(trainingError)]);
 end
 
 end

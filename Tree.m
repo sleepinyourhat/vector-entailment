@@ -81,7 +81,12 @@ classdef Tree < handle
         function t = makeLeaf(iText, wordMap)
             t = Tree();
             t.text = iText;
-            t.wordIndex = wordMap(t.text);
+            if wordMap.isKey(t.text)
+                t.wordIndex = wordMap(t.text);
+            else
+                disp(['Failed to map word ' t.text]);
+                t.wordIndex = 1;
+            end
         end
         
         function t = mergeTrees(l, r)
@@ -139,7 +144,7 @@ classdef Tree < handle
             %end
             
             if (~isempty(obj.daughters))
-                for (daughterIndex = 1:length(obj.daughters))
+                for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
                         wordFeatures, compMatrices, compMatrix, compBias);
                 end

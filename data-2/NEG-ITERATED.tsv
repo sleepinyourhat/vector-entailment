@@ -1,0 +1,32 @@
+=	dog	dog
+^	not dog	dog
+=	( not ( not dog ) )	dog
+^	( not ( not ( not dog ) ) )	dog
+=	( not ( not ( not ( not dog ) ) ) )	dog
+^	( not ( not ( not ( not ( not dog ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not dog ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+=	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog
+^	( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not ( not dog ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) ) )	dog

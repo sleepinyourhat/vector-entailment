@@ -30,7 +30,6 @@ rightFeatures = rightTree.getFeatures();
 tensorInnerOutput = ComputeInnerTensorLayer(leftFeatures, ...
     rightFeatures, classifierMatrices, classifierMatrix, classifierBias);
 tensorOutput = Sigmoid(tensorInnerOutput);
-tensorDeriv = SigmoidDeriv(tensorInnerOutput);
 
 relationProbs = ComputeSoftmaxProbabilities(tensorOutput, classifierParameters);
 
@@ -55,15 +54,14 @@ if nargout > 1
     softmaxDeltaSecondHalf = SigmoidDeriv([1; tensorOutput]); % Intercept
     softmaxDelta = (softmaxDeltaFirstHalf .* softmaxDeltaSecondHalf);
     
-    % TODO: Parallelize
-    parfor relEval = 1:NUM_RELATIONS
+    for relEval = 1:NUM_RELATIONS
         % Del from ufldl wiki on softmax
         localSoftmaxGradient(relEval, :) = -([1; tensorOutput] .* ...
             ((trueRelation == relEval) - relationProbs(relEval)))';
     end
     
     softmaxDelta = softmaxDelta(2:PENULT_DIM+1);
-    
+
     [localClassificationMatricesGradients, ...
         localClassificationMatrixGradients, ...
         localClassificationBiasGradients, classifierDeltaLeft, ...
@@ -104,26 +102,6 @@ if nargout > 1
         + upwardCompositionMatrixGradients;
     localCompositionBiasGradients = localCompositionBiasGradients...
         + upwardCompositionBiasGradients;
-    
-% Apply matrix
-% innerTensorLayerOutput = innerTensorLayerOutput + classifierMatrix * [a; b];
-% )
-%     
-%     S = zeros(DIM_COMBINED, 1);
-%     for (relEval = 1:NUM_RELATIONS)
-%         Cols = (DIM*(relEval - 1))+1:(DIM*relEval);
-%         firstHalf = softmaxDelta(relEval) .* (sliceGradients(:,Cols) + sliceGradients(:,Cols)');
-%         secondHalf = combinedFeatures;
-%         S = S + (firstHalf * secondHalf');
-%     end
-%     messageDown = S .* SigmoidDeriv(combinedFeatures)';
-%     
-% In this setup, messageDown goes straight to the words.    
-%     leftVocabIndex = leftTree.getWordIndex();
-%     rightVocabIndex = rightTree.getWordIndex();
-%     localWordFeatureGradients(leftVocabIndex, :) = messageDown(1:DIM);
-%     localWordFeatureGradients(rightVocabIndex, :) = messageDown(DIM + 1:2 * DIM);
-%     
     
     % Pack up gradients.
     grad = param2stack(localClassificationMatricesGradients, ...

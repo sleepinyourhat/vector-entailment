@@ -1,0 +1,41 @@
+=	some	some
+<	all	some
+^	no	some
+<	most	some
+<	two	some
+<	three	some
+
+>	some	all
+=	all	all
+|	no	all
+>	most	all
+#	two	all
+#	three	all
+
+^	some	no
+|	all	no
+=	no	no
+|	most	no
+|	two	no
+|	three	no
+
+>	some	most
+<	all	most
+|	no	most
+=	most	most
+#	two	most
+#	three	most
+
+>	some	two
+#	all	two
+|	no	two
+#	most	two
+=	two	two
+<	three	two
+
+>	some	three
+#	all	three
+|	no	three
+#	most	three
+>	two	three
+=	three	three

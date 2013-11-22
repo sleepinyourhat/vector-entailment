@@ -4,7 +4,7 @@ function [ data, wordMap, relationMap, relations ] = LoadTrainingData(filename)
 % Import data:
 
 % Append data/ if we don't have a full path:
-if isempty(findstr(filename, '/'))
+if isempty(strfind(filename, '/'))
     filename = ['data/', filename];
 end
 fid = fopen(filename);
@@ -79,7 +79,7 @@ for dataInd = 1:length(rawData)
     data(dataInd).relation = rawData(dataInd).relation;
 end
 
-data = [data; Symmetrize(data)];
+% data = [data; Symmetrize(data)];
 
 end
 

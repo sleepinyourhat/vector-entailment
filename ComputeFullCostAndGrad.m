@@ -28,7 +28,7 @@ if nargout > 1
         accumulatedGrad = accumulatedGrad + localGrad;
         
         localCorrect = localPred == data(i).relation;
-        if (~localCorrect) && (argout > 2)
+        if (~localCorrect) && (argout > 2) && hyperParams.showExamples
             disp(['for: ', data(i).leftTree.getText, ' ', ...
                   hyperParams.relations{data(i).relation}, ' ', ... 
             	  data(i).rightTree.getText, ...
@@ -36,7 +36,7 @@ if nargout > 1
         end
         
         if argout > 3
-            confusions(i,:) = [localPred, data(i).relation]
+            confusions(i,:) = [localPred, data(i).relation];
         end
              
         accumulatedSuccess = accumulatedSuccess + localCorrect;
@@ -57,10 +57,13 @@ else
     end
 end
 
-cost = (1/length(data) * accumulatedCost);
+normalizedCost = (1/length(data) * accumulatedCost);
 
 % Apply L2 regularization
-cost = cost + (hyperParams.lambda/2 * sum(theta.^2));
+l2Cost = hyperParams.lambda/2 * sum(theta.^2);
+combinedCost = normalizedCost + (hyperParams.lambda/2 * sum(theta.^2));
+cost = [combinedCost normalizedCost l2Cost];
+
 
 if nargout > 1
     grad = (1/length(data) * accumulatedGrad);
