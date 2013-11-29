@@ -9,8 +9,8 @@ innerTensorLayerOutput = zeros(outDim,1);
 
 % Apply third-order tensor
 for outi = 1:outDim
-    Cols = (inDim*(outi - 1))+1:(inDim*outi);
-    innerTensorLayerOutput(outi) = a' * matrices(:,Cols) * b;
+    % Cols = (inDim*(outi - 1))+1:(inDim*outi);
+    innerTensorLayerOutput(outi) = a' * matrices(:,:,outi) * b;
 end
 
 % Apply matrix

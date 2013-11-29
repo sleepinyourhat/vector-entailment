@@ -1,4 +1,4 @@
-function [ cost, grad, trainingError, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams )
+function [ cost, grad, trainingError, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams, ~ )
 %function [ cost, grad ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams )
 %   Compute cost and gradient over a full dataset for some parameters.
 
@@ -59,20 +59,27 @@ end
 
 normalizedCost = (1/length(data) * accumulatedCost);
 
-% Apply L2 regularization
-l2Cost = hyperParams.lambda/2 * sum(theta.^2);
-combinedCost = normalizedCost + (hyperParams.lambda/2 * sum(theta.^2));
-cost = [combinedCost normalizedCost l2Cost];
-
+if hyperParams.norm == 2
+    % Apply L2 regularization
+    regCost = hyperParams.lambda/2 * sum(theta.^2);
+else
+    % Apply L1 regularization
+    regCost = hyperParams.lambda * sum(abs(theta)); 
+end
+combinedCost = normalizedCost + regCost;
+% cost = [combinedCost normalizedCost regCost]; 
+cost = combinedCost; %TODO
 
 if nargout > 1
     grad = (1/length(data) * accumulatedGrad);
-    
-    % Apply L2 regularization
-    grad = grad + hyperParams.lambda * theta;
-    
+    if hyperParams.norm == 2
+        % Apply L2 regularization
+        grad = grad + hyperParams.lambda * theta;
+    else
+        % Apply L1 regularization
+        grad = grad + hyperParams.lambda * sign(theta);
+    end
     trainingError = 1 - (accumulatedSuccess / N);
-    % disp(['e: ', num2str(trainingError)]);
 end
 
 end

@@ -1,9 +1,4 @@
 function [ data ] = LoadConstitData(filename, wordMap, relationMap)
-%[ dataset ] = LoadTrainingData()
-
-% 'constitpairs-v1.tsv'
-
-% Import data
 
 % Append data/ if we don't have a full path:
 if isempty(strfind(filename, '/'))
@@ -22,9 +17,7 @@ rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
 
 % Parse the file
 itemNo = 1;
-% wordNo = 1;
 maxLine = length(C{1});
-% maxLine = 20; % Truncate data.
 for line = 1:maxLine
     if ~isempty(C{1}{line}) 
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');

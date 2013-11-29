@@ -2,6 +2,7 @@ function [ theta ] = adaGradSGD(theta, options, thetaDecoder, data, hyperParams,
 
 N = length(data);
 prevCost = intmax;
+bestTestErr = 1;
 
 for pass = 1:options.numPasses
     numBatches = ceil(N/options.miniBatchSize);
@@ -25,7 +26,7 @@ for pass = 1:options.numPasses
     accumulatedCost = accumulatedCost / numBatches;
     disp(['pass ', num2str(pass), ' costs: ', num2str(accumulatedCost)]);
 
-    if abs(prevCost - accumulatedCost(1)) < 10e-6
+    if abs(prevCost - accumulatedCost(1)) < 10e-7
         disp('Stopped improving.');
         break;
     end
@@ -54,13 +55,17 @@ for pass = 1:options.numPasses
             if mod(pass, options.examplesFreq) == 0 || mod(pass, options.confusionFreq) == 0
                 disp('Test data:')
             end
-            testAcc = TestModel(theta, thetaDecoder, testDatasets, hyperParams);
+            testErr = TestModel(theta, thetaDecoder, testDatasets, hyperParams);
+            if bestTestErr > testErr
+                bestTestErr = testErr;
+            end
         else
-            testAcc = -1;
+            testErr = -1;
         end
-        if testAcc ~= -1
+        if testErr ~= -1
             disp(['pass ', num2str(pass), ' train PER: ', num2str(acc), ...
-                  ' test PER: ', num2str(testAcc)]);
+                  ' test PER: ', num2str(testErr), ' (best: ', ...
+                  num2str(bestTestErr), ')']);
         else
             disp(['pass ', num2str(pass), ' PER: ', num2str(acc)]);
         end

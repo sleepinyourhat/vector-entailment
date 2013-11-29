@@ -1,0 +1,59 @@
+function [extraMatrixGradients, ...
+          extraBiasGradients, deltaDown] = ...
+          ComputeExtraClassifierGradients(hyperParams, ...
+          classifierExtraMatrix, deltaDown, inputs, innerOutputs)
+% Compute gradients for the non-bottom layers of the classifier.
+
+outDim = size(classifierExtraMatrix);
+
+extraMatrixGradients = zeros(hyperParams.penultDim, ...
+                             hyperParams.penultDim, hyperParams.topDepth - 1);
+extraBiasGradients = zeros(hyperParams.penultDim, hyperParams.topDepth - 1);
+
+for layer = (hyperParams.topDepth - 1):-1:1
+    NLDeriv = hyperParams.classNLDeriv(innerOutputs(:,layer));
+
+    
+% %     matricesGradients = zeros(inDim , inDim, outDim);
+% %     matrixGradients = zeros(outDim, 2 * inDim);
+
+% %     % Calculate third order tensor gradients
+% %     for i = 1:outDim
+% %         % Cols = (inDim*(i - 1))+1:(inDim*i);
+% %         matricesGradients(:,:,i) = (tensorDeriv(i) * delta(i)) .* (a * b');
+% %     end
+
+    % Calculate matrix gradients for tensor layer
+    
+    
+    delta_h = (classifierExtraMatrix(:,:,layer)' * deltaDown) .* NLDeriv
+    
+    for i = 1:outDim
+        extraMatrixGradients(i,:,layer) = (NLDeriv(i) * deltaDown(i)) ...
+            .* inputs(:,layer);
+    end
+
+    % Calculate vector gradients for tensor layer
+    biasGradients(:,layer) = (NLDeriv .* deltaDown)
+
+    % Calculate deltas to pass down]
+    thirdTerm = classifierExtraMatrix(:, :, layer)';
+    deltaDown = (thirdTerm * (biasGradients(:,layer) .* NLDeriv));
+
+    
+% %     % Calculate matrix gradients
+% %     for i = 1:outDim
+% %         grad = (NLDeriv(i) * deltaDown(i)) .* [ inputs(:,layer); 1];
+% %         extraMatrixGradients(i, :, layer) = grad(1:end-1);
+% %         extraBiasGradients(i, layer) = grad(end);
+% %     end
+% % 
+% %     % Calculate vector gradients for tensor layer
+% %     % extraBiasGradients(:, layer) = (NLDeriv .* deltaDown);
+% % 
+% %     % Calculate deltas to pass down
+% % 
+% %     deltaDown = NLDeriv .* (classifierExtraMatrix(:,:,layer) * deltaDown);
+end
+    
+end

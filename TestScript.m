@@ -36,3 +36,13 @@ wi == wordMap('European')
 traindata(1).rightTree.getLeftDaughter().getRightDaughter().getFeatures() == ...
     wordFeatures(wi, :)'
 
+
+function TrainModel(pre, dim, nl,
+echo "cd /user/sbowman/quant/; TrainModel(1, 11, 'S',[], {}, {}, 'pre-11-sig')" | /afs/cs/software/bin/matlab_r2012b | tee pre-11-sig.txt
+echo "cd /user/sbowman/quant/; TrainModel(1, 16, 'S',[], {}, {}, 'pre-16-sig')" | /afs/cs/software/bin/matlab_r2012b | tee pre-16-sig.txt
+echo "cd /user/sbowman/quant/; TrainModel(0, 11, 'S',[], {}, {}, 'nopre-11-sig')" | /afs/cs/software/bin/matlab_r2012b | tee nopre-11-sig.txt
+echo "cd /user/sbowman/quant/; TrainModel(0, 16, 'S',[], {}, {}, 'nopre-16-sig')" | /afs/cs/software/bin/matlab_r2012b | tee nopre-16-sig.txt
+echo "cd /user/sbowman/quant/; TrainModel(1, 11, 'M',[], {}, {}, 'pre-11-mixlr')" | /afs/cs/software/bin/matlab_r2012b | tee pre-11-mixlr.txt
+echo "cd /user/sbowman/quant/; TrainModel(1, 16, 'M',[], {}, {}, 'pre-16-mixlr')" | /afs/cs/software/bin/matlab_r2012b | tee pre-16-mixlr.txt
+echo "cd /user/sbowman/quant/; TrainModel(0, 11, 'M',[], {}, {}, 'nopre-11-mixlr')" | /afs/cs/software/bin/matlab_r2012b | tee nopre-11-mixlr.txt
+echo "cd /user/sbowman/quant/; TrainModel(0, 16, 'M',[], {}, {}, 'nopre-16-mixlr')" | /afs/cs/software/bin/matlab_r2012b | tee nopre-16-mixlr.txt

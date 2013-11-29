@@ -1,9 +1,9 @@
-function TrainModel(batch, penultDim, pretrainingFilename, testFilenames, splitFilenames, name)
+function TrainModel(pre, dim, nl, pretrainingFilename, testFilenames, splitFilenames, expName)
 
-if nargin > 5
-    mkdir(name); 
+if nargin > 6
+    mkdir(expName); 
 else
-    name = '.';
+    expName = '.';
 end
     
 [worddata, wordMap, relationMap, relations] = ...
@@ -19,43 +19,63 @@ addpath('minFunc/minFunc/mex/')
 addpath('minFunc/autoDif/')
 
 % Set up hyperparameters:
-hyperParams.dim = 11;
-hyperParams.numRelations = 7;
-hyperParams.penultDim = penultDim;
-hyperParams.lambda = 0.0005;
+hyperParams.dim = dim;
+hyperParams.numRelations = 7; 
+hyperParams.topDepth = 1;
+hyperParams.penultDim = 21;
+hyperParams.lambda = 0.0001;
 hyperParams.relations = relations;
+if pre
+    hyperParams.noPretraining = false;
+else
+    hyperParams.noPretraining = true;
+end
 hyperParams.minFunc = false;
-hyperParams.noPretraining = false;
 hyperParams.showExamples = false;
 hyperParams.showConfusions = false;
+hyperParams.norm = 2;
+
+% Nonlinearities
+hyperParams.compNL = @Sigmoid;
+hyperParams.compNLDeriv = @SigmoidDeriv; 
+if strcmp(nl, 'S')
+    hyperParams.classNL = @Sigmoid;
+    hyperParams.classNLDeriv = @SigmoidDeriv;
+else
+    hyperParams.classNL = @LReLU;
+    hyperParams.classNLDeriv = @LReLUDeriv;
+end
 
 disp(hyperParams)
 
 [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
 
 % minfunc options (not tuned)
+global options
 options.Method = 'lbfgs';
-options.MaxFunEvals = 300;
-options.DerivativeCheck = 'on';
+options.MaxFunEvals = 1000;
+options.DerivativeCheck = 'off';
 options.Display = 'full';
 options.numDiff = 0;
 options.LS_init = '2'; % Attempt to minimize evaluations per step...
 options.PlotFcns = [];
+options.OutputFcn = @Display;
 
-% adaGradSGD options (not tuned)
-options.numPasses = 800;
-options.miniBatchSize = batch;
-options.lr = 0.01;
+% adaGradSGD options (partially tuned)
+options.numPasses = 1000;
+options.miniBatchSize = 32; % tuned-ish
+options.lr = 0.05;
+
+% adaGradSGD display options
 options.testFreq = 4;
-options.confusionFreq = 4; % should be a multiple of testfreq
+options.confusionFreq = 32; % should be a multiple of testfreq
 options.examplesFreq = 32; % should be a multiple of testfreq
 options.checkpointFreq = 8;
-options.name = name;
+options.name = expName;
 options.runName = 'pre';
 
 % Add relation vector, so it can be ref'd in error reporting.
 disp(options)
-
 if nargin > 3 && ~isempty(pretrainingFilename)
     clear 'theta'
     clear 'thetaDecoder'
@@ -66,9 +86,6 @@ elseif ~hyperParams.noPretraining
     % Pretrain words
     disp('Pretraining')
     if hyperParams.minFunc
-        theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, worddata, hyperParams);
-        theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, worddata, hyperParams);
-        theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, worddata, hyperParams);
         theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, worddata, hyperParams);
         % Forget and repeat?
     else
@@ -106,14 +123,14 @@ splitFilenames = {listing.name};
 
 % Train
 disp('Training')
-options.MaxFunEvals = 300;
+options.MaxFunEvals = 1000;
 options.DerivativeCheck = 'off';
 options.runName = 'tr';
 
 trainDataset = Symmetrize(trainDataset);
 
 if hyperParams.minFunc
-    theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, hyperParams);
+    theta = minFunc(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, hyperParams, testDatasets);
     % Forget and repeat?
 else
     theta = adaGradSGD(theta, options, thetaDecoder, trainDataset, hyperParams, testDatasets);
