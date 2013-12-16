@@ -25,10 +25,11 @@ end
 for i = 1:length(splitFilenames)
     disp(['Loading split dataset ', splitFilenames{i}])
     dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap);
+    randomOrder = randperm(length(dataset));
     endOfTrainPortion = ceil(length(dataset) * PERCENT_USED_FOR_TRAINING);
     testDatasets = [testDatasets, ...
-                    {dataset(endOfTrainPortion + 1:length(dataset))}];
-    trainDataset = [trainDataset; dataset(1:endOfTrainPortion)];
+                    {dataset(randomOrder(endOfTrainPortion + 1:length(dataset)))}];
+    trainDataset = [trainDataset; dataset(randomOrder(1:endOfTrainPortion))];
 end
 
 % Evaluate on test datasets, and show set-by-set results

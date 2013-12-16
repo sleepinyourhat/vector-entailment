@@ -1,4 +1,4 @@
-function HoldOneOut(dim, lambda, filename)
+function HoldOneOut(filename, expName)
 
 [~, wordMap, relationMap, relations] = ...
     LoadTrainingData('wordpairs-v2.tsv');
@@ -7,29 +7,39 @@ function HoldOneOut(dim, lambda, filename)
 % worddata = Uninformativize(worddata);
 
 % Set up hyperparameters:
-hyperParams.dim = dim;
-hyperParams.numRelations = 7;
+hyperParams.dim = 16;
+hyperParams.numRelations = 7; 
+hyperParams.topDepth = 1;
 hyperParams.penultDim = 21;
-hyperParams.lambda = lambda;
+hyperParams.lambda = 0.0001;
 hyperParams.relations = relations;
+hyperParams.noPretraining = true;
 hyperParams.minFunc = false;
-hyperParams.quiet = true;
+hyperParams.showExamples = false;
+hyperParams.showConfusions = false;
+hyperParams.norm = 2;
 
+% Nonlinearities
+hyperParams.compNL = @Sigmoid;
+hyperParams.compNLDeriv = @SigmoidDeriv; 
+hyperParams.classNL = @LReLU;
+hyperParams.classNLDeriv = @LReLUDeriv;
 
 disp(hyperParams)
 
-% adaGradSGD options (not tuned)
-options.numPasses = 600;
-options.miniBatchSize = 32;
-options.lr = 0.01;
+% adaGradSGD options (partially tuned)
+options.numPasses = 100;
+options.miniBatchSize = 32; % tuned-ish
+options.lr = 0.05;
+
+% adaGradSGD display options
 options.testFreq = 4;
-options.confusionFreq = 8; % should be a multiple of testfreq
+options.confusionFreq = 32; % should be a multiple of testfreq
 options.examplesFreq = 32; % should be a multiple of testfreq
-options.checkpointFreq = 8;
-options.name = 'HoldOneOut-BQP';
-
+options.checkpointFreq = 1000;
+options.name = expName;
+options.runName = 'pre';
 mkdir(options.name); 
-
 
 % Add relation vector, so it can be ref'd in error reporting.
 disp(options)

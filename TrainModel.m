@@ -1,11 +1,11 @@
-function TrainModel(pre, dim, nl, pretrainingFilename, testFilenames, splitFilenames, expName)
+function TrainModel(nl, dataflag, lambda, pretrainingFilename, testFilenames, trainFilenames, expName)
 
 if nargin > 6
     mkdir(expName); 
 else
     expName = '.';
 end
-    
+
 [worddata, wordMap, relationMap, relations] = ...
     LoadTrainingData('wordpairs-v2.tsv');
 
@@ -19,17 +19,13 @@ addpath('minFunc/minFunc/mex/')
 addpath('minFunc/autoDif/')
 
 % Set up hyperparameters:
-hyperParams.dim = dim;
+hyperParams.dim = 16;
 hyperParams.numRelations = 7; 
 hyperParams.topDepth = 1;
-hyperParams.penultDim = 21;
-hyperParams.lambda = 0.0001;
+hyperParams.penultDim = 45;
+hyperParams.lambda = 0.0001; %0.0001
 hyperParams.relations = relations;
-if pre
-    hyperParams.noPretraining = false;
-else
-    hyperParams.noPretraining = true;
-end
+hyperParams.noPretraining = true;
 hyperParams.minFunc = false;
 hyperParams.showExamples = false;
 hyperParams.showConfusions = false;
@@ -110,8 +106,19 @@ theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 
 % Load training data
 
-listing = dir('data-2/*.tsv');
+listing = dir('data-3/*.tsv');
 splitFilenames = {listing.name};
+trainFilenames = {};
+
+if strcmp(dataflag, 'one')
+    testFilenames = {'MQ-most-no-bark.tsv'};
+elseif strcmp(dataflag, 'sub') 
+    testFilenames = {'MQ-most-no-bark.tsv', 'MQ-most-no-European.tsv', 'MQ-most-no-mobile.tsv'};
+elseif strcmp(dataflag, 'class')
+    listing = [dir('data-3/*no-most*'); dir('data-3/*most-no*')];
+    testFilenames = {listing.name};
+end
+splitFilenames = setdiff(splitFilenames, testFilenames);
 
 % allConstitFilenames = [allConstitFilenames, beyondQ];
 
@@ -119,7 +126,7 @@ splitFilenames = {listing.name};
 % testInd = ismember(allConstitFilenames, testFilenames);
 % trainFilenames(testInd) = [];   
 [trainDataset, testDatasets] = ...
-    LoadConstitDatasets({}, splitFilenames, {}, wordMap, relationMap);
+    LoadConstitDatasets(trainFilenames, splitFilenames, testFilenames, wordMap, relationMap);
 
 % Train
 disp('Training')

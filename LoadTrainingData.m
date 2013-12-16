@@ -44,8 +44,8 @@ for line = 1:maxLine;
             rawData(itemNo).rightText = splitLine{3};
 
             % Add to wordList
-            lWords = textscan(splitLine{1}, '%s', 'delimiter', ' ');
-            rWords = textscan(splitLine{2}, '%s', 'delimiter', ' ');
+            lWords = textscan(splitLine{2}, '%s', 'delimiter', ' ');
+            rWords = textscan(splitLine{3}, '%s', 'delimiter', ' ');
             words = unique([lWords{1}, rWords{1}]);
             wordList(wordNo:wordNo + (length(words) - 1)) = cellstr(words);
             wordNo = wordNo + length(words);

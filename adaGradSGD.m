@@ -3,35 +3,31 @@ function [ theta ] = adaGradSGD(theta, options, thetaDecoder, data, hyperParams,
 N = length(data);
 prevCost = intmax;
 bestTestErr = 1;
+lr = options.lr;
 
-for pass = 1:options.numPasses
+for pass = 0:options.numPasses - 1
     numBatches = ceil(N/options.miniBatchSize);
     sumSqGrad = zeros(size(theta));
     randomOrder = randperm(N);
-    accumulatedCost = [0, 0, 0];
+    
+    % Update LR
+    if mod(pass, 5) == 0 && pass > 0
+        lr = .9 * lr;
+    end
     
     for batchNo = 0:(numBatches-1)
         beginMiniBatch = (batchNo * options.miniBatchSize+1);
         endMiniBatch = min((batchNo+1) * options.miniBatchSize,N);
         batchInd = randomOrder(beginMiniBatch:endMiniBatch);
         batch = data(batchInd);
-        [ cost, grad ] = ComputeFullCostAndGrad(theta, thetaDecoder, batch, hyperParams);
-        accumulatedCost = accumulatedCost + cost;
+        [ ~, grad ] = ComputeFullCostAndGrad(theta, thetaDecoder, batch, hyperParams);
         sumSqGrad = sumSqGrad + grad.^2;
         
         % Do adaGrad update
-        adaEps = 0.01;
-        theta = theta - options.lr * (grad ./ (sqrt(sumSqGrad) + adaEps));
+        adaEps = 0.001;
+        theta = theta - lr * (grad ./ (sqrt(sumSqGrad) + adaEps));
     end
-    accumulatedCost = accumulatedCost / numBatches;
-    disp(['pass ', num2str(pass), ' costs: ', num2str(accumulatedCost)]);
 
-    if abs(prevCost - accumulatedCost(1)) < 10e-7
-        disp('Stopped improving.');
-        break;
-    end
-    prevCost = accumulatedCost(1);
-    
     % Do mid-run testing:
     if mod(pass, options.testFreq) == 0
         
@@ -42,7 +38,7 @@ for pass = 1:options.numPasses
         else
             hyperParams.showExamples = false;
         end
-        [~, ~, acc] = ComputeFullCostAndGrad(theta, thetaDecoder, data, hyperParams);
+        [cost, ~, acc] = ComputeFullCostAndGrad(theta, thetaDecoder, data, hyperParams);
         
         % Test on test data:
         if nargin > 5
@@ -69,6 +65,8 @@ for pass = 1:options.numPasses
         else
             disp(['pass ', num2str(pass), ' PER: ', num2str(acc)]);
         end
+    else
+       cost = ComputeFullCostAndGrad(theta, thetaDecoder, batch, hyperParams);
     end
     if mod(pass, options.checkpointFreq) == 0
         save([options.name, '/', 'pretrained-theta-wordpairs-', ...
@@ -77,6 +75,12 @@ for pass = 1:options.numPasses
             num2str(pass)] , 'theta', 'thetaDecoder');
     end
         
+    disp(['pass ', num2str(pass), ' costs: ', num2str(cost)]);
+    if abs(prevCost - cost(1)) < 10e-7
+        disp('Stopped improving.');
+        break;
+    end
+    prevCost = cost(1);
     
 end
 

@@ -1,11 +1,11 @@
-function TrainModel(pre, dim, nl, pretrainingFilename, testFilenames, splitFilenames, expName)
+function TrainModel(nl, norm, lambda, pretrainingFilename, testFilenames, trainFilenames, expName)
 
 if nargin > 6
     mkdir(expName); 
 else
     expName = '.';
 end
-    
+
 [worddata, wordMap, relationMap, relations] = ...
     LoadTrainingData('wordpairs-v2.tsv');
 
@@ -19,28 +19,28 @@ addpath('minFunc/minFunc/mex/')
 addpath('minFunc/autoDif/')
 
 % Set up hyperparameters:
-hyperParams.dim = dim;
+hyperParams.dim = 16;
 hyperParams.numRelations = 7; 
 hyperParams.topDepth = 1;
-hyperParams.penultDim = 21;
-hyperParams.lambda = 0.0001;
+hyperParams.penultDim = 45;
+hyperParams.lambda = 0.0001; %0.0001
 hyperParams.relations = relations;
-if pre
-    hyperParams.noPretraining = true; %todo
-else
-    hyperParams.noPretraining = false; %todo
-end
+hyperParams.noPretraining = true;
 hyperParams.minFunc = false;
 hyperParams.showExamples = false;
 hyperParams.showConfusions = false;
-hyperParams.norm = 2;
+hyperParams.norm = norm;
 
 % Nonlinearities
 hyperParams.compNL = @Sigmoid;
 hyperParams.compNLDeriv = @SigmoidDeriv; 
-if s
-hyperParams.classNL = @Sigmoid;
-hyperParams.classNLDeriv = @SigmoidDeriv;
+if strcmp(nl, 'S')
+    hyperParams.classNL = @Sigmoid;
+    hyperParams.classNLDeriv = @SigmoidDeriv;
+else
+    hyperParams.classNL = @LReLU;
+    hyperParams.classNLDeriv = @LReLUDeriv;
+end
 
 disp(hyperParams)
 
@@ -106,8 +106,25 @@ theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 
 % Load training data
 
-listing = dir('data-2/*.tsv');
+% if nargin > 7 && strcmp(dataFlag, 'Q') 
+%     listing = [dir('data-2/BQ-*.tsv'); dir('data-2/MQ-*.tsv'); dir('data-2/NBQ-*.tsv')];
+%     splitFilenames = {listing.name};
+% elseif nargin > 7 && strcmp(dataFlag, 'M') 
+%     listing = [dir('data-2/BQ-*.tsv'); dir('data-2/MQ-*.tsv'); dir('data-2/NBQ-*.tsv'); dir('data-2/MT-*.tsv')];
+%     splitFilenames = {listing.name}; 
+% else
+listing = dir('data-3/*.tsv');
 splitFilenames = {listing.name};
+trainFilenames = {};
+
+if strcmp(dataflag, 'one')
+    testFilenames = {'MQ-most-no-bark.tsv'};
+elseif strcmp(dataflag, 'class') 
+    testFilenames = {'MQ-most-no-bark.tsv', 'MQ-most-no-European.tsv', 'MQ-most-no-mobile.tsv'};
+elseif strcmp(dataflag, 'class')
+    listing = [dir('data-3/*no-most*'), dir('data-3/*most-no*')];
+    trainFilenames = {}{
+end
 
 % allConstitFilenames = [allConstitFilenames, beyondQ];
 
@@ -115,7 +132,7 @@ splitFilenames = {listing.name};
 % testInd = ismember(allConstitFilenames, testFilenames);
 % trainFilenames(testInd) = [];   
 [trainDataset, testDatasets] = ...
-    LoadConstitDatasets({}, splitFilenames, {}, wordMap, relationMap);
+    LoadConstitDatasets(trainFilenames, splitFilenames, testFilenames, wordMap, relationMap);
 
 % Train
 disp('Training')

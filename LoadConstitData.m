@@ -2,7 +2,7 @@ function [ data ] = LoadConstitData(filename, wordMap, relationMap)
 
 % Append data/ if we don't have a full path:
 if isempty(strfind(filename, '/'))
-    filename = ['data-2/', filename];
+    filename = ['data-3/', filename];
 end
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
