@@ -1,5 +1,4 @@
 function [ cost, grad, trainingError, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams, ~ )
-%function [ cost, grad ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams )
 %   Compute cost and gradient over a full dataset for some parameters.
 
 N = length(data);

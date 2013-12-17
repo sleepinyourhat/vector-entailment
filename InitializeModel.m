@@ -1,6 +1,5 @@
 function [ theta, thetaDecoder ] = InitializeModel(vocabLength, hyperParams)
-% Initializes the learned parameters of the model, excluding the word
-% representations. 
+% Initializes the learned parameters of the model. 
 
 DIM = hyperParams.dim;
 PENULT = hyperParams.penultDim;

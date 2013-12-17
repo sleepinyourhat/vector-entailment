@@ -1,5 +1,6 @@
 function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
     (trainFilenames, splitFilenames, testFilenames, wordMap, relationMap)
+% Load and combine all of the training and test data.
 
 % trainFilenames: Load these files as training data.
 % testFilenames: Load these files as test data.

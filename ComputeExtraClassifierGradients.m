@@ -2,7 +2,8 @@ function [extraMatrixGradients, ...
           extraBiasGradients, deltaDown] = ...
           ComputeExtraClassifierGradients(hyperParams, ...
           classifierExtraMatrix, deltaDown, inputs, innerOutputs)
-% Compute gradients for the non-bottom layers of the classifier.
+% Compute gradients for the middle NN layers of the classifier. This will 
+% only do non-trivial work if hyperParams.topDepth is greater than 1.
 
 outDim = size(classifierExtraMatrix);
 

@@ -1,4 +1,6 @@
-function [ theta ] = adaGradSGD(theta, options, thetaDecoder, data, hyperParams, testDatasets)
+function [ theta ] = adaGradSGD(theta, options, thetaDecoder, data, ...
+    hyperParams, testDatasets)
+% Home-baked implementation of SGD with adaGrad.
 
 N = length(data);
 prevCost = intmax;
@@ -9,12 +11,7 @@ for pass = 0:options.numPasses - 1
     numBatches = ceil(N/options.miniBatchSize);
     sumSqGrad = zeros(size(theta));
     randomOrder = randperm(N);
-    
-    % Update LR
-    if mod(pass, 5) == 0 && pass > 0
-        lr = .9 * lr;
-    end
-    
+   
     for batchNo = 0:(numBatches-1)
         beginMiniBatch = (batchNo * options.miniBatchSize+1);
         endMiniBatch = min((batchNo+1) * options.miniBatchSize,N);

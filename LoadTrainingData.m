@@ -1,4 +1,6 @@
 function [ data, wordMap, relationMap, relations ] = LoadTrainingData(filename)
+% Deprecated?
+
 %[ dataset ] = LoadTrainingData()
 
 % Import data:

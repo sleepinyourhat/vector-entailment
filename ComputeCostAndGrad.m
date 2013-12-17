@@ -1,6 +1,5 @@
 function [ cost, grad, pred ] = ComputeCostAndGrad( theta, decoder, dataPoint, hyperParams )
-%function [ cost, grad ] = ComputeCostAndGrad( theta, decoder, dataPoint, hyperParams )
-%   Detailed explanation goes here
+% Compute cost and gradient for one example.
 
 
 % Unpack theta.

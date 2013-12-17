@@ -1,6 +1,5 @@
 function [ theta, thetaDecoder ] = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams)
-% Initializes the learned parameters of the model, excluding the word
-% representations. 
+% Re-initializes the composition layer after pretraining. 
 
 [classifierMatrices, classifierMatrix, classifierBias, ...
     classifierParameters, wordFeatures, ~,...

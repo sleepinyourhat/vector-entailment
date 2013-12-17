@@ -1,4 +1,5 @@
 function stop = Display(theta,~,i,~,~,~,~,~,~,~,thetaDecoder, data, hyperParams, testDatasets)
+% Get informative mid-run displays from minFunc.
 
 stop = 0;
 pass = i;

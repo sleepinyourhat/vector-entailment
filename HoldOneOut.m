@@ -1,4 +1,5 @@
 function HoldOneOut(filename, expName)
+% Run hold-one-out experiments. May be slightly out of date.
 
 [~, wordMap, relationMap, relations] = ...
     LoadTrainingData('wordpairs-v2.tsv');
