@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 classdef Tree < handle
     
     % Represents a single binary branching syntactic tree with three 

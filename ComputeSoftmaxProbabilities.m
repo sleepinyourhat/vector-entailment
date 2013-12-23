@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function relationProbs = ComputeSoftmaxProbabilities(inVector, classifierParameters)
 % Run the softmax classifier.
 

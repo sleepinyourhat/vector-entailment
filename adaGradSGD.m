@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ theta ] = AdaGradSGD(theta, options, thetaDecoder, trainingData, ...
     hyperParams, testDatasets)
 % Home-baked implementation of SGD with AdaGrad.

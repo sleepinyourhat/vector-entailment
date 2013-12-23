@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ data ] = LoadConstitData(filename, wordMap, relationMap)
 % Load one file of constituent-pair data.
 

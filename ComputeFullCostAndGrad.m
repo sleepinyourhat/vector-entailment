@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ cost, grad, trainingError, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams, ~ )
 % Compute gradient and cost with regularization over a set of examples
 % for some parameters.

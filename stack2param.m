@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function varargout = stack2param(X, decodeInfo)
 % Borrowed from Socher et al. Undoes param2stack.
 

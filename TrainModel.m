@@ -1,4 +1,5 @@
-function TrainModel(dataflag, pretrainingFilename, testFilenames, trainFilenames, expName)
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
+function TrainModel(dataflag, pretrainingFilename, expName)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -150,6 +151,7 @@ theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 listing = dir('data-4/*.tsv');
 splitFilenames = {listing.name};
 trainFilenames = {};
+testFilenames = {};
 if strcmp(dataflag, 'one')
     testFilenames = {'MQ-most-no-bark.tsv'};
 elseif strcmp(dataflag, 'sub') 

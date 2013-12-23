@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ theta, thetaDecoder ] = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams)
 % Re-initializes the composition layer after pretraining, assuming that
 % regularization during pretraining has pushed its parametrs to near zero. 

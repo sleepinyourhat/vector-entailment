@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function innerTensorLayerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix, bias)
 % Run an RNTN layer as in forward propagation, not including the
 % nonlinearity.

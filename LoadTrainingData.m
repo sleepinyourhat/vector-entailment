@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ wordMap, relationMap, relations, data ] = ...
     LoadTrainingData(filename)
 % Load word-word pair data for pretraining and to generate a word map.

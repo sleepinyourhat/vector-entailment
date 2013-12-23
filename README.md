@@ -14,3 +14,5 @@ To run a single experiment, see TrainModel.m. RunExperiments.m contains a script
 all of the reported experiments, though many more configurations are possible if you 
 edit the options and hyperparameters (no, the distinction dosen't mean much) in 
 TrainModel.
+
+Author: Samuel Bowman, sbowman@stanford.edu

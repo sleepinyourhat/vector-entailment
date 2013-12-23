@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ theta, thetaDecoder ] = InitializeModel(vocabLength, hyperParams)
 % Initialize the learned parameters of the model. 
 

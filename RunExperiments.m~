@@ -1,0 +1,47 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
+TODO
+
+TrainModel('splitall',[], {}, {}, 'demo-splitall');
+
+TrainModel('one-mn',[], {}, {}, 'demo-one-mn');
+TrainModel('sub-mn',[], {}, {}, 'demo-sub-mn');
+TrainModel('pair-mn',[], {}, {}, 'demo-pair-mn');
+
+TrainModel('one-sn',[], {}, {}, 'demo-one-sn');
+TrainModel('sub-sn',[], {}, {}, 'demo-sub-sn');
+TrainModel('pair-sn',[], {}, {}, 'demo-pair-sn');
+
+TrainModel('one-2a',[], {}, {}, 'demo-one-2a');
+TrainModel('sub-2a',[], {}, {}, 'demo-sub-2a');
+TrainModel('pair-2a',[], {}, {}, 'demo-pair-2a');
+
+if strcmp(dataflag, 'one-mn')
+    testFilenames = {'MQ-most-no-bark.tsv'};
+elseif strcmp(dataflag, 'sub-mn') 
+    testFilenames = {'MQ-most-no-bark.tsv', 'MQ-most-no-European.tsv', ...
+        'MQ-most-no-mobile.tsv'};
+elseif strcmp(dataflag, 'pair-mn')
+    listing = [dir('data-4/*no-most*'); dir('data-4/*most-no*')];
+    testFilenames = {listing.name};
+elseif strcmp(dataflag, 'one-sn')
+    testFilenames = {'BQ-some-no-bark.tsv'};
+elseif strcmp(dataflag, 'sub-sn') 
+    testFilenames = {'BQ-some-no-bark.tsv', 'BQ-some-no-European.tsv', ...
+        'BQ-some-no-mobile.tsv'};
+elseif strcmp(dataflag, 'pair-sn')
+    listing = [dir('data-4/*some-no*'); dir('data-4/*no-some*')];
+    testFilenames = {listing.name};
+elseif strcmp(dataflag, 'one-2a')
+    testFilenames = {'MQ-two-all-bark.tsv'};
+elseif strcmp(dataflag, 'sub-2a') 
+    testFilenames = {'MQ-two-all-bark.tsv', 'MQ-two-all-European.tsv', ...
+        'MQ-two-all-mobile.tsv'};
+elseif strcmp(dataflag, 'pair-2a')
+    listing = [dir('data-4/*two-all*'); dir('data-4/*all-two*')];
+    testFilenames = {listing.name};
+elseif strcmp(dataflag, 'splitall')
+    splitFilenames = {listing.name};
+elseif strcmp(dataflag, 'testall')
+    trainFilenames = splitFilenames;
+    splitFilenames = {};
+end

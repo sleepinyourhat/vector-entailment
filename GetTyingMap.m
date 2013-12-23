@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function tyingMap = GetTyingMap(wordMap)
 % Create a map from word index to something like part of speech
 % Q = 1

@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [aggErr, aggConfusion] = TestModel(theta, thetaDecoder, testDatasets, hyperParams)
 
 % Evaluate on test datasets, and show set-by-set results while aggregating

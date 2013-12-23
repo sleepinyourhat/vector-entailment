@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ symmetrizedDataset ] = Symmetrize(dataset)
 % Flips the order of elements in an NL relation dataset and adjusts the
 % relation class to fit.

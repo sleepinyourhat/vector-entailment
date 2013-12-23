@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ cost, grad, pred ] = ComputeCostAndGrad( theta, decoder, dataPoint, hyperParams )
 % Compute cost, gradient, and predicted label for one example.
 

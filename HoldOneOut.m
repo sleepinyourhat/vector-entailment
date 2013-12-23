@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function HoldOneOut(filename, expName)
 % Run hold-one-out experiments. 
 disp('MAY BE OUT OF DATE. DO NOT TRUST.');

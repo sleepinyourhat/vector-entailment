@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
     (trainFilenames, splitFilenames, testFilenames, wordMap, relationMap)
 % Load and combine all of the training and test data.
