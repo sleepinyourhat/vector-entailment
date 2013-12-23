@@ -1,7 +1,7 @@
 function [ data ] = LoadConstitData(filename, wordMap, relationMap)
-% Load one file.
+% Load one file of constituent-pair data.
 
-% Append data/ if we don't have a full path:
+% Append data-4/ if we don't have a full path:
 if isempty(strfind(filename, '/'))
     filename = ['data-4/', filename];
 end
@@ -14,7 +14,6 @@ fclose(fid);
 % Initialize the data array
 rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
     length(C{1}), 1);
-% wordList = cell(length(C{1}), 1);
 
 % Parse the file
 itemNo = 1;

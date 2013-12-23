@@ -1,11 +1,6 @@
-function o = Objective(trueRelation, relationProbs, params, hyperParams)
+function o = Objective(trueRelation, relationProbs)
+% Compute the non-regularized objective for a single example.
 
-if nargin < 3
-    regTerm = 0;
-else 
-    regTerm = (hyperParams.lambda / 2) * sum(params .^ 2);
-end
-
-o = -log(relationProbs(trueRelation)) + regTerm;
+o = -log(relationProbs(trueRelation));
 
 end

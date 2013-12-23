@@ -7,16 +7,18 @@ function [softmaxGradient, softmaxDelta] = ...
 softmaxGradient = zeros(hyperParams.numRelations, ...
     hyperParams.penultDim + 1);
 
-% Compute node softmax error, mid-left of p6 of Socher tensor paper
+% Compute node softmax error
 targetRelationProbs = zeros(length(relationProbs), 1);
 targetRelationProbs(trueRelation) = 1;
 softmaxDeltaFirstHalf = classifierParameters' * ...
                         (relationProbs - targetRelationProbs);
-softmaxDeltaSecondHalf = hyperParams.classNLDeriv([1; tensorOutput]); % Intercept
+                    
+% Compute nonlinearity and append intercept
+softmaxDeltaSecondHalf = hyperParams.classNLDeriv([1; tensorOutput]);
 softmaxDelta = (softmaxDeltaFirstHalf .* softmaxDeltaSecondHalf);
 
 for relEval = 1:hyperParams.numRelations
-    % Del from ufldl wiki on softmax
+    % Del from UFLDL Wiki on softmax
     softmaxGradient(relEval, :) = -([1; tensorOutput] .* ...
         ((trueRelation == relEval) - relationProbs(relEval)))';
 end

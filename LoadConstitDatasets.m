@@ -1,6 +1,7 @@
 function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
     (trainFilenames, splitFilenames, testFilenames, wordMap, relationMap)
 % Load and combine all of the training and test data.
+% This is slow. And can probably be easily improved if it matters.
 
 % trainFilenames: Load these files as training data.
 % testFilenames: Load these files as test data.

@@ -1,5 +1,5 @@
 function varargout = stack2param(X, decodeInfo)
-% Borrowed from Socher et al
+% Borrowed from Socher et al. Undoes param2stack.
 
 assert(length(decodeInfo)==nargout,'this should output as many variables as you gave to get X with param2stack!')
 
@@ -20,5 +20,5 @@ for i=1:length(decodeInfo)
         index = index+totalSize;
     end
 end
-% make sure, you used all params:
+
 assert(index==length(X))

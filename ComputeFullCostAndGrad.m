@@ -1,5 +1,6 @@
 function [ cost, grad, trainingError, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams, ~ )
-%   Compute cost and gradient over a full dataset for some parameters.
+% Compute gradient and cost with regularization over a set of examples
+% for some parameters.
 
 N = length(data);
 
@@ -56,6 +57,7 @@ else
     end
 end
 
+% Take mean cost.
 normalizedCost = (1/length(data) * accumulatedCost);
 
 if hyperParams.norm == 2
@@ -66,8 +68,9 @@ else
     regCost = hyperParams.lambda * sum(abs(theta)); 
 end
 combinedCost = normalizedCost + regCost;
+
 % cost = [combinedCost normalizedCost regCost]; 
-cost = combinedCost; %TODO
+cost = combinedCost;
 
 if nargout > 1
     grad = (1/length(data) * accumulatedGrad);

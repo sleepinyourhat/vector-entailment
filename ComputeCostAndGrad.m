@@ -1,25 +1,29 @@
 function [ cost, grad, pred ] = ComputeCostAndGrad( theta, decoder, dataPoint, hyperParams )
-% Compute cost and gradient for one example.
+% Compute cost, gradient, and predicted label for one example.
 
-
-% Unpack theta.
+% Unpack theta
 [classifierMatrices, classifierMatrix, classifierBias, ...
     classifierParameters, wordFeatures, compositionMatrices,...
     compositionMatrix, compositionBias, classifierExtraMatrix, ...
     classifierExtraBias] ...
     = stack2param(theta, decoder);
 
-% Unpack hyperparams.
+% Unpack hyperparams
 NUM_RELATIONS = hyperParams.numRelations;
 PENULT_DIM = hyperParams.penultDim;
 DIM = hyperParams.dim;
 TOPD = hyperParams.topDepth;
+if ~hyperParams.untied
+    NUMCOMP = 1;
+else
+    NUMCOMP = 3;
+end
 
 leftTree = dataPoint.leftTree;
 rightTree = dataPoint.rightTree;
 trueRelation = dataPoint.relation;
 
-% Make sure word features are current.
+% Make sure word features are current
 leftTree.updateFeatures(wordFeatures, compositionMatrices, ...
         compositionMatrix, compositionBias, hyperParams.compNL);
 rightTree.updateFeatures(wordFeatures, compositionMatrices, ...
@@ -47,17 +51,18 @@ end
 relationProbs = ComputeSoftmaxProbabilities( ...
                     extraInputs(:,hyperParams.topDepth), classifierParameters);
 
-% Increment local error
+% Compute cost
 cost = Objective(trueRelation, relationProbs);
 
+% Produce gradient
 if nargout > 1    
-    % Initialize the gradients.
+    % Initialize the gradients
     localWordFeatureGradients = sparse([], [], [], ...
         size(wordFeatures, 1), size(wordFeatures, 2), 10);
     
-    localCompositionMatricesGradients = zeros(DIM, DIM, DIM);
-    localCompositionMatrixGradients = zeros(DIM, 2 * DIM);
-    localCompositionBiasGradients = zeros(DIM, 1);
+    localCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
+    localCompositionMatrixGradients = zeros(DIM, 2 * DIM, NUMCOMP);
+    localCompositionBiasGradients = zeros(DIM, NUMCOMP);
     
     [localSoftmaxGradient, softmaxDelta] = ...
         ComputeSoftmaxGradient (hyperParams, classifierParameters, ...
@@ -72,7 +77,7 @@ if nargout > 1
           extraInnerOutputs);
 
     % Compute gradients for classification tensor layer
-    
+   
     [localClassificationMatricesGradients, ...
         localClassificationMatrixGradients, ...
         localClassificationBiasGradients, classifierDeltaLeft, ...
@@ -80,7 +85,7 @@ if nargout > 1
       ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
           classifierMatrices, classifierMatrix, classifierBias, ...
           extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
-          
+     
     [ upwardWordGradients, ...
       upwardCompositionMatricesGradients, ...
       upwardCompositionMatrixGradients, ...
@@ -88,7 +93,7 @@ if nargout > 1
        leftTree.getGradient(classifierDeltaLeft, wordFeatures, ...
                             compositionMatrices, compositionMatrix, ...
                             compositionBias, hyperParams.compNLDeriv);
-                        
+                      
     localWordFeatureGradients = localWordFeatureGradients ...
         + upwardWordGradients;
     localCompositionMatricesGradients = localCompositionMatricesGradients...
@@ -123,7 +128,7 @@ if nargout > 1
         localExtraMatrixGradients, localExtraBiasGradients);
 end
 
-% Compute prediction if requested.
+% Compute prediction
 if nargout > 2
     [~, pred] = max(relationProbs);
 end

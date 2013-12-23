@@ -186,13 +186,14 @@ splitFilenames = setdiff(splitFilenames, testFilenames);
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
     testFilenames, wordMap, relationMap);
-trainDataset = Symmetrize(trainDataset);
 
 % Train
 disp('Training')
 options.MaxFunEvals = 1000;
 options.DerivativeCheck = 'on';
 options.runName = 'tr';
+
+trainDataset = Symmetrize(trainDataset);
 
 if hyperParams.minFunc
     % Set up minfunc

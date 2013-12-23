@@ -2,8 +2,9 @@ function [matricesGradients, matrixGradients, biasGradients, ...
           deltaLeft, deltaRight] = ...
       ComputeTensorLayerGradients(a, b, matrices, matrix, bias, delta, ...
                                   nonlinearityDeriv, tensorInnerOutput)
-% function tensorLayerOutput = ComputeTensorLayer(a, b, classifierMatrices, classifierMatrix, classifierBias)
-% From Socher et al ICML 13
+% Compute the gradients and deltas for an RNTN layer for a given example.
+
+% Compute the layer output if it isn't provided.
 if nargin < 8
     tensorInnerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix, bias);
 end
@@ -18,7 +19,6 @@ matrixGradients = zeros(outDim, 2 * inDim);
 
 % Calculate third order tensor gradients
 for i = 1:outDim
-    % Cols = (inDim*(i - 1))+1:(inDim*i);
     matricesGradients(:,:,i) = (tensorDeriv(i) * delta(i)) .* (a * b');
 end
     
@@ -29,14 +29,10 @@ end
 
 % Calculate vector gradients for tensor layer
 biasGradients = (tensorDeriv .* delta);
-
-% Calculate deltas to pass down
-
 delta = biasGradients;
 
 innerTensorLayerMatrix = zeros(inDim, outDim);
 for i = 1:outDim
-    % Cols = (inDim*(i - 1))+1:(inDim*i);
     innerTensorLayerMatrix(:, i) = matrices(:,:,i) * b;
 end
 thirdTerm = innerTensorLayerMatrix + matrix(:, 1:inDim)';
@@ -44,7 +40,6 @@ deltaLeft = (thirdTerm * (delta .* tensorDeriv));
 
 innerTensorLayerMatrix = zeros(inDim, outDim);
 for i = 1:outDim
-    % Cols = (inDim*(i - 1))+1:(inDim*i);
     innerTensorLayerMatrix(:, i) = a' * matrices(:,:,i);
 end
 thirdTerm = innerTensorLayerMatrix + matrix(:, inDim+1:2*inDim)';    

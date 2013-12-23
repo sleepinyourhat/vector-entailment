@@ -1,5 +1,6 @@
 function [stack decodeInfo] = param2stack(varargin)
-% Borrowed from Socher et al 2013
+% Borrowed from Socher et al 2013. Converts a set of tensors of various 
+% orders into a single parameter vector.
 
 stack = [];
 

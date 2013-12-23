@@ -1,7 +1,8 @@
 classdef Tree < handle
     
-    % Represents a single binary branching syntactic tree with three representations at each node:
-    % - The index with which the feature vector can be looked up - IF LEAF
+    % Represents a single binary branching syntactic tree with three 
+    % representations at each node:
+    % - The index with which the feature vector can be looked up - if leaf
     % - The text with which the tree can be displayed.
     % - The features at the node.
     
@@ -10,11 +11,17 @@ classdef Tree < handle
         text = 'NULL';
         features = []; % DIM x 1 vector
         wordIndex = -1; % -1 => Not a lexical item node.
+        type = 0; % 0 - predicate or predicate + neg
+                  % 1 - quantifier
+                  % 2 - neg
+                  % 3 - quantifier phrase           
     end
     
     methods(Static)
-        
+
         function t = makeTree(iText, wordMap)
+            tyingMap = GetTyingMap(wordMap);
+            
             % Parsing strategy:          
             % ( a b ) ( c d )
             % (
@@ -54,7 +61,7 @@ classdef Tree < handle
             for i = 1:length(C)
                 if ~strcmp(C{i}, '(') && ~strcmp(C{i}, ')')
                     % Turn words into leaf nodes
-                    stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap);
+                    stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap, tyingMap);
                     stackTop = stackTop + 1;
                 elseif strcmp(C{i}, ')')
                     % Merge at the ends of constituents
@@ -77,11 +84,12 @@ classdef Tree < handle
             end            
         end
         
-        function t = makeLeaf(iText, wordMap)
+        function t = makeLeaf(iText, wordMap, tyingMap)
             t = Tree();
             t.text = iText;
             if wordMap.isKey(t.text)
                 t.wordIndex = wordMap(t.text);
+                t.type = tyingMap(t.wordIndex);
             else
                 disp(['Failed to map word ' t.text]);
                 t.wordIndex = 1;
@@ -92,6 +100,12 @@ classdef Tree < handle
             t = Tree();
             t.text = strcat(l.text, ' ', r.text);
             t.daughters = [l r];
+            if l.type == 1
+                t.type = 2;
+            else
+                t.type = l.type;
+            end
+                
         end
         
     end
@@ -129,6 +143,10 @@ classdef Tree < handle
             f = obj.features;
         end
         
+        function type = getType(obj)
+            type = obj.type;
+        end
+        
         function i = getWordIndex(obj)
             i = obj.wordIndex;
         end
@@ -144,6 +162,8 @@ classdef Tree < handle
             %end
             
             if (~isempty(obj.daughters))
+                
+                
                 for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
                         wordFeatures, compMatrices, compMatrix, compBias, ...
@@ -153,8 +173,15 @@ classdef Tree < handle
                 lFeatures = obj.daughters(1).getFeatures();
                 rFeatures = obj.daughters(2).getFeatures();
                 
+                if size(compBias, 2) == 1 % if not untied
+                    typeInd = 1;
+                else
+                    typeInd = obj.daughters(1).getType();
+                end
+               
                 obj.features = compNL(ComputeInnerTensorLayer( ...
-                    lFeatures, rFeatures, compMatrices, compMatrix, compBias));
+                    lFeatures, rFeatures, compMatrices(:,:,:,typeInd),...
+                    compMatrix(:,:,typeInd), compBias(:,typeInd)));
             else
                 % In this case, we are a leaf.
                 obj.features = wordFeatures(obj.wordIndex, :)';
@@ -168,32 +195,50 @@ classdef Tree < handle
             getGradient(obj, delta, wordFeatures, compMatrices, ...
                         compMatrix, compBias, compNLDeriv)
                     % Delta should be a column vector.
-                    
-            DIM = size(compBias, 1);
             
+                    DIM = size(compBias, 1);
+
+                    
+            if size(compBias, 2) == 1 % if not untied
+                NUMCOMP = 1;
+            else
+                NUMCOMP = 3;
+            end
+ 
             upwardWordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
-            upwardCompositionMatricesGradients = zeros(DIM, DIM, DIM);
-            upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM);
-            upwardCompositionBiasGradients = zeros(DIM, 1);
+            upwardCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
+            upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM, NUMCOMP);
+            upwardCompositionBiasGradients = zeros(DIM, NUMCOMP);
 
-            % Is this necessary? No. We have to have done this to get the
-            % objective.
-            % obj.updateFeatures(wordFeatures, compMatrix, compMatrix, compBias);
-            
             if (~isempty(obj.daughters))
+                if size(compBias, 2) == 1 % if not untied
+                    typeInd = 1;
+                else
+                    typeInd = obj.daughters(1).getType();
+                end
+                
                 lFeatures = obj.daughters(1).getFeatures();
                 rFeatures = obj.daughters(2).getFeatures();
-               
                 
-                [upwardCompositionMatricesGradients, ...
-                    upwardCompositionMatrixGradients, ...
-                    upwardCompositionBiasGradients, compDeltaLeft, ...
+                
+                [tempCompositionMatricesGradients, ...
+                    tempCompositionMatrixGradients, ...
+                    tempCompositionBiasGradients, compDeltaLeft, ...
                     compDeltaRight] = ...
                   ComputeTensorLayerGradients(lFeatures, rFeatures, ...
-                      compMatrices, compMatrix, compBias, delta, ...
+                      compMatrices(:,:,:,typeInd), ...
+                      compMatrix(:,:,typeInd), ...
+                      compBias(:,typeInd), delta, ...
                       compNLDeriv);
 
+                upwardCompositionMatricesGradients(:,:,:,typeInd) = ...
+                    tempCompositionMatricesGradients;
+                upwardCompositionMatrixGradients(:,:,typeInd) = ...
+                    tempCompositionMatrixGradients;
+                upwardCompositionBiasGradients(:,typeInd) = ...
+                    tempCompositionBiasGradients;
+                  
                 % Take gradients from below.
                 [ incomingWordGradients, ...
                   incomingCompositionMatricesGradients, ...

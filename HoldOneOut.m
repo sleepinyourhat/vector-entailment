@@ -1,5 +1,6 @@
 function HoldOneOut(filename, expName)
-% Run hold-one-out experiments. May be slightly out of date.
+% Run hold-one-out experiments. 
+disp('MAY BE OUT OF DATE. DO NOT TRUST.');
 
 [~, wordMap, relationMap, relations] = ...
     LoadTrainingData('wordpairs-v2.tsv');
