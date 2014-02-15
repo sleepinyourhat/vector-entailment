@@ -31,7 +31,7 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = 45;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.0001;
+hyperParams.lambda = 0.00002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -87,17 +87,17 @@ options.OutputFcn = @Display;
 options.numPasses = 1000;
 options.miniBatchSize = 32;
 
-% LR for AdaGrad.
-options.lr = 0.01;
+% LR
+options.lr = 0.2;
 
 % AdaGradSGD display options
 
 % How often (in full iterations) to run on test data.
-options.testFreq = 4; 
+options.testFreq = 1;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 4;
+options.confusionFreq = 32;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
@@ -111,7 +111,10 @@ options.name = expName;
 
 % The name assigned to the current call to AdaGradSGD. Used to contrast ...
 % pretraining and training in checkpoint naming.
-options.runName = 'pre'; 
+options.runName = 'pre';
+
+% Reset the sum of squared gradients after this many iterations.
+options.resetSumSqFreq = 10000; % Don't bother.
 
 disp(options)
 
@@ -152,12 +155,12 @@ listing = dir('data-4/*.tsv');
 splitFilenames = {listing.name};
 trainFilenames = {};
 testFilenames = {};
-if strcmp(dataflag, 'one')
+if strcmp(dataflag, 'one-mn')
     testFilenames = {'MQ-most-no-bark.tsv'};
-elseif strcmp(dataflag, 'sub') 
+elseif strcmp(dataflag, 'sub-mn')
     testFilenames = {'MQ-most-no-bark.tsv', 'MQ-most-no-European.tsv', ...
         'MQ-most-no-mobile.tsv'};
-elseif strcmp(dataflag, 'class')
+elseif strcmp(dataflag, 'pair-mn')
     listing = [dir('data-4/*no-most*'); dir('data-4/*most-no*')];
     testFilenames = {listing.name};
 elseif strcmp(dataflag, 'one-sn')
@@ -165,7 +168,7 @@ elseif strcmp(dataflag, 'one-sn')
 elseif strcmp(dataflag, 'sub-sn') 
     testFilenames = {'BQ-some-no-bark.tsv', 'BQ-some-no-European.tsv', ...
         'BQ-some-no-mobile.tsv'};
-elseif strcmp(dataflag, 'class-sn')
+elseif strcmp(dataflag, 'pair-sn')
     listing = [dir('data-4/*some-no*'); dir('data-4/*no-some*')];
     testFilenames = {listing.name};
 elseif strcmp(dataflag, 'one-2a')
@@ -173,7 +176,7 @@ elseif strcmp(dataflag, 'one-2a')
 elseif strcmp(dataflag, 'sub-2a') 
     testFilenames = {'MQ-two-all-bark.tsv', 'MQ-two-all-European.tsv', ...
         'MQ-two-all-mobile.tsv'};
-elseif strcmp(dataflag, 'class-2a')
+elseif strcmp(dataflag, 'pair-2a')
     listing = [dir('data-4/*two-all*'); dir('data-4/*all-two*')];
     testFilenames = {listing.name};
 elseif strcmp(dataflag, 'splitall')
@@ -183,6 +186,8 @@ elseif strcmp(dataflag, 'testall')
     splitFilenames = {};
 end
 splitFilenames = setdiff(splitFilenames, testFilenames);
+hyperParams.firstSplit = size(testFilenames, 2) + 1;
+disp(hyperParams.firstSplit);
 
 % Load training/test data
 [trainDataset, testDatasets] = ...
