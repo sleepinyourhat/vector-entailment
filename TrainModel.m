@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName)
+function TrainModel(dataflag, pretrainingFilename, expName, dsP, dP)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -51,6 +51,10 @@ hyperParams.norm = 2;
 
 % Use untied composition layer params.
 hyperParams.untied = false; 
+
+% Remove some portion of the training datasets
+hyperParams.datasetsPortion = dsP;
+hyperParams.dataPortion = dP;
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
@@ -187,13 +191,26 @@ elseif strcmp(dataflag, 'testall')
 end
 splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
-disp(hyperParams.firstSplit);
 
+if dsP < 1
+    disp(length(splitFilenames))
+    p = randperm(length(splitFilenames));
+    splitFilenames = splitFilenames(p(1:round(dsP * length(splitFilenames))));
+    disp(length(splitFilenames))
+end
+    
 % Load training/test data
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
     testFilenames, wordMap, relationMap);
 trainDataset = Symmetrize(trainDataset);
+
+if dP < 1
+    disp(length(trainDataset))
+    p = randperm(length(trainDataset));
+    trainDataset = trainDataset(p(1:round(dP * length(trainDataset))));
+    disp(length(trainDataset))
+end
 
 % Train
 disp('Training')
