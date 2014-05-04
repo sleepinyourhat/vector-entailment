@@ -10,10 +10,10 @@ function [ cost, grad, pred ] = ComputeCostAndGrad( theta, decoder, dataPoint, h
     = stack2param(theta, decoder);
 
 % Unpack hyperparams
-NUM_RELATIONS = hyperParams.numRelations;
-PENULT_DIM = hyperParams.penultDim;
+% NUM_RELATIONS = hyperParams.numRelations;
+% PENULT_DIM = hyperParams.penultDim;
 DIM = hyperParams.dim;
-TOPD = hyperParams.topDepth;
+% TOPD = hyperParams.topDepth;
 if ~hyperParams.untied
     NUMCOMP = 1;
 else
@@ -34,10 +34,17 @@ leftFeatures = leftTree.getFeatures();
 rightFeatures = rightTree.getFeatures();
 
 % Compute classification tensor layer:
-tensorInnerOutput = ComputeInnerTensorLayer(leftFeatures, ...
-    rightFeatures, classifierMatrices, classifierMatrix, classifierBias);
-classTensorOutput = hyperParams.classNL(tensorInnerOutput);
 
+if hyperParams.useThirdOrderComparison
+    tensorInnerOutput = ComputeInnerTensorLayer(leftFeatures, ...
+        rightFeatures, classifierMatrices, classifierMatrix, classifierBias);
+    classTensorOutput = hyperParams.classNL(tensorInnerOutput);
+else
+      tensorInnerOutput = classifierMatrix * [leftFeatures; rightFeatures]...
+          + classifierBias;
+    classTensorOutput = hyperParams.classNL(tensorInnerOutput);  
+end
+       
 % Run layers forward
 extraInputs = zeros(hyperParams.penultDim, hyperParams.topDepth);
 extraInnerOutputs = zeros(hyperParams.penultDim, hyperParams.topDepth - 1);
@@ -61,7 +68,11 @@ if nargout > 1
     localWordFeatureGradients = sparse([], [], [], ...
         size(wordFeatures, 1), size(wordFeatures, 2), 10);
     
-    localCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
+    if hyperParams.useThirdOrder
+        localCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
+    else
+    	localCompositionMatricesGradients = zeros(0, 0, 0, NUMCOMP);  
+    end 
     localCompositionMatrixGradients = zeros(DIM, 2 * DIM, NUMCOMP);
     localCompositionBiasGradients = zeros(DIM, NUMCOMP);
     
@@ -77,15 +88,28 @@ if nargout > 1
           classifierExtraMatrix, softmaxDelta, extraInputs, ...
           extraInnerOutputs);
 
-    % Compute gradients for classification tensor layer
-   
-    [localClassificationMatricesGradients, ...
-        localClassificationMatrixGradients, ...
-        localClassificationBiasGradients, classifierDeltaLeft, ...
-        classifierDeltaRight] = ...
-      ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
-          classifierMatrices, classifierMatrix, classifierBias, ...
-          extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+    if hyperParams.useThirdOrderComparison
+        % Compute gradients for classification tensor layer
+        [localClassificationMatricesGradients, ...
+            localClassificationMatrixGradients, ...
+            localClassificationBiasGradients, classifierDeltaLeft, ...
+            classifierDeltaRight] = ...
+          ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
+              classifierMatrices, classifierMatrix, classifierBias, ...
+              extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+    else
+         % Compute gradients for classification first layer
+         localClassificationMatricesGradients = zeros(0, 0, 0);  
+         [localClassificationMatrixGradients, ...
+            localClassificationBiasGradients, classifierDeltaLeft, ...
+            classifierDeltaRight] = ...
+          ComputeLayerGradients(leftFeatures, rightFeatures, ...
+              classifierMatrix, classifierBias, ...
+              extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+    end
+        
+        
+
      
     [ upwardWordGradients, ...
       upwardCompositionMatricesGradients, ...

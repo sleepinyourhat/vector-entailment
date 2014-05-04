@@ -17,7 +17,11 @@ end
 DIM = hyperParams.dim;
 PENULT_DIM = hyperParams.penultDim;
 
-compositionMatrices = rand(DIM , DIM, DIM, NUMCOMP) .* .02 - .01;
+if hyperParams.useThirdOrder
+    compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* .02 - .01;
+else
+    compositionMatrices = zeros(0, 0, 0, NUMCOMP) .* .02 - .01;
+end
 compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* .02 - .01;
 compositionBias = rand(DIM, NUMCOMP) .* .02 - .01;
 

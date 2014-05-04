@@ -55,7 +55,7 @@ for pass = 0:options.numPasses - 1
     end
 
     disp(['pass ', num2str(pass), ' cost: ', num2str(cost)]);
-        if abs(prevCost - cost(1)) < 10e-7
+    if abs(prevCost - cost(1)) < 10e-7
         disp('Stopped improving.');
         break;
     end

@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, dsP, dP)
+function TrainModel(dataflag, pretrainingFilename, expName, dim, tot)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -18,7 +18,7 @@ end
 % Set up hyperparameters:
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 11;
+hyperParams.dim = 16;
 
 % The number of relations.
 hyperParams.numRelations = 7; 
@@ -28,7 +28,7 @@ hyperParams.numRelations = 7;
 hyperParams.topDepth = 1;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 45;
+hyperParams.penultDim = dim;
 
 % Regularization coefficient.
 hyperParams.lambda = 0.00002;
@@ -40,7 +40,7 @@ hyperParams.relations = relations;
 hyperParams.noPretraining = true;
 
 % Use minFunc instead of SGD. Must be separately downloaded.
-hyperParams.minFunc = false; 
+hyperParams.minFunc = false;
 
 % Ignore. Modified every few iters.
 hyperParams.showExamples = false; 
@@ -53,8 +53,10 @@ hyperParams.norm = 2;
 hyperParams.untied = false; 
 
 % Remove some portion of the training datasets
-hyperParams.datasetsPortion = dsP;
-hyperParams.dataPortion = dP;
+hyperParams.datasetsPortion = 1;
+hyperParams.dataPortion = 1;
+
+hyperParams.useThirdOrder = tot;
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
@@ -77,7 +79,7 @@ disp(hyperParams)
 global options
 options.Method = 'lbfgs';
 options.MaxFunEvals = 1000;
-options.DerivativeCheck = 'off';
+options.DerivativeCheck = 'on';
 options.Display = 'full';
 options.numDiff = 0;
 options.LS_init = '2'; % Attempt to minimize evaluations per step...
@@ -188,14 +190,17 @@ elseif strcmp(dataflag, 'splitall')
 elseif strcmp(dataflag, 'testall')
     trainFilenames = splitFilenames;
     splitFilenames = {};
+elseif strcmp(dataflag, 'gradcheck')
+    splitFilenames = {'MQ-two-all-bark.tsv'};
+    % splitFilenames = {};
 end
 splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
 
-if dsP < 1
+if hyperParams.datasetsPortion < 1
     disp(length(splitFilenames))
     p = randperm(length(splitFilenames));
-    splitFilenames = splitFilenames(p(1:round(dsP * length(splitFilenames))));
+    splitFilenames = splitFilenames(p(1:round(hyperParams.datasetsPortion * length(splitFilenames))));
     disp(length(splitFilenames))
 end
     
@@ -205,10 +210,10 @@ end
     testFilenames, wordMap, relationMap);
 trainDataset = Symmetrize(trainDataset);
 
-if dP < 1
+if hyperParams.dataPortion < 1
     disp(length(trainDataset))
     p = randperm(length(trainDataset));
-    trainDataset = trainDataset(p(1:round(dP * length(trainDataset))));
+    trainDataset = trainDataset(p(1:round(hyperParams.dataPortion * length(trainDataset))));
     disp(length(trainDataset))
 end
 

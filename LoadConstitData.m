@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ data ] = LoadConstitData(filename, wordMap, relationMap)
+function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams)
 % Load one file of constituent-pair data.
 
 % Append data-4/ if we don't have a full path:
@@ -19,6 +19,7 @@ rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
 % Parse the file
 itemNo = 1;
 maxLine = length(C{1});
+% maxLine = 25;
 for line = 1:maxLine
     if ~isempty(C{1}{line}) 
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');

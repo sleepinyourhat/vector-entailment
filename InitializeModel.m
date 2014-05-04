@@ -15,11 +15,19 @@ end
 classifierParameters = rand(hyperParams.numRelations, PENULT + 1) .* .02 - .01;
 
 % Randomly initialize tensor parameters
-classifierMatrices = rand(DIM , DIM, PENULT) .* .02 - .01;
+if hyperParams.useThirdOrderComparison
+    classifierMatrices = rand(DIM , DIM, PENULT) .* .02 - .01;
+else
+    classifierMatrices = zeros(0, 0, PENULT) .* .02 - .01;
+end
 classifierMatrix = rand(PENULT, DIM * 2) .* .02 - .01;
 classifierBias = rand(PENULT, 1) .* .02 - .01;
-compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* .02 - .01;
-compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* .02 - .01;
+if hyperParams.useThirdOrder
+    compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* .02 - .01;
+else
+    compositionMatrices = zeros(0, 0, 0, NUMCOMP) .* .02 - .01;
+end
+compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* .02 - .01; 
 compositionBias = rand(DIM, NUMCOMP) .* .02 - .01;
 
 classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* .02 - .01;

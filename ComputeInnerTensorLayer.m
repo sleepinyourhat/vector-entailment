@@ -4,7 +4,7 @@ function innerTensorLayerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix
 % nonlinearity.
 
 [outDim, inDim] = size(matrix);
-inDim = inDim / 2;
+% inDim = inDim / 2;
 
 innerTensorLayerOutput = zeros(outDim,1);
 
