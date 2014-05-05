@@ -63,17 +63,21 @@ classdef LatticeTree < handle
             stackTop = 0;
             
             for i = 1:length(C)
-                if ~strcmp(C{i}, '(') && ~strcmp(C{i}, ')')
+                if ~strcmp(C{i}, '(') && ~strcmp(C{i}, ')') && ...
+                        ~strcmp(C{i}, '^') && ~strcmp(C{i}, 'u')
                     % Turn words into leaf nodes
-                    stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap, tyingMap);
+                    stack{stackTop + 1} = LatticeTree.makeLeaf(C{i}, wordMap);
                     stackTop = stackTop + 1;
                 elseif strcmp(C{i}, ')')
                     % Merge at the ends of constituents
                     r = stack{stackTop};
                     c = stack{stackTop - 1};
                     l = stack{stackTop - 2};
-                    stack{stackTop - 2} = Tree.mergeTrees(l, c, r);
+                    stack{stackTop - 2} = LatticeTree.mergeTrees(l, c, r);
                     stackTop = stackTop - 2;
+                elseif strcmp(C{i}, '^') || strcmp(C{i}, 'u')
+                    stack{stackTop + 1} = C{i};
+                    stackTop = stackTop + 1;     
                 end
             end
             
@@ -89,12 +93,12 @@ classdef LatticeTree < handle
             end            
         end
         
-        function t = makeLeaf(iText, wordMap, tyingMap)
-            t = Tree();
+        function t = makeLeaf(iText, wordMap)
+            t = LatticeTree();
             t.text = iText;
             if wordMap.isKey(t.text)
                 t.wordIndex = wordMap(t.text);
-                t.type = tyingMap(t.wordIndex);
+                t.type = 0;
             else
                 disp(['Failed to map word ' t.text]);
                 t.wordIndex = 1;
@@ -102,8 +106,8 @@ classdef LatticeTree < handle
         end
         
         function t = mergeTrees(l, c, r)
-            t = Tree();
-            t.text = strcat('(', l.text, ' ', c, ' ', r.text, ')');
+            t = LatticeTree();
+            t.text = ['(', l.text, ' ', c, ' ', r.text, ')'];
             t.daughters = [l r];
             if strcmp(c, '^')
                 t.type = 1;
@@ -111,8 +115,9 @@ classdef LatticeTree < handle
                 t.type = 2;
             else
                 disp('Type not found')
+                t.type = 100;
             end
-                
+            
         end
         
     end
@@ -139,11 +144,7 @@ classdef LatticeTree < handle
         end
         
         function t = getText(obj)
-            if isLeaf(obj)
-                t = obj.text;
-            else
-                t = [obj.getLeftDaughter().getText(), ' ', obj.getRightDaughter().getText()];
-            end
+            t = obj.text;
         end
         
         function f = getFeatures(obj)
@@ -180,11 +181,7 @@ classdef LatticeTree < handle
                 lFeatures = obj.daughters(1).getFeatures();
                 rFeatures = obj.daughters(2).getFeatures();
                 
-                if size(compBias, 2) == 1 % if not untied
-                    typeInd = 1;
-                else
-                    typeInd = obj.daughters(1).getType();
-                end
+                typeInd = obj.getType();
                
                 if size(compMatrices, 1) ~= 0
                     obj.features = compNL(ComputeInnerTensorLayer( ...
@@ -209,16 +206,11 @@ classdef LatticeTree < handle
                     % Delta should be a column vector.
             
             DIM = size(compBias, 1);
-
                     
-            if size(compBias, 2) == 1 % if not untied
-                NUMCOMP = 1;
-            else
-                NUMCOMP = 3;
-            end
+            NUMCOMP = 2;
  
-            upwardWordGradients = sparse([], [], [], ...
-                size(wordFeatures, 1), size(wordFeatures, 2), 10);            
+            upwardWordGradients = zeros(size(wordFeatures, 1),...
+                                        size(wordFeatures, 2));            
             
             if size(compMatrices, 1) == 0
                 upwardCompositionMatricesGradients = zeros(0, 0, 0, NUMCOMP);
@@ -229,11 +221,7 @@ classdef LatticeTree < handle
             upwardCompositionBiasGradients = zeros(DIM, NUMCOMP);
 
             if (~isempty(obj.daughters))
-                if size(compBias, 2) == 1 % if not untied
-                    typeInd = 1;
-                else
-                    typeInd = obj.daughters(1).getType();
-                end
+                typeInd = obj.getType();
                 
                 lFeatures = obj.daughters(1).getFeatures();
                 rFeatures = obj.daughters(2).getFeatures();

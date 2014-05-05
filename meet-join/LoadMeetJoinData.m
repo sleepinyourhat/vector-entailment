@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ data ] = LoadConstitData(filename, wordMap, relationMap)
+function [ data ] = LoadMeetJoinData(filename, wordMap)
 % Load one file of constituent-pair data.
 
 % Append data-4/ if we don't have a full path:
@@ -19,7 +19,8 @@ rawData = repmat(struct('solution', 0, 'treeText', ''), ...
 % Parse the file
 itemNo = 1;
 maxLine = length(C{1});
-% maxLine = 25;
+%maxLine = 25; 
+%disp('TODO: FIX MAXLINE !!!!!!!!!!!!!!!')
 for line = 1:maxLine
     if ~isempty(C{1}{line}) 
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');
@@ -27,7 +28,7 @@ for line = 1:maxLine
         
         if ~(length(splitLine{1}) ~= 1 || splitLine{1} == '%')
             % Skip lines that are blank or have a multicharacter first chunk
-            rawData(itemNo).relation = relationMap(splitLine{1});
+            rawData(itemNo).solution = splitLine{1};
             rawData(itemNo).treeText = splitLine{2};
 
             itemNo = itemNo + 1;
@@ -44,7 +45,7 @@ data = repmat(struct('solution', 0, 'tree', LatticeTree()), ...
 % Build Trees
 for dataInd = 1:length(rawData)
     data(dataInd).tree = LatticeTree.makeTree(rawData(dataInd).treeText, wordMap);
-    data(dataInd).solution = rawData(dataInd).solution;
+    data(dataInd).solution = str2double(rawData(dataInd).solution) + 1;
 end
 
 end

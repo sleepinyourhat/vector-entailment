@@ -26,23 +26,18 @@ hyperParams.treeMode = 'meet-join';
 hyperParams.dim = dim;
 
 % The number of classes.
-hyperParams.numNodes = wordMap.size(1); 
+hyperParams.numRelations = wordMap.size(1);
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
-hyperParams.topDepth = 1;
+hyperParams.topDepth = 2;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 45;
+% Must equal dim for now without a reduction layer.
+hyperParams.penultDim = hyperParams.dim;
 
 % Regularization coefficient.
 hyperParams.lambda = 0.002;
-
-% A vector of text relation labels.
-hyperParams.relations = relations;
-
-% Turn off to pretrain on a word pair dataset.
-hyperParams.noPretraining = true;
 
 % Use minFunc instead of SGD. Must be separately downloaded.
 hyperParams.minFunc = false;
@@ -54,14 +49,11 @@ hyperParams.showConfusions = false;
 % L1 v. L2 regularization
 hyperParams.norm = 2;
 
-% Use untied composition layer params.
-hyperParams.untied = false; 
-
 % Remove some portion of the training datasets
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
-hyperParams.useThirdOrder = true; % For composition
+hyperParams.useThirdOrder = tot; % For composition
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
@@ -78,18 +70,18 @@ end
 disp(hyperParams)
 
 % Randomly initialize.
-[ theta, thetaDecoder ] = InitializeMeetJoinModel(size(wordMap, 1), hyperParams);
+[ theta, thetaDecoder ] = InitializeMeetJoinModel(hyperParams.numRelations, hyperParams);
 
 % minfunc options
 global options
 options.Method = 'lbfgs';
 options.MaxFunEvals = 25000;
 options.DerivativeCheck = 'off';
-options.Display = 'full';
+options.Display = 'iter';
 options.numDiff = 0;
 options.LS_init = '2'; % Attempt to minimize evaluations per step...
 options.PlotFcns = [];
-options.OutputFcn = @Display;
+% options.OutputFcn = @Display;
 
 % AdaGradSGD learning options
 
@@ -140,12 +132,12 @@ end
 
 % Choose which files to load in each category.
 % listing = dir('data-4/*.tsv');
-splitFilenames = {};
-trainFilenames = {'../join-algebra/powerset_2_meet_join_complete_train.txt'};
-testFilenames = {'../join-algebra/powerset_2_meet_join_complete_test.txt'};
+% splitFilenames = {};
+% trainFilenames = {'../join-algebra/powerset_2_meet_join_complete_train.txt'};
+% testFilenames = {'../join-algebra/powerset_2_meet_join_complete_test.txt'};
 
 % splitFilenames = setdiff(splitFilenames, testFilenames);
-hyperParams.firstSplit = size(testFilenames, 2) + 1;
+hyperParams.firstSplit = 2;
 
 if hyperParams.datasetsPortion < 1
     disp(length(splitFilenames))
@@ -155,10 +147,13 @@ if hyperParams.datasetsPortion < 1
 end
     
 % Load training/test data
-[trainDataset, testDatasets] = ...
-    LoadConstitDatasets(trainFilenames, splitFilenames, ...
-    testFilenames, wordMap, relationMap);
+% [trainDataset, testDatasets] = ...
+%    LoadConstitDatasets(trainFilenames, splitFilenames, ...
+%    testFilenames, wordMap, relationMap);
 % trainDataset = Symmetrize(trainDataset);
+
+trainDataset = LoadMeetJoinData('../join-algebra/powerset_2_meet_join_complete_train.txt', wordMap);
+testDatasets = {{'test'}, {LoadMeetJoinData('../join-algebra/powerset_2_meet_join_complete_train.txt', wordMap)}};
 
 if hyperParams.dataPortion < 1
     disp(length(trainDataset))
@@ -175,17 +170,17 @@ options.runName = 'tr';
 
 if hyperParams.minFunc
     % Set up minfunc
-    addpath('minFunc/minFunc/')
-    addpath('minFunc/minFunc/compiled/')
-    addpath('minFunc/minFunc/mex/')
-    addpath('minFunc/autoDif/')
+    addpath('../minFunc/minFunc/')
+    addpath('../minFunc/minFunc/compiled/')
+    addpath('../minFunc/minFunc/mex/')
+    addpath('../minFunc/autoDif/')
 
-    theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
+    theta = minFunc(@ComputeFullLatticeCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
     % TODO: Forget metadata and repeat?
 else
-    theta = AdaGradSGD(theta, options, thetaDecoder, trainDataset, ...
-        hyperParams, testDatasets);
+    theta = AdaGradSGD(@ComputeFullLatticeCostAndGrad, theta, options, ...
+        thetaDecoder, trainDataset, hyperParams, testDatasets);
 end
 
 % Done. Evaluate final model on training data.

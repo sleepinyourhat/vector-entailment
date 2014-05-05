@@ -15,7 +15,6 @@ fclose(fid);
 % Initialize the data array
 rawData = repmat(struct('solution', 0, 'treeText', ''), ...
     length(C{1}), 1);
-wordList = cell(length(C{1}), 1);
 
 % Parse the file
 itemNo = 1;

@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [combined, aggConfusion] = TestModel(theta, thetaDecoder, testDatasets, hyperParams)
+function [combined, aggConfusion] = TestModel(CostGradFunc, theta, thetaDecoder, testDatasets, hyperParams)
 
 % Evaluate on test datasets, and show set-by-set results while aggregating
 % an overall confusion matrix.
@@ -7,7 +7,7 @@ aggConfusion = zeros(hyperParams.numRelations);
 heldOutConfusion = zeros(hyperParams.numRelations);
 
 for i = 1:length(testDatasets{1})
-    [~, ~, err, confusion] = ComputeFullCostAndGrad(theta, thetaDecoder, testDatasets{2}{i}, hyperParams);
+    [~, ~, err, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, hyperParams);
     if i == 1
         targetErr = err;
     end

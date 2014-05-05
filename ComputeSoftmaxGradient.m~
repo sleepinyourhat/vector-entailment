@@ -5,7 +5,7 @@ function [softmaxGradient, softmaxDelta] = ...
 % Compute the gradient for the softmax layer parameters, and the deltas to
 % pass down.
                         
-softmaxGradient = zeros(size(classifierParameters, 1), ...
+softmaxGradient = zeros(size(classifierParameters.hyperParams.numRelations, ...
     hyperParams.penultDim + 1);
 
 % Compute node softmax error
@@ -18,7 +18,7 @@ softmaxDeltaFirstHalf = classifierParameters' * ...
 softmaxDeltaSecondHalf = hyperParams.classNLDeriv([1; tensorOutput]);
 softmaxDelta = (softmaxDeltaFirstHalf .* softmaxDeltaSecondHalf);
 
-for relEval = 1:size(classifierParameters, 1)
+for relEval = 1:hyperParams.numRelations
     % Del from UFLDL Wiki on softmax
     softmaxGradient(relEval, :) = -([1; tensorOutput] .* ...
         ((trueRelation == relEval) - relationProbs(relEval)))';
