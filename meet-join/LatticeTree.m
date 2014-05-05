@@ -246,8 +246,6 @@ classdef LatticeTree < handle
                           compBias(:,typeInd), delta, ...
                           compNLDeriv);
                 end
-
-
                   
                 upwardCompositionMatricesGradients(:,:,:,typeInd) = ...
                     tempCompositionMatricesGradients;

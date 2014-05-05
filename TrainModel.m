@@ -57,6 +57,7 @@ hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
 hyperParams.useThirdOrder = tot;
+hyperParams.useThirdOrderComparison = 1;
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
@@ -234,7 +235,8 @@ if hyperParams.minFunc
         thetaDecoder, trainDataset, hyperParams, testDatasets);
     % TODO: Forget metadata and repeat?
 else
-    theta = AdaGradSGD(theta, options, thetaDecoder, trainDataset, ...
+    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
+        thetaDecoder, trainDataset, ...
         hyperParams, testDatasets);
 end
 

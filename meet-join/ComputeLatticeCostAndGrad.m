@@ -67,7 +67,6 @@ end
 % Compute prediction
 if nargout > 2
     [~, pred] = max(solutionProbs);
-    pred = pred;
 end
 
 end

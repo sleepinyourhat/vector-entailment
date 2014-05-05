@@ -12,8 +12,9 @@ def powerset(iterable):
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
-NUMBER_OF_ENTITIES = 1
+NUMBER_OF_ENTITIES = 4
 DEPTH = 2
+SAMPLE = 0.5
 
 entity_set = set(range(NUMBER_OF_ENTITIES))
 
@@ -31,27 +32,37 @@ for i, s in enumerate(sets):
 	subsets_to_names[s] = i
 	print i, s
 
-expressions = []
+expressions = set()
 for leftID, left in named_subsets.iteritems():
-	expressions.append((leftID, left))
+	expressions.add((leftID, tuple(left)))
 	print (leftID, left)
 
 for i in range(DEPTH):
 	input_expressions = copy.copy(expressions)
 	for left in input_expressions:
 		for right in input_expressions:
-			union = left[1].union(right[1])
-			intersection = left[1].intersection(right[1])
+			union = set(left[1]).union(right[1])
+			intersection = set(left[1]).intersection(right[1])
 
-			expressions.append(("( " + str(left[0]) + " ^ " + str(right[0]) + " )", set(intersection)))
-			expressions.append(("( " + str(left[0]) + " u " + str(right[0]) + " )", set(union)))
+			expressions.add(("( " + str(left[0]) + " ^ " + str(right[0]) + " )", tuple(intersection)))
+			expressions.add(("( " + str(left[0]) + " u " + str(right[0]) + " )", tuple(union)))
 
 statistics = Counter()
 
-for expression in expressions:
+sample = random.sample(expressions, int(len(expressions) * SAMPLE))
+
+print "TRAIN:"
+for expression in sample:
 	result = str(subsets_to_names[tuple(expression[1])])
 	print result + "\t" + str(expression[0])
 	statistics[result] += 1
+
+print "TEST:"
+for expression in expressions.difference(sample):
+	result = str(subsets_to_names[tuple(expression[1])])
+	print result + "\t" + str(expression[0])
+	statistics[result] += 1
+
 
 print statistics
 

@@ -152,8 +152,8 @@ end
 %    testFilenames, wordMap, relationMap);
 % trainDataset = Symmetrize(trainDataset);
 
-trainDataset = LoadMeetJoinData('../join-algebra/powerset_2_meet_join_complete_train.txt', wordMap);
-testDatasets = {{'test'}, {LoadMeetJoinData('../join-algebra/powerset_2_meet_join_complete_train.txt', wordMap)}};
+trainDataset = LoadMeetJoinData('../join-algebra/2-lattice-d2-train.txt', wordMap);
+testDatasets = {{'test'}, {LoadMeetJoinData('../join-algebra/2-lattice-d2-test.txt', wordMap)}};
 
 if hyperParams.dataPortion < 1
     disp(length(trainDataset))

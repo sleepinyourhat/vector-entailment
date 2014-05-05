@@ -32,7 +32,7 @@ if nargout > 1
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
             disp(['for: ', data(i).tree.getText, ' ', ...
                   data(i).solution, ' ', ... 
-                  ' h:  ', localPred]);
+                  ' h:  ', num2str(localPred)]);
         end
         
         if argout > 3
