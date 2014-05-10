@@ -1,0 +1,21 @@
+want list:
+
+=. a N		a M
+ a and b N	b and a N
+ a or b N	a or b N
+ (a or b) and c  N	c and (a or b) N
+ (a and b) or c  N	c or (a and b) N
+
+ a or b N	a or b N
+ a or b N	a or b M
+ a and b N	a and b N
+ a and b N	a and b M
+ a or b N	a and b N
+ a and b N	a or b N
+
+ a or (b and c) N	(a or b) and c N
+ a and (b or c) N	(a and b) or c N
+
+ a or b N	a or b M
+ a and b N	a and b N
+ a and b N	a and b M

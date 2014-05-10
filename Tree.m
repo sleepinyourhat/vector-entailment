@@ -253,8 +253,6 @@ classdef Tree < handle
                           compNLDeriv);
                 end
 
-
-                  
                 upwardCompositionMatricesGradients(:,:,:,typeInd) = ...
                     tempCompositionMatricesGradients;
                 upwardCompositionMatrixGradients(:,:,typeInd) = ...

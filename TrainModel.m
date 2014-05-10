@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, dim, tot)
+function TrainModel(dataflag, pretrainingFilename, expName, lr, lambda)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -9,8 +9,13 @@ else
     expName = '.';
 end
 
-[wordMap, relationMap, relations] = ...
-    LoadTrainingData('./wordpairs-v2.tsv');
+if ~strcmp(dataflag, 'and-or')
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./wordpairs-v2.tsv');
+else
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./RC/first_cut_test.tsv'); 
+end
 
 % disp('Uninformativizing:');
 % worddata = Uninformativize(worddata);
@@ -28,10 +33,10 @@ hyperParams.numRelations = 7;
 hyperParams.topDepth = 1;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = dim;
+hyperParams.penultDim = 45;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.00002;
+hyperParams.lambda = lambda;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -56,7 +61,7 @@ hyperParams.untied = false;
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
-hyperParams.useThirdOrder = tot;
+hyperParams.useThirdOrder = 1;
 hyperParams.useThirdOrderComparison = 1;
 
 % Nonlinearities.
@@ -95,7 +100,7 @@ options.numPasses = 1000;
 options.miniBatchSize = 32;
 
 % LR
-options.lr = 0.2;
+options.lr = lr;
 
 % AdaGradSGD display options
 
@@ -193,7 +198,10 @@ elseif strcmp(dataflag, 'testall')
     splitFilenames = {};
 elseif strcmp(dataflag, 'gradcheck')
     splitFilenames = {'MQ-two-all-bark.tsv'};
-    % splitFilenames = {};
+elseif strcmp(dataflag, 'and-or') 
+    testFilenames = {'./RC/first_cut_test.tsv'};
+    trainFilenames = {'./RC/first_cut_train.tsv'};
+    splitFilenames = {};
 end
 splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
@@ -239,34 +247,5 @@ else
         thetaDecoder, trainDataset, ...
         hyperParams, testDatasets);
 end
-
-% Done. Evaluate final model on training data.
-% (Mid-run results are usually better.)
-[~, ~, trAcc, trConfusion] = ComputeFullCostAndGrad(theta, ...
-    thetaDecoder, trainDataset, hyperParams);
-
-disp('Training confusion, PER: ')
-disp('tr:  #     =     >     <     |     ^     v')
-disp(trConfusion)
-disp(trAcc)
-
-[teAcc, teConfusion] = TestModel(theta, thetaDecoder, testDatasets, ...
-    hyperParams);
-
-% Print results for all three full datasets
-disp('Word pair confusion, PER: ')
-disp('tr:  #     =     >     <     |     ^     v')
-disp(preConfusion)
-disp(preAcc)
-
-disp('Training confusion, PER: ')
-disp('tr:  #     =     >     <     |     ^     v')
-disp(trConfusion)
-disp(trAcc)
-
-disp('Test confusion, PER: ')
-disp('tr:  #     =     >     <     |     ^     v')
-disp(teConfusion)
-disp(teAcc)
 
 end

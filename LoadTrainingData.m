@@ -41,7 +41,7 @@ for line = 1:maxLine;
             % Add to wordList
             lWords = textscan(splitLine{2}, '%s', 'delimiter', ' ');
             rWords = textscan(splitLine{3}, '%s', 'delimiter', ' ');
-            words = unique([lWords{1}, rWords{1}]);
+            words = unique([lWords{1}; rWords{1}]);
             wordList(wordNo:wordNo + (length(words) - 1)) = cellstr(words);
             wordNo = wordNo + length(words);
 

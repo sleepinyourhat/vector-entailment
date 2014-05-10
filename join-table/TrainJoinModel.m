@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainJoinModel(expName, dim, mbs, tot)
+function TrainJoinModel(expName, lr, lambda)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -12,7 +12,7 @@ else
 end
 
 [wordMap, relationMap, relations] = ...
-    LoadTrainingData('../join-algebra/small_set_train.txt');
+    LoadTrainingData('data/uncertain_big_set_train.txt');
 
 % disp('Uninformativizing:');
 % worddata = Uninformativize(worddata);
@@ -20,7 +20,7 @@ end
 % Set up hyperparameters:
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = dim;
+hyperParams.dim = 16;
 
 % The number of relations.
 hyperParams.numRelations = 7; 
@@ -33,7 +33,7 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = 45;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.002;
+hyperParams.lambda = lambda;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -59,7 +59,7 @@ hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
 hyperParams.useThirdOrder = true; % For composition
-hyperParams.useThirdOrderComparison = tot; % For comparison
+hyperParams.useThirdOrderComparison = 1; % For comparison
 
 
 % Nonlinearities.
@@ -95,10 +95,10 @@ options.OutputFcn = @Display;
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
 options.numPasses = 1000;
-options.miniBatchSize = mbs;
+options.miniBatchSize = 128;
 
 % LR
-options.lr = 0.1;
+options.lr = lr;
 
 % AdaGradSGD display options
 
@@ -107,7 +107,7 @@ options.testFreq = 1;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 32;
+options.confusionFreq = 8;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
@@ -163,8 +163,10 @@ theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 % Choose which files to load in each category.
 % listing = dir('data-4/*.tsv');
 splitFilenames = {};
-trainFilenames = {'../join-algebra/small_set_train.txt'};
-testFilenames = {'../join-algebra/small_set_test.txt'};
+trainFilenames = {'data/uncertain_big_set_train.txt'};
+testFilenames = {'data/uncertain_big_set_derivable_test.txt', ...
+                 'data/uncertain_big_set_underivable_test.txt', ...
+                 'data/uncertain_big_set_underivable_test_accurate.txt'};
 
 % splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
