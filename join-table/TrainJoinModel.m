@@ -1,10 +1,10 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainJoinModel(expName, lr, lambda)
+function TrainJoinModel(expName, mbs, dim, tot)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
 addpath('..')
-
+    
 if nargin > 4
     mkdir(expName); 
 else
@@ -12,7 +12,7 @@ else
 end
 
 [wordMap, relationMap, relations] = ...
-    LoadTrainingData('data/uncertain_big_set_train.txt');
+    LoadTrainingData('./data/extra_unk_train.tsv');
 
 % disp('Uninformativizing:');
 % worddata = Uninformativize(worddata);
@@ -20,7 +20,7 @@ end
 % Set up hyperparameters:
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 16;
+hyperParams.dim = dim;
 
 % The number of relations.
 hyperParams.numRelations = 7; 
@@ -33,7 +33,7 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = 45;
 
 % Regularization coefficient.
-hyperParams.lambda = lambda;
+hyperParams.lambda = 0.002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -58,7 +58,7 @@ hyperParams.untied = false;
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
-hyperParams.useThirdOrder = true; % For composition
+hyperParams.useThirdOrder = tot; % For composition
 hyperParams.useThirdOrderComparison = 1; % For comparison
 
 
@@ -94,11 +94,11 @@ options.OutputFcn = @Display;
 
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
-options.numPasses = 1000;
-options.miniBatchSize = 128;
+options.numPasses = 10000;
+options.miniBatchSize = mbs;
 
 % LR
-options.lr = lr;
+options.lr = 0.05;
 
 % AdaGradSGD display options
 
@@ -163,10 +163,9 @@ theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 % Choose which files to load in each category.
 % listing = dir('data-4/*.tsv');
 splitFilenames = {};
-trainFilenames = {'data/uncertain_big_set_train.txt'};
-testFilenames = {'data/uncertain_big_set_derivable_test.txt', ...
-                 'data/uncertain_big_set_underivable_test.txt', ...
-                 'data/uncertain_big_set_underivable_test_accurate.txt'};
+trainFilenames = {'./data/extra_unk_train.tsv'};
+testFilenames = {'./data/extra_unk_test.tsv', ...
+                 './data/extra_unk_test_underivable.tsv'};
 
 % splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
@@ -211,13 +210,5 @@ else
     theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, ...
         hyperParams, testDatasets);
 end
-
-% Done. Evaluate final model on training data.
-% (Mid-run results are usually better.)
-[~, ~, trAcc, trConfusion] = ComputeFullCostAndGrad(theta, ...
-    thetaDecoder, trainDataset, hyperParams);
-
-[teAcc, teConfusion] = TestModel(theta, thetaDecoder, testDatasets, ...
-    hyperParams);
 
 end

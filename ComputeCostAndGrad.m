@@ -107,9 +107,6 @@ if nargout > 1
               classifierMatrix, classifierBias, ...
               extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
     end
-        
-        
-
      
     [ upwardWordGradients, ...
       upwardCompositionMatricesGradients, ...

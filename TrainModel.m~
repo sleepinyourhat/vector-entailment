@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, lr, lambda)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, tot)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -14,7 +14,7 @@ if ~strcmp(dataflag, 'and-or')
         LoadTrainingData('./wordpairs-v2.tsv');
 else
     [wordMap, relationMap, relations] = ...
-        LoadTrainingData('./RC/first_cut_test.tsv'); 
+        LoadTrainingData('./RC/train1'); 
 end
 
 % disp('Uninformativizing:');
@@ -23,7 +23,7 @@ end
 % Set up hyperparameters:
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 16;
+hyperParams.dim = dim;
 
 % The number of relations.
 hyperParams.numRelations = 7; 
@@ -33,10 +33,10 @@ hyperParams.numRelations = 7;
 hyperParams.topDepth = 1;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 45;
+hyperParams.penultDim = 75;
 
 % Regularization coefficient.
-hyperParams.lambda = lambda;
+hyperParams.lambda = 0.002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -61,7 +61,7 @@ hyperParams.untied = false;
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
-hyperParams.useThirdOrder = 1;
+hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = 1;
 
 % Nonlinearities.
@@ -77,9 +77,6 @@ elseif strcmp(nl, 'M')
 end
 
 disp(hyperParams)
-
-% Randomly initialize.
-[ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
 
 % minfunc options
 global options
@@ -97,10 +94,10 @@ options.OutputFcn = @Display;
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
 options.numPasses = 1000;
-options.miniBatchSize = 32;
+options.miniBatchSize = mbs;
 
 % LR
-options.lr = lrc;
+options.lr = lr;    % 0.2;
 
 % AdaGradSGD display options
 
@@ -129,38 +126,6 @@ options.runName = 'pre';
 options.resetSumSqFreq = 10000; % Don't bother.
 
 disp(options)
-
-if nargin > 3 && ~isempty(pretrainingFilename)
-    % Initialize parameters from disk
-    clear 'theta'
-    clear 'thetaDecoder'
-    v = load(pretrainingFilename);
-    theta = v.theta;
-    thetaDecoder = v.thetaDecoder;
-elseif ~hyperParams.noPretraining
-    % Pretrain words
-    disp('Pretraining')
-    if hyperParams.minFunc
-        theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
-            thetaDecoder, worddata, hyperParams);
-        % TODO: Forget and repeat?
-    else
-        theta = AdaGradSGD(theta, options, thetaDecoder, worddata, hyperParams);
-    end
-end
-
-if ~hyperParams.noPretraining
-    % Evalaute on word pair data
-    [~, ~, preAcc, preConfusion] = ComputeFullCostAndGrad(theta, thetaDecoder, worddata, hyperParams);
-
-    disp('Word pair confusion, PER: ')
-    disp('tr:  #     =     >     <     |     ^     v')
-    disp(preConfusion)
-    disp(preAcc)
-end
-
-% Reset composition function for training
-theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 
 % Choose which files to load in each category.
 listing = dir('data-4/*.tsv');
@@ -198,13 +163,20 @@ elseif strcmp(dataflag, 'testall')
     splitFilenames = {};
 elseif strcmp(dataflag, 'gradcheck')
     splitFilenames = {'MQ-two-all-bark.tsv'};
+    hyperParams.dim = 2;
+    hyperParams.penultDim = 2;
+    hyperParams.minFunc = 1;
 elseif strcmp(dataflag, 'and-or') 
-    testFilenames = {'./RC/first_cut_test.tsv'};
-    trainFilenames = {'./RC/first_cut_train.tsv'};
+    testFilenames = {'./RC/test0', './RC/test1', './RC/test2', './RC/test3', './RC/test4', './RC/test5', './RC/test6'};
+    trainFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4'};
     splitFilenames = {};
+    options.numPasses = 15000;
+    if ~isempty(pretrainingFilename)
+        hyperParams.penultDim = 45;
+    end
 end
 splitFilenames = setdiff(splitFilenames, testFilenames);
-hyperParams.firstSplit = size(testFilenames, 2) + 1;
+hyperParams.firstSplit = 3;
 
 if hyperParams.datasetsPortion < 1
     disp(length(splitFilenames))
@@ -213,6 +185,11 @@ if hyperParams.datasetsPortion < 1
     disp(length(splitFilenames))
 end
     
+
+% Randomly initialize.
+[ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
+
+
 % Load training/test data
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
@@ -248,4 +225,37 @@ else
         hyperParams, testDatasets);
 end
 
+if strcmp(dataflag, 'and-or') 
+    testFilenames = {};
+    trainFilenames = {'./RC/extra-long-med.tsv'};
+    splitFilenames = {};
+
+    % Load training/test data
+    [trainDataset, ~] = ...
+        LoadConstitDatasets(trainFilenames, splitFilenames, ...
+        testFilenames, wordMap, relationMap);
+    trainDataset = Symmetrize(trainDataset);
+
+    options.numPasses = 250;
+    
+    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
+        thetaDecoder, trainDataset, ...
+        hyperParams, testDatasets);
+        
+    options.numPasses = 1000;
+    
+    testFilenames = {};
+    trainFilenames = {'./RC/extra-long-train.tsv'};
+    splitFilenames = {};
+
+    [trainDataset, ~] = ...
+        LoadConstitDatasets(trainFilenames, splitFilenames, ...
+        testFilenames, wordMap, relationMap);
+    trainDataset = Symmetrize(trainDataset);
+
+    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
+        thetaDecoder, trainDataset, ...
+        hyperParams, testDatasets);
+end
+    
 end

@@ -1,0 +1,1699 @@
+#	( not marcel )	oona
+#	( not oona )	mertz
+#	( not marcel )	mertz
+#	( not pumpkin )	ollie
+#	( not mertz )	marcel
+#	marcel	( not mertz )
+#	( not oona )	ollie
+#	abby	( not pumpkin )
+#	( not ollie )	( not marcel )
+#	oona	( not mertz )
+<	( mertz ( and oona ) )	mertz
+#	mertz	( not marcel )
+#	ollie	( not marcel )
+#	( not ollie )	pumpkin
+#	mertz	( not ollie )
+#	abby	( pumpkin ( or pumpkin ) )
+#	( not abby )	( not oona )
+#	( not mertz )	ollie
+#	pumpkin	( not oona )
+v	( not marcel )	( marcel ( or oona ) )
+^	oona	( not oona )
+#	( not abby )	oona
+#	( not mertz )	abby
+|	( marcel ( and ollie ) )	( not marcel )
+#	marcel	( not abby )
+#	oona	( ollie ( and ollie ) )
+^	( not marcel )	marcel
+#	( not ollie )	marcel
+=	( pumpkin ( or pumpkin ) )	pumpkin
+^	ollie	( not ollie )
+#	oona	( not abby )
+v	( not abby )	( pumpkin ( or abby ) )
+#	( not abby )	mertz
+#	( not ollie )	( not abby )
+#	( not pumpkin )	marcel
+#	( not ollie )	mertz
+^	( not oona )	oona
+#	( not abby )	( not pumpkin )
+=	( not pumpkin )	( not pumpkin )
+#	( pumpkin ( and pumpkin ) )	abby
+#	abby	( marcel ( and pumpkin ) )
+#	abby	( not ollie )
+#	( abby ( or marcel ) )	mertz
+#	( not abby )	( not marcel )
+#	( not abby )	marcel
+#	( not abby )	ollie
+#	pumpkin	( not ollie )
+#	( oona ( and oona ) )	( not marcel )
+#	( not pumpkin )	abby
+^	abby	( not abby )
+#	( mertz ( or marcel ) )	( not ollie )
+^	( not pumpkin )	pumpkin
+#	marcel	( not ollie )
+#	pumpkin	( not mertz )
+#	mertz	( not abby )
+v	( not pumpkin )	( pumpkin ( or marcel ) )
+#	( not mertz )	( not marcel )
+#	pumpkin	( not abby )
+#	( not abby )	( not mertz )
+#	( not pumpkin )	oona
+#	( not oona )	( not ollie )
+#	marcel	( not oona )
+#	( not marcel )	ollie
+#	ollie	( not mertz )
+#	( not pumpkin )	( not abby )
+^	( not mertz )	mertz
+#	mertz	( ollie ( or abby ) )
+#	( not abby )	( not ollie )
+#	( not mertz )	( not abby )
+#	( ollie ( and ollie ) )	marcel
+|	( not mertz )	( mertz ( and pumpkin ) )
+#	( abby ( and abby ) )	marcel
+#	( ollie ( or marcel ) )	mertz
+#	( not ollie )	( not pumpkin )
+|	( abby ( and marcel ) )	( not marcel )
+#	ollie	( not abby )
+#	( not mertz )	oona
+#	mertz	( not pumpkin )
+>	( oona ( or mertz ) )	oona
+#	mertz	( not oona )
+#	pumpkin	( not marcel )
+#	pumpkin	( marcel ( or abby ) )
+#	( not ollie )	( not oona )
+#	( not abby )	pumpkin
+#	( not marcel )	( not mertz )
+=	( not abby )	( not abby )
+#	( not oona )	( not pumpkin )
+#	marcel	( not pumpkin )
+^	( not ollie )	ollie
+^	marcel	( not marcel )
+#	oona	( mertz ( and ollie ) )
+^	pumpkin	( not pumpkin )
+#	( marcel ( or pumpkin ) )	( abby ( and oona ) )
+#	( ollie ( or ollie ) )	abby
+#	ollie	( pumpkin ( or abby ) )
+>	( abby ( or pumpkin ) )	abby
+=	( not oona )	( not oona )
+<	( pumpkin ( and oona ) )	oona
+#	( oona ( and oona ) )	ollie
+#	( not oona )	abby
+v	( not mertz )	( oona ( or mertz ) )
+#	( mertz ( or pumpkin ) )	ollie
+#	marcel	( pumpkin ( and pumpkin ) )
+#	oona	( abby ( or abby ) )
+^	mertz	( not mertz )
+#	( not marcel )	( not pumpkin )
+=	abby	( abby ( or abby ) )
+#	( not marcel )	abby
+=	( not marcel )	( not marcel )
+#	( not pumpkin )	mertz
+#	( not abby )	( marcel ( or pumpkin ) )
+<	pumpkin	( oona ( or pumpkin ) )
+#	( not ollie )	oona
+#	( abby ( or abby ) )	marcel
+#	oona	( mertz ( and mertz ) )
+>	( abby ( or oona ) )	abby
+<	( oona ( and abby ) )	abby
+^	( oona ( and oona ) )	( not oona )
+v	( not oona )	( oona ( or mertz ) )
+#	ollie	( not oona )
+#	abby	( pumpkin ( or oona ) )
+>	( marcel ( or abby ) )	abby
+#	( marcel ( or marcel ) )	ollie
+>	( oona ( or ollie ) )	ollie
+=	mertz	( mertz ( and mertz ) )
+#	( pumpkin ( or ollie ) )	oona
+#	mertz	( oona ( and pumpkin ) )
+#	ollie	( not pumpkin )
+#	( pumpkin ( or abby ) )	( not oona )
+#	( not marcel )	( not abby )
+>	( pumpkin ( or ollie ) )	pumpkin
+#	( abby ( or mertz ) )	( not oona )
+#	( not oona )	pumpkin
+#	( abby ( or marcel ) )	oona
+>	marcel	( ollie ( and marcel ) )
+#	( not oona )	marcel
+<	( mertz ( and ollie ) )	mertz
+#	( not ollie )	abby
+v	( marcel ( or mertz ) )	( not marcel )
+#	( mertz ( and abby ) )	( pumpkin ( or pumpkin ) )
+#	( not marcel )	pumpkin
+#	( marcel ( and ollie ) )	oona
+|	( not marcel )	( marcel ( and oona ) )
+<	ollie	( abby ( or ollie ) )
+#	( marcel ( or marcel ) )	pumpkin
+#	( not oona )	( pumpkin ( and pumpkin ) )
+#	( not oona )	( not marcel )
+#	ollie	( marcel ( or abby ) )
+>	oona	( mertz ( and oona ) )
+^	( not abby )	abby
+#	oona	( not ollie )
+|	( not pumpkin )	( abby ( and pumpkin ) )
+#	( not ollie )	( not mertz )
+#	pumpkin	( oona ( or marcel ) )
+|	( mertz ( and marcel ) )	( not marcel )
+#	( not mertz )	( oona ( or abby ) )
+#	abby	( not oona )
+=	mertz	( mertz ( or mertz ) )
+#	oona	( ollie ( or pumpkin ) )
+#	( pumpkin ( and pumpkin ) )	( not oona )
+#	( not oona )	( not mertz )
+#	mertz	( abby ( or pumpkin ) )
+>	( ollie ( or mertz ) )	mertz
+#	( not mertz )	( ollie ( or pumpkin ) )
+#	abby	( oona ( or ollie ) )
+#	( not mertz )	pumpkin
+=	( not ollie )	( not ollie )
+#	( not mertz )	( not pumpkin )
+#	ollie	( mertz ( or oona ) )
+#	( not pumpkin )	( abby ( and abby ) )
+#	marcel	( ollie ( or mertz ) )
+<	( ollie ( and marcel ) )	( marcel ( or oona ) )
+#	( abby ( and mertz ) )	oona
+>	oona	( pumpkin ( and oona ) )
+>	ollie	( ollie ( and marcel ) )
+#	oona	( not pumpkin )
+#	( mertz ( and oona ) )	ollie
+#	( not marcel )	( oona ( or oona ) )
+#	abby	( mertz ( and oona ) )
+<	marcel	( marcel ( or oona ) )
+#	( not mertz )	( marcel ( and marcel ) )
+#	oona	( not marcel )
+v	( not marcel )	( abby ( or marcel ) )
+#	( mertz ( or oona ) )	abby
+<	( abby ( and pumpkin ) )	pumpkin
+#	( abby ( or marcel ) )	( not mertz )
+<	( ollie ( and abby ) )	abby
+<	( mertz ( and ollie ) )	ollie
+#	oona	( marcel ( and marcel ) )
+|	( marcel ( and pumpkin ) )	( not marcel )
+v	( marcel ( or ollie ) )	( not marcel )
+#	( not marcel )	( pumpkin ( and ollie ) )
+#	( oona ( or marcel ) )	pumpkin
+#	( abby ( or pumpkin ) )	( not ollie )
+v	( marcel ( or pumpkin ) )	( not pumpkin )
+<	( oona ( and ollie ) )	oona
+#	marcel	( abby ( or mertz ) )
+#	marcel	( pumpkin ( or ollie ) )
+#	( ollie ( and mertz ) )	marcel
+<	( pumpkin ( or pumpkin ) )	( marcel ( or pumpkin ) )
+>	( pumpkin ( or oona ) )	oona
+#	oona	( marcel ( and ollie ) )
+#	ollie	( pumpkin ( or pumpkin ) )
+#	( marcel ( or abby ) )	ollie
+<	oona	( pumpkin ( or oona ) )
+>	marcel	( marcel ( and oona ) )
+#	( not oona )	( not abby )
+#	( marcel ( and pumpkin ) )	abby
+#	abby	( not mertz )
+>	( pumpkin ( or abby ) )	abby
+=	( not mertz )	( not mertz )
+#	abby	( not marcel )
+|	( mertz ( and pumpkin ) )	( not pumpkin )
+v	( pumpkin ( or abby ) )	( not pumpkin )
+#	( abby ( or mertz ) )	oona
+#	mertz	( marcel ( and marcel ) )
+v	( not oona )	( mertz ( or oona ) )
+#	( not ollie )	( pumpkin ( and marcel ) )
+#	pumpkin	( ollie ( and marcel ) )
+#	( ollie ( or mertz ) )	pumpkin
+#	( oona ( or marcel ) )	( not mertz )
+#	( abby ( or mertz ) )	marcel
+#	( not pumpkin )	( not mertz )
+<	( ollie ( and marcel ) )	( pumpkin ( or marcel ) )
+#	( not marcel )	( pumpkin ( and pumpkin ) )
+#	( not mertz )	( marcel ( and abby ) )
+#	( abby ( or mertz ) )	( ollie ( or abby ) )
+v	( oona ( or marcel ) )	( not oona )
+#	( not mertz )	( marcel ( and ollie ) )
+v	( abby ( or oona ) )	( not oona )
+=	marcel	( marcel ( or marcel ) )
+#	abby	( pumpkin ( or ollie ) )
+#	( ollie ( or oona ) )	abby
+#	( mertz ( and ollie ) )	( mertz ( and oona ) )
+<	( oona ( and marcel ) )	oona
+<	( mertz ( and abby ) )	( abby ( or abby ) )
+<	oona	( oona ( or pumpkin ) )
+#	marcel	( ollie ( and ollie ) )
+<	ollie	( ollie ( or pumpkin ) )
+#	( oona ( and mertz ) )	ollie
+#	( mertz ( or oona ) )	marcel
+#	( mertz ( or abby ) )	marcel
+#	( pumpkin ( or marcel ) )	mertz
+#	( oona ( or abby ) )	mertz
+>	mertz	( mertz ( and oona ) )
+#	( not mertz )	( pumpkin ( or marcel ) )
+#	( ollie ( and ollie ) )	mertz
+#	( not mertz )	( not ollie )
+>	( mertz ( or oona ) )	mertz
+#	( ollie ( or marcel ) )	oona
+v	( mertz ( or oona ) )	( not mertz )
+^	( mertz ( or mertz ) )	( not mertz )
+|	( marcel ( and ollie ) )	( not ollie )
+<	mertz	( abby ( or mertz ) )
+<	pumpkin	( marcel ( or pumpkin ) )
+|	( pumpkin ( and oona ) )	( not pumpkin )
+|	( not mertz )	( pumpkin ( and mertz ) )
+#	( abby ( and ollie ) )	marcel
+#	( not marcel )	( not oona )
+>	( pumpkin ( or ollie ) )	( ollie ( or ollie ) )
+#	( pumpkin ( or abby ) )	marcel
+>	( mertz ( or abby ) )	abby
+#	mertz	( ollie ( and ollie ) )
+#	( marcel ( or pumpkin ) )	( not oona )
+>	( marcel ( or ollie ) )	marcel
+#	( mertz ( or mertz ) )	abby
+<	( oona ( and marcel ) )	( oona ( or pumpkin ) )
+#	oona	( marcel ( and abby ) )
+#	pumpkin	( oona ( or ollie ) )
+>	pumpkin	( pumpkin ( and ollie ) )
+#	( pumpkin ( and marcel ) )	( oona ( and oona ) )
+>	( marcel ( or abby ) )	marcel
+#	( mertz ( or pumpkin ) )	marcel
+v	( not marcel )	( ollie ( or marcel ) )
+<	( pumpkin ( and abby ) )	abby
+>	ollie	( abby ( and ollie ) )
+<	( abby ( and pumpkin ) )	abby
+#	abby	( marcel ( and oona ) )
+#	marcel	( mertz ( or ollie ) )
+#	( abby ( or marcel ) )	pumpkin
+>	( marcel ( or mertz ) )	mertz
+#	( not mertz )	( abby ( and oona ) )
+#	( pumpkin ( or marcel ) )	( not oona )
+#	( mertz ( or mertz ) )	( not pumpkin )
+|	( not mertz )	( mertz ( and ollie ) )
+<	ollie	( ollie ( or mertz ) )
+#	( mertz ( or marcel ) )	( not pumpkin )
+>	marcel	( marcel ( and pumpkin ) )
+=	( oona ( or oona ) )	oona
+<	mertz	( pumpkin ( or mertz ) )
+#	marcel	( oona ( and oona ) )
+#	( pumpkin ( or mertz ) )	abby
+#	marcel	( oona ( and abby ) )
+>	( marcel ( or oona ) )	marcel
+#	( not pumpkin )	( not marcel )
+|	( ollie ( and abby ) )	( not ollie )
+#	( oona ( or mertz ) )	( not ollie )
+#	marcel	( oona ( or oona ) )
+#	( not marcel )	( not ollie )
+>	( pumpkin ( or oona ) )	( oona ( and pumpkin ) )
+#	abby	( oona ( and marcel ) )
+^	( mertz ( and mertz ) )	( not mertz )
+v	( not pumpkin )	( pumpkin ( or abby ) )
+<	ollie	( ollie ( or abby ) )
+#	( mertz ( and abby ) )	( not ollie )
+#	( not mertz )	( ollie ( or marcel ) )
+#	( abby ( and mertz ) )	( not ollie )
+>	( abby ( or mertz ) )	mertz
+#	( ollie ( and pumpkin ) )	( not abby )
+#	( marcel ( and abby ) )	ollie
+#	( not mertz )	( not oona )
+#	( mertz ( and pumpkin ) )	oona
+#	mertz	( ollie ( or marcel ) )
+#	( pumpkin ( or ollie ) )	( not abby )
+<	oona	( oona ( or abby ) )
+#	( not pumpkin )	( not oona )
+#	( pumpkin ( and ollie ) )	mertz
+#	( abby ( or abby ) )	mertz
+>	abby	( abby ( and ollie ) )
+#	( oona ( and oona ) )	( not abby )
+|	( not oona )	( oona ( and marcel ) )
+#	( mertz ( and mertz ) )	abby
+v	( mertz ( or ollie ) )	( not mertz )
+#	( marcel ( or oona ) )	( not ollie )
+<	( oona ( and marcel ) )	marcel
+>	pumpkin	( mertz ( and pumpkin ) )
+#	( mertz ( or oona ) )	( oona ( or pumpkin ) )
+#	( marcel ( and marcel ) )	pumpkin
+#	mertz	( pumpkin ( and abby ) )
+v	( not marcel )	( marcel ( or abby ) )
+#	( marcel ( or oona ) )	( not abby )
+#	pumpkin	( ollie ( or ollie ) )
+#	abby	( pumpkin ( and oona ) )
+#	( oona ( or abby ) )	marcel
+#	( not oona )	( pumpkin ( and abby ) )
+#	( not abby )	( pumpkin ( or mertz ) )
+#	oona	( pumpkin ( and pumpkin ) )
+#	( marcel ( and abby ) )	oona
+v	( ollie ( or mertz ) )	( not ollie )
+>	( oona ( or marcel ) )	( pumpkin ( and oona ) )
+>	( oona ( or abby ) )	oona
+#	ollie	( abby ( and marcel ) )
+v	( not pumpkin )	( abby ( or pumpkin ) )
+<	ollie	( ollie ( or marcel ) )
+#	( not marcel )	( abby ( or abby ) )
+#	( oona ( or ollie ) )	abby
+=	( mertz ( or mertz ) )	mertz
+#	pumpkin	( ollie ( and mertz ) )
+#	pumpkin	( marcel ( and marcel ) )
+<	abby	( mertz ( or abby ) )
+#	( ollie ( and marcel ) )	( not mertz )
+#	( not pumpkin )	( not ollie )
+#	( ollie ( and marcel ) )	( not abby )
+#	( ollie ( or ollie ) )	( not marcel )
+#	( not pumpkin )	( oona ( and ollie ) )
+v	( oona ( or ollie ) )	( not ollie )
+<	mertz	( mertz ( or ollie ) )
+#	( oona ( and mertz ) )	pumpkin
+#	oona	( abby ( or ollie ) )
+#	( not abby )	( pumpkin ( or pumpkin ) )
+#	abby	( marcel ( and marcel ) )
+v	( not mertz )	( mertz ( or marcel ) )
+#	( mertz ( or ollie ) )	( pumpkin ( and pumpkin ) )
+#	marcel	( abby ( and pumpkin ) )
+v	( not oona )	( oona ( or marcel ) )
+>	( mertz ( or pumpkin ) )	pumpkin
+#	( abby ( or abby ) )	( not oona )
+<	pumpkin	( mertz ( or pumpkin ) )
+v	( not marcel )	( pumpkin ( or marcel ) )
+>	( ollie ( or marcel ) )	ollie
+#	( ollie ( or marcel ) )	( not abby )
+#	( mertz ( and mertz ) )	( not oona )
+<	marcel	( mertz ( or marcel ) )
+|	( not abby )	( mertz ( and abby ) )
+#	( not pumpkin )	( ollie ( or oona ) )
+v	( mertz ( or oona ) )	( not oona )
+<	mertz	( mertz ( or oona ) )
+v	( abby ( or ollie ) )	( not ollie )
+=	( oona ( and oona ) )	oona
+^	( oona ( or oona ) )	( not oona )
+#	( ollie ( or marcel ) )	( not pumpkin )
+<	oona	( oona ( or ollie ) )
+#	ollie	( pumpkin ( and abby ) )
+|	( not oona )	( oona ( and mertz ) )
+#	( pumpkin ( and pumpkin ) )	ollie
+#	( abby ( and marcel ) )	oona
+#	( not oona )	( ollie ( or ollie ) )
+|	( not abby )	( abby ( and mertz ) )
+#	( ollie ( and abby ) )	( not pumpkin )
+#	marcel	( abby ( or abby ) )
+<	( oona ( and pumpkin ) )	pumpkin
+<	( pumpkin ( and ollie ) )	ollie
+#	( oona ( or abby ) )	( not ollie )
+#	( pumpkin ( or ollie ) )	( mertz ( or oona ) )
+#	( not abby )	( mertz ( or mertz ) )
+#	( mertz ( and marcel ) )	( not oona )
+#	( oona ( or oona ) )	( pumpkin ( and ollie ) )
+#	( not ollie )	( mertz ( or mertz ) )
+#	( mertz ( or oona ) )	( not ollie )
+#	( marcel ( and mertz ) )	ollie
+>	( marcel ( or mertz ) )	marcel
+>	oona	( oona ( and pumpkin ) )
+=	pumpkin	( pumpkin ( or pumpkin ) )
+#	( not pumpkin )	( ollie ( and mertz ) )
+#	( not mertz )	( ollie ( and marcel ) )
+#	pumpkin	( marcel ( or mertz ) )
+#	( marcel ( or marcel ) )	mertz
+=	( marcel ( or marcel ) )	marcel
+#	( marcel ( and abby ) )	( ollie ( and marcel ) )
+#	( mertz ( or ollie ) )	( not abby )
+#	( not pumpkin )	( ollie ( and ollie ) )
+|	( not pumpkin )	( oona ( and pumpkin ) )
+>	( ollie ( or pumpkin ) )	ollie
+|	( pumpkin ( and oona ) )	( not oona )
+v	( marcel ( or oona ) )	( not oona )
+#	( not abby )	( oona ( or pumpkin ) )
+<	( pumpkin ( and ollie ) )	( abby ( or pumpkin ) )
+#	( pumpkin ( and abby ) )	( not ollie )
+|	( mertz ( and marcel ) )	( not mertz )
+#	ollie	( abby ( and pumpkin ) )
+>	( oona ( or marcel ) )	marcel
+>	( marcel ( or ollie ) )	ollie
+#	( not ollie )	( marcel ( or oona ) )
+|	( ollie ( and mertz ) )	( not ollie )
+#	( oona ( and abby ) )	ollie
+#	( not oona )	( marcel ( or ollie ) )
+>	( oona ( or pumpkin ) )	( oona ( and oona ) )
+#	abby	( ollie ( or pumpkin ) )
+#	( pumpkin ( and abby ) )	( abby ( and oona ) )
+#	( not marcel )	( mertz ( or pumpkin ) )
+#	( not marcel )	( mertz ( or mertz ) )
+<	( oona ( and ollie ) )	ollie
+#	abby	( pumpkin ( and pumpkin ) )
+v	( pumpkin ( or ollie ) )	( not pumpkin )
+v	( not mertz )	( pumpkin ( or mertz ) )
+#	( pumpkin ( or ollie ) )	( abby ( and oona ) )
+#	abby	( marcel ( or marcel ) )
+#	( marcel ( and pumpkin ) )	oona
+v	( not pumpkin )	( pumpkin ( or ollie ) )
+#	oona	( pumpkin ( or pumpkin ) )
+|	( pumpkin ( and ollie ) )	( not ollie )
+#	mertz	( marcel ( or marcel ) )
+=	( abby ( or abby ) )	abby
+v	( marcel ( or oona ) )	( not marcel )
+#	( marcel ( and pumpkin ) )	( not abby )
+#	( marcel ( or oona ) )	( mertz ( or oona ) )
+>	mertz	( marcel ( and mertz ) )
+#	( oona ( or pumpkin ) )	( pumpkin ( or mertz ) )
+>	marcel	( marcel ( and abby ) )
+#	( oona ( and oona ) )	abby
+#	( ollie ( and pumpkin ) )	abby
+#	( ollie ( or abby ) )	pumpkin
+#	( ollie ( or mertz ) )	( not abby )
+>	( mertz ( or marcel ) )	mertz
+#	( marcel ( and oona ) )	abby
+>	( ollie ( or abby ) )	ollie
+#	ollie	( oona ( and marcel ) )
+#	( abby ( or abby ) )	( not marcel )
+<	( abby ( and marcel ) )	abby
+#	( not mertz )	( marcel ( and pumpkin ) )
+#	( marcel ( and mertz ) )	pumpkin
+|	( not mertz )	( mertz ( and oona ) )
+v	( not marcel )	( marcel ( or pumpkin ) )
+>	ollie	( marcel ( and ollie ) )
+<	( marcel ( and pumpkin ) )	marcel
+#	( pumpkin ( and marcel ) )	( not oona )
+#	( not abby )	( oona ( or oona ) )
+#	( marcel ( and marcel ) )	( not pumpkin )
+^	( not oona )	( oona ( or oona ) )
+#	( abby ( and abby ) )	( not ollie )
+|	( not marcel )	( abby ( and marcel ) )
+#	( not ollie )	( pumpkin ( and pumpkin ) )
+#	ollie	( oona ( and oona ) )
+<	ollie	( marcel ( or ollie ) )
+>	marcel	( pumpkin ( and marcel ) )
+#	abby	( mertz ( or pumpkin ) )
+#	( mertz ( or mertz ) )	( not abby )
+|	( not ollie )	( ollie ( and abby ) )
+v	( marcel ( or ollie ) )	( not ollie )
+#	( mertz ( or mertz ) )	pumpkin
+|	( ollie ( and pumpkin ) )	( not ollie )
+<	mertz	( mertz ( or marcel ) )
+|	( marcel ( and oona ) )	( not marcel )
+#	marcel	( abby ( and abby ) )
+|	( not oona )	( oona ( and pumpkin ) )
+v	( mertz ( or pumpkin ) )	( not mertz )
+#	( ollie ( or mertz ) )	( not pumpkin )
+|	( not mertz )	( oona ( and mertz ) )
+#	( abby ( or mertz ) )	ollie
+>	abby	( oona ( and abby ) )
+#	( pumpkin ( or marcel ) )	oona
+#	( pumpkin ( and marcel ) )	mertz
+#	( marcel ( and marcel ) )	abby
+#	( pumpkin ( or oona ) )	marcel
+#	( ollie ( and ollie ) )	pumpkin
+>	ollie	( ollie ( and mertz ) )
+>	pumpkin	( marcel ( and pumpkin ) )
+<	pumpkin	( pumpkin ( or marcel ) )
+>	( mertz ( or abby ) )	( abby ( and mertz ) )
+#	ollie	( mertz ( or abby ) )
+<	( pumpkin ( and marcel ) )	pumpkin
+<	( pumpkin ( and oona ) )	pumpkin
+#	( oona ( and pumpkin ) )	abby
+#	( marcel ( or ollie ) )	( not pumpkin )
+#	( pumpkin ( or pumpkin ) )	( not mertz )
+#	( mertz ( and oona ) )	marcel
+#	( not oona )	( ollie ( or abby ) )
+>	ollie	( mertz ( and ollie ) )
+#	marcel	( ollie ( or ollie ) )
+#	( mertz ( or pumpkin ) )	( not ollie )
+#	pumpkin	( mertz ( or oona ) )
+|	( mertz ( and abby ) )	( not abby )
+#	( not abby )	( marcel ( and oona ) )
+#	( pumpkin ( or abby ) )	mertz
+v	( mertz ( or pumpkin ) )	( not pumpkin )
+^	( marcel ( and marcel ) )	( not marcel )
+#	( not mertz )	( oona ( and abby ) )
+#	( not mertz )	( pumpkin ( and pumpkin ) )
+#	( not marcel )	( oona ( or mertz ) )
+#	( ollie ( and ollie ) )	( not abby )
+<	marcel	( marcel ( or ollie ) )
+#	ollie	( marcel ( and marcel ) )
+#	pumpkin	( mertz ( or mertz ) )
+|	( abby ( and oona ) )	( not abby )
+<	( mertz ( and oona ) )	( mertz ( or pumpkin ) )
+#	( marcel ( and mertz ) )	( not pumpkin )
+|	( not mertz )	( mertz ( and abby ) )
+#	( not oona )	( abby ( or abby ) )
+#	oona	( ollie ( or mertz ) )
+#	( pumpkin ( and ollie ) )	abby
+#	( ollie ( and oona ) )	( not pumpkin )
+#	( not pumpkin )	( marcel ( and mertz ) )
+<	( ollie ( and abby ) )	ollie
+=	( pumpkin ( and pumpkin ) )	pumpkin
+>	( ollie ( or oona ) )	( ollie ( and oona ) )
+#	( not marcel )	( abby ( and mertz ) )
+<	abby	( abby ( or mertz ) )
+>	( ollie ( or oona ) )	ollie
+#	( not oona )	( pumpkin ( or mertz ) )
+#	pumpkin	( abby ( and abby ) )
+#	( abby ( and marcel ) )	( not pumpkin )
+#	( marcel ( or ollie ) )	( not abby )
+>	abby	( abby ( and oona ) )
+#	ollie	( marcel ( or mertz ) )
+=	marcel	( marcel ( and marcel ) )
+v	( not pumpkin )	( mertz ( or pumpkin ) )
+>	ollie	( ollie ( and abby ) )
+<	pumpkin	( pumpkin ( or abby ) )
+#	( not marcel )	( ollie ( or mertz ) )
+<	( marcel ( and abby ) )	( abby ( or marcel ) )
+#	( ollie ( or marcel ) )	( not mertz )
+#	( mertz ( or oona ) )	( not pumpkin )
+#	ollie	( oona ( or oona ) )
+#	( abby ( or ollie ) )	mertz
+#	( ollie ( or pumpkin ) )	( not oona )
+<	abby	( pumpkin ( or abby ) )
+>	( abby ( or ollie ) )	abby
+#	( mertz ( or ollie ) )	pumpkin
+>	( pumpkin ( or marcel ) )	marcel
+>	( pumpkin ( or oona ) )	( pumpkin ( and mertz ) )
+>	mertz	( pumpkin ( and mertz ) )
+#	( not mertz )	( ollie ( or abby ) )
+#	( abby ( and ollie ) )	oona
+#	( oona ( and oona ) )	marcel
+>	mertz	( abby ( and mertz ) )
+<	oona	( ollie ( or oona ) )
+>	( ollie ( or oona ) )	oona
+#	( pumpkin ( and pumpkin ) )	mertz
+>	( abby ( or ollie ) )	ollie
+#	( mertz ( and mertz ) )	( ollie ( or ollie ) )
+|	( not oona )	( pumpkin ( and oona ) )
+#	( marcel ( and pumpkin ) )	( not ollie )
+#	oona	( marcel ( or pumpkin ) )
+v	( not oona )	( oona ( or ollie ) )
+#	( mertz ( and oona ) )	pumpkin
+#	( mertz ( or ollie ) )	( not marcel )
+#	pumpkin	( abby ( or abby ) )
+#	pumpkin	( ollie ( and abby ) )
+#	marcel	( oona ( or mertz ) )
+#	( abby ( and marcel ) )	ollie
+<	oona	( mertz ( or oona ) )
+#	abby	( mertz ( and mertz ) )
+#	( not oona )	( abby ( and pumpkin ) )
+>	pumpkin	( pumpkin ( and abby ) )
+<	( oona ( and pumpkin ) )	oona
+>	( oona ( or abby ) )	abby
+^	( not oona )	( oona ( and oona ) )
+#	( oona ( or oona ) )	( not marcel )
+#	( oona ( and oona ) )	pumpkin
+#	( oona ( or oona ) )	abby
+#	pumpkin	( oona ( or oona ) )
+#	( abby ( or pumpkin ) )	oona
+>	ollie	( pumpkin ( and ollie ) )
+#	( not pumpkin )	( marcel ( and marcel ) )
+|	( not oona )	( oona ( and abby ) )
+>	( mertz ( or pumpkin ) )	( mertz ( and mertz ) )
+<	( marcel ( and abby ) )	abby
+|	( not pumpkin )	( mertz ( and pumpkin ) )
+>	marcel	( marcel ( and ollie ) )
+#	ollie	( mertz ( and oona ) )
+#	( not pumpkin )	( ollie ( or abby ) )
+#	( not ollie )	( pumpkin ( or pumpkin ) )
+>	abby	( ollie ( and abby ) )
+#	( marcel ( or marcel ) )	( abby ( or mertz ) )
+>	( mertz ( or oona ) )	oona
+<	marcel	( marcel ( or abby ) )
+<	( oona ( and oona ) )	( oona ( or marcel ) )
+<	abby	( abby ( or oona ) )
+#	marcel	( oona ( or abby ) )
+|	( abby ( and marcel ) )	( not abby )
+#	( not ollie )	( oona ( and oona ) )
+#	( marcel ( or ollie ) )	mertz
+#	( pumpkin ( or oona ) )	abby
+#	mertz	( ollie ( or oona ) )
+#	( marcel ( or ollie ) )	( not oona )
+#	pumpkin	( oona ( and mertz ) )
+#	( abby ( or pumpkin ) )	marcel
+#	( abby ( and oona ) )	marcel
+#	oona	( ollie ( or ollie ) )
+>	pumpkin	( ollie ( and pumpkin ) )
+#	( oona ( and ollie ) )	( not mertz )
+#	( marcel ( or pumpkin ) )	( not abby )
+#	abby	( ollie ( or ollie ) )
+#	( oona ( and mertz ) )	marcel
+|	( not ollie )	( abby ( and ollie ) )
+#	( marcel ( or marcel ) )	( not abby )
+#	( oona ( or abby ) )	pumpkin
+#	( not ollie )	( pumpkin ( and abby ) )
+v	( not marcel )	( marcel ( or ollie ) )
+#	oona	( abby ( and abby ) )
+#	( not abby )	( mertz ( and ollie ) )
+v	( oona ( or abby ) )	( not oona )
+#	oona	( mertz ( and abby ) )
+>	abby	( abby ( and mertz ) )
+#	( pumpkin ( or pumpkin ) )	ollie
+#	( abby ( and pumpkin ) )	( ollie ( and ollie ) )
+#	( mertz ( or pumpkin ) )	abby
+v	( not oona )	( ollie ( or oona ) )
+<	( ollie ( and mertz ) )	ollie
+#	( not ollie )	( pumpkin ( or mertz ) )
+|	( ollie ( and oona ) )	( not oona )
+#	( mertz ( and abby ) )	oona
+#	( not mertz )	( pumpkin ( and ollie ) )
+#	pumpkin	( oona ( and oona ) )
+#	oona	( abby ( and mertz ) )
+#	( ollie ( and mertz ) )	( not marcel )
+#	ollie	( pumpkin ( and oona ) )
+#	( not oona )	( marcel ( and marcel ) )
+<	mertz	( mertz ( or pumpkin ) )
+<	( pumpkin ( and pumpkin ) )	( ollie ( or pumpkin ) )
+#	( not mertz )	( pumpkin ( or oona ) )
+#	( not abby )	( marcel ( or marcel ) )
+<	( ollie ( and oona ) )	ollie
+#	( abby ( or ollie ) )	( oona ( and oona ) )
+#	mertz	( abby ( or marcel ) )
+|	( not marcel )	( mertz ( and marcel ) )
+^	( not pumpkin )	( pumpkin ( and pumpkin ) )
+#	marcel	( ollie ( or pumpkin ) )
+=	( mertz ( and mertz ) )	mertz
+#	( pumpkin ( and oona ) )	abby
+#	( not ollie )	( oona ( or oona ) )
+^	( ollie ( and ollie ) )	( not ollie )
+#	( oona ( and abby ) )	( not marcel )
+|	( not mertz )	( abby ( and mertz ) )
+#	marcel	( ollie ( or abby ) )
+^	( not mertz )	( mertz ( and mertz ) )
+#	( oona ( and ollie ) )	pumpkin
+#	abby	( pumpkin ( and mertz ) )
+>	( abby ( or pumpkin ) )	pumpkin
+#	mertz	( ollie ( or pumpkin ) )
+v	( abby ( or pumpkin ) )	( not pumpkin )
+v	( not abby )	( abby ( or marcel ) )
+>	abby	( abby ( and pumpkin ) )
+#	( ollie ( or pumpkin ) )	marcel
+>	( marcel ( or oona ) )	oona
+<	marcel	( marcel ( or mertz ) )
+#	abby	( ollie ( or mertz ) )
+#	( not oona )	( ollie ( or mertz ) )
+=	oona	( oona ( or oona ) )
+>	pumpkin	( oona ( and pumpkin ) )
+<	( ollie ( and marcel ) )	ollie
+#	oona	( abby ( and marcel ) )
+>	marcel	( abby ( and marcel ) )
+#	( pumpkin ( and pumpkin ) )	( not abby )
+#	( ollie ( or ollie ) )	( mertz ( and pumpkin ) )
+|	( not marcel )	( pumpkin ( and marcel ) )
+#	pumpkin	( ollie ( or oona ) )
+#	( abby ( and marcel ) )	mertz
+>	pumpkin	( pumpkin ( and mertz ) )
+#	( marcel ( and marcel ) )	ollie
+#	( pumpkin ( and oona ) )	marcel
+#	( mertz ( or mertz ) )	marcel
+#	( not ollie )	( oona ( and mertz ) )
+#	( oona ( or pumpkin ) )	( not mertz )
+v	( abby ( or pumpkin ) )	( not abby )
+#	( mertz ( or ollie ) )	oona
+#	pumpkin	( ollie ( or mertz ) )
+#	( marcel ( and ollie ) )	( not mertz )
+|	( oona ( and mertz ) )	( not oona )
+#	( abby ( or oona ) )	mertz
+>	( pumpkin ( or marcel ) )	pumpkin
+#	( abby ( and abby ) )	ollie
+v	( marcel ( or abby ) )	( not marcel )
+>	( mertz ( or ollie ) )	mertz
+#	( mertz ( or mertz ) )	oona
+#	( mertz ( or marcel ) )	( not abby )
+#	ollie	( mertz ( or mertz ) )
+#	( not mertz )	( oona ( and oona ) )
+#	( not oona )	( marcel ( and abby ) )
+|	( pumpkin ( and mertz ) )	( not mertz )
+#	( mertz ( and mertz ) )	( not ollie )
+|	( not abby )	( ollie ( and abby ) )
+#	( marcel ( or ollie ) )	pumpkin
+#	( abby ( and abby ) )	pumpkin
+#	ollie	( oona ( or pumpkin ) )
+#	( pumpkin ( and pumpkin ) )	( not ollie )
+#	( not ollie )	( abby ( or oona ) )
+#	( not mertz )	( abby ( and marcel ) )
+#	( not pumpkin )	( oona ( or marcel ) )
+#	mertz	( ollie ( and oona ) )
+#	( not pumpkin )	( mertz ( or oona ) )
+<	( mertz ( and marcel ) )	( mertz ( or pumpkin ) )
+>	ollie	( ollie ( and pumpkin ) )
+<	( oona ( and abby ) )	oona
+#	( oona ( and oona ) )	( not pumpkin )
+<	pumpkin	( ollie ( or pumpkin ) )
+<	( pumpkin ( and ollie ) )	pumpkin
+#	( ollie ( or oona ) )	mertz
+#	( marcel ( and abby ) )	( not ollie )
+>	oona	( abby ( and oona ) )
+^	( not pumpkin )	( pumpkin ( or pumpkin ) )
+#	( oona ( or oona ) )	marcel
+#	( not oona )	( ollie ( and ollie ) )
+<	marcel	( marcel ( or pumpkin ) )
+#	marcel	( mertz ( or mertz ) )
+#	( not abby )	( pumpkin ( and oona ) )
+#	marcel	( mertz ( or oona ) )
+#	( oona ( and oona ) )	( not mertz )
+#	( not marcel )	( pumpkin ( or mertz ) )
+#	( ollie ( or ollie ) )	( not abby )
+>	( abby ( and abby ) )	( oona ( and abby ) )
+#	( not abby )	( ollie ( and oona ) )
+#	( not abby )	( ollie ( and ollie ) )
+#	( pumpkin ( or pumpkin ) )	( not marcel )
+#	( oona ( and abby ) )	( not ollie )
+>	( oona ( or abby ) )	( oona ( and oona ) )
+<	( mertz ( and abby ) )	mertz
+#	( oona ( or mertz ) )	marcel
+>	abby	( abby ( and marcel ) )
+#	( abby ( and abby ) )	( not pumpkin )
+#	abby	( marcel ( or pumpkin ) )
+#	mertz	( pumpkin ( and ollie ) )
+|	( not pumpkin )	( marcel ( and pumpkin ) )
+#	( ollie ( or ollie ) )	pumpkin
+>	( abby ( or mertz ) )	abby
+#	( oona ( and pumpkin ) )	marcel
+#	( ollie ( or mertz ) )	oona
+<	oona	( abby ( or oona ) )
+#	( oona ( and abby ) )	pumpkin
+#	( ollie ( or oona ) )	marcel
+#	( abby ( and pumpkin ) )	mertz
+#	( not pumpkin )	( oona ( or oona ) )
+#	( pumpkin ( or oona ) )	( not ollie )
+>	( marcel ( or pumpkin ) )	pumpkin
+#	( mertz ( or ollie ) )	abby
+>	( ollie ( or pumpkin ) )	pumpkin
+#	abby	( ollie ( or marcel ) )
+=	( pumpkin ( or pumpkin ) )	( pumpkin ( and pumpkin ) )
+<	oona	( oona ( or mertz ) )
+#	( ollie ( or ollie ) )	( not pumpkin )
+#	ollie	( mertz ( and mertz ) )
+#	( oona ( or ollie ) )	( not pumpkin )
+<	( marcel ( and mertz ) )	marcel
+v	( pumpkin ( or marcel ) )	( not pumpkin )
+#	( ollie ( and mertz ) )	abby
+#	( abby ( and abby ) )	( marcel ( or ollie ) )
+#	( oona ( or oona ) )	( ollie ( and ollie ) )
+#	( abby ( and ollie ) )	( not mertz )
+v	( mertz ( or marcel ) )	( not mertz )
+v	( not mertz )	( mertz ( or abby ) )
+#	( marcel ( and pumpkin ) )	ollie
+v	( abby ( or oona ) )	( not abby )
+#	ollie	( marcel ( and mertz ) )
+|	( pumpkin ( and marcel ) )	( not marcel )
+#	( oona ( and oona ) )	mertz
+v	( not pumpkin )	( ollie ( or pumpkin ) )
+#	( pumpkin ( and oona ) )	ollie
+<	abby	( abby ( or pumpkin ) )
+>	( mertz ( or pumpkin ) )	mertz
+#	oona	( marcel ( and pumpkin ) )
+#	mertz	( abby ( and ollie ) )
+#	( not mertz )	( pumpkin ( and abby ) )
+#	oona	( abby ( or marcel ) )
+#	mertz	( marcel ( or pumpkin ) )
+#	( abby ( or abby ) )	( not pumpkin )
+#	pumpkin	( abby ( or marcel ) )
+v	( ollie ( or oona ) )	( not ollie )
+#	( not marcel )	( abby ( or mertz ) )
+#	( ollie ( and mertz ) )	( not pumpkin )
+#	( ollie ( or ollie ) )	marcel
+#	( mertz ( and mertz ) )	marcel
+#	mertz	( ollie ( or ollie ) )
+v	( abby ( or mertz ) )	( not mertz )
+#	( not pumpkin )	( abby ( and oona ) )
+<	ollie	( ollie ( or oona ) )
+#	( pumpkin ( or oona ) )	mertz
+#	( pumpkin ( and pumpkin ) )	oona
+#	( pumpkin ( and pumpkin ) )	( ollie ( and mertz ) )
+<	abby	( marcel ( or abby ) )
+v	( not ollie )	( oona ( or ollie ) )
+#	( oona ( and pumpkin ) )	( not mertz )
+#	abby	( oona ( and mertz ) )
+#	ollie	( pumpkin ( and pumpkin ) )
+v	( not oona )	( abby ( or oona ) )
+#	( not oona )	( pumpkin ( and ollie ) )
+#	oona	( marcel ( or ollie ) )
+|	( not abby )	( abby ( and marcel ) )
+#	( not marcel )	( mertz ( and pumpkin ) )
+#	( mertz ( and ollie ) )	marcel
+#	( mertz ( or pumpkin ) )	oona
+#	( mertz ( and pumpkin ) )	ollie
+#	abby	( ollie ( and marcel ) )
+<	marcel	( pumpkin ( or marcel ) )
+#	( marcel ( or mertz ) )	( not ollie )
+#	( marcel ( and pumpkin ) )	( oona ( and oona ) )
+#	( mertz ( or ollie ) )	marcel
+#	( abby ( or ollie ) )	( pumpkin ( or oona ) )
+<	( ollie ( and mertz ) )	( mertz ( or mertz ) )
+#	( abby ( and abby ) )	( not mertz )
+#	( oona ( or marcel ) )	( not pumpkin )
+<	( abby ( and mertz ) )	mertz
+<	mertz	( marcel ( or mertz ) )
+v	( oona ( or pumpkin ) )	( not pumpkin )
+>	( ollie ( or abby ) )	abby
+#	( oona ( or pumpkin ) )	mertz
+#	( ollie ( and ollie ) )	( not mertz )
+#	( marcel ( and ollie ) )	mertz
+#	( not oona )	( mertz ( or pumpkin ) )
+#	pumpkin	( abby ( and ollie ) )
+#	( not ollie )	( abby ( and abby ) )
+v	( not ollie )	( ollie ( or mertz ) )
+#	( not mertz )	( oona ( and marcel ) )
+#	ollie	( mertz ( or marcel ) )
+^	( abby ( or abby ) )	( not abby )
+>	mertz	( mertz ( and pumpkin ) )
+#	( mertz ( or abby ) )	ollie
+|	( marcel ( and oona ) )	( not oona )
+#	( not marcel )	( ollie ( and mertz ) )
+#	( not pumpkin )	( oona ( and mertz ) )
+#	( not abby )	( marcel ( or oona ) )
+#	( ollie ( and ollie ) )	( not pumpkin )
+|	( pumpkin ( and ollie ) )	( not pumpkin )
+>	( oona ( or pumpkin ) )	oona
+#	oona	( ollie ( and marcel ) )
+|	( not pumpkin )	( ollie ( and pumpkin ) )
+#	( not pumpkin )	( marcel ( or marcel ) )
+#	( oona ( and marcel ) )	( not mertz )
+>	( pumpkin ( or mertz ) )	mertz
+#	( marcel ( and marcel ) )	oona
+#	( mertz ( or marcel ) )	oona
+#	mertz	( pumpkin ( and marcel ) )
+#	ollie	( pumpkin ( and marcel ) )
+v	( abby ( or mertz ) )	( not abby )
+<	mertz	( ollie ( or mertz ) )
+#	( pumpkin ( or marcel ) )	( not mertz )
+#	( marcel ( or pumpkin ) )	( not mertz )
+#	( ollie ( or abby ) )	( pumpkin ( or pumpkin ) )
+#	( marcel ( and marcel ) )	mertz
+#	( abby ( and oona ) )	( not mertz )
+#	( not ollie )	( abby ( or abby ) )
+#	ollie	( abby ( or abby ) )
+#	( pumpkin ( and mertz ) )	( not abby )
+>	( abby ( or mertz ) )	( abby ( and abby ) )
+#	abby	( mertz ( or marcel ) )
+#	ollie	( oona ( or mertz ) )
+<	abby	( abby ( or ollie ) )
+#	( marcel ( or marcel ) )	oona
+#	( mertz ( and ollie ) )	pumpkin
+=	pumpkin	( pumpkin ( and pumpkin ) )
+#	( ollie ( and marcel ) )	abby
+#	( ollie ( or oona ) )	( not mertz )
+#	( pumpkin ( and oona ) )	mertz
+#	( abby ( or ollie ) )	( not pumpkin )
+#	ollie	( abby ( or marcel ) )
+#	( ollie ( and pumpkin ) )	( not oona )
+<	( oona ( and mertz ) )	oona
+#	( ollie ( or ollie ) )	mertz
+#	( not pumpkin )	( ollie ( or mertz ) )
+#	mertz	( pumpkin ( or pumpkin ) )
+#	( not oona )	( mertz ( or mertz ) )
+#	( pumpkin ( or abby ) )	oona
+<	( ollie ( and pumpkin ) )	pumpkin
+#	oona	( marcel ( or marcel ) )
+#	( oona ( or pumpkin ) )	( oona ( or mertz ) )
+#	oona	( pumpkin ( or abby ) )
+#	( oona ( or ollie ) )	mertz
+>	( oona ( or oona ) )	( pumpkin ( and oona ) )
+<	( abby ( and oona ) )	abby
+#	pumpkin	( mertz ( or marcel ) )
+#	( pumpkin ( or pumpkin ) )	abby
+<	( oona ( and pumpkin ) )	( oona ( or pumpkin ) )
+#	( not mertz )	( pumpkin ( or pumpkin ) )
+>	( mertz ( or marcel ) )	marcel
+#	( abby ( or oona ) )	marcel
+#	( abby ( and pumpkin ) )	( not ollie )
+#	mertz	( marcel ( or oona ) )
+v	( pumpkin ( or oona ) )	( not pumpkin )
+#	( marcel ( and oona ) )	( not ollie )
+|	( not ollie )	( marcel ( and ollie ) )
+>	( marcel ( or pumpkin ) )	marcel
+#	( ollie ( or oona ) )	( not abby )
+<	abby	( abby ( or marcel ) )
+#	( mertz ( and abby ) )	( marcel ( and marcel ) )
+<	( mertz ( and oona ) )	oona
+#	( abby ( or ollie ) )	marcel
+#	mertz	( abby ( and abby ) )
+#	ollie	( pumpkin ( or mertz ) )
+>	( oona ( or oona ) )	( oona ( and marcel ) )
+>	( oona ( or marcel ) )	oona
+|	( not abby )	( abby ( and oona ) )
+^	( pumpkin ( and pumpkin ) )	( not pumpkin )
+#	( not mertz )	( pumpkin ( and marcel ) )
+^	( ollie ( or ollie ) )	( not ollie )
+#	marcel	( mertz ( and mertz ) )
+>	mertz	( mertz ( and marcel ) )
+|	( not ollie )	( pumpkin ( and ollie ) )
+=	( ollie ( and oona ) )	( ollie ( and oona ) )
+>	mertz	( mertz ( and abby ) )
+#	( not oona )	( pumpkin ( or ollie ) )
+#	pumpkin	( mertz ( and mertz ) )
+^	( not mertz )	( mertz ( or mertz ) )
+|	( oona ( and abby ) )	( not oona )
+#	marcel	( ollie ( and abby ) )
+#	( not mertz )	( marcel ( or ollie ) )
+#	ollie	( marcel ( or pumpkin ) )
+<	pumpkin	( pumpkin ( or mertz ) )
+#	( abby ( and marcel ) )	( not ollie )
+#	( not ollie )	( marcel ( and marcel ) )
+<	( marcel ( and abby ) )	marcel
+#	mertz	( marcel ( and pumpkin ) )
+#	( mertz ( or marcel ) )	pumpkin
+v	( mertz ( or abby ) )	( not mertz )
+#	( marcel ( and marcel ) )	( not abby )
+#	( ollie ( or marcel ) )	abby
+<	( oona ( and pumpkin ) )	( pumpkin ( and pumpkin ) )
+#	( marcel ( or pumpkin ) )	oona
+>	oona	( oona ( and marcel ) )
+>	marcel	( mertz ( and marcel ) )
+v	( not pumpkin )	( marcel ( or pumpkin ) )
+#	abby	( mertz ( and ollie ) )
+>	( oona ( or ollie ) )	oona
+v	( oona ( or ollie ) )	( not oona )
+#	( pumpkin ( and ollie ) )	marcel
+#	( ollie ( and ollie ) )	( not oona )
+=	( ollie ( and ollie ) )	ollie
+#	( pumpkin ( and pumpkin ) )	( abby ( or oona ) )
+#	( ollie ( or abby ) )	marcel
+>	ollie	( ollie ( and oona ) )
+#	( ollie ( and marcel ) )	( not pumpkin )
+#	( pumpkin ( and mertz ) )	oona
+<	( mertz ( and marcel ) )	mertz
+<	( abby ( and ollie ) )	( ollie ( or mertz ) )
+#	( not ollie )	( mertz ( and pumpkin ) )
+>	mertz	( oona ( and mertz ) )
+|	( oona ( and pumpkin ) )	( not oona )
+v	( not ollie )	( ollie ( or marcel ) )
+<	abby	( ollie ( or abby ) )
+#	( pumpkin ( and abby ) )	mertz
+#	( not mertz )	( abby ( and ollie ) )
+#	( abby ( or abby ) )	( ollie ( or marcel ) )
+#	( ollie ( and ollie ) )	( not marcel )
+#	( ollie ( or abby ) )	oona
+|	( not abby )	( abby ( and pumpkin ) )
+#	( ollie ( or marcel ) )	pumpkin
+#	( abby ( and pumpkin ) )	( not marcel )
+|	( ollie ( and mertz ) )	( not mertz )
+=	( marcel ( and marcel ) )	marcel
+<	( ollie ( and marcel ) )	marcel
+#	( abby ( or abby ) )	pumpkin
+v	( not pumpkin )	( pumpkin ( or mertz ) )
+v	( oona ( or abby ) )	( not abby )
+#	( oona ( or marcel ) )	ollie
+<	( abby ( and marcel ) )	marcel
+#	( pumpkin ( or ollie ) )	( not oona )
+#	( oona ( and abby ) )	( not pumpkin )
+<	mertz	( mertz ( or abby ) )
+#	( marcel ( or abby ) )	pumpkin
+#	marcel	( mertz ( and ollie ) )
+#	pumpkin	( marcel ( or marcel ) )
+#	( marcel ( or marcel ) )	( not pumpkin )
+#	( abby ( or pumpkin ) )	( not mertz )
+#	mertz	( oona ( or abby ) )
+<	( mertz ( and abby ) )	abby
+#	( not ollie )	( pumpkin ( and oona ) )
+#	pumpkin	( marcel ( and ollie ) )
+#	pumpkin	( mertz ( and oona ) )
+#	( abby ( and mertz ) )	( not marcel )
+|	( not ollie )	( ollie ( and marcel ) )
+#	( not oona )	( ollie ( and marcel ) )
+#	mertz	( abby ( and pumpkin ) )
+#	marcel	( mertz ( and pumpkin ) )
+|	( ollie ( and marcel ) )	( not ollie )
+#	marcel	( pumpkin ( and mertz ) )
+#	( marcel ( and mertz ) )	( not ollie )
+#	mertz	( pumpkin ( or ollie ) )
+#	( oona ( or pumpkin ) )	abby
+#	( marcel ( or marcel ) )	abby
+#	( not oona )	( ollie ( or pumpkin ) )
+#	( ollie ( or oona ) )	pumpkin
+#	oona	( pumpkin ( and ollie ) )
+#	( pumpkin ( and pumpkin ) )	( not mertz )
+#	( pumpkin ( and abby ) )	ollie
+#	( marcel ( and marcel ) )	( not mertz )
+#	( pumpkin ( or abby ) )	( ollie ( or abby ) )
+#	( marcel ( or marcel ) )	( not ollie )
+<	( pumpkin ( and mertz ) )	pumpkin
+>	mertz	( mertz ( and ollie ) )
+<	( marcel ( and pumpkin ) )	pumpkin
+#	( oona ( and abby ) )	mertz
+#	ollie	( oona ( or abby ) )
+#	( abby ( or mertz ) )	pumpkin
+#	( marcel ( or ollie ) )	oona
+#	( ollie ( or ollie ) )	oona
+#	( mertz ( or marcel ) )	ollie
+v	( ollie ( or marcel ) )	( not marcel )
+>	( mertz ( or abby ) )	mertz
+v	( abby ( or ollie ) )	( not abby )
+v	( not abby )	( abby ( or pumpkin ) )
+>	( mertz ( or marcel ) )	( mertz ( or mertz ) )
+#	( mertz ( or pumpkin ) )	( not oona )
+|	( abby ( and pumpkin ) )	( not pumpkin )
+|	( marcel ( and mertz ) )	( not marcel )
+>	( abby ( or marcel ) )	marcel
+v	( mertz ( or ollie ) )	( not ollie )
+v	( mertz ( or marcel ) )	( not marcel )
+|	( abby ( and pumpkin ) )	( not abby )
+#	oona	( abby ( and pumpkin ) )
+<	( mertz ( and mertz ) )	( ollie ( or mertz ) )
+|	( oona ( and marcel ) )	( not marcel )
+#	( mertz ( and pumpkin ) )	( not oona )
+#	mertz	( ollie ( and marcel ) )
+#	( oona ( or oona ) )	ollie
+<	marcel	( ollie ( or marcel ) )
+#	( mertz ( or mertz ) )	ollie
+#	( ollie ( and mertz ) )	oona
+|	( oona ( and mertz ) )	( not mertz )
+#	mertz	( marcel ( or abby ) )
+>	( marcel ( or pumpkin ) )	( ollie ( and marcel ) )
+#	( mertz ( or mertz ) )	( not oona )
+#	( oona ( and marcel ) )	( ollie ( or abby ) )
+#	( mertz ( or mertz ) )	( not marcel )
+#	( not pumpkin )	( oona ( and marcel ) )
+=	oona	( oona ( and oona ) )
+#	( marcel ( or pumpkin ) )	mertz
+^	( not ollie )	( ollie ( and ollie ) )
+>	pumpkin	( abby ( and pumpkin ) )
+#	oona	( ollie ( and mertz ) )
+#	( not abby )	( pumpkin ( and pumpkin ) )
+<	( abby ( and ollie ) )	ollie
+#	pumpkin	( marcel ( and abby ) )
+|	( not marcel )	( marcel ( and mertz ) )
+|	( not pumpkin )	( pumpkin ( and abby ) )
+#	( mertz ( and ollie ) )	( not oona )
+|	( abby ( and mertz ) )	( not abby )
+#	mertz	( pumpkin ( or marcel ) )
+^	( marcel ( or marcel ) )	( not marcel )
+#	( not abby )	( oona ( and marcel ) )
+#	( abby ( or ollie ) )	pumpkin
+|	( not pumpkin )	( pumpkin ( and mertz ) )
+#	( mertz ( and marcel ) )	ollie
+#	ollie	( marcel ( or oona ) )
+#	( not mertz )	( abby ( or ollie ) )
+=	( ollie ( or ollie ) )	ollie
+|	( not abby )	( pumpkin ( and abby ) )
+#	( ollie ( and oona ) )	( not mertz )
+#	( not oona )	( abby ( or ollie ) )
+#	mertz	( marcel ( and ollie ) )
+#	( oona ( and marcel ) )	( ollie ( or ollie ) )
+|	( ollie ( and marcel ) )	( not marcel )
+=	abby	( abby ( and abby ) )
+#	marcel	( pumpkin ( or abby ) )
+#	( abby ( and ollie ) )	pumpkin
+#	( mertz ( and mertz ) )	ollie
+#	( pumpkin ( or mertz ) )	marcel
+#	marcel	( oona ( and mertz ) )
+#	( oona ( and ollie ) )	abby
+#	( abby ( or abby ) )	( marcel ( or ollie ) )
+<	( mertz ( and marcel ) )	( pumpkin ( or marcel ) )
+<	( mertz ( and marcel ) )	marcel
+#	( abby ( or abby ) )	( not ollie )
+#	( oona ( or oona ) )	( not abby )
+#	oona	( pumpkin ( and marcel ) )
+>	abby	( marcel ( and abby ) )
+#	oona	( ollie ( and abby ) )
+v	( not pumpkin )	( oona ( or pumpkin ) )
+#	( not marcel )	( mertz ( or oona ) )
+#	( ollie ( and oona ) )	abby
+#	( mertz ( and abby ) )	marcel
+#	( abby ( and abby ) )	( not oona )
+<	( abby ( and mertz ) )	abby
+^	( pumpkin ( or pumpkin ) )	( not pumpkin )
+#	( mertz ( and mertz ) )	( not marcel )
+<	( ollie ( and mertz ) )	( ollie ( or pumpkin ) )
+#	oona	( pumpkin ( or mertz ) )
+#	( abby ( or ollie ) )	( not oona )
+#	( ollie ( and abby ) )	mertz
+#	( not ollie )	( mertz ( and mertz ) )
+|	( not mertz )	( mertz ( and marcel ) )
+#	pumpkin	( abby ( or oona ) )
+#	( marcel ( or abby ) )	oona
+<	( ollie ( and oona ) )	oona
+#	( abby ( and abby ) )	oona
+#	( oona ( and oona ) )	( pumpkin ( and ollie ) )
+#	( oona ( and marcel ) )	( not pumpkin )
+v	( not mertz )	( marcel ( or mertz ) )
+<	ollie	( pumpkin ( or ollie ) )
+<	( oona ( and mertz ) )	mertz
+#	ollie	( marcel ( or marcel ) )
+#	( not pumpkin )	( ollie ( and marcel ) )
+#	( pumpkin ( or oona ) )	ollie
+#	( marcel ( or ollie ) )	abby
+#	( marcel ( and ollie ) )	pumpkin
+#	( marcel ( or ollie ) )	( pumpkin ( or pumpkin ) )
+#	( not pumpkin )	( mertz ( or mertz ) )
+#	( abby ( and abby ) )	( ollie ( or ollie ) )
+v	( pumpkin ( or mertz ) )	( not pumpkin )
+#	( ollie ( and mertz ) )	( not abby )
+>	( abby ( or oona ) )	oona
+<	( oona ( or oona ) )	( pumpkin ( or oona ) )
+#	ollie	( abby ( and abby ) )
+#	( abby ( or marcel ) )	( not ollie )
+#	( marcel ( and ollie ) )	abby
+#	( abby ( or abby ) )	( marcel ( or marcel ) )
+#	( abby ( and abby ) )	mertz
+#	( mertz ( and abby ) )	ollie
+#	pumpkin	( abby ( or ollie ) )
+>	( ollie ( or marcel ) )	marcel
+v	( not oona )	( oona ( or pumpkin ) )
+#	( not oona )	( ollie ( or marcel ) )
+#	mertz	( abby ( or ollie ) )
+v	( not abby )	( ollie ( or abby ) )
+<	( marcel ( and mertz ) )	mertz
+<	( mertz ( and ollie ) )	( ollie ( or pumpkin ) )
+<	( pumpkin ( and marcel ) )	marcel
+>	( pumpkin ( or ollie ) )	ollie
+#	( mertz ( or abby ) )	( not ollie )
+v	( not mertz )	( mertz ( or ollie ) )
+#	abby	( mertz ( or mertz ) )
+#	abby	( marcel ( or mertz ) )
+|	( not oona )	( abby ( and oona ) )
+#	( mertz ( and mertz ) )	oona
+>	mertz	( ollie ( and mertz ) )
+<	( abby ( and oona ) )	oona
+#	( not pumpkin )	( oona ( and oona ) )
+#	( pumpkin ( or oona ) )	( abby ( and mertz ) )
+v	( ollie ( or oona ) )	( not oona )
+#	( not mertz )	( pumpkin ( or ollie ) )
+^	( not abby )	( abby ( or abby ) )
+#	( ollie ( or mertz ) )	( not oona )
+>	( marcel ( or marcel ) )	( pumpkin ( and marcel ) )
+<	( pumpkin ( and mertz ) )	mertz
+#	( marcel ( or abby ) )	( not oona )
+>	( pumpkin ( or oona ) )	( pumpkin ( and ollie ) )
+|	( not pumpkin )	( pumpkin ( and marcel ) )
+|	( mertz ( and oona ) )	( not oona )
+#	( abby ( or marcel ) )	ollie
+>	( mertz ( or oona ) )	( oona ( and mertz ) )
+#	pumpkin	( marcel ( or ollie ) )
+#	( pumpkin ( or pumpkin ) )	oona
+#	pumpkin	( mertz ( and abby ) )
+v	( abby ( or marcel ) )	( not abby )
+#	( mertz ( or oona ) )	( marcel ( or pumpkin ) )
+#	oona	( mertz ( or pumpkin ) )
+#	( not pumpkin )	( marcel ( and abby ) )
+#	ollie	( oona ( and abby ) )
+#	abby	( ollie ( and pumpkin ) )
+#	( mertz ( and pumpkin ) )	abby
+#	( abby ( and oona ) )	( ollie ( or ollie ) )
+#	( not ollie )	( oona ( or pumpkin ) )
+|	( not ollie )	( ollie ( and pumpkin ) )
+#	( not pumpkin )	( abby ( or marcel ) )
+#	( not abby )	( ollie ( or ollie ) )
+#	( oona ( or marcel ) )	( not abby )
+#	( not abby )	( ollie ( and mertz ) )
+#	( not pumpkin )	( mertz ( and abby ) )
+|	( oona ( and marcel ) )	( not oona )
+#	( not mertz )	( oona ( or marcel ) )
+#	( marcel ( and mertz ) )	oona
+#	( ollie ( or ollie ) )	( pumpkin ( or abby ) )
+#	( not oona )	( mertz ( or ollie ) )
+#	abby	( ollie ( and ollie ) )
+#	ollie	( pumpkin ( or oona ) )
+#	( marcel ( or pumpkin ) )	( abby ( or oona ) )
+<	( mertz ( and pumpkin ) )	( mertz ( or mertz ) )
+>	( pumpkin ( or abby ) )	pumpkin
+<	mertz	( oona ( or mertz ) )
+|	( pumpkin ( and mertz ) )	( not pumpkin )
+#	( not mertz )	( ollie ( and ollie ) )
+<	( marcel ( and oona ) )	( oona ( or oona ) )
+#	( not marcel )	( oona ( or pumpkin ) )
+#	( ollie ( and ollie ) )	oona
+#	oona	( ollie ( and pumpkin ) )
+#	( not ollie )	( abby ( or pumpkin ) )
+#	oona	( abby ( and ollie ) )
+#	( marcel ( or marcel ) )	( not oona )
+>	oona	( oona ( and ollie ) )
+#	( not oona )	( mertz ( and pumpkin ) )
+#	( not ollie )	( abby ( and mertz ) )
+|	( not abby )	( marcel ( and abby ) )
+>	( pumpkin ( or oona ) )	pumpkin
+#	( mertz ( and ollie ) )	oona
+v	( ollie ( or marcel ) )	( not ollie )
+#	( mertz ( or pumpkin ) )	( oona ( and oona ) )
+#	marcel	( ollie ( and mertz ) )
+#	( pumpkin ( and marcel ) )	abby
+#	( not abby )	( oona ( and oona ) )
+#	( not abby )	( pumpkin ( and marcel ) )
+>	( abby ( or pumpkin ) )	( marcel ( and abby ) )
+#	( ollie ( or oona ) )	( not marcel )
+#	( oona ( and abby ) )	( not mertz )
+|	( mertz ( and ollie ) )	( not ollie )
+|	( not ollie )	( ollie ( and oona ) )
+#	( ollie ( and ollie ) )	abby
+#	marcel	( mertz ( or pumpkin ) )
+<	( marcel ( and oona ) )	oona
+#	( ollie ( and pumpkin ) )	mertz
+#	( pumpkin ( or pumpkin ) )	marcel
+>	( oona ( or oona ) )	( oona ( and abby ) )
+#	( oona ( and abby ) )	marcel
+>	( pumpkin ( or pumpkin ) )	( pumpkin ( and ollie ) )
+#	pumpkin	( ollie ( and ollie ) )
+#	( not oona )	( marcel ( or abby ) )
+#	abby	( marcel ( and mertz ) )
+#	( pumpkin ( and mertz ) )	ollie
+#	( not abby )	( mertz ( and mertz ) )
+#	( oona ( or ollie ) )	marcel
+#	( abby ( or pumpkin ) )	( not oona )
+v	( not abby )	( marcel ( or abby ) )
+#	( ollie ( and marcel ) )	mertz
+#	( marcel ( or mertz ) )	( oona ( or oona ) )
+#	( marcel ( and ollie ) )	( not oona )
+=	ollie	( ollie ( and ollie ) )
+#	( not oona )	( abby ( or pumpkin ) )
+#	mertz	( oona ( and oona ) )
+#	( oona ( and mertz ) )	abby
+#	ollie	( abby ( or pumpkin ) )
+|	( mertz ( and pumpkin ) )	( not mertz )
+#	pumpkin	( ollie ( or marcel ) )
+|	( marcel ( and pumpkin ) )	( not pumpkin )
+#	( pumpkin ( and marcel ) )	( not abby )
+#	pumpkin	( marcel ( and oona ) )
+#	( not oona )	( marcel ( and ollie ) )
+#	( not pumpkin )	( abby ( and mertz ) )
+=	ollie	( ollie ( or ollie ) )
+#	( not marcel )	( pumpkin ( or oona ) )
+#	( pumpkin ( or pumpkin ) )	( not oona )
+#	mertz	( oona ( and abby ) )
+>	oona	( oona ( and mertz ) )
+>	( mertz ( or marcel ) )	( mertz ( and abby ) )
+<	( pumpkin ( and pumpkin ) )	( abby ( or pumpkin ) )
+#	( marcel ( and abby ) )	( not pumpkin )
+|	( mertz ( and ollie ) )	( not mertz )
+#	( ollie ( and abby ) )	( not mertz )
+#	( mertz ( or abby ) )	pumpkin
+#	ollie	( pumpkin ( or marcel ) )
+#	( marcel ( or mertz ) )	( not abby )
+#	( pumpkin ( or marcel ) )	ollie
+#	( not ollie )	( oona ( and abby ) )
+#	pumpkin	( abby ( and oona ) )
+#	( marcel ( or oona ) )	pumpkin
+#	( oona ( or pumpkin ) )	ollie
+<	marcel	( abby ( or marcel ) )
+<	( mertz ( and mertz ) )	( pumpkin ( or mertz ) )
+#	( marcel ( and abby ) )	( not mertz )
+<	( marcel ( and oona ) )	marcel
+#	( ollie ( and oona ) )	mertz
+#	( abby ( or pumpkin ) )	( abby ( or mertz ) )
+#	( pumpkin ( or mertz ) )	oona
+<	( pumpkin ( and ollie ) )	( pumpkin ( or pumpkin ) )
+>	( oona ( or abby ) )	( oona ( and abby ) )
+#	( not mertz )	( marcel ( or oona ) )
+v	( not oona )	( oona ( or abby ) )
+#	( marcel ( and oona ) )	( not pumpkin )
+|	( marcel ( and abby ) )	( not marcel )
+|	( not abby )	( abby ( and ollie ) )
+<	pumpkin	( pumpkin ( or oona ) )
+#	( not oona )	( marcel ( or mertz ) )
+#	( marcel ( and abby ) )	mertz
+#	( abby ( or pumpkin ) )	( not marcel )
+#	( not marcel )	( mertz ( and mertz ) )
+#	marcel	( mertz ( and abby ) )
+|	( not pumpkin )	( pumpkin ( and oona ) )
+#	( oona ( or oona ) )	pumpkin
+#	( oona ( or marcel ) )	( marcel ( or pumpkin ) )
+#	( not abby )	( oona ( and pumpkin ) )
+#	abby	( marcel ( and ollie ) )
+#	( not abby )	( pumpkin ( or oona ) )
+v	( not ollie )	( abby ( or ollie ) )
+|	( abby ( and mertz ) )	( not mertz )
+#	( ollie ( and pumpkin ) )	( abby ( and ollie ) )
+|	( abby ( and ollie ) )	( not ollie )
+#	( not ollie )	( abby ( and oona ) )
+#	( mertz ( or abby ) )	( not oona )
+#	( mertz ( or ollie ) )	( not pumpkin )
+<	oona	( oona ( or marcel ) )
+|	( not mertz )	( ollie ( and mertz ) )
+v	( ollie ( or abby ) )	( not ollie )
+#	( not ollie )	( mertz ( and oona ) )
+#	abby	( oona ( or marcel ) )
+v	( not ollie )	( ollie ( or oona ) )
+#	( ollie ( and marcel ) )	oona
+#	( ollie ( or pumpkin ) )	mertz
+#	( not oona )	( pumpkin ( and marcel ) )
+#	( ollie ( and pumpkin ) )	oona
+#	oona	( pumpkin ( or marcel ) )
+^	( not marcel )	( marcel ( or marcel ) )
+#	( pumpkin ( or mertz ) )	( not marcel )
+<	( marcel ( and ollie ) )	( marcel ( or oona ) )
+#	( not ollie )	( mertz ( or marcel ) )
+#	abby	( oona ( or oona ) )
+#	( not ollie )	( abby ( and pumpkin ) )
+#	pumpkin	( abby ( and mertz ) )
+#	( not mertz )	( ollie ( and oona ) )
+#	( abby ( and abby ) )	( marcel ( and mertz ) )
+<	pumpkin	( pumpkin ( or ollie ) )
+>	( marcel ( and marcel ) )	( pumpkin ( and marcel ) )
+#	( pumpkin ( or ollie ) )	marcel
+#	( pumpkin ( and mertz ) )	( not oona )
+#	( not oona )	( abby ( and marcel ) )
+#	( pumpkin ( and ollie ) )	oona
+#	( pumpkin ( or ollie ) )	abby
+<	( ollie ( and pumpkin ) )	ollie
+#	( not ollie )	( oona ( or mertz ) )
+^	( not ollie )	( ollie ( or ollie ) )
+v	( not mertz )	( mertz ( or oona ) )
+#	ollie	( marcel ( and abby ) )
+#	( abby ( or abby ) )	oona
+#	( ollie ( or ollie ) )	( pumpkin ( and marcel ) )
+#	( abby ( and oona ) )	( pumpkin ( and pumpkin ) )
+>	( mertz ( or ollie ) )	ollie
+#	( pumpkin ( and oona ) )	( marcel ( or marcel ) )
+#	( pumpkin ( or marcel ) )	( abby ( or marcel ) )
+v	( pumpkin ( or mertz ) )	( not mertz )
+#	( pumpkin ( and pumpkin ) )	marcel
+=	( abby ( and abby ) )	abby
+#	( not mertz )	( oona ( or pumpkin ) )
+#	( marcel ( and pumpkin ) )	( oona ( or ollie ) )
+#	( not abby )	( mertz ( or marcel ) )
+v	( not marcel )	( oona ( or marcel ) )
+#	( pumpkin ( or abby ) )	( not marcel )
+#	( oona ( or oona ) )	mertz
+=	( abby ( and mertz ) )	( mertz ( and abby ) )
+#	ollie	( abby ( and mertz ) )
+=	( abby ( or pumpkin ) )	( pumpkin ( or abby ) )
+#	( abby ( or oona ) )	( not marcel )
+#	marcel	( mertz ( and oona ) )
+#	( not mertz )	( abby ( or abby ) )
+>	( pumpkin ( or mertz ) )	pumpkin
+>	( pumpkin ( or ollie ) )	( pumpkin ( or pumpkin ) )
+>	oona	( marcel ( and oona ) )
+#	( not ollie )	( mertz ( or oona ) )
+#	( oona ( and pumpkin ) )	( not ollie )
+#	( ollie ( and abby ) )	( not marcel )
+#	marcel	( ollie ( and pumpkin ) )
+#	( abby ( and marcel ) )	( not mertz )
+#	( pumpkin ( and mertz ) )	abby
+#	( oona ( and mertz ) )	( not ollie )
+#	( not mertz )	( pumpkin ( or abby ) )
+|	( not pumpkin )	( pumpkin ( and ollie ) )
+#	( oona ( or marcel ) )	( pumpkin ( or oona ) )
+#	( abby ( or abby ) )	ollie
+#	marcel	( abby ( or oona ) )
+#	( abby ( and pumpkin ) )	( not mertz )
+|	( mertz ( and oona ) )	( not mertz )
+#	( oona ( or marcel ) )	mertz
+<	( mertz ( and pumpkin ) )	pumpkin
+<	oona	( marcel ( or oona ) )
+#	( not abby )	( mertz ( or pumpkin ) )
+#	abby	( oona ( and oona ) )
+#	( mertz ( and ollie ) )	( not marcel )
+v	( not mertz )	( ollie ( or mertz ) )
+#	( oona ( or oona ) )	( marcel ( or ollie ) )
+#	( marcel ( and oona ) )	mertz
+#	mertz	( pumpkin ( or oona ) )
+#	( not ollie )	( oona ( or abby ) )
+>	marcel	( marcel ( and mertz ) )
+#	( abby ( or pumpkin ) )	ollie
+#	( abby ( or oona ) )	( not ollie )
+#	( oona ( or ollie ) )	( not abby )
+#	( oona ( and pumpkin ) )	mertz
+#	( oona ( or mertz ) )	( not marcel )
+#	mertz	( marcel ( or ollie ) )
+>	( ollie ( or mertz ) )	ollie
+#	marcel	( oona ( and pumpkin ) )
+#	( oona ( and ollie ) )	( not pumpkin )
+>	ollie	( oona ( and ollie ) )
+#	mertz	( oona ( or oona ) )
+|	( marcel ( and abby ) )	( not abby )
+#	( not mertz )	( ollie ( and pumpkin ) )
+v	( not ollie )	( pumpkin ( or ollie ) )
+|	( not ollie )	( oona ( and ollie ) )
+#	( not ollie )	( mertz ( and marcel ) )
+v	( marcel ( or abby ) )	( not abby )
+#	mertz	( abby ( and marcel ) )
+=	( mertz ( or abby ) )	( mertz ( or abby ) )
+#	marcel	( abby ( and ollie ) )
+>	( marcel ( or marcel ) )	( mertz ( and marcel ) )
+#	( oona ( and ollie ) )	( oona ( and abby ) )
+#	( pumpkin ( or pumpkin ) )	( not ollie )
+#	( mertz ( and oona ) )	( not pumpkin )
+<	( marcel ( and ollie ) )	marcel
+#	( marcel ( and abby ) )	( abby ( and pumpkin ) )
+#	( abby ( and abby ) )	( marcel ( or marcel ) )
+#	( mertz ( and marcel ) )	pumpkin
+#	( pumpkin ( and abby ) )	( not mertz )
+#	ollie	( oona ( or marcel ) )
+#	pumpkin	( mertz ( and ollie ) )
+#	( abby ( and ollie ) )	( not pumpkin )
+#	( marcel ( or abby ) )	mertz
+|	( not marcel )	( marcel ( and pumpkin ) )
+#	( not mertz )	( abby ( or pumpkin ) )
+#	ollie	( mertz ( and pumpkin ) )
+#	mertz	( abby ( or oona ) )
+v	( oona ( or mertz ) )	( not oona )
+#	ollie	( marcel ( and pumpkin ) )
+#	( ollie ( or ollie ) )	( not oona )
+#	( marcel ( or oona ) )	abby
+#	( pumpkin ( or mertz ) )	ollie
+#	( pumpkin ( and abby ) )	( not oona )
+#	( ollie ( and marcel ) )	pumpkin
+#	( pumpkin ( or oona ) )	( not mertz )
+#	( not oona )	( pumpkin ( or pumpkin ) )
+#	( oona ( or abby ) )	( not pumpkin )
+<	( pumpkin ( and abby ) )	pumpkin
+|	( ollie ( and oona ) )	( not ollie )
+<	( abby ( and ollie ) )	( ollie ( or abby ) )
+v	( pumpkin ( or abby ) )	( not abby )
+#	( oona ( or marcel ) )	( not ollie )
+#	( not marcel )	( pumpkin ( or ollie ) )
+#	( abby ( and marcel ) )	( not oona )
+#	abby	( mertz ( or oona ) )
+<	ollie	( oona ( or ollie ) )
+#	pumpkin	( oona ( or abby ) )
+>	( oona ( or oona ) )	( ollie ( and oona ) )
+v	( not mertz )	( abby ( or mertz ) )
+|	( mertz ( and abby ) )	( not mertz )
+#	( not pumpkin )	( ollie ( or ollie ) )
+>	( oona ( or pumpkin ) )	pumpkin
+#	( mertz ( or oona ) )	pumpkin
+#	( abby ( and mertz ) )	pumpkin
+#	( abby ( and ollie ) )	mertz
+#	( oona ( or mertz ) )	abby
+#	( marcel ( and pumpkin ) )	( ollie ( and marcel ) )
+>	( mertz ( or mertz ) )	( mertz ( and oona ) )
+#	( oona ( and marcel ) )	( not abby )
+#	( abby ( and oona ) )	mertz
+>	( marcel ( or oona ) )	( oona ( and oona ) )
+#	( not pumpkin )	( marcel ( or oona ) )
+#	( ollie ( or abby ) )	( not oona )
+#	( pumpkin ( or abby ) )	ollie
+#	mertz	( ollie ( and pumpkin ) )
+#	( not abby )	( marcel ( or mertz ) )
+#	( mertz ( and mertz ) )	( not abby )
+#	pumpkin	( oona ( and ollie ) )
+#	( abby ( and oona ) )	( not marcel )
+#	pumpkin	( ollie ( or abby ) )
+#	( marcel ( or mertz ) )	oona
+#	( abby ( or oona ) )	( not pumpkin )
+#	abby	( mertz ( or ollie ) )
+#	( not marcel )	( abby ( and abby ) )
+#	( oona ( or pumpkin ) )	marcel
+#	( mertz ( or oona ) )	ollie
+#	marcel	( pumpkin ( or pumpkin ) )
+#	marcel	( oona ( or pumpkin ) )
+#	pumpkin	( oona ( or mertz ) )
+#	oona	( marcel ( or mertz ) )
+#	( mertz ( or ollie ) )	( not oona )
+<	( abby ( and ollie ) )	abby
+#	( pumpkin ( and abby ) )	( not marcel )
+#	( not marcel )	( ollie ( or ollie ) )
+#	( marcel ( or pumpkin ) )	abby
+#	( mertz ( and pumpkin ) )	( not marcel )
+#	( not abby )	( pumpkin ( and mertz ) )
+#	( abby ( and pumpkin ) )	ollie
+#	( abby ( and mertz ) )	( not pumpkin )
+#	( marcel ( or mertz ) )	abby
+#	pumpkin	( ollie ( and oona ) )
+#	( mertz ( and pumpkin ) )	( not abby )
+#	oona	( mertz ( or mertz ) )
+#	( pumpkin ( or pumpkin ) )	( not abby )
+|	( oona ( and pumpkin ) )	( not pumpkin )
+v	( pumpkin ( or oona ) )	( not oona )
+#	( not oona )	( mertz ( and ollie ) )
+>	( oona ( or mertz ) )	mertz
+<	( ollie ( and mertz ) )	mertz
+#	( not mertz )	( pumpkin ( and oona ) )
+<	( marcel ( and marcel ) )	( pumpkin ( or marcel ) )
+>	( ollie ( or marcel ) )	( marcel ( and marcel ) )
+#	( marcel ( or mertz ) )	pumpkin
+#	( not ollie )	( pumpkin ( or marcel ) )
+>	oona	( oona ( and abby ) )
+>	( abby ( or marcel ) )	abby
+|	( not mertz )	( marcel ( and mertz ) )
+>	( mertz ( or pumpkin ) )	( oona ( and mertz ) )
+>	( abby ( or mertz ) )	( mertz ( and abby ) )
+#	( oona ( and ollie ) )	( not abby )
+#	marcel	( pumpkin ( and oona ) )
+#	( abby ( or pumpkin ) )	mertz
+#	( not abby )	( ollie ( or marcel ) )
+>	pumpkin	( pumpkin ( and marcel ) )
+|	( oona ( and abby ) )	( not abby )
+#	( marcel ( and oona ) )	( ollie ( and oona ) )
+#	( oona ( or pumpkin ) )	( not marcel )
+#	( marcel ( or oona ) )	( not mertz )
+#	( ollie ( or abby ) )	( not marcel )
+#	( marcel ( or oona ) )	ollie
+#	( not oona )	( abby ( or mertz ) )
+|	( not oona )	( marcel ( and oona ) )
+<	( marcel ( and abby ) )	( oona ( or abby ) )
+#	abby	( pumpkin ( and ollie ) )
+v	( not abby )	( oona ( or abby ) )
+#	( marcel ( and oona ) )	( not abby )
+#	oona	( pumpkin ( and abby ) )
+v	( pumpkin ( or ollie ) )	( not ollie )
+#	( pumpkin ( and ollie ) )	( not abby )
+#	( not marcel )	( pumpkin ( and abby ) )
+^	( not abby )	( abby ( and abby ) )
+v	( pumpkin ( or marcel ) )	( not marcel )
+>	( marcel ( or mertz ) )	( abby ( and marcel ) )
+#	( ollie ( and marcel ) )	( not oona )
+#	( not mertz )	( marcel ( or marcel ) )
+#	( ollie ( and oona ) )	marcel
+<	ollie	( mertz ( or ollie ) )
+#	marcel	( abby ( or ollie ) )
+>	marcel	( oona ( and marcel ) )
+#	abby	( ollie ( and oona ) )
+#	( oona ( or oona ) )	( not pumpkin )
+#	( abby ( or marcel ) )	( not pumpkin )
+#	( not mertz )	( abby ( and abby ) )
+#	( oona ( or ollie ) )	( ollie ( or marcel ) )
+#	( abby ( and abby ) )	( not marcel )
+<	( marcel ( and ollie ) )	ollie
+v	( mertz ( or abby ) )	( not abby )
+>	( mertz ( or abby ) )	( mertz ( and mertz ) )
+<	pumpkin	( abby ( or pumpkin ) )
+#	( marcel ( or oona ) )	mertz
+#	( not mertz )	( ollie ( and abby ) )
+#	( not marcel )	( ollie ( and ollie ) )
+v	( not abby )	( abby ( or mertz ) )
+#	( marcel ( and oona ) )	pumpkin
+#	( oona ( and marcel ) )	( pumpkin ( and mertz ) )
+#	( not abby )	( mertz ( and pumpkin ) )
+#	( pumpkin ( and marcel ) )	( abby ( and pumpkin ) )
+#	( not pumpkin )	( abby ( and ollie ) )
+#	( pumpkin ( and mertz ) )	( abby ( or oona ) )
+#	( marcel ( or abby ) )	( abby ( or oona ) )
+<	( ollie ( and oona ) )	( oona ( or ollie ) )
+#	marcel	( oona ( or ollie ) )
+=	( ollie ( or oona ) )	( ollie ( or oona ) )
+#	( marcel ( and mertz ) )	abby
+#	( abby ( or oona ) )	pumpkin
+#	( not marcel )	( mertz ( or abby ) )
+#	( abby ( and pumpkin ) )	( marcel ( or marcel ) )
+#	mertz	( oona ( or ollie ) )
+#	ollie	( mertz ( and marcel ) )
+<	abby	( oona ( or abby ) )
+<	( marcel ( and pumpkin ) )	( marcel ( and marcel ) )
+#	( pumpkin ( and ollie ) )	( not marcel )
+|	( abby ( and ollie ) )	( not abby )
+#	( not pumpkin )	( abby ( or ollie ) )
+#	( not mertz )	( oona ( and pumpkin ) )
+#	( mertz ( or mertz ) )	( not ollie )
+#	( pumpkin ( or mertz ) )	( not abby )
+#	( mertz ( and mertz ) )	( not pumpkin )
+#	( not marcel )	( mertz ( and ollie ) )
+#	abby	( ollie ( or oona ) )
+#	( abby ( or oona ) )	ollie
+<	( pumpkin ( and oona ) )	( oona ( and oona ) )
+#	abby	( pumpkin ( or marcel ) )
+#	( not abby )	( ollie ( and pumpkin ) )
+#	( oona ( and ollie ) )	mertz
+#	( marcel ( and marcel ) )	( not ollie )
+#	mertz	( marcel ( and abby ) )
+#	( mertz ( and pumpkin ) )	( not ollie )
+<	( marcel ( and ollie ) )	( pumpkin ( or ollie ) )
+v	( not mertz )	( mertz ( or pumpkin ) )
+#	( not marcel )	( mertz ( or ollie ) )
+>	( marcel ( or ollie ) )	( marcel ( and pumpkin ) )
+#	( abby ( and pumpkin ) )	( not oona )
+#	( marcel ( and ollie ) )	( not abby )
+#	( not marcel )	( ollie ( and pumpkin ) )
+>	pumpkin	( pumpkin ( and oona ) )
+#	( abby ( and marcel ) )	pumpkin
+>	( mertz ( or pumpkin ) )	( pumpkin ( and oona ) )
+#	( oona ( or ollie ) )	( not mertz )
+=	( marcel ( or mertz ) )	( mertz ( or marcel ) )
+#	( mertz ( and pumpkin ) )	marcel
+#	marcel	( oona ( and ollie ) )
+#	( pumpkin ( or abby ) )	( ollie ( and ollie ) )
+v	( marcel ( or pumpkin ) )	( not marcel )
+#	( abby ( and marcel ) )	( mertz ( and pumpkin ) )
+#	( pumpkin ( and abby ) )	marcel
+|	( oona ( and ollie ) )	( not ollie )
+#	( not marcel )	( abby ( or pumpkin ) )
+#	( abby ( or marcel ) )	( not oona )
+#	( oona ( or ollie ) )	( not marcel )
+#	( not pumpkin )	( oona ( or abby ) )
+#	( not pumpkin )	( abby ( or abby ) )
+#	( mertz ( and mertz ) )	pumpkin
+#	( ollie ( and mertz ) )	pumpkin
+#	( not ollie )	( pumpkin ( or oona ) )
+#	( oona ( or ollie ) )	pumpkin
+|	( abby ( and oona ) )	( not oona )
+#	( not ollie )	( mertz ( or abby ) )
+#	( mertz ( or abby ) )	( not pumpkin )
+#	( mertz ( or ollie ) )	( pumpkin ( or mertz ) )
+#	( ollie ( and marcel ) )	( mertz ( or pumpkin ) )
+#	( pumpkin ( and ollie ) )	( not oona )
+#	( oona ( and marcel ) )	( oona ( and ollie ) )
+#	( pumpkin ( or pumpkin ) )	mertz
+#	( not marcel )	( abby ( or oona ) )
+#	mertz	( oona ( and marcel ) )
+v	( not ollie )	( ollie ( or abby ) )
+#	( ollie ( or mertz ) )	marcel
+|	( pumpkin ( and marcel ) )	( not pumpkin )
+#	( mertz ( and ollie ) )	( not pumpkin )
+#	( not marcel )	( ollie ( or oona ) )
+#	( oona ( and oona ) )	( not ollie )
+>	( abby ( or abby ) )	( abby ( and mertz ) )
+<	( ollie ( and abby ) )	( pumpkin ( or ollie ) )
+#	( mertz ( and mertz ) )	( oona ( and marcel ) )
+>	abby	( pumpkin ( and abby ) )
+#	( oona ( and pumpkin ) )	( mertz ( or mertz ) )
+#	( not marcel )	( pumpkin ( or pumpkin ) )
+#	( ollie ( and abby ) )	( not oona )
+#	( not ollie )	( oona ( or marcel ) )
+#	( marcel ( or marcel ) )	( not mertz )
+#	( pumpkin ( and pumpkin ) )	( ollie ( or marcel ) )
+#	( abby ( or ollie ) )	( not mertz )
+#	( not oona )	( ollie ( and abby ) )
+#	( not mertz )	( ollie ( or ollie ) )
+v	( not ollie )	( marcel ( or ollie ) )
+#	( oona ( or oona ) )	( not ollie )
+#	( abby ( and marcel ) )	( marcel ( and pumpkin ) )
+#	( marcel ( and marcel ) )	( oona ( or oona ) )
+v	( abby ( or marcel ) )	( not marcel )
+#	( ollie ( or abby ) )	( not pumpkin )
+#	( oona ( or mertz ) )	( not pumpkin )
+#	ollie	( abby ( or mertz ) )
+#	( pumpkin ( or marcel ) )	abby
+#	marcel	( abby ( and mertz ) )
+#	( pumpkin ( and marcel ) )	( not mertz )
+#	( oona ( or marcel ) )	abby
+#	( oona ( and abby ) )	( pumpkin ( and ollie ) )
+|	( pumpkin ( and abby ) )	( not pumpkin )
+#	oona	( mertz ( or abby ) )
+|	( not marcel )	( oona ( and marcel ) )
+#	( oona ( and marcel ) )	pumpkin
+<	( pumpkin ( and pumpkin ) )	( pumpkin ( or mertz ) )
+#	( pumpkin ( or oona ) )	( not marcel )
+#	( not mertz )	( marcel ( and oona ) )
+#	( abby ( or ollie ) )	( marcel ( and pumpkin ) )
+#	( mertz ( or marcel ) )	abby
+#	( mertz ( or oona ) )	( ollie ( or mertz ) )
+#	mertz	( pumpkin ( and pumpkin ) )
+#	( not oona )	( ollie ( and pumpkin ) )
+#	( abby ( or mertz ) )	( not pumpkin )
+#	( not abby )	( ollie ( or mertz ) )
+#	( not pumpkin )	( mertz ( and marcel ) )
+|	( oona ( and ollie ) )	( not oona )
+#	ollie	( pumpkin ( and mertz ) )
+#	( mertz ( and pumpkin ) )	( oona ( and oona ) )
+#	( abby ( and ollie ) )	( not oona )
+<	( mertz ( and pumpkin ) )	mertz
+#	pumpkin	( abby ( or mertz ) )
+#	( mertz ( or mertz ) )	( abby ( or abby ) )
+#	( not abby )	( ollie ( and marcel ) )
+#	ollie	( abby ( or oona ) )
+#	( pumpkin ( and ollie ) )	( not mertz )
+#	( not mertz )	( ollie ( or oona ) )
+#	( oona ( or mertz ) )	ollie
+|	( not oona )	( mertz ( and oona ) )
+^	( abby ( and abby ) )	( not abby )
+#	( not mertz )	( abby ( or marcel ) )
+<	marcel	( oona ( or marcel ) )
+#	( pumpkin ( and pumpkin ) )	( not marcel )
+#	pumpkin	( oona ( and abby ) )
+v	( not abby )	( abby ( or oona ) )
+v	( not ollie )	( ollie ( or pumpkin ) )
+#	oona	( abby ( or pumpkin ) )
+#	( oona ( and ollie ) )	marcel
+=	( abby ( or oona ) )	( oona ( or abby ) )
+#	( ollie ( and ollie ) )	( abby ( and pumpkin ) )
+#	pumpkin	( abby ( and marcel ) )
+>	( oona ( or pumpkin ) )	( pumpkin ( and oona ) )
+|	( ollie ( and pumpkin ) )	( not pumpkin )
+#	( not mertz )	( oona ( or oona ) )
+<	( ollie ( or ollie ) )	( marcel ( or ollie ) )
+#	ollie	( abby ( and oona ) )

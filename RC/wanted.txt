@@ -1,21 +1,57 @@
 want list:
+long to left
+or-headed to left
 
+# Lexical entailment
 =. a N		a M
- a and b N	b and a N
- a or b N	a or b N
- (a or b) and c  N	c and (a or b) N
- (a and b) or c  N	c or (a and b) N
 
- a or b N	a or b N
- a or b N	a or b M
- a and b N	a and b N
- a and b N	a and b M
- a or b N	a and b N
- a and b N	a or b N
+# Basic entailments
+> a or b N	a N
+< a and b N	a N
 
- a or (b and c) N	(a or b) and c N
- a and (b or c) N	(a and b) or c N
+# Commutativity
+= a and b N	b and a N
+= a or b N	b or a N
 
- a or b N	a or b M
- a and b N	a and b N
- a and b N	a and b M
+# Commutativity ctd.
+= (a or b) and c  N	c and (a or b) N
+= (a and b) or c  N	c or (a and b) N
+
+# Basic projected entailment
+ =. a or b N	a or b M
+ =. a and b N	a and b M
+
+ # Entailment projected entailment
+ >. a or b M	a and b M
+ > a or b N	a and b N
+
+# Non-associativity 2-2
+# a or (b and c) N	(a or b) and c N
+< a and (b or c) N	(a and b) or c N
+
+# Differing depth 2-1 with all? options
+ > a or (b or c) N	a and b N
+ # a and (b or c) N	a or b N
+ >. a or (b or c) M	a and b M
+ >. a and (b or c) N	a and b M
+ >. a or (b or c) N	a or b M
+
+ # a or (b and c) N	a and b N
+ < a and (b and c) N	a or b N
+ #. a or (b and c) M	a and b M
+ <. a or (b and c) N	a or b M
+ <. a and (b and c) N	a and b M
+
+# Differing depth 3-1 with some options
+ > (a and b) or (c and d) N		a and b N
+ < (a and b) and (c and d) N	a or b N
+ #. (a and b) or (c and d) M	a and b M
+ #. (a and b) or (c and d) N	a or b M
+ <. (a and b) and (c and d) N	a and b M			->	define set of worlds with k boolean variables; evaluate S at each world; test sets; join
+
+ > (a or b) or (c or d) N		a and b N
+ < (a or b) and (c or d) N	a or b N
+ #. (a or b) or (c or d) M	a and b M
+  #. (a or b) or (c or d) N	a or b M
+ <. (a or b) and (c or d) N	a and b M
+ 

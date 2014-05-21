@@ -84,7 +84,7 @@ def compute_join_relation(triples, named_subsets, relations_by_index_pair):
 					found_intermediate = 1
 					break
 		if not found_intermediate:
-			annotated_triples.append((triple[0], triple[1], triple[2], "#")) # Print ? as intended class #
+			annotated_triples.append((triple[0], triple[1], triple[2], "?")) # Print ? as intended class #
 			join_statistics["?"] += 1
 
  	print "Join-derived relation statistics:"
@@ -101,10 +101,11 @@ def printQuadruplesTestOrder(quadruples):
 		print quadruple[3] + "\t" + str(quadruple[0]) + "\t" + str(quadruple[2]) + "\t" + quadruple[1]
 
 
-NUMBER_OF_ENTITIES = 5
-TRAIN_PERCENTAGE = .2
+NUMBER_OF_ENTITIES = 10
+TRAIN_PERCENTAGE = .70
 SAMPLE_NAMES = True
 NUMBER_OF_NAMES = 100 # Only when sampling names
+PROB_SAMPLE_NEG = 0.2
 
 entity_set = set(range(NUMBER_OF_ENTITIES))
 
@@ -115,9 +116,15 @@ if not SAMPLE_NAMES:
 else:
 	sets = []
 	while len(sets) < NUMBER_OF_NAMES:
-		candidate = random.choice(powerset)
-		if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
-			sets.append(candidate)
+		if random.random() < PROB_SAMPLE_NEG and len(sets) > 0:
+			opposite = random.choice(sets)
+			candidate = entity_set.difference(opposite)
+			if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
+				sets.append(tuple(candidate))
+		else:
+			candidate = random.choice(powerset)
+			if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
+				sets.append(candidate)
 
 named_subsets = {}
 index = 0

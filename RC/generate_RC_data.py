@@ -142,15 +142,6 @@ t1 = ( (1, 'and', 2), 'or', (2, 'or', 0) )
 t2 = ( (1, 'and', 2), 'and', (2, 'and', 0) )
 worlds = set(get_candidate_worlds(8))
 universe = set(range(8))
-print worlds
-sat1 = get_satisfying_worlds_for_tree(t1, worlds)
-sat2 = get_satisfying_worlds_for_tree(t2, worlds)
-print sat1, sat2
-
-rel = compute_relation(sat1, sat2, universe)
-print rel
-
-print join[rel]['#']
 
 operators = ['and', 'or', 'and', 'or', '0', '0', '0', '0']
 
@@ -192,7 +183,7 @@ def to_string(expr, individuals):
 stats = Counter()
 total = 0
 outputs = []
-while total < 13500:
+while total < 500:
 	noun1 = random.choice(nouns)
 	noun2 = random.choice(nouns)
 	noun_rel = noun_relations[(noun1, noun2)]
@@ -202,17 +193,20 @@ while total < 13500:
 	rhs = create_sub_statement(subuniverse, 8)
 	sat1 = get_satisfying_worlds_for_tree(lhs, worlds)
 	sat2 = get_satisfying_worlds_for_tree(rhs, worlds)
+	print sat1
+	print sat2
 	rel = compute_relation(sat1, sat2, universe)
 
 	lhs = (lhs, noun1)
 	rhs = (rhs, noun2)
 
 	jrel = join[noun_rel][rel]
+	jrel = rel
 
 	if jrel != "?":
 		stats[jrel] += 1
 		total += 1
-		outputs.append("" + jrel + "\t" + to_string(lhs, individuals) + "\t" + to_string(rhs, individuals) + "\t" + rel)
+		outputs.append("" + jrel + "\t" + to_string(lhs, individuals) + "\t" + to_string(rhs, individuals) + "\t" + noun_rel + "\t" + rel)
 
 outputs = uniq(outputs)
 
