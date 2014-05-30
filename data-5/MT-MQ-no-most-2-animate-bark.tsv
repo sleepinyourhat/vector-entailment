@@ -50,9 +50,6 @@
 #	( no French ) animate	( most European ) bark
 #	( no Parisian ) animate	( most European ) bark
 #	( no Parisian ) animate	( most French ) bark
-#	( no bark ) animate	( most animate ) bark
-#	( no dead ) animate	( most inanimate ) bark
-#	( no plant ) animate	( most inanimate ) bark
 #	( no sofa ) animate	( most seat ) bark
 #	( no couch ) animate	( most seat ) bark
 #	( no bench ) animate	( most seat ) bark

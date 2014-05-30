@@ -70,9 +70,6 @@
 #	( some ( not French ) ) bark	( some European ) bark
 #	( some ( not Parisian ) ) bark	( some European ) bark
 #	( some ( not Parisian ) ) bark	( some French ) bark
-#	( some ( not bark ) ) bark	( some animate ) bark
-#	( some ( not dead ) ) bark	( some inanimate ) bark
-#	( some ( not plant ) ) bark	( some inanimate ) bark
 #	( some ( not sofa ) ) bark	( some seat ) bark
 #	( some ( not couch ) ) bark	( some seat ) bark
 #	( some ( not bench ) ) bark	( some seat ) bark

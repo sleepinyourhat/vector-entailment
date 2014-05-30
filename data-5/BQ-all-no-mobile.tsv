@@ -7,7 +7,6 @@
 |	( all cat ) European	( no cat ) European
 |	( all unable ) European	( no unable ) European
 |	( all able ) European	( no able ) European
-|	( all Asian ) European	( no Asian ) European
 |	( all bird ) European	( no bird ) European
 |	( all crow ) European	( no crow ) European
 |	( all sofa ) European	( no sofa ) European
@@ -22,7 +21,6 @@
 |	( all immobile ) European	( no immobile ) European
 |	( all dead ) European	( no dead ) European
 |	( all live ) European	( no live ) European
-|	( all Parisian ) European	( no Parisian ) European
 |	( all human ) European	( no human ) European
 |	( all animate ) European	( no animate ) European
 |	( all inanimate ) European	( no inanimate ) European

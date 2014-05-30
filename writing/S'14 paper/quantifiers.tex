@@ -1,0 +1,110 @@
+\section{Reasoning with natural language quantifiers}
+
+% Condense condense condense
+
+Interest in NLI in the NLP community is ongoing, and a version of it has been included in the 2014 SemEval challenge specially targeted towards the evaluation of distributional models. Neither this dataset, nor any other existing RTE and NLI datasets are appropriate for the task at hand however. I intend for the present experiment to evaluate the ability of a class of models to learn certain types of inference behavior, and need a dataset that precisely tests these phenomena. With existing datasets that use unrestricted natural language, there is the risk that a model could successfully capture monotonicity inference, but fail to accurately label test data due to problems with, for example, lexical ambiguity, syntactic ambiguity, coreference resolution, or pragmatic enrichment.
+
+\subsection{Data}
+
+The dataset is built on a small purpose-built vocabulary, which is intended to be large and diverse enough to permit a wide variety of experiments on different semantic phenomena beyond those shown here, but which is still small enough to allow the relations between the lexical items themselves to be exhaustively manually labeled when needed. The vocabulary contains 41 predicates (nouns, adjectives, and intransitive verbs; see Appendix B for more on the design of the wordlist), six quantifiers, the logical conjunctions \emph{and} and \emph{or}, and the unary operator \emph{not}.
+
+The data take the form of 12k pairs of short sentences, each annotated with a relation label, which I divide into about 200 smaller datasets. These datasets contain tightly constrained variants of a specific valid reasoning pattern, each differing in at most one lexical item, and all sharing the same relation label. The remainder of this section describes the composition of these 200 datasets. Examples from four of the datasets are provided in Table \ref{examplesofdata}.
+
+\begin{table}\small\centering
+\begin{tabular}{|ll|l|}
+\hline
+\textbf{(some $x$) mobile $\sqsupset$ (some $y$) mobile [s.t. $x\sqsupset y$]}&~&\textbf{(all $x$) French $\sqsubset$ (most $x$) European}		
+\\\hline
+(some dog) mobile	 $\sqsupset$  (some puppy) mobile	&&
+(all puppy) French $\sqsubset$ (most puppy) European
+\\
+(some animal) mobile $\sqsupset$ (some cat) mobile&&
+(all cat) French $\sqsubset$ (most cat) European 		\\
+	
+(some Asian) mobile $\sqsupset$ (some Thai) mobile&&(all hippo) French $\sqsubset$ (most hippo) European \\ ...&&...\\\hline
+\end{tabular}
+\caption{Sample datasets from two different templates.\label{examplesofdata}}
+\end{table}
+
+% TODO: Mention all seven relations seen, but some rare
+
+% TODO: Condense the below to a paragraph
+
+\noindent\textit{Basic monotonicity:} This set of datasets contains reasoning patterns like those seen in example 1  in Table \ref{examplesofdata}, where one of the predicates on one side entails the predicate in the corresponding position on the other side. In some of the datasets (as in 1), this alternation is in the first argument position, in some the second argument position, and in some both. For the alternating first argument subclasses, I have every lexical entailment pair in the data in the first argument position, the terms \ii{bark}, \ii{mobile}, and \ii{European} in the second argument position, and every quantifier. 
+For alternating second argument datasets, I have all predicates in the first argument position, and the pairs \ii{bark--animate}, \ii{French--European}, and \ii{Parisian--French} in the second argument position. The datasets in which there is an alternation in both positions fall into two categories. In some, the entailment relations between the arguments work in the same direction (\ii{some dog French} $\sqsubset$ \ii{some animal European}), in others, they work in opposite directions (\ii{some dog European} \# \ii{some animal French}).
+
+\noindent\textit{Quantifier substitution:} These datasets, exemplified in 2 above, show the interactions between each possible pair of different quantifiers, with the same predicates on both sides. Datasets exist with \ii{bark}, \ii{mobile}, and \ii{European} in the second argument position, and within each dataset every possible predicate is shown in first argument position.
+
+\noindent\textit{Monotonicity with quantifier substitution:} These datasets show the more complex monotonicity interactions that emerge when reasoning between phrases with differing arguments and differing quantifiers, as in  3. 
+Exhaustively creating datasets of this kind involves too large an amount of data to readily verify manually, so I sampled  from the extensive set of possible combinations of the six quantifiers and the fixed argument fillers used in the monotonicity datasets. Each possible relation but `$\equiv$' (which does not apply sentences like these unless the predicates on both sides are identical) is expressed, as is every possible pair of quantifiers.
+
+\noindent\textit{Negation:}
+To show the interaction of negation and monotonicity, I included variants of many of the datasets described above in which one of the four argument positions is systematically negated, as demonstrated in example 4. 
+
+\section{Experiments and results}
+
+% TODO: Update with newer experiments
+
+In the simplest experimental setting, which I label \textsc{all-split}, I randomly sample 85\% the data---making sure to sample 85\% of each of the individual datasets---train the model on that portion, and evaluate on the remaining 15\% of the data. This setting is meant to test whether the model is able to correctly generalize the individual reasoning patterns represented by each of the datasets. 
+
+Performance on this setting is perfect: the model quickly converges to 100\% accuracy on the test data, showing that it is capable of accurately learning to capture all of the reasoning patterns in the data. The remaining experimental settings serve to determine whether what is learned captures the underlying logical structure of the data in a way that allows it to accurately label unseen kinds of reasoning pattern. In each of them, I choose one of three arbitrarily chosen target datasets, all involving quantifier substitution, to test on. I then then hold out that dataset and---depending on the experimental setting---other similar datasets from the training data in an attempt to discover just how different a test example can be from anything seen in training and still be classified accurately. Table \ref{patterntable} shows what information is included in the training data for each of the four settings for one of the three target datasets. 
+
+\begin{table}\small\centering
+\begin{tabular}{|l|ll|l|}\hline
+Target dataset & Data evaluated   &  \textsc{subcl.-out} & \textsc{pair-out} \\\hline
+\ii{(most $x$) bark $|$ (no $x$)} bark&target dataset only		&100\%&	93.6\%\\
+\ii{(two $x$) bark \# (all $x$) bark}&target dataset only  			&100\%&	94.7\%\\
+ \ii{(some $x$) bark $\natneg$ (no $x$) bark}&target dataset only 	&0\%&	0\%\\\hline
+\end{tabular}
+\caption{Test set accuracy.\label{resultstable}}
+\end{table} % TODO: Replace
+
+
+% TODO: Replace
+
+\textsc{set-out:} In these experiments, I hold out the target dataset, training on none of it and testing on all of it, and additionally split each remaining dataset as in \textsc{all-split}. This setting is meant to test whether the model can generalize a broader reasoning pattern from one dataset to another---the model will still have seen other similar quantifier substitution datasets that differ from the target dataset only in which filler word is placed in the second argument position, as in row 5 in Table \ref{patterntable} above.
+
+\textsc{pair-out:} In these experiments, I hold out all of the datasets that demonstrate the interaction between a particular pair of quantifiers. For the target dataset \ii{(most $x$) bark $|$ (no $x$) bark} in this setting, all examples with \ii{most} on one side and \ii{no} on the other, in either order, with or without negation or differing predicates, are held out from training. The remaining datasets are split as above.
+
+These last three experiments have multiple sources of test data: some from the 15\% test portions of the datasets that were split, some from the target datasets, and some from any other similar datasets that were held out. In  Table \ref{resultstable}, I report results for each experiment on the entire test dataset, on the single target dataset, and on all of the held out datasets (i.e., the test data excluding the 15\% portions from the training datasets) in aggregate. This third figure is identical to the second for the \textsc{set-out} experiments, since the only held out dataset is the target dataset.
+
+%\begin{table}\small\centering
+%\begin{tabular}{|l|l|lll|}\hline
+%Target dataset & Data evaluated   & \textsc{set-out} & \textsc{subcl.-out} & \textsc{pair-out} \\\hline
+%\ii{(most $x$) bark $|$ (no $x$)} bark&target dataset only &100\%&100\%&0\%\\
+%& all held out datasets                                 &(100\%) & 100\%& 49.4\%\\
+%& all test data                                  &100\% & 99.9\%&85.7\%\\\hline
+%\ii{(two $x$) bark \# (all $x$) bark}&target dataset only  &94.7\%&0\%&0\%\\
+%& all held out datasets                                 &(94.7\%) & 70.0\%& 36.0\%\\
+%& all test data                                  &98.9\% & 97.5\%&88.0\%\\\hline
+% \ii{(some $x$) bark $\natneg$ (no $x$) bark}&target dataset only &2.6\%&0\%&0\%\\
+%& all held out datasets                                 &(2.6\%) & 0\%& 17.6\%\\
+%& all test data                                   &97.7\% & 93.7\%&83.9\%\\\hline
+%\end{tabular}
+%\caption{Test accuracy after 64 passes through the training data.\label{resultstable}}
+%\end{table}
+
+% The model did not converge well for any of these experiments: convergence can take hundreds or thousands of passes through the data, and the performance of the model at convergence  on test data was generally worse than its performance during the first hundred or so iterations. To sidestep this problem somewhat, I report results here for the models learned after 64 passes through the data. Even so, results are somewhat difficult to interpret: the performance on the test data fluctuates substantially between iterations, so a model that performs very poorly at iteration 64 may perform well at iteration 70. It is possible to stabilize the model by manipulating the hyperparameters away from their present tuned settings (raising minibatch size, shrinking model size, and increasing regularization, for example), but doing so consistently hurts performance.
+
+Performance was perfect for at least some held out datasets in both the \textsc{set-out} and \textsc{subclass-out} settings, and near perfect for some in \textsc{pair-out}. Performance for one of the three target datasets---\ii{(some $x$) bark $\natneg$ (no $x$) bark}---was consistently poor across training settings. This poor performance is consistent across random initializations, and should be a target of further investigation. % TODO
+
+\subsection{Discussion} 
+
+% TODO: Revise
+
+The model learns to generalize well to novel data in most but not all of the training configurations. This inconsistent performance suggests that there is room to improve the optimization techniques used on the model, but the fact that it is able to perform well in these settings even some of the time suggests that the structure of the model is basically capable of learning meaning representations that support inference.
+
+The results in the \textsc{all-split} condition show two important behaviors. The model is able to learn to identify the difference between two unseen sentences and consistently return the label that corresponds to that difference. In addition, the model can learn lexical relations from the training data, such as \ii{dog $\sqsubset$ animal} from \ii{(no dog) bark $\sqsupset$ (no animal) bark}, and it can then use these learned lexical relations to compute the relation for a sentence pair like \ii{(some dog) bark $\sqsubset$ (all animal) bark}. The results from the other three experimental settings show that the model is able to learn general purpose representations for quantifiers which, at least in many cases, allow it to perform inference when a crucial difference between two sentences---the  substitution of one specific quantifier for another---has not been seen. These results serve to confirm that the representations learned are capturing some of the underlying logic, rather than than just supporting the memorization of fixed reasoning patterns. 
+
+%  There has also been some research, most recently including \citet{grefenstette2013towards}, into models which represent quantifiers and other function words as higher order tensors rather than vectors, motivated in part by the hypothesis that their compositional behavior cannot be captured in strictly vector-based representatons. A successful inference engine that used those representations would not be a strict rebuttal of this assumption, but it could provide insight into precisely what circumstances would warrant the use of these richer tensor representation models in practice.  % TODO: Proof
+
+These results leave open the question of how much information is minimally needed to learn general purpose representations for quantifiers in this setting. There are two lines of experimental work that could help to clarify this. Including longer sentences and constructions involving conjunctions (i.e. \ii{and, or}), transitive verbs (i.e. \ii{eats, kicks}) or other constructions in the training and test data could further test what kinds of behavior can be learned from a small training set, as could further experiments on this data involving even smaller training sets than those shown here or differently structured configurations of train and test sets.
+
+%The representations that the model learns are not truly general-purpose, though. Human speakers of English who know the meanings of all of the words in a sentence are able to reason about whether that sentence entails any other sentence of English even if they have never seen either sentence before, or have never used the particular pattern of inference before. This broad ability to generalize does not appear to have been learned in these experiments. Pessimistically, the model might be primarily memorizing the reasoning patterns themselves, with any generalization beyond the \textsc{set-out} setting being erratic and case-specific. Optimistically, though, the model might be learning to handle logic in a way more like MacCartney's formal approach, in which the model must know dozens of different possible inference steps involving specific quantifiers and entailment patterns to succeed: if the model hasn't seen the substitution of \ii{most} with \ii{no}, it doesn't have the tools to reason about that substitution. 
+%An incomplete ability to generalize is not necessarily detrimental to a model's ability to support reasoning in practice, especially in this later interpretation, since the body of knowledge used to do inference in MacCartney's approach is small enough that it could realistically be learned.
+
+%It remains an open research question whether generalization of the type seen in the \textsc{pair-out} case is possible for any model. A model that could successfully generalize in this way could be potentially valuable both as a more versatile reasoning tool, and as a source of information about the ways in which functional types like quantifiers can be represented in vector space models.
+%There are two ways that this problem can be addressed, one practical and one formal. 
+
+% An obvious direction for future work is to test for this behavior in more powerful models, or to see whether a dataset containing a more diverse array of reasoning patterns (beyond those possible just with quantification and negation) could encourage generalization. Running experiments like the ones presented above on models with matrices or higher order tensors as word representations \cite{coecke2010mathematical, grefenstette2013towards} might be a promising start.
+%It is also not impossible that even an RNTN like the one studied could generalize perfectly: the dramatic instability of the model over the course of training suggests that better approaches to learning could improve performance.

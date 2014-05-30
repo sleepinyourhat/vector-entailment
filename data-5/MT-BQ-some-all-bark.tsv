@@ -65,9 +65,6 @@
 >	( some French ) bark	( all European ) bark
 >	( some Parisian ) bark	( all European ) bark
 >	( some Parisian ) bark	( all French ) bark
->	( some couch ) bark	( all inanimate ) bark
->	( some bench ) bark	( all inanimate ) bark
->	( some oak ) bark	( all inanimate ) bark
 >	( some sofa ) bark	( all seat ) bark
 >	( some couch ) bark	( all seat ) bark
 >	( some bench ) bark	( all seat ) bark

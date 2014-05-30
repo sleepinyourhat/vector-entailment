@@ -1,0 +1,33 @@
+\section{Recursive structure}
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{lll}
+$a\equiv a$		&~~~&	$(c~(and~(not~d)))~\#~f$\\
+$b~\#~c$			&~~~&	$(not~(c~(or~b)))~\sqsubset~(not~c)$\\
+$d\natneg(not~d)$	&~~~&	$f~\#~((c~(or~(not~d)))~(and~a))$\\
+$(c~(and~d))\sqsubset d$&~~~&$d\sqsupset((d~(or~d))~(and~(not~b)))$\\
+\end{tabular}
+\end{center}
+
+\caption{Some sample randomly generated pairs of propositional logic statements.  \label{prop-figure}} 
+\end{figure}
+
+% TODO: Cite Chomsky/Hauser/Fitch?
+
+Recursive structure is a prominent feature of natural language. Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice said hello}, and \ii{Carl thinks that Bob said that Alice said hello}. Overt recursion of this kind is easy to find, and theoretical accounts of natural language syntax and semantics rely heavily on recursive structures.
+In order for a model to be able to accurately learn natural language meanings, then, we expect that it would need to be able to learn to represent the meanings of function words in a such a way that they are able to behave correctly when taking their own outputs as isput.
+
+We again test this phenomenon within the framework of MacCartney and Manning-style entailment reasoning, but we replace the unanalyzed symbols from the previous experiment with expressions that involve recursive structure. To define these expressions, we turn to propositional logic, a relatively simple logic in which each variable represents either \ii{true} or \ii{false}. We generate data of the form seen in Figure \ref{prop-figure}: strings of arbitrary length consisting of six elementary proposition symbols and the operators \ii{and}, \ii{or}, and \ii{not}, arranged in pairs with the logical relations between them specified. It should be noted that we preserve the same  The data are generated randomly and deduplicated, and consist of about 248k training examples and 44k test examples. Each of the six symbols and each of the three operators is treated as a word for the purposes of our model, and is represented by a randomly initialized vector representation.
+
+% TODO: Worth explicitly calling this project theorem proving?
+Socher et al. \cite{socher2012semantic} have previously demonstrated the learning of a logic in a matrix-vector RNN model somewhat similar to our own, but the logic discussed here is substantially stronger, and a much better approximation of the kind of structure that is needed for natural language. The logic learned in that experiment is boolean, wherein the atomic symbols are simply the values 0 and 1, rather than variables over those values. While learning the operators of that logic is not trivial, the ouptuts of each operator can be represented accurately by a single bit. The statements of propositional logic learned here describe conditions on the truth values of propositions where those truth values are not known. As opposed to the two-way contrasts seen in \cite{socher2012semantic}, this logic distinguishes between 64 (2^6) possible assignments of truth values, and expressions of this logic define arbitrary conditions on these possible assignments, for a total of 2^{64} ($\approx 10^{20}$) possible statements that the recursive model needs to be able to distinguish.
+
+...
+
+% TODO: Add figure for results
+
+train up to depth 5
+test up to depth 12
+
+% Describe data

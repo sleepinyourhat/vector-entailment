@@ -7,8 +7,6 @@
 #	( all cat ) animate	( some cat ) European
 #	( all unable ) animate	( some unable ) European
 #	( all able ) animate	( some able ) European
-#	( all Thai ) animate	( some Thai ) European
-#	( all Asian ) animate	( some Asian ) European
 #	( all bird ) animate	( some bird ) European
 #	( all crow ) animate	( some crow ) European
 #	( all sofa ) animate	( some sofa ) European
@@ -22,9 +20,6 @@
 #	( all immobile ) animate	( some immobile ) European
 #	( all dead ) animate	( some dead ) European
 #	( all live ) animate	( some live ) European
-#	( all European ) animate	( some European ) European
-#	( all French ) animate	( some French ) European
-#	( all Parisian ) animate	( some Parisian ) European
 #	( all human ) animate	( some human ) European
 #	( all seat ) animate	( some seat ) European
 #	( all bench ) animate	( some bench ) European

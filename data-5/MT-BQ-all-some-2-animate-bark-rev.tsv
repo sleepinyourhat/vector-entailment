@@ -65,9 +65,6 @@
 <	( all French ) bark	( some European ) animate
 <	( all Parisian ) bark	( some European ) animate
 <	( all Parisian ) bark	( some French ) animate
-<	( all bark ) bark	( some animate ) animate
-<	( all dead ) bark	( some inanimate ) animate
-<	( all plant ) bark	( some inanimate ) animate
 <	( all sofa ) bark	( some seat ) animate
 <	( all couch ) bark	( some seat ) animate
 <	( all bench ) bark	( some seat ) animate

@@ -46,6 +46,11 @@ def compute_join_relation(triples, named_subsets, relations_by_index_pair):
 	annotated_triples = []
 
 	for triple in triples:
+
+		if (triple[2], triple[0]) in relations_by_index_pair.keys():
+			annotated_triples.append((triple[0], triple[1], triple[2], '*'))
+			continue
+
 		found_intermediate = 0
 		for intermediate in named_subsets:
 			#if intermediate == triple[0] or intermediate == triple[2]:
@@ -92,6 +97,59 @@ def compute_join_relation(triples, named_subsets, relations_by_index_pair):
 
 	return annotated_triples
 
+def augment_with_joins(named_subsets, relations_by_index_pair):
+	join = { # From MacCartney's diss p. 85 (PDF 99)
+	'=': {'=':'=', '<':'<', '>':'>', '^':'^', '|':'|', 'v':'v', '#':'#'},
+	'<': {'=':'<', '<':'<', '>':'?', '^':'|', '|':'|', 'v':'?', '#':'?'},
+	'>': {'=':'>', '<':'?', '>':'>', '^':'v', '|':'?', 'v':'v', '#':'?'},
+	'^': {'=':'^', '<':'v', '>':'|', '^':'=', '|':'>', 'v':'<', '#':'#'},
+	'|': {'=':'|', '<':'?', '>':'|', '^':'<', '|':'?', 'v':'<', '#':'?'},
+	'v': {'=':'v', '<':'v', '>':'?', '^':'>', '|':'>', 'v':'?', '#':'?'},
+	'#': {'=':'#', '<':'?', '>':'?', '^':'#', '|':'?', 'v':'?', '#':'?'},
+	}
+
+	augmented_relations_by_index_pair = relations_by_index_pair
+
+	# for l, for r, look for join, add
+
+	for l in named_subsets:
+		for r in named_subsets:
+			if not (r, l) in relations_by_index_pair.keys() and not (l, r) in relations_by_index_pair.keys():
+				found_intermediate = 0
+				for intermediate in named_subsets:
+					#if intermediate == triple[0] or intermediate == triple[2]:
+					#	continue
+					left_relation = 0;
+					right_relation = 0;
+
+					# We can use any intermediate that doesn't just force us to look up the tuple we're interested in
+					# Tuples that contain exactly the pair we're interested in but with reversed order are fair game
+					if (l, intermediate) in relations_by_index_pair.keys() and intermediate != r:
+						left_relation = relations_by_index_pair[(l, intermediate)]
+					elif (intermediate, l) in relations_by_index_pair.keys():
+						left_relation = relations_by_index_pair[(intermediate, l)]
+						if left_relation == "<":
+							left_relation = ">"
+						elif left_relation == ">":
+							left_relation = "<"
+
+					if (intermediate, r) in relations_by_index_pair.keys() and intermediate != l:
+						right_relation = relations_by_index_pair[(intermediate, r)]
+					elif (r, intermediate) in relations_by_index_pair.keys():
+						right_relation = relations_by_index_pair[(r, intermediate)]
+						if right_relation == "<":
+							right_relation = ">"
+						elif right_relation == ">":
+							right_relation = "<"
+
+					if left_relation and right_relation:
+						join_relation = join[left_relation][right_relation]
+						if join_relation != "?":
+							augmented_relations_by_index_pair[(l, r)] = join_relation
+							found_intermediate = 1
+							break
+	return augmented_relations_by_index_pair
+
 def printQuadruplesTrainOrder(quadruples):
 	for quadruple in quadruples:
 		print quadruple[1] + "\t" + str(quadruple[0]) + "\t" + str(quadruple[2]) + "\t" + quadruple[3]
@@ -101,11 +159,11 @@ def printQuadruplesTestOrder(quadruples):
 		print quadruple[3] + "\t" + str(quadruple[0]) + "\t" + str(quadruple[2]) + "\t" + quadruple[1]
 
 
-NUMBER_OF_ENTITIES = 10
-TRAIN_PERCENTAGE = .70
+NUMBER_OF_ENTITIES = 7
+TRAIN_PERCENTAGE = .5
 SAMPLE_NAMES = True
-NUMBER_OF_NAMES = 100 # Only when sampling names
-PROB_SAMPLE_NEG = 0.2
+NUMBER_OF_NAMES = 80 # Only when sampling names
+PROB_SAMPLE_MOD = 0
 
 entity_set = set(range(NUMBER_OF_ENTITIES))
 
@@ -116,11 +174,21 @@ if not SAMPLE_NAMES:
 else:
 	sets = []
 	while len(sets) < NUMBER_OF_NAMES:
-		if random.random() < PROB_SAMPLE_NEG and len(sets) > 0:
-			opposite = random.choice(sets)
-			candidate = entity_set.difference(opposite)
-			if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
-				sets.append(tuple(candidate))
+		if random.random() < PROB_SAMPLE_MOD and len(sets) > 0:
+			crel = random.choice(['<', '^'])
+			if crel == '^':
+				opposite = random.choice(sets)
+				candidate = entity_set.difference(opposite)
+				if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
+					print opposite, candidate
+					sets.append(tuple(candidate))
+			else:
+				source = random.choice(sets)
+				rm = random.choice(source)
+				candidate = set(source).difference(set([rm]))
+				if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
+					print source, candidate
+					sets.append(tuple(candidate))
 		else:
 			candidate = random.choice(powerset)
 			if len(candidate) > 0 and len(candidate) < NUMBER_OF_ENTITIES:
@@ -157,6 +225,8 @@ for leftID, left in named_subsets.iteritems():
 		else:
 			test_triples.append((leftID, relation, rightID))
 			test_statistics[relation] += 1
+
+# relations_by_index_pair = augment_with_joins(named_subsets, relations_by_index_pair)
 
 print "Training data:"
 annotated_train_triples = compute_join_relation(train_triples, named_subsets, relations_by_index_pair)

@@ -65,9 +65,6 @@
 #	( three French ) animate	( two European ) bark
 #	( three Parisian ) animate	( two European ) bark
 #	( three Parisian ) animate	( two French ) bark
-#	( three bark ) animate	( two animate ) bark
-#	( three dead ) animate	( two inanimate ) bark
-#	( three plant ) animate	( two inanimate ) bark
 #	( three sofa ) animate	( two seat ) bark
 #	( three couch ) animate	( two seat ) bark
 #	( three bench ) animate	( two seat ) bark

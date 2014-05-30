@@ -34,7 +34,6 @@
 #	( some human ) animate	( most animal ) Parisian
 #	( some mammal ) animate	( most animal ) Parisian
 #	( some puppy ) animate	( most dog ) Parisian
-#	( some Thai ) animate	( most Asian ) Parisian
 #	( some crow ) animate	( most bird ) Parisian
 #	( some hippo ) animate	( most vertebrate ) Parisian
 #	( some ape ) animate	( most vertebrate ) Parisian
@@ -62,8 +61,6 @@
 #	( some human ) animate	( most mobile ) Parisian
 #	( some mammal ) animate	( most mobile ) Parisian
 #	( some hungry ) animate	( most live ) Parisian
-#	( some animate ) animate	( most European ) Parisian
-#	( some Parisian ) animate	( most European ) Parisian
 #	( some Parisian ) animate	( most animate ) Parisian
 #	( some sofa ) animate	( most seat ) Parisian
 #	( some couch ) animate	( most seat ) Parisian

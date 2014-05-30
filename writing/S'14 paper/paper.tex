@@ -1,0 +1,69 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{nips14submit_e,times}
+\usepackage{hyperref}
+\usepackage{url}
+
+\usepackage[leqno, fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage[numbers]{natbib}
+
+\renewcommand{\bibsection}{\subsubsection*{\bibname}}
+
+\usepackage{gb4e}
+\newcommand{\natneg}{\mathbin{^{\wedge}}}
+\def\ii#1{\textit{#1}}
+
+\title{DRAFT: Learning to represent abstract structures for natural language reasoning}
+
+\author{
+Samuel R. Bowman \\
+NLP Group, Dept. of Linguistics\\
+Stanford University\\
+Stanford, CA 94305-2150 \\
+\texttt{sbowman@stanford.edu}
+ \And
+ Christopher Potts \\
+Dept. of Linguistics\\
+Stanford University\\
+Stanford, CA 94305-2150 \\
+\texttt{cgpotts@stanford.edu}
+ \And
+Christopher D. Manning \\
+NLP Group,  Depts. of Computer Science and Linguistics\\
+Stanford University\\
+Stanford, CA 94305-2150 \\
+\texttt{manning@stanford.edu}
+}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+% \nipsfinalcopy % Uncomment for camera-ready version
+
+\begin{document}
+\maketitle
+
+% TODO: Insert results
+% TODO: Standardize first person pronouns
+
+\input{abstract.tex}
+\input{intro.tex}
+\input{methods.tex}
+\input{join.tex}
+\input{recursion.tex}
+\input{quantifiers.tex}
+\input{discussion.tex}
+
+\subsubsection*{Acknowledgments}
+
+\textit{Withheld for review.}\\ \\
+% TODO: Fill in, cite grants
+
+\bibliographystyle{unsrtnat}
+% TODO: Proof, convert initials to names
+
+\small % Note: Explicitly allowed in style guide
+\bibliography{MLSemantics} 
+
+\end{document}

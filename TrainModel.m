@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, tot)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -9,7 +9,7 @@ else
     expName = '.';
 end
 
-if ~strcmp(dataflag, 'and-or')
+if ~strcmp(dataflag, 'and-or') &&  ~strcmp(dataflag, 'and-or-deep')
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./wordpairs-v2.tsv');
 else
@@ -36,7 +36,7 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = 75;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.002;
+hyperParams.lambda = lambda %0.002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -62,7 +62,7 @@ hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
 hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = 1;
+hyperParams.useThirdOrderComparison = tot;
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
@@ -129,10 +129,38 @@ disp(options)
 
 % Choose which files to load in each category.
 listing = dir('data-4/*.tsv');
+listing5 = dir('data-5/*.tsv');
+
 splitFilenames = {listing.name};
 trainFilenames = {};
 testFilenames = {};
-if strcmp(dataflag, 'one-mn')
+
+if strcmp(dataflag, 'sub-tn')
+    testFilenames = {'MQ-three-no-bark.tsv', 'MQ-three-no-European.tsv', ...
+        'MQ-three-no-mobile.tsv'};
+    splitFilenames = {listing5.name};
+elseif strcmp(dataflag, 'pair-tn')
+    listing = [dir('data-5/*three-no*'); dir('data-5/*no-three*')];
+    testFilenames = {'MQ-three-no-bark.tsv', listing.name};
+    splitFilenames = {listing5.name};
+elseif strcmp(dataflag, 'sub-nmn')
+    testFilenames = {'NEG-MQ-R2-most-no-bark.tsv'};
+    splitFilenames = {listing5.name};
+elseif strcmp(dataflag, 'pair-nmn')
+    listing = [dir('data-5/*most-no*'); dir('data-5/*no-most*')];
+    testFilenames = {'NEG-MQ-R2-most-no-bark.tsv', listing.name};
+    splitFilenames = {listing5.name};
+elseif strcmp(dataflag, 'sub-ts')
+    testFilenames = {'MT-MQ-two-some-2-French-Parisian-rev.tsv'};
+    splitFilenames = {listing5.name};
+elseif strcmp(dataflag, 'pair-ts')
+    listing = [dir('data-5/*two-some*'); dir('data-5/*some-two*')];
+    testFilenames = {'MT-MQ-two-some-2-French-Parisian-rev.tsv', listing.name};
+    splitFilenames = {listing5.name};
+
+elseif strcmp(dataflag, 'splitall-5')
+    splitFilenames = {listing5.name};
+elseif strcmp(dataflag, 'one-mn')
     testFilenames = {'MQ-most-no-bark.tsv'};
 elseif strcmp(dataflag, 'sub-mn')
     testFilenames = {'MQ-most-no-bark.tsv', 'MQ-most-no-European.tsv', ...
@@ -166,9 +194,19 @@ elseif strcmp(dataflag, 'gradcheck')
     hyperParams.dim = 2;
     hyperParams.penultDim = 2;
     hyperParams.minFunc = 1;
+elseif strcmp(dataflag, 'test')
+    splitFilenames = {'MQ-two-all-bark.tsv'};
 elseif strcmp(dataflag, 'and-or') 
     testFilenames = {'./RC/test0', './RC/test1', './RC/test2', './RC/test3', './RC/test4', './RC/test5', './RC/test6'};
     trainFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4'};
+    splitFilenames = {};
+    options.numPasses = 15000;
+    if ~isempty(pretrainingFilename)
+        hyperParams.penultDim = 45;
+    end
+elseif strcmp(dataflag, 'and-or-deep') 
+    testFilenames = {'./RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
+    trainFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4'};
     splitFilenames = {};
     options.numPasses = 15000;
     if ~isempty(pretrainingFilename)

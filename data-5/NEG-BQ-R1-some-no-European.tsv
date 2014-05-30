@@ -7,7 +7,6 @@
 >	( some cat ) European	( no ( not cat ) ) European
 >	( some unable ) European	( no ( not unable ) ) European
 >	( some able ) European	( no ( not able ) ) European
->	( some Asian ) European	( no ( not Asian ) ) European
 >	( some bird ) European	( no ( not bird ) ) European
 >	( some crow ) European	( no ( not crow ) ) European
 >	( some sofa ) European	( no ( not sofa ) ) European
@@ -22,7 +21,6 @@
 >	( some immobile ) European	( no ( not immobile ) ) European
 >	( some dead ) European	( no ( not dead ) ) European
 >	( some live ) European	( no ( not live ) ) European
->	( some Parisian ) European	( no ( not Parisian ) ) European
 >	( some human ) European	( no ( not human ) ) European
 >	( some animate ) European	( no ( not animate ) ) European
 >	( some inanimate ) European	( no ( not inanimate ) ) European

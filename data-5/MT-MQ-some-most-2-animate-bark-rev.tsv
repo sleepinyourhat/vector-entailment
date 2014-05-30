@@ -52,9 +52,6 @@
 #	( some French ) bark	( most European ) animate
 #	( some Parisian ) bark	( most European ) animate
 #	( some Parisian ) bark	( most French ) animate
-#	( some bark ) bark	( most animate ) animate
-#	( some dead ) bark	( most inanimate ) animate
-#	( some plant ) bark	( most inanimate ) animate
 #	( some sofa ) bark	( most seat ) animate
 #	( some couch ) bark	( most seat ) animate
 #	( some bench ) bark	( most seat ) animate

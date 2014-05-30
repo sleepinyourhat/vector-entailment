@@ -1,0 +1,24 @@
+\section{Relation composition}
+
+In order for a model to be able to learn to mimic the behavior of a relational logic like the one presented here from a finite amount data, it must be able to learn to deduce new relations from seen relations. The simplest such deductions involve facts about the relations themselves that do not involve considering the internal structure of the things being compared. For example, given that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that $a\sqsupset c$ by the transitivity of $\sqsupset$, even without understanding $a$, $b$, or $c$. These seven relations support more than just transitivity: MacCartney and Manning's \cite{maccartney2009extended} join table defines 32 valid inferences that can be made on the basis of pairs of relations of the form $a R b$ and $b R' c$, including several less intuitive ones such as that if $a \natneg b$ and $b~|~c$ then $a \sqsupset c$. 
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{ll|lll}
+$a := \{1, 3, 4, 5, 6\}	$&~~~&~~~& $a \equiv a$	    	& $a~\#~c$	\\
+$b := \{0, 3, 5, 6\}	$&~~~&~~~& $e \sqsupset c$	&$b \smallsmile c$		\\
+$c := \{1, 2, 3, 4\}	$&~~~&~~~& $d \smallsmile e$	& $b~\#~d$		\\
+$d := \{0, 4\}		$&~~~&~~~& $a \sqsubset e$	& $ d \equiv d$	\\
+$e := \{1, 2, 3, 4, 5, 6\}$&~~~&~~~& $a~\#~b$		& ... 	\\
+\end{tabular}
+\end{center}
+
+\caption{Some sample randomly generated sets, and some of the relations defined between them.  \label{lattice-figure}} 
+\end{figure}
+
+
+I test the model's ability to learn this behavior by creating an artificial dataset of terms which represent sets of numbers. Since MacCartney and Manning's set of relations hold between sets as well as between sentences, I can use the underlying set structure to generate the all of the relations that hold between any pair of these terms, as in Figure \ref{lattice-figure}. I train the model defined above on a subset of these relations, but rather then presenting the model with a pair of tree-structured sentences as inputs, simply present it with two single terms, each of which corresponds to a single vector in the (randomly initialized) vocabulary matrix $V$, ensuring that the model has no information about the terms being compared except the relations between them.
+
+I generate 80 randomly generated sets drawing from the same seven elements, and create a dataset consisting of the relations between every pair of sets, yielding 6400 pairs. 3200 of these pairs were then chosen as a test dataset, and that test dataset was further split into the 2960 examples that can be provably derived from the test data using MacCartney and Manning's join table (or by the symmetry of the relations in about half of the cases) and the 240 that cannot. % TODO: Say more about symmetry?
+
+ A TODO-dimensional RNTN model tuned for the task was able to correctly label TODO \% of the derivable test examples, and TODO \% of the remaining examples. The simpler RNN model with the same number of dimensions was able to derive only TODO \% and TODO \%, respectively.

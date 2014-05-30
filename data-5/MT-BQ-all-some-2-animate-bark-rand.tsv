@@ -34,7 +34,6 @@
 #	( all human ) bark	( some animal ) European
 #	( all mammal ) bark	( some animal ) European
 #	( all puppy ) bark	( some dog ) European
-#	( all Thai ) bark	( some Asian ) European
 #	( all crow ) bark	( some bird ) European
 #	( all hippo ) bark	( some vertebrate ) European
 #	( all ape ) bark	( some vertebrate ) European
@@ -62,12 +61,6 @@
 #	( all human ) bark	( some mobile ) European
 #	( all mammal ) bark	( some mobile ) European
 #	( all hungry ) bark	( some live ) European
-#	( all French ) bark	( some European ) European
-#	( all Parisian ) bark	( some European ) European
-#	( all Parisian ) bark	( some French ) European
-#	( all bark ) bark	( some European ) European
-#	( all dead ) bark	( some inEuropean ) European
-#	( all plant ) bark	( some inEuropean ) European
 #	( all sofa ) bark	( some seat ) European
 #	( all couch ) bark	( some seat ) European
 #	( all bench ) bark	( some seat ) European

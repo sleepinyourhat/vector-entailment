@@ -1,18 +1,18 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainJoinModel(expName, mbs, dim, tot)
+function TrainJoinModel(expName, mbs, dim, tot, lambda, penult)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
 addpath('..')
     
-if nargin > 4
+if nargin > 5
     mkdir(expName); 
 else
     expName = '.';
 end
 
 [wordMap, relationMap, relations] = ...
-    LoadTrainingData('./data/extra_unk_train.tsv');
+    LoadTrainingData('./join-algebra/6x80_train.tsv');
 
 % disp('Uninformativizing:');
 % worddata = Uninformativize(worddata);
@@ -30,10 +30,10 @@ hyperParams.numRelations = 7;
 hyperParams.topDepth = 1;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 45;
+hyperParams.penultDim = penult;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.002;
+hyperParams.lambda = lambda; %0.002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -98,7 +98,7 @@ options.numPasses = 10000;
 options.miniBatchSize = mbs;
 
 % LR
-options.lr = 0.05;
+options.lr = 0.2; % TODO...
 
 % AdaGradSGD display options
 
@@ -128,44 +128,23 @@ options.resetSumSqFreq = 10000; % Don't bother.
 
 disp(options)
 
-if nargin > 4 && ~isempty(pretrainingFilename)
+if nargin > 6 && ~isempty(pretrainingFilename)
     % Initialize parameters from disk
     clear 'theta'
     clear 'thetaDecoder'
     v = load(pretrainingFilename);
     theta = v.theta;
     thetaDecoder = v.thetaDecoder;
-elseif ~hyperParams.noPretraining
-    % Pretrain words
-    disp('Pretraining')
-    if hyperParams.minFunc
-        theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
-            thetaDecoder, worddata, hyperParams);
-        % TODO: Forget and repeat?
-    else
-        theta = AdaGradSGD(theta, options, thetaDecoder, worddata, hyperParams);
-    end
-end
-
-if ~hyperParams.noPretraining
-    % Evalaute on word pair data
-    [~, ~, preAcc, preConfusion] = ComputeFullCostAndGrad(theta, thetaDecoder, worddata, hyperParams);
-
-    disp('Word pair confusion, PER: ')
-    disp('tr:  #     =     >     <     |     ^     v')
-    disp(preConfusion)
-    disp(preAcc)
 end
 
 % Reset composition function for training
 theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
 
 % Choose which files to load in each category.
-% listing = dir('data-4/*.tsv');
 splitFilenames = {};
-trainFilenames = {'./data/extra_unk_train.tsv'};
-testFilenames = {'./data/extra_unk_test.tsv', ...
-                 './data/extra_unk_test_underivable.tsv'};
+trainFilenames = {'./join-algebra/6x80_train.tsv'};
+testFilenames = {'./join-algebra/6x80_test.tsv', ...
+                 './join-algebra/6x80_test_underivable.tsv'}; % TODO, check dir!
 
 % splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;

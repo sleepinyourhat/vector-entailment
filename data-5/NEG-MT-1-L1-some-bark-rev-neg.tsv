@@ -29,7 +29,6 @@
 #	( some snail ) bark	( some ( not animal ) ) bark
 #	( some vertebrate ) bark	( some ( not animal ) ) bark
 #	( some invertebrate ) bark	( some ( not animal ) ) bark
-#	( some bark ) bark	( some ( not animal ) ) bark
 #	( some puppy ) bark	( some ( not animal ) ) bark
 #	( some feline ) bark	( some ( not animal ) ) bark
 #	( some human ) bark	( some ( not animal ) ) bark
@@ -43,7 +42,6 @@
 #	( some cat ) bark	( some ( not vertebrate ) ) bark
 #	( some bird ) bark	( some ( not vertebrate ) ) bark
 #	( some crow ) bark	( some ( not vertebrate ) ) bark
-#	( some bark ) bark	( some ( not vertebrate ) ) bark
 #	( some puppy ) bark	( some ( not vertebrate ) ) bark
 #	( some feline ) bark	( some ( not vertebrate ) ) bark
 #	( some human ) bark	( some ( not vertebrate ) ) bark
@@ -59,18 +57,14 @@
 #	( some crow ) bark	( some ( not mobile ) ) bark
 #	( some snail ) bark	( some ( not mobile ) ) bark
 #	( some vertebrate ) bark	( some ( not mobile ) ) bark
-#	( some bark ) bark	( some ( not mobile ) ) bark
 #	( some puppy ) bark	( some ( not mobile ) ) bark
 #	( some feline ) bark	( some ( not mobile ) ) bark
 #	( some human ) bark	( some ( not mobile ) ) bark
-#	( some animate ) bark	( some ( not mobile ) ) bark
 #	( some mammal ) bark	( some ( not mobile ) ) bark
 #	( some hungry ) bark	( some ( not live ) ) bark
-#	( some bark ) bark	( some ( not live ) ) bark
 #	( some French ) bark	( some ( not European ) ) bark
 #	( some Parisian ) bark	( some ( not European ) ) bark
 #	( some Parisian ) bark	( some ( not French ) ) bark
-#	( some bark ) bark	( some ( not animate ) ) bark
 #	( some dead ) bark	( some ( not inanimate ) ) bark
 #	( some plant ) bark	( some ( not inanimate ) ) bark
 #	( some sofa ) bark	( some ( not seat ) ) bark
@@ -92,13 +86,11 @@
 #	( some snail ) bark	( some ( not destructible ) ) bark
 #	( some vertebrate ) bark	( some ( not destructible ) ) bark
 #	( some invertebrate ) bark	( some ( not destructible ) ) bark
-#	( some bark ) bark	( some ( not destructible ) ) bark
 #	( some puppy ) bark	( some ( not destructible ) ) bark
 #	( some feline ) bark	( some ( not destructible ) ) bark
 #	( some dead ) bark	( some ( not destructible ) ) bark
 #	( some live ) bark	( some ( not destructible ) ) bark
 #	( some human ) bark	( some ( not destructible ) ) bark
-#	( some animate ) bark	( some ( not destructible ) ) bark
 #	( some seat ) bark	( some ( not destructible ) ) bark
 #	( some bench ) bark	( some ( not destructible ) ) bark
 #	( some woody ) bark	( some ( not destructible ) ) bark
@@ -111,7 +103,6 @@
 #	( some ape ) bark	( some ( not mammal ) ) bark
 #	( some dog ) bark	( some ( not mammal ) ) bark
 #	( some cat ) bark	( some ( not mammal ) ) bark
-#	( some bark ) bark	( some ( not mammal ) ) bark
 #	( some puppy ) bark	( some ( not mammal ) ) bark
 #	( some feline ) bark	( some ( not mammal ) ) bark
 #	( some human ) bark	( some ( not mammal ) ) bark

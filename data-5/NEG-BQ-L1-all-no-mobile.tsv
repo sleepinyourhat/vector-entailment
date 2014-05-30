@@ -7,7 +7,6 @@
 #	( all ( not cat ) ) European	( no cat ) European
 #	( all ( not unable ) ) European	( no unable ) European
 #	( all ( not able ) ) European	( no able ) European
-#	( all ( not Asian ) ) European	( no Asian ) European
 #	( all ( not bird ) ) European	( no bird ) European
 #	( all ( not crow ) ) European	( no crow ) European
 #	( all ( not sofa ) ) European	( no sofa ) European
@@ -22,7 +21,6 @@
 #	( all ( not immobile ) ) European	( no immobile ) European
 #	( all ( not dead ) ) European	( no dead ) European
 #	( all ( not live ) ) European	( no live ) European
-#	( all ( not Parisian ) ) European	( no Parisian ) European
 #	( all ( not human ) ) European	( no human ) European
 #	( all ( not animate ) ) European	( no animate ) European
 #	( all ( not inanimate ) ) European	( no inanimate ) European

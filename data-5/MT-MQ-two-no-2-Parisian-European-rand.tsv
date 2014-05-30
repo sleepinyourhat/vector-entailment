@@ -62,7 +62,6 @@
 #	( two puppy ) animate	( no mobile ) Parisian
 #	( two feline ) animate	( no mobile ) Parisian
 #	( two human ) animate	( no mobile ) Parisian
-#	( two animate ) animate	( no mobile ) Parisian
 #	( two mammal ) animate	( no mobile ) Parisian
 #	( two hungry ) animate	( no live ) Parisian
 #	( two Parisian ) animate	( no live ) Parisian
@@ -104,7 +103,6 @@
 #	( two dead ) animate	( no destructible ) Parisian
 #	( two live ) animate	( no destructible ) Parisian
 #	( two human ) animate	( no destructible ) Parisian
-#	( two animate ) animate	( no destructible ) Parisian
 #	( two seat ) animate	( no destructible ) Parisian
 #	( two bench ) animate	( no destructible ) Parisian
 #	( two woody ) animate	( no destructible ) Parisian

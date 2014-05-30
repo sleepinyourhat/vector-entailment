@@ -117,11 +117,11 @@ operators = ['and', 'or', 'and', 'or', '0', '0', '0', '0']
 
 stats = Counter()
 total = 0
-outputs = {0:[], 1:[], 2:[], 3:[], 4:[], 5:[], 6:[]}
-while total < 150000:
+outputs = {0:[], 1:[], 2:[], 3:[], 4:[], 5:[], 6:[], 7:[], 8:[], 9:[], 10:[], 11:[], 12:[]}
+while total < 500000:
 	subuniverse = random.sample(universe, 4)
-	lhs = create_sub_statement(subuniverse, 6)
-	rhs = create_sub_statement(subuniverse, 6)
+	lhs = create_sub_statement(subuniverse, 12)
+	rhs = create_sub_statement(subuniverse, 12)
 	sat1 = get_satisfying_worlds_for_tree(lhs, worlds)
 	sat2 = get_satisfying_worlds_for_tree(rhs, worlds)
 	if sat1 == worlds or len(sat1) == 0:
@@ -133,7 +133,7 @@ while total < 150000:
 	if rel != "?":
 		stats[rel] += 1
 		total += 1
-		max_len = min(max(get_len(rhs), get_len(lhs)), 6)
+		max_len = min(max(get_len(rhs), get_len(lhs)), 12)
 		outputs[max_len].append("" + rel + "\t" + to_string(lhs, individuals) + "\t" + to_string(rhs, individuals))
 
 TRAIN_PORTION = 0.85
