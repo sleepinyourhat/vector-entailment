@@ -6,6 +6,7 @@ their natural logic relation.
 """
 
 from itertools import product
+from operator import itemgetter
 from collections import defaultdict
 
 FOR = "<"
@@ -139,7 +140,6 @@ projectivity['two'] =  [{EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, IN
 projectivity['all'] = [{EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:INDY, COV:ALT,  INDY:INDY},
                        {EQ:EQ, FOR:FOR, REV:REV, NEG:ALT, ALT:ALT,  COV:INDY, INDY:INDY}]
 
-
 def all_sentences():
     """Generator for the current grammar and lexicon. Yields dicts with useful info."""    
     for d1, d2, na1, na2, n1, n2, va1, va2, v1, v2 in product(dets, dets, adverbs, adverbs, nouns, nouns, adverbs, adverbs, verbs, verbs):
@@ -150,7 +150,16 @@ def all_sentences():
         d['hypothesis'] = leaves(s, 1)
         d['relation'] = interpret(s, lexicon, projectivity)[0]
         yield d
-        
+
+def label_distribution():
+    """Calculates the distribution of labels for the current grammar."""
+    counts = defaultdict(int)
+    for d in all_sentences():
+        counts[d['relation']] += 1
+    total = float(sum(counts.values()))
+    for key, val in sorted(counts.items(), key=itemgetter(1), reverse=True):    
+        print key, val, val/total
+                    
 ######################################################################
 
 if __name__ == '__main__':
