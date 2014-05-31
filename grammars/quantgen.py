@@ -8,14 +8,17 @@ their natural logic relation.
 from itertools import product
 from operator import itemgetter
 from collections import defaultdict
+import random
 
 FOR = "<"
 REV = ">"
 NEG = "^"
 ALT = "|"
-COV = "_"
+COV = "v"
 EQ = "="
 INDY = "#"
+
+INDY_DOWNSAMPLE_RATIO = 0.1
 
 JOINTABLE = {
     EQ:   {EQ:EQ,   FOR:FOR,  REV:REV,  NEG:NEG,  ALT:ALT,  COV:COV,  INDY:INDY},
@@ -169,7 +172,10 @@ def all_sentences():
         d['premise'] = leaves(s, 0)
         d['hypothesis'] = leaves(s, 1)
         d['relation'] = interpret(s, lexicon, projectivity)[0]
-        yield d
+        
+        # Downsample INDY by 90%
+        if d['relation'] != INDY or random.random() < INDY_DOWNSAMPLE_RATIO:
+             yield d
 
 def label_distribution():
     """Calculates the distribution of labels for the current grammar."""
@@ -183,7 +189,7 @@ def label_distribution():
 ######################################################################
 
 if __name__ == '__main__':
-       
+  
         for counter, d in enumerate(all_sentences()):
             print "======================================================================"
             print 'Sentence %s:' % counter, d['sentence']

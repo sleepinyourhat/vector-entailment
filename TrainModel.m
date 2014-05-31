@@ -9,7 +9,7 @@ else
     expName = '.';
 end
 
-if ~strcmp(dataflag, 'and-or') &&  ~strcmp(dataflag, 'and-or-deep')
+if ~strcmp(dataflag, 'and-or') &&  ~strcmp(dataflag, 'and-or-deep') &&  ~strcmp(dataflag, 'and-or-deep-unlim')
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./wordpairs-v2.tsv');
 else
@@ -106,7 +106,7 @@ options.testFreq = 1;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 32;
+options.confusionFreq = 1;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
@@ -207,6 +207,14 @@ elseif strcmp(dataflag, 'and-or')
 elseif strcmp(dataflag, 'and-or-deep') 
     testFilenames = {'./RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
     trainFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4'};
+    splitFilenames = {};
+    options.numPasses = 15000;
+    if ~isempty(pretrainingFilename)
+        hyperParams.penultDim = 45;
+    end
+elseif strcmp(dataflag, 'and-or-deep-unlim') 
+    testFilenames = {'./RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
+    trainFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4', './RC/longer2/train5', './RC/longer2/train6', './RC/longer2/train7', './RC/longer2/train8', './RC/longer2/train9', './RC/longer2/train10', './RC/longer2/train11', './RC/longer2/train12'};
     splitFilenames = {};
     options.numPasses = 15000;
     if ~isempty(pretrainingFilename)

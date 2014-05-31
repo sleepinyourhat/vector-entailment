@@ -1,4 +1,4 @@
-from quantgen import *
+Ofrom quantgen import *
 
 bowman = {}
 
