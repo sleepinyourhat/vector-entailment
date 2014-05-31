@@ -59,7 +59,7 @@ hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
 hyperParams.useThirdOrder = tot; % For composition
-hyperParams.useThirdOrderComparison = 1; % For comparison
+hyperParams.useThirdOrderComparison = tot; % For comparison
 
 
 % Nonlinearities.

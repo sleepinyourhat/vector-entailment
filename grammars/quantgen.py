@@ -17,17 +17,30 @@ ALT = "|"
 COV = "v"
 EQ = "="
 INDY = "#"
+UNK = "?"
 
-INDY_DOWNSAMPLE_RATIO = 0.1
+INDY_DOWNSAMPLE_RATIO = 0.05
+MATLAB_OUTPUT = True
 
-JOINTABLE = {
-    EQ:   {EQ:EQ,   FOR:FOR,  REV:REV,  NEG:NEG,  ALT:ALT,  COV:COV,  INDY:INDY},
-    FOR:  {EQ:FOR,  FOR:FOR,  REV:INDY, NEG:ALT,  ALT:ALT,  COV:INDY, INDY:INDY},
-    REV:  {EQ:REV,  FOR:INDY, REV:REV,  NEG:COV,  ALT:INDY, COV:COV,  INDY:INDY},
-    NEG:  {EQ:NEG,  FOR:COV,  REV:ALT,  NEG:EQ,   ALT:INDY, COV:FOR,  INDY:INDY},
-    ALT:  {EQ:ALT,  FOR:INDY, REV:ALT,  NEG:FOR,  ALT:INDY, COV:FOR,  INDY:INDY},
-    COV:  {EQ:COV,  FOR:COV,  REV:INDY, NEG:REV,  ALT:REV,  COV:INDY, INDY:INDY},
-    INDY: {EQ:INDY, FOR:INDY, REV:INDY, NEG:INDY, ALT:INDY, COV:INDY, INDY:INDY}
+#JOINTABLE = { # Version w/o UNK relation
+#    EQ:   {EQ:EQ,   FOR:FOR,  REV:REV,  NEG:NEG,  ALT:ALT,  COV:COV,  INDY:INDY},
+#    FOR:  {EQ:FOR,  FOR:FOR,  REV:INDY, NEG:ALT,  ALT:ALT,  COV:INDY, INDY:INDY},
+#    REV:  {EQ:REV,  FOR:INDY, REV:REV,  NEG:COV,  ALT:INDY, COV:COV,  INDY:INDY},
+#    NEG:  {EQ:NEG,  FOR:COV,  REV:ALT,  NEG:EQ,   ALT:INDY, COV:FOR,  INDY:INDY},
+#    ALT:  {EQ:ALT,  FOR:INDY, REV:ALT,  NEG:FOR,  ALT:INDY, COV:FOR,  INDY:INDY},
+#    COV:  {EQ:COV,  FOR:COV,  REV:INDY, NEG:REV,  ALT:REV,  COV:INDY, INDY:INDY},
+#    INDY: {EQ:INDY, FOR:INDY, REV:INDY, NEG:INDY, ALT:INDY, COV:INDY, INDY:INDY}
+#}
+
+JOINTABLE = { # From MacCartney's diss p. 85 (PDF 99)
+    EQ:  {EQ:EQ,  FOR:FOR, REV:REV, NEG:NEG,  ALT:ALT, COV:COV, INDY:INDY, UNK:UNK},
+    FOR: {EQ:FOR, FOR:FOR, REV:UNK, NEG:ALT,  ALT:ALT, COV:UNK, INDY:UNK,  UNK:UNK},
+    REV: {EQ:REV, FOR:UNK, REV:REV, NEG:COV,  ALT:UNK, COV:COV, INDY:UNK,  UNK:UNK},
+    NEG: {EQ:NEG, FOR:COV, REV:ALT, NEG:EQ,   ALT:REV, COV:FOR, INDY:INDY, UNK:UNK},
+    ALT: {EQ:ALT, FOR:UNK, REV:ALT, NEG:FOR,  ALT:UNK, COV:FOR, INDY:UNK,  UNK:UNK},
+    COV: {EQ:COV, FOR:COV, REV:UNK, NEG:REV,  ALT:REV, COV:UNK, INDY:UNK,  UNK:UNK},
+    INDY:{EQ:INDY,FOR:UNK, REV:UNK, NEG:INDY, ALT:UNK, COV:UNK, INDY:UNK,  UNK:UNK},
+    UNK: {EQ:UNK, FOR:UNK, REV:UNK, NEG:UNK,  ALT:UNK, COV:UNK, INDY:UNK,  UNK:UNK},
 }
 
 ######################################################################
@@ -48,11 +61,9 @@ def interpret(tree, lexicon, projectivity):
         right, right_proj = interpret(tree[1], lexicon, projectivity)
         if left_proj:
             right = left_proj[0][right]
-            left_proj = left_proj[1:]
+            proj = left_proj[1:]
         rel = JOINTABLE[right][left]
-        if rel == INDY:            
-            rel = JOINTABLE[left][right]
-        return (rel, left_proj)
+        return (rel, proj)
     else:
         raise Exception("We have no provision for interpreting branching nodes greater than 2.")
 
@@ -173,8 +184,7 @@ def all_sentences():
         d['hypothesis'] = leaves(s, 1)
         d['relation'] = interpret(s, lexicon, projectivity)[0]
         
-        # Downsample INDY by 90%
-        if d['relation'] != INDY or random.random() < INDY_DOWNSAMPLE_RATIO:
+        if d['relation'] != UNK:
              yield d
 
 def label_distribution():
@@ -185,16 +195,53 @@ def label_distribution():
     total = float(sum(counts.values()))
     for key, val in sorted(counts.items(), key=itemgetter(1), reverse=True):    
         print key, val, val/total
-                    
+
+def sentence_to_parse(sentence):
+    parse = sentence[0] + ' ( '
+    if sentence[1] == 'not':
+        parse = parse + '( ' + sentence[1] + ' ' + sentence[2] + ' ) '
+    else:
+        parse = parse + sentence[2] + ' '
+    if sentence[3] == 'not':
+        parse = parse + '( ' + sentence[3] + ' ' + sentence[4] + ' ) )'
+    else:
+        parse = parse + sentence[4] + ' )'
+    return parse
+
+def matlab_string(d):
+    return str(d['relation']) + '\t' + str(sentence_to_parse(d['premise'])) + '\t' + str(sentence_to_parse(d['hypothesis']))
+
 ######################################################################
 
 if __name__ == '__main__':
-  
+
+    if MATLAB_OUTPUT:
+
+        # Open a file for each pair of quantifiers
+        files = {}
+        for i in range(10):
+            for j in range(i, 10):
+                left_det = dets[i]
+                right_det = dets[j]
+                filename = 'quant_' + left_det + '_' + right_det
+                files[(left_det, right_det)] = open(filename, 'w')
         for counter, d in enumerate(all_sentences()):
-            print "======================================================================"
-            print 'Sentence %s:' % counter, d['sentence']
-            print 'Premise:    ', d['premise']
-            print 'Hypothesis: ', d['hypothesis']
-            print 'Relation:   ', d['relation']
+            left_det = d['premise'][0]
+            right_det = d['hypothesis'][0]
+            if (left_det, right_det) in files:
+                files[(left_det, right_det)].write(matlab_string(d) + "\n")
+            else:
+                files[(right_det, left_det)].write(matlab_string(d) + "\n")
+        # Close the files
+        for key in f:
+            f[key].close
+
+    else:
+            for counter, d in enumerate(all_sentences()):
+                print "======================================================================"
+                print 'Sentence %s:' % counter, d['sentence']
+                print 'Premise:    ', d['premise']
+                print 'Hypothesis: ', d['hypothesis']
+                print 'Relation:   ', d['relation']
 
     
