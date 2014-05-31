@@ -259,7 +259,7 @@ if __name__ == '__main__':
             for j in range(i, 10):
                 left_det = dets[i]
                 right_det = dets[j]
-                filename = 'quant_' + left_det + '_' + right_det
+                filename = 'data/quant_' + left_det + '_' + right_det
                 files[(left_det, right_det)] = open(filename, 'w')
         for counter, d in enumerate(all_sentences()):
             left_det = d['premise'][0]
