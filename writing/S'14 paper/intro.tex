@@ -1,3 +1,42 @@
+\section{Introduction}\label{sec:intro}
+
+Supervised recursive neural network models (RNNs) for sentence meaning
+have been successful in a wide array of sophisticated language tasks,
+including sentiment analysis, analogy completion, image description,
+and paraphase detection. These results are encouraging about the
+ability of these models to learn compositional semantic grammars, but
+it remains an open question whether they can achieve the same results
+as grammars based in logical forms when it comes to core semantic
+concepts like quantification, entailment, and contradiction defined
+over complex linguistic structures. These concepts are central to
+robust natural language understanding, so it is essential that our
+computational models be able to capture them.
+
+We address this question directly by using a logical grammar to
+generate controlled data sets encoding the semantic relationships
+between pairs of expressions and evaluating whether each of two
+classes of neural model --- plain RNNs and recursive neural tensor
+networks (RNTNs) --- can learn those relationships correctly. Our
+logical grammar is a version of the natural logic developed by
+\cite{maccartney2009extended}, which defines seven core relations of
+synonymy, entailment, contradiction, and mutual consistency. Natural
+logic is well-suited to our purposes because of it defines a rich set
+of relations between words, phrases, and sentences, and because its
+logical expressions are derived directly from surface forms, making it
+amenable to large-scale natural language processing.
+
+In our first experiment, we show that both of these models can learn
+the core relational algebra of natural logic from data. Our second
+experiment builds on this result to cover relations between complex
+recursive structures like `(A or B)' and `not(not A and not B)', and
+our third experiment involves relations between quantified statements
+like `every reptile walks' and `every turtle moves'. We find that the
+plain RNN achieves only mixed results on the second and third
+experiments, but that the stronger RNTN models generalized well in
+every case, suggesting that it has in fact learned, or at least
+learned to simulate, our target logical concepts.
+
+
 \section{Introduction}
 % TODO: cite \cite{watanabe2012latent} for past work on ML for McC&M-style NLI
 
