@@ -9,12 +9,15 @@ else
     expName = '.';
 end
 
-if ~strcmp(dataflag, 'and-or') &&  ~strcmp(dataflag, 'and-or-deep') &&  ~strcmp(dataflag, 'and-or-deep-unlim')
-    [wordMap, relationMap, relations] = ...
-        LoadTrainingData('./wordpairs-v2.tsv');
-else
+if strcmp(dataflag, 'and-or') ||  strcmp(dataflag, 'and-or-deep') ||  strcmp(dataflag, 'and-or-deep-unlim')
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./RC/train1'); 
+elseif findstr(dataflag, 'G-')
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./grammars/wordlist.tsv'); 
+else
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./wordpairs-v2.tsv');
 end
 
 % disp('Uninformativizing:');
@@ -130,6 +133,7 @@ disp(options)
 % Choose which files to load in each category.
 listing = dir('data-4/*.tsv');
 listing5 = dir('data-5/*.tsv');
+listingG = dir('grammars/data/quant*');
 
 splitFilenames = {listing.name};
 trainFilenames = {};
@@ -157,6 +161,16 @@ elseif strcmp(dataflag, 'pair-ts')
     listing = [dir('data-5/*two-some*'); dir('data-5/*some-two*')];
     testFilenames = {'MT-MQ-two-some-2-French-Parisian-rev.tsv', listing.name};
     splitFilenames = {listing5.name};
+
+elseif strcmp(dataflag, 'G-all_not_all')
+    testFilenames = {'grammars/data/quant_all_not_all'};
+    splitFilenames = {listingG.name};
+elseif strcmp(dataflag, 'G-lt_two_lt_three')
+    testFilenames = {'grammars/data/quant_lt_two_lt_three'};
+    splitFilenames = {listingG.name};
+elseif strcmp(dataflag, 'G-not_all_not_most')
+    testFilenames = {'grammars/data/quant_not_all_not_most'};
+    splitFilenames = {listingG.name};
 
 elseif strcmp(dataflag, 'splitall-5')
     splitFilenames = {listing5.name};

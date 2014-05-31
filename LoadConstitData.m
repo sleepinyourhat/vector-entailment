@@ -4,7 +4,11 @@ function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams)
 
 % Append data-4/ if we don't have a full path:
 if isempty(strfind(filename, '/'))
-    filename = ['data-5/', filename];
+    if strfind(filename, 'quant_')
+        filename = ['grammars/data/', filename];
+    else   
+        filename = ['data-5/', filename];
+    end
 end
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
