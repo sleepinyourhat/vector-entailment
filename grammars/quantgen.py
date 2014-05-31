@@ -22,6 +22,11 @@ UNK = "?"
 INDY_DOWNSAMPLE_RATIO = 0.05
 MATLAB_OUTPUT = True
 
+DISTINGUISH_UNIONS_FROM_INDY = True
+
+if not DISTINGUISH_UNIONS_FROM_INDY:
+    UNK = INDY
+    
 #JOINTABLE = { # Version w/o UNK relation
 #    EQ:   {EQ:EQ,   FOR:FOR,  REV:REV,  NEG:NEG,  ALT:ALT,  COV:COV,  INDY:INDY},
 #    FOR:  {EQ:FOR,  FOR:FOR,  REV:INDY, NEG:ALT,  ALT:ALT,  COV:INDY, INDY:INDY},
@@ -46,7 +51,42 @@ JOINTABLE = { # From MacCartney's diss p. 85 (PDF 99)
 ######################################################################
 # Interpretation function:
 
-def interpret(tree, lexicon, projectivity):
+def fa_left_first(left, left_proj, right, right_proj):
+    """Composition as Left o LeftProj(Right)"""
+    # Projectivity:
+    left_proj, right = left_projectivity(left_proj, right)        
+    # Calculate the join as Left o Right:
+    rel = JOINTABLE[left][right]
+    return (rel, left_proj)
+
+def fa_right_first(left, left_proj, right, right_proj):
+    """Composition as LeftProj(Right) o Left"""
+    # Projectivity:    
+    left_proj, right = left_projectivity(left_proj, right)
+    # Calculate the join as Right o Left:
+    rel = JOINTABLE[right][left]
+    return (rel, left_proj)
+
+def fa_favor_indy(left, left_proj, right, right_proj):
+    """Composition as LeftProj(Right) o Left if that is INDY, else Left o LeftProj(Right)"""
+    # Projectivity:
+    left_proj, right = left_projectivity(left_proj, right)
+    # Output:    
+    rel = JOINTABLE[right][left]
+    if rel != INDY:
+        rel = JOINTABLE[left][right]
+    return (rel, left_proj)
+
+def left_projectivity(left_proj, right):
+    """Applies left_proj[0] to right and removes the first element of (discharges) left_proj"""
+    if left_proj:
+        # Apply the current (0th) dimension of the projectivity function to the right argument:
+        right = left_proj[0][right]
+        # Increment the left projectivity function:
+        left_proj = left_proj[1:]
+    return (left_proj, right)
+
+def interpret(tree, lexicon, projectivity, fa=fa_left_first):
     """Recursively interpret the tree."""
     # For atomic cases:
     if isinstance(tree, tuple):
@@ -59,14 +99,10 @@ def interpret(tree, lexicon, projectivity):
     elif len(tree) == 2:        
         left, left_proj = interpret(tree[0], lexicon, projectivity)
         right, right_proj = interpret(tree[1], lexicon, projectivity)
-        if left_proj:
-            right = left_proj[0][right]
-            proj = left_proj[1:]
-        rel = JOINTABLE[right][left]
-        return (rel, proj)
+        return fa(left, left_proj, right, right_proj)
     else:
         raise Exception("We have no provision for interpreting branching nodes greater than 2.")
-
+            
 def leaves(s, dim):
     """For visualizing an aligned tree s. dim=0 for premise; dim=1 for hypothesis."""
     l = []
@@ -174,7 +210,7 @@ projectivity['lt_three'] = lt_numeric
 ######################################################################
 # Exploration:
 
-def all_sentences():
+def all_sentences(ignore_unk=True):
     """Generator for the current grammar and lexicon. Yields dicts with useful info."""    
     for d1, d2, na1, na2, n1, n2, va1, va2, v1, v2 in product(dets, dets, adverbs, adverbs, nouns, nouns, adverbs, adverbs, verbs, verbs):
         d = {}
@@ -184,7 +220,7 @@ def all_sentences():
         d['hypothesis'] = leaves(s, 1)
         d['relation'] = interpret(s, lexicon, projectivity)[0]
         
-        if d['relation'] != UNK:
+        if ignore_unk and d['relation'] != UNK:
              yield d
 
 def label_distribution():
@@ -233,15 +269,15 @@ if __name__ == '__main__':
             else:
                 files[(right_det, left_det)].write(matlab_string(d) + "\n")
         # Close the files
-        for key in f:
-            f[key].close
+        for key in files:
+            files[key].close
 
     else:
-            for counter, d in enumerate(all_sentences()):
-                print "======================================================================"
-                print 'Sentence %s:' % counter, d['sentence']
-                print 'Premise:    ', d['premise']
-                print 'Hypothesis: ', d['hypothesis']
-                print 'Relation:   ', d['relation']
+        for counter, d in enumerate(all_sentences()):
+            print "======================================================================"
+            print 'Sentence %s:' % counter, d['sentence']
+            print 'Premise:    ', d['premise']
+            print 'Hypothesis: ', d['hypothesis']
+            print 'Relation:   ', d['relation']
 
     
