@@ -46,7 +46,10 @@ def interpret(tree, lexicon, projectivity):
         if left_proj:
             right = left_proj[0][right]
             left_proj = left_proj[1:]
-        return (JOINTABLE[left][right], left_proj)
+        rel = JOINTABLE[right][left]
+        if rel == INDY:            
+            rel = JOINTABLE[left][right]
+        return (rel, left_proj)
     else:
         raise Exception("We have no provision for interpreting branching nodes greater than 2.")
 
@@ -82,36 +85,29 @@ verb_matrix = [
 	[INDY, INDY, ALT, EQ]    # growl
 ]
 
-#dets = ['all', 'not-all', 'some', 'no', 'most', 'not-most', 'two-or-more', 'less-than-two', 'three-or-more', 'less-than-three']
-dets = ['all', 'some', 'most', 'two']
+dets = ['all', 'not_all', 'some', 'no', 'most', 'not_most', 'two', 'lt_two', 'three', 'lt_three']
+det_matrix = [
+    # all   not_all some    no      most    not_most two    lt_two  three   lt_three
+    [EQ,	NEG,	FOR,	ALT,	FOR,	ALT,	 INDY,	INDY,	INDY,	INDY], # all
+    [NEG,	EQ,	    COV,	REV,	COV,	REV,	 INDY,	INDY,	INDY,	INDY], # not_all
+    [REV,	COV,	EQ,	    NEG,	REV,	COV,	 REV,	COV,	REV,	COV],  # some
+    [ALT,	FOR,	NEG,	EQ,	    ALT,	FOR,	 ALT,	FOR,	ALT,	FOR],  # no
+    [REV,	COV,	FOR,	ALT,	EQ,	    NEG,	 INDY,	INDY,	INDY,	INDY], # most
+    [ALT,	FOR,	COV,	REV,	NEG,	EQ,	     INDY,	INDY,	INDY,	INDY], # not_most
+    [INDY,	INDY,	FOR,	ALT,	INDY,	INDY,	 EQ,    NEG,	REV,	COV],  # two
+    [INDY,	INDY,	COV,	REV,	INDY,	INDY,	 NEG,	EQ,	    ALT,	FOR],  # lt_two
+    [INDY,	INDY,	FOR,	ALT,	INDY,	INDY,	 FOR,	ALT,	EQ,	    NEG],  # three
+    [INDY,	INDY,	COV,	REV,	INDY,	INDY,	 COV,	REV,	NEG,	EQ]    # lt_three
+]
+
 adverbs = ['', 'not']
+
 lexicon = {
-        # Dets:
-        ('all', 'all'):   EQ,
-        ('all', 'some'):  FOR,
-        ('all', 'most'):  FOR,
-        ('all', 'two'):   INDY,
-        #
-        ('some', 'all'):   REV,
-        ('some', 'some'):  EQ,
-        ('some', 'most'):  REV,
-        ('some', 'two'):   REV,
-        #
-        ('most', 'all'):   REV,
-        ('most', 'some'):  FOR,
-        ('most', 'most'):  EQ,
-        ('most', 'two'):   INDY,
-        #
-        ('two', 'all'):   INDY,
-        ('two', 'some'):  FOR,
-        ('two', 'most'):  INDY,
-        ('two', 'two'):   EQ,
-        # Negation
-        ('', ''):         EQ,
-        ('', 'not'):      NEG,
-        ('not', ''):      NEG,
-        ('not', 'not'):   EQ
-    }
+    ('', ''):       EQ,
+    ('', 'not'):    NEG,
+    ('not', ''):    NEG,
+    ('not', 'not'): EQ
+}
 
 for i, j in product(range(len(nouns)), range(len(nouns))):
     lexicon[(nouns[i], nouns[j])] = noun_matrix[i][j]    
@@ -119,26 +115,50 @@ for i, j in product(range(len(nouns)), range(len(nouns))):
 for i, j in product(range(len(verbs)), range(len(verbs))):
     lexicon[(verbs[i], verbs[j])] = verb_matrix[i][j]
 
+for i, j in product(range(len(dets)), range(len(dets))):
+    lexicon[(dets[i], dets[j])] = det_matrix[i][j]
+
+
 projectivity = defaultdict(list)
 
 projectivity['not'] = [{EQ:EQ, FOR:REV, REV:FOR, NEG:NEG, ALT:COV, COV:ALT,INDY:INDY}]
 
 projectivity[''] = [{EQ:EQ, FOR:FOR, REV:REV, NEG:NEG, ALT:ALT, COV:COV, INDY:INDY}]
 
-projectivity['no'] =  [{EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:INDY, COV:ALT, INDY:INDY},
-                       {EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:INDY, COV:ALT, INDY:INDY}]
-
 projectivity['some'] = [{EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, INDY:INDY},
                         {EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, INDY:INDY}]
 
-projectivity['most'] = [{EQ:EQ, FOR:INDY, REV:INDY, NEG:INDY, ALT:INDY, COV:INDY, INDY:INDY},
-                        {EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, INDY:INDY}]
-
-projectivity['two'] =  [{EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, INDY:INDY},
-                        {EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, INDY:INDY}]
-    
 projectivity['all'] = [{EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:INDY, COV:ALT,  INDY:INDY},
                        {EQ:EQ, FOR:FOR, REV:REV, NEG:ALT, ALT:ALT,  COV:INDY, INDY:INDY}]
+
+numeric = [{EQ:EQ, FOR:FOR, REV:REV, NEG:INDY, ALT:INDY, COV:INDY,  INDY:INDY},
+           {EQ:EQ, FOR:FOR, REV:REV, NEG:INDY, ALT:INDY, COV:INDY,  INDY:INDY}]
+
+projectivity['two'] = numeric
+
+projectivity['three'] = numeric
+
+projectivity['no'] =  [{EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:INDY, COV:ALT, INDY:INDY},
+                       {EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:INDY, COV:ALT, INDY:INDY}]
+    
+projectivity['most'] = [{EQ:EQ, FOR:INDY, REV:INDY, NEG:INDY, ALT:INDY, COV:INDY, INDY:INDY},
+                        {EQ:EQ, FOR:FOR, REV:REV, NEG:ALT, ALT:ALT, COV:INDY, INDY:INDY}]
+
+projectivity['not_all'] = [{EQ:EQ, FOR:FOR, REV:REV, NEG:COV, ALT:INDY, COV:COV, INDY:INDY},
+                            {EQ:EQ, FOR:REV, REV:FOR, NEG:COV, ALT:COV, COV:INDY, INDY:INDY}]
+
+projectivity['not_most'] = [{EQ:EQ, FOR:INDY, REV:INDY, NEG:INDY, ALT:INDY, COV:INDY,INDY:INDY},
+                            {EQ:EQ, FOR:REV, REV:FOR, NEG:ALT, ALT:COV, COV:ALT, INDY:INDY}]
+
+lt_numeric = [{EQ:EQ, FOR:REV, REV:FOR, NEG:INDY, ALT:INDY, COV:INDY,  INDY:INDY},
+              {EQ:EQ, FOR:REV, REV:FOR, NEG:INDY, ALT:INDY, COV:INDY,  INDY:INDY}]
+
+projectivity['lt_two'] = lt_numeric
+
+projectivity['lt_three'] = lt_numeric
+
+######################################################################
+# Exploration:
 
 def all_sentences():
     """Generator for the current grammar and lexicon. Yields dicts with useful info."""    
