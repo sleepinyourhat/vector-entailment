@@ -162,14 +162,17 @@ elseif strcmp(dataflag, 'pair-ts')
     testFilenames = {'MT-MQ-two-some-2-French-Parisian-rev.tsv', listing.name};
     splitFilenames = {listing5.name};
 
-elseif strcmp(dataflag, 'G-all_not_all')
-    testFilenames = {'grammars/data/quant_all_not_all'};
+elseif strcmp(dataflag, 'G-two_lt_two')
+    testFilenames = {'grammars/data/quant_two_lt_two'};
     splitFilenames = {listingG.name};
-elseif strcmp(dataflag, 'G-lt_two_lt_three')
-    testFilenames = {'grammars/data/quant_lt_two_lt_three'};
+elseif strcmp(dataflag, 'G-no_no')
+    testFilenames = {'grammars/data/quant_no_no'};
     splitFilenames = {listingG.name};
 elseif strcmp(dataflag, 'G-not_all_not_most')
     testFilenames = {'grammars/data/quant_not_all_not_most'};
+    splitFilenames = {listingG.name};
+elseif strcmp(dataflag, 'G-all_some')
+    testFilenames = {'grammars/data/quant_all_some'};
     splitFilenames = {listingG.name};
 
 elseif strcmp(dataflag, 'splitall-5')

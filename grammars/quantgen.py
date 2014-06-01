@@ -8,6 +8,8 @@ their natural logic relation.
 from itertools import product
 from operator import itemgetter
 from collections import defaultdict
+from collections import Counter
+
 import random
 
 FOR = "<"
@@ -255,22 +257,28 @@ if __name__ == '__main__':
 
         # Open a file for each pair of quantifiers
         files = {}
+        counters = {}
         for i in range(10):
             for j in range(i, 10):
                 left_det = dets[i]
                 right_det = dets[j]
                 filename = 'data/quant_' + left_det + '_' + right_det
                 files[(left_det, right_det)] = open(filename, 'w')
+                counters[(left_det, right_det)] = Counter()
         for counter, d in enumerate(all_sentences()):
             left_det = d['premise'][0]
             right_det = d['hypothesis'][0]
             if (left_det, right_det) in files:
                 files[(left_det, right_det)].write(matlab_string(d) + "\n")
+                counters[(left_det, right_det)][d['relation']] += 1
             else:
                 files[(right_det, left_det)].write(matlab_string(d) + "\n")
+                counters[(right_det, left_det)][d['relation']] += 1
         # Close the files
         for key in files:
             files[key].close
+            # For relation count statistics: 
+            # print len(counters[key]), key, counters[key]
 
     else:
         for counter, d in enumerate(all_sentences()):
