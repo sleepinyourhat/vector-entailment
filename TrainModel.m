@@ -174,6 +174,8 @@ elseif strcmp(dataflag, 'G-not_all_not_most')
 elseif strcmp(dataflag, 'G-all_some')
     testFilenames = {'grammars/data/quant_all_some'};
     splitFilenames = {listingG.name};
+elseif strcmp(dataflag, 'G-splitall')
+    splitFilenames = {listingG.name};
 
 elseif strcmp(dataflag, 'splitall-5')
     splitFilenames = {listing5.name};

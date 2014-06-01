@@ -1,44 +1,35 @@
 \section{Reasoning with natural language quantifiers}
 
-% Condense condense condense
-
-Interest in NLI in the NLP community is ongoing, and a version of it has been included in the 2014 SemEval challenge specially targeted towards the evaluation of distributional models. Neither this dataset, nor any other existing RTE and NLI datasets are appropriate for the task at hand however. I intend for the present experiment to evaluate the ability of a class of models to learn certain types of inference behavior, and need a dataset that precisely tests these phenomena. With existing datasets that use unrestricted natural language, there is the risk that a model could successfully capture monotonicity inference, but fail to accurately label test data due to problems with, for example, lexical ambiguity, syntactic ambiguity, coreference resolution, or pragmatic enrichment.
+% Introduce the task
 
 \subsection{Data}
 
-The dataset is built on a small purpose-built vocabulary, which is intended to be large and diverse enough to permit a wide variety of experiments on different semantic phenomena beyond those shown here, but which is still small enough to allow the relations between the lexical items themselves to be exhaustively manually labeled when needed. The vocabulary contains 41 predicates (nouns, adjectives, and intransitive verbs; see Appendix B for more on the design of the wordlist), six quantifiers, the logical conjunctions \emph{and} and \emph{or}, and the unary operator \emph{not}.
+Our data consists of pairs of sentences generated from a small artificial grammar. Each sentence contains a quantifier, a noun, which may be negated, and an intransitive verb which may be negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all}, \ii{two}, and \ii{three}, and each of their duals over negation \ii{no}, \ii{not-all}, \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}. We also include five nouns, four intransitive verbs, and the negation symbol \ii{not}. In order to be able to define relations between sentences with differing lexical items, we define the lexical relations between each noun--noun pair, each verb--verb pair, and each quantifier--quantifier pair.
 
-The data take the form of 12k pairs of short sentences, each annotated with a relation label, which I divide into about 200 smaller datasets. These datasets contain tightly constrained variants of a specific valid reasoning pattern, each differing in at most one lexical item, and all sharing the same relation label. The remainder of this section describes the composition of these 200 datasets. Examples from four of the datasets are provided in Table \ref{examplesofdata}.
+%nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
+%verbs = ['walk', 'move', 'swim', 'growl']
+%dets = ['all', 'not_all', 'some', 'no', 'most', 'not_most', 'two', 'lt_two', 'three', 'lt_three']
+%adverbs = ['', 'not']
+
+To assign relation labels to sentence pairs, we built a small task-specific implemenation of MacCartney's logic that can accurately label sentences of this restricted language. The logic is not able to derive all intuitively true relations of this language, and fails to derive a single unique relation for certain types of statement, including De Morgean's laws (e.g. \ii{(all pets) growl $\natneg$ (some pet) (not growl)}), and we simply discard these examples. Exhaustively generating the valid sentences under this grammar and choosing those to which a relation label can be assigned
+yields 66k sentence pairs. Some examples of these data are provided in Table \ref{examplesofdata}.
 
 \begin{table}\small\centering
 \begin{tabular}{|l|}
 \hline
-(most warthogs) walk $\natneg$ (not-most warthogs) walk\\
-(most mammals) move \# (not-most (not turtles)) move\\
-(most (not pets)) (not swim) $\sqsupset$ (not-most (not pets)) move\\
+\ii{(most warthogs) walk $\natneg$ (not-most warthogs) walk}\\
+\ii{(most mammals) move $\#$ (not-most (not turtles)) move}\\
+\ii{(most (not pets)) (not swim) $\sqsupset$ (not-most (not pets)) move}\\
 \hline
-(no turtles) (not growl) $\|$ (no turtles) (not swim)\\
-(no warthogs) swim $\sqsupset$ (no warthogs) move\\
-(no warthogs) move $\sqsubset$ (no (not reptiles)) swim\\
+\ii{(no turtles) (not growl) $\|$ (no turtles) (not swim)}\\
+\ii{(no warthogs) swim $\sqsupset$ (no warthogs) move}\\
+\ii{(no warthogs) move $\sqsubset$ (no (not reptiles)) swim}\\
 \hline
 \end{tabular}
-\caption{Sample data from two different quantifier pairs.\label{examplesofdata}}
+\caption{Sample data involving two different quantifier pairs.\label{examplesofdata}}
 \end{table}
 
 % TODO: Mention all seven relations seen, but some rare
-
-% TODO: Condense the below to a paragraph
-
-\noindent\textit{Basic monotonicity:} This set of datasets contains reasoning patterns like those seen in example 1  in Table \ref{examplesofdata}, where one of the predicates on one side entails the predicate in the corresponding position on the other side. In some of the datasets (as in 1), this alternation is in the first argument position, in some the second argument position, and in some both. For the alternating first argument subclasses, I have every lexical entailment pair in the data in the first argument position, the terms \ii{bark}, \ii{mobile}, and \ii{European} in the second argument position, and every quantifier. 
-For alternating second argument datasets, I have all predicates in the first argument position, and the pairs \ii{bark--animate}, \ii{French--European}, and \ii{Parisian--French} in the second argument position. The datasets in which there is an alternation in both positions fall into two categories. In some, the entailment relations between the arguments work in the same direction (\ii{some dog French} $\sqsubset$ \ii{some animal European}), in others, they work in opposite directions (\ii{some dog European} \# \ii{some animal French}).
-
-\noindent\textit{Quantifier substitution:} These datasets, exemplified in 2 above, show the interactions between each possible pair of different quantifiers, with the same predicates on both sides. Datasets exist with \ii{bark}, \ii{mobile}, and \ii{European} in the second argument position, and within each dataset every possible predicate is shown in first argument position.
-
-\noindent\textit{Monotonicity with quantifier substitution:} These datasets show the more complex monotonicity interactions that emerge when reasoning between phrases with differing arguments and differing quantifiers, as in  3. 
-Exhaustively creating datasets of this kind involves too large an amount of data to readily verify manually, so I sampled  from the extensive set of possible combinations of the six quantifiers and the fixed argument fillers used in the monotonicity datasets. Each possible relation but `$\equiv$' (which does not apply sentences like these unless the predicates on both sides are identical) is expressed, as is every possible pair of quantifiers.
-
-\noindent\textit{Negation:}
-To show the interaction of negation and monotonicity, I included variants of many of the datasets described above in which one of the four argument positions is systematically negated, as demonstrated in example 4. 
 
 \section{Experiments and results}
 
@@ -53,14 +44,13 @@ Performance on this setting is perfect: the model quickly converges to 100\% acc
 \textbf{Training configuration} & \textbf{Test accuracy}\\\hline
 \textsc{all split}	&	TODO\% \\\hline
 \textsc{pair no/no}	&	TODO\% \\
-\textsc{pair two/$<$two}	&	TODO\% \\
+\textsc{pair two/less-than-two}	&	TODO\% \\
 \textsc{pair not-all/not-most}	&	TODO\% \\
 \textsc{pair all/some}	&	TODO\% \\\hline
 \end{tabular}
 
 \caption{Quantifier experiment performance.\label{resultstable}}
 \end{table} % TODO: Replace
-
 
 % TODO: Define experimental setups
 
