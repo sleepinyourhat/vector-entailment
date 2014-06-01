@@ -235,15 +235,15 @@ def label_distribution():
         print key, val, val/total
 
 def sentence_to_parse(sentence):
-    parse = sentence[0] + ' ( '
+    parse = ' ( ' + sentence[0] + ' '
     if sentence[1] == 'not':
-        parse = parse + '( ' + sentence[1] + ' ' + sentence[2] + ' ) '
+        parse = parse + '( ' + sentence[1] + ' ' + sentence[2] + ' ) ) '
     else:
-        parse = parse + sentence[2] + ' '
+        parse = parse + sentence[2] + ' ) '
     if sentence[3] == 'not':
-        parse = parse + '( ' + sentence[3] + ' ' + sentence[4] + ' ) )'
+        parse = parse + '( ' + sentence[3] + ' ' + sentence[4] + ' )'
     else:
-        parse = parse + sentence[4] + ' )'
+        parse = parse + sentence[4]
     return parse
 
 def matlab_string(d):
