@@ -34,11 +34,7 @@ like `every reptile walks' and `every turtle moves'. We find that the
 plain RNN achieves only mixed results on the second and third
 experiments, but that the stronger RNTN models generalized well in
 every case, suggesting that it has in fact learned, or at least
-learned to simulate, our target logical concepts.
-
-
-\section{Introduction}
-% TODO: cite \cite{watanabe2012latent} for past work on ML for McC&M-style NLI
+learned to simulate, our target logical concepts. % TODO: Update
 
 % Deep learning methods in NLP which learn vector representations for words have seen successful uses in recent years on increasingly sophisticated tasks \cite{collobert2011natural, socher2011semi, socher2013acl1, chen2013learning}. Given the still modest performance of semantically rich NLP systems in many domains---question answering and machine translation, for instance---it is worth exploring the degree to which learned vectors can serve as general purpose semantic representations. Much of the work to date analyzing vector representations for words (see \cite{baroni2013frege}) has focused on lexical semantic behaviors---like the similarity between words like \ii{Paris} and \ii{France}. Good similarity functions are valuable for many NLP tasks, but there are real use cases for which it is necessary to know how words relate to one another or to some extrinsic representation, and to model the ways in which word meanings combine to form phrase, sentence, or document meanings. This paper explores the ability of linguistic representations developed using supervised deep learning techniques to support interpretation and reasoning. 
 
@@ -59,6 +55,8 @@ learned to simulate, our target logical concepts.
 % TODO: Cite ICLR paper, emphasize new work since
 
 \subsection{The task: natural language inference}
+
+% TODO: cite \cite{watanabe2012latent} for past work on ML for McC&M-style NLI
 
 % Condense?
 In the standard formulation of the inference task (and the one used in the RTE datasets \cite{dagan2006pascal}), the goal is to determine whether a reasonable human would infer a hypothesis from a premise.
@@ -81,6 +79,7 @@ independence & $x$ \# $y$ & (else) & \ii{hungry, hippo}\\ \hline
 \end{center}
 \end{table}
 
+% TODO: Reframe for updated experiments.
 In order to minimize this possibility, I define the task of strict unambiguous NLI (SU-NLI). In this task, only entailments that are licensed by a strictly literal interpretation of the provided sentences are considered valid, and several constraints are applied to the language to minimize ambiguity:
 \begin{itemize}
 \ex A small, unambiguous vocabulary is used.
@@ -106,3 +105,5 @@ This study is the first that I am aware of to attempt to build an inference engi
 \citet{baroni2012entailment} have achieved limited success in building a classifier to judge entailments between one- and two-word phrases (including some with quantifiers), though their vector representations were crucially based on distributional statistics and were not  learned for the task.
 In another line of research, \citet{garrette2013formal} propose a way to improve standard discrete NLI with vector representations. They propose a deterministic inference engine (similar to MacCartney's) which is augmented by a probabilistic component that evaluates individual lexical substitution steps in the derivation using vector representations, though again these representations are not learned, and no evaluations of this system have been published to date.
 \label{sec2}
+
+% TODO: Mention all seven relations seen in all three experiments, but distribution uneven

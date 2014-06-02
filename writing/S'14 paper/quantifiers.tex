@@ -1,8 +1,10 @@
 \section{Reasoning with natural language quantifiers}
 
-% Introduce the task
+Even to the extent that RNTN models can handle functional meanings in the form of the operators of propositional logic, this is not a guarantee that these models can handle functional meanings of the forms seen in natural language. As a first step towards investigating the latter, we attempt to directly measure the degree to which RNNs are able to develop representations for natural language quantifiers like \ii{some} and \ii{all} that are adequate for inference. Quantification is far from the only place in natural language where complex functional meanings are found, but it is a natural starting point, since it can be tested in setences whose structures are otherwise quite simple, and since it has formed a standard case study in prior formal work on natural language inference.
 
-\subsection{Data}
+% \subsection{Data}
+
+This experiment replicates similar work described in \citet{bowman2013can}, but replaces the partially manually annotated data in that paper with data that is generated directly using the logical system that we hope to model, yielding results that we believe to be substantially more straightforward to interpret.
 
 Our data consists of pairs of sentences generated from a small artificial grammar. Each sentence contains a quantifier, a noun, which may be negated, and an intransitive verb which may be negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all}, \ii{two}, and \ii{three}, and each of their duals over negation \ii{no}, \ii{not-all}, \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}. We also include five nouns, four intransitive verbs, and the negation symbol \ii{not}. In order to be able to define relations between sentences with differing lexical items, we define the lexical relations between each noun--noun pair, each verb--verb pair, and each quantifier--quantifier pair.
 
@@ -29,48 +31,31 @@ yields 66k sentence pairs. Some examples of these data are provided in Table \re
 \caption{Sample data involving two different quantifier pairs.\label{examplesofdata}}
 \end{table}
 
-% TODO: Mention all seven relations seen, but some rare
+% \subsection{Experiments and results}
 
-\section{Experiments and results}
+We evaluate the model using two experimental settings. In the simpler setting we randomly sample 85\% of the data and evaluate on the remaining 15\%. In this setting, the model is being asked to learn a complete reasoning system for the limited language and logic presented in the training data, but it is not being asked to generalize to test examples that are substantially different from those it was trained on. Crucially though, to succeed on this task, the model must be able to recognize all of the lexical relations between the nouns, verbs, and quantifiers and how they interact.
 
-% TODO: Update with newer experiments
-
-In the simplest experimental setting, which I label \textsc{all-split}, I randomly sample 85\% the data---making sure to sample 85\% of each of the individual datasets---train the model on that portion, and evaluate on the remaining 15\% of the data. This setting is meant to test whether the model is able to correctly generalize the individual reasoning patterns represented by each of the datasets. 
-
-Performance on this setting is perfect: the model quickly converges to 100\% accuracy on the test data, showing that it is capable of accurately learning to capture all of the reasoning patterns in the data. The remaining experimental settings serve to determine whether what is learned captures the underlying logical structure of the data in a way that allows it to accurately label unseen kinds of reasoning pattern. In each of them, I choose one of three arbitrarily chosen target datasets, all involving quantifier substitution, to test on. I then then hold out that dataset and---depending on the experimental setting---other similar datasets from the training data in an attempt to discover just how different a test example can be from anything seen in training and still be classified accurately. Table \ref{patterntable} shows what information is included in the training data for each of the four settings for one of the three target datasets. 
+While our primary interest is in discovering the extent to which the model can learn to encode the logic given an arbitrary amount of data, we are also interested in the degree to which the model can infer a correct representation from the logic from more constrained training data. In particular, we propose to segment the sentence pairs according to which quantifiers appear in each pair, and then hold out one such pair for testing. We hypothesize that a model that can efficiently learn to represent a logic should be able to construct an accurate representation of each held out quantifier from the way that it interacts with the other nine quantifiers which are not held out. Since running this experiment requires choosing a pair of quantifiers to hold out before training, the resource demans of training prevent us from testing each of the 55 possible possible pairs of quantifiers, and we choose only four pairs to test on. We attempt choose three pairs of differing quantifiers (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and \ii{all}/\ii{some}) to represent six different quantifiers in the test data, choosing pairs that maximize the diversity of relation labels appearing in the test data, and additionally choose one pair in which a quantifier is paired with itself (\ii{no}/\ii{no}).
 
 \begin{table}\small\centering
 \begin{tabular}{|l|l|}\hline
 \textbf{Training configuration} & \textbf{Test accuracy}\\\hline
 \textsc{all split}	&	TODO\% \\\hline
-\textsc{pair no/no}	&	TODO\% \\
 \textsc{pair two/less-than-two}	&	TODO\% \\
 \textsc{pair not-all/not-most}	&	TODO\% \\
-\textsc{pair all/some}	&	TODO\% \\\hline
+\textsc{pair all/some}	&	TODO\% \\
+\textsc{pair no/no}	&	TODO\% \\
+\hline
 \end{tabular}
 
 \caption{Quantifier experiment performance.\label{resultstable}}
 \end{table} % TODO: Replace
 
-% TODO: Define experimental setups
+% \subsection{Discussion} 
 
-\subsection{Discussion} 
+The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
+% TODO: Update dimensionality
+
+To be filled in based on Monday's results.\\...\\...\\...\\...\\...\\...\\...\\...\\...\\...
 
 % TODO: Revise
-
-The model learns to generalize well to novel data in most but not all of the training configurations. This inconsistent performance suggests that there is room to improve the optimization techniques used on the model, but the fact that it is able to perform well in these settings even some of the time suggests that the structure of the model is basically capable of learning meaning representations that support inference.
-
-The results in the \textsc{all-split} condition show two important behaviors. The model is able to learn to identify the difference between two unseen sentences and consistently return the label that corresponds to that difference. In addition, the model can learn lexical relations from the training data, such as \ii{dog $\sqsubset$ animal} from \ii{(no dog) bark $\sqsupset$ (no animal) bark}, and it can then use these learned lexical relations to compute the relation for a sentence pair like \ii{(some dog) bark $\sqsubset$ (all animal) bark}. The results from the other three experimental settings show that the model is able to learn general purpose representations for quantifiers which, at least in many cases, allow it to perform inference when a crucial difference between two sentences---the  substitution of one specific quantifier for another---has not been seen. These results serve to confirm that the representations learned are capturing some of the underlying logic, rather than than just supporting the memorization of fixed reasoning patterns. 
-
-%  There has also been some research, most recently including \citet{grefenstette2013towards}, into models which represent quantifiers and other function words as higher order tensors rather than vectors, motivated in part by the hypothesis that their compositional behavior cannot be captured in strictly vector-based representatons. A successful inference engine that used those representations would not be a strict rebuttal of this assumption, but it could provide insight into precisely what circumstances would warrant the use of these richer tensor representation models in practice.  % TODO: Proof
-
-These results leave open the question of how much information is minimally needed to learn general purpose representations for quantifiers in this setting. There are two lines of experimental work that could help to clarify this. Including longer sentences and constructions involving conjunctions (i.e. \ii{and, or}), transitive verbs (i.e. \ii{eats, kicks}) or other constructions in the training and test data could further test what kinds of behavior can be learned from a small training set, as could further experiments on this data involving even smaller training sets than those shown here or differently structured configurations of train and test sets.
-
-%The representations that the model learns are not truly general-purpose, though. Human speakers of English who know the meanings of all of the words in a sentence are able to reason about whether that sentence entails any other sentence of English even if they have never seen either sentence before, or have never used the particular pattern of inference before. This broad ability to generalize does not appear to have been learned in these experiments. Pessimistically, the model might be primarily memorizing the reasoning patterns themselves, with any generalization beyond the \textsc{set-out} setting being erratic and case-specific. Optimistically, though, the model might be learning to handle logic in a way more like MacCartney's formal approach, in which the model must know dozens of different possible inference steps involving specific quantifiers and entailment patterns to succeed: if the model hasn't seen the substitution of \ii{most} with \ii{no}, it doesn't have the tools to reason about that substitution. 
-%An incomplete ability to generalize is not necessarily detrimental to a model's ability to support reasoning in practice, especially in this later interpretation, since the body of knowledge used to do inference in MacCartney's approach is small enough that it could realistically be learned.
-
-%It remains an open research question whether generalization of the type seen in the \textsc{pair-out} case is possible for any model. A model that could successfully generalize in this way could be potentially valuable both as a more versatile reasoning tool, and as a source of information about the ways in which functional types like quantifiers can be represented in vector space models.
-%There are two ways that this problem can be addressed, one practical and one formal. 
-
-% An obvious direction for future work is to test for this behavior in more powerful models, or to see whether a dataset containing a more diverse array of reasoning patterns (beyond those possible just with quantification and negation) could encourage generalization. Running experiments like the ones presented above on models with matrices or higher order tensors as word representations \cite{coecke2010mathematical, grefenstette2013towards} might be a promising start.
-%It is also not impossible that even an RNTN like the one studied could generalize perfectly: the dramatic instability of the model over the course of training suggests that better approaches to learning could improve performance.
