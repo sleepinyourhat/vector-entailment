@@ -15,62 +15,43 @@ $(c~(and~d))\sqsubset d$&~~~&$d\sqsupset((d~(or~d))~(and~(not~b)))$\\
 
 % TODO: Cite Chomsky/Hauser/Fitch?
 
-Recursive structure is a prominent  feature of natural language. Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice said hello}, and \ii{Carl thinks that Bob said that Alice said hello}. Overt recursion of this kind is easy to find, and theoretical accounts of natural language syntax and semantics rely heavily on recursive structures.
-In order for a model to be able to accurately learn natural language meanings, then, we expect that it would need to be able to learn to represent the meanings of function words in a such a way that they are able to behave correctly when taking their own outputs as input.
-
-% Goal: Deep recursion!
+Recursive structure is a prominent  feature of natural language. Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice said hello}, and \ii{Carl thinks that Bob said that Alice said hello}. Overt recursion of this kind is easy to find, and theoretical accounts of natural language syntax and semantics rely heavily on recursive structures. In order for a model to be able to accurately learn natural language meanings, then, we expect that it would need to be able to learn to represent the meanings of function words in a such a way that they are able to behave correctly when taking their own outputs as input. In evaluating the model, we take advantage of the fact that recursive structures of this kind define potentially infinite languages by testing the model on strings that are longer and more complex than any seen in testing.
 
 We again test this phenomenon within the framework of MacCartney and Manning-style entailment reasoning, but we replace the unanalyzed symbols from the previous experiment with expressions that involve recursive structure. To define these expressions, we turn to propositional logic, a relatively simple logic in which each variable represents either \ii{true} or \ii{false}. We generate data of the form seen in Figure \ref{prop-figure}: strings of arbitrary length consisting of six elementary proposition variables and the operators \ii{and}, \ii{or}, and \ii{not}, arranged in pairs with the logical relations between them specified. 
 
 
 
-% TODO: Worth explicitly calling this project theorem proving? Yes! There was some confusion at CSLI.
+% NOTE: Worth explicitly calling this project theorem proving? Yes! There was some confusion at CSLI.
 
 Socher et al. \cite{socher2012semantic} have previously demonstrated the learning of a logic in a matrix-vector RNN model somewhat similar to our own, but the logic discussed here is substantially stronger, and a much better approximation of the kind of structure that is needed for natural language. The logic learned in that experiment is boolean, wherein the atomic symbols are simply the values 0 and 1, rather than variables over those values. While learning the operators of that logic is not trivial, the ouptuts of each operator can be represented accurately by a single bit. The statements of propositional logic learned here describe conditions on the truth values of propositions where those truth values are not known. As opposed to the two-way contrasts seen in \cite{socher2012semantic}, this logic distinguishes between 64 (2^6) possible assignments of truth values, and expressions of this logic define arbitrary conditions on these possible assignments, for a total of 2^{64} ($\approx 10^{20}$) possible statements that the recursive model needs to be able to distinguish. To frame this distinction in another way, the relational statements in our data our theorems about the relations between statements in the logic tested in \cite{socher2012semantic}.
 
-We randomly generate pairs of parentheses-bracketed statements of the logic and then randomly divide the results into training and test data sets. To compute the relation between each pair of statements, we exhaustively enumerate the sets of assignments of truth values to proposition variables that would satisfy each of the statements and then convert the set-theoretic relation between those assignments into one of the seven relations. 
-If we do not implement any constraint that the two statements being compared are similar in any way, the generated data consists in large part of statements in which the two refer to largely separate subsets of the six variables, and to which we will nearly always assign the \# relation. In an effort to balance the distribution of relation labels without departing from the basic task of modeling propositional logic, we disallow individual pairs of statements from referring to more than four of the six proposition variables. 
+We randomly generate pairs of parentheses-bracketed statements of the logic and then randomly divide the results into training and test data sets. To compute the relation between each pair of statements, we exhaustively enumerate the sets of assignments of truth values to proposition variables that would satisfy each of the statements and then convert the set-theoretic relation between those assignments into one of the seven relations. If we do not implement any constraint that the two statements being compared are similar in any way, the generated data consists in large part of statements in which the two refer to largely separate subsets of the six variables, and to which we will nearly always assign the \# relation. In an effort to balance the distribution of relation labels without departing from the basic task of modeling propositional logic, we disallow individual pairs of statements from referring to more than four of the six proposition variables. 
 
-We deduplicate the data and discard pairs in which either statement is a tautology or contradiction (a statement that is true of either all or no possible assignments), for which none of the seven relation labels can accurately apply. We then divide the generated pairs into size bins based on the number of logical operators (\ii{and}, \ii{or}, or \ii{not}) in the larger of the two pairs being compared, and discard examples of size greater than twelve by this measure. Finally, we randomly sample 15\% of each bin for a held out test set.
-...
-65k train  
+We deduplicate the data and discard pairs in which either statement is a tautology or contradiction (a statement that is true of either all or no possible assignments), for which none of the seven relation labels can accurately apply. We then divide the generated pairs into size bins based on the number of logical operators (\ii{and}, \ii{or}, or \ii{not}) in the larger of the two pairs being compared, and discard examples of size greater than twelve by this measure. Finally, we randomly sample 15\% of each bin for a held out test set. 
 
- compute the relaitons between them, discard  , and consist of about 248k training examples and 44k test examples.
+We trained both the RNN and RNTN models on the data of size four or less (65k pairs), and tested it on examples of up to size 12 (44k pairs). We initialized the model parameters randomly, including the vector representations of the six variables. 
 
- Each of the six symbols and each of the three operators is treated as a word for the purposes of our model, and is represented by a randomly initialized vector representation.
-
-
-
-
-
-...
-
-
-% TODO: Add figure for results
-
-train up to depth 5
-test up to depth 12
-
-% Describe data
+The results are shown in Figure \ref{prop-results}. In tuning, we found that the RNN model was approximately optimal with 45 dimensional vector representations, and the RNTN model was approximately optimal with 25 dimensions. We fixed the size of the feature vector for the classifier at 75 dimensions. We found that the RNTN model was able to perform almost perfectly on unseen small test examples, with accuracy above 99\% below size four. After depth four, performance gradually falls with increasing size. The RNN model did not perform well, reaching only 88.2\% accuracy on the smallest test examples, and declining from there to near-baseline performance at size 12. 
 
 \begin{figure}[t]
 \begin{center}
-...\\
-...\\
-...\\
-...\\
-...\\
-...\\
-...\\
-...\\
-...\\
+\includegraphics[width=5.5in]{recursion\string_results.eps}
 \end{center}
 
-\caption{Model performance by expression size. The vertical dashed line indicates the size of the largest expressions included in the training data.  \label{prop-figure}} 
+\caption{Model performance by expression size.  \label{prop-results}} 
 \end{figure}
 
 
-The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
+Discussion to be filled in based on Monday's results.\\...\\...\\...\\...\\...\\...\\...\\...\\...\\...
 
-% TODO: Include dimensionality
+% TODO:
+% Points for discussion
+% - The RNTN has learned to approximate the correct funtionn
+% -- The error introduced by the approximation likely grows with depth, but is sufficiently small at the training example sizes
+
+% - The RNN has plausibly learned an approximation as well, but one which is quite noisy even without recursion
+% -- Possible but unlikely that further tuning and different types or amounts of training data could get the RNN to work
+
+% - Future work:
+% -- Generate much larger examples to tease apart the ability of the model to approximate a representable function from data, and the ability of the model to represent 
 

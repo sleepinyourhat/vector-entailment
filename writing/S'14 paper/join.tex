@@ -21,6 +21,11 @@ I test the model's ability to learn this behavior by creating an artificial data
 
 I generate 80 randomly generated sets drawing from the same seven elements, and create a dataset consisting of the relations between every pair of sets, yielding 6400 pairs. 3200 of these pairs were then chosen as a test dataset, and that test dataset was further split into the 2960 examples that can be provably derived from the test data using MacCartney and Manning's join table (or by the symmetry of the relations in about half of the cases) and the 240 that cannot. % TODO: Say more about symmetry?
 
- A TODO-dimensional RNTN model tuned for the task was able to correctly label TODO \% of the derivable test examples, and TODO \% of the remaining examples. The simpler RNN model with the same number of dimensions was able to derive only TODO \% and TODO \%, respectively.
+We found that the RNTN model worked best with 11 dimensional vector representations for the 80 sets and a 90 dimensional feature vector for the classifier. This model was able to correctly label 99.3\% of the derivable test examples, and 99.1\% of the remaining examples. The simpler RNN model worked best with 11 and 75 dimensions, respectively, but was able to achieve accuracies of only 90.0\% and 87.\%, respectively.
 
-% TODO: Include dimensionality
+
+Discussion to be filled in based on Monday's results.\\...\\...\\...\\...\\...\\...
+
+% Points for discussion: 
+% - Fairly simple interpretation: RNTN generalized, RNN didn't
+% - Future work: Can this generalize to models with huge numbers of entities, or does this result depend on the examples reflecting a small model in any way? Can't exhaustively generate large models without getting \#s - need sampling.

@@ -4,7 +4,7 @@ Even to the extent that RNTN models can handle functional meanings in the form o
 
 % \subsection{Data}
 
-This experiment replicates similar work described in \citet{bowman2013can}, but replaces the partially manually annotated data in that paper with data that is generated directly using the logical system that we hope to model, yielding results that we believe to be substantially more straightforward to interpret.
+This experiment replicates similar work described in \citet{bowman2013can}, which found that RNTNs can learn to reason well with quantifier meanings given sufficient training data. This paper replaces the partially manually annotated data in that paper with data that is generated directly using the logical system that we hope to model, yielding results that we believe to be substantially more straightforward to interpret.
 
 Our data consists of pairs of sentences generated from a small artificial grammar. Each sentence contains a quantifier, a noun, which may be negated, and an intransitive verb which may be negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all}, \ii{two}, and \ii{three}, and each of their duals over negation \ii{no}, \ii{not-all}, \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}. We also include five nouns, four intransitive verbs, and the negation symbol \ii{not}. In order to be able to define relations between sentences with differing lexical items, we define the lexical relations between each noun--noun pair, each verb--verb pair, and each quantifier--quantifier pair.
 
@@ -31,31 +31,32 @@ yields 66k sentence pairs. Some examples of these data are provided in Table \re
 \caption{Sample data involving two different quantifier pairs.\label{examplesofdata}}
 \end{table}
 
-% \subsection{Experiments and results}
-
 We evaluate the model using two experimental settings. In the simpler setting we randomly sample 85\% of the data and evaluate on the remaining 15\%. In this setting, the model is being asked to learn a complete reasoning system for the limited language and logic presented in the training data, but it is not being asked to generalize to test examples that are substantially different from those it was trained on. Crucially though, to succeed on this task, the model must be able to recognize all of the lexical relations between the nouns, verbs, and quantifiers and how they interact.
 
 While our primary interest is in discovering the extent to which the model can learn to encode the logic given an arbitrary amount of data, we are also interested in the degree to which the model can infer a correct representation from the logic from more constrained training data. In particular, we propose to segment the sentence pairs according to which quantifiers appear in each pair, and then hold out one such pair for testing. We hypothesize that a model that can efficiently learn to represent a logic should be able to construct an accurate representation of each held out quantifier from the way that it interacts with the other nine quantifiers which are not held out. Since running this experiment requires choosing a pair of quantifiers to hold out before training, the resource demans of training prevent us from testing each of the 55 possible possible pairs of quantifiers, and we choose only four pairs to test on. We attempt choose three pairs of differing quantifiers (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and \ii{all}/\ii{some}) to represent six different quantifiers in the test data, choosing pairs that maximize the diversity of relation labels appearing in the test data, and additionally choose one pair in which a quantifier is paired with itself (\ii{no}/\ii{no}).
 
 \begin{table}\small\centering
-\begin{tabular}{|l|l|}\hline
-\textbf{Training configuration} & \textbf{Test accuracy}\\\hline
-\textsc{all split}	&	TODO\% \\\hline
-\textsc{pair two/less-than-two}	&	TODO\% \\
-\textsc{pair not-all/not-most}	&	TODO\% \\
-\textsc{pair all/some}	&	TODO\% \\
-\textsc{pair no/no}	&	TODO\% \\
+\begin{tabular}{|l|lll|}\hline
+\textbf{Data} & \textbf{Most frequent class*} & \textbf{TODO dim RNN} & \textbf{16 dim RNTN}\\\hline
+\textsc{all split}	& 35.4\% &	TODO\%&	88.1\% \\\hline
+\textsc{pair two/less-than-two}	& 59.8\% &	TODO\% &	92.4\% \\
+\textsc{pair not-all/not-most}	&0\% &	   TODO\%  &	82.1\% \\
+\textsc{pair all/some}	& 0\%& TODO\%  &	80.4\% \\
+\textsc{pair no/no}	& 30.8\% &	TODO\% &	100\% \\
 \hline
 \end{tabular}
 
-\caption{Quantifier experiment performance.\label{resultstable}}
+\caption{Quantifier experiment performance. *Most frequent class accuracy is measured against the most frequent class in the training data, \#.\label{resultstable}}
 \end{table} % TODO: Replace
-
-% \subsection{Discussion} 
 
 The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
 % TODO: Update dimensionality
 
-To be filled in based on Monday's results.\\...\\...\\...\\...\\...\\...\\...\\...\\...\\...
+Discussion to be filled in based on Monday's results.\\...\\...\\...\\...\\...\\...\\...\\...\\...\\...
+
+% Notes for discussion:
+% - First effort to learn a logic, results somewhat unclear.
+% -- No straightforward way to prove that there is enough information in the data to learn quantifier projecitivies in this setting
+% - Perfect performance on no-no promising that the model is learning at least some structure
 
 % TODO: Revise

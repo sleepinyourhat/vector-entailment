@@ -1,5 +1,7 @@
 \section{Recursive neural network models}
 
+% TODO: Self cite.
+
 The models that we study is are centered aronund a recursively applied composition function which is meant to mimic the recursive construction of meanings in formal semantics. In this scheme, pairs of words are merged into phrase representations by a function that maps from representations of length $2N$ to representations of length $N$. These phrase representations are then further merged with other words and phrases until the entire phrase or sentence being evaluated is represented in a single vector. This vector is then used as the input to a classifier and used in a supervised learning task.
 
 Borrowing a model directly from the existing literature for this task is impossible since none has been proposed to detect asymmetric relations between phrases. Instead, we build a combination model, depicted in Figure \ref{sample-figure}. The two phrases being compared are built up separately on each side of the tree using the same composition function until they have each been reduced to single vectors. Then, the two phrase vectors are fed into a separate comparison layer that is meant to generate a feature vector capturing the relation between the two phrases. The output of this layer is then given to a softmax classifier, which in turn produces a hypothesized distribution over the seven relations.
@@ -23,6 +25,6 @@ To run the model forward and label a pair of phrases, the structure of the lower
 \includegraphics[scale=0.36]{model.eps}
 \end{center}
 \caption{The model structure used to compare \ii{no dog} and \ii{(not all) dog}. \label{sample-figure}} 
-\end{figure} % TODO: Create a more compact figure using something better than qtree.
+\end{figure}
 
 \ii{Source code and data will be released after the conclusion of the review period.} % TODO: Or upon request? Attach anonymized code?
