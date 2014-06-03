@@ -9,7 +9,8 @@ the relations in Table~\ref{b-table}. For instance, given that $a
 basic set-theoretic reasoning (transitivity of $\natrev$). Similarly,
 from $a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.
 The full set of sound inferences of this form is summarized in
-Table~\ref{tab:jointable}.
+Table~\ref{tab:jointable}; blank cells correspond to pairs of relations
+for which no valid inference can be drawn in our logic.
 
 % about the relations themselves that do not depend on the
 % internal structure of the things being compared. For example, given
@@ -66,13 +67,13 @@ us to prove only a subset of the full set of true statements.
     \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
     \setlength{\unitlength}{1cm}
     \begin{picture}(5,5.5)
-      \labelednode{2.50}{5}{a}{1,2,3}
+      \labelednode{2.50}{5}{}{1,2,3}
       
       \put(0.75,4){\line(3,1){1.5}}
       \put(2.5,4){\line(0,1){0.5}}
       \put(4.25,4){\line(-3,1){1.5}}
       
-      \labelednode{0.75}{3.5}{b}{1,2}
+      \labelednode{0.75}{3.5}{a,b}{1,2}
       \labelednode{2.50}{3.5}{c}{1,3}
       \labelednode{4.25}{3.5}{d}{2,3}
       
@@ -86,17 +87,18 @@ us to prove only a subset of the full set of true statements.
       \put(4.25,2.5){\line(-3,1){1.5}}
       
 
-      \labelednode{0.75}{2}{e}{1}
-      \labelednode{2.50}{2}{f}{2}
-      \labelednode{4.25}{2}{g}{3}
+      \labelednode{0.75}{2}{e,f}{1}
+      \labelednode{2.50}{2}{}{2}
+      \labelednode{4.25}{2}{g,h}{3}
       
       \put(2.5,1){\line(-3,1){1.5}}
       \put(2.5,1){\line(0,1){0.5}}
       \put(2.5,1){\line(3,1){1.5}}
       
-      \labelednode{2.5}{0.5}{h}{}
+      \labelednode{2.5}{0.5}{}{}
     \end{picture}
-    \caption{Simple boolean model.}
+    \caption{Simple boolean model. The letters name the sets. Not all sets have names, and
+    some sets have multiple names, so that learning $\nateq$ is non-trivial.}
   \end{subfigure}
   \qquad
   \begin{subfigure}[t]{0.5\textwidth}
@@ -112,7 +114,7 @@ us to prove only a subset of the full set of true statements.
                     & \strikeout{$b \natrev e$} \\
       $c \natcov d$ &               \\
       $c \natrev e$ &               \\
-                    & \strikeout{$c \natneg f$} \\
+                    & \strikeout{$c \nateq f$} \\
       $c \natrev g$ &               \\ 
                     & $e \natfor b$ \\
       $e \natfor c$ &               \\[-1ex]
