@@ -1,2 +1,12 @@
 *.DS_Store
 grammars/*.pyc
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.rel
+*.dvi
+*.synctex.gz
+*_region_.tex
+writing/S'14 paper/paper.pdf
