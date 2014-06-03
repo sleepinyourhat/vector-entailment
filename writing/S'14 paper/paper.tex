@@ -8,12 +8,25 @@
 \usepackage{qtree}
 \usepackage[numbers]{natbib}
 \usepackage{graphicx}
+\usepackage{booktabs}
+
+\definecolor{mylinkcolor}{rgb}{0,0,0} % black
+\hypersetup{colorlinks, linkcolor=mylinkcolor, urlcolor=mylinkcolor, citecolor=mylinkcolor}
+
+\newcommand{\nateq}{\equiv}
+\newcommand{\natind}{\mathbin{\#}}
+%\newcommand{\natneg}{\raisebox{2px}{\tiny\thinspace$\wedge$\thinspace}}
+\newcommand{\natneg}{\mathbin{^{\wedge}}}
+\newcommand{\natfor}{\sqsubset}
+\newcommand{\natrev}{\sqsupset}
+\newcommand{\natalt}{\mathbin{|}}
+\newcommand{\natcov}{\mathbin{\smallsmile}}
 
 
 \renewcommand{\bibsection}{\subsubsection*{\bibname}}
 
 \usepackage{gb4e}
-\newcommand{\natneg}{\raisebox{2px}{\tiny\thinspace$\wedge$\thinspace}}
+
 \def\ii#1{\textit{#1}}
 
 \title{DRAFT: Learning to represent abstract structures for natural language reasoning}

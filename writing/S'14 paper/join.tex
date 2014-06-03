@@ -1,3 +1,27 @@
+\begin{table}[htp]
+  \centering
+  \setlength{\tabcolsep}{15pt}
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{l c l l} 
+    \toprule
+    Name & Symbol & Set-theoretic definition & Example \\ 
+    \midrule
+    entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle, reptile}  \\ 
+    reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile, turtle}  \\ 
+    equivalence        & $x \nateq y$    & $x = y$       & \ii{couch, sofa} \\ 
+    alternation        & $x \natalt y$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{turtle, warthog} \\ 
+    negation           & $x \natneg y$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$    & \ii{able, unable} \\
+    cover              & $x \natcov y$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-turtle} \\ 
+    independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
+    \bottomrule
+  \end{tabular}
+  \caption{The entailment relations in $\mathfrak{B}$. 
+    $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
+    and the relation $\natind$ applies whenever none of the other six do, including when there 
+    is insufficient knowledge to choose a label.}
+  \label{b-table}
+\end{table}
+
 \section{Relation composition}
 
 In order for a model to be able to learn to mimic the behavior of a relational logic like the one presented here from a finite amount data, it must be able to learn to deduce new relations from seen relations. The simplest such deductions involve facts about the relations themselves that do not involve considering the internal structure of the things being compared. For example, given that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that $a\sqsupset c$ by the transitivity of $\sqsupset$, even without understanding $a$, $b$, or $c$. These seven relations support more than just transitivity: MacCartney and Manning's \cite{maccartney2009extended} join table defines 32 valid inferences that can be made on the basis of pairs of relations of the form $a R b$ and $b R' c$, including several less intuitive ones such as that if $a \natneg b$ and $b~|~c$ then $a \sqsupset c$. 

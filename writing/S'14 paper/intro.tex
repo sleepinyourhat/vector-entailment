@@ -76,22 +76,22 @@ concepts. % TODO: Update with current results
 
 % This approach to natural logic can capture much of the complexity of natural language meaning within a well understood framework, and is also fairly straightforward to implement in a machine learning setting since it can be reduced to a seven-way classification problem on sentence pairs. Our goal in this paper is to learn recursive neural network models which are able to mimic key behaviors of this system.
 
-\begin{table}
-\begin{center}
-\begin{tabular}{|c|c|c|c|} \hline
-name & symbol & set-theoretic definition & example \\ \hline \hline
-entailment & $x \sqsubset y$ & $x \subset y$ & \ii{crow, bird}  \\ \hline
-reverse entailment & $x \sqsupset y$ & $x \supset y$ & \ii{Asian, Thai}  \\ \hline
-equivalence & $x \equiv y$ & $x = y$ & \ii{couch, sofa} \\ \hline
-alteration & $x$ $|$ $y$ & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{cat, dog} \\ \hline
-negation & $x \natneg y$ & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{able, unable} \\ \hline
-cover & $x \smallsmile y$ & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-ape} \\ \hline
-independence & $x$ \# $y$ & (else) & \ii{hungry, hippo}\\ \hline
-\end{tabular}
-\caption{The entailment relations in  $\mathfrak{B}$. $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, and the relation \# applies whenever none of the other six do, including when there is insufficient knowledge to choose a label.}
-\label{b-table}
-\end{center}
-\end{table}
+% \begin{table}
+% \begin{center}
+% \begin{tabular}{|c|c|c|c|} \hline
+% name & symbol & set-theoretic definition & example \\ \hline \hline
+% entailment & $x \sqsubset y$ & $x \subset y$ & \ii{crow, bird}  \\ \hline
+% reverse entailment & $x \sqsupset y$ & $x \supset y$ & \ii{Asian, Thai}  \\ \hline
+% equivalence & $x \equiv y$ & $x = y$ & \ii{couch, sofa} \\ \hline
+% alteration & $x$ $|$ $y$ & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{cat, dog} \\ \hline
+% negation & $x \natneg y$ & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{able, unable} \\ \hline
+% cover & $x \smallsmile y$ & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-ape} \\ \hline
+% independence & $x$ \# $y$ & (else) & \ii{hungry, hippo}\\ \hline
+% \end{tabular}
+% \caption{The entailment relations in  $\mathfrak{B}$. $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, and the relation \# applies whenever none of the other six do, including when there is insufficient knowledge to choose a label.}
+% \label{b-table}
+% \end{center}
+% \end{table}
 
 % The goal of each of the three experiments that we propose is to learn classifiers that are able to classify pairs of statements from some highly constrained language into these seven classes. It should be noted that this is not a balanced classification problem. If arbitrary pairs of statements are chosen for comparison in almost any domain of natural langauge, the minimally informative \# relation will apply between them. % TODO: How much should we say about this?
 
