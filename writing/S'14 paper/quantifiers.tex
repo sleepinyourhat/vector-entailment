@@ -1,59 +1,157 @@
-\section{Reasoning with natural language quantifiers}
+\section{Reasoning with natural language quantifiers}\label{sec:quantifiers}
 
-Even to the extent that RNTN models can handle functional meanings in the form of the operators of propositional logic, this is not a guarantee that these models can handle functional meanings of the forms seen in natural language. As a first step towards investigating the latter, we attempt to directly measure the degree to which RNNs are able to develop representations for natural language quantifiers like \ii{some} and \ii{all} that are adequate for inference. Quantification is far from the only place in natural language where complex functional meanings are found, but it is a natural starting point, since it can be tested in setences whose structures are otherwise quite simple, and since it has formed a standard case study in prior formal work on natural language inference.
+Even to the extent that RNTN models can handle functional meanings in
+the form of the operators of propositional logic, this is not a
+guarantee that these models can handle functional meanings of the form
+seen in natural language. As a first step towards investigating this
+issue, we attempt to directly measure the degree to which RNNs are
+able to develop suitable representations for natural language
+quantifiers like \ii{some} and \ii{all}. Quantification is far from
+the only place in natural language where complex functional meanings
+are found, but it is a natural starting point, since it can be tested
+in sentences whose structures are otherwise quite simple, and since it
+has formed a standard case study in prior formal work on natural
+language inference.
 
 % \subsection{Data}
 
-This experiment replicates similar work described in \citet{bowman2013can}, which found that RNTNs can learn to reason well with quantifier meanings given sufficient training data. This paper replaces the partially manually annotated data in that paper with data that is generated directly using the logical system that we hope to model, yielding results that we believe to be substantially more straightforward to interpret.
+This experiment replicates similar work described in
+\cite{bowman2013can}, which found that RNTNs can learn to reason well
+with quantifier meanings given sufficient training data. This paper
+replaces the partially manually annotated data in that paper with data
+that is generated directly using the logical system that we hope to
+model, yielding results that we believe to be substantially more
+straightforward to interpret.
 
-Our data consists of pairs of sentences generated from a small artificial grammar. Each sentence contains a quantifier, a noun, which may be negated, and an intransitive verb which may be negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all}, \ii{two}, and \ii{three}, and each of their duals over negation \ii{no}, \ii{not-all}, \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}. We also include five nouns, four intransitive verbs, and the negation symbol \ii{not}. In order to be able to define relations between sentences with differing lexical items, we define the lexical relations between each noun--noun pair, each verb--verb pair, and each quantifier--quantifier pair.
+Our data consists of pairs of sentences generated from a small
+artificial grammar. Each sentence contains a quantifier, a noun, which
+may be negated, and an intransitive verb which may be negated. We use
+the basic quantifiers \ii{some}, \ii{most}, \ii{all}, \ii{two}, and
+\ii{three}, and each of their duals over negation \ii{no},
+\ii{not-all}, \ii{not-most}, \ii{less-than-two}, and
+\ii{less-than-three}. We also include five nouns, four intransitive
+verbs, and the negation symbol \ii{not}. In order to be able to define
+relations between sentences with differing lexical items, we define
+the lexical relations between each noun--noun pair, each verb--verb
+pair, and each quantifier--quantifier pair. The grammar accepts
+aligned pairs of sentences of this form and calculates the natural
+logic relationship between them.  Some examples of these data are
+provided in Table~\ref{examplesofdata}.  As in previous sections, the
+goal of learning is then to assign these relational labels accurately
+on unseen cases.
 
 %nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
 %verbs = ['walk', 'move', 'swim', 'growl']
 %dets = ['all', 'not_all', 'some', 'no', 'most', 'not_most', 'two', 'lt_two', 'three', 'lt_three']
 %adverbs = ['', 'not']
 
-To assign relation labels to sentence pairs, we built a small task-specific implemenation of MacCartney's logic that can accurately label sentences of this restricted language. The logic is not able to derive all intuitively true relations of this language, and fails to derive a single unique relation for certain types of statement, including De Morgean's laws (e.g. \ii{(all pets) growl $\natneg$ (some pet) (not growl)}), and we simply discard these examples. Exhaustively generating the valid sentences under this grammar and choosing those to which a relation label can be assigned
-yields 66k sentence pairs. Some examples of these data are provided in Table \ref{examplesofdata}.
+% To assign relation labels to sentence pairs, we built a small
+% task-specific implemenation of MacCartney's logic that can
+% accurately label sentences of this restricted language. The logic is
+% not able to derive all intuitively true relations of this language,
+% and fails to derive a single unique relation for certain types of
+% statement, including De Morgean's laws (e.g. \ii{(all pets) growl
+% $\natneg$ (some pet) (not growl)}), and we simply discard these
+% examples. Exhaustively generating the valid sentences under this
+% grammar and choosing those to which a relation label can be assigned
+% yields 66k sentence pairs. Some examples of these data are provided
+% in Table~\ref{examplesofdata}.
 
-\begin{table}\small\centering
-\begin{tabular}{|l|}
-\hline
-\ii{(most warthogs) walk $\natneg$ (not-most warthogs) walk}\\
-\ii{(most mammals) move $\#$ (not-most (not turtles)) move}\\
-\ii{(most (not pets)) (not swim) $\sqsupset$ (not-most (not pets)) move}\\
-\hline
-\ii{(no turtles) (not growl) $\|$ (no turtles) (not swim)}\\
-\ii{(no warthogs) swim $\sqsupset$ (no warthogs) move}\\
-\ii{(no warthogs) move $\sqsubset$ (no (not reptiles)) swim}\\
-\hline
-\end{tabular}
-\caption{Sample data involving two different quantifier pairs.\label{examplesofdata}}
+\begin{table}[htp]
+  \centering
+  \begin{tabular}{l c l}
+    \toprule
+    (most warthogs) walk         & $\natneg$ & (not-most warthogs) walk\\
+    (most mammals) move          & $\natind$ &  (not-most (not turtles)) move\\
+    (most (not pets)) (not swim) & $\natrev$ & (not-most (not pets)) move 
+    \\[2ex]    
+    (no turtles) (not growl)     & $\natalt$ & (no turtles) (not swim)\\
+    (no warthogs) swim           & $\natrev$ & (no warthogs) move\\
+    (no warthogs) move           & $\natfor$ & (no (not reptiles)) swim\\
+    \bottomrule
+  \end{tabular}
+  \caption{Sample data involving two different quantifier pairs.}
+  \label{examplesofdata}
 \end{table}
 
-We evaluate the model using two experimental settings. In the simpler setting we randomly sample 85\% of the data and evaluate on the remaining 15\%. In this setting, the model is being asked to learn a complete reasoning system for the limited language and logic presented in the training data, but it is not being asked to generalize to test examples that are substantially different from those it was trained on. Crucially though, to succeed on this task, the model must be able to recognize all of the lexical relations between the nouns, verbs, and quantifiers and how they interact.
+We evaluate the model using two experimental settings. In the simpler
+setting, we randomly sample 85\% of the data and evaluate on the
+remaining 15\%. In this setting, the model is being asked to learn a
+complete reasoning system for the limited language and logic presented
+in the training data, but it is not being asked to generalize to test
+examples that are substantially different from those it was trained
+on. Crucially though, to succeed on this task, the model must be able
+to recognize all of the lexical relations between the nouns, verbs,
+and quantifiers and how they interact. For instance, it might see
+\eqref{p1} and \eqref{p2} in training and, from that information,
+determine \eqref{p3}.
+%
+\begin{gather}
+  \text{(most turtle) swim} \natalt \text{(no turtle) move}\label{p1}
+  \\
+  \text{(all lizard) reptile} \natrev  \text{(some lizard) animal}\label{p2}
+  \\
+  \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
+\end{gather}
 
-While our primary interest is in discovering the extent to which the model can learn to encode the logic given an arbitrary amount of data, we are also interested in the degree to which the model can infer a correct representation from the logic from more constrained training data. In particular, we propose to segment the sentence pairs according to which quantifiers appear in each pair, and then hold out one such pair for testing. We hypothesize that a model that can efficiently learn to represent a logic should be able to construct an accurate representation of each held out quantifier from the way that it interacts with the other nine quantifiers which are not held out. Since running this experiment requires choosing a pair of quantifiers to hold out before training, the resource demans of training prevent us from testing each of the 55 possible possible pairs of quantifiers, and we choose only four pairs to test on. We attempt choose three pairs of differing quantifiers (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and \ii{all}/\ii{some}) to represent six different quantifiers in the test data, choosing pairs that maximize the diversity of relation labels appearing in the test data, and additionally choose one pair in which a quantifier is paired with itself (\ii{no}/\ii{no}).
+\mynote{Discuss results of this experiment}
 
-\begin{table}\small\centering
-\begin{tabular}{|l|lll|}\hline
-\textbf{Data} & \textbf{Most frequent class*} & \textbf{TODO dim RNN} & \textbf{16 dim RNTN}\\\hline
-\textsc{all split}	& 35.4\% &	TODO\%&	88.1\% \\\hline
-\textsc{pair two/less-than-two}	& 59.8\% &	TODO\% &	92.4\% \\
-\textsc{pair not-all/not-most}	&0\% &	   TODO\%  &	82.1\% \\
-\textsc{pair all/some}	& 0\%& TODO\%  &	80.4\% \\
-\textsc{pair no/no}	& 30.8\% &	TODO\% &	100\% \\
-\hline
-\end{tabular}
+While our primary interest is in discovering the extent to which our
+models' can learn to encode the logic given an arbitrary amount of
+data, we are also interested in the degree to which they can infer a
+correct representation from the logic from more constrained training
+data. To this end, we segment the sentence pairs according to which
+quantifiers appear in each pair, and then hold out one such pair for
+testing. We hypothesize that a model that can efficiently learn to
+represent a logic should be able to construct an accurate
+representation of each held out quantifier from the way that it
+interacts with the other nine quantifiers which are not held
+out. Since running this experiment requires choosing a pair of
+quantifiers to hold out before training, the resource demands of
+training prevent us from testing each of the 55 possible possible
+pairs of quantifiers, and we choose only four pairs to test on.  Three
+of these (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and
+\ii{all}/\ii{some}) were chosen because they determine the most
+diverse set of logical relationship in our data, thereby providing the
+most complex training and testing scenario possible. The fourth is a
+self-pair (\ii{no}/\ii{no}), as a check to make sure the model does
+perfectly on maximally easy instances.
 
-\caption{Quantifier experiment performance. *Most frequent class accuracy is measured against the most frequent class in the training data, \#.\label{resultstable}}
+\begin{table}[htp]
+  \centering
+  \begin{tabular}{ l rrr }
+    \toprule
+    Data & Most frequent class & TODO dim RNN (\%) & 16 dim RNTN (\%)\\
+    \midrule
+    \textsc{all split}	& 35.4 &	TODO&	88.1 
+    \\[1ex]    
+    \textsc{pair two/less-than-two}	& 59.8 &	TODO &	92.4 \\
+    \textsc{pair not-all/not-most}	&0 &	   TODO  &	82.1 \\
+    \textsc{pair all/some}	& 0& TODO  &	80.4 \\
+    \textsc{pair no/no}	& 30.8 &	TODO &	100 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Quantifier experiment performance. 
+    Most frequent class accuracy is measured against the most frequent class in the training data, $\natind$.}
+  \label{resultstable}
 \end{table} 
 
 
-
+\mynote{
 The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
 % TODO: Update dimensionality
-
- (Note: Models still running. Results might improve and this para is likely to change.) The strong performance by the RNN on the \textsc{pair no/no} experiment suggests that it is at least plausible that this model is able to handle quantifiers correctly given sufficient training data, but the sub 90\% results on most of the training settings suggest that the data provided in these experiments are not generally sufficient, and that the model may not be able to learn to reason with quantifiers with high accuracy. However, the fact that both models perform far above baseline is promising, and the question of how much data is necessary to accurately capture quantifier behavior in a na\"ive model remains open.
+(Note: Models still running. Results might improve and this para is
+likely to change.) The strong performance by the RNN on the
+\textsc{pair no/no} experiment suggests that it is at least plausible
+that this model is able to handle quantifiers correctly given
+sufficient training data, but the sub 90\% results on most of the
+training settings suggest that the data provided in these experiments
+are not generally sufficient, and that the model may not be able to
+learn to reason with quantifiers with high accuracy. However, the fact
+that both models perform far above baseline is promising, and the
+question of how much data is necessary to accurately capture
+quantifier behavior in a na\"ive model remains open.
 
 Discussion of RNN results (and updated discussion of better RNTN results) to be filled in as results arrive.\\...\\... % TODO
+}
+
