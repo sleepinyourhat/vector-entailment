@@ -47,16 +47,13 @@ While our primary interest is in discovering the extent to which the model can l
 \end{tabular}
 
 \caption{Quantifier experiment performance. *Most frequent class accuracy is measured against the most frequent class in the training data, \#.\label{resultstable}}
-\end{table} % TODO: Replace
+\end{table} 
+
+
 
 The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
 % TODO: Update dimensionality
 
-Discussion to be filled in based on Monday's results.\\...\\...\\...\\...\\...\\...\\...\\...\\...\\...
+ (Note: Models still running. Results might improve and this para is likely to change.) The strong performance by the RNN on the \textsc{pair no/no} experiment suggests that it is at least plausible that this model is able to handle quantifiers correctly given sufficient training data, but the sub 90\% results on most of the training settings suggest that the data provided in these experiments are not generally sufficient, and that the model may not be able to learn to reason with quantifiers with high accuracy. However, the fact that both models perform far above baseline is promising, and the question of how much data is necessary to accurately capture quantifier behavior in a na\"ive model remains open.
 
-% Notes for discussion:
-% - First effort to learn a logic, results somewhat unclear.
-% -- No straightforward way to prove that there is enough information in the data to learn quantifier projecitivies in this setting
-% - Perfect performance on no-no promising that the model is learning at least some structure
-
-% TODO: Revise
+Discussion of RNN results (and updated discussion of better RNTN results) to be filled in as results arrive.\\...\\... % TODO

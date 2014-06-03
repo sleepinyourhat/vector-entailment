@@ -249,17 +249,24 @@ if hyperParams.datasetsPortion < 1
     splitFilenames = splitFilenames(p(1:round(hyperParams.datasetsPortion * length(splitFilenames))));
     disp(length(splitFilenames))
 end
+
     
-
-% Randomly initialize.
-[ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
-
+if ~isempty(pretrainingFilename)
+    a = load(pretrainingFilename);
+    theta = a.theta;
+    thetaDecoder = a.thetaDecoder;
+else 
+    % Randomly initialize.
+    [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
+end
 
 % Load training/test data
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
     testFilenames, wordMap, relationMap);
 trainDataset = Symmetrize(trainDataset);
+
+
 
 if hyperParams.dataPortion < 1
     disp(length(trainDataset))

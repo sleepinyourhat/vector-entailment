@@ -1,31 +1,18 @@
 \section{Introduction}\label{sec:intro}
 
-% TODO: Earlier work on NN interpretation \cite{Garcez-etal:2001}
-
 Supervised recursive neural network models (RNNs) for sentence meaning
 have been successful in a wide array of sophisticated language tasks,
-including sentiment analysis, analogy completion, image description,
-and paraphase detection. These results are encouraging about the
+including sentiment analysis \cite{socher2011semi}, analogy completion, image description,
+and paraphase detection . These results are encouraging about the
 ability of these models to learn compositional semantic grammars, but
 it remains an open question whether they can achieve the same results
 as grammars based in logical forms when it comes to core semantic
 concepts like quantification, entailment, and contradiction defined
 over complex linguistic structures. These concepts are central to
 robust natural language understanding, so it is essential that our
-computational models be able to capture them.
+computational models be able to capture them. % TODO: Insert more citations for past RNN work.
 
-We address this question directly by using a logical grammar to
-generate controlled data sets encoding the semantic relationships
-between pairs of expressions and evaluating whether each of two
-classes of neural model --- plain RNNs and recursive neural tensor
-networks (RNTNs) --- can learn those relationships correctly. Our
-logical grammar is a version of the natural logic developed by
-\cite{maccartney2009extended}, which defines seven core relations of
-synonymy, entailment, contradiction, and mutual consistency. Natural
-logic is well-suited to our purposes because of it defines a rich set
-of relations between words, phrases, and sentences, and because its
-logical expressions are derived directly from surface forms, making it
-amenable to large-scale natural language processing.
+We address this question directly by using a logical grammar togenerate controlled data sets encoding the semantic relationships between pairs of expressions and evaluating whether each of twoclasses of neural model --- plain RNNs and recursive neural tensor networks (RNTNs, \cite{socher2013acl1}) --- can learn those relationships correctly. Following \citet{bowman2013can}, we use the natural logic developed by\cite{maccartney2009extended} as our formal model, which defines seven core relations ofsynonymy, entailment, contradiction, and mutual consistency. Natural logic is well-suited to our purposes because of it defines a rich setof relations between words, phrases, and sentences, and because its logical expressions are derived directly from surface forms, making itamenable to large-scale natural language processing. % Is this the right place for the first self citation?
 
 In our first experiment, we show that both of these models can learn
 the core relational algebra of natural logic from data. Our second
@@ -38,11 +25,12 @@ experiments, but that the stronger RNTN models generalized well in
 every case, suggesting that it has in fact learned, or at least
 learned to simulate, our target logical concepts. % TODO: Update with current results
 
-Citations to additional past work to be added.\\...\\...\\...\\...\\...\\...\\...\\...\\...\\...
+Citations to additional past work to be added.\\...\\...\\...\\...\\...
+
+% TODO: Mention earlier work on NN interpretation - \cite{Garcez-etal:2001}
+
 
 % Deep learning methods in NLP which learn vector representations for words have seen successful uses in recent years on increasingly sophisticated tasks \cite{collobert2011natural, socher2011semi, socher2013acl1, chen2013learning}. Given the still modest performance of semantically rich NLP systems in many domains---question answering and machine translation, for instance---it is worth exploring the degree to which learned vectors can serve as general purpose semantic representations. Much of the work to date analyzing vector representations for words (see \cite{baroni2013frege}) has focused on lexical semantic behaviors---like the similarity between words like \ii{Paris} and \ii{France}. Good similarity functions are valuable for many NLP tasks, but there are real use cases for which it is necessary to know how words relate to one another or to some extrinsic representation, and to model the ways in which word meanings combine to form phrase, sentence, or document meanings. This paper explores the ability of linguistic representations developed using supervised deep learning techniques to support interpretation and reasoning. 
-
-% TODO: Name RNTNs
 
 % There are two broad family of tasks that could be used to test the ability of a model to develop general purpose meaning representations. In an interpretation task, sentences are mapped onto some denotation, such as  \ii{true} or \ii{false} for statements, or a factual answer for questions. There has been preliminary work in developing distributed models for interpretation \cite{grefenstette2013towards, rocktaschellow}, but developing a representation of world knowledge that corresponds accurately to the content expressed in language introduces considerable design challenges. I approach the problem by way of an inference task instead. Inferring the truth of one sentence from another does not require any preexisting knowledge representations, but nonetheless requires a precise representation of sentence meaning. I borrow the structure of the task from MacCartney and Manning  \cite{maccartney2009extended}. In it, the model is presented with a pair of sentences, and made to label the logical relation between the sentences as equivalence, entailment, or any of five other classes, as here:
 
@@ -56,15 +44,11 @@ Citations to additional past work to be added.\\...\\...\\...\\...\\...\\...\\..
 
 %In this paper, we test the ability of recursive models to on three simple tasks, each of which is meant to capture a property that is necessary in representing natural language meaning in the setting of inference. I begin with an overview of MacCartney and Manning's \cite{maccartney2009extended} framework for inference, and of the recursive neural networks that I study. by showing that these models can learn to correctly represent entailment representations between sentences. I then show that these models can capture the meanings of recursive structurers accurately up to a sufficient depth. I finally close with a brief demonstration of the ability of these models to reason over short natural language sentences involving quantifiers. 
 
-% TODO: Cite ICLR paper, emphasize new work since
+\subsection{Natural language inference and natural logic}
 
-\subsection{The task: natural language inference}
+In its simplest form, \ii{natural language inference} (also known as \ii{recognizing textual entailment}, as in \cite{dagan2006pascal}) is the task of determine whether one sentence entails another. Much of the theoretical work on this task (and some successful implemented models \cite{maccartney2009natural, watanabe2012latent}) involve \ii{natural logic}, formal systems that define sound rules of inference from one sentence of natural language to another without the need for intermediate representations in some other logic. The most powerful model that we are aware of for natural logic is due to MacCartney and Manning \cite{maccartney2009extended} and Icard \cite{icard2012inclusion}, and is centered around the definition of a set of seven logical relations which can hold between sentences, shown in Table \ref{b-table}.
 
-% TODO: cite \cite{watanabe2012latent} for past work on ML for McC&M-style NLI
-
-% Condense?
-In the standard formulation of the inference task (and the one used in the RTE datasets \cite{dagan2006pascal}), the goal is to determine whether a reasonable human would infer a hypothesis from a premise.
-MacCartney formalizes a method of inferring entailment relations, and moves past two way entailment/non-entailment classification, proposing the set $\mathfrak{B}$ of seven labels meant to describe all of the possible non-trivial relations that might hold between pairs of statements, shown in Table \ref{b-table}. 
+This approach to natural logic can capture much of the complexity of natural language meaning within a well understood framework, and is also fairly straightforward to implement in a machine learning setting since it can be reduced to a seven-way classification problem on sentence pairs. Our goal in this paper is to learn recursive neural network models which are able to mimic key behaviors of this system.
 
 \begin{table}
 \begin{center}
@@ -83,31 +67,19 @@ independence & $x$ \# $y$ & (else) & \ii{hungry, hippo}\\ \hline
 \end{center}
 \end{table}
 
-% TODO: Reframe for updated experiments.
-In order to minimize this possibility, I define the task of strict unambiguous NLI (SU-NLI). In this task, only entailments that are licensed by a strictly literal interpretation of the provided sentences are considered valid, and several constraints are applied to the language to minimize ambiguity:
-\begin{itemize}
-\ex A small, unambiguous vocabulary is used.
-\ex All strings are given an explicit unlabeled tree structure parse.
-\ex Statements involving the hard-to-formalize generic senses of nouns---i.e. \ii{dogs bark} as opposed to the non-generic \ii{all dogs bark}---are excluded.
-\ex The sentences do not contain context dependent elements. This includes any reference to time or any tense morphology, and all pronouns.
-\ex The morphology is dramatically simplified: the copula is not used (\ii{some puppy is French} is simplified to \ii{some puppy French}, to make it more directly comparable to sentences like \ii{some puppy bark}), and agreement marking (\ii{they walk} vs. \ii{she walks}) is omitted.
-\end{itemize}
+The goal of each of the three experiments that we propose is to learn classifiers that are able to classify pairs of statements from some highly constrained language into these seven classes. It should be noted that this is not a balanced classification problem. If arbitrary pairs of statements are chosen for comparison in almost any domain of natural langauge, the minimally informative \# relation will apply between them. % TODO: How much should we say about this? 
 
-The key to success at this task is to learn a set of representations and functions that can mimic the logical structure underlying the data. There is limited precedent that deterministic logical behavior can be learned in supervised deep learning models: \citet{socher2012semantic} show in an aside that a Boolean logic with negation and conjunction can be learned in a minimal recursive neural network model with one-dimensional (scalar) representations for words. Modeling the logical behavior that underlies linguistic reasoning, though, is a substantially more difficult challenge, even in modular hand-built models.
+% The natural logic engine at the core of MacCartney and Manning's system requires a complex set of linguistic knowledge, much of which takes the form of what he calls projectivity signatures. These signatures are tables showing the entailment relation that must hold between two strings that differ in a given way (such as the substitution of the argument of some quantifier), and are explicitly provided to the model
+%for dozens of different cases of insertion, deletion and substitution of different types of lexical item. For example in judging the inference \ii{no animals bark $|$ some dogs bark} it would first used stored knowledge to compute the relations introduced by each of the two differences between the sentences. Here, the substitution of \ii{no} for \ii{some}  yields $\natneg$ and the substitution of \ii{dogs} for \ii{animals} yields $\sqsupset$. It would then use an additional store of knowledge about relations to resolve the resulting series of relations into one ($|$) that expresses the relation between the two sentences being compared:
+%\begin{quote}
 
-The natural logic engine at the core of MacCartney's \cite{maccartney2009natural} NLI system requires a complex set of linguistic knowledge, much of which takes the form of what he calls projectivity signatures. These signatures are tables showing the entailment relation that must hold between two strings that differ in a given way (such as the substitution of the argument of some quantifier), and are explicitly provided to the model
-for dozens of different cases of insertion, deletion and substitution of different types of lexical item. For example in judging the inference \ii{no animals bark $|$ some dogs bark} it would first used stored knowledge to compute the relations introduced by each of the two differences between the sentences. Here, the substitution of \ii{no} for \ii{some}  yields $\natneg$ and the substitution of \ii{dogs} for \ii{animals} yields $\sqsupset$. It would then use an additional store of knowledge about relations to resolve the resulting series of relations into one ($|$) that expresses the relation between the two sentences being compared:
-\begin{quote}
+%1. \ii{no animals bark $\natneg$ \textbf{some} animals bark}\\
+%2. \ii{some animals bark $\sqsupset$ some \textbf{dogs} bark}\\
+%3. \ii{no animals bark $[\natneg\bowtie\thinspace\sqsupset\thinspace = |]$ some dogs bark}
 
-1. \ii{no animals bark $\natneg$ \textbf{some} animals bark}\\
-2. \ii{some animals bark $\sqsupset$ some \textbf{dogs} bark}\\
-3. \ii{no animals bark $[\natneg\bowtie\thinspace\sqsupset\thinspace = |]$ some dogs bark}
+%\end{quote}
 
-\end{quote}
-
-This study is the first that I am aware of to attempt to build an inference engine based on learned vector representations, but two recent projects have attempted to introduce vector representations into inference systems in other ways: 
+Work to date on inference in neural network models is quite limited.
 \citet{baroni2012entailment} have achieved limited success in building a classifier to judge entailments between one- and two-word phrases (including some with quantifiers), though their vector representations were crucially based on distributional statistics and were not  learned for the task.
 In another line of research, \citet{garrette2013formal} propose a way to improve standard discrete NLI with vector representations. They propose a deterministic inference engine (similar to MacCartney's) which is augmented by a probabilistic component that evaluates individual lexical substitution steps in the derivation using vector representations, though again these representations are not learned, and no evaluations of this system have been published to date.
 \label{sec2}
-
-% TODO: Mention all seven relations seen in all three experiments, but distribution uneven
