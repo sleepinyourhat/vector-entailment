@@ -29,6 +29,11 @@
 \newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
 \begin{picture}(0,0)\put(0,1){\line(-1,0){\howlong\divide\unitlength}}\end{picture}}
 
+\newcommand{\True}{\texttt{T}}
+\newcommand{\False}{\texttt{F}}
+\usepackage{stmaryrd}
+\newcommand{\sem}[1]{\ensuremath{\llbracket#1\rrbracket}}
+
 
 \renewcommand{\bibsection}{\subsubsection*{\bibname}}
 
