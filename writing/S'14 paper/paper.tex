@@ -2,13 +2,16 @@
 \usepackage{nips14submit_e,times}
 \usepackage{hyperref}
 \usepackage{url}
-
 \usepackage[leqno, fleqn]{amsmath}
 \usepackage{amssymb}
 \usepackage{qtree}
 \usepackage[numbers]{natbib}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{caption}
+\usepackage{subcaption}
+
 
 \definecolor{mylinkcolor}{rgb}{0,0,0} % black
 \hypersetup{colorlinks, linkcolor=mylinkcolor, urlcolor=mylinkcolor, citecolor=mylinkcolor}
@@ -21,6 +24,10 @@
 \newcommand{\natrev}{\sqsupset}
 \newcommand{\natalt}{\mathbin{|}}
 \newcommand{\natcov}{\mathbin{\smallsmile}}
+
+% Strikeout
+\newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
+\begin{picture}(0,0)\put(0,1){\line(-1,0){\howlong\divide\unitlength}}\end{picture}}
 
 
 \renewcommand{\bibsection}{\subsubsection*{\bibname}}
