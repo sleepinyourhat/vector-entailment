@@ -1,3 +1,4 @@
+
 \section{Recursive neural network models} \label{methods}
 
 We study neural models that adhere to the linguistic \ii{principle of
@@ -22,6 +23,7 @@ layer that is meant to generate a feature vector capturing the
 relation between the two phrases. The output of this layer is then
 given to a softmax classifier, which in turn produces a hypothesized
 distribution over the seven relations represented in Table~\ref{b-table}.
+
 
 For a composition layer, we evaluate models with both the plain neural
 network layer function \eqref{rnn} and the RNTN layer function
@@ -70,13 +72,62 @@ are initialized randomly using a uniform distribution over $[-0.1,
 Source code and generated data will be released after the conclusion
 of the review period.
 
-\begin{figure}[htp]
+\begin{figure}[tp]
   \centering
-  \includegraphics[scale=0.35]{model.eps}
-  \caption{The model structure used to compare \ii{no dog} and \ii{(not all) dog}. 
+ % \includegraphics[scale=0.35]{model.eps}
+
+   \scriptsize
+\begin{picture}(20,7.5)
+  
+  \labeledtreenode[2]{9,7}{$P(\sqsubset) = 0.8$}{softmaxcolor}
+  \labeledtreenode[2]{12.5,7}{Softmax classifier}{white}
+  \put(10.25,5.98){\vector(0,1){0.88}}
+  
+  \labeledtreenode[7]{6.75,5.5}{all reptiles walk \emph{vs.}~some turtles move}{comparisoncolor}
+  \labeledtreenode[2]{16,5.5}{Comparison N(T)N layer}{white}
+
+  \put(5.5,4.48){\vector(4,1){3.25}}
+  \labeledtreenode{4,4}{all reptiles walk}{compositioncolor}
+
+  \labeledtreenode[2]{9.5,4}{Composition RN(T)N layers}{white}
+
+  \put(3.5,2.98){\vector(2,1){1.7}}
+  \labeledtreenode{2,2.5}{all reptiles}{compositioncolor}
+
+  \put(1.5,1.48){\vector(2,1){1.7}}
+  \labeledtreenode{0,1}{all}{lexcolor}
+
+  \put(5.5,1.48){\vector(-2,1){1.7}}
+  \labeledtreenode{4,1}{reptiles}{lexcolor}
+
+  \put(7.5,2.98){\vector(-2,1){1.7}}
+  \labeledtreenode{6,2.5}{walk}{lexcolor}
+
+
+  \put(15.5,4.48){\vector(-4,1){3.25}}
+  \labeledtreenode{14,4}{some turtles move}{compositioncolor}
+
+  \put(13.5,2.98){\vector(2,1){1.7}}
+  \labeledtreenode{12,2.5}{some turtles}{compositioncolor}
+
+  \put(11.5,1.48){\vector(2,1){1.7}}
+  \labeledtreenode{10,1}{some}{lexcolor}
+
+  \put(15.5,1.48){\vector(-2,1){1.7}}
+  \labeledtreenode{14,1}{turtles}{lexcolor}
+
+  \put(17.5,2.98){\vector(-2,1){1.7}}
+  \labeledtreenode{16,2.5}{move}{lexcolor}
+
+
+  \labeledtreenode{5,0.25}{Learned, randomly initialized word vectors}{white}
+\end{picture}
+
+  \caption{The model structure used to compare \ii{((all reptiles) walk)} and \ii{((some turtles) move)}. 
     The same structure is used for both the RNN and RNTN layer functions.} 
   \label{sample-figure}
 \end{figure}
+
 
 %\ii{Source code and generated data will be released after the conclusion of the review period.} % TODO: Or upon request? Attach anonymized code?
 

@@ -11,6 +11,8 @@
 \usepackage{colortbl}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{xcolor}
+
 
 
 \definecolor{mylinkcolor}{rgb}{0,0,0} % black
@@ -28,6 +30,15 @@
 \newcommand{\plneg}{\mathop{\textit{not}}}
 \newcommand{\pland}{\mathbin{\textit{and}}}
 \newcommand{\plor}{\mathbin{\textit{or}}}
+
+\newcommand{\labeledtreenode}[4][3]{\put(#2){\fcolorbox{#4}{#4}{\makebox(#1,0.3){#3}}}}
+
+\definecolor{lexcolor}{HTML}{F5F7C4}
+\definecolor{compositioncolor}{HTML}{BBEBFF}
+\definecolor{comparisoncolor}{HTML}{FFC895}
+\definecolor{softmaxcolor}{HTML}{A5FF8A}
+
+\setlength{\unitlength}{0.7cm}
 
 % Strikeout
 \newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
