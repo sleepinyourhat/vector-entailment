@@ -24,10 +24,10 @@ model, yielding results that we believe to be substantially more
 straightforward to interpret.
 
 Our data consists of pairs of sentences generated from a small
-artificial grammar. Each sentence contains a quantifier, a noun, which
+artificial grammar. Each sentence contains a quantifier, a noun which
 may be negated, and an intransitive verb which may be negated. We use
 the basic quantifiers \ii{some}, \ii{most}, \ii{all}, \ii{two}, and
-\ii{three}, and each of their duals over negation \ii{no},
+\ii{three}, and their negations \ii{no},
 \ii{not-all}, \ii{not-most}, \ii{less-than-two}, and
 \ii{less-than-three}. We also include five nouns, four intransitive
 verbs, and the negation symbol \ii{not}. In order to be able to define
@@ -38,7 +38,7 @@ aligned pairs of sentences of this form and calculates the natural
 logic relationship between them.  Some examples of these data are
 provided in Table~\ref{examplesofdata}.  As in previous sections, the
 goal of learning is then to assign these relational labels accurately
-on unseen cases.
+to unseen pairs of sentences.
 
 %nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
 %verbs = ['walk', 'move', 'swim', 'growl']
@@ -75,7 +75,7 @@ on unseen cases.
 \end{table}
 
 We evaluate the model using two experimental settings. In the simpler
-setting, we randomly sample 85\% of the data and evaluate on the
+setting, \textsc{all split}, we randomly sample 85\% of the data and evaluate on the
 remaining 15\%. In this setting, the model is being asked to learn a
 complete reasoning system for the limited language and logic presented
 in the training data, but it is not being asked to generalize to test
@@ -123,12 +123,12 @@ perfectly on maximally easy instances.
     \toprule
     Data & Most frequent class & TODO dim RNN (\%) & 16 dim RNTN (\%)\\
     \midrule
-    \textsc{all split}	& 35.4 &	TODO&	88.1 
+    \textsc{all split}	& 35.4 &	60.4&	94.4
     \\[1ex]    
-    \textsc{pair two/less-than-two}	& 59.8 &	TODO &	92.4 \\
-    \textsc{pair not-all/not-most}	&0 &	   TODO  &	82.1 \\
-    \textsc{pair all/some}	& 0& TODO  &	80.4 \\
-    \textsc{pair no/no}	& 30.8 &	TODO &	100 \\
+    \textsc{pair two/less-than-two}	& 59.8 &	76.4 &	97.1 \\
+    \textsc{pair not-all/not-most}	&0 &	   65.6  &	79.2 \\
+    \textsc{pair all/some}	& 0& 60.7  &	79.5 \\
+    \textsc{pair no/no}	& 30.8 &	65.8 &	100 \\
     \bottomrule
   \end{tabular}
   \caption{Quantifier experiment performance. 
