@@ -2,7 +2,7 @@
 
 If a model is to learn the behavior of a relational logic like the one
 presented here from a finite amount data, it must be able to learn to
-deduce new relations from seen relations in a sound and complete
+deduce new relations from seen relations in a sound
 manner. The simplest such deductions involve atomic statements using
 the relations in Table~\ref{b-table}. For instance, given that $a
 \natrev b$ and $b \natrev c$, one can conclude that $a \natrev c$, by
@@ -54,10 +54,11 @@ To test our models' ability to learn this relational structure, we
 create small models for our logic in which terms denote sets of
 entities from a single domain of seven entities (integers).
 Figure~\ref{lattice-figure} depicts a small model of this form. The
-lattice structure gives the full model, in which all the statements on
-the right can be proved. The highlighted nodes represent a
-hypothetical training set drawn from this larger space, which allows
-us to prove only a subset of the full set of true statements.
+lattice structure gives the full model, for which all the statements on
+the right are valid. We divide these statements evenly into training and
+test sets, and remove from the test set those statements which cannot be 
+proven from the training statements using the logic depicted in 
+Figure~\ref{lattice-figure}.
 
 \begin{figure}[htp]
   \centering
@@ -125,16 +126,10 @@ us to prove only a subset of the full set of true statements.
       of statements one can make about the model.
       Statements not provable from the test data are crossed out.}
   \end{subfigure}  
-  % \begin{tabular}{ll|lll}
-  %   $a := \{1, 3, 4, 5, 6\}	$&~~~&~~~& $a \equiv a$	    	& $a~\#~c$	\\
-  %   $b := \{0, 3, 5, 6\}	$&~~~&~~~& $e \sqsupset c$	&$b \smallsmile c$		\\
-  %   $c := \{1, 2, 3, 4\}	$&~~~&~~~& $d \smallsmile e$	& $b~\#~d$		\\
-  %   $d := \{0, 4\}		$&~~~&~~~& $a \sqsubset e$	& $ d \equiv d$	\\
-  %   $e := \{1, 2, 3, 4, 5, 6\}$&~~~&~~~& $a~\#~b$		& ... 	\\
-  % \end{tabular}
   \caption{Some sample randomly generated sets, and some of the relations defined between them.}
   \label{lattice-figure}
-\end{figure}
+\end{figure} 
+% TODO: Recheck strikethrough distribution.
 
 % We test the model's ability to learn this behavior by creating
 % artificial data sets of terms which represent sets of numbers. Since
@@ -150,13 +145,11 @@ us to prove only a subset of the full set of true statements.
 % between them.
 
 In our experiments, we create 80 randomly generated sets drawing from
-the same domain of seven element. This yields a data set consisting of
+a domain of seven elements. This yields a data set consisting of
 6400 statements about pairs of entities. 3200 of these pairs are
 chosen as a test set, and that test set is further reduced to the 2960
-examples that can be provably derived from the test data using
-Table~\ref{tab:jointable}.
+examples that can be provably derived from the test data.
 
-% TODO: Say more about symmetry?
 We trained versions of both the RNN model and the RNTN model on these
 data sets. In both cases, the models were implemented exactly as
 described in Section~\ref{methods}, but since the items being compared
@@ -172,7 +165,7 @@ model worked best with 11-dimensional vector representations for the
 model was able to correctly label 99.3\% of the derivable test
 examples, and 99.1\% of the remaining examples. The simpler RNN model
 worked best with 11 and 75 dimensions, respectively, but was able to
-achieve accuracies of only 90.0\% and 87.\%, respectively.
+achieve accuracies of only 90.0\% and 87.0\%, respectively.
 
 % and create a dataset consisting of the relations between every pair of
 % sets, yielding 6400 pairs. 3200 of these pairs are then chosen as a
@@ -206,6 +199,6 @@ approximate this behavior only incompletely. It is possible but not
 likely that it could be made to find a good solution with further
 optimization on different learning algorithms, or that it would do
 better on a larger universe of sets for which there would be a larger
-set of training data to learn from, but the RNTN is able to achieve
-these effects in the well-studied framework of Section~\ref{methods}.
+set of training data to learn from, but the RNTN is readily able to achieve
+these effects in the setting discussed here.
 
