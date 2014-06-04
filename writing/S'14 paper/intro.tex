@@ -3,12 +3,12 @@
 Supervised recursive neural network models (RNNs) for sentence meaning
 have been successful in a wide array of sophisticated language tasks,
 including sentiment analysis \cite{socher2011semi,socher2013acl1},
-image description \cite{sochergrounded}, and paraphase detection
+image description \cite{sochergrounded}, and paraphrase detection
 \cite{Socher-etal:2011:Paraphrase}. These results are encouraging
 about the ability of these models to learn compositional semantic
 grammars, but it remains an open question whether they can achieve the
 same results as grammars based in logical forms
-\cite{ZetCol:2005,LiangJordan:2013} when it comes to core semantic
+\cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013} when it comes to core semantic
 concepts like quantification, entailment and contradiction. To date,
 experimental investigations of these concepts using distributed
 representations have been largely confined to short phrases
@@ -39,16 +39,18 @@ generate controlled data sets encoding the semantic relationships
 between pairs of expressions and evaluating whether each of two
 classes of neural model --- plain RNNs and recursive neural tensor
 networks (RNTNs, \cite{socher2013acl1}) --- can learn those
-relationships correctly. In our first experiment, we evaluate the
-ability of these models to learn the core relational algebra of
-natural logic from data. Our second experiment extends this evaluation
-to cover relations between complex recursive structures like `(A or
-B)' and `not(not A and not B)', and our third experiment involves
-relations between quantified statements like `every reptile walks' and
-`every turtle moves'. We find that the plain RNN achieves only mixed
-results on all three experiments, whereas the stronger RNTN models
-generalized well in every case, suggesting that it has in fact
-learned, or at least learned to simulate, our target logical
+relationships correctly. In our first experiment
+(Section~\ref{sec:join}), we evaluate the ability of these models to
+learn the core relational algebra of natural logic from data. Our
+second experiment (Section~\ref{sec:recursion}) extends this
+evaluation to cover relations between complex recursive structures
+like $(a \plor b)$ and $\plneg(\plneg a \pland \plneg b)$, and our
+third experiment (Section~\ref{sec:quantifiers}) involves relations
+between quantified statements like `every reptile walks' and `every
+turtle moves'. We find that the plain RNN achieves only mixed results
+in all three experiments, whereas the stronger RNTN models generalized
+well in every case, suggesting that it has in fact learned, or at
+least learned to simulate, our target logical
 concepts. % TODO: Update with current results
 
 \begin{table}[htp]
@@ -93,7 +95,7 @@ concepts. % TODO: Update with current results
 %$\Rightarrow$ Entailment
 %\end{quote}
 
-%In this paper, we test the ability of recursive models to on three simple tasks, each of which is meant to capture a property that is necessary in representing natural language meaning in the setting of inference. I begin with an overview of MacCartney and Manning's \cite{maccartney2009extended} framework for inference, and of the recursive neural networks that I study. by showing that these models can learn to correctly represent entailment representations between sentences. I then show that these models can capture the meanings of recursive structurers accurately up to a sufficient depth. I finally close with a brief demonstration of the ability of these models to reason over short natural language sentences involving quantifiers. 
+%In this paper, we test the ability of recursive models to on three simple tasks, each of which is meant to capture a property that is necessary in representing natural language meaning in the setting of inference. I begin with an overview of MacCartney and Manning's \cite{maccartney2009extended} framework for inference, and of the recursive neural networks that I study. by showing that these models can learn to correctly represent entailment representations between sentences. I then show that these models can capture the meanings of recursive structures accurately up to a sufficient depth. I finally close with a brief demonstration of the ability of these models to reason over short natural language sentences involving quantifiers. 
 
 % \subsection{Natural language inference and natural logic}
 
@@ -118,7 +120,7 @@ concepts. % TODO: Update with current results
 % \end{center}
 % \end{table}
 
-% The goal of each of the three experiments that we propose is to learn classifiers that are able to classify pairs of statements from some highly constrained language into these seven classes. It should be noted that this is not a balanced classification problem. If arbitrary pairs of statements are chosen for comparison in almost any domain of natural langauge, the minimally informative \# relation will apply between them. % TODO: How much should we say about this?
+% The goal of each of the three experiments that we propose is to learn classifiers that are able to classify pairs of statements from some highly constrained language into these seven classes. It should be noted that this is not a balanced classification problem. If arbitrary pairs of statements are chosen for comparison in almost any domain of natural language, the minimally informative \# relation will apply between them. % TODO: How much should we say about this?
 
 
 % The natural logic engine at the core of MacCartney and Manning's system requires a complex set of linguistic knowledge, much of which takes the form of what he calls projectivity signatures. These signatures are tables showing the entailment relation that must hold between two strings that differ in a given way (such as the substitution of the argument of some quantifier), and are explicitly provided to the model
