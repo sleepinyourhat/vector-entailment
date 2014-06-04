@@ -50,7 +50,7 @@ of relations for which no valid inference can be drawn in our logic.
   \label{tab:jointable}
 \end{table}
 
-To test our models' ability to learn this relational structure, we
+To test our systems's ability to learn this relational structure, we
 create small models for our logic in which terms denote sets of
 entities from a single domain of seven entities (integers).
 Figure~\ref{lattice-figure} depicts a small model of this form. The
@@ -148,7 +148,7 @@ In our experiments, we create 80 randomly generated sets drawing from
 a domain of seven elements. This yields a data set consisting of
 6400 statements about pairs of entities. 3200 of these pairs are
 chosen as a test set, and that test set is further reduced to the 2960
-examples that can be provably derived from the test data.
+examples that can be provably derived from the training data.
 
 We trained versions of both the RNN model and the RNTN model on these
 data sets. In both cases, the models were implemented exactly as
@@ -163,8 +163,8 @@ compared except the relations between them.
 
 We found that the RNTN model worked best with 11-dimensional vector representations for the
 80 sets and a 90-dimensional feature vector for the classifier. This
-model was able to correctly label 99.3\% of the derivable test
-examples, and 99.1\% of the remaining examples. The simpler RNN model
+model was able to correctly label 99.3\% of the provably derivable test
+examples, and 99.1\% of the remaining test examples. The simpler RNN model
 worked best with 11 and 75 dimensions, respectively, but was able to
 achieve accuracies of only 90.0\% and 87.0\%, respectively.
 

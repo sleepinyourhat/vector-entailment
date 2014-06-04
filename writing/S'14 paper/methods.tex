@@ -2,7 +2,7 @@
 \section{Recursive neural network models} \label{methods}
 
 We study neural models that adhere to the linguistic \ii{principle of
-  compositionality}, which says that the meanings for complex
+ compositionality}, which says that the meanings for complex
 expressions are derived from the meanings of their constituent parts
 via specific combination functions \cite{Partee84,Janssen97}. In our
 distributed setting, word meanings are vectors of length $N$. The
@@ -34,10 +34,10 @@ layer function, following \cite{socher2013acl1}.
 \begin{gather} \label{rnn}
 \vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
 \label{rntn}
-\vec{y}_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots N]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{c})
+\vec{y}_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots N]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
 \end{gather} % TODO: Explain third order tensor parameter?
 %
-Here, the $\vec{x}^{(l)}$ and $\vec{x}^{(l)}$ are the column vector representations
+Here, the $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector representations
 for the left and right children of the node, and $\vec{y}$ is the node's output.
 The RNN concatenates them, multiplies them by an $N \times 2N$
 matrix of learned weights, and applies the element-wise non-linearity
