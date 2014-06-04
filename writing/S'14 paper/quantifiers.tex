@@ -89,7 +89,7 @@ determine \eqref{p3}.
 \begin{gather}
   \text{(most turtle) swim} \natalt \text{(no turtle) move}\label{p1}
   \\
-  \text{(all lizard) reptile} \natrev  \text{(some lizard) animal}\label{p2}
+  \text{(all lizard) reptile} \natfor  \text{(some lizard) animal}\label{p2}
   \\
   \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
 \end{gather}
@@ -114,8 +114,10 @@ of these (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and
 \ii{all}/\ii{some}) were chosen because they determine the most
 diverse set of logical relationship in our data, thereby providing the
 most complex training and testing scenario possible. The fourth is a
-self-pair (\ii{no}/\ii{no}), as a check to make sure the model does
-perfectly on maximally easy instances.
+self-pair (\ii{no}/\ii{no}), meant to test that the model correctly
+handles equality.
+
+% Further explanation for motivation for no/no?
 
 \begin{table}[htp]
   \centering
@@ -123,16 +125,16 @@ perfectly on maximally easy instances.
     \toprule
     Data & Most frequent class & TODO dim RNN (\%) & 16 dim RNTN (\%)\\
     \midrule
-    \textsc{all split}	& 35.4 &	60.4&	94.4
+    \textsc{all split}	& 35.4 &	60.4&	\textbf{94.4}
     \\[1ex]    
-    \textsc{pair two/less-than-two}	& 59.8 &	76.4 &	97.1 \\
-    \textsc{pair not-all/not-most}	&0 &	   65.6  &	79.2 \\
-    \textsc{pair all/some}	& 0& 60.7  &	79.5 \\
-    \textsc{pair no/no}	& 30.8 &	65.8 &	100 \\
+    \textsc{pair two/less-than-two}	& 59.8 &	76.4 &	\textbf{97.1} \\
+    \textsc{pair not-all/not-most}	&0 &	   65.6  &	\textbf{79.2} \\
+    \textsc{pair all/some}	& 0& 60.7  &	\textbf{79.5} \\
+    \textsc{pair no/no}	& 30.8 &	65.8 &	\textbf{100} \\
     \bottomrule
   \end{tabular}
   \caption{Quantifier experiment performance. 
-    Most frequent class accuracy is measured against the most frequent class in the training data, $\natind$.}
+    The most frequent class baseline accuracy reflects the most frequent class in the training data, $\natind$.}
   \label{resultstable}
 \end{table} 
 
@@ -141,13 +143,13 @@ perfectly on maximally easy instances.
 The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
 % TODO: Update dimensionality
 (Note: Models still running. Results might improve and this para is
-likely to change.) The strong performance by the RNN on the
-\textsc{pair no/no} experiment suggests that it is at least plausible
+likely to change.) The perfect performance by the RNTN on the
+\textsc{pair no/no} experiment and its strong performance on
+\textsc{pair two/less-than-two} suggests that it is at least plausible
 that this model is able to handle quantifiers correctly given
-sufficient training data, but the sub 90\% results on most of the
-training settings suggest that the data provided in these experiments
-are not generally sufficient, and that the model may not be able to
-learn to reason with quantifiers with high accuracy. However, the fact
+sufficient training data, but the sub 90\% results on two of the
+training settings suggest that the model may not be able to
+generalize from data this impoverished in general. However, the fact
 that both models perform far above baseline is promising, and the
 question of how much data is necessary to accurately capture
 quantifier behavior in a na\"ive model remains open.
