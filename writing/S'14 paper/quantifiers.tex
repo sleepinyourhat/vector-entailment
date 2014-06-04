@@ -5,7 +5,7 @@ the form of the operators of propositional logic, this is not a
 guarantee that these models can handle functional meanings of the form
 seen in natural language. As a first step towards investigating this
 issue, we attempt to directly measure the degree to which RNNs are
-able to develop suitable representations for natural language
+able to develop suitable representations for the semantics of natural language
 quantifiers like \ii{some} and \ii{all}. Quantification is far from
 the only place in natural language where complex functional meanings
 are found, but it is a natural starting point, since it can be tested
@@ -94,12 +94,10 @@ determine \eqref{p3}.
   \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
 \end{gather}
 
-\mynote{Discuss results of this experiment}
-
 While our primary interest is in discovering the extent to which our
-models' can learn to encode the logic given an arbitrary amount of
+models can learn to encode the logic given an arbitrary amount of
 data, we are also interested in the degree to which they can infer a
-correct representation from the logic from more constrained training
+correct representation for the logic from more constrained training
 data. To this end, we segment the sentence pairs according to which
 quantifiers appear in each pair, and then hold out one such pair for
 testing. We hypothesize that a model that can efficiently learn to
@@ -111,9 +109,8 @@ quantifiers to hold out before training, the resource demands of
 training prevent us from testing each of the 55 possible possible
 pairs of quantifiers, and we choose only four pairs to test on.  Three
 of these (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and
-\ii{all}/\ii{some}) were chosen because they determine the most
-diverse set of logical relationship in our data, thereby providing the
-most complex training and testing scenario possible. The fourth is a
+\ii{all}/\ii{some}) were chosen because they provide allow for the most
+different class labels at in the training data. The fourth is a
 self-pair (\ii{no}/\ii{no}), meant to test that the model correctly
 handles equality.
 
@@ -133,17 +130,21 @@ handles equality.
     \textsc{pair no/no}	& 30.8 &	65.8 &	\textbf{100} \\
     \bottomrule
   \end{tabular}
-  \caption{Quantifier experiment performance. 
-    The most frequent class baseline accuracy reflects the most frequent class in the training data, $\natind$.}
+  \caption{Quantifier experiment performance. }
   \label{resultstable}
 \end{table} 
+
+
+The results for these experiments are shown at the top of Figure \ref{resultstable}. We compare the results to a most frequent class baseline, which reflects the frequency in the test data of most frequent class in the training data, $\natind$.
 
 
 \mynote{
 The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
 % TODO: Update dimensionality
 (Note: Models still running. Results might improve and this para is
-likely to change.) The perfect performance by the RNTN on the
+likely to change.) 
+
+The perfect performance by the RNTN on the
 \textsc{pair no/no} experiment and its strong performance on
 \textsc{pair two/less-than-two} suggests that it is at least plausible
 that this model is able to handle quantifiers correctly given

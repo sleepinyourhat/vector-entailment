@@ -9,7 +9,7 @@ combination function concatenates pairs of them to form vectors of
 length $2N$ and maps those larger vectors back into length $N$
 vectors, which can then be merged again to create more complex
 phrases. Once the entire sentence-level representation has been
-derived, it fed to a classifier trained in a supervised manner.
+derived, it is fed to a classifier trained in a supervised manner.
 
 % The models that we study are centered around a recursively applied composition function which is meant to mimic the recursive construction of meanings in formal semantics. In this scheme, pairs of words are merged into phrase representations by a function that maps from representations of length $2N$ to representations of length $N$. These phrase representations are then further merged with other words and phrases until the entire phrase or sentence being evaluated is represented in a single vector. This vector is then used as the input to a classifier and used in a supervised learning task.
 
@@ -30,19 +30,19 @@ nonlinearity (element-wise $\tanh$) is applied to the output of either
 layer function, following \cite{socher2013acl1}.
 %
 \begin{gather} \label{rnn}
-y_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
+\vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
 \label{rntn}
-y_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{A}^{[1 \ldots N]} \vec{x}^{(r)} + \mathbf{B} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{c})
+\vec{y}_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots N]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{c})
 \end{gather} % TODO: Explain third order tensor parameter?
 %
-Here, the $l$ and $r$ superscripts indicate the vector representations
-for the left and right children of the local structure interpreted as
-$y$. The RNN concatenates them, multiplies them by an $N \times 2N$
+Here, the $\vec{x}^{(l)}$ and $\vec{x}^{(l)}$ are the column vector representations
+for the left and right children of the node, and $\vec{y}$ is the node's output.
+The RNN concatenates them, multiplies them by an $N \times 2N$
 matrix of learned weights, and applies the element-wise non-linearity
 to the resulting vector (plus a bias term). The RNTN has the same
-basic structure, but with the addition of a tensor $\mathbf{A}$,
-dimension $N \times N \times N$, modeling interactions between the
-child vectors.
+basic structure, but with the addition of a learned third-order tensor $\mathbf{T}$,
+dimension $N \times N \times N$, modeling multiplicative interactions between the
+child vectors. Both models include a learned bias vector, represented $\vec{b}$.
 
 The comparison layer uses the same kind of function template as the
 composition function (either an NN layer or an NTN layer) with
