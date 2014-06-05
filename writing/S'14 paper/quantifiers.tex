@@ -114,8 +114,6 @@ different class labels at in the training data. The fourth is a
 self-pair (\ii{no}/\ii{no}), meant to test that the model correctly
 handles equality.
 
-% Further explanation for motivation for no/no?
-
 \begin{table}[htp]
   \centering
   \begin{tabular}{ l rrr }
@@ -136,13 +134,8 @@ handles equality.
 
 
 \paragraph{Results.} The results for these experiments are shown in Figure \ref{resultstable}. We compare the results to a most frequent class baseline, which reflects the frequency in the test data of most frequent class in the training data, $\natind$.
-
-
-\mynote{
 The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
 % TODO: Update dimensionality
-(Note: Models still running. Results might improve and this para is
-likely to change.) 
 
 The perfect performance by the RNTN on the
 \textsc{pair no/no} experiment and its strong performance on
@@ -154,7 +147,4 @@ generalize from data this impoverished in general. However, the fact
 that both models perform far above baseline is promising, and the
 question of how much data is necessary to accurately capture
 quantifier behavior in a na\"ive model remains open.
-
-Discussion of RNN results (and updated discussion of better RNTN results) to be filled in as results arrive.\\...\\... % TODO
-}
 
