@@ -42,11 +42,7 @@ of relations for which no valid inference can be drawn in our logic.
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
   \end{array}$
-  \caption{Full set of inferences between natural logic relations.
-    Given $a \mathbin{R} b$ and $b \mathbin{S} c$, where $R$ and $S$
-    are the row and column relations, respectively, and $a$, $b$, and
-    $c$ are arbitrary formulae, the table provides the relation
-    $a \mathbin{T} c$.}
+  \caption{Inference path from premises $a R S$ (row) and $b S c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our model's ability to reproduce such inferential paths.}
   \label{tab:jointable}
 \end{table}
 
@@ -161,7 +157,7 @@ single vector in the (randomly initialized) vocabulary matrix $V$,
 ensuring that the model has no information about the terms being
 compared except the relations between them. 
 
-We found that the RNTN model worked best with 11-dimensional vector representations for the
+\paragraph{Results.} We found that the RNTN model worked best with 11-dimensional vector representations for the
 80 sets and a 90-dimensional feature vector for the classifier. This
 model was able to correctly label 99.3\% of the provably derivable test
 examples, and 99.1\% of the remaining test examples. The simpler RNN model
