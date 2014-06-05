@@ -4,13 +4,15 @@ P = [];
 R = [];
 
 for class = find([sum(confusion) ~= 0])
-   R(class) = confusion(class, class) /  sum(confusion(:, class));
+   R = [R, confusion(class, class) /  sum(confusion(:, class))];
 end
 
 for class = find([sum(confusion') ~= 0])
-   P(class) = confusion(class, class) /  sum(confusion(class, :));
+   P = [P, confusion(class, class) /  sum(confusion(class, :))];
 end
 
+P
+R
 avP = mean(P);
 avR = mean(R);
 
