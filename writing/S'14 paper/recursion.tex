@@ -139,7 +139,7 @@ performance at size 12.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=5.5in]{recursion\string_results\string_updated.eps}
-  \caption{Model performance on propositional logic, by expression size.}  
+  \caption{Model performance on propositional logic, by expression size. The dashed line indicates that only expressions of size four or less appeared in the training data.}  
   \label{prop-results}
 \end{figure}
 
@@ -152,20 +152,21 @@ increasing depth (and with the increasing complexity of the expressions),
  resulting in the gradually dropping performance. In contrast, the RNN model 
  did not appear to be able to learn a correct approximation of the logic for
  statements of any length, but it appears that the faulty logic that the RNN did
- learn decayed similarly with expression size. 
- This is not necessarily a significant flaw in the model, since it remains possible
-that a less lossy approximation of the same logic would do no better
+ learn decayed similarly with expression size.  This is not necessarily a significant flaw in the model, since it remains possible that a less lossy approximation of the same logic would do no better
 on the training objective, since that objective only considers short
 strings and includes a regularization term. Whether a more accurate
 encoding could be learned from a larger set of training data remains a
 question for future work. In contrast, the RNN model did not appear to
 be able to learn a correct approximation of the logic.
 
+In an attempt to better understand the limited success of the RNN model, we discovered that this model looses information about in longer statements in a particularly problematic way. It appears that that model is unable to distinguish between two sentences when the only difference between those sentences is embedded within a very deep structure. We evaluated both models on sentences that differed in only one term, but for which that one term was embedded under a large number of conjunctions, such as the pair \ii{a (and a)} and \ii{a (and b)}, or the pair \ii{a (and (a (and a)))} and \ii{a (and (a (and b)))}. We then measured the Euclidean distance between the vector representations of the two sentences in each pair. Our findings are shown in Figure~\ref{prop-falloff}, and show that while the RNTN can distinguish the two sentences well at every size that we test, the RNN fails after a depth of approximately six.
+
+
 \begin{figure}[htp]
   \centering
   \includegraphics[width=5.5in]{recursion\string_pairwise.eps}
-  \caption{...}  
-  \label{prop-results}
+  \caption{How well each model can distinguish to expressions that differ by one term, measured for terms embedded under different numbers of tokens of \ii{and}.}  
+  \label{prop-falloff}
 \end{figure}
 
 
