@@ -118,14 +118,14 @@ handles equality.
   \centering
   \begin{tabular}{ l rrr }
     \toprule
-    Data & Most frequent class & TODO dim RNN (\%) & 16 dim RNTN (\%)\\
+    Data & Most frequent class & 20 dim RNN (\%) & 20 dim RNTN (\%)\\
     \midrule
-    \textsc{all split}	& 35.4 &	63.9&	\textbf{93.4}
+    \textsc{all split}	& 35.4 &	65.3&	\textbf{99.0}
     \\[1ex]    
-    \textsc{pair two/less-than-two}	& 59.8 &	79.5 &	\textbf{98.3} \\
-    \textsc{pair not-all/not-most}	&0 &	   62.2  &	\textbf{83.3} \\
-    \textsc{pair all/some}	& 0& 63.6  &	\textbf{81.0} \\
-    \textsc{pair no/no}	& 30.8 &	66.0 &	\textbf{100} \\
+    \textsc{pair two/less-than-two}	& 59.8 &	77.6 &	\textbf{100} \\
+    \textsc{pair not-all/not-most}	&0 & 60.8 &	\textbf{82.0} \\
+    \textsc{pair all/some}	& 0& 52.5  &	\textbf{85.1} \\
+    \textsc{pair no/no}	& 30.8 &	68.9 &	\textbf{99.9} \\
     \bottomrule
   \end{tabular}
   \caption{Quantifier experiment performance. }
@@ -134,17 +134,20 @@ handles equality.
 
 
 \paragraph{Results.} The results for these experiments are shown in Figure \ref{resultstable}. We compare the results to a most frequent class baseline, which reflects the frequency in the test data of most frequent class in the training data, $\natind$.
-The RNN model was approximately optimal with N dimensional word representations and an M dimensional comparison layer. The RNTN was approximately optimal with N and M dimensions, respectively.
+After some cross-validation, we chose 20-dimensional word and phrase representations, and 75 dimensional feature vectors for the classifier.
 % TODO: Update dimensionality
 
-The perfect performance by the RNTN on the
+The RNN performed poorly at this task,
+even though the sentences used in these examples are short enough
+to avoid the pathology shown in Figure~\ref{prop-falloff}.
+However, the perfect performance by the RNTN on the
 \textsc{pair no/no} experiment and its strong performance on
-\textsc{pair two/less-than-two} suggests that it is at least plausible
-that this model is able to handle quantifiers correctly given
-sufficient training data, but the sub 90\% results on two of the
+\textsc{all split} and \textsc{pair two/less-than-two} 
+suggests that it is at least plausible
+that this stronger model is able to handle quantifiers correctly given
+sufficient training data, but the sub-90\% results on two of the
 training settings suggest that the model may not be able to
 generalize from data this impoverished in general. However, the fact
 that both models perform far above baseline is promising, and the
 question of how much data is necessary to accurately capture
 quantifier behavior in a na\"ive model remains open.
-
