@@ -6,8 +6,7 @@ We study neural models that adhere to the linguistic \ii{principle of
 expressions are derived from the meanings of their constituent parts
 via specific combination functions \cite{Partee84,Janssen97}. In our
 distributed setting, word meanings are vectors of length $N$. The
-combination function concatenates pairs of them to form vectors of
-length $2N$ and maps those larger vectors back into length $N$
+combination function maps pairs of them to single vectors of length $N$
 vectors, which can then be merged again to create more complex
 phrases. Once the entire sentence-level representation has been
 derived, it is fed to a classifier trained in a supervised manner.
