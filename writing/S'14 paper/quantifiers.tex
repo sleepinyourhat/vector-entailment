@@ -123,14 +123,14 @@ handles equality.
   \centering
   \begin{tabular}{ l rrr }
     \toprule
-    Data & Most frequent class & 20 dim RNN  & 20 dim RNTN\\
+    Data & Most frequent class & 16 dim RNN  & 20 dim RNTN\\
     \midrule
-    \textsc{all split}	& 35.4 &	69.4 (63.2)&	\textbf{100.0 (100.0)}
+    \textsc{all split}	& 35.4 (7.5) &	67.4 (56.5)&	\textbf{100.0 (100.0)}
     \\[1ex]    
-    \textsc{pair two/less-than-two}	& 59.8 &	86.7 (68.4) &	\textbf{100.0 (100.0)} \\
-    \textsc{pair not-all/not-most}	&0 & 66.0* (54.3*) &	\textbf{93.8 (91.5)} \\
-    \textsc{pair all/some}	& 0& 69.7 (72.0)  &	\textbf{78.4 (84.7)} \\
-    \textsc{pair no/no}	& 30.8 &	68.1 (61.7) &	\textbf{99.9 (99.7)} \\
+    \textsc{pair two/less-than-two}	& 59.8 (18.4) &	77.2 (57.4) &	\textbf{100.0 (100.0)} \\
+    \textsc{pair not-all/not-most}	&0 (0) & 66.0 (54.3) &	\textbf{93.8 (91.5)} \\
+    \textsc{pair all/some}	& 0 (0) & 62.7 (65.9)  &	\textbf{78.4 (84.7)} \\
+    \textsc{pair no/no}	& 30.8 (10.2) &	67.8 (61.8) &	\textbf{99.9 (99.7)} \\
     \bottomrule
   \end{tabular}
   \caption{Performance on the quantifier experiments. Results are reported as accuracy scores followed by macroaveraged F1 scores in parentheses.}
@@ -143,17 +143,17 @@ The results for these experiments are shown in
 Figure~\ref{resultstable}. We compare the results to a most frequent
 class baseline, which reflects the frequency in the test data of most
 frequent class in the training data, $\natind$.  After some
-cross-validation, we chose 20-dimensional word and phrase
-representations, and 75 dimensional feature vectors for the
-classifier.
+cross-validation, we chose 16 and 20-dimensional
+representations for the RNN and RNTN respectively, and 75 dimensional 
+feature vectors for the classifier.
 
 The RNN performed poorly at this task, even though the sentences used
 in these examples are short enough to avoid the pathology shown in
 Figure~\ref{prop-falloff}.  However, the perfect performance by the
-RNTN on the \textsc{pair no/no} experiment and its strong performance
-on \textsc{all split} and \textsc{pair two/less-than-two} suggests
+RNTN on the \textsc{all split} and \textsc{pair two/less-than-two} 
+experiment and its strong performance on \textsc{pair no/no} suggests
 that that this stronger model is able to handle quantifiers correctly
-given sufficient training data, but the sub-90\% results on two of the
+given sufficient training data, but the weaker results on two of the
 training settings suggest that it may not be able to generalize from
 data this impoverished in general. However, though the question of how
 much data is necessary to accurately capture quantifier behavior in a
