@@ -159,13 +159,8 @@ expressions), resulting in gradually dropping performance. In
 contrast, the RNN model did not appear to be able to learn a correct
 approximation of the logic for statements of any length, but it
 appears that the faulty logic that the RNN did learn decayed similarly
-with expression size.  This is not necessarily a significant flaw in
-the model, since it remains possible that a less lossy approximation
-of the same logic would do no better on the training objective, since
-that objective only considers short strings and includes a
-regularization term. Whether a more accurate encoding could be learned
-from a larger set of training data remains a question for future
-work. 
+with expression size.  This is not necessarily a significant flaw in the model, since it remains possible that  different training regimes would allow it to learn accurate representations of the larger expressions. 
+
 
 In an effort to better understand why the RNTN outperformed the plain
 RNN, we evaluated both models on pairs of long formulae involving

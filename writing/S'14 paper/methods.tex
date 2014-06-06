@@ -4,18 +4,11 @@
 We study neural models that adhere to the linguistic \ii{principle of
  compositionality}, which says that the meanings for complex
 expressions are derived from the meanings of their constituent parts
-<<<<<<< HEAD
 via specific combination functions \cite{Partee84,Janssen97}. In our
 distributed setting, word meanings are vectors of length $n$. The
 combination function concatenates pairs of them to form vectors of
 length $2n$ and maps those larger vectors back into length $n$
 vectors, which can then be merged again to create more complex
-=======
-via specific composition functions \cite{Partee84,Janssen97}. In our
-distributed setting, word meanings are vectors of length $N$. The
-composition function maps pairs of them to single vectors of length $N$, 
-which can then be merged again to create more complex
->>>>>>> FETCH_HEAD
 phrases. Once the entire sentence-level representation has been
 derived, it is fed to a classifier trained in a supervised manner.
 
@@ -47,10 +40,10 @@ layer function, following \cite{socher2013acl1}.
 Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
 representations for the left and right children of the node, and
 $\vec{y}$ is the node's output.  The RNN concatenates them, multiplies
-them by an $N \times 2N$ matrix of learned weights, and applies the
+them by an $n \times 2n$ matrix of learned weights, and applies the
 element-wise non-linearity to the resulting vector. The RNTN has the
 same basic structure, but with the addition of a learned third-order
-tensor $\mathbf{T}$, dimension $N \times N \times N$, modeling
+tensor $\mathbf{T}$, dimension $n \times n \times n$, modeling
 multiplicative interactions between the child vectors. Both models
 include a bias vector, represented as $\vec{b}$.
 
