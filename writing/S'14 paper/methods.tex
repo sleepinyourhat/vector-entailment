@@ -4,10 +4,10 @@
 We study neural models that adhere to the linguistic \ii{principle of
  compositionality}, which says that the meanings for complex
 expressions are derived from the meanings of their constituent parts
-via specific combination functions \cite{Partee84,Janssen97}. In our
+via specific composition functions \cite{Partee84,Janssen97}. In our
 distributed setting, word meanings are vectors of length $N$. The
-combination function maps pairs of them to single vectors of length $N$
-vectors, which can then be merged again to create more complex
+composition function maps pairs of them to single vectors of length $N$, 
+which can then be merged again to create more complex
 phrases. Once the entire sentence-level representation has been
 derived, it is fed to a classifier trained in a supervised manner.
 
@@ -47,7 +47,7 @@ multiplicative interactions between the child vectors. Both models
 include a bias vector, represented as $\vec{b}$.
 
 The comparison layer uses the same kind of function template as the
-composition function (either an NN layer or an NTN layer) with
+composition layers (either an NN layer or an NTN layer) with
 independently learned parameters and a separate nonlinearity function.
 Rather than use a $\tanh$ nonlinearity here, we found a substantial
 improvement in performance by using a rectified linear function. In
@@ -64,7 +64,9 @@ up the tree and into the classifier at the top. For an objective
 function, we use the negative log of the probability assigned to the
 correct label.
 
-We train the model with minibatch stochastic gradient descent (SGD)
+% Removed 'minibatch' -> For two of the experiments, we use minibatches
+% of size 1, which doesn't really count.
+We train the model using stochastic gradient descent (SGD)
 with learning rates computed using AdaGrad \cite{duchi2011adaptive}.
 The parameters (including the vocabulary) are initialized randomly 
 using a uniform distribution over $[-0.1, 0.1]$.
