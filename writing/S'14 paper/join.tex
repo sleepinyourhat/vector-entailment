@@ -1,7 +1,7 @@
 \section{Reasoning about semantic relations}\label{sec:join}
 
 If a model is to learn the behavior of a relational logic like the one
-presented here from a finite amount data, it must learn to deduce new
+presented here from a finite amount of data, it must learn to deduce new
 relations from seen relations in a sound manner. The simplest such
 deductions involve atomic statements using the relations in
 Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
@@ -42,7 +42,7 @@ of relations for which no valid inference can be drawn in our logic.
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
   \end{array}$
-  \caption{Inference path from premises $a R S$ (row) and $b S c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our model's ability to reproduce such inferential paths.}
+  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our model's ability to reproduce such inferential paths.}
   \label{tab:jointable}
 \end{table}
 
