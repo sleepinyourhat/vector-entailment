@@ -27,32 +27,32 @@ distribution over the seven relations represented in Table~\ref{b-table}.
 
 For a composition layer, we evaluate models with both the plain neural
 network layer function \eqref{rnn} and the RNTN layer function
-proposed in \citet{chen2013learning} \eqref{rntn}. A sigmoid
+\eqref{rntn} proposed in \citet{chen2013learning}. A sigmoid
 nonlinearity (element-wise $\tanh$) is applied to the output of either
 layer function, following \cite{socher2013acl1}.
 %
 \begin{gather} \label{rnn}
 \vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
 \label{rntn}
-\vec{y}_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots N]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
+\vec{y}_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
 \end{gather} % TODO: Explain third order tensor parameter?
 %
 Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
 representations for the left and right children of the node, and
 $\vec{y}$ is the node's output.  The RNN concatenates them, multiplies
-them by an $N \times 2N$ matrix of learned weights, and applies the
+them by an $n \times 2n$ matrix of learned weights, and applies the
 element-wise non-linearity to the resulting vector. The RNTN has the
 same basic structure, but with the addition of a learned third-order
-tensor $\mathbf{T}$, dimension $N \times N \times N$, modeling
+tensor $\mathbf{T}$, dimension $n \times n \times n$, modeling
 multiplicative interactions between the child vectors. Both models
-include a learned bias vector, represented as $\vec{b}$.
+include a bias vector, represented as $\vec{b}$.
 
 The comparison layer uses the same kind of function template as the
 composition function (either an NN layer or an NTN layer) with
 independently learned parameters and a separate nonlinearity function.
 Rather than use a $\tanh$ nonlinearity here, we found a substantial
-improvement in performance by using a rectified linear function for
-$f_{b}$. In particular, we use the leaky rectified linear function
+improvement in performance by using a rectified linear function. In
+particular, we use the leaky rectified linear function
 \cite{maasrectifier}: $f_{b}(\vec{x})=\max(\vec{x}, 0) +
 0.01\min(\vec{x}, 0)$, applied element-wise.
 

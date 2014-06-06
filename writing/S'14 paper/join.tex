@@ -49,12 +49,12 @@ of relations for which no valid inference can be drawn in our logic.
 \paragraph{Experiments}
 To test our models' ability to learn these inferential patterns, we
 create small boolean structures for our logic in which terms denote
-sets of entities from a single domain of seven entities (integers).
-Figure~\ref{lattice-figure} depicts a small structure of this
-form. The lattice gives the full model, for which all the statements
-on the right are valid. We divide these statements evenly into
-training and test sets, and remove from the test set those statements
-which cannot be proven from the training statements.
+sets of entities from a small domain.  Figure~\ref{lattice-figure}
+depicts a structure of this form. The lattice gives the full model,
+for which all the statements on the right are valid. We divide these
+statements evenly into training and test sets, and remove from the
+test set those statements which cannot be proven from the training
+statements.
 % using the logic depicted in Figure~\ref{lattice-figure}.
 
 \begin{figure}[htp]
@@ -155,8 +155,8 @@ layer was not involved, and the two models differed only in which
 layer function was used for the comparison layer. We simply present
 the models with two single terms, each of which corresponds to a
 single vector in the (randomly initialized) vocabulary matrix $V$,
-ensuring that the model has no information about the terms being
-compared except the relations between them. 
+thereby ensuring that the model has no information about the terms
+being compared except the relations between them.
 
 \paragraph{Results} 
 We found that the RNTN model worked best with 11-dimensional vector
@@ -165,9 +165,9 @@ for the classifier, though the performance of the model was not highly
 sensitive to either dimensionality parameter in any of the experiments
 discussed here. This model was able to correctly label 99.4\% (94.3
 macroaveraged F1) of the provably derivable test examples, and 95.4\%
-(92.2) of the remaining test examples. The simpler RNN model worked
+(92.2 macro-F1) of the remaining test examples. The simpler RNN model worked
 best with 11 and 75 dimensions, respectively, but was able to achieve
-accuracies of only 89.0\% (80.9) and 62.5\% (40.1),
+accuracies of only 89.0\% (80.9 macro-F1) and 62.5\% (40.1 macro-F1),
 respectively. Training accuracy was 99.8\% for the RNTN and 95.4\% for
 the RNN.
 

@@ -11,10 +11,10 @@ results as grammars based in logical forms
 \cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}
 when it comes to the core semantic concepts of quantification,
 entailment, and contradiction needed to identify the relationships
-between sentences like \ii{No child failed a language exam}, \ii{No
-  girl failed a French exam}, and \ii{A boy failed French}. To date,
-experimental investigations of these concepts using distributed
-representations have been largely confined to short phrases
+between sentences like \ii{every animal walks}, \ii{every turtle
+  moves}, and \ii{most reptiles don't move}. To date, experimental
+investigations of these concepts using distributed representations
+have been largely confined to short phrases
 \cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment,kalchbrenner2014convolutional}.
 For robust natural language understanding, it is essential to model
 these phenomena in their full generality on complex linguistic
@@ -25,7 +25,7 @@ We address this question in the context of \ii{natural language
 \cite{dagan2006pascal}), in which the goal is to determine the core
 inferential relationship between two sentences. Much of the
 theoretical work on this task (and some successful implemented models
-\cite{maccartney2009natural,watanabe2012latent}) involves \ii{natural
+\cite{maccartney2009extended,watanabe2012latent}) involves \ii{natural
   logics}, which are formal systems that define rules of inference
 between natural language words, phrases, and sentences without the
 need of intermediate representations in an artificial logical
@@ -36,7 +36,7 @@ contradiction, and mutual consistency, as summarized in
 Table~\ref{b-table}, and it provides rules of semantic combination for
 projecting these relations from the lexicon up to complex phrases. The
 formal properties and inferential strength of this system are now
-well-understood \cite{Icard:Moss:2013:LILT}.
+well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
 
 In our experiments, we use this pre-specified logical grammar to
 generate controlled data sets encoding the semantic relationships
@@ -50,7 +50,7 @@ algebra of natural logic from data. Our second experiment
 between complex recursive structures like $(a \plor b)$ and
 $\plneg(\plneg a \pland \plneg b)$, and our third experiment
 (Section~\ref{sec:quantifiers}) involves relations between quantified
-statements like \ii{every reptile walks} and \ii{every turtle moves}.
+statements like \ii{every reptile walks} and \ii{no turtle moves}.
 We find that the plain RNN achieves only mixed results in all three
 experiments, whereas the stronger RNTN model generalizes well in every
 case, suggesting that it has in fact learned, or at least learned to

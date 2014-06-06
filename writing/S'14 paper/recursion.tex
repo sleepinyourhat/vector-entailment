@@ -7,9 +7,9 @@ Theoretical accounts of natural language syntax and semantics
 therefore rely heavily on recursive structures, and we expect that
 accurate computational models will have to come to grips with them as
 well. The present section pursues this question for our two classes of
-RNN. In our evaluations, we take exploit the fact that our logical
-language is infinite by testing on strings that are longer and more
-complex than any seen in training.
+RNN. In our evaluations, we exploit the fact that our logical language
+is infinite by testing on strings that are longer and more complex
+than any seen in training.
 
 % Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice
 %   said hello}, and \ii{Carl thinks that Bob said that Alice said
@@ -84,22 +84,22 @@ a valid theorem of the propositional logic.
 % whether this was theorem proving or some kind of model checking.
 % Hopefully this is explicit enough.
 Socher et al.~\cite{socher2012semantic} show that a matrix-vector RNN
-model somewhat similar to our own can learn a logic, but the logic
-discussed here is substantially stronger, and a much better
-approximation of the kind of expressivity needed for natural
-language. The logic learned in that experiment is boolean, wherein the
-atomic symbols are simply the values $0$ and $1$, rather than
-variables over those values. While learning the operators of that
-logic is not trivial, the outputs of each operator can be represented
-accurately by a single bit. The statements of propositional logic
-learned here describe conditions on the truth values of propositions
-where those truth values are not known. As opposed to the two-way
+model somewhat similar to our RNTN can learn a logic, but the logic
+discussed here is a much better approximation of the kind of
+expressivity needed for natural language. The logic learned in that
+experiment is boolean, wherein the atomic symbols are simply the
+values $0$ and $1$, rather than variables over those values. While
+learning the operators of that logic is not trivial, the outputs of
+each operator can be represented accurately by a single bit. The
+statements of propositional logic learned here describe conditions on
+unknown truth values of propositions. As opposed to the two-way
 contrasts seen in \cite{socher2012semantic}, this logic distinguishes
 between $2^{6} = 64$ possible assignments of truth values, and
 expressions of this logic define arbitrary conditions on these
 possible assignments, for a total of $2^{64}$ %($\approx 10^{20}$)
 possible statements that the intermediate vector representations need
-to be able to distinguish.
+to be able to distinguish if it is to learn this logic system in its
+full generality.
 
 For our experiments, we randomly generate a large set of  unique pairs 
 of formulae and compute the relation that holds for each pair.
@@ -109,7 +109,7 @@ assignments), for which none of the seven relation labels in
 Table~\ref{b-table} can hold. The resulting set of formula pairs is
 then partitioned into bins based on the number of logical operators in
 the longer of the two formulae. We then randomly sample 15\% of each
-bin for a held out test set.
+bin for a held-out test set.
 
 If we do not implement any constraint that the two statements being
 compared are similar in any way, then the generated data are dominated
@@ -121,22 +121,22 @@ propositional logic, we disallow individual pairs of statements from
 referring to more than four of the six proposition variables.
 
 \paragraph{Results} 
-We trained both the RNN and RNTN models on the data of size four or
-less (65k pairs), and tested it on examples of up to size 12 (44k
-pairs). We initialized the model parameters randomly, including the
-vector representations of the six variables. The results are shown in
-Figure~\ref{prop-results}. In tuning, we found that the RNN model was
-approximately optimal with 45-dimensional vector representations, and
-the RNTN model was approximately optimal with 25 dimensions. We fixed
-the size of the feature vector for the classifier at 75 dimensions. We
-found that the RNTN model was able to perform almost perfectly on
-unseen small test examples, with accuracy above 99\% below size four
-(Macroaveraged F1 was above 98.9).  Starting at size four, performance
-gradually falls with increasing size.  The RNN model did not perform
-well, reaching only 88.2\% (67.2) accuracy on the smallest test
-examples, and declining from there to near-baseline performance at
-size 12. Training accuracy was 99.6\% for the RNTN and 87.6\% for the
-RNN.
+We trained both the RNN and RNTN models on data with up to 4
+connectives (65k pairs) and tested it on examples of up to 12
+connectives (44k pairs). We initialized the model parameters randomly,
+including the vector representations of the six variables. The results
+are shown in Figure~\ref{prop-results}. In tuning, we found that the
+RNN model was approximately optimal with 45-dimensional vector
+representations, and the RNTN model was approximately optimal with 25
+dimensions. We fixed the size of the feature vector for the classifier
+at 75 dimensions. We found that the RNTN model was able to perform
+almost perfectly on unseen small test examples, with accuracy above
+99\% below size four (macro-F1 was above 98.9).  Starting at size
+four, performance gradually falls with increasing size.  The RNN model
+did not perform well, reaching only 88.2\% (67.2 micro-F1) accuracy on
+the smallest test examples, and declining from there to near-baseline
+performance at size 12. Training accuracy was 99.6\% for the RNTN and
+87.6\% for the RNN.
 
 % thu-and-or-deep-25-32b.txt iter 102
 % mon-and-or-deep-45r-32.txt iter 480
@@ -154,18 +154,20 @@ indicates that it learned a correct approximation of the underlying
 logic. It appears that this approximation is accurate enough to yield
 correct answers when the composition layer is only applied a small
 number of times, but that the error in the approximation grows with
-increasing depth (and with the increasing complexity of the expressions),
- resulting in the gradually dropping performance. In contrast, the RNN model 
- did not appear to be able to learn a correct approximation of the logic for
- statements of any length, but it appears that the faulty logic that the RNN did
- learn decayed similarly with expression size.  This is not necessarily a significant flaw in the model, since it remains possible that a less lossy approximation of the same logic would do no better
-on the training objective, since that objective only considers short
-strings and includes a regularization term. Whether a more accurate
-encoding could be learned from a larger set of training data remains a
-question for future work. In contrast, the RNN model did not appear to
-be able to learn a correct approximation of the logic.
+increasing depth (and with the increasing complexity of the
+expressions), resulting in gradually dropping performance. In
+contrast, the RNN model did not appear to be able to learn a correct
+approximation of the logic for statements of any length, but it
+appears that the faulty logic that the RNN did learn decayed similarly
+with expression size.  This is not necessarily a significant flaw in
+the model, since it remains possible that a less lossy approximation
+of the same logic would do no better on the training objective, since
+that objective only considers short strings and includes a
+regularization term. Whether a more accurate encoding could be learned
+from a larger set of training data remains a question for future
+work. 
 
-In an effort to better understand why the RNTN outperforms the plain
+In an effort to better understand why the RNTN outperformed the plain
 RNN, we evaluated both models on pairs of long formulae involving
 binary connectives, to assess the extent to which they achieve
 substantially different representations for semantically distinct
