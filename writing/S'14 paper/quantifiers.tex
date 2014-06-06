@@ -4,14 +4,14 @@ We have seen that the RNTN can learn an approximation of propositional
 logic.  However, natural languages can express functional meanings of
 considerably greater complexity than this.  As a first step towards
 investigating whether our models can capture this complexity, we now
-attempt to directly measure the degree to which RNNs are able to
+attempt to directly measure the degree to which they are able to
 develop suitable representations for the semantics of natural language
 quantifiers like \ii{some} and \ii{all}. Quantification is far from
 the only place in natural language where complex functional meanings
 are found, but it is a natural starting point, since it can be tested
 in sentences whose structures are otherwise quite simple, and since it
 has formed a standard case study in prior formal work on natural
-language inference.
+language inference \cite{Icard:Moss:2013:LILT}.
 
 % \subsection{Data}
 
@@ -20,7 +20,7 @@ This experiment replicates similar work described in
 with quantifier meanings given sufficient training data. This paper
 replaces the partially manually annotated data in that paper with data
 that is generated directly using the logical system that we hope to
-model, yielding results that we believe to be substantially more
+learn, yielding results that we believe to be substantially more
 straightforward to interpret.
 
 \paragraph{Experiments}
@@ -81,7 +81,7 @@ remaining 15\%. In this setting, the model is being asked to learn a
 complete reasoning system for the limited language and logic presented
 in the training data, but it is not being asked to generalize to test
 examples that are substantially different from those it was trained
-on. Crucially though, to succeed on this task, the model must be able
+on. Crucially, though, to succeed on this task, the model must be able
 to recognize all of the lexical relations between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
 \eqref{p1} and \eqref{p2} in training and, from that information,
@@ -111,26 +111,27 @@ representation of each held out quantifier from the way that it
 interacts with the other nine quantifiers which are not held
 out. Since running this experiment requires choosing a pair of
 quantifiers to hold out before training, the resource demands of
-training prevent us from testing each of the 55 possible possible
-pairs of quantifiers, and we choose only four pairs to test on.  Three
+training prevent us from testing each of the 55 possible 
+pairs of quantifiers, so we choose only four pairs to test on.  Three
 of these (\ii{two}/\ii{less-than-two}, \ii{not-all}/\ii{not-most}, and
 \ii{all}/\ii{some}) were chosen because they allow for the most
-different class labels at in the training data. The fourth is a
+different class labels in the training data. The fourth is a
 self-pair (\ii{no}/\ii{no}), meant to test that the model correctly
 handles equality.
 
 \begin{table}[tp]
   \centering
-  \begin{tabular}{ l rrr }
+  \setlength{\tabcolsep}{10pt}
+  \begin{tabular}{ l r r@{ \ }r r@{ \ }r }
     \toprule
-    Data & Most frequent class & 16 dim RNN  & 20 dim RNTN\\
+    Data & Most frequent class & \multicolumn{2}{c}{16 dim RNN}  & \multicolumn{2}{c}{20 dim RNTN}\\
     \midrule
-    \textsc{all split}	& 35.4 (7.5) &	67.4 (56.5)&	\textbf{100.0 (100.0)}
+    \textsc{all split}	            & 35.4 (7.5) &	67.4&(56.5)& \textbf{100.0} & \textbf{(100.0)}
     \\[1ex]    
-    \textsc{pair two/less-than-two}	& 59.8 (18.4) &	77.2 (57.4) &	\textbf{100.0 (100.0)} \\
-    \textsc{pair not-all/not-most}	&0 (0) & 66.0 (54.3) &	\textbf{93.8 (91.5)} \\
-    \textsc{pair all/some}	& 0 (0) & 62.7 (65.9)  &	\textbf{78.4 (84.7)} \\
-    \textsc{pair no/no}	& 30.8 (10.2) &	67.8 (61.8) &	\textbf{99.9 (99.7)} \\
+    \textsc{pair two/less-than-two} & 59.8 (18.4) & 77.2 &(57.4) &	\textbf{100.0} &\textbf{(100.0)} \\
+    \textsc{pair not-all/not-most}  &    0 (0)    & 66.0 &(54.3) &	\textbf{93.8}  &\textbf{(91.5)} \\
+    \textsc{pair all/some}	    &    0 (0)    & 62.7 &(65.9)  &	\textbf{78.4}  &\textbf{(84.7)} \\
+    \textsc{pair no/no}	            & 30.8  (10.2) & 67.8 & (61.8) &	\textbf{99.9}  &\textbf{(99.7)} \\
     \bottomrule
   \end{tabular}
   \caption{Performance on the quantifier experiments. Results are reported as accuracy scores followed by macroaveraged F1 scores in parentheses.}
@@ -141,21 +142,21 @@ handles equality.
 \paragraph{Results} 
 The results for these experiments are shown in
 Figure~\ref{resultstable}. We compare the results to a most frequent
-class baseline, which reflects the frequency in the test data of most
-frequent class in the training data, $\natind$.  After some
-cross-validation, we chose 16 and 20-dimensional
-representations for the RNN and RNTN respectively, and 75 dimensional 
-feature vectors for the classifier.
+class baseline, which reflects the frequency in the test data of the
+most frequent class in the training data, $\natind$.  After some
+cross-validation, we chose 16- and 20-dimensional representations for
+the RNN and RNTN, respectively, and 75-dimensional feature vectors for
+the classifier.
 
 The RNN performed poorly at this task, even though the sentences used
 in these examples are short enough to avoid the pathology shown in
 Figure~\ref{prop-falloff}.  However, the perfect performance by the
-RNTN on the \textsc{all split} and \textsc{pair two/less-than-two} 
-experiment and its strong performance on \textsc{pair no/no} suggests
-that that this stronger model is able to handle quantifiers correctly
-given sufficient training data, but the weaker results on two of the
-training settings suggest that it may not be able to generalize from
-data this impoverished in general. However, though the question of how
-much data is necessary to accurately capture quantifier behavior in a
-na\"ive model remains open, the fact that both models perform far
-above baseline is promising.
+RNTN on the \textsc{all split} and \textsc{pair two/less-than-two}
+experiments, and its strong performance on the \textsc{pair no/no}
+experiment, suggest that this stronger model is able to handle
+quantifiers correctly given sufficient training data, but the weaker
+results on two of the training settings suggest that it may not be
+able to generalize from data in general. However, though the question
+of how much data is necessary to accurately capture quantifier
+behavior in a na\"ive model remains open, the fact that both models
+perform far above the baseline is promising.

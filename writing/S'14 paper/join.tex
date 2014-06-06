@@ -57,7 +57,7 @@ test set those statements which cannot be proven from the training
 statements.
 % using the logic depicted in Figure~\ref{lattice-figure}.
 
-\begin{figure}[htp]
+\begin{figure}[tp]
   \centering
   \begin{subfigure}[t]{0.45\textwidth}
     \centering
@@ -143,7 +143,7 @@ statements.
 
 In our experiments, we create 80 randomly generated sets drawing from
 a domain of seven elements. This yields a data set consisting of
-6400 statements about pairs of entities. 3200 of these pairs are
+6400 statements about pairs of formulae. 3200 of these pairs are
 chosen as a test set, and that test set is further reduced to the 2960
 examples that can be provably derived from the training data.
 
@@ -202,11 +202,11 @@ These results are fairly straightforward to interpret. The RNTN model
 was able to accurately encode the relations between the terms in the
 geometric relations between their vectors, and was able to then use
 that information to recover relations that were not overtly included
-in the training data. In contrast, the RNN model was able to
-approximate this behavior only incompletely. It is possible but not
-likely that it could be made to find a good solution with further
-optimization on different learning algorithms, or that it would do
-better on a larger universe of sets for which there would be a larger
-set of training data to learn from, but the RNTN is readily able to achieve
-these effects in the setting discussed here.
+in the training data. In contrast, the RNN model was able to achieve
+this behavior only incompletely. It is possible but not likely that it
+could be made to find a good solution with further optimization on
+different learning algorithms, or that it would do better on a larger
+universe of sets, for which there would be a larger set of training
+data to learn from, but the RNTN is readily able to achieve these
+effects in the setting discussed here.
 

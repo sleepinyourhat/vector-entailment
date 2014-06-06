@@ -34,8 +34,8 @@ operators are truth-functional ones.  Table~\ref{tab:pl} defines this
 logic, and Table~\ref{tab:plexs} gives some examples of relational
 statements that we can make in these terms. To compute these relations
 between statements, we exhaustively enumerate the sets of assignments
-of truth values to proposition variables that would satisfy each of
-the statements and then convert the set-theoretic relation between
+of truth values to propositional variables that would satisfy each of
+the statements, and then we convert the set-theoretic relation between
 those assignments into one of the seven relations in
 Table~\ref{b-table}. As a result, each relational statement represents
 a valid theorem of the propositional logic.
@@ -98,7 +98,7 @@ between $2^{6} = 64$ possible assignments of truth values, and
 expressions of this logic define arbitrary conditions on these
 possible assignments, for a total of $2^{64}$ %($\approx 10^{20}$)
 possible statements that the intermediate vector representations need
-to be able to distinguish if it is to learn this logical system in its
+to be able to distinguish if we are to learn this logical system in its
 full generality.
 
 For our experiments, we randomly generate a large set of  unique pairs 
@@ -118,7 +118,7 @@ subsets of the six variables, which means that the $\natind$ relation
 is almost always correct.  In an effort to balance the distribution of
 relation labels without departing from the basic task of modeling
 propositional logic, we disallow individual pairs of statements from
-referring to more than four of the six proposition variables.
+referring to more than four of the six propositional variables.
 
 \paragraph{Results} 
 We trained both the RNN and RNTN models on data with up to 4
@@ -131,12 +131,12 @@ representations, and the RNTN model was approximately optimal with 25
 dimensions. We fixed the size of the feature vector for the classifier
 at 75 dimensions. We found that the RNTN model was able to perform
 almost perfectly on unseen small test examples, with accuracy above
-98.7\% below size four (macro-F1 was above 95.5).  Starting at size
-four, performance gradually falls with increasing size.  The RNN model
-did not perform well, reaching only 90.5\% (81.4 micro-F1) accuracy on
-the smallest test examples, and declining from there to near-baseline
-performance at size 12. Training accuracy was 99.6\% for the RNTN and
-87.6\% for the RNN.
+98.7\% on formulae below length four (macro-F1 was above 95.5).
+Starting at size four, performance gradually falls with increasing
+size.  The RNN model did not perform well, reaching only 90.5\% (81.4
+micro-F1) accuracy on the smallest test examples, and declining from
+there to near-baseline performance on formulae of length 12. Training
+accuracy was 99.6\% for the RNTN and 87.6\% for the RNN.
 
 % thu-and-or-deep-25-32b.txt iter 136
 % mon-and-or-deep-45r-32.txt iter 480
