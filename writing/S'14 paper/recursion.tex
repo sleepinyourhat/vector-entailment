@@ -165,13 +165,43 @@ encoding could be learned from a larger set of training data remains a
 question for future work. In contrast, the RNN model did not appear to
 be able to learn a correct approximation of the logic.
 
-In an attempt to better understand the limited success of the RNN model, we discovered that this model looses information about in longer statements in a particularly problematic way. It appears that that model is unable to distinguish between two sentences when the only difference between those sentences is embedded within a very deep structure. We evaluated both models on sentences that differed in only one term, but for which that one term was embedded under a large number of conjunctions, such as the pair \ii{a (and a)} and \ii{a (and b)}, or the pair \ii{a (and (a (and a)))} and \ii{a (and (a (and b)))}. We then measured the Euclidean distance between the vector representations of the two sentences in each pair. Our findings are shown in Figure~\ref{prop-falloff}, and show that while the RNTN can distinguish the two sentences well at every size that we test, the RNN fails after a depth of approximately six.
+In an effort to better understand why the RNTN outperforms the plain
+RNN, we evaluated both models on pairs of long formulae involving
+binary connectives, to assess the extent to which they achieve
+substantially different representations for semantically distinct
+formulae and substantially similar representations for synonymous
+formulae. We found that both models are able to identify synonymous
+pairs like $(a \pland a)$ and $(a \pland (a \pland (a \pland a)))$,
+and similarly for disjunctions, but only the RNTN is able to learn
+substantially different representations for formulae like $(a \pland
+a)$ and $(a \pland (a \pland (a \pland
+b)))$. Figure~\ref{prop-falloff} summarizes the result for pairs of
+distinct formulae, showing that the RNN basically cannot distinguish
+them after depth~2.
 
+
+% we discovered that this model looses information about in longer
+% statements in a particularly problematic way. It appears that that
+% model is unable to distinguish between two sentences when the only
+% difference between those sentences is embedded within a very deep
+% structure. We evaluated both models on sentences that differed in only
+% one term, but for which that one term was embedded under a large
+% number of conjunctions, such as the pair \ii{a (and a)} and \ii{a (and
+%   b)}, or the pair \ii{a (and (a (and a)))} and \ii{a (and (a (and
+%   b)))}. We then measured the Euclidean distance between the vector
+% representations of the two sentences in each pair. Our findings are
+% shown in Figure~\ref{prop-falloff}, and show that while the RNTN can
+% distinguish the two sentences well at every size that we test, the RNN
+% fails after a depth of approximately six.
 
 \begin{figure}[htp]
   \centering
   \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
-  \caption{How well each model can distinguish to expressions that differ by one term, measured for terms embedded under different numbers of tokens of \ii{and}.}  
+  \caption{Truth-conditionally distinct formulae should have different
+    representations. As measured by Euclidean distance, only the RNTN
+    achieves this for formulae containing more than two
+    connectives. The RNN quickly collapses the representations,
+    failing to capture the meaning contrasts.}
   \label{prop-falloff}
 \end{figure}
 
