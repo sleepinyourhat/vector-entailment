@@ -123,17 +123,17 @@ handles equality.
   \centering
   \begin{tabular}{ l rrr }
     \toprule
-    Data & Most frequent class & 20 dim RNN (\%) & 20 dim RNTN (\%)\\
+    Data & Most frequent class & 20 dim RNN  & 20 dim RNTN\\
     \midrule
-    \textsc{all split}	& 35.4 &	65.3&	\textbf{99.0}
+    \textsc{all split}	& 35.4 &	69.4 (63.2)&	\textbf{100.0 (100.0)}
     \\[1ex]    
-    \textsc{pair two/less-than-two}	& 59.8 &	77.6 &	\textbf{100.0} \\
-    \textsc{pair not-all/not-most}	&0 & 60.8 &	\textbf{82.0} \\
-    \textsc{pair all/some}	& 0& 52.5  &	\textbf{85.1} \\
-    \textsc{pair no/no}	& 30.8 &	68.9 &	\textbf{99.9} \\
+    \textsc{pair two/less-than-two}	& 59.8 &	86.7 (68.4) &	\textbf{100.0 (100.0)} \\
+    \textsc{pair not-all/not-most}	&0 & 66.0* (54.3*) &	\textbf{93.8 (91.5)} \\
+    \textsc{pair all/some}	& 0& 69.7 (72.0)  &	\textbf{78.4 (84.7)} \\
+    \textsc{pair no/no}	& 30.8 &	68.1 (61.7) &	\textbf{99.9 (99.7)} \\
     \bottomrule
   \end{tabular}
-  \caption{Performance on the quantifier experiments. }
+  \caption{Performance on the quantifier experiments. Results are reported as accuracy scores followed by macroaveraged F1 scores in parentheses.}
   \label{resultstable}
 \end{table} 
 

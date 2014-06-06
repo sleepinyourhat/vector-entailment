@@ -66,12 +66,16 @@ function, we use the negative log of the probability assigned to the
 correct label.
 
 We train the model with minibatch stochastic gradient descent (SGD)
-with learning rates computed using AdaGrad \cite{duchi2011adaptive}
-from a starting rate of 0.2. The parameters (including the vocabulary)
-are initialized randomly using a uniform distribution over $[-0.1,
-0.1]$. % TODO: Update
-Source code and generated data will be released after the conclusion
-of the review period.
+with learning rates computed using AdaGrad \cite{duchi2011adaptive}.
+The parameters (including the vocabulary) are initialized randomly 
+using a uniform distribution over $[-0.1, 0.1]$.
+Because the seven classes are not balanced in general, we report performance
+using both accuracy and macroaveraged F1, since the latter is sensitive
+to performance on infrequent classes. We compute macroaveraged F1 
+as the harmonic mean of mean precision and mean recall, both computed
+for all classes for which there is test data, setting precision to 0 
+where it is not defined. Source code and generated data will be released
+after the review period.
 
 \begin{figure}[tp]
   \centering

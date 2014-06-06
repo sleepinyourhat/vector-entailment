@@ -131,19 +131,19 @@ representations, and the RNTN model was approximately optimal with 25
 dimensions. We fixed the size of the feature vector for the classifier
 at 75 dimensions. We found that the RNTN model was able to perform
 almost perfectly on unseen small test examples, with accuracy above
-99\% below size four (macro-F1 was above 98.9).  Starting at size
+98.7\% below size four (macro-F1 was above 95.5).  Starting at size
 four, performance gradually falls with increasing size.  The RNN model
-did not perform well, reaching only 88.2\% (67.2 micro-F1) accuracy on
+did not perform well, reaching only 90.5\% (81.4 micro-F1) accuracy on
 the smallest test examples, and declining from there to near-baseline
 performance at size 12. Training accuracy was 99.6\% for the RNTN and
 87.6\% for the RNN.
 
-% thu-and-or-deep-25-32b.txt iter 102
+% thu-and-or-deep-25-32b.txt iter 136
 % mon-and-or-deep-45r-32.txt iter 480
 
 \begin{figure}[tp]
   \centering
-  \includegraphics[width=5.3in]{recursion\string_results\string_updated.eps}
+  \includegraphics[width=5.3in]{recursion\string_results\string_final.eps}
   \caption{Model performance on propositional logic, by expression size. 
     The dashed line indicates that only expressions of size four or less appeared in the training data.}  
   \label{prop-results}
