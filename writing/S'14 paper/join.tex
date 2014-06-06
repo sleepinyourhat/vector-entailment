@@ -23,7 +23,7 @@ of relations for which no valid inference can be drawn in our logic.
 % b$ and $b R' c$, including several less intuitive ones such as that if
 % $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
 
-\begin{table}[htp]
+\begin{table}[tp]
   \centering  
   \setlength{\arraycolsep}{8pt}
   \renewcommand{\arraystretch}{1.1}
@@ -56,6 +56,51 @@ statements evenly into training and test sets, and remove from the
 test set those statements which cannot be proven from the training
 statements.
 % using the logic depicted in Figure~\ref{lattice-figure}.
+
+
+% We test the model's ability to learn this behavior by creating
+% artificial data sets of terms which represent sets of numbers. Since
+% MacCartney and Manning's set of relations hold between sets as well as
+% between sentences, we can use the underlying set structure to generate
+% the all of the relations that hold between any pair of these terms, as
+% in Figure \ref{lattice-figure}. We train the model defined above on a
+% subset of these relations, but rather then presenting the model with a
+% pair of tree-structured sentences as inputs, simply present it with
+% two single terms, each of which corresponds to a single vector in the
+% (randomly initialized) vocabulary matrix $V$, ensuring that the model
+% has no information about the terms being compared except the relations
+% between them.
+
+In our experiments, we create 80 randomly generated sets drawing from
+a domain of seven elements. This yields a data set consisting of
+6400 statements about pairs of formulae. 3200 of these pairs are
+chosen as a test set, and that test set is further reduced to the 2960
+examples that can be provably derived from the training data.
+
+We trained versions of both the RNN model and the RNTN model on these
+data sets. In both cases, the models were implemented exactly as
+described in Section~\ref{methods}, but since the items being compared
+are single terms rather than full tree structures, the composition
+layer was not involved, and the two models differed only in which
+layer function was used for the comparison layer. We simply present
+the models with two single terms, each of which corresponds to a
+single vector in the (randomly initialized) vocabulary matrix $V$,
+thereby ensuring that the model has no information about the terms
+being compared except the relations between them.
+
+\paragraph{Results} 
+We found that the RNTN model worked best with 11-dimensional vector
+representations for the 80 sets and a 90-dimensional feature vector
+for the classifier, though the performance of the model was not highly
+sensitive to either dimensionality parameter in any of the experiments
+discussed here. This model was able to correctly label 99.4\% (94.3
+macroaveraged F1) of the provably derivable test examples, and 95.4\%
+(92.2 macro-F1) of the remaining test examples. The simpler RNN model worked
+best with 11 and 75 dimensions, respectively, but was able to achieve
+accuracies of only 89.0\% (80.7 macro-F1) and 62.5\% (40.7 macro-F1),
+respectively. Training accuracy was 99.8\% for the RNTN and 95.4\% for
+the RNN.
+
 
 \begin{figure}[tp]
   \centering
@@ -129,49 +174,6 @@ statements.
 % Note: None of these test examples is derivable from the shown training data, 
 % but we suggest that there is additional training data, so we can cross lines
 % out willy-nilly without fear.
-
-% We test the model's ability to learn this behavior by creating
-% artificial data sets of terms which represent sets of numbers. Since
-% MacCartney and Manning's set of relations hold between sets as well as
-% between sentences, we can use the underlying set structure to generate
-% the all of the relations that hold between any pair of these terms, as
-% in Figure \ref{lattice-figure}. We train the model defined above on a
-% subset of these relations, but rather then presenting the model with a
-% pair of tree-structured sentences as inputs, simply present it with
-% two single terms, each of which corresponds to a single vector in the
-% (randomly initialized) vocabulary matrix $V$, ensuring that the model
-% has no information about the terms being compared except the relations
-% between them.
-
-In our experiments, we create 80 randomly generated sets drawing from
-a domain of seven elements. This yields a data set consisting of
-6400 statements about pairs of formulae. 3200 of these pairs are
-chosen as a test set, and that test set is further reduced to the 2960
-examples that can be provably derived from the training data.
-
-We trained versions of both the RNN model and the RNTN model on these
-data sets. In both cases, the models were implemented exactly as
-described in Section~\ref{methods}, but since the items being compared
-are single terms rather than full tree structures, the composition
-layer was not involved, and the two models differed only in which
-layer function was used for the comparison layer. We simply present
-the models with two single terms, each of which corresponds to a
-single vector in the (randomly initialized) vocabulary matrix $V$,
-thereby ensuring that the model has no information about the terms
-being compared except the relations between them.
-
-\paragraph{Results} 
-We found that the RNTN model worked best with 11-dimensional vector
-representations for the 80 sets and a 90-dimensional feature vector
-for the classifier, though the performance of the model was not highly
-sensitive to either dimensionality parameter in any of the experiments
-discussed here. This model was able to correctly label 99.4\% (94.3
-macroaveraged F1) of the provably derivable test examples, and 95.4\%
-(92.2 macro-F1) of the remaining test examples. The simpler RNN model worked
-best with 11 and 75 dimensions, respectively, but was able to achieve
-accuracies of only 89.0\% (80.7 macro-F1) and 62.5\% (40.7 macro-F1),
-respectively. Training accuracy was 99.8\% for the RNTN and 95.4\% for
-the RNN.
 
 % RNTN log: tue-j-11-6x80-hip.txt
 % Train PER: 0.0021875
