@@ -1,20 +1,24 @@
 \section{Introduction}\label{sec:intro}
 
 Supervised recursive neural network models (RNNs) for sentence meaning
-have been successful in a wide array of sophisticated language tasks,
+have been successful in an array of sophisticated language tasks,
 including sentiment analysis \cite{socher2011semi,socher2013acl1},
 image description \cite{sochergrounded}, and paraphrase detection
-\cite{Socher-etal:2011:Paraphrase}. These results are encouraging
-for the ability of these models to learn compositional semantic
-grammars, but it remains an open question whether they can achieve the
-same results as grammars based in logical forms
-\cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013} when it comes to core semantic
-concepts like quantification, entailment, and contradiction. To date,
+\cite{Socher-etal:2011:Paraphrase}. These results are encouraging for
+the ability of these models to learn compositional semantic grammars,
+but it remains an open question whether they can achieve the same
+results as grammars based in logical forms
+\cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}
+when it comes to the core semantic concepts of quantification,
+entailment, and contradiction needed to identify the relationships
+between sentences like \ii{No child failed a language exam}, \ii{No
+  girl failed a French exam}, and \ii{A boy failed French}. To date,
 experimental investigations of these concepts using distributed
 representations have been largely confined to short phrases
 \cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment,kalchbrenner2014convolutional}.
-For robust natural language understanding, we must be able to model
-these phenomena in their full generality on complex linguistic structures.
+For robust natural language understanding, it is essential to model
+these phenomena in their full generality on complex linguistic
+structures.
 
 We address this question in the context of \ii{natural language
   inference} (also known as \ii{recognizing textual entailment};
@@ -32,28 +36,28 @@ contradiction, and mutual consistency, as summarized in
 Table~\ref{b-table}, and it provides rules of semantic combination for
 projecting these relations from the lexicon up to complex phrases. The
 formal properties and inferential strength of this system are now
-well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
+well-understood \cite{Icard:Moss:2013:LILT}.
 
 In our experiments, we use this pre-specified logical grammar to
 generate controlled data sets encoding the semantic relationships
-between pairs of expressions and evaluate whether each of two
-classes of neural model --- plain RNNs and recursive neural tensor
-networks (RNTNs, \cite{socher2013acl1}) --- can learn those
-relationships correctly. In our first experiment
-(Section~\ref{sec:join}), we evaluate the ability of these models to
-learn the core relational algebra of natural logic from data. Our
-second experiment (Section~\ref{sec:recursion}) extends this
-evaluation to cover relations between complex recursive structures
-like $(a \plor b)$ and $\plneg(\plneg a \pland \plneg b)$, and our
-third experiment (Section~\ref{sec:quantifiers}) involves relations
-between quantified statements like \ii{every reptile walks} and \ii{every
-turtle moves}. We find that the plain RNN achieves only mixed results
-in all three experiments, whereas the stronger RNTN models generalized
-well in every case, suggesting that it has in fact learned, or at
-least learned to simulate, our target logical
+between pairs of expressions and evaluate whether each of two classes
+of neural model --- plain RNNs and recursive neural tensor networks
+(RNTNs, \cite{socher2013acl1}) --- can learn those relationships
+correctly. In our first experiment (Section~\ref{sec:join}), we
+evaluate the ability of these models to learn the core relational
+algebra of natural logic from data. Our second experiment
+(Section~\ref{sec:recursion}) extends this evaluation to relations
+between complex recursive structures like $(a \plor b)$ and
+$\plneg(\plneg a \pland \plneg b)$, and our third experiment
+(Section~\ref{sec:quantifiers}) involves relations between quantified
+statements like \ii{every reptile walks} and \ii{every turtle moves}.
+We find that the plain RNN achieves only mixed results in all three
+experiments, whereas the stronger RNTN model generalizes well in every
+case, suggesting that it has in fact learned, or at least learned to
+simulate, our target logical
 concepts. % TODO: Update with current results
 
-\begin{table}[htp]
+\begin{table}[tp]
   \centering
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
@@ -72,8 +76,8 @@ concepts. % TODO: Update with current results
   \end{tabular}
   \caption{The entailment relations in $\mathfrak{B}$. 
     $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
-    and the relation $\natind$ applies whenever none of the other six do, including when there 
-    is insufficient knowledge to choose a label.}
+    and the relation $\natind$ applies whenever none of the other six do.} %, including when there 
+    %is insufficient knowledge to choose a label.}
   \label{b-table}
 \end{table}
 

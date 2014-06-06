@@ -1,15 +1,14 @@
 \section{Recursive structure in propositional logic}\label{sec:recursion}
 
-Recursive structure is a prominent feature of natural languages and
-an important part of their expressivity, as it allows people to use
-and interpret complex structures they have never encountered before.
+Recursive structure is a prominent feature of natural languages and an
+important part of their expressivity, as it allows people to use and
+interpret complex structures they have never encountered before.
 Theoretical accounts of natural language syntax and semantics
 therefore rely heavily on recursive structures, and we expect that
 accurate computational models will have to come to grips with them as
 well. The present section pursues this question for our two classes of
-RNN. In evaluating the model, we take advantage of the fact that
-recursive structures of this kind define potentially infinite
-languages, by testing the model on strings that are longer and more
+RNN. In our evaluations, we take exploit the fact that our logical
+language is infinite by testing on strings that are longer and more
 complex than any seen in training.
 
 % Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice
@@ -25,22 +24,23 @@ complex than any seen in training.
 % potentially infinite languages by testing the model on strings that
 % are longer and more complex than any seen in testing.
 
+\paragraph{Experiments}
 As in Section~\ref{sec:join}, we test this phenomenon within the
 framework of natural logic, but we now replace the unanalyzed symbols
-from that experiment with expressions that involve recursive
-structure. These expressions represent a truth-functionally complete classical
-propositional logic: each atomic variable denotes either $\True$ or
-$\False$, and the only operators are truth-functional ones.
-Table~\ref{tab:pl} defines this logic, and Table~\ref{tab:plexs} gives
-some examples of relational statements that we can make
-in these terms. To compute these relations between statements, we
-exhaustively enumerate the sets of assignments of truth values to
-proposition variables that would satisfy each of the statements and
-then convert the set-theoretic relation between those assignments into
-one of the seven relations in Table~\ref{b-table}. As a result, each relational
-statement represents a valid theorem of the propositional logic.
+from that experiment with complex formulae. These formulae
+represent a truth-functionally complete classical propositional logic:
+each atomic variable denotes either $\True$ or $\False$, and the only
+operators are truth-functional ones.  Table~\ref{tab:pl} defines this
+logic, and Table~\ref{tab:plexs} gives some examples of relational
+statements that we can make in these terms. To compute these relations
+between statements, we exhaustively enumerate the sets of assignments
+of truth values to proposition variables that would satisfy each of
+the statements and then convert the set-theoretic relation between
+those assignments into one of the seven relations in
+Table~\ref{b-table}. As a result, each relational statement represents
+a valid theorem of the propositional logic.
 
-\begin{table}[htp]
+\begin{table}[tp]
   \centering
   \begin{subtable}[t]{0.45\textwidth}
     \centering
@@ -68,7 +68,7 @@ statement represents a valid theorem of the propositional logic.
       $\plneg \plneg a$ & $\nateq$  & $a$ \\
       $a$               & $\natfor$ & $(a \plor b)$ \\
       $a$               & $\natrev$ & $(a \pland b)$ \\
-      $(a \natfor b)$   & $\nateq$  & $(b \natrev a)$ \\	
+      %$(a \natfor b)$   & $\nateq$  & $(b \natrev a)$ \\	
       $\plneg(\plneg a \pland \plneg b)$ & $\nateq$ & $(a \plor b)$ \\ 
       \bottomrule
     \end{tabular}
@@ -83,10 +83,10 @@ statement represents a valid theorem of the propositional logic.
 % NOTE: There was some confusion at CSLI and the 224U lecture about
 % whether this was theorem proving or some kind of model checking.
 % Hopefully this is explicit enough.
-Socher et al.~\cite{socher2012semantic} demonstrate the learning of a
-logic in a matrix-vector RNN model somewhat similar to our own, but
-the logic discussed here is substantially stronger, and a much better
-approximation of the kind of structure that is needed for natural
+Socher et al.~\cite{socher2012semantic} show that a matrix-vector RNN
+model somewhat similar to our own can learn a logic, but the logic
+discussed here is substantially stronger, and a much better
+approximation of the kind of expressivity needed for natural
 language. The logic learned in that experiment is boolean, wherein the
 atomic symbols are simply the values $0$ and $1$, rather than
 variables over those values. While learning the operators of that
@@ -98,7 +98,7 @@ contrasts seen in \cite{socher2012semantic}, this logic distinguishes
 between $2^{6} = 64$ possible assignments of truth values, and
 expressions of this logic define arbitrary conditions on these
 possible assignments, for a total of $2^{64}$ %($\approx 10^{20}$)
-possible statements that the intermediate vector representations need 
+possible statements that the intermediate vector representations need
 to be able to distinguish.
 
 For our experiments, we randomly generate a large set of  unique pairs 
@@ -111,17 +111,17 @@ then partitioned into bins based on the number of logical operators in
 the longer of the two formulae. We then randomly sample 15\% of each
 bin for a held out test set.
 
-If we do not implement any constraint that the two statements
-being compared are similar in any way, the generated data consists in
-large part of statements in which the two formulae refer to largely
-separate subsets of the six variables, and to which we will nearly
-always assign the $\natind$ relation. In an effort to balance the
-distribution of relation labels without departing from the basic task
-of modeling propositional logic, we disallow individual pairs of
-statements from referring to more than four of the six proposition
-variables.
+If we do not implement any constraint that the two statements being
+compared are similar in any way, then the generated data are dominated
+by statements in which the two formulae refer to largely separate
+subsets of the six variables, which means that the $\natind$ relation
+is almost always correct.  In an effort to balance the distribution of
+relation labels without departing from the basic task of modeling
+propositional logic, we disallow individual pairs of statements from
+referring to more than four of the six proposition variables.
 
-\paragraph{Results.} We trained both the RNN and RNTN models on the data of size four or
+\paragraph{Results} 
+We trained both the RNN and RNTN models on the data of size four or
 less (65k pairs), and tested it on examples of up to size 12 (44k
 pairs). We initialized the model parameters randomly, including the
 vector representations of the six variables. The results are shown in
@@ -130,19 +130,22 @@ approximately optimal with 45-dimensional vector representations, and
 the RNTN model was approximately optimal with 25 dimensions. We fixed
 the size of the feature vector for the classifier at 75 dimensions. We
 found that the RNTN model was able to perform almost perfectly on
-unseen small test examples, with accuracy above 99\% below size four (Macroaveraged F1 was above 98.9).
-Starting at size four, performance gradually falls with increasing size.
-The RNN model did not perform well, reaching only 88.2\% (67.2) accuracy on
-the smallest test examples, and declining from there to near-baseline
-performance at size 12. Training accuracy was 99.6\% for the RNTN and 87.6\% for the RNN. 
+unseen small test examples, with accuracy above 99\% below size four
+(Macroaveraged F1 was above 98.9).  Starting at size four, performance
+gradually falls with increasing size.  The RNN model did not perform
+well, reaching only 88.2\% (67.2) accuracy on the smallest test
+examples, and declining from there to near-baseline performance at
+size 12. Training accuracy was 99.6\% for the RNTN and 87.6\% for the
+RNN.
 
 % thu-and-or-deep-25-32b.txt iter 102
 % mon-and-or-deep-45r-32.txt iter 480
 
-\begin{figure}[htp]
+\begin{figure}[tp]
   \centering
   \includegraphics[width=5.3in]{recursion\string_results\string_updated.eps}
-  \caption{Model performance on propositional logic, by expression size. The dashed line indicates that only expressions of size four or less appeared in the training data.}  
+  \caption{Model performance on propositional logic, by expression size. 
+    The dashed line indicates that only expressions of size four or less appeared in the training data.}  
   \label{prop-results}
 \end{figure}
 
