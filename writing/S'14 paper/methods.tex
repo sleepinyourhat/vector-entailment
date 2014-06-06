@@ -4,15 +4,12 @@
 We study neural models that adhere to the linguistic \ii{principle of
  compositionality}, which says that the meanings for complex
 expressions are derived from the meanings of their constituent parts
-via specific combination functions \cite{Partee84,Janssen97}. In our
+via specific composition functions \cite{Partee84,Janssen97}. In our
 distributed setting, word meanings are vectors of length $n$. The
-combination function concatenates pairs of them to form vectors of
-length $2n$ and maps those larger vectors back into length $n$
-vectors, which can then be merged again to create more complex
+composition function maps pairs of them to single vectors of length $n$, 
+which can then be merged again to represent more complex
 phrases. Once the entire sentence-level representation has been
-derived, it is fed to a classifier trained in a supervised manner.
-
-% The models that we study are centered around a recursively applied composition function which is meant to mimic the recursive construction of meanings in formal semantics. In this scheme, pairs of words are merged into phrase representations by a function that maps from representations of length $2N$ to representations of length $N$. These phrase representations are then further merged with other words and phrases until the entire phrase or sentence being evaluated is represented in a single vector. This vector is then used as the input to a classifier and used in a supervised learning task.
+derived, it serves as a fixed-length input for some subsequent function.
 
 We use the model architecture proposed in \cite{bowman2013can} and
 depicted in Figure~\ref{sample-figure}. The two phrases being compared
@@ -50,10 +47,10 @@ include a bias vector, represented as $\vec{b}$.
 The comparison layer uses the same kind of function template as the
 composition layers (either an NN layer or an NTN layer) with
 independently learned parameters and a separate nonlinearity function.
-Rather than use a $\tanh$ nonlinearity here, we found a substantial
-improvement in performance by using a rectified linear function. In
+Rather than use a $\tanh$ nonlinearity here, we follow \cite{bowman2013can} 
+in using a rectified linear function. In
 particular, we use the leaky rectified linear function
-\cite{maasrectifier}: $f_{b}(\vec{x})=\max(\vec{x}, 0) +
+\cite{maasrectifier}: $f(\vec{x})=\max(\vec{x}, 0) +
 0.01\min(\vec{x}, 0)$, applied element-wise.
 
 To run the model forward and label a pair of phrases, the structure of
@@ -72,8 +69,8 @@ with learning rates computed using AdaGrad \cite{duchi2011adaptive}.
 The parameters (including the vocabulary) are initialized randomly 
 using a uniform distribution over $[-0.1, 0.1]$.
 Because the seven classes are not balanced in general, we report performance
-using both accuracy and macroaveraged F1, since the latter is sensitive
-to performance on infrequent classes. We compute macroaveraged F1 
+using both accuracy and macroaveraged F1, since the latter emphasizes
+ performance on infrequent classes. We compute macroaveraged F1 
 as the harmonic mean of mean precision and mean recall, both computed
 for all classes for which there is test data, setting precision to 0 
 where it is not defined. Source code and generated data will be released

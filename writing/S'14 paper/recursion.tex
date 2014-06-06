@@ -56,7 +56,7 @@ a valid theorem of the propositional logic.
     \end{tabular}    
     \caption{Well-formed formulae. $\varphi$ and $\psi$
       range over all well-formed formulae, and $\sem{\cdot}$ is
-      interpretation function mapping formulae into $\{\True,
+      the interpretation function mapping formulae into $\{\True,
       \False\}$.}\label{tab:pl}
   \end{subtable}
   \quad
@@ -169,12 +169,10 @@ substantially different representations for semantically distinct
 formulae and substantially similar representations for synonymous
 formulae. We found that both models are able to identify synonymous
 pairs like $(a \pland a)$ and $(a \pland (a \pland (a \pland a)))$,
-and similarly for disjunctions, but only the RNTN is able to learn
-substantially different representations for formulae like $(a \pland
-a)$ and $(a \pland (a \pland (a \pland
-b)))$. Figure~\ref{prop-falloff} summarizes the result for pairs of
-distinct formulae, showing that the RNN basically cannot distinguish
-them after depth~2.
+with both \ii{and} and \ii{or}, but only the RNTN is able to learn
+substantially different representations for pairs of differing formulae like $(a \pland (a \pland a))$
+ and $(a \pland (a \pland b))$ when the difference between the two is embedded under multiple operators. 
+ Figure~\ref{prop-falloff} summarizes this result.
 
 
 % we discovered that this model looses information about in longer
@@ -194,10 +192,10 @@ them after depth~2.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
-  \caption{Truth-conditionally distinct formulae should have different
+  \caption{Semantically distinct formulae should have different
     representations. As measured by Euclidean distance, only the RNTN
-    achieves this for formulae containing more than two
-    connectives. The RNN quickly collapses the representations,
+    achieves this for formulae containing more than a small number of
+    connectives (\ii{and} in this example). The RNN quickly collapses the representations,
     failing to capture the meaning contrasts.}
   \label{prop-falloff}
 \end{figure}
