@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainJoinModel(expName, mbs, dim, tot, lambda, penult)
+function TrainJoinModel(expName, mbs, dim, tot, lambda, penult, sig)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -65,7 +65,11 @@ hyperParams.useThirdOrderComparison = tot; % For comparison
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
 hyperParams.compNLDeriv = @SigmoidDeriv; 
-nl = 'M';
+if (sig)
+    nl = 'S';
+else
+    nl = 'M';
+end
 if strcmp(nl, 'S')
     hyperParams.classNL = @Sigmoid;
     hyperParams.classNLDeriv = @SigmoidDeriv;
@@ -128,7 +132,7 @@ options.resetSumSqFreq = 10000; % Don't bother.
 
 disp(options)
 
-if nargin > 6 && ~isempty(pretrainingFilename)
+if nargin > 7 && ~isempty(pretrainingFilename)
     % Initialize parameters from disk
     clear 'theta'
     clear 'thetaDecoder'
