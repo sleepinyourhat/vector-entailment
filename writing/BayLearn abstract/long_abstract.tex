@@ -119,8 +119,8 @@ $^{\ddag}$Stanford Computer Science
 \subsection*{Recursive neural network models}
 
 \begin{figure}[hp]
-  \centering
-  \input{figure1}
+  \centering\resizebox{4.5in}{!}{
+  \input{figure1}}
   % \caption{The model structure used to compare \ii{((all reptiles) walk)} and \ii{((some turtles) move)}. 
   %  The same structure is used for both the RNN and RNTN layer functions.} 
   \label{sample-figure}
@@ -130,10 +130,12 @@ In our experiments, we train pairs of recursive (tree structured) neural network
 
 % TODO gold parse structures
 
-\subsection*{Reasoning about semantic relations}
+\subsection*{Inference and the semantic relations}
 
-\begin{table}[h]
-  \centering
+Our aim is to evaluate the ability of learned recusive models to represent semantic structure. We pursue this through an inference task, where the models must learn to choose the logical relation that applies between a pair of statements. The possible relations are the seven below from \cite{maccartney2009extended}. This is distinct from the limited prior work on learning neural network models for formal semantics \cite{grefenstette2013towards, rocktaschellow}, which use an interpretation task in which the model evaluates sentences as \textit{true} or \textit{false} with respect to some representation of the world. Our approach allows us to sidestep serious open problems involved in the representation of a complete set of knowledge about the world.
+
+\begin{table}[h]\small
+\centering\resizebox{4.5in}{!}{
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
   \begin{tabular}{l c l l} 
@@ -148,18 +150,17 @@ In our experiments, we train pairs of recursive (tree structured) neural network
     cover              & $x \natcov y$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-turtle} \\ 
     independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
     \bottomrule
-  \end{tabular}
+  \end{tabular}}
   \label{b-table}
 \end{table}
- 
-Our models classify into the seven relations from \cite{maccartney2009extended}, shown in the table below, which define possible relationships between pairs of terms or sentences of natural language in terms of their set-theoretic denotations.
-If any model is to learn the behavior of a relational logic like the one
-presented here from a finite amount of data, it must learn to deduce new
-relations from already seen relations. Our first experiment evaluates the ability of our models to do this over pairs of atomic symbols in a large corpus of artificial data. The model is trained on examples like \{$a \natfor b$, $b \natneg c$\}, and tested on examples that follow from them, like \{$a \natalt c$\}.
+
+\subsection*{Reasoning with atomic symbols}
+
+If any model is to learn the behavior of a relational logic like the one presented here from a finite amount of data, it must learn to deduce new relations from already seen relations. Our first experiment evaluates the ability of our models to do this over pairs of atomic symbols. The model is trained on a randomly generated set of consistent statements like \{$a \natfor b$, $b \natneg c$, $c \nateq d$\}, and tested on novel examples that follow from the statements seen in training, like \{$b \natneg d$\}. A tuned RNTN reached greater than 99\% test accuracy, but no plain RNN surpassed 89\%.
 
 \subsection*{Recursive structure in propositional logic}\label{sec:recursion}
 
-Our second experiment introduces compositionality to our examples, training on short statements of propositional logic, like $\plneg a\natrev(a \pland b)$. We train our models on only pairs of statements with up to four symbols, but observe that the RNN performs reasonably both on those and on much longer test pairs. 
+Our second experiment introduces compositional structure to our examples, replacing the atomic statements above with pairs of short statements of propositional logic, like $\plneg a\natalt((a~(\pland~ b))~(\pland~c))$. We train our models on only pairs of statements with up to four symbols, but observe that the RNTN performs reasonably both on pairs of that length and on much longer test pairs, as shown below. 
 
 \begin{figure}[h]
   \centering
@@ -169,7 +170,7 @@ Our second experiment introduces compositionality to our examples, training on s
 
 \subsection*{Reasoning with natural language quantifiers and negation}\label{sec:quantifiers}
 
-For our third experiment, we generate pairs of sentences in which each sentence contains one quantifier, and any of a small set of common nouns, as in the example \textit{(no warthogs) move $\natfor$ (no (not reptiles)) swim}. The parentheses indicate the tree structure for each sentence as it will be used by the model. We defined several different types of train--test split for this experiment. A tuned RNTN model performed either well ($>85\%$ accuracy) or perfectly on all of them, while a tuned RNN did not break 80\% in any setting.
+For our third experiment, we generate pairs of sentences in which each sentence contains one quantifier, and any of a small set of common nouns, as in the example \textit{(no warthogs) move $\natfor$ (no (not reptiles)) swim}. The parentheses indicate the tree structure for each sentence as it will be used by the model. We defined several different types of train--test split for this experiment. RNTNs performed either well ($>85\%$ accuracy) or perfectly on all of them, while plain RNNs did not break 80\% in any setting.
 
 
 \bibliographystyle{unsrtnat}
