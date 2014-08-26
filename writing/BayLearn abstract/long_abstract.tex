@@ -126,7 +126,7 @@ $^{\ddag}$Stanford Computer Science
   \label{sample-figure}
 \end{figure}
 
-In our experiments, we train pairs of recursive (tree structured) neural network models \cite{socher2013acl1} which are joined together with a shared top layer that generates features for a classifier. The classifier predicts the logical relation that holds between the sentences represented by the two trees. For an activation function, we use either a plain NN layer or a tensor combination layer.
+In our experiments, we train pairs of recursive (tree structured) neural network models \cite{socher2013acl1} which are joined together with a shared top layer that generates features for a classifier. The classifier predicts the logical relation that holds between the sentences represented by the two trees (entailment in the above; the table below reviews the full inventory of relations we predict). For an activation function, we use either a plain NN layer or a tensor combination layer.
 
 % TODO gold parse structures
 
@@ -156,21 +156,21 @@ Our aim is to evaluate the ability of learned recusive models to represent seman
 
 \subsection*{Reasoning with atomic symbols}
 
-If any model is to learn the behavior of a relational logic like the one presented here from a finite amount of data, it must learn to deduce new relations from already seen relations. Our first experiment evaluates the ability of our models to do this over pairs of atomic symbols. The model is trained on a randomly generated set of consistent statements like \{$a \natfor b$, $b \natneg c$, $c \nateq d$\}, and tested on novel examples that follow from the statements seen in training, like \{$b \natneg d$\}. A tuned RNTN reached greater than 99\% test accuracy, but no plain RNN surpassed 89\%.
+If any model is to learn the behavior of a relational logic like the one presented here from a finite amount of data, it must learn to deduce new relations from already seen relations. Our first experiment evaluates the ability of our models to do this over pairs of atomic symbols. The model is trained on a randomly generated set of consistent statements like \{$a \natfor b$, $b \natfor c$, $c \natneg d$\}, and tested on novel examples that follow from the statements seen in training, like \{$a \natfor c$\}. A tuned RNTN reached greater than 99\% test accuracy, but no plain RNN surpassed 89\%.
 
 \subsection*{Recursive structure in propositional logic}\label{sec:recursion}
 
-Our second experiment introduces compositional structure to our examples, replacing the atomic statements above with pairs of short statements of propositional logic, like $\plneg a\natalt((a~(\pland~ b))~(\pland~c))$. We train our models on only pairs of statements with up to four symbols, but observe that the RNTN performs reasonably both on pairs of that length and on much longer test pairs, as shown below. 
+Our second experiment introduces compositional structure to our examples, replacing the atomic statements above with pairs of short statements of propositional logic, like $\plneg a\natalt((a~(\pland~ b))~(\pland~c))$. We train our models on only pairs of statements with up to four symbols (corresponding to test accuracy figures to the left of the dashed line below), but observe that the RNTN performs reasonably both on pairs of that length and on much longer test pairs. 
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=4in]{recursion\string_results\string_final.eps}
   \label{prop-results}
-\end{figure}
+\end{figure} \vspace{-.3cm}
 
 \subsection*{Reasoning with natural language quantifiers and negation}\label{sec:quantifiers}
 
-For our third experiment, we generate pairs of sentences in which each sentence contains one quantifier, and any of a small set of common nouns, as in the example \textit{(no warthogs) move $\natfor$ (no (not reptiles)) swim}. The parentheses indicate the tree structure for each sentence as it will be used by the model. We defined several different types of train--test split for this experiment. RNTNs performed either well ($>85\%$ accuracy) or perfectly on all of them, while plain RNNs did not break 80\% in any setting.
+For our third experiment, we generate pairs of sentences in which each sentence contains one quantifier, and any of a small set of common nouns, as in the example \textit{(no warthogs) move $\natfor$ (no (not reptiles)) swim}. The parentheses indicate the tree structure for each sentence as it will be used by the model. We defined several different types of train--test split for this experiment. RNTNs performed either well ($>85\%$ accuracy) or perfectly on all of them, while plain RNNs did not break 80\% in any setting. These experiments differentiate the increased power of RNTNs better than previous work and provide the most convincing demonstration to date of the ability of neural networks to model semantic inferences in complex natural language sentences.
 
 
 \bibliographystyle{unsrtnat}
