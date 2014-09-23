@@ -270,11 +270,12 @@ end
 if ~isempty(savedParams)
     Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
     a = load(savedParams);
-    theta = a.theta;
-    thetaDecoder = a.thetaDecoder;
-else 
+    modelState = a.modelState;
+else
+    modelState.pass = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(size(wordMap, 1), hyperParams);
 end
 
 % Load training/test data
@@ -302,12 +303,12 @@ if hyperParams.minFunc
     addpath('minFunc/minFunc/mex/')
     addpath('minFunc/autoDif/')
 
-    theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
+    % Warning: L-BFGS won't save state across restarts
+    modelState.theta = minFunc(@ComputeFullCostAndGrad, modelState.theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
 else
-    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
-        thetaDecoder, trainDataset, ...
-        hyperParams, testDatasets);
+    modelState.theta = AdaGradSGD(@ComputeFullCostAndGrad, modelState, options, ...
+        trainDataset, hyperParams, testDatasets);
 end
     
 end

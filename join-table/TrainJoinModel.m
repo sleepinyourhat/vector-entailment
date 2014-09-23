@@ -131,26 +131,25 @@ options.resetSumSqFreq = 10000; % Don't bother.
 
 Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
+% Load saved parameters if available
 savedParams = '';
 if nargin > 7 && ~isempty(pretrainingFilename)
     savedParams = pretrainingFilename;
 else
-    listing = dir([options.name, '/', 'theta-*'])
+    listing = dir([options.name, '/', 'ckpt*']);
     if ~isempty(listing)
         savedParams = [options.name, '/', listing(end).name];
     end
 end
-
 if ~isempty(savedParams)
     Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
-    a = load(savedParams)
-    theta = a.theta;
-    thetaDecoder = a.thetaDecoder;
+    a = load(savedParams);
+    modelState = a.modelState;
 else
-    % Randomly initialize.
-    [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
-    size(thetaDecoder)
-    size(theta)
+    modelState.pass = 0;
+    Log(hyperParams.statlog, ['Randomly initializing.']);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(size(wordMap, 1), hyperParams);
 end
 
 % Choose which files to load in each category.
@@ -191,7 +190,7 @@ if hyperParams.minFunc
     theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
 else
-    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, ...
+    theta = AdaGradSGD(@ComputeFullCostAndGrad, modelState, options, trainDataset, ...
         hyperParams, testDatasets);
 end
 
