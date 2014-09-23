@@ -4,9 +4,9 @@ function [ cutDataset ] = Asymmetrize(dataset)
 % dataset, (b,a) is too. Removes this property by deleting half of the 
 % examples where a ~= b.
 
-% Preallocate approximate size
+% Preallocate based on a hacky optimistic approximation of the size.
 cutDataset = repmat(struct('relation', 0, 'leftTree', Tree(), 'rightTree', Tree()), ...
-    length(dataset)/2, 1);
+    length(dataset) * .6, 1);
 
 j = 1;
 for i = 1:length(dataset)

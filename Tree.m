@@ -1,6 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 classdef Tree < handle
-    
     % Represents a single binary branching syntactic tree with three 
     % representations at each node:
     % - The index with which the feature vector can be looked up - if leaf
@@ -9,7 +8,7 @@ classdef Tree < handle
     
     properties (Hidden) %TODO: Make all private.
         daughters = []; % 2 x 1 vector of trees
-        text = 'NULL';
+        text = 'NO_TEXT';
         features = []; % DIM x 1 vector
         wordIndex = -1; % -1 => Not a lexical item node.
         type = 0; % 0 - predicate or predicate + neg
@@ -23,39 +22,24 @@ classdef Tree < handle
         function t = makeTree(iText, wordMap)
             tyingMap = GetTyingMap(wordMap); % TODO
             
-            % Parsing strategy:          
+            % Parsing strategy example:          
             % ( a b ) ( c d )
             % (
-            %  cache - a
-            %  cache - a b
-            % )
-            % cache -> ab - merge last two nodes
+            %  stack - a
+            %  stack - a b
+            % ) - merge last two nodes
+            % stack - ab
             % (
-            %  cache ab c
-            %  cache ab c d
-            % )
-            % cache ab cd
-            % cache abcd
-            % 
-            % 
-            % ( a ( ( b c ) d ) )
-            % (
-            % cache a
-            % (
-            % (
-            % cache a b
-            % cache a b c
-            % )
-            % cache a bc
-            % cache a bc d
-            % )
-            % cache a bcd
-            % )
-            % cache abcd
+            %  stack ab c
+            %  stack ab c d
+            % ) - merge last two nodes
+            % stack ab cd
+            % end - merge last two nodes
+            % stack abcd
             
             C = textscan(iText, '%s', 'delimiter', ' ');
             C = C{1};
-             
+            
             stack = cell(length(C));
             stackTop = 0;
             
@@ -141,6 +125,7 @@ classdef Tree < handle
         end
         
         function f = getFeatures(obj)
+            % Returns the saved features for the tree.
             f = obj.features;
         end
         
@@ -154,14 +139,8 @@ classdef Tree < handle
         
         function updateFeatures(obj, wordFeatures, compMatrices, ...
                                 compMatrix, compBias, compNL)
-            %if nargin < 5
-            %    % Use default (averaging) composition function
-            %    dim = size(wordFeatures, 2);
-            %    compMatrices = zeros(dim , (dim ^ 2));
-            %    compMatrix = [eye(dim), eye(dim)];
-            %    compBias = zeros(dim, 1);
-            %end
-            
+            % Recomputes features using fresh parameters.
+
             if (~isempty(obj.daughters))
                 
                 
@@ -200,12 +179,11 @@ classdef Tree < handle
                    upwardCompositionBiasGradients ] = ...
             getGradient(obj, delta, wordFeatures, compMatrices, ...
                         compMatrix, compBias, compNLDeriv)
-                    % Delta should be a column vector.
+            % Note: Delta should be a column vector.
             
             DIM = size(compBias, 1);
-
                     
-            if size(compBias, 2) == 1 % if not untied
+            if size(compBias, 2) == 1 % Check if using tied composition parameters
                 NUMCOMP = 1;
             else
                 NUMCOMP = 3;
@@ -223,7 +201,7 @@ classdef Tree < handle
             upwardCompositionBiasGradients = zeros(DIM, NUMCOMP);
 
             if (~isempty(obj.daughters))
-                if size(compBias, 2) == 1 % if not untied
+                if size(compBias, 2) == 1 % Check if using tied composition parameters
                     typeInd = 1;
                 else
                     typeInd = obj.daughters(1).getType();
@@ -260,7 +238,7 @@ classdef Tree < handle
                 upwardCompositionBiasGradients(:,typeInd) = ...
                     tempCompositionBiasGradients;
                   
-                % Take gradients from below.
+                % Take gradients from the left child
                 [ incomingWordGradients, ...
                   incomingCompositionMatricesGradients, ...
                   incomingCompositionMatrixGradients, ...
@@ -281,7 +259,7 @@ classdef Tree < handle
                     upwardCompositionBiasGradients + ...
                     incomingCompositionBiasGradients;
                 
-                % Take gradients from below.
+                % Take gradients from the right child
                 [ incomingWordGradients, ...
                   incomingCompositionMatricesGradients, ...
                   incomingCompositionMatrixGradients, ...
@@ -302,7 +280,7 @@ classdef Tree < handle
                     upwardCompositionBiasGradients + ...
                     incomingCompositionBiasGradients;
             else 
-               % Compute word feature gradients here.
+               % Compute word feature gradients
                upwardWordGradients(obj.getWordIndex, :) = ...
                    upwardWordGradients(obj.getWordIndex, :) + delta';
             end                

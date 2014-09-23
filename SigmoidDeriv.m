@@ -1,5 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function outVec = SigmoidDeriv (inVec)
+% Compute the gradient of the sigmoid (tanh) nonlinearity
 
 outVec = sech(inVec).^2;
 

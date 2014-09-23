@@ -9,11 +9,9 @@ function [ cost, grad, pred ] = ComputeCostAndGrad( theta, decoder, dataPoint, h
     classifierExtraBias] ...
     = stack2param(theta, decoder);
 
-% Unpack hyperparams
-% NUM_RELATIONS = hyperParams.numRelations;
-% PENULT_DIM = hyperParams.penultDim;
 DIM = hyperParams.dim;
-% TOPD = hyperParams.topDepth;
+
+% Set the number of composition functions
 if ~hyperParams.untied
     NUMCOMP = 1;
 else
@@ -33,8 +31,7 @@ rightTree.updateFeatures(wordFeatures, compositionMatrices, ...
 leftFeatures = leftTree.getFeatures();
 rightFeatures = rightTree.getFeatures();
 
-% Compute classification tensor layer:
-
+% Compute classification tensor layer
 if hyperParams.useThirdOrderComparison
     tensorInnerOutput = ComputeInnerTensorLayer(leftFeatures, ...
         rightFeatures, classifierMatrices, classifierMatrix, classifierBias);
@@ -55,7 +52,6 @@ for layer = 1:(hyperParams.topDepth - 1)
                                     classifierExtraBias(:,layer);
     extraInputs(:,layer + 1) = hyperParams.classNL(extraInnerOutputs(:,layer));
 end
-
 relationProbs = ComputeSoftmaxProbabilities( ...
                     extraInputs(:,hyperParams.topDepth), classifierParameters);
 
@@ -107,7 +103,7 @@ if nargout > 1
               classifierMatrix, classifierBias, ...
               extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
     end
-     
+
     [ upwardWordGradients, ...
       upwardCompositionMatricesGradients, ...
       upwardCompositionMatrixGradients, ...
@@ -141,7 +137,7 @@ if nargout > 1
     localCompositionBiasGradients = localCompositionBiasGradients...
         + upwardCompositionBiasGradients;
     
-    % Pack up gradients.
+    % Pack up gradients
     grad = param2stack(localClassificationMatricesGradients, ...
         localClassificationMatrixGradients, ...
         localClassificationBiasGradients, localSoftmaxGradient, ...

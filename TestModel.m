@@ -17,9 +17,9 @@ for i = 1:length(testDatasets{1})
         heldOutConfusion = heldOutConfusion + confusion;
     end
     if hyperParams.showConfusions && err > 0
-        disp(['For ', testDatasets{1}{i}, ': ', num2str(err)])
-        disp('GT:  #     =     >     <     |     ^     v')
-        disp(confusion)
+        log_msg = sprintf('%s\n%s\n%s',['For ', testDatasets{1}{i}, ': ', num2str(err)], ...
+            'GT:  #     =     >     <     |     ^     v', evalc('disp(confusion)'));
+        Log(hyperParams.examplelog, log_msg);
     end
     aggConfusion = aggConfusion + confusion;
 end
@@ -29,8 +29,7 @@ aggErr = 1 - sum(sum(eye(hyperParams.numRelations) .* aggConfusion)) / sum(sum(a
 heldOutErr = 1 - sum(sum(eye(hyperParams.numRelations) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
 
 MacroF1 = [GetMacroF1(targetConfusion), GetMacroF1(heldOutConfusion), GetMacroF1(aggConfusion)];
-
-disp(MacroF1)
+Log(hyperParams.statlog, ['MacroF1: ', evalc('disp(MacroF1)')]);
 
 combined = [targetErr, heldOutErr, aggErr];
 

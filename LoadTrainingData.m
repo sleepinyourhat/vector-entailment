@@ -6,7 +6,6 @@ function [ wordMap, relationMap, relations, data ] = ...
 % For some experiments, this is only used to initialize the words and
 % relations, and the data itself is not used.
 
-
 % Load the file
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
@@ -25,7 +24,6 @@ relationMap = containers.Map(relations,1:length(relations));
 itemNo = 1;
 wordNo = 1;
 maxLine = length(C{1});
-% maxLine = 10; % Uncomment to truncate data for testing.
 
 for line = 1:maxLine;
     if ~isempty(C{1}{line}) 
@@ -38,7 +36,7 @@ for line = 1:maxLine;
             rawData(itemNo).leftText = splitLine{2};
             rawData(itemNo).rightText = splitLine{3};
 
-            % Add to wordList
+            % Add to word list
             lWords = textscan(splitLine{2}, '%s', 'delimiter', ' ');
             rWords = textscan(splitLine{3}, '%s', 'delimiter', ' ');
             words = unique([lWords{1}; rWords{1}]);
@@ -56,14 +54,14 @@ rawData = rawData(1:itemNo - 1);
 wordList = wordList(1:wordNo - 1);
 vocabulary = unique(wordList);
 
-% Remove syntactic symbols from vocabulary
+% Remove syntactic symbols from the vocabulary
 vocabulary = setdiff(vocabulary, {'(', ')'});
 
 % Build word map
 wordMap = containers.Map(vocabulary,1:length(vocabulary));
 
-% This isn't optimized for cases where we don't need the data itself, this 
-% is just a shortcut:
+% This code isn't optimized for cases where we don't need the data itself, but
+% here's a shortcut to avoid some work in those cases
 if nargout > 3
     % Build the dataset
     data = repmat(struct('relation', 0, 'leftTree', Tree(), 'rightTree', Tree()), ...
@@ -75,7 +73,6 @@ if nargout > 3
         data(dataInd).rightTree = Tree.makeTree(rawData(dataInd).rightText, wordMap);
         data(dataInd).relation = rawData(dataInd).relation;
     end
-    % data = [data; Symmetrize(data)];
 end
 
 end

@@ -1,10 +1,10 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function tyingMap = GetTyingMap(wordMap)
-% Create a map from word index to something like part of speech
-% Q = 1
-% QP = 2
-% neg = 3
-% predicate = 4
+% Create a map from word index to something like a syntactic type
+%%% quantifier = 1
+%%% quantifier phrase (does not apply to single words) = 2
+%%% neg = 3
+%%% predicate = 4
 
 tyingMap = containers.Map(1:wordMap.Count,repmat(4, wordMap.Count, 1));
 

@@ -1,4 +1,7 @@
 function mF1 = GetMacroF1(confusion)
+% Compute the macroaveraged F1 from a confusion matrix.
+% NOTE: There seems to be some disagreement in the literature
+% on how to handle empty classes in this calculation.
 
 P = [];
 R = [];

@@ -9,6 +9,7 @@ function innerTensorLayerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix
 innerTensorLayerOutput = zeros(outDim,1);
 
 % Apply third-order tensor
+% TODO: Use MATLAB primitives.
 for outi = 1:outDim
     innerTensorLayerOutput(outi) = a' * matrices(:,:,outi) * b;
 end

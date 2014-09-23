@@ -1,14 +1,18 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot, sig)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
+% Set up an experimental directory.
 if nargin > 4
     mkdir(expName); 
 else
     expName = '.';
 end
+hyperParams.statlog = fopen([expName '/stat_log'], 'a');
+hyperParams.examplelog = fopen([expName '/example_log'], 'a');
 
+% Load the vocabulary.
 if strcmp(dataflag, 'and-or') ||  strcmp(dataflag, 'and-or-deep') ||  strcmp(dataflag, 'and-or-deep-unlim')
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./RC/train1'); 
@@ -20,11 +24,7 @@ else
         LoadTrainingData('./wordpairs-v2.tsv');
 end
 
-% disp('Uninformativizing:');
-% worddata = Uninformativize(worddata);
-
-% Set up hyperparameters:
-
+%%% Set up the model configuration:
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = dim;
 
@@ -39,31 +39,29 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = 75;
 
 % Regularization coefficient.
-hyperParams.lambda = lambda %0.002;
+hyperParams.lambda = lambda; %0.002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
 
-% Turn off to pretrain on a word pair dataset.
+% Turn off to pretrain on the word pair dataset.
 hyperParams.noPretraining = true;
 
 % Use minFunc instead of SGD. Must be separately downloaded.
 hyperParams.minFunc = false;
 
-% Ignore. Modified every few iters.
-hyperParams.showExamples = false; 
-hyperParams.showConfusions = false;
-
-% L1 v. L2 regularization
+% L1 v. L2 regularization. If no regularization is needed, set
+% lambda to 0 and ignore this parameter.
 hyperParams.norm = 2;
 
-% Use untied composition layer params.
+% Use the syntactically untied composition layer params.
 hyperParams.untied = false; 
 
-% Remove some portion of the training datasets
+% Use only the specified fraction of the training datasets
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
+% Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
 
@@ -79,9 +77,13 @@ elseif strcmp(nl, 'M')
     hyperParams.classNLDeriv = @LReLUDeriv;
 end
 
-disp(hyperParams)
+% Ignore: modified every few iters.
+hyperParams.showExamples = false; 
+hyperParams.showConfusions = false;
 
-% minfunc options
+Log(hyperParams.statlog, ['Model config: ' evalc('disp(hyperParams)')])
+
+%%% minFunc options:
 global options
 options.Method = 'lbfgs';
 options.MaxFunEvals = 1000;
@@ -92,19 +94,17 @@ options.LS_init = '2'; % Attempt to minimize evaluations per step...
 options.PlotFcns = [];
 options.OutputFcn = @Display;
 
-% AdaGradSGD learning options
-
+%%% AdaGradSGD learning options
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
 options.numPasses = 1000;
 options.miniBatchSize = mbs;
 
+%%% Generic learning options
 % LR
 options.lr = lr;    % 0.2;
 
-% AdaGradSGD display options
-
-% How often (in full iterations) to run on test data.
+% How often (in full epochs) to run on test data.
 options.testFreq = 1;
 
 % How often to report confusion matrices. 
@@ -113,28 +113,32 @@ options.confusionFreq = 1;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
-options.examplesFreq = 32; 
+options.examplesFreq = 16; 
 
-% How often to save parameters to disk.
+% How often (in full epochs) to save parameters to disk.
 options.checkpointFreq = 8; 
 
-% The name assigned to the current full run. Used in checkpoint naming.
+% The name assigned to the current full run. Used in checkpoint naming, and must
+% match the directory created above.
 options.name = expName; 
 
-% The name assigned to the current call to AdaGradSGD. Used to contrast ...
-% pretraining and training in checkpoint naming.
+% The name assigned to the current call to AdaGradSGD. This can be used to
+% distinguish multiple phases of training in the same experiment.
 options.runName = 'pre';
 
 % Reset the sum of squared gradients after this many iterations.
+% WARNING: The countdown to a reset will be restarted if the model dies
+% and is reloaded from a checkpoint.
 options.resetSumSqFreq = 10000; % Don't bother.
 
-disp(options)
+Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
-% Choose which files to load in each category.
+% Get a full listing of the data files for this experiment
 listing = dir('data-4/*.tsv');
 listing5 = dir('data-5/*.tsv');
 listingG = dir('grammars/data/quant*');
 
+% Choose which files to train on
 splitFilenames = {listing.name};
 trainFilenames = {};
 testFilenames = {};
@@ -240,49 +244,59 @@ elseif strcmp(dataflag, 'and-or-deep-unlim')
         hyperParams.penultDim = 45;
     end
 end
+
+% Remove the test data from the split data
 splitFilenames = setdiff(splitFilenames, testFilenames);
+
+% TODO
 hyperParams.firstSplit = 3;
 
+% Trim out data files if needed
 if hyperParams.datasetsPortion < 1
-    disp(length(splitFilenames))
     p = randperm(length(splitFilenames));
     splitFilenames = splitFilenames(p(1:round(hyperParams.datasetsPortion * length(splitFilenames))));
-    disp(length(splitFilenames))
 end
 
-    
+% Load saved parameters if available
+savedParams = '';
 if ~isempty(pretrainingFilename)
-    a = load(pretrainingFilename);
+    savedParams = pretrainingFilename;
+else
+    listing = dir([options.name, '/', 'theta-tr@*']);
+    if ~isempty(listing)
+        savedParams = [options.name, '/', listing(end).name];
+    end
+end
+if ~isempty(savedParams)
+    Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
+    a = load(savedParams);
     theta = a.theta;
     thetaDecoder = a.thetaDecoder;
 else 
-    % Randomly initialize.
+    Log(hyperParams.statlog, ['Randomly initializing.']);
     [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
 end
 
 % Load training/test data
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
-    testFilenames, wordMap, relationMap);
+    testFilenames, wordMap, relationMap, hyperParams);
 trainDataset = Symmetrize(trainDataset);
 
-
-
+% Trim out individual examples if needed
 if hyperParams.dataPortion < 1
-    disp(length(trainDataset))
     p = randperm(length(trainDataset));
     trainDataset = trainDataset(p(1:round(hyperParams.dataPortion * length(trainDataset))));
-    disp(length(trainDataset))
 end
 
 % Train
-disp('Training')
+Log(hyperParams.statlog, 'Training')
 options.MaxFunEvals = 1000;
 options.DerivativeCheck = 'on';
 options.runName = 'tr';
 
 if hyperParams.minFunc
-    % Set up minfunc
+    % Set up minFunc
     addpath('minFunc/minFunc/')
     addpath('minFunc/minFunc/compiled/')
     addpath('minFunc/minFunc/mex/')
@@ -290,41 +304,7 @@ if hyperParams.minFunc
 
     theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
-    % TODO: Forget metadata and repeat?
 else
-    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
-        thetaDecoder, trainDataset, ...
-        hyperParams, testDatasets);
-end
-
-if strcmp(dataflag, 'and-or') 
-    testFilenames = {};
-    trainFilenames = {'./RC/extra-long-med.tsv'};
-    splitFilenames = {};
-
-    % Load training/test data
-    [trainDataset, ~] = ...
-        LoadConstitDatasets(trainFilenames, splitFilenames, ...
-        testFilenames, wordMap, relationMap);
-    trainDataset = Symmetrize(trainDataset);
-
-    options.numPasses = 250;
-    
-    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
-        thetaDecoder, trainDataset, ...
-        hyperParams, testDatasets);
-        
-    options.numPasses = 1000;
-    
-    testFilenames = {};
-    trainFilenames = {'./RC/extra-long-train.tsv'};
-    splitFilenames = {};
-
-    [trainDataset, ~] = ...
-        LoadConstitDatasets(trainFilenames, splitFilenames, ...
-        testFilenames, wordMap, relationMap);
-    trainDataset = Symmetrize(trainDataset);
-
     theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, ...
         hyperParams, testDatasets);

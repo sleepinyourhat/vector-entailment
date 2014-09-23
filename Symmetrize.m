@@ -1,7 +1,7 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ symmetrizedDataset ] = Symmetrize(dataset)
-% Flips the order of elements in an NL relation dataset and adjusts the
-% relation class to fit.
+% Flips the pairwise order of elements in natural logic relation data and adjusts the
+% relation labels to fit.
 
 flippedDataset = dataset;
 [flippedDataset(:).leftTree] = dataset(:).rightTree;

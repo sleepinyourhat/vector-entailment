@@ -2,7 +2,7 @@
 function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams)
 % Load one file of constituent-pair data.
 
-% Append data-4/ if we don't have a full path:
+% Append a default prefix if we don't have a full path
 if isempty(strfind(filename, '/'))
     if strfind(filename, 'quant_')
         filename = ['grammars/data/', filename];
@@ -14,8 +14,6 @@ fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
 fclose(fid);
 
-% Load the file
-
 % Initialize the data array
 rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
     length(C{1}), 1);
@@ -23,8 +21,11 @@ rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
 % Parse the file
 itemNo = 1;
 maxLine = length(C{1});
-% maxLine = 25;
 
+% Turn on to speed up gradient checks:
+% maxLine = 5;
+
+% Iterate over examples
 for line = 1:maxLine
     if ~isempty(C{1}{line}) 
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');
@@ -35,7 +36,6 @@ for line = 1:maxLine
             rawData(itemNo).relation = relationMap(splitLine{1});
             rawData(itemNo).leftText = splitLine{2};
             rawData(itemNo).rightText = splitLine{3};
-
             itemNo = itemNo + 1;
         end
     end

@@ -7,6 +7,8 @@ N = length(trainingData);
 prevCost = intmax;
 bestTestErr = 1;
 lr = options.lr;
+
+% TODO: Save in checkpoints.
 sumSqGrad = zeros(size(theta));
 
 for pass = 0:options.numPasses - 1
@@ -17,7 +19,7 @@ for pass = 0:options.numPasses - 1
         % Test on training data
         if mod(pass, options.examplesFreq) == 0 && pass > 0
             hyperParams.showExamples = true;
-            disp('Training data:')
+            Log(hyperParams.examplelog, 'Training data:')
         else
             hyperParams.showExamples = false;
         end
@@ -32,38 +34,47 @@ for pass = 0:options.numPasses - 1
             end
 
             if (mod(pass, options.examplesFreq) == 0 || mod(pass, options.confusionFreq) == 0) && pass > 0
-                disp('Test data:')
+                Log(hyperParams.statlog, 'Test data:');
             end
             testErr = TestModel(CostGradFunc, theta, thetaDecoder, testDatasets, hyperParams);
             bestTestErr = min(testErr, bestTestErr);
         else
             testErr = -1;
         end
+
+        % Log statistics
         if testErr ~= -1
-            disp(['pass ', num2str(pass), ' train PER: ', num2str(acc), ...
+            Log(hyperParams.statlog, ['pass ', num2str(pass), ' train PER: ', num2str(acc), ...
                   ' test PER: ', num2str(testErr), ' (best: ', ...
                   num2str(bestTestErr), ')']);
         else
-            disp(['pass ', num2str(pass), ' PER: ', num2str(acc)]);
+            Log(hyperParams.statlog, ['pass ', num2str(pass), ' PER: ', num2str(acc)]);
         end
     else
+        % Just compute the cost.
        cost = CostGradFunc(theta, thetaDecoder, trainingData, hyperParams);
     end
     if mod(pass, options.checkpointFreq) == 0
-        save([options.name, '/', 'theta-', options.runName, '@', ...
-            num2str(pass)] , 'theta', 'thetaDecoder');
+        % Write a checkpoint to disk.
+        % TODO: Use integer timestamp for sorting.
+        save([options.name, '/', 'theta-', options.runName, datestr(now, 'yymmddHHMMSS'),...
+           '@', num2str(pass)] , 'theta', 'thetaDecoder');
     end
 
-    disp(['pass ', num2str(pass), ' cost: ', num2str(cost)]);
+    % Log the cost.
+    Log(hyperParams.statlog, ['pass ', num2str(pass), ' cost: ', num2str(cost)]);
+
+    % Check the stopping criterion.
     if abs(prevCost - cost(1)) < 10e-7
-        disp('Stopped improving.');
+        Log(hyperParams.statlog, 'Stopped improving.');
         break;
     end
-    prevCost = cost(1);
 
+    prevCost = cost(1);
     numBatches = ceil(N/options.miniBatchSize);
     randomOrder = randperm(N);
 
+    % Train.
     for batchNo = 0:(numBatches-1)
         beginMiniBatch = (batchNo * options.miniBatchSize+1);
         endMiniBatch = min((batchNo+1) * options.miniBatchSize,N);
@@ -72,11 +83,12 @@ for pass = 0:options.numPasses - 1
         [ ~, grad ] = CostGradFunc(theta, thetaDecoder, batch, hyperParams);
         sumSqGrad = sumSqGrad + grad.^2;
 
-        % Do AdaGrad update
+        % Do an AdaGrad-scaled parameter update
         adaEps = 0.001;
         theta = theta - lr * (grad ./ (sqrt(sumSqGrad) + adaEps));
     end
 
+    % Reset the AdaGrad stored weights.
     if mod(pass + 1, options.resetSumSqFreq) == 0
         sumSqGrad = zeros(size(theta));
     end

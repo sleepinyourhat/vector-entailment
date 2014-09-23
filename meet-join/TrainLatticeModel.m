@@ -3,6 +3,8 @@ function TrainLatticeModel(expName, dim, mbs, tot)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
+disp('DEPRECATED.')
+
 addpath('..')
 
 if nargin > 4

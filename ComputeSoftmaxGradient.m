@@ -14,12 +14,12 @@ targetRelationProbs(trueRelation) = 1;
 softmaxDeltaFirstHalf = classifierParameters' * ...
                         (relationProbs - targetRelationProbs);
                     
-% Compute nonlinearity and append intercept
+% Compute the nonlinearity and append the intercept
 softmaxDeltaSecondHalf = hyperParams.classNLDeriv([1; tensorOutput]);
 softmaxDelta = (softmaxDeltaFirstHalf .* softmaxDeltaSecondHalf);
 
+% TODO: Use MATLAB primitives
 for relEval = 1:size(classifierParameters, 1)
-    % Del from UFLDL Wiki on softmax
     softmaxGradient(relEval, :) = -([1; tensorOutput] .* ...
         ((trueRelation == relEval) - relationProbs(relEval)))';
 end

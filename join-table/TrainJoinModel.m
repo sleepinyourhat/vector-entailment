@@ -1,15 +1,20 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function TrainJoinModel(expName, mbs, dim, tot, lambda, penult, sig)
-% The main training and testing script. The first arguments to the function
-% have been tweaked quite a few times depending on what is being tuned.
+% The main training and testing script for the model that learns the 
+% join table (Experiment 1). 
 
+% Make the rest of the package within scope
 addpath('..')
-    
+
 if nargin > 5
     mkdir(expName); 
 else
     expName = '.';
 end
+
+% Open the log files and add them to the config object
+hyperParams.statlog = fopen([expName '/stat_log'], 'a');
+hyperParams.examplelog = fopen([expName '/example_log'], 'a');
 
 [wordMap, relationMap, relations] = ...
     LoadTrainingData('./join-algebra/6x80_train.tsv');
@@ -54,57 +59,49 @@ hyperParams.norm = 2;
 % Use untied composition layer params.
 hyperParams.untied = false; 
 
-% Remove some portion of the training datasets
+% Remove some portion of the training datasets for data volume experiments.
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
-hyperParams.useThirdOrder = tot; % For composition
-hyperParams.useThirdOrderComparison = tot; % For comparison
-
+% Whether to use a plain RNN or an RNTN
+hyperParams.useThirdOrder = tot;
+hyperParams.useThirdOrderComparison = tot;
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
 hyperParams.compNLDeriv = @SigmoidDeriv; 
 if (sig)
-    nl = 'S';
-else
-    nl = 'M';
-end
-if strcmp(nl, 'S')
     hyperParams.classNL = @Sigmoid;
     hyperParams.classNLDeriv = @SigmoidDeriv;
-elseif strcmp(nl, 'M')
+else
     hyperParams.classNL = @LReLU;
     hyperParams.classNLDeriv = @LReLUDeriv;
 end
 
-disp(hyperParams)
+% Log the model configuration
+Log(hyperParams.statlog, ['Model config: ' evalc('disp(hyperParams)')])
 
-% Randomly initialize.
-[ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
-
-% minfunc options
 global options
-options.Method = 'lbfgs';
-options.MaxFunEvals = 25000;
-options.DerivativeCheck = 'off';
-options.Display = 'full';
-options.numDiff = 0;
-options.LS_init = '2'; % Attempt to minimize evaluations per step...
-options.PlotFcns = [];
-options.OutputFcn = @Display;
 
-% AdaGradSGD learning options
-
-% Rarely does anything interesting happen past 
-% ~iteration ~200.
-options.numPasses = 10000;
-options.miniBatchSize = mbs;
+if hyperParams.minFunc
+    % minfunc options
+    options.Method = 'lbfgs';
+    options.MaxFunEvals = 25000;
+    options.DerivativeCheck = 'off';
+    options.Display = 'full';
+    options.numDiff = 0;
+    options.LS_init = '2'; % Attempt to minimize evaluations per step...
+    options.PlotFcns = [];
+    options.OutputFcn = @Display;
+else
+    % AdaGradSGD learning options
+    options.numPasses = 10000;
+    options.miniBatchSize = mbs;
 
 % LR
 options.lr = 0.2; % TODO...
 
-% AdaGradSGD display options
+% Display options
 
 % How often (in full iterations) to run on test data.
 options.testFreq = 1;
@@ -123,26 +120,38 @@ options.checkpointFreq = 8;
 % The name assigned to the current full run. Used in checkpoint naming.
 options.name = expName; 
 
-% The name assigned to the current call to AdaGradSGD. Used to contrast ...
+% The name assigned to the current call to AdaGradSGD. Used to distinguish
 % pretraining and training in checkpoint naming.
-options.runName = 'pre';
+options.runName = 'tr';
 
 % Reset the sum of squared gradients after this many iterations.
+% WARNING: The countdown to a reset will be restarted if the model dies
+% and is reloaded from a checkpoint.
 options.resetSumSqFreq = 10000; % Don't bother.
 
-disp(options)
+Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
+savedParams = '';
 if nargin > 7 && ~isempty(pretrainingFilename)
-    % Initialize parameters from disk
-    clear 'theta'
-    clear 'thetaDecoder'
-    v = load(pretrainingFilename);
-    theta = v.theta;
-    thetaDecoder = v.thetaDecoder;
+    savedParams = pretrainingFilename;
+else
+    listing = dir([options.name, '/', 'theta-*'])
+    if ~isempty(listing)
+        savedParams = [options.name, '/', listing(end).name];
+    end
 end
 
-% Reset composition function for training
-theta = ReinitializeCompositionLayer (theta, thetaDecoder, hyperParams);
+if ~isempty(savedParams)
+    Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
+    a = load(savedParams)
+    theta = a.theta;
+    thetaDecoder = a.thetaDecoder;
+else
+    % Randomly initialize.
+    [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
+    size(thetaDecoder)
+    size(theta)
+end
 
 % Choose which files to load in each category.
 splitFilenames = {};
@@ -154,30 +163,23 @@ testFilenames = {'./join-algebra/6x80_test.tsv', ...
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
 
 if hyperParams.datasetsPortion < 1
-    disp(length(splitFilenames))
     p = randperm(length(splitFilenames));
     splitFilenames = splitFilenames(p(1:round(hyperParams.datasetsPortion * length(splitFilenames))));
-    disp(length(splitFilenames))
 end
     
 % Load training/test data
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
-    testFilenames, wordMap, relationMap);
+    testFilenames, wordMap, relationMap, hyperParams);
 % trainDataset = Symmetrize(trainDataset);
 
 if hyperParams.dataPortion < 1
-    disp(length(trainDataset))
     p = randperm(length(trainDataset));
     trainDataset = trainDataset(p(1:round(hyperParams.dataPortion * length(trainDataset))));
-    disp(length(trainDataset))
 end
 
 % Train
-disp('Training')
-options.MaxFunEvals = 10000;
-options.DerivativeCheck = 'off';
-options.runName = 'tr';
+Log(hyperParams.statlog, 'Training.');
 
 if hyperParams.minFunc
     % Set up minfunc
@@ -188,7 +190,6 @@ if hyperParams.minFunc
 
     theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
-    % TODO: Forget metadata and repeat?
 else
     theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, ...
         hyperParams, testDatasets);
