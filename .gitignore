@@ -7,6 +7,8 @@ grammars/*.pyc
 *.out
 *.rel
 *.dvi
+vectors_*d.txt
+words_*d.txt
 *.synctex.gz
 *_region_.tex
 writing/S'14 paper/paper.pdf
