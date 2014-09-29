@@ -10,28 +10,38 @@ function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
 
 PERCENT_USED_FOR_TRAINING = 0.85;
 
-trainDataset = [];
+if hyperParams.fragmentData
+    trainDataset = trainFilenames;
+else
+    trainDataset = [];
+end
 testDatasets = {};
 
 for i = 1:length(trainFilenames)
     Log(hyperParams.statlog, ['Loading training dataset ', trainFilenames{i}]);
-    dataset = LoadConstitData(trainFilenames{i}, wordMap, relationMap);
-    trainDataset = [trainDataset; dataset];
+    if ~hyperParams.fragmentData
+        dataset = LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, false);
+        trainDataset = [trainDataset; dataset];
+    else
+        LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, true);
+    end
+        
 end
 
 for i = 1:length(testFilenames)
     Log(hyperParams.statlog, ['Loading test dataset ', testFilenames{i}]);
-    dataset = LoadConstitData(testFilenames{i}, wordMap, relationMap);
+    dataset = LoadConstitData(testFilenames{i}, wordMap, relationMap, hyperParams, false);
     testDatasets = [testDatasets, {dataset}];
 end
 
 for i = 1:length(splitFilenames)
     Log(hyperParams.statlog, ['Loading split dataset ', splitFilenames{i}]);
-    dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap);
+    dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false);
     randomOrder = randperm(length(dataset));
     endOfTrainPortion = ceil(length(dataset) * PERCENT_USED_FOR_TRAINING);
     testDatasets = [testDatasets, ...
                     {dataset(randomOrder(endOfTrainPortion + 1:length(dataset)))}];
+    % TODO - make fragment-safe
     trainDataset = [trainDataset; dataset(randomOrder(1:endOfTrainPortion))];
 end
 

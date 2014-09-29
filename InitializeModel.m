@@ -1,7 +1,8 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ theta, thetaDecoder ] = InitializeModel(vocabLength, hyperParams)
+function [ theta, thetaDecoder ] = InitializeModel(wordMap, hyperParams)
 % Initialize the learned parameters of the model. 
 
+vocabLength = size(wordMap, 1);
 DIM = hyperParams.dim;
 PENULT = hyperParams.penultDim;
 TOPD = hyperParams.topDepth;
@@ -33,8 +34,13 @@ compositionBias = rand(DIM, NUMCOMP) .* .02 - .01;
 classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* .02 - .01;
 classifierExtraBias = rand(PENULT, TOPD - 1) .* .02 - .01;
 
-% Randomly initialize the words
-wordFeatures = rand(vocabLength, DIM) .* .02 - .01;
+if hyperParams.loadWords
+   Log(hyperParams.statlog, 'Loading the vocabulary.')
+   wordFeatures = InitializeVocabFromFile(wordMap);
+else 
+    % Randomly initialize the words
+    wordFeatures = rand(vocabLength, DIM) .* .02 - .01;
+end
 
 [theta, thetaDecoder] = param2stack(classifierMatrices, classifierMatrix, ...
     classifierBias, classifierParameters, wordFeatures, compositionMatrices, ...

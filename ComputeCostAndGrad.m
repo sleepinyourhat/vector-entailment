@@ -56,7 +56,7 @@ relationProbs = ComputeSoftmaxProbabilities( ...
                     extraInputs(:,hyperParams.topDepth), classifierParameters);
 
 % Compute cost
-cost = Objective(trueRelation, relationProbs);
+cost = Objective(trueRelation, relationProbs, hyperParams);
 
 % Produce gradient
 if nargout > 1    

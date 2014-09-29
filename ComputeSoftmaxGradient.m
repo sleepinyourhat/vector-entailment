@@ -10,7 +10,12 @@ softmaxGradient = zeros(size(classifierParameters, 1), ...
 
 % Compute node softmax error
 targetRelationProbs = zeros(length(relationProbs), 1);
-targetRelationProbs(trueRelation) = 1;
+if trueRelation > hyperParams.numRelations
+	targetRelationProbs(2) = 0.5;
+	targetRelationProbs(3) = 0.5;
+else
+	targetRelationProbs(trueRelation) = 1;
+end
 softmaxDeltaFirstHalf = classifierParameters' * ...
                         (relationProbs - targetRelationProbs);
                     
@@ -18,10 +23,9 @@ softmaxDeltaFirstHalf = classifierParameters' * ...
 softmaxDeltaSecondHalf = hyperParams.classNLDeriv([1; tensorOutput]);
 softmaxDelta = (softmaxDeltaFirstHalf .* softmaxDeltaSecondHalf);
 
-% TODO: Use MATLAB primitives
 for relEval = 1:size(classifierParameters, 1)
     softmaxGradient(relEval, :) = -([1; tensorOutput] .* ...
-        ((trueRelation == relEval) - relationProbs(relEval)))';
+        (targetRelationProbs(relEval) - relationProbs(relEval)))';
 end
 
 softmaxDelta = softmaxDelta(2:hyperParams.penultDim+1);

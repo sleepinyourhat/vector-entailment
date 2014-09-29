@@ -14,7 +14,6 @@ for i = 1:length(dataset)
        dataset(i).rightTree.getWordIndex()
         cutDataset(j) = dataset(i);
         j = j + 1;
-        % disp([dataset(i).leftTree.getText(), dataset(i).rightTree.getText()]);
     end
 end
     

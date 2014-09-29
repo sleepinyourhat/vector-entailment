@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot, sig)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot, frag)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -15,21 +15,56 @@ hyperParams.examplelog = fopen([expName '/example_log'], 'a');
 % Load the vocabulary.
 if strcmp(dataflag, 'and-or') ||  strcmp(dataflag, 'and-or-deep') ||  strcmp(dataflag, 'and-or-deep-unlim')
     [wordMap, relationMap, relations] = ...
-        LoadTrainingData('./RC/train1'); 
+        LoadTrainingData('./RC/train1');
+    % The name assigned to the current vocabulary. Used in deciding whether to load a 
+    % preparsed MAT form of an examples file.
+    hyperParams.vocabName = 'RC'; 
 elseif findstr(dataflag, 'G-')
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./grammars/wordlist.tsv'); 
+    hyperParams.vocabName = 'G'; 
+elseif findstr(dataflag, 'sick-only')
+    [wordMap, relationMap, relations] = ...
+        InitializeMaps('sick_data/sick_words_t4.txt');
+    hyperParams.vocabName = 'sot4'; 
+elseif findstr(dataflag, 'sick-')
+    [wordMap, relationMap, relations] = ...
+        InitializeMaps('sick_data/flickr_words_t4.txt');
+    hyperParams.vocabName = 'spt4'; 
 else
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./wordpairs-v2.tsv');
+    hyperParams.vocabName = 'quantv2'; 
 end
 
 %%% Set up the model configuration:
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = dim;
 
+% If set, use three relations, and an ambiguous NONENTAILMENT relation.
+hyperParams.sickMode = true;
+
 % The number of relations.
-hyperParams.numRelations = 7; 
+if hyperParams.sickMode
+    hyperParams.numDataRelations = 4; 
+    hyperParams.numRelations = 3; 
+
+    % Initialize word vectors from disk.
+    hyperParams.loadWords = false;
+
+    % Don't keep the whole training data in memory, rather keep it in the form of
+    % a set of MAT files to load as needed.
+    hyperParams.fragmentData = frag;
+else
+    hyperParams.numDataRelations = 7; 
+    hyperParams.numRelations = 7; 
+    hyperParams.loadWords = false;
+    hyperParams.fragmentData = false;
+end
+
+% The name assigned to the current full run. Used in checkpoint naming, and must
+% match the directory created above.
+hyperParams.name = expName;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
@@ -104,23 +139,26 @@ options.miniBatchSize = mbs;
 % LR
 options.lr = lr;    % 0.2;
 
-% How often (in full epochs) to run on test data.
-options.testFreq = 1;
+% How often (in steps) to report cost.
+options.costFreq = 500;
+
+% How often (in steps) to run on test data.
+options.testFreq = 500;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 1;
+options.confusionFreq = 500;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
-options.examplesFreq = 16; 
+options.examplesFreq = 1000; 
 
-% How often (in full epochs) to save parameters to disk.
-options.checkpointFreq = 8; 
+% How often (in steps) to save parameters to disk.
+options.checkpointFreq = 4000; 
 
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
-options.name = expName; 
+options.name = hyperParams.name; 
 
 % The name assigned to the current call to AdaGradSGD. This can be used to
 % distinguish multiple phases of training in the same experiment.
@@ -129,7 +167,7 @@ options.runName = 'pre';
 % Reset the sum of squared gradients after this many iterations.
 % WARNING: The countdown to a reset will be restarted if the model dies
 % and is reloaded from a checkpoint.
-options.resetSumSqFreq = 10000; % Don't bother.
+options.resetSumSqFreq = 100000; % Don't bother.
 
 Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
@@ -180,7 +218,6 @@ elseif strcmp(dataflag, 'G-all_some')
     splitFilenames = {listingG.name};
 elseif strcmp(dataflag, 'G-splitall')
     splitFilenames = {listingG.name};
-
 elseif strcmp(dataflag, 'splitall-5')
     splitFilenames = {listing5.name};
 elseif strcmp(dataflag, 'one-mn')
@@ -243,6 +280,14 @@ elseif strcmp(dataflag, 'and-or-deep-unlim')
     if ~isempty(pretrainingFilename)
         hyperParams.penultDim = 45;
     end
+elseif strcmp(dataflag, 'sick-only') 
+    testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt'};
+    trainFilenames = {'./sick_data/SICK_train_parsed.txt'};
+    splitFilenames = {};
+elseif strcmp(dataflag, 'sick-plus') 
+    testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt'};
+    trainFilenames = {'./sick_data/SICK_train_parsed.txt', '/scr/nlp/data/ImageFlickrEntailments/parsed_entailment_pairs.tsv'};
+    splitFilenames = {};
 end
 
 % Remove the test data from the split data
@@ -262,7 +307,7 @@ savedParams = '';
 if ~isempty(pretrainingFilename)
     savedParams = pretrainingFilename;
 else
-    listing = dir([options.name, '/', 'theta-tr@*']);
+    listing = dir([options.name, '/', 'ckpt-tr@*']);
     if ~isempty(listing)
         savedParams = [options.name, '/', listing(end).name];
     end
@@ -270,18 +315,32 @@ end
 if ~isempty(savedParams)
     Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
     a = load(savedParams);
-    theta = a.theta;
-    thetaDecoder = a.thetaDecoder;
-else 
+    modelState = a.modelState;
+else
+<<<<<<< HEAD
+<<<<<<< HEAD
+    modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(wordMap, hyperParams);
+=======
+=======
+>>>>>>> FETCH_HEAD
+    modelState.pass = 0;
+    Log(hyperParams.statlog, ['Randomly initializing.']);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(size(wordMap, 1), hyperParams);
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
+>>>>>>> FETCH_HEAD
 end
 
 % Load training/test data
 [trainDataset, testDatasets] = ...
     LoadConstitDatasets(trainFilenames, splitFilenames, ...
     testFilenames, wordMap, relationMap, hyperParams);
-trainDataset = Symmetrize(trainDataset);
+% trainDataset = Symmetrize(trainDataset);
 
 % Trim out individual examples if needed
 if hyperParams.dataPortion < 1
@@ -302,12 +361,12 @@ if hyperParams.minFunc
     addpath('minFunc/minFunc/mex/')
     addpath('minFunc/autoDif/')
 
-    theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
+    % Warning: L-BFGS won't save state across restarts
+    modelState.theta = minFunc(@ComputeFullCostAndGrad, modelState.theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
 else
-    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, ...
-        thetaDecoder, trainDataset, ...
-        hyperParams, testDatasets);
+    modelState.theta = AdaGradSGD(@ComputeFullCostAndGrad, modelState, options, ...
+        trainDataset, hyperParams, testDatasets);
 end
     
 end

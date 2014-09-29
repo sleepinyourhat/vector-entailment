@@ -1,4 +1,4 @@
-*.DS_Store
+.DS_Store
 grammars/*.pyc
 *.aux
 *.bbl
@@ -10,3 +10,6 @@ grammars/*.pyc
 *.synctex.gz
 *_region_.tex
 writing/S'14 paper/paper.pdf
+UnbreakData.m
+*.pdf
+*.gz

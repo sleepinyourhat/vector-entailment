@@ -1,0 +1,101 @@
+CONTRADICTION	( ( ( A man ) ( in ( a ( red uniform ) ) ) ) ( is ( making ( ( a jump ) ( in ( a ( dirt ( bike race ) ) ) ) ) ) ) )	( There ( is ( ( no man ) ( in ( ( a ( red uniform ) ) ( making ( ( a jump ) ( in ( a ( dirt ( bike race ) ) ) ) ) ) ) ) ) ) )	3.4	6971
+CONTRADICTION	( There ( is ( ( no woman ) ( being ( kissed ( by ( a man ) ) ) ) ) ) )	( ( A woman ) ( is ( being ( kissed ( by ( a man ) ) ) ) ) )	4.2	913
+CONTRADICTION	( There ( is ( no ( boy ( ( ( playing outdoors ) and ) ( there ( is ( ( no man ) smiling ) ) ) ) ) ) ) )	( ( The ( young boys ) ) ( are ( playing ( ( ( outdoors and ) ( the man ) ) ( is ( smiling nearby ) ) ) ) ) )	3.6	4
+CONTRADICTION	( There ( is ( ( no woman ) ( ( ( using ( an ( eye pencil ) ) ) and ) ( ( applying ( eye liner ) ) ( to ( her eyelid ) ) ) ) ) ) )	( ( A woman ) ( is ( ( applying cosmetics ) ( to ( her eyelid ) ) ) ) )	3.1	3123
+NEUTRAL	( ( ( ( ( A biker ) ( with ( ( ( ( ( a ( blue jacket ) ) , ) ( black pants ) ) and ) ( a ( white helmet ) ) ) ) ) ( is ( driving ( on dirt ) ) ) ) and ) ( people ( are watching ) ) )	( ( ( The rider ) ( on ( the ( blue ( and ( black ( motocross bike ) ) ) ) ) ) ) ( ( is not ) ( wearing ( the pants ) ) ) )	3.2	7044
+CONTRADICTION	( ( A man ) ( is drawing ) )	( There ( is ( no ( man drawing ) ) ) )	3.8	4321
+CONTRADICTION	( ( The man ) ( ( is not ) ( stirring ( ( the sauce ) ( for ( the chicken ) ) ) ) ) )	( ( The man ) ( is ( stirring ( ( the sauce ) ( for ( the chicken ) ) ) ) ) )	4	1487
+NEUTRAL	( ( The person ) ( ( is not ) ( standing ( on ( white ice ) ) ) ) )	( ( A person ) ( is ( standing ( in ( ( a ( vast field ) ) ( of ( glacial ice ) ) ) ) ) ) )	3.1	6482
+CONTRADICTION	( ( The man ) ( ( is not ) ( slicing ( the potato ) ) ) )	( ( The man ) ( is ( slicing ( a potato ) ) ) )	2.7	2392
+CONTRADICTION	( Boys ( are ( dancing ( in ( front ( of ( some people ) ) ) ) ) ) )	( Boys ( ( are not ) ( dancing ( in ( front ( of ( some people ) ) ) ) ) ) )	3.8	3922
+CONTRADICTION	( ( ( The woman ) ( in ( a ( red costume ) ) ) ) ( is ( ( ( leaning ( against ( a ( brick wall ) ) ) ) and ) ( playing ( an instrument ) ) ) ) )	( ( ( The woman ) ( in ( a ( red costume ) ) ) ) ( ( ( ( is not ) ( leaning ( against ( a ( brick wall ) ) ) ) ) and ) ( ( is not ) ( playing ( an instrument ) ) ) ) )	3.2	6358
+CONTRADICTION	( ( A boy ) ( is ( playing guitar ) ) )	( There ( is ( ( no boy ) ( playing guitar ) ) ) )	3.8	4776
+CONTRADICTION	( ( A ( brown dog ) ) ( is ( running ( across ( ( the yard ) ( with ( ( a toy ) ( in ( its mouth ) ) ) ) ) ) ) ) )	( There ( is ( ( no ( brown dog ) ) ( running ( across ( ( the yard ) ( with ( ( a toy ) ( in ( its mouth ) ) ) ) ) ) ) ) ) )	3.8	7214
+CONTRADICTION	( ( A man ) ( is exercising ) )	( There ( is ( ( no man ) exercising ) ) )	3.4	3897
+CONTRADICTION	( There ( is ( no ( man ( ( ( ( running , ) jumping ) and ) ( kicking ( near ( a ( vending machine ) ) ) ) ) ) ) ) )	( ( Three ( young men ) ) ( are ( ( ( ( running , ) jumping ) and ) ( kicking ( near ( a ( vending machine ) ) ) ) ) ) )	3.8	1469
+CONTRADICTION	( ( A dog ) ( is ( eating ( a doll ) ) ) )	( There ( is ( ( no dog ) ( playing ( with ( a toy ) ) ) ) ) )	3.8	4187
+NEUTRAL	( ( The man ) ( ( is not ) ( hiking ( in ( the woods ) ) ) ) )	( ( A man ) ( is ( trekking ( in ( the woods ) ) ) ) )	3.8	3181
+CONTRADICTION	( There ( is ( ( no man ) ( playing ( a flute ) ) ) ) )	( ( A man ) ( is ( playing ( a ( large flute ) ) ) ) )	4.1	5352
+CONTRADICTION	( ( A monkey ) ( is ( ( teasing ( a dog ) ) ( at ( the zoo ) ) ) ) )	( There ( is ( ( no monkey ) ( ( teasing ( a dog ) ) ( at ( the zoo ) ) ) ) ) )	2.935	4803
+CONTRADICTION	( ( The person ) ( ( is not ) ( ( slicing ( ( a clove ) ( of garlic ) ) ) ( into pieces ) ) ) )	( ( The person ) ( is ( ( slicing ( ( a clove ) ( of garlic ) ) ) ( into pieces ) ) ) )	3	2687
+NEUTRAL	( ( A woman ) ( is dancing ) )	( ( The man ) ( ( is not ) dancing ) )	3.3	3518
+CONTRADICTION	( ( No dog ) ( is ( in ( ( the sand ) ( that ( is ( blowing ( in ( the wind ) ) ) ) ) ) ) ) )	( ( A dog ) ( is ( in ( ( ( a ( sandy area ) ) ( with ( ( the sand ) ( that ( is ( being ( ( stirred up ) ( into ( ( ( the air ) and ) ( several plants ) ) ) ) ) ) ) ) ) ) ( are ( in ( the background ) ) ) ) ) ) )	4	9425
+NEUTRAL	( ( Two dogs ) ( are ( looking ( at ( something ( that ( is ( splashing ( in ( the water ) ) ) ) ) ) ) ) ) )	( ( Some dogs ) ( ( are not ) ( playing ( in ( a stream ) ) ) ) )	3.7	7820
+NEUTRAL	( ( The kids ) ( ( are not ) ( wearing ( ( ( suits and ) water ) ( is ( splashing around ) ) ) ) ) )	( ( Children ( in ( swimming suits ) ) ) ( are ( playing ( in ( the water ) ) ) ) )	2.8	7997
+CONTRADICTION	( ( A snake ) ( is ( being ( ( fed ( a mouse ) ) ( by ( a man ) ) ) ) ) )	( ( No snake ) ( is ( being ( ( fed ( a mouse ) ) ( by ( a man ) ) ) ) ) )	4.7	1608
+CONTRADICTION	( There ( is ( ( no man ) ( ( spraying ( a ( super soaker ) ) ) ( into ( ( the mouth ) ( of ( a dog ) ) ) ) ) ) ) )	( ( A man ) ( is ( ( spraying ( a ( super soaker ) ) ) ( into ( ( the mouth ) ( of ( a dog ) ) ) ) ) ) )	3.8	7718
+NEUTRAL	( ( ( A man ) ( with ( no hat ) ) ) ( is ( sitting ( on ( the ground ) ) ) ) )	( ( ( A man ) ( with ( a ( backwards hat ) ) ) ) ( is ( sitting ( on ( the ground ) ) ) ) )	4	8461
+CONTRADICTION	( There ( is ( ( no ( hockey player ) ) ( in ( ( a ( yellow jersey ) ) ( guarding ( the goal ) ) ) ) ) ) )	( ( The ( ice ( hockey goalkeeper ) ) ) ( ( ( is ( wearing ( a ( yellow jersey ) ) ) ) and ) ( is ( defending ( the goal ) ) ) ) )	4	6544
+CONTRADICTION	( ( The man ) ( ( is not ) ( doing exercises ) ) )	( ( The man ) ( is ( doing exercises ) ) )	3.8	5924
+NEUTRAL	( ( The girl ) ( ( ( is ( sitting ( on ( the couch ) ) ) ) and ) ( is crocheting ) ) )	( There ( is ( ( no girl ) ( playing ( ( the violin ) ( on ( a beach ) ) ) ) ) ) )	1.4	4755
+CONTRADICTION	( ( The ( ( adults and ) children ) ) ( ( are not ) ( gathered ( near ( an ( outdoor ( seating arrangement ) ) ) ) ) ) )	( ( The ( ( adults and ) children ) ) ( are ( being ( gathered ( near ( an ( outdoor ( seating arrangement ) ) ) ) ) ) ) )	4.4	8193
+CONTRADICTION	( There ( is ( ( no woman ) ( combing ( her hair ) ) ) ) )	( ( A woman ) ( is ( combing ( her hair ) ) ) )	3.6	1178
+CONTRADICTION	( There ( is ( ( no man ) ( cooking ( a snake ) ) ) ) )	( ( A man ) ( is ( cooking ( a snake ) ) ) )	3.7	4767
+CONTRADICTION	( ( A woman ) ( is ( putting ( on makeup ) ) ) )	( There ( is ( ( no woman ) ( putting ( on makeup ) ) ) ) )	4	2911
+CONTRADICTION	( ( ( Three boys ) ( in ( karate costumes ) ) ) ( are fighting ) )	( ( ( Three boys ) ( in ( karate costumes ) ) ) ( ( are n't ) fighting ) )	3.3	1503
+NEUTRAL	( ( The woman ) ( ( is n't ) ( stirring ( eggs ( in ( a bowl ) ) ) ) ) )	( Someone ( is ( beating ( an egg ) ) ) )	3.2	3398
+NEUTRAL	( ( A ( tan dog ) ) ( is ( running ( through ( the brush ) ) ) ) )	( There ( is ( ( no ( white dog ) ) ( with ( ( beige spots ) ( running ( through ( a field ) ) ) ) ) ) ) )	2.7	6625
+CONTRADICTION	( ( A man ) ( is ( playing ( a guitar ) ) ) )	( There ( is ( ( no man ) ( playing ( a guitar ) ) ) ) )	3.6	4520
+NEUTRAL	( ( A woman ) ( is ( playing ( the violin ) ) ) )	( There ( is ( ( no man ) ( playing ( the piano ) ) ) ) )	2.1	5082
+NEUTRAL	( ( ( No group ) ( of people ) ) ( is ( gathering ( at ( ( a stand ) ( at ( the fair ) ) ) ) ) ) )	( ( The people ) ( are ( standing ( at ( a carnival ) ) ) ) )	3.8	8658
+CONTRADICTION	( ( A ( karate practitioner ) ) ( is ( kicking ( at ( ( another man ) ( who ( is ( wearing ( protective ( boxing gloves ) ) ) ) ) ) ) ) ) )	( There ( is ( ( no ( karate practitioner ) ) ( kicking ( at ( ( another man ) ( who ( is ( wearing ( protective ( boxing gloves ) ) ) ) ) ) ) ) ) ) )	4.3	2712
+NEUTRAL	( ( Rugby players ) ( ( are not ) ( tackling ( each other ) ) ) )	( ( A ( soccer player ) ) ( is ( being ( tackled ( by ( his opponent ) ) ) ) ) )	2.5	7002
+NEUTRAL	( ( A ( golden dog ) ) ( is ( running ( through ( ( a field ) ( of ( tall grass ) ) ) ) ) ) )	( There ( is ( ( no ( brown dog ) ) ( running ( through ( tall ( green grass ) ) ) ) ) ) )	4	6866
+CONTRADICTION	( ( An adult ) ( ( ( is ( in ( the amphitheater ) ) ) and ) ( is ( talking ( to ( a boy ) ) ) ) ) )	( There ( is ( ( no adult ) ( in ( ( the amphitheater ) ( talking ( to ( a boy ) ) ) ) ) ) ) )	4.3	987
+CONTRADICTION	( There ( are ( ( no racers ) ( ( running down ) ( a track ) ) ) ) )	( Racers ( are ( ( running down ) ( a track ) ) ) )	3.7	3680
+CONTRADICTION	( ( ( A cluster ) ( of ( four ( brown dogs ) ) ) ) ( are ( playing ( in ( ( a field ) ( of ( brown grass ) ) ) ) ) ) )	( ( Four dogs ) ( ( are not ) ( playing ( in ( a ( grassy area ) ) ) ) ) )	4	9490
+CONTRADICTION	( ( A man ) ( is ( driving ( a car ) ) ) )	( There ( is ( ( no man ) ( driving ( a car ) ) ) ) )	4.4	4614
+NEUTRAL	( ( The people ) ( ( are not ) ( sitting ( on ( ( a bench ) ( in ( front ( of ( a restaurant ) ) ) ) ) ) ) ) )	( ( Three people ) ( are ( sitting ( on ( ( a bench ) ( under ( some ( palm trees ) ) ) ) ) ) ) )	3.2	6740
+CONTRADICTION	( ( A band ) ( ( is not ) ( playing ( some instruments ) ) ) )	( ( A band ) ( is ( playing ( some instruments ) ) ) )	3.8	4852
+CONTRADICTION	( ( ( The man ) ( at ( the beach ) ) ) ( ( is not ) ( ( doing ( a handstand ) ) ( on ( ( the ( wet sand ) ) ( at ( ( the edge ) ( of ( the water ) ) ) ) ) ) ) ) )	( ( The man ) ( is ( ( doing ( a handstand ) ) ( on ( ( the ( wet sand ) ) ( at ( ( the edge ) ( of ( ( the water ) ( at ( the beach ) ) ) ) ) ) ) ) ) ) )	3.7	7667
+CONTRADICTION	( ( ( A man ) ( dressed ( in black ) ) ) ( is ( wearing ( an ( elaborate ( black mask ) ) ) ) ) )	( There ( is ( ( no man ) ( dressed ( in ( black ( wearing ( an ( elaborate ( black mask ) ) ) ) ) ) ) ) ) )	3.4	6784
+NEUTRAL	( There ( is ( ( no ( football player ) ) ( in ( ( a ( purple jersey ) ) ( running ( with ( ( the ball ) ( for ( a touchdown ) ) ) ) ) ) ) ) ) )	( ( A ( football player ) ) ( is ( running ( past ( ( an official ) ( carrying ( a football ) ) ) ) ) ) )	3.3	7541
+NEUTRAL	( ( The man ) ( ( is not ) ( doing exercises ) ) )	( ( Two men ) ( are fighting ) )	2.3	5930
+NEUTRAL	( ( ( Not ( a lot ) ) ( of people ) ) ( are ( in ( an ( ice ( skating park ) ) ) ) ) )	( ( An ( ice ( skating rink ) ) ) ( placed ( outdoors ( is ( full ( of people ) ) ) ) ) )	3.5	873
+CONTRADICTION	( There ( is ( ( no boy ) ( walking ( across ( a bridge ) ) ) ) ) )	( ( A boy ) ( is ( walking ( across ( a bridge ) ) ) ) )	3.7	3222
+CONTRADICTION	( ( The man ) ( is ( ( tossing ( a kid ) ) ( into ( ( the ( swimming pool ) ) ( that ( is ( near ( the ocean ) ) ) ) ) ) ) ) )	( ( A man ) ( ( is n't ) ( ( tossing ( a kid ) ) ( into ( ( the ( swimming pool ) ) ( that ( is ( near ( the ocean ) ) ) ) ) ) ) ) )	3.5	630
+CONTRADICTION	( There ( is ( ( no man ) ( drawing ( a picture ) ) ) ) )	( ( A man ) ( is ( drawing ( a picture ) ) ) )	3.9	4086
+CONTRADICTION	( There ( is ( ( no woman ) ( slicing ( a fish ) ) ) ) )	( ( A woman ) ( is ( slicing ( a fish ) ) ) )	2.7	4966
+CONTRADICTION	( ( A woman ) ( ( ( is ( driving ( a car ) ) ) and ) ( is ( talking ( to ( ( the man ) ( who ( is ( seated ( beside her ) ) ) ) ) ) ) ) ) )	( There ( is ( ( no woman ) ( ( ( driving ( a car ) ) and ) ( talking ( to ( ( the man ) ( seated ( beside her ) ) ) ) ) ) ) ) )	4.7	3061
+CONTRADICTION	( ( A person ) ( is ( cutting ( some ginger ) ) ) )	( There ( is ( ( no person ) ( cutting ( some ginger ) ) ) ) )	3.8	4816
+CONTRADICTION	( ( A man ) ( is ( playing ( a flute ) ) ) )	( ( A man ) ( ( is not ) ( playing ( a flute ) ) ) )	4.2	5454
+CONTRADICTION	( ( Two ( bmx bikers ) ) ( are ( ( jumping ( dirt ramps ) ) ( in ( front ( of ( ( a body ) ( of water ) ) ) ) ) ) ) )	( There ( is ( ( no ( bmx biker ) ) ( ( jumping ( dirt ramps ) ) ( in ( front ( of ( ( a body ) ( of water ) ) ) ) ) ) ) ) )	4.4	8326
+NEUTRAL	( ( A flute ) ( ( is n't ) ( being ( played ( by ( a man ) ) ) ) ) )	( ( A man ) ( is ( playing ( ( the guitar ) loudly ) ) ) )	2.4	1811
+CONTRADICTION	( ( A man ) ( is ( playing ( a ( wooden flute ) ) ) ) )	( There ( is ( ( no man ) ( playing ( a ( wooden flute ) ) ) ) ) )	3.7	4155
+CONTRADICTION	( ( The lady ) ( is ( slicing ( a tomato ) ) ) )	( There ( ( is ( no one ) ) ( cutting ( a tomato ) ) ) )	3	2404
+CONTRADICTION	( ( ( A girl ) ( in white ) ) ( is dancing ) )	( There ( is ( ( no girl ) ( in ( white dancing ) ) ) ) )	4.2	219
+NEUTRAL	( ( A boy ) ( is ( playing ( a piano ) ) ) )	( There ( is ( no ( man ( ( ( singing and ) playing ) ( a guitar ) ) ) ) ) )	2.2	3996
+CONTRADICTION	( There ( is ( ( no boy ) ( checking ( a calendar ) ) ) ) )	( ( A boy ) ( is ( looking ( at ( a calendar ) ) ) ) )	3.9	3941
+CONTRADICTION	( ( A man ) ( is ( ( cutting ( a ( thick rope ) ) ) ( with ( a sword ) ) ) ) )	( There ( is ( ( no man ) ( ( cutting ( a rope ) ) ( with ( a sword ) ) ) ) ) )	3.6	4650
+NEUTRAL	( ( ( A crowd ) ( of people ) ) ( is ( near ( the water ) ) ) )	( ( ( ( ( A group ) ( of ( children ( in uniforms ) ) ) ) ( is ( standing ( at ( a gate ) ) ) ) ) and ) ( there ( ( is ( no one ) ) ( kissing ( the mother ) ) ) ) )	1.3	317
+NEUTRAL	( ( The woman ) ( ( ( ( is not ) ( wearing ( a ( red jacket ) ) ) ) and ) ( ( is not ) ( holding ( ( a glass ) ( in ( front ( of ( ( the man ) ( in ( a ( white t-shirt ) ) ) ) ) ) ) ) ) ) ) )	( ( A person ) ( is ( ( ( wearing ( a ( red jacket ) ) ) and ) ( holding ( a beer ) ) ) ) )	2.4	7501
+CONTRADICTION	( There ( is ( ( no man ) ( ( opening ( a box ) ) ( with ( a knife ) ) ) ) ) )	( ( A man ) ( is ( ( opening ( a box ) ) ( with ( a knife ) ) ) ) )	3.8	4843
+NEUTRAL	( ( The lady ) ( is ( ( slicing up ) ( the meat ) ) ) )	( ( The lady ) ( ( is n't ) ( cracking ( ( an egg ) ( for ( the mixer ) ) ) ) ) )	2.335	2662
+NEUTRAL	( ( No lady ) ( ( ( is ( standing ( on ( the street ) ) ) ) and ) ( is ( surrounded ( by ( school children ) ) ) ) ) )	( ( ( A woman ) ( in ( blue jeans ) ) ) ( is ( ( standing ( in ( front ( of ( ( a group ) ( of children ) ) ) ) ) ) ( beside ( ( a stone ) ( built house ) ) ) ) ) )	3.2	9198
+CONTRADICTION	( ( A man ) ( is ( ( slicing ( a potato ) ) ( into pieces ) ) ) )	( ( A man ) ( ( is not ) ( cutting ( a potato ) ) ) )	4	4831
+CONTRADICTION	( ( The man ) ( is ( ( tossing ( a kid ) ) ( into ( ( the ( swimming pool ) ) ( that ( is ( near ( the ocean ) ) ) ) ) ) ) ) )	( ( A man ) ( ( is n't ) ( ( tossing ( a kid ) ) ( into ( ( the ( swimming pool ) ) ( that ( is ( near ( the ocean ) ) ) ) ) ) ) ) )	3.5	630
+NEUTRAL	( ( A man ) ( is ( ( breaking tiles ) ( with ( his hands ) ) ) ) )	( There ( is ( ( no man ) ( ( breaking ( wooden boards ) ) ( with ( his hand ) ) ) ) ) )	2.9	4031
+NEUTRAL	( ( The people ) ( ( are not ) ( sitting ( on ( ( a bench ) ( in ( front ( of ( a restaurant ) ) ) ) ) ) ) ) )	( ( Three people ) ( are ( sitting ( on ( ( a bench ) ( under ( some ( palm trees ) ) ) ) ) ) ) )	3.2	6740
+NEUTRAL	( There ( is ( ( no ( brown ( dog standing ) ) ) ( in ( the water ) ) ) ) )	( ( ( A dog ) ( with ( golden fur ) ) ) ( is ( in ( the water ) ) ) )	2.8	6001
+CONTRADICTION	( ( A woman ) ( is ( playing ( a flute ) ) ) )	( ( The woman ) ( ( is not ) ( playing ( the flute ) ) ) )	3.2	2886
+NEUTRAL	( ( The woman ) ( ( is not ) ( ( putting pasta ) ( into ( a dish ) ) ) ) )	( ( A woman ) ( is ( pulling ( ( some ( sticky goo ) ) ( out ( of ( a bowl ) ) ) ) ) ) )	2.2	5206
+CONTRADICTION	( ( A man ) ( ( is not ) ( rock ( ( ( climbing and ) ( ( ( a city ) and ) ( a bay ) ) ) ( are ( in ( the background ) ) ) ) ) ) )	( ( A man ) ( is ( ( ( ( ( rock climbing ) and ) ( a city ) ) and ) ( ( a bay ) ( are ( in ( the background ) ) ) ) ) ) )	4.4	8632
+NEUTRAL	( ( ( A ( blonde boy ) ) ( in green ) ) ( is ( sitting ( on ( a swing ) ) ) ) )	( There ( is ( ( no ( little girl ) ) ( with ( ( blond hair ) ( ( ( smiling and ) sitting ) ( on ( a swing ) ) ) ) ) ) ) )	3.185	6955
+CONTRADICTION	( There ( is ( ( no man ) ( eating food ) ) ) )	( ( A man ) ( is ( eating ( a pizza ) ) ) )	3.2	4114
+NEUTRAL	( ( The woman ) ( ( is not ) ( ( putting pasta ) ( into ( a dish ) ) ) ) )	( ( A woman ) ( is ( pulling ( ( some ( sticky goo ) ) ( out ( of ( a bowl ) ) ) ) ) ) )	2.2	5206
+CONTRADICTION	( ( A ( little boy ) ) ( ( ( is ( wearing ( a ( green ( soccer strip ) ) ) ) ) and ) ( is ( running ( on ( the grass ) ) ) ) ) )	( There ( is ( ( no ( little boy ) ) ( ( ( wearing ( a ( green ( soccer strip ) ) ) ) and ) ( running ( on ( the grass ) ) ) ) ) ) )	3.6	7649
+CONTRADICTION	( There ( is ( ( no girl ) ( playing ( a flute ) ) ) ) )	( ( A girl ) ( is ( playing ( a flute ) ) ) )	3.6	5310
+CONTRADICTION	( ( The man ) ( is drawing ) )	( There ( is ( no ( man drawing ) ) ) )	3.4	4330
+NEUTRAL	( ( ( A girl ) ( with ( red ( hair ( and ( red eyebrows ) ) ) ) ) ) ( is ( in midspeech ) ) )	( ( The girl ) ( has ( ( ( ( ( ( ( red hair ) and ) eyebrows ) , ) ( ( several piercings ) ( in ( a ear ) ) ) ) and ) ( ( no tattoo ) ( on ( the back ) ) ) ) ) )	3	8141
+NEUTRAL	( ( The snowboarder ) ( ( is n't ) ( leaping ( over ( white snow ) ) ) ) )	( ( A person ) ( who ( is ( practicing ( ( snowboarding jumps ) ( into ( the air ) ) ) ) ) ) )	3.3	1039
+NEUTRAL	( ( ( The woman ) ( wearing ( ( ( ( ( silver pants ) , ) ( pink bellbottoms ) ) and ) ( a ( pink scarf ) ) ) ) ) ( is ( riding ( a bike ) ) ) )	( ( ( ( Pink bellbottoms ) and ) ( a ( pink scarf ) ) ) ( are ( n't ( to ( be ( worn ( by ( women ( with ( silver ( pants ( or ( bike ( riding people ) ) ) ) ) ) ) ) ) ) ) ) ) )	3.3	520
+CONTRADICTION	( There ( is ( ( no woman ) ( putting ( meat ( in ( a pan ) ) ) ) ) ) )	( ( A woman ) ( is ( putting ( meat ( in ( a pan ) ) ) ) ) )	3.4	3625
+NEUTRAL	( There ( is ( ( no ( small ( bee landing ) ) ) ( on ( ( a bunch ) ( of ( yellow flowers ) ) ) ) ) ) )	( ( A bee ) ( is ( clinging ( to ( a ( yellow flower ) ) ) ) ) )	3.9	6598
+NEUTRAL	( ( A man ) ( is ( playing ( an ( acoustic guitar ) ) ) ) )	( ( The woman ) ( ( is not ) ( playing ( an ( electric guitar ) ) ) ) )	3	2738
+NEUTRAL	( There ( is ( ( no cat ) ( ( eating corn ) ( on ( the cob ) ) ) ) ) )	( ( A cat ) ( is ( eating ( some corn ) ) ) )	2.5	2535
+CONTRADICTION	( There ( is ( ( no man ) ( ( ( standing ( on ( a ( roof top ) ) ) ) and ) ( playing ( a violin ) ) ) ) ) )	( ( A man ) ( is ( ( ( standing ( on ( a ( roof top ) ) ) ) and ) ( playing ( a violin ) ) ) ) )	3.4	3338
+NEUTRAL	( ( A man ) ( is ( ( squirting water ) ( into ( ( the mouth ) ( of ( ( a ( white dog ) ) ( with ( a ( squirt gun ) ) ) ) ) ) ) ) ) )	( There ( is ( ( no man ) ( ( spraying ( a ( super soaker ) ) ) ( into ( ( the mouth ) ( of ( a dog ) ) ) ) ) ) ) )	2.9	7720
+NEUTRAL	( There ( is ( ( no ( young boy ) ) ( jumping ( in ( ( the air ) ( with ( his ( knees ( bent ( and ( arms spread ) ) ) ) ) ) ) ) ) ) ) )	( ( ( A person ) ( with ( a ( green shirt ) ) ) ) ( is ( jumping ( high ( over ( the grass ) ) ) ) ) )	2.6	7228
+CONTRADICTION	( ( The puppy ) ( is ( playing ( with ( a ( plastic container ) ) ) ) ) )	( ( The puppy ) ( ( is not ) ( playing ( with ( a ( plastic container ) ) ) ) ) )	3.2	3036
+CONTRADICTION	( ( A man ) ( is ( opening ( a door ) ) ) )	( There ( is ( ( no man ) ( opening ( a door ) ) ) ) )	3.6	5051
+NEUTRAL	( There ( ( is ( no one ) ) ( playing ( a piano ) ) ) )	( ( A man ) ( is ( playing ( a guitar ) ) ) )	2.7	4376

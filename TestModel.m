@@ -3,9 +3,9 @@ function [combined, aggConfusion] = TestModel(CostGradFunc, theta, thetaDecoder,
 
 % Evaluate on test datasets, and show set-by-set results while aggregating
 % an overall confusion matrix.
-aggConfusion = zeros(hyperParams.numRelations);
-heldOutConfusion = zeros(hyperParams.numRelations);
-targetConfusion = zeros(hyperParams.numRelations);
+aggConfusion = zeros(hyperParams.numDataRelations);
+heldOutConfusion = zeros(hyperParams.numDataRelations);
+targetConfusion = zeros(hyperParams.numDataRelations);
 
 for i = 1:length(testDatasets{1})
     [~, ~, err, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, hyperParams);
@@ -25,8 +25,8 @@ for i = 1:length(testDatasets{1})
 end
 
 % Compute error rate from aggregate confusion matrix
-aggErr = 1 - sum(sum(eye(hyperParams.numRelations) .* aggConfusion)) / sum(sum(aggConfusion));    
-heldOutErr = 1 - sum(sum(eye(hyperParams.numRelations) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
+aggErr = 1 - sum(sum(eye(hyperParams.numDataRelations) .* aggConfusion)) / sum(sum(aggConfusion));    
+heldOutErr = 1 - sum(sum(eye(hyperParams.numDataRelations) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
 
 MacroF1 = [GetMacroF1(targetConfusion), GetMacroF1(heldOutConfusion), GetMacroF1(aggConfusion)];
 Log(hyperParams.statlog, ['MacroF1: ', evalc('disp(MacroF1)')]);

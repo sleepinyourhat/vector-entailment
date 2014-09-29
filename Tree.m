@@ -20,6 +20,7 @@ classdef Tree < handle
     methods(Static)
 
         function t = makeTree(iText, wordMap)
+            assert(~isempty(iText), 'Bad tree input text.');
             tyingMap = GetTyingMap(wordMap); % TODO
             
             % Parsing strategy example:          
@@ -66,19 +67,27 @@ classdef Tree < handle
                 stackTop = stackTop - 1;
                 
                 t = Tree.mergeTrees(p, t);
-            end            
+            end
+
+            assert((length(t.daughters) > 0 || t.wordIndex ~= -1), 'Bad tree!')
         end
         
         function t = makeLeaf(iText, wordMap, tyingMap)
             t = Tree();
-            t.text = iText;
+            t.text = lower(iText);
             if wordMap.isKey(t.text)
                 t.wordIndex = wordMap(t.text);
-                t.type = tyingMap(t.wordIndex);
+                % t.type = tyingMap(t.wordIndex);
+            elseif all(ismember(t.text, '0123456789.-'))
+                disp(['Collapsing number ' t.text]);
+                t.wordIndex = wordMap('*NUM*');               
             else
-                disp(['Failed to map word ' t.text]);
-                t.wordIndex = 1;
+                if rand > 0.99 % Downsample what gets logged.
+                    disp(['Failed to map word ' t.text]);
+                end
+                t.wordIndex = wordMap('*UNK*');
             end
+            assert(t.wordIndex ~= -1, 'Bad leaf!')
         end
         
         function t = mergeTrees(l, r)
@@ -142,8 +151,6 @@ classdef Tree < handle
             % Recomputes features using fresh parameters.
 
             if (~isempty(obj.daughters))
-                
-                
                 for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
                         wordFeatures, compMatrices, compMatrix, compBias, ...

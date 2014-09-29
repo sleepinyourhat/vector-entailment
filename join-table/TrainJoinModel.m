@@ -17,7 +17,7 @@ hyperParams.statlog = fopen([expName '/stat_log'], 'a');
 hyperParams.examplelog = fopen([expName '/example_log'], 'a');
 
 [wordMap, relationMap, relations] = ...
-    LoadTrainingData('./join-algebra/6x80_train.tsv');
+    LoadTrainingData('./data/6x80_train.tsv')
 
 % disp('Uninformativizing:');
 % worddata = Uninformativize(worddata);
@@ -27,8 +27,18 @@ hyperParams.examplelog = fopen([expName '/example_log'], 'a');
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = dim;
 
+% If true, don't load the entire training dataset into memory at once. Not useful in the join model.
+hyperParams.fragmentData = false;
+
+% The name of the vocab used in naming stored preprocessed data files. Not useful in the join model.
+hyperParams.vocabName = 'join';
+
+% If true, initialize the vocabulary from disk. Not useful in the join model.
+hyperParams.loadWords = false;
+
 % The number of relations.
 hyperParams.numRelations = 7; 
+hyperParams.numDataRelations = 7;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
@@ -103,19 +113,22 @@ options.lr = 0.2; % TODO...
 
 % Display options
 
-% How often (in full iterations) to run on test data.
-options.testFreq = 1;
+% How often (in steps) to report cost.
+options.costFreq = 500;
+
+% How often (in steps) to run on test data.
+options.testFreq = 500;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 8;
+options.confusionFreq = 500;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
-options.examplesFreq = 32; 
+options.examplesFreq = 1000; 
 
-% How often to save parameters to disk.
-options.checkpointFreq = 8; 
+% How often (in steps) to save parameters to disk.
+options.checkpointFreq = 4000; 
 
 % The name assigned to the current full run. Used in checkpoint naming.
 options.name = expName; 
@@ -127,37 +140,49 @@ options.runName = 'tr';
 % Reset the sum of squared gradients after this many iterations.
 % WARNING: The countdown to a reset will be restarted if the model dies
 % and is reloaded from a checkpoint.
-options.resetSumSqFreq = 10000; % Don't bother.
+options.resetSumSqFreq = 100000; % Don't bother.
 
 Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
+% Load saved parameters if available
 savedParams = '';
 if nargin > 7 && ~isempty(pretrainingFilename)
     savedParams = pretrainingFilename;
 else
-    listing = dir([options.name, '/', 'theta-*'])
+    listing = dir([options.name, '/', 'ckpt*']);
     if ~isempty(listing)
         savedParams = [options.name, '/', listing(end).name];
     end
 end
-
 if ~isempty(savedParams)
     Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
-    a = load(savedParams)
-    theta = a.theta;
-    thetaDecoder = a.thetaDecoder;
+    a = load(savedParams);
+    modelState = a.modelState;
 else
-    % Randomly initialize.
-    [ theta, thetaDecoder ] = InitializeModel(size(wordMap, 1), hyperParams);
-    size(thetaDecoder)
-    size(theta)
+<<<<<<< HEAD
+<<<<<<< HEAD
+    modelState.step = 0;
+    Log(hyperParams.statlog, ['Randomly initializing.']);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(wordMap, hyperParams);
+=======
+=======
+>>>>>>> FETCH_HEAD
+    modelState.pass = 0;
+    Log(hyperParams.statlog, ['Randomly initializing.']);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(size(wordMap, 1), hyperParams);
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
+>>>>>>> FETCH_HEAD
 end
 
 % Choose which files to load in each category.
 splitFilenames = {};
-trainFilenames = {'./join-algebra/6x80_train.tsv'};
-testFilenames = {'./join-algebra/6x80_test.tsv', ...
-                 './join-algebra/6x80_test_underivable.tsv'}; % TODO, check dir!
+trainFilenames = {'./data/6x80_train.tsv'};
+testFilenames = {'./data/6x80_test.tsv', ...
+                 './data/6x80_test_underivable.tsv'}; % TODO, check dir!
 
 % splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;
@@ -191,7 +216,7 @@ if hyperParams.minFunc
     theta = minFunc(@ComputeFullCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
 else
-    theta = AdaGradSGD(@ComputeFullCostAndGrad, theta, options, thetaDecoder, trainDataset, ...
+    theta = AdaGradSGD(@ComputeFullCostAndGrad, modelState, options, trainDataset, ...
         hyperParams, testDatasets);
 end
 
