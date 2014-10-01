@@ -1,9 +1,14 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ wordMap, relationMap, relations ] = ...
-    InitializeMaps(filename)
+    InitializeMaps(filename, dataflag)
 % Load a word map from text. For use with the SICK model setup.
 
-relations = {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL', 'NONENTAILMENT'};
+if strcmp(dataflag, 'sick-') 
+	relations = {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL', 'NONENTAILMENT'};
+else
+	relations = {'antonym', 'hypernym', 'hyponym', 'synonym'};
+end
+
 relationMap = containers.Map(relations,1:length(relations));
 
 % Load the file

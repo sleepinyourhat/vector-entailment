@@ -33,10 +33,6 @@ rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
 
 nextItemNo = 1;
 maxLine = length(C{1});
-if ~fragment
-    Log(hyperParams.statlog, 'Warning: Limiting unfragmented dataset size to 10,000.');
-    maxLine = min(maxLine, 10000);
-end
 
 % Which nextItemNo was the last to be included in the last MAT file.
 lastSave = 0;

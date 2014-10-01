@@ -25,12 +25,16 @@ elseif findstr(dataflag, 'G-')
     hyperParams.vocabName = 'G'; 
 elseif findstr(dataflag, 'sick-only')
     [wordMap, relationMap, relations] = ...
-        InitializeMaps('sick_data/sick_words_t4.txt');
+        InitializeMaps('sick_data/sick_words_t4.txt', dataflag);
     hyperParams.vocabName = 'sot4'; 
 elseif findstr(dataflag, 'sick-')
     [wordMap, relationMap, relations] = ...
-        InitializeMaps('sick_data/flickr_words_t4.txt');
+        InitializeMaps('sick_data/flickr_words_t4.txt', dataflag);
     hyperParams.vocabName = 'spt4'; 
+elseif findstr(dataflag, 'word-relations')
+    [wordMap, relationMap, relations] = ...
+        InitializeMaps('word-relations/google-10000-english.txt', dataflag);
+    hyperParams.vocabName = 'g10000'; 
 else
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./wordpairs-v2.tsv');
@@ -41,20 +45,27 @@ end
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = dim;
 
-% If set, use three relations, and an ambiguous NONENTAILMENT relation.
-hyperParams.sickMode = true;
-
-% The number of relations.
-if hyperParams.sickMode
+if findstr(dataflag, 'sick-')
+    % The number of relations.
     hyperParams.numDataRelations = 4; 
     hyperParams.numRelations = 3; 
 
     % Initialize word vectors from disk.
-    hyperParams.loadWords = false;
+    hyperParams.loadWords = true;
 
     % Don't keep the whole training data in memory, rather keep it in the form of
     % a set of MAT files to load as needed.
     hyperParams.fragmentData = frag;
+elseif findstr(dataflag, 'word-relations')
+    hyperParams.numDataRelations = 4; 
+    hyperParams.numRelations = 4; 
+
+    % Initialize word vectors from disk.
+    hyperParams.loadWords = true;
+
+    % Don't keep the whole training data in memory, rather keep it in the form of
+    % a set of MAT files to load as needed.
+    hyperParams.fragmentData = false;
 else
     hyperParams.numDataRelations = 7; 
     hyperParams.numRelations = 7; 
@@ -285,9 +296,13 @@ elseif strcmp(dataflag, 'sick-only')
     trainFilenames = {'./sick_data/SICK_train_parsed.txt'};
     splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus') 
-    testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt'};
-    trainFilenames = {'./sick_data/SICK_train_parsed.txt', '/scr/nlp/data/ImageFlickrEntailments/parsed_entailment_pairs.tsv'};
+    testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt', './sick_data/denotation_graph_training_subsample.tsv'};
+    trainFilenames = {'./sick_data/SICK_train_parsed.txt', '/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs.tsv'};
     splitFilenames = {};
+elseif strcmp(dataflag, 'word-relations') 
+    testFilenames = {};
+    trainFilenames = {};
+    splitFilenames = {'./word-relations/shuffled_word_relations.tsv'};
 end
 
 % Remove the test data from the split data
@@ -317,23 +332,10 @@ if ~isempty(savedParams)
     a = load(savedParams);
     modelState = a.modelState;
 else
-<<<<<<< HEAD
-<<<<<<< HEAD
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
     [ modelState.theta, modelState.thetaDecoder ] = ...
        InitializeModel(wordMap, hyperParams);
-=======
-=======
->>>>>>> FETCH_HEAD
-    modelState.pass = 0;
-    Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder ] = ...
-       InitializeModel(size(wordMap, 1), hyperParams);
-<<<<<<< HEAD
->>>>>>> FETCH_HEAD
-=======
->>>>>>> FETCH_HEAD
 end
 
 % Load training/test data

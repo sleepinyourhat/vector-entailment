@@ -15,4 +15,7 @@ all of the reported experiments, though many more configurations are possible if
 edit the options and hyperparameters (no, the distinction dosen't mean much) in 
 TrainModel.
 
+The google-10000-english vocabulary is from the release compiled here:
+https://github.com/first20hours/google-10000-english
+
 Author: Samuel Bowman, sbowman@stanford.edu
