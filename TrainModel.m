@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot, frag)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot, transDepth)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -21,8 +21,12 @@ if strcmp(dataflag, 'and-or') ||  strcmp(dataflag, 'and-or-deep') ||  strcmp(dat
     hyperParams.vocabName = 'RC'; 
 elseif findstr(dataflag, 'G-')
     [wordMap, relationMap, relations] = ...
-        LoadTrainingData('./grammars/wordlist.tsv'); 
-    hyperParams.vocabName = 'G'; 
+        InitializeMaps('./grammars/wordlist.tsv', dataflag); 
+    hyperParams.vocabName = 'G'
+elseif strcmp(dataflag, 'gradcheck')
+    [wordMap, relationMap, relations] = ...
+        InitializeMaps('./grammars/wordlist.tsv', dataflag); 
+    hyperParams.vocabName = 'G'
 elseif findstr(dataflag, 'sick-only')
     [wordMap, relationMap, relations] = ...
         InitializeMaps('sick_data/sick_words_t4.txt', dataflag);
@@ -45,6 +49,16 @@ end
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = dim;
 
+% The number of embedding transform layers. topDepth > 0 means NN layers will be
+% added above the embedding matrix. This is likely to only be useful when
+% learnWords is false, and so the embeddings do not exist in the same space
+% the rest of the constituents do.
+hyperParams.embeddingTransformDepth = transDepth;
+
+% Don't keep the whole training data in memory, rather keep it in the form of
+% a set of MAT files to load as needed.
+hyperParams.fragmentData = false;
+
 if findstr(dataflag, 'sick-')
     % The number of relations.
     hyperParams.numDataRelations = 4; 
@@ -52,16 +66,15 @@ if findstr(dataflag, 'sick-')
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
+    hyperParams.trainWords = true;
 
-    % Don't keep the whole training data in memory, rather keep it in the form of
-    % a set of MAT files to load as needed.
-    hyperParams.fragmentData = frag;
 elseif findstr(dataflag, 'word-relations')
     hyperParams.numDataRelations = 4; 
     hyperParams.numRelations = 4; 
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
+    hyperParams.trainWords = false;
 
     % Don't keep the whole training data in memory, rather keep it in the form of
     % a set of MAT files to load as needed.
@@ -70,6 +83,7 @@ else
     hyperParams.numDataRelations = 7; 
     hyperParams.numRelations = 7; 
     hyperParams.loadWords = false;
+    hyperParams.trainWords = true;
     hyperParams.fragmentData = false;
 end
 
@@ -261,10 +275,10 @@ elseif strcmp(dataflag, 'testall')
     trainFilenames = splitFilenames;
     splitFilenames = {};
 elseif strcmp(dataflag, 'gradcheck')
-    splitFilenames = {'MQ-two-all-bark.tsv'};
+    splitFilenames = {'./grammars/test_file.tsv'};
     hyperParams.dim = 2;
     hyperParams.penultDim = 2;
-    hyperParams.minFunc = 1;
+    hyperParams.minFunc = 1; %%%
 elseif strcmp(dataflag, 'test')
     splitFilenames = {'MQ-two-all-bark.tsv'};
 elseif strcmp(dataflag, 'and-or') 
@@ -299,6 +313,7 @@ elseif strcmp(dataflag, 'sick-plus')
     testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt', './sick_data/denotation_graph_training_subsample.tsv'};
     trainFilenames = {'./sick_data/SICK_train_parsed.txt', '/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs.tsv'};
     splitFilenames = {};
+    hyperParams.fragmentData = true;
 elseif strcmp(dataflag, 'word-relations') 
     testFilenames = {};
     trainFilenames = {};
@@ -334,7 +349,7 @@ if ~isempty(savedParams)
 else
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder ] = ...
+    [ modelState.theta, modelState.thetaDecoder, modelState.constWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 end
 
@@ -365,7 +380,7 @@ if hyperParams.minFunc
 
     % Warning: L-BFGS won't save state across restarts
     modelState.theta = minFunc(@ComputeFullCostAndGrad, modelState.theta, options, ...
-        thetaDecoder, trainDataset, hyperParams, testDatasets);
+        modelState.thetaDecoder, trainDataset, modelState.constWordFeatures, hyperParams, testDatasets);
 else
     modelState.theta = AdaGradSGD(@ComputeFullCostAndGrad, modelState, options, ...
         trainDataset, hyperParams, testDatasets);

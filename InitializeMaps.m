@@ -3,9 +3,13 @@ function [ wordMap, relationMap, relations ] = ...
     InitializeMaps(filename, dataflag)
 % Load a word map from text. For use with the SICK model setup.
 
-if strcmp(dataflag, 'sick-') 
+if findstr(dataflag, 'sick-') 
 	relations = {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL', 'NONENTAILMENT'};
-else
+elseif findstr(dataflag, 'G-')
+	relations = {'#', '=', '>', '<', '|', '^', 'v'};
+elseif findstr(dataflag, 'gradcheck')
+	relations = {'#', '=', '>', '<', '|', '^', 'v'};
+else 
 	relations = {'antonym', 'hypernym', 'hyponym', 'synonym'};
 end
 

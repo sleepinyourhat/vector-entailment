@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, hyperParams, ~ )
+function [ cost, grad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, constWordFeatures, hyperParams, ~)
 % Compute gradient and cost with regularization over a set of examples
 % for some parameters.
 
@@ -26,19 +26,24 @@ if nargout > 1
     % examples to different threads.
     % Note: A single thread can only work on one example at once, since 
     % adjacent examples are not guaranteed to share trees structures.
+
+    % Accumulate log messages in memory, to avoid file corruption from
+    % multiple writes within the paralellized loop.
+    logMessages = cell(N, 1);
+
     parfor i = 1:N
         if ~isempty(data(i).relation)
             [localCost, localGrad, localPred] = ...
-                ComputeCostAndGrad(theta, decoder, data(i), hyperParams);
+                ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
             accumulatedCost = accumulatedCost + localCost;
                 accumulatedGrad = accumulatedGrad + localGrad;
             
             localCorrect = localPred == data(i).relation;
             if (~localCorrect) && (argout > 2) && hyperParams.showExamples
-                Log(hyperParams.examplelog, ['for: ', data(i).leftTree.getText, ' ', ...
+                logMessages{i} = ['for: ', data(i).leftTree.getText, ' ', ...
                       hyperParams.relations{data(i).relation}, ' ', ... 
                 	  data(i).rightTree.getText, ...
-                      ' hypothesis:  ', hyperParams.relations{localPred}]);
+                      ' hypothesis:  ', hyperParams.relations{localPred}];
             end
 
             % Record statistics
@@ -47,12 +52,19 @@ if nargout > 1
             end
             accumulatedSuccess = accumulatedSuccess + localCorrect;
         else
-            Log(hyperParams.statlog, 'Bad example.');
+            disp('Bad example.');
             if argout > 3
                 confusions(i,:) = [1, 1];
             end
         end
 
+    end
+
+    % Flush the accumulated log messages from inside the loop
+    for i = 1:N
+        if ~isempty(logMessages{i})
+            Log(hyperParams.examplelog, logMessages{i});
+        end
     end
     
     % Create the confusion matrix
@@ -67,7 +79,7 @@ else
     % Just compute the cost, parallelizing as above
     parfor i = 1:N
         localCost = ...
-            ComputeCostAndGrad(theta, decoder, data(i), hyperParams);
+            ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
         accumulatedCost = accumulatedCost + localCost;
     end
 end
@@ -84,9 +96,12 @@ else
 end
 combinedCost = normalizedCost + regCost;
 
-cost = [combinedCost normalizedCost regCost]; 
-% Note: Uncomment this line to use minFunc gradient checking:
-% cost = combinedCost;
+% minFunc needs a single scalar cost, not the triple that is reported here.
+if ~hyperParams.minFunc
+    cost = [combinedCost normalizedCost regCost]; 
+else
+    cost = combinedCost;
+end
 
 if nargout > 1
     % Compile the gradient
@@ -98,7 +113,12 @@ if nargout > 1
         % Apply L1 regularization to the gradient
         grad = grad + hyperParams.lambda * sign(theta);
     end
+
+    size(grad)
+    size(theta)
+
     acc = (accumulatedSuccess / N);
 end
+
 
 end

@@ -32,6 +32,7 @@ for sourceFilenameIndex = 1:length(trainingData)
     fragmentIndex = fragmentOrders{sourceFilenameIndex}(fragmentOrderIndices(sourceFilenameIndex));
     filename = fragmentFiles{sourceFilenameIndex}{fragmentIndex};
     filepath = fileparts(trainingData{sourceFilenameIndex});
+    disp(['Loading ' filename]);
     a = load([filepath, '/', filename],'-mat');
     openFragments{sourceFilenameIndex} = a.data;
     openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(a.data));
@@ -74,7 +75,7 @@ while true
     batchInd = openFragmentExampleOrders{sourceFilenameIndex} ...
         (beginMiniBatch:endMiniBatch);
     batch = openFragments{sourceFilenameIndex}(batchInd);
-    [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, hyperParams);
+    [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.constWordFeatures, hyperParams);
     modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
 
     % Do an AdaGrad-scaled parameter update
@@ -83,8 +84,8 @@ while true
     modelState.step = modelState.step + 1;
     modelState.lastHundredCosts(mod(modelState.step, 100) + 1) = cost(1);
 
-    TestAndLog(CostGradFunc, modelState, options, trainingData, ...
-        hyperParams, testDatasets);
+    modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
+        modelState.constWordFeatures, hyperParams, testDatasets);
 end
 
 end

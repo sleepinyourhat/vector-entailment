@@ -1,4 +1,4 @@
-function TestAndLog(CostGradFunc, modelState, options, trainingData, ...
+function modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
     hyperParams, testDatasets)
 
 % TODO: Change freqs
@@ -16,7 +16,7 @@ if mod(modelState.step, options.testFreq) == 0
         else
             hyperParams.showExamples = false;
         end
-        [cost, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingData, hyperParams);
+        [cost, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingData, modelState.constWordFeatures, hyperParams);
     end
 
     % Test on test data
@@ -30,7 +30,7 @@ if mod(modelState.step, options.testFreq) == 0
         if (mod(modelState.step, options.examplesFreq) == 0 || mod(modelState.step, options.confusionFreq) == 0) && modelState.step > 0
             Log(hyperParams.statlog, 'Test data:');
         end
-        testAcc = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, hyperParams);
+        testAcc = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.constWordFeatures, hyperParams);
         modelState.bestTestAcc = max(testAcc, modelState.bestTestAcc);
     else
         testAcc = -1;

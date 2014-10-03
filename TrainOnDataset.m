@@ -9,7 +9,7 @@ for batchNo = 0:(numBatches-1)
     endMiniBatch = min((batchNo+1) * options.miniBatchSize,N);
     batchInd = randomOrder(beginMiniBatch:endMiniBatch);
     batch = trainingData(batchInd);
-    [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, hyperParams);
+    [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.constWordFeatures, hyperParams);
     modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
 
     % Do an AdaGrad-scaled parameter update
@@ -18,7 +18,7 @@ for batchNo = 0:(numBatches-1)
     modelState.step = modelState.step + 1;
     modelState.lastHundredCosts(mod(modelState.step, 100) + 1) = cost(1);
 
-    TestAndLog(CostGradFunc, modelState, options, trainingData, ...
+    modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
         hyperParams, testDatasets);
 end
 

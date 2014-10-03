@@ -1,7 +1,9 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function stop = Display(theta, ~, i, ~,~,~,~,~,~,~, thetaDecoder, data, hyperParams, testDatasets)
+function stop = Display(theta, ~, i, ~,~,~,~,~,~,~, thetaDecoder, data, constWordFeatures, hyperParams, testDatasets)
 % This is passed to minFunc to get informative mid-run displays of the sort
 % built into AdaGradSGD.
+
+'NOT MAINTAINED'
 
 stop = 0;
 pass = i;
