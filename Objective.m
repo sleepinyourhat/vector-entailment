@@ -2,11 +2,12 @@
 function o = Objective(trueRelation, relationProbs, hyperParams)
 % Compute the non-regularized objective for a single example.
 
-if (trueRelation > hyperParams.numRelations)
-	% Assume that both classes are equiprobable
-	o = min(-0.5 * log(relationProbs(2)) - 0.5 * log(relationProbs(3)));
-else
-	o = -log(relationProbs(trueRelation));
+assert(sum(trueRelation > 0) == 1)
+for relationIndex = 1:length(trueRelation)
+	if trueRelation(relationIndex) ~= 0
+		o = -log(relationProbs(trueRelation(relationIndex)));
+		return
+	end
 end
 
 end

@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment)
+function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
 % Load one file of constituent-pair data.
 
 % Append a default prefix if we don't have a full path
@@ -52,7 +52,13 @@ for line = (lastSave + 1):maxLine
         
         if ~(splitLine{1} == '%')
             % Skip commented lines
-            rawData(nextItemNo - lastSave).relation = relationMap(splitLine{1});
+            if nargin > 5
+                rawData(nextItemNo - lastSave).relation = zeros(length(hyperParams.numRelations), 1);
+                rawData(nextItemNo - lastSave).relation(relationIndex) = ...
+                    relationMap{relationIndex}(splitLine{1});
+            else
+                rawData(nextItemNo - lastSave).relation = relationMap(splitLine{1});
+            end
             rawData(nextItemNo - lastSave).leftText = splitLine{2};
             rawData(nextItemNo - lastSave).rightText = splitLine{3};
             nextItemNo = nextItemNo + 1;

@@ -30,6 +30,8 @@ leftTree = dataPoint.leftTree;
 rightTree = dataPoint.rightTree;
 trueRelation = dataPoint.relation;
 
+relationRange = ComputeRelationRange(hyperParams, trueRelation);
+
 % Make sure word features are current
 leftTree.updateFeatures(wordFeatures, compositionMatrices, ...
         compositionMatrix, compositionBias, embeddingTransformMatrix, embeddingTransformBias, hyperParams.compNL);
@@ -61,7 +63,7 @@ for layer = 1:(hyperParams.topDepth - 1)
     extraInputs(:,layer + 1) = hyperParams.classNL(extraInnerOutputs(:,layer));
 end
 relationProbs = ComputeSoftmaxProbabilities( ...
-                    extraInputs(:,hyperParams.topDepth), classifierParameters);
+                    extraInputs(:,hyperParams.topDepth), classifierParameters, relationRange);
 
 % Compute cost
 cost = Objective(trueRelation, relationProbs, hyperParams);
@@ -69,8 +71,13 @@ cost = Objective(trueRelation, relationProbs, hyperParams);
 % Produce gradient
 if nargout > 1    
     % Initialize the gradients
-    localWordFeatureGradients = sparse([], [], [], ...
-        size(wordFeatures, 1), size(wordFeatures, 2), 10);
+    if hyperParams.trainWords
+      localWordFeatureGradients = sparse([], [], [], ...
+          size(wordFeatures, 1), size(wordFeatures, 2), 10);
+    else
+      localWordFeatureGradients = zeros(0); 
+    end
+      
     
     if hyperParams.useThirdOrder
         localCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
@@ -85,7 +92,7 @@ if nargout > 1
     [localSoftmaxGradient, softmaxDelta] = ...
         ComputeSoftmaxGradient (hyperParams, classifierParameters, ...
                                 relationProbs, trueRelation,...
-                                extraInputs(:,hyperParams.topDepth));
+                                extraInputs(:,hyperParams.topDepth), relationRange);
     
     % Compute gradients for extra top layers
     [localExtraMatrixGradients, ...
@@ -124,8 +131,10 @@ if nargout > 1
                             compositionBias,  embeddingTransformMatrix, embeddingTransformBias, ...
                             hyperParams.compNLDeriv, hyperParams);
                       
-    localWordFeatureGradients = localWordFeatureGradients ...
-        + upwardWordGradients;
+    if hyperParams.trainWords
+      localWordFeatureGradients = localWordFeatureGradients ...
+          + upwardWordGradients;
+    end
     localCompositionMatricesGradients = localCompositionMatricesGradients...
         + upwardCompositionMatricesGradients;
     localCompositionMatrixGradients = localCompositionMatrixGradients...
@@ -147,8 +156,10 @@ if nargout > 1
                             compositionMatrices, compositionMatrix, ...
                             compositionBias, embeddingTransformMatrix, ...
                             embeddingTransformBias, hyperParams.compNLDeriv, hyperParams);
-    localWordFeatureGradients = localWordFeatureGradients ...
-        + upwardWordGradients;
+    if hyperParams.trainWords
+      localWordFeatureGradients = localWordFeatureGradients ...
+          + upwardWordGradients;
+    end
     localCompositionMatricesGradients = localCompositionMatricesGradients...
         + upwardCompositionMatricesGradients;
     localCompositionMatrixGradients = localCompositionMatrixGradients...

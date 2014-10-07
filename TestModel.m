@@ -3,9 +3,12 @@ function [combined, aggConfusion] = TestModel(CostGradFunc, theta, thetaDecoder,
 
 % Evaluate on test datasets, and show set-by-set results while aggregating
 % an overall confusion matrix.
-aggConfusion = zeros(hyperParams.numDataRelations);
-heldOutConfusion = zeros(hyperParams.numDataRelations);
-targetConfusion = zeros(hyperParams.numDataRelations);
+
+% TODO: Currently, I only aggregate across test datasets that use the no. 1 set 
+% of relations.
+aggConfusion = zeros(hyperParams.numRelations(1));
+heldOutConfusion = zeros(hyperParams.numRelations(1));
+targetConfusion = zeros(hyperParams.numRelations(1));
 
 for i = 1:length(testDatasets{1})
     [~, ~, err, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, constWordFeatures, hyperParams);
@@ -13,20 +16,23 @@ for i = 1:length(testDatasets{1})
         targetErr = err;
         targetConfusion = confusion;
     end
-    if i < hyperParams.firstSplit
+    if i < hyperParams.firstSplit && hyperParams.relationIndices(i) == 1
+
         heldOutConfusion = heldOutConfusion + confusion;
     end
     if hyperParams.showConfusions && err > 0
         log_msg = sprintf('%s\n%s\n%s',['For ', testDatasets{1}{i}, ': ', num2str(err)], ...
-            'GT:  #     =     >     <     |     ^     v', evalc('disp(confusion)'));
+            evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
     end
-    aggConfusion = aggConfusion + confusion;
+    if hyperParams.relationIndices(i) == 1
+        aggConfusion = aggConfusion + confusion;
+    end
 end
 
 % Compute error rate from aggregate confusion matrix
-aggErr = 1 - sum(sum(eye(hyperParams.numDataRelations) .* aggConfusion)) / sum(sum(aggConfusion));    
-heldOutErr = 1 - sum(sum(eye(hyperParams.numDataRelations) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
+aggErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* aggConfusion)) / sum(sum(aggConfusion));    
+heldOutErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
 
 MacroF1 = [GetMacroF1(targetConfusion), GetMacroF1(heldOutConfusion), GetMacroF1(aggConfusion)];
 Log(hyperParams.statlog, ['MacroF1: ', evalc('disp(MacroF1)')]);

@@ -8,6 +8,9 @@ function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
 % testFilenames: Load these files as test data.
 % splitFilenames: Split these files into train and test data.
 
+% relationIndices: An optional matrix with three rows, one each for 
+% train/test/split, indicating which set of relations the dataset uses.
+
 PERCENT_USED_FOR_TRAINING = 0.85;
 
 if hyperParams.fragmentData
@@ -19,24 +22,42 @@ testDatasets = {};
 
 for i = 1:length(trainFilenames)
     Log(hyperParams.statlog, ['Loading training dataset ', trainFilenames{i}]);
+    if isfield(hyperParams, 'relationIndices')
+        relationIndex = hyperParams.relationIndices(1, i);
+    else
+        relationIndex = 1;
+    end
+        
     if ~hyperParams.fragmentData
-        dataset = LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, false);
+        dataset = LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
         trainDataset = [trainDataset; dataset];
     else
-        LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, true);
+        LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
     end
         
 end
 
 for i = 1:length(testFilenames)
+    if isfield(hyperParams, 'relationIndices')
+        relationIndex = hyperParams.relationIndices(2, i);
+    else
+        relationIndex = 1
+    end
+
     Log(hyperParams.statlog, ['Loading test dataset ', testFilenames{i}]);
-    dataset = LoadConstitData(testFilenames{i}, wordMap, relationMap, hyperParams, false);
+    dataset = LoadConstitData(testFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     testDatasets = [testDatasets, {dataset}];
 end
 
 for i = 1:length(splitFilenames)
+    if isfield(hyperParams, 'relationIndices')
+        relationIndex = hyperParams.relationIndices(3, i);
+    else
+        relationIndex = 1
+    end
+
     Log(hyperParams.statlog, ['Loading split dataset ', splitFilenames{i}]);
-    dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false);
+    dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     randomOrder = randperm(length(dataset));
     endOfTrainPortion = ceil(length(dataset) * PERCENT_USED_FOR_TRAINING);
     testDatasets = [testDatasets, ...

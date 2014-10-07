@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, lr, lambda, tot, transDepth)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, trainwords)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -61,16 +61,13 @@ hyperParams.fragmentData = false;
 
 if findstr(dataflag, 'sick-')
     % The number of relations.
-    hyperParams.numDataRelations = 4; 
-    hyperParams.numRelations = 3; 
+    hyperParams.numRelations = [3 2]; 
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
-    hyperParams.trainWords = true;
-
+    hyperParams.trainWords = trainwords;
 elseif findstr(dataflag, 'word-relations')
-    hyperParams.numDataRelations = 4; 
-    hyperParams.numRelations = 4; 
+    hyperParams.numRelations = [4]; 
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
@@ -80,8 +77,7 @@ elseif findstr(dataflag, 'word-relations')
     % a set of MAT files to load as needed.
     hyperParams.fragmentData = false;
 else
-    hyperParams.numDataRelations = 7; 
-    hyperParams.numRelations = 7; 
+    hyperParams.numRelations = [7]; 
     hyperParams.loadWords = false;
     hyperParams.trainWords = true;
     hyperParams.fragmentData = false;
@@ -152,7 +148,7 @@ options.Display = 'full';
 options.numDiff = 0;
 options.LS_init = '2'; % Attempt to minimize evaluations per step...
 options.PlotFcns = [];
-options.OutputFcn = @Display;
+% options.OutputFcn = @Display;  % Custom error reporting for minFunc
 
 %%% AdaGradSGD learning options
 % Rarely does anything interesting happen past 
@@ -192,7 +188,7 @@ options.runName = 'pre';
 % Reset the sum of squared gradients after this many iterations.
 % WARNING: The countdown to a reset will be restarted if the model dies
 % and is reloaded from a checkpoint.
-options.resetSumSqFreq = 100000; % Don't bother.
+options.resetSumSqFreq = 500000; % Don't bother.
 
 Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
@@ -282,41 +278,43 @@ elseif strcmp(dataflag, 'gradcheck')
 elseif strcmp(dataflag, 'test')
     splitFilenames = {'MQ-two-all-bark.tsv'};
 elseif strcmp(dataflag, 'and-or') 
-    testFilenames = {'./RC/test0', './RC/test1', './RC/test2', './RC/test3', './RC/test4', './RC/test5', './RC/test6'};
     trainFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4'};
+    testFilenames = {'./RC/test0', './RC/test1', './RC/test2', './RC/test3', './RC/test4', './RC/test5', './RC/test6'};
     splitFilenames = {};
     options.numPasses = 15000;
     if ~isempty(pretrainingFilename)
         hyperParams.penultDim = 45;
     end
 elseif strcmp(dataflag, 'and-or-deep') 
-    testFilenames = {'./RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
     trainFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4'};
+    testFilenames = {'./RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
     splitFilenames = {};
     options.numPasses = 15000;
     if ~isempty(pretrainingFilename)
         hyperParams.penultDim = 45;
     end
 elseif strcmp(dataflag, 'and-or-deep-unlim') 
+    trainFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4', './RC/longer2/train5', './RC/longer2/train6', './RC/longer2/train7', './RC/longer2/train8', './RC/longer2/train9', './RC/longer2/train10', './RC/longer2/train11', './RC/longer2/train12'}; 
     testFilenames = {'./RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
-    trainFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4', './RC/longer2/train5', './RC/longer2/train6', './RC/longer2/train7', './RC/longer2/train8', './RC/longer2/train9', './RC/longer2/train10', './RC/longer2/train11', './RC/longer2/train12'};
     splitFilenames = {};
     options.numPasses = 15000;
     if ~isempty(pretrainingFilename)
         hyperParams.penultDim = 45;
     end
 elseif strcmp(dataflag, 'sick-only') 
+    trainFilenames = {'./sick_data/SICK_train_parsed.txt'};    
     testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt'};
-    trainFilenames = {'./sick_data/SICK_train_parsed.txt'};
     splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus') 
-    testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt', './sick_data/denotation_graph_training_subsample.tsv'};
     trainFilenames = {'./sick_data/SICK_train_parsed.txt', '/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs.tsv'};
+    testFilenames = {'./sick_data/SICK_trial_parsed.txt', './sick_data/SICK_trial_parsed_justneg.txt', './sick_data/SICK_trial_parsed_noneg.txt', './sick_data/SICK_trial_parsed_18plusparens.txt', './sick_data/SICK_trial_parsed_lt18_parens.txt', './sick_data/denotation_graph_training_subsample.tsv'};
     splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
     hyperParams.fragmentData = true;
 elseif strcmp(dataflag, 'word-relations') 
-    testFilenames = {};
     trainFilenames = {};
+    testFilenames = {};
     splitFilenames = {'./word-relations/shuffled_word_relations.tsv'};
 end
 

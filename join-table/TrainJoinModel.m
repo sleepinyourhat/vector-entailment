@@ -37,8 +37,7 @@ hyperParams.vocabName = 'join';
 hyperParams.loadWords = false;
 
 % The number of relations.
-hyperParams.numRelations = 7; 
-hyperParams.numDataRelations = 7;
+hyperParams.numRelations = [7]; 
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.

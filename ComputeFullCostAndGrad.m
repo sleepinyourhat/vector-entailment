@@ -36,19 +36,20 @@ if nargout > 1
             [localCost, localGrad, localPred] = ...
                 ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
             accumulatedCost = accumulatedCost + localCost;
-                accumulatedGrad = accumulatedGrad + localGrad;
+            accumulatedGrad = accumulatedGrad + localGrad;
             
-            localCorrect = localPred == data(i).relation;
+            localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
+
             if (~localCorrect) && (argout > 2) && hyperParams.showExamples
                 logMessages{i} = ['for: ', data(i).leftTree.getText, ' ', ...
-                      hyperParams.relations{data(i).relation}, ' ', ... 
+                      data(i).relation, ' ', ... 
                 	  data(i).rightTree.getText, ...
-                      ' hypothesis:  ', hyperParams.relations{localPred}];
+                      ' hypothesis:  ', localPred];
             end
 
             % Record statistics
             if argout > 3
-                confusions(i,:) = [localPred, data(i).relation];
+                confusions(i,:) = [localPred, data(i).relation(find(data(i).relation > 0))];
             end
             accumulatedSuccess = accumulatedSuccess + localCorrect;
         else
@@ -69,7 +70,7 @@ if nargout > 1
     
     % Create the confusion matrix
     if nargout > 3
-        confusion = zeros(hyperParams.numDataRelations);
+        confusion = zeros(hyperParams.numRelations(find(data(1).relation)));
         for i = 1:N
            confusion(confusions(i,1), confusions(i,2)) = ...
                confusion(confusions(i,1), confusions(i,2)) + 1;
@@ -113,9 +114,6 @@ if nargout > 1
         % Apply L1 regularization to the gradient
         grad = grad + hyperParams.lambda * sign(theta);
     end
-
-    size(grad)
-    size(theta)
 
     acc = (accumulatedSuccess / N);
 end

@@ -14,7 +14,7 @@ else
 end
 
 % Randomly initialize softmax layer
-classifierParameters = rand(hyperParams.numRelations, PENULT + 1) .* .02 - .01;
+classifierParameters = rand(sum(hyperParams.numRelations), PENULT + 1) .* .02 - .01;
 
 % Randomly initialize tensor parameters
 if hyperParams.useThirdOrderComparison
