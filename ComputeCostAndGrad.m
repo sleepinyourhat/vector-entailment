@@ -179,6 +179,11 @@ if nargout > 1
         localCompositionMatrixGradients, localCompositionBiasGradients, ...
         localExtraMatrixGradients, localExtraBiasGradients, ...
         localEmbeddingTransformMatrixGradients, localEmbeddingTransformBiasGradients);
+
+
+embeddingTransformMatrix(1:2, 1:2, 2)
+localEmbeddingTransformMatrixGradients(1:2, 1:2, 2)
+
 end
 
 % Compute prediction
