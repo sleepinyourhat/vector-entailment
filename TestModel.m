@@ -13,7 +13,6 @@ targetConfusion = zeros(hyperParams.numRelations(1));
 for i = 1:length(testDatasets{1})
     [~, ~, err, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, constWordFeatures, hyperParams);
     if i == 1
-        targetErr = err;
         targetConfusion = confusion;
     end
     if i < hyperParams.firstSplit && (~isfield(hyperParams, 'relationIndices') || hyperParams.relationIndices(i) == 1)
@@ -30,6 +29,7 @@ for i = 1:length(testDatasets{1})
 end
 
 % Compute error rate from aggregate confusion matrix
+targetErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* targetConfusion)) / sum(sum(targetConfusion));    
 aggErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* aggConfusion)) / sum(sum(aggConfusion));    
 heldOutErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
 
