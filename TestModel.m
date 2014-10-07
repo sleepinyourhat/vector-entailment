@@ -20,7 +20,7 @@ for i = 1:length(testDatasets{1})
         heldOutConfusion = heldOutConfusion + confusion;
     end
     if hyperParams.showConfusions && err > 0
-        log_msg = sprintf('%s\n%s\n%s',['For ', testDatasets{1}{i}, ': ', num2str(err)], ...
+        log_msg = sprintf('%s\n%s\n%s',['For test data: ', testDatasets{1}{i}, ': ', num2str(err)], ...
             evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
     end
