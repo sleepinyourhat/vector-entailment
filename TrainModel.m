@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, trainwords)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, loadwords, dsp)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -39,6 +39,10 @@ elseif findstr(dataflag, 'word-relations')
     [wordMap, relationMap, relations] = ...
         InitializeMaps('word-relations/google-10000-english.txt', dataflag);
     hyperParams.vocabName = 'g10000'; 
+elseif findstr(dataflag, 'synset-relations')
+    [wordMap, relationMap, relations] = ...
+        InitializeMaps('synset-relations/longer_wordlist.txt', dataflag);
+    hyperParams.vocabName = 'synset'; 
 else
     [wordMap, relationMap, relations] = ...
         LoadTrainingData('./wordpairs-v2.tsv');
@@ -65,13 +69,23 @@ if findstr(dataflag, 'sick-')
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
-    hyperParams.trainWords = trainwords;
+    hyperParams.trainWords = loadwords;
 elseif findstr(dataflag, 'word-relations')
     hyperParams.numRelations = [4]; 
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
     hyperParams.trainWords = false;
+
+    % Don't keep the whole training data in memory, rather keep it in the form of
+    % a set of MAT files to load as needed.
+    hyperParams.fragmentData = false;
+elseif findstr(dataflag, 'synset-relations')
+    hyperParams.numRelations = [3]; 
+
+    % Initialize word vectors from disk.
+    hyperParams.loadWords = loadwords;
+    hyperParams.trainWords = true;
 
     % Don't keep the whole training data in memory, rather keep it in the form of
     % a set of MAT files to load as needed.
@@ -92,7 +106,7 @@ hyperParams.name = expName;
 hyperParams.topDepth = 1;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 75;
+hyperParams.penultDim = penult;
 
 % Regularization coefficient.
 hyperParams.lambda = lambda; %0.002;
@@ -115,7 +129,12 @@ hyperParams.untied = false;
 
 % Use only the specified fraction of the training datasets
 hyperParams.datasetsPortion = 1;
-hyperParams.dataPortion = 1;
+if nargin > 11
+    hyperParams.dataPortion = dsp;
+else
+    hyperParams.dataPortion = 1;
+end
+    
 
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
@@ -316,6 +335,10 @@ elseif strcmp(dataflag, 'word-relations')
     trainFilenames = {};
     testFilenames = {};
     splitFilenames = {'./word-relations/shuffled_word_relations.tsv'};
+elseif strcmp(dataflag, 'synset-relations') 
+    trainFilenames = {};
+    testFilenames = {};
+    splitFilenames = {'./synset-relations/longer_shuffled_synset_relations.tsv'};
 end
 
 % Remove the test data from the split data
@@ -359,8 +382,7 @@ end
 
 % Trim out individual examples if needed
 if hyperParams.dataPortion < 1
-    p = randperm(length(trainDataset));
-    trainDataset = trainDataset(p(1:round(hyperParams.dataPortion * length(trainDataset))));
+    trainDataset = trainDataset(1:round(hyperParams.dataPortion * length(trainDataset)));
 end
 
 % Train

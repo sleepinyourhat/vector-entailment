@@ -16,6 +16,10 @@ elseif findstr(dataflag, 'gradcheck')
 	relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
 	relationMap = cell(1, 1);
 	relationMap{1} = containers.Map(relations{1}, 1:length(relations{1}));
+elseif findstr(dataflag, 'synset')
+	relations = {{'hypernym', 'hyponym', 'coordinate'}};
+	relationMap = cell(1, 1);
+	relationMap{1} = containers.Map(relations{1}, 1:length(relations{1}));
 else 
 	relations = {{'antonym', 'hypernym', 'hyponym', 'synonym'}};
 	relationMap = cell(1, 1);

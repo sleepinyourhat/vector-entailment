@@ -17,7 +17,7 @@ if nargout > 1
 end
 
 % Check that we are set up for parallelization
-if matlabpool('size') == 0 % checking to see if my pool is already open
+if matlabpool('size') == 0
     matlabpool;
 end
 
@@ -32,33 +32,27 @@ if nargout > 1
     logMessages = cell(N, 1);
 
     parfor i = 1:N
-        if ~isempty(data(i).relation)
-            [localCost, localGrad, localPred] = ...
-                ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
-            accumulatedCost = accumulatedCost + localCost;
-            accumulatedGrad = accumulatedGrad + localGrad;
-            
-            localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
+        assert(~isempty(data(i).relation), 'Null relation.')
 
-            if (~localCorrect) && (argout > 2) && hyperParams.showExamples
-                logMessages{i} = ['for: ', data(i).leftTree.getText, ' ', ...
-                      num2str(data(i).relation), ' ', ... 
-                	  data(i).rightTree.getText, ...
-                      ' hypothesis:  ', num2str(localPred)];
-            end
+        [localCost, localGrad, localPred] = ...
+            ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
+        accumulatedCost = accumulatedCost + localCost;
+        accumulatedGrad = accumulatedGrad + localGrad;
+        
+        localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
 
-            % Record statistics
-            if argout > 3
-                confusions(i,:) = [localPred, data(i).relation(find(data(i).relation > 0))];
-            end
-            accumulatedSuccess = accumulatedSuccess + localCorrect;
-        else
-            disp('Bad example.');
-            if argout > 3
-                confusions(i,:) = [1, 1];
-            end
+        if (~localCorrect) && (argout > 2) && hyperParams.showExamples
+            logMessages{i} = ['for: ', data(i).leftTree.getText, ' ', ...
+                  num2str(data(i).relation), ' ', ... 
+            	  data(i).rightTree.getText, ...
+                  ' hypothesis:  ', num2str(localPred)];
         end
 
+        % Record statistics
+        if argout > 3
+            confusions(i,:) = [localPred, data(i).relation(find(data(i).relation > 0))];
+        end
+        accumulatedSuccess = accumulatedSuccess + localCorrect;
     end
 
     % Flush the accumulated log messages from inside the loop
@@ -88,6 +82,7 @@ end
 % Compute mean cost
 normalizedCost = (1/length(data) * accumulatedCost);
 
+% Apply regularization to the cost
 if hyperParams.norm == 2
     % Apply L2 regularization
     regCost = hyperParams.lambda/2 * sum(theta.^2);
@@ -107,6 +102,8 @@ end
 if nargout > 1
     % Compile the gradient
     grad = (1/length(data) * accumulatedGrad);
+
+    % Apply regularization to the gradient
     if hyperParams.norm == 2
         % Apply L2 regularization to the gradient
         grad = grad + hyperParams.lambda * theta;

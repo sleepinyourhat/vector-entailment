@@ -29,9 +29,9 @@ for i = 1:length(testDatasets{1})
 end
 
 % Compute error rate from aggregate confusion matrix
-targetErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* targetConfusion)) / sum(sum(targetConfusion));    
-aggErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* aggConfusion)) / sum(sum(aggConfusion));    
-heldOutErr = 1 - sum(sum(eye(hyperParams.numRelations(1)) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
+targetErr = sum(sum(eye(hyperParams.numRelations(1)) .* targetConfusion)) / sum(sum(targetConfusion));    
+aggErr = sum(sum(eye(hyperParams.numRelations(1)) .* aggConfusion)) / sum(sum(aggConfusion));    
+heldOutErr = sum(sum(eye(hyperParams.numRelations(1)) .* heldOutConfusion)) / sum(sum(heldOutConfusion));
 
 MacroF1 = [GetMacroF1(targetConfusion), GetMacroF1(heldOutConfusion), GetMacroF1(aggConfusion)];
 Log(hyperParams.statlog, ['MacroF1: ', evalc('disp(MacroF1)')]);

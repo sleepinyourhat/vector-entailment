@@ -182,7 +182,8 @@ if nargout > 1
 
 end
 
-% Compute prediction
+% Compute prediction. Note: This will be in integer, indexing into whichever class set was used
+% for this example.
 if nargout > 2
     [~, pred] = max(relationProbs);
 end
