@@ -1,0 +1,240 @@
+\subsection*{Reasoning about semantic relations}\label{sec:join}
+
+\begin{table}[tp]
+  \centering
+  \setlength{\tabcolsep}{15pt}
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{l c l l} 
+    \toprule
+    Name & Symbol & Set-theoretic definition & Example \\ 
+    \midrule
+    entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle, reptile}  \\ 
+    reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile, turtle}  \\ 
+    equivalence        & $x \nateq y$    & $x = y$       & \ii{couch, sofa} \\ 
+    alternation        & $x \natalt y$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{turtle, warthog} \\ 
+    negation           & $x \natneg y$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$    & \ii{able, unable} \\
+    cover              & $x \natcov y$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-turtle} \\ 
+    independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
+    \bottomrule
+  \end{tabular}
+  \caption{The seven natural logic relations of \cite{maccartney2009extended}. 
+    $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
+    and the relation $\natind$ applies whenever none of the other six do.} %, including when there 
+    %is insufficient knowledge to choose a label.}
+  \label{b-table}
+\end{table}
+
+If a model is to learn the behavior of a relational logic like the one
+presented here from a finite amount of data, it must learn to deduce new
+relations from seen relations in a sound manner. The simplest such
+deductions involve atomic statements using the relations in
+Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
+\natrev c$, one can conclude that $a \natrev c$, by basic
+set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
+$a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  The
+full set of sound inferences of this form is summarized in
+Table~\ref{tab:jointable}; cells containing a dot correspond to pairs
+of relations for which no valid inference can be drawn in our logic.
+
+% about the relations themselves that do not depend on the
+% internal structure of the things being compared. For example, given
+% that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that
+% $a\sqsupset c$ by the transitivity of $\sqsupset$, even without
+% understanding $a$, $b$, or $c$. These seven relations support more
+% than just transitivity: MacCartney and Manning's
+% \cite{maccartney2009extended} join table defines 32 valid inferences
+% that can be made on the basis of pairs of relations of the form $a R
+% b$ and $b R' c$, including several less intuitive ones such as that if
+% $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
+
+\begin{table}[htp]
+  \centering  
+  \setlength{\arraycolsep}{8pt}
+  \renewcommand{\arraystretch}{1.1}
+  \newcommand{\UNK}{\cdot}  
+  $\begin{array}[t]{c@{ \ }|*{7}{c}|}
+    %\hline
+    \multicolumn{1}{c}{}
+             & \nateq     & \natfor     & \natrev     & \natneg    & \natalt     & \natcov     & \multicolumn{1}{c}{\natind} \\
+    \cline{2-8}
+    \nateq  & \nateq &   \natfor &  \natrev &  \natneg &   \natalt &  \natcov &  \natind \\
+    \natfor & \natfor &  \natfor &  \UNK &  \natalt &   \natalt &  \UNK &  \UNK \\
+    \natrev & \natrev &  \UNK &  \natrev &  \natcov &   \UNK &  \natcov &  \UNK \\
+    \natneg & \natneg &  \natcov &  \natalt &  \nateq &    \natrev &  \natfor &  \natind \\
+    \natalt & \natalt &  \UNK &  \natalt &  \natfor &   \UNK &  \natfor &  \UNK \\
+    \natcov & \natcov &  \natcov &  \UNK &  \natrev &   \natrev &  \UNK &  \UNK \\
+    \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
+    \cline{2-8}
+  \end{array}$
+  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
+  \label{tab:jointable}
+\end{table}
+
+\paragraph{Experiments}
+To test our models' ability to learn these inferential patterns, we
+create small boolean structures for our logic in which terms denote
+sets of entities from a small domain.  Figure~\ref{lattice-figure}
+depicts a structure of this form. The lattice gives the full model,
+for which all the statements on the right are valid. We divide these
+statements evenly into training and test sets, and remove from the
+test set those statements which cannot be proven from the training
+statements.
+% using the logic depicted in Figure~\ref{lattice-figure}.
+
+
+% We test the model's ability to learn this behavior by creating
+% artificial data sets of terms which represent sets of numbers. Since
+% MacCartney and Manning's set of relations hold between sets as well as
+% between sentences, we can use the underlying set structure to generate
+% the all of the relations that hold between any pair of these terms, as
+% in Figure \ref{lattice-figure}. We train the model defined above on a
+% subset of these relations, but rather then presenting the model with a
+% pair of tree-structured sentences as inputs, simply present it with
+% two single terms, each of which corresponds to a single vector in the
+% (randomly initialized) vocabulary matrix $V$, ensuring that the model
+% has no information about the terms being compared except the relations
+% between them.
+
+In our experiments, we create 80 randomly generated sets drawing from
+a domain of seven elements. This yields a data set consisting of
+6400 statements about pairs of formulae. 3200 of these pairs are
+chosen as a test set, and that test set is further reduced to the 2960
+examples that can be provably derived from the training data.
+
+We trained versions of both the RNN model and the RNTN model on these
+data sets. In both cases, the models were implemented exactly as
+described in Section~\ref{methods}, but since the items being compared
+are single terms rather than full tree structures, the composition
+layer was not involved, and the two models differed only in which
+layer function was used for the comparison layer. We simply present
+the models with two single terms, each of which corresponds to a
+single vector in the (randomly initialized) vocabulary matrix $V$,
+thereby ensuring that the model has no information about the terms
+being compared except the relations between them.
+
+\paragraph{Results} 
+We found that the RNTN model worked best with 11-dimensional vector
+representations for the 80 sets and a 90-dimensional feature vector
+for the classifier, though the performance of the model was not highly
+sensitive to either dimensionality parameter in any of the experiments
+discussed here. This model was able to correctly label 99.4\% (94.3
+macroaveraged F1) of the provably derivable test examples, and 95.4\%
+(92.2 macro-F1) of the remaining test examples. The simpler RNN model worked
+best with 11 and 75 dimensions, respectively, but was able to achieve
+accuracies of only 89.0\% (80.7 macro-F1) and 62.5\% (40.7 macro-F1),
+respectively. Training accuracy was 99.8\% for the RNTN and 95.4\% for
+the RNN.
+
+
+\begin{figure}[tp]
+  \centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
+    \setlength{\unitlength}{1cm}
+    \begin{picture}(5,5.5)
+      \labelednode{2.50}{5}{}{1,2,3}
+      
+      \put(0.75,4){\line(3,1){1.5}}
+      \put(2.5,4){\line(0,1){0.5}}
+      \put(4.25,4){\line(-3,1){1.5}}
+      
+      \labelednode{0.75}{3.5}{a,b}{1,2}
+      \labelednode{2.50}{3.5}{c}{1,3}
+      \labelednode{4.25}{3.5}{d}{2,3}
+      
+      \put(0.75,2.5){\line(0,1){0.5}}
+      \put(0.75,2.5){\line(3,1){1.5}}
+      
+      \put(2.5,2.5){\line(-3,1){1.5}}
+      \put(2.5,2.5){\line(3,1){1.5}}
+      
+      \put(4.25,2.5){\line(0,1){0.5}}
+      \put(4.25,2.5){\line(-3,1){1.5}}
+      
+
+      \labelednode{0.75}{2}{e,f}{1}
+      \labelednode{2.50}{2}{}{2}
+      \labelednode{4.25}{2}{g,h}{3}
+      
+      \put(2.5,1){\line(-3,1){1.5}}
+      \put(2.5,1){\line(0,1){0.5}}
+      \put(2.5,1){\line(3,1){1.5}}
+      
+      \labelednode{2.5}{0.5}{}{}
+    \end{picture}
+    \caption{Simple boolean structure. The letters name the sets. Not all sets have names, and
+    some sets have multiple names, so that learning $\nateq$ is non-trivial.}
+  \end{subfigure}
+  \qquad
+  \begin{subfigure}[t]{0.43\textwidth}
+    \centering
+    \setlength{\tabcolsep}{12pt}
+    \begin{tabular}[b]{c  c}
+      \toprule
+      Train & Test \\
+      \midrule
+                    & $b \nateq b$ \\
+      $b \natcov c$ &               \\
+                    & $b \natcov d$ \\
+                    & \strikeout{$b \natrev e$} \\
+      $c \natcov d$ &               \\
+      $c \natrev e$ &               \\
+                    & \strikeout{$c \nateq f$} \\
+      $c \natrev g$ &               \\ 
+                    & $e \natfor b$ \\
+      $e \natfor c$ &               \\[-1ex]
+      $\vdots$      & $\vdots$ \\
+      \bottomrule
+    \end{tabular}
+
+    \caption{A train/test split of the atomic statements about the
+      model.  Test statements not provable from the training data are
+      crossed out.}
+  \end{subfigure}  
+  \caption{Small example structure and data for learning relation composition.}
+  \label{lattice-figure}
+\end{figure} 
+% Note: None of these test examples is derivable from the shown training data, 
+% but we suggest that there is additional training data, so we can cross lines
+% out willy-nilly without fear.
+
+% RNTN log: tue-j-11-6x80-hip.txt
+% Train PER: 0.0021875
+
+% RNN log: tue-j-11-6x80-r-75.txt
+% Train PER: 0.047188
+
+% and create a dataset consisting of the relations between every pair of
+% sets, yielding 6400 pairs. 3200 of these pairs are then chosen as a
+% test dataset, and that test dataset was further split into the 2960
+% examples that can be provably derived from the test data using
+% MacCartney and Manning's join table (or by the symmetry of the
+% relations in about half of the cases) and the 240 that
+% cannot. 
+
+% We tested a version of both the RNN model and the RNTN model on these
+% data. In both cases, the models were implemented exactly as described
+% in Section~\ref{methods}, but since the items being compared are
+% single terms rather than full tree structures, the composition layer
+% was not used, and the two models differed only in which layer function
+% was used for the comparison layer. We found that the RNTN model worked
+% best with 11 dimensional vector representations for the 80 sets and a
+% 90 dimensional feature vector for the classifier. This model was able
+% to correctly label 99.3\% of the derivable test examples, and 99.1\%
+% of the remaining examples. The simpler RNN model worked best with 11
+% and 75 dimensions, respectively, but was able to achieve accuracies of
+% only 90.0\% and 87.\%, respectively.
+
+These results are fairly straightforward to interpret. The RNTN model
+was able to accurately encode the relations between the terms in the
+geometric relations between their vectors, and was able to then use
+that information to recover relations that were not overtly included
+in the training data. In contrast, the RNN model was able to achieve
+this behavior only incompletely. It is possible but not likely that it
+could be made to find a good solution with further optimization on
+different learning algorithms, or that it would do better on a larger
+universe of sets, for which there would be a larger set of training
+data to learn from, but the RNTN is readily able to achieve these
+effects in the setting discussed here.
+
