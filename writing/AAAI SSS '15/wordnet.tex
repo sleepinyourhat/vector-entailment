@@ -1,11 +1,8 @@
 \subsection*{Reasoning about lexical relations in WordNet}\label{sec:wordnet}
 
-% TODO: Fill out
-
 We have shown that a model can learn to reason using relations over a small artificial dataset, 
 but it the question of whether the same model can show this behavior over the type and number of
 relations seen in a real natural language vocabulary.
-
 Unfortunately, we are aware of no reliable source of relation data that covers a large natural 
 language vocabulary using the natural logic relations discussed above. However, WordNet 
 \cite{fellbaum2010wordnet} provides a different type of lattice structure which is compatible with
@@ -14,18 +11,45 @@ our learning paradigm.
 We extract three types of relation from WordNet. \ii{Hypernym} and \ii{hyponym} can be are represented
 directly in the WordNet graph structure, and correspond closely to the $\natrev$ and $\natfor$ relations from
 natural logic. As in natural logic, these relations are mirror images of one another: if \ii{dog} is a
-hyponym of \ii{animal}, then \ii{animal} must be a hypernym of \ii{dog}. 
+hyponym of \ii{animal} (perhaps indirectly by way of \ii{canid}, \ii{mammal}, etc.), then \ii{animal} must be a 
+hypernym of \ii{dog}. A third informative relation can 
+be readily derived from the graph, which we call \ii{coordinate}. Coordinate terms are those which share
+a direct hypernym, like \ii{dalmation}, \ii{pug}, and \ii{puppy}, which are all direct hyponyms of \ii{dog}. 
+Coordinate terms tend to exclude one another (as with $\natalt$ above) \cite{Hurford:1974}, but this tendancy
+is not universal. WordNet defines hypernymy and hyponymy over sets of synonyms, rather than over individual 
+terms, so we do not include a \ii{synonym} or \ii{equivalent} relation, but rather simply consider only one
+member of each set of synonyms.
 
-% Wordnet! Subsumption lattice for words!
+To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
+instances of these three relations for those terms in WordNet that are hyponyms of the node \texttt{organism.n.01}.
+In order to balance the distribution of the classes, we slightly downsample instances of the \ii{coordinate} relation,
+yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these relations as test data, and train on
+some or all of the remaining data.
 
-% Three relations: Hyper, hypo, coordinate
-% Explain extraction and rationale for each
+\paragraph{Results} 
+We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. 
 
-% Data creation:
-% - Enumerate filtering strategy
+% TODO: Describe use of GloVe once there are clearer results. Since it doesn't look like it makes a huge difference,
+% should we perhaps just omit mention of it entirely to save space?
 
-% Experiment:
-% - Explain train test split
+\begin{table}[h]
+\centering\resizebox{4in}{!}{\small
+  \setlength{\tabcolsep}{15pt}
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{l c l l} 
+    \toprule
+    Comparison layer & \% training data & w/ GloVe & w/o GloVe \\
+    Most frequent class & -- & 37.9 (--) & 37.9 (--) \\
+    NN       & 100\%   & TODO & TODO \\
+    NN       & 75\%   & 98.6 (100.0) & TODO \\
+    NN       & 33\%   & TODO & 37.0 (37.0) \\ % TODO: See if this improves
+    NN       & 16\%   & TODO & 92.0 (100.0)\\
+    NTN       & 100\%   & 99.6 (100.0) & 99.4 (99.9) \\
+    NTN       & 75\%   & 98.6 (100.0) & TODO\\
+    NTN       & 33\%   & 95.1 (99.8) & 95.2 (100.0) \\
+    NTN       & 16\%   & 94.6 (100.0) & 92.1 (100.0) \\
+    \bottomrule
+  \end{tabular}}
+ \caption{Test (train) accuracy figures on the WordNet data.\label{b-table}}  
+\end{table}
 
-% Reults:
-% RNN / RNTN x Data volume x Accuracy vs. MacroF1

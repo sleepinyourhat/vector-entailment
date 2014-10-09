@@ -59,10 +59,12 @@ for i = 1:length(splitFilenames)
     Log(hyperParams.statlog, ['Loading split dataset ', splitFilenames{i}]);
     dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     endOfTrainPortion = ceil(length(dataset) * PERCENT_USED_FOR_TRAINING);
-    testDatasets = [testDatasets, ...
-                    {dataset(endOfTrainPortion + 1:length(dataset))}];
+    trainPortion = dataset(1:endOfTrainPortion);
+    testPortion = dataset(endOfTrainPortion + 1:length(dataset));
+    testDatasets = [testDatasets, {testPortion}];
     % TODO - make fragment-safe
-    trainDataset = [trainDataset; dataset(1:endOfTrainPortion)];
+    trainDataset = [trainDataset; trainPortion];
+    assert(length(testPortion) + length(trainPortion) == length(dataset));
 end
 
 % Evaluate on test datasets, and show set-by-set results

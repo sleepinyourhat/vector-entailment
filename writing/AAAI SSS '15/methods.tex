@@ -1,37 +1,39 @@
 
-\subsection*{Recursive neural network models} \label{methods}
+\subsection*{Neural network models for relation classification} \label{methods}
 
-We study neural models that adhere to the linguistic \ii{principle of
- compositionality}, which says that the meanings for complex
-expressions are derived from the meanings of their constituent parts
-via specific composition functions \cite{Partee84,Janssen97}. In our
-distributed setting, word meanings are vectors of length $n$. The
-composition function maps pairs of them to single vectors of length $n$, 
-which can then be merged again to represent more complex
-phrases. Once the entire sentence-level representation has been
-derived, it serves as a fixed-length input for some subsequent function.
+% TODO: Should we cite our NIPS manuscript?
 
-We use the model architecture proposed in \cite{bowman2013can} and
-depicted in Figure~\ref{sample-figure}. The two phrases being compared
-are built up separately on each side of the tree, using the same
-composition function, until they have each been reduced to single
-vectors. The resulting vectors are fed into a separate comparison
-layer that is meant to generate a feature vector capturing the
-relation between the two phrases. The output of this layer is then
-given to a softmax classifier, which in turn produces a hypothesized
-distribution over the seven relations represented in Table~\ref{b-table}.
+We follow the approach to learning semantically meaningful embeddings 
+proposed in \citet{bowman2013can}, which is centered on the problem of
+labeling a pair of words or sentences with one of a small set of logical
+relations. The architecture of the model that we use, which is limited
+to only pairs of single symbols (such as words), is depicted in
+Figure~\ref{sample-figure}. The model represents the two input symbols
+as embeddings, which are fed into a comparison function based on one
+of two types of neural network layer functions to produce a representation
+for the relationship between the two symbols. This representation is then
+fed into a simple softmax classifier which outputs a distribution over
+possible labels. The entire network, including the embeddings, are trained
+through backpropagation with AdaGrad \cite{duchi2011adaptive}.
 
+\begin{figure}[tp]
+  \centering
+  \input{figure1}
+  \caption{The model structure used to compare \ii{turtle} and \ii{animal}. 
+    The same structure is used for both the RNN and RNTN layer functions.} 
+  \label{sample-figure}
+\end{figure}
 
-For a composition layer, we evaluate models with both the plain neural
-network layer function \eqref{rnn} and the RNTN layer function
-\eqref{rntn} proposed in \citet{chen2013learning}. A sigmoid
-nonlinearity (element-wise $\tanh$) is applied to the output of either
-layer function, following \cite{socher2013acl1}.
+For a comparison funtion, we evaluate versions of the model with both a plain neural
+network (NN) layer function and a neural tensor network (NTN) layer function
+\eqref{rntn} proposed in \citet{chen2013learning}. A leaky ReLU
+nonlinearity \cite{maasrectifier} is applied to the output of either
+layer function.
 %
 \begin{gather} \label{rnn}
-\vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
+\vec{y}_{\textit{NN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
 \label{rntn}
-\vec{y}_{\textit{RNTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
+\vec{y}_{\textit{NTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
 \end{gather} 
 %
 Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
@@ -44,46 +46,13 @@ tensor $\mathbf{T}$, dimension $n \times n \times n$, modeling
 multiplicative interactions between the child vectors. Both models
 include a bias vector~$\vec{b}$.
 
-The comparison layer uses the same kind of function template as the
-composition layers (either an NN layer or an NTN layer) with
-independently learned parameters and a separate nonlinearity function.
-Rather than use a $\tanh$ nonlinearity here, we follow \cite{bowman2013can} 
-in using a rectified linear function. In
-particular, we use the leaky rectified linear function
-\cite{maasrectifier}: $f(\vec{x})=\max(\vec{x}, 0) +
-0.01\min(\vec{x}, 0)$, applied element-wise.
 
-To run the model forward and label a pair of phrases, the structure of
-the lower layers of the network is assembled so as to mirror the tree
-structures provided for each phrase. The word vectors are then looked
-up from the vocabulary matrix $V$ (one of the model parameters), and
-the composition and comparison functions are used to pass information
-up the tree and into the classifier at the top. For an objective
-function, we use the negative log of the probability assigned to the
-correct label.
-
-% Removed 'minibatch' -> For two of the experiments, we use minibatches
-% of size 1, which doesn't really count.
-We train the model using stochastic gradient descent (SGD)
-with learning rates computed using AdaGrad \cite{duchi2011adaptive}.
-The parameters (including the vocabulary) are initialized randomly 
-using a uniform distribution over $[-0.1, 0.1]$.
-Because the seven classes are not balanced in general, we report performance
-using both accuracy and macroaveraged F1, since the latter emphasizes
- performance on infrequent classes. We compute macroaveraged F1 
-as the harmonic mean of mean precision and mean recall, both computed
-for all classes for which there is test data, setting precision to 0 
-where it is not defined. Source code and generated data will be released
-after the review period.
-
-\begin{figure}[tp]
-  \centering
-  \input{figure1}
-  \caption{The model structure used to compare \ii{turtle} and \ii{animal}. 
-    The same structure is used for both the RNN and RNTN layer functions.} 
-  \label{sample-figure}
-\end{figure}
-
+This model differs from that of \citet{bowman2013can} in two ways. Because 
+the inputs are single symbols, there is no need for the composition functions
+which are used in that (and prior) work. Also, for our second experiment on 
+WordNet data, we introduce a new neural network layer between the embedding input
+and the comparison function, which is meant to facilitate initializing the embeddings
+from an outside source, and was found to help peformance in that setting.
 
 %\ii{Source code and generated data will be released after the conclusion of the review period.} % TODO: Or upon request? Attach anonymized code?
 
