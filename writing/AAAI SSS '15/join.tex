@@ -33,7 +33,7 @@ Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
 set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
 $a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  The
 full set of sound inferences of this form is summarized in
-Table~\ref{tab:jointable}; cells containing a dot correspond to pairs
+Figure~\ref{tab:jointable}; cells containing a dot correspond to pairs
 of relations for which no valid inference can be drawn in our logic.
 
 % about the relations themselves that do not depend on the
@@ -47,41 +47,17 @@ of relations for which no valid inference can be drawn in our logic.
 % b$ and $b R' c$, including several less intuitive ones such as that if
 % $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
 
-\begin{table}[htp]
-  \centering  
-  \setlength{\arraycolsep}{8pt}
-  \renewcommand{\arraystretch}{1.1}
-  \newcommand{\UNK}{\cdot}  
-  \resizebox{2.2in}{!}{$\begin{array}[t]{c@{ \ }|*{7}{c}|}
-    %\hline
-    \multicolumn{1}{c}{}
-             & \nateq     & \natfor     & \natrev     & \natneg    & \natalt     & \natcov     & \multicolumn{1}{c}{\natind} \\
-    \cline{2-8}
-    \nateq  & \nateq &   \natfor &  \natrev &  \natneg &   \natalt &  \natcov &  \natind \\
-    \natfor & \natfor &  \natfor &  \UNK &  \natalt &   \natalt &  \UNK &  \UNK \\
-    \natrev & \natrev &  \UNK &  \natrev &  \natcov &   \UNK &  \natcov &  \UNK \\
-    \natneg & \natneg &  \natcov &  \natalt &  \nateq &    \natrev &  \natfor &  \natind \\
-    \natalt & \natalt &  \UNK &  \natalt &  \natfor &   \UNK &  \natfor &  \UNK \\
-    \natcov & \natcov &  \natcov &  \UNK &  \natrev &   \natrev &  \UNK &  \UNK \\
-    \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
-    \cline{2-8}
-  \end{array}$}
-  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
-  \label{tab:jointable}
-\end{table}
-
 \paragraph{Experiments}
 To test our models' ability to learn these inferential patterns, we
-create small boolean structures for our logic in which terms denote
-sets of entities from a small domain.  Figure~\ref{lattice-figure}
-depicts a structure of this form. The lattice gives the full model,
-for which all the statements on the right are valid. We divide these
-statements evenly into training and test sets, and remove from the
-test set those statements which cannot be proven from the training
-statements.
+create boolean structures in which terms denote sets of entities from
+a small domain (e.g., Figure~\ref{lattice-figure}), employ logical
+deduction to identify the valid statements, divide those into train
+and test sets, and remove from the test set those statements which
+cannot be proven from the training statements
+(Figure~\ref{unprovable}).
 % using the logic depicted in Figure~\ref{lattice-figure}.
-
-
+%
+%
 % We test the model's ability to learn this behavior by creating
 % artificial data sets of terms which represent sets of numbers. Since
 % MacCartney and Manning's set of relations hold between sets as well as
@@ -94,41 +70,63 @@ statements.
 % (randomly initialized) vocabulary matrix $V$, ensuring that the model
 % has no information about the terms being compared except the relations
 % between them.
-
-In our experiments, we create 80 randomly generated sets drawing from
-a domain of seven elements. This yields a data set consisting of
-6400 statements about pairs of formulae. 3200 of these pairs are
-chosen as a test set, and that test set is further reduced to the 2960
-examples that can be provably derived from the training data.
-
-We trained versions of both the RNN model and the RNTN model on these
-data sets. In both cases, the models were implemented exactly as
-described in Section~\ref{methods}, but since the items being compared
-are single terms rather than full tree structures, the composition
-layer was not involved, and the two models differed only in which
-layer function was used for the comparison layer. We simply present
-the models with two single terms, each of which corresponds to a
-single vector in the (randomly initialized) vocabulary matrix $V$,
-thereby ensuring that the model has no information about the terms
-being compared except the relations between them.
+%
+In our experiments, we create 80 randomly generated sets drawn from a
+domain of seven elements. This yields 6400 statements about pairs of
+formulae, of which 3200 are chosen as a test set, and that test set is
+further reduced to the 2960 examples that can be provably derived from
+the training data. We trained both the NN model and the NTN model on
+these data
+sets% . In both cases, the models were implemented exactly as
+% described in Section~\ref{methods}, but since the items being compared
+% are single terms rather than full tree structures, the composition
+% layer was not involved, and the two models differed only in which
+% layer function was used for the comparison layer. We simply present
+% the models with two single terms, each of which corresponds to a
+% single vector in the (randomly initialized) vocabulary matrix $V$,
+% thereby ensuring that the model has no information about the terms
+% being compared except the relations between them.
 
 \paragraph{Results} 
-We found that the RNTN model worked best with 11-dimensional vector
+We found that the NTN model worked best with 11-dimensional vector
 representations for the 80 sets and a 90-dimensional feature vector
 for the classifier, though the performance of the model was not highly
 sensitive to either dimensionality parameter in any of the experiments
 discussed here. This model was able to correctly label 99.4\% (94.3
 macroaveraged F1) of the provably derivable test examples, and 95.4\%
-(92.2 macro-F1) of the remaining test examples. The simpler RNN model worked
+(92.2 macro-F1) of the remaining test examples. The simpler NN worked
 best with 11 and 75 dimensions, respectively, but was able to achieve
 accuracies of only 89.0\% (80.7 macro-F1) and 62.5\% (40.7 macro-F1),
-respectively. Training accuracy was 99.8\% for the RNTN and 95.4\% for
-the RNN.
+respectively. Training accuracy was 99.8\% for the NTN and 95.4\% for
+the NN.
 
 
 \begin{figure}[tp]
   \centering
-  \begin{subfigure}[t]{0.45\textwidth}
+  \begin{subfigure}[b]{0.42\textwidth}
+    \centering  
+    \setlength{\arraycolsep}{8pt}
+    \renewcommand{\arraystretch}{1.1}
+    \newcommand{\UNK}{\cdot}  
+    \resizebox{2.2in}{!}{$\begin{array}[c]{c@{ \ }|*{7}{c}|}
+        % \hline
+        \multicolumn{1}{c}{}
+        & \nateq     & \natfor     & \natrev     & \natneg    & \natalt     & \natcov     & \multicolumn{1}{c}{\natind} \\
+        \cline{2-8}
+        \nateq  & \nateq &   \natfor &  \natrev &  \natneg &   \natalt &  \natcov &  \natind \\
+        \natfor & \natfor &  \natfor &  \UNK &  \natalt &   \natalt &  \UNK &  \UNK \\
+        \natrev & \natrev &  \UNK &  \natrev &  \natcov &   \UNK &  \natcov &  \UNK \\
+        \natneg & \natneg &  \natcov &  \natalt &  \nateq &    \natrev &  \natfor &  \natind \\
+        \natalt & \natalt &  \UNK &  \natalt &  \natfor &   \UNK &  \natfor &  \UNK \\
+        \natcov & \natcov &  \natcov &  \UNK &  \natrev &   \natrev &  \UNK &  \UNK \\
+        \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
+        \cline{2-8}
+      \end{array}$}
+    \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
+    \label{tab:jointable}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
     \centering
     \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
     \setlength{\unitlength}{1cm}
@@ -164,13 +162,13 @@ the RNN.
       \labelednode{2.5}{0.5}{}{}
     \end{picture}}
     \caption{Simple boolean structure. The letters name the sets. Not all sets have names, and
-    some sets have multiple names, so that learning $\nateq$ is non-trivial.}
+    some sets have multiple names, so that learning $\nateq$ is non-trivial.}\label{lattice-figure}
   \end{subfigure}
-  \qquad
-  \begin{subfigure}[t]{0.43\textwidth}
+  \hfill
+  \begin{subfigure}[b]{0.2\textwidth}
     \centering
     \setlength{\tabcolsep}{12pt}
-    \resizebox{1.05in}{!}{\begin{tabular}[b]{c  c}
+    \resizebox{1.05in}{!}{\begin{tabular}[c]{c  c}
       \toprule
       Train & Test \\
       \midrule
@@ -190,10 +188,10 @@ the RNN.
 
     \caption{A train/test split of the atomic statements about the
       model.  Test statements not provable from the training data are
-      crossed out.}
+      crossed out.}\label{unprovable}
   \end{subfigure}  
   \caption{Small example structure and data for learning relation composition.}
-  \label{lattice-figure}
+  \label{exp1}
 \end{figure} 
 % Note: None of these test examples is derivable from the shown training data, 
 % but we suggest that there is additional training data, so we can cross lines
@@ -226,15 +224,15 @@ the RNN.
 % and 75 dimensions, respectively, but was able to achieve accuracies of
 % only 90.0\% and 87.\%, respectively.
 
-These results are fairly straightforward to interpret. The RNTN model
+These results are fairly straightforward to interpret. The NTN model
 was able to accurately encode the relations between the terms in the
 geometric relations between their vectors, and was able to then use
 that information to recover relations that were not overtly included
-in the training data. In contrast, the RNN model was able to achieve
-this behavior only incompletely. It is possible but not likely that it
+in the training data. In contrast, the NN was able to achieve this
+behavior only incompletely. It is possible but not likely that it
 could be made to find a good solution with further optimization on
 different learning algorithms, or that it would do better on a larger
 universe of sets, for which there would be a larger set of training
-data to learn from, but the RNTN is readily able to achieve these
+data to learn from, but the NTN is readily able to achieve these
 effects in the setting discussed here.
 

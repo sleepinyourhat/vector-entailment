@@ -13,10 +13,10 @@ in Figure~\ref{sample-figure}. The model represents the two input
 symbols as embeddings, which are fed into a comparison function based
 on one of two types of neural network layer functions to produce a
 representation for the relationship between the two symbols. This
-representation is then fed into a simple softmax classifier which
-outputs a distribution over possible labels. The entire network,
-including the embeddings, are trained through backpropagation with
-AdaGrad \cite{duchi2011adaptive}.
+representation is then fed into a softmax classifier, which outputs a
+distribution over possible labels. The entire network, including the
+embeddings, are trained through backpropagation with AdaGrad
+\cite{duchi2011adaptive}.
 
 \begin{figure}[tp]
   \centering
@@ -26,24 +26,25 @@ AdaGrad \cite{duchi2011adaptive}.
 \end{figure}
 
 
-For a comparison funtion, we evaluate versions of the model with both a plain neural
-network (NN) layer function and a neural tensor network (NTN) layer function
-proposed in \citet{chen2013learning}, which adds a third order tensor parameter
-to mediate multiplicative interactions between the two inputs. A leaky ReLU
-nonlinearity \cite{maasrectifier} is applied to the output of either
-layer function.
+For a comparison funtion, we evaluate versions of the model with both
+a plain NN and the NTN layer function proposed in
+\citet{chen2013learning}, which adds a third order tensor parameter to
+mediate multiplicative interactions between the two inputs. A leaky
+ReLU nonlinearity \cite{maasrectifier} is applied to the output of
+either layer function.
 %
 \begin{gather} \label{rnn}
 \vec{y}_{\textit{NN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) ~~~~~~~~~~~~~~~ \vec{y}_{\textit{NTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
 \end{gather} 
 %
 
-This model differs from that of \citet{Bowman:Potts:Manning:2014} in two ways. Because 
-the inputs are single symbols, there is no need for the composition functions
-which are used in that (and prior) work. Also, for our experiment on 
-WordNet data, we introduce an additional neural network layer between the embedding input
-and the comparison function, which is meant to facilitate initializing the embeddings
-themselves from pretrained vectors, and was found to help peformance in that setting.
+This model differs from that of \citet{Bowman:Potts:Manning:2014} in
+two ways. Because the inputs are single symbols, there is no need for
+the composition functions used in that (and prior) work. Also, for our
+experiment on WordNet data, we introduce an additional neural network
+layer between the embedding input and the comparison function, which
+facilitates initializing the embeddings themselves from pretrained
+vectors and was found to help peformance in that setting.
 
 %\ii{Source code and generated data will be released after the conclusion of the review period.} % TODO: Or upon request? Attach anonymized code?
 
