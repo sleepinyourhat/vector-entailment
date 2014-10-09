@@ -27,7 +27,9 @@ yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these re
 some or all of the remaining data.
 
 \paragraph{Results} 
-We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. 
+We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. Neither model has reached perfect performance in any of our experiments, though we are 
+continuing to tune both models. We find that the NN and NTN both capture the required
+generalizations extremely well.
 
 % TODO: Describe use of GloVe once there are clearer results. Since it doesn't look like it makes a huge difference,
 % should we perhaps just omit mention of it entirely to save space?
@@ -36,20 +38,24 @@ We find that with only a small amount of hyperparamater tuning, our model can pe
 \centering\resizebox{4in}{!}{\small
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
-  \begin{tabular}{l c l l} 
+  \begin{tabular}{l c l l l l} 
     \toprule
-    Comparison layer & \% training data & w/ GloVe & w/o GloVe \\
-    Most frequent class & -- & 37.9 (--) & 37.9 (--) \\
-    NN       & 100\%   & TODO & TODO \\
-    NN       & 75\%   & 98.6 (100.0) & TODO \\
-    NN       & 33\%   & TODO & 37.0 (37.0) \\ % TODO: See if this improves
-    NN       & 16\%   & TODO & 92.0 (100.0)\\
-    NTN       & 100\%   & 99.6 (100.0) & 99.4 (99.9) \\
-    NTN       & 75\%   & 98.6 (100.0) & TODO\\
-    NTN       & 33\%   & 95.1 (99.8) & 95.2 (100.0) \\
-    NTN       & 16\%   & 94.6 (100.0) & 92.1 (100.0) \\
+    Comparison layer & \% training data & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
+     &  & NN & NTN & NN & NTN \\
+    \midrule
+    Baseline & -- & 37.9 (--) & 37.9 (--) & 37.9 (--) & 37.9 (--) \\
+    \midrule
+    NN       & 100\%   & 99.5 (100.0) & 98.9 (99.7) \\
+    NN       & 75\%   & 98.9 (100.0) & 37.9 (37.0) \\
+    NN       & 33\%   & 96.0 (100.0) & 37.0 (37.0) \\ % TODO: Rerunning. Got stuck predicting the most frequent class.
+    NN       & 16\%   & 91.8 (100.0) & 91.9 (100.0)\\
+    \midrule
+    NTN       & 100\%   & \textbf{99.6} (100.0) & 99.2 (100.0) \\
+    NTN       & 75\%   & 98.6 (100.0) & 98.4 (100.0)\\
+    NTN       & 33\%   & 95.4 (100.0) & 95.3 (100.0) \\
+    NTN       & 16\%   & 92.1 (99.7) & 92.2 (100.0) \\
     \bottomrule
   \end{tabular}}
- \caption{Test (train) accuracy figures on the WordNet data.\label{b-table}}  
+ \caption{Test (train) accuracy figures on the WordNet data. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}}  
 \end{table}
 
