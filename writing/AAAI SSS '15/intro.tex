@@ -16,43 +16,52 @@ resulting theories of meaning offer valuable new analytic tools for
 tasks involving database inference, relation extraction, and textual
 entailment.
 
-These approaches are naturally paired with theories using distributed
-(e.g., vector) representations, where meaning is also naturally
-modeled as relational. Distributed representations have been used
-successfully in a wide array of sophisticated language tasks,
-including sentiment analysis, analogy completion, relation extraction,
-and named entity recognition. However, it remains an open question
-whether it is possible to train such representations to support the
-rich, diverse logical reasoning captured by natural logic; while such
-representations excel at synonymy (similarity), the results are more
-mixed for entailment, contradiction, and mutual consistency.
-
-Using the natural logic of \cite{maccartney2009extended} as our formal
-model, we address this open question for two classes of neural model:
-plain neural networks and neural tensor networks (NTNs;
-\cite{socher2013acl1}). The natural logic is built from the seven
-relations defined in Table~\ref{b-table}. Its formal properties and
-inferential strength of the natural logic are now well-understood
+Natural logic aligns well with distributed (e.g., vector)
+representations, which also naturally model meaning relationally.
+Distributed representations have been used successfully in a wide
+array of sophisticated language tasks. %,
+% including sentiment analysis, analogy completion, relation
+% extraction, and named entity recognition.
+However, it remains an open question whether it is possible to train
+such representations to support the rich, diverse logical reasoning
+captured by natural logic; while they excel at
+synonymy (similarity), the results are more mixed for entailment,
+contradiction, and mutual consistency.  Using the natural logic of
+\cite{maccartney2009extended} as our formal model, we address this
+open question for two classes of neural model: plain neural networks
+and neural tensor networks (NTNs; \cite{socher2013acl1}). The natural
+logic is built from the seven relations defined in
+Table~\ref{b-table}. Its formal properties are now well-understood
 \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}, so it provides a rigorous
-and challenging set of goals for our distributed representations. To
-keep the discussion managable, we limit attention to experiments
-involving the lexicon; for a more extended treatment involving complex
-expressions involving logical connectives and quantifiers, see
-\cite{Bowman:Potts:Manning:2014}.
+set of goals for our neural models. To keep the discussion managable,
+we limit attention to experiments involving the lexicon; for a more
+extended treatment of complex expressions involving logical
+connectives and quantifiers, see \citet{Bowman:Potts:Manning:2014}.
 
-In our first experiment, we use the pre-specified logical grammar to
-generate controlled data sets and assses the ability of the two
-classes of neural network to learn the core underlying relational
-algebra from this simulated data. In our second experiment, we define
-a simple modification of the logical grammar so that it aligns well
-with the WordNet noun graph, and we again assess our two classes of
-RNN on this data. The controlled data of our first experiment helps us
-to achieve analytic insights into what the models are able to learn,
-and the large, diverse lexicon of the second experiment shows us how
-they fare in the real world. We find that the plain RNN achieves only
+In our experiments, we evaluate these models' ability to learn the
+basic algebra of natural logic relations from simulated data and from
+the WordNet noun graph. The simulated data help us to achieve analytic
+insights into what the models learn, and WordNet data show how they
+fare in the real world.  We find that the plain RNN achieves only
 mixed results in these experiments, whereas the stronger RNTN model
 generalizes well in both cases, suggesting that it has in fact
 learned, or at least learned to simulate, our target logical concepts.
+
+% In our first experiment, we use the pre-specified logical grammar to
+% generate controlled data sets and assess the ability of the two
+% classes of neural network to learn the core underlying relational
+% algebra from this simulated data. In our second experiment, we define
+% a simple modification of the logical grammar so that it aligns with
+% the WordNet noun graph, and we again assess our two classes of RNN on
+% this data. The controlled data of our first experiment helps us to
+% achieve analytic insights into what the models are able to learn, and
+% the large, diverse lexicon of the second experiment shows us how they
+% fare in the real world. 
+
+
+
+
+
 % These experiments differentiate the increased power of RNTNs better
 % than previous work and provide the most convincing demonstration to
 % date of the ability of neural networks to model semantic inferences

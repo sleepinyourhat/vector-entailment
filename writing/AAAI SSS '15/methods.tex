@@ -4,7 +4,7 @@
 % TODO: Should we cite our NIPS manuscript?
 
 We follow the approach to learning semantically meaningful embeddings 
-of \citet{Bowman:Potts:Manning:2014}, which is centered on the problem of
+of \cite{Bowman:Potts:Manning:2014}, which is centered on the problem of
 labeling a pair of words or sentences with one of a small set of logical
 relations. The architecture of the model that we use, which is limited
 to only pairs of single symbols (such as words), is depicted in
@@ -23,6 +23,7 @@ through backpropagation with AdaGrad \cite{duchi2011adaptive}.
     The same structure is used for both the RNN and RNTN layer functions.} 
   \label{sample-figure}
 \end{figure}
+
 
 For a comparison funtion, we evaluate versions of the model with both a plain neural
 network (NN) layer function and a neural tensor network (NTN) layer function
