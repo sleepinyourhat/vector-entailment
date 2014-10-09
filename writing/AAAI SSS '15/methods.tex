@@ -33,11 +33,14 @@ mediate multiplicative interactions between the two inputs. A leaky
 ReLU nonlinearity \cite{maasrectifier} is applied to the output of
 either layer function.
 %
+% No whitespace here --- adds lots of vertical space!
+%
 \begin{gather} \label{rnn}
 \vec{y}_{\textit{NN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) ~~~~~~~~~~~~~~~ \vec{y}_{\textit{NTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
 \end{gather} 
 %
-
+% No whitespace here --- adds lots of vertical space!
+%
 This model differs from that of \citet{Bowman:Potts:Manning:2014} in
 two ways. Because the inputs are single symbols, there is no need for
 the composition functions used in that (and prior) work. Also, for our

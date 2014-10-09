@@ -1,23 +1,30 @@
 \subsection*{Reasoning about lexical relations in WordNet}\label{sec:wordnet}
 
-We have shown that a model can learn to reason using relations over a small artificial dataset, 
-but it the question of whether the same model can show this behavior over the type and number of
-relations seen in a real natural language vocabulary.
-Unfortunately, we are aware of no reliable source of relation data that covers a large natural 
-language vocabulary using the natural logic relations discussed above. However, WordNet 
-\cite{fellbaum2010wordnet} provides a different type of lattice structure which is compatible with
-our learning paradigm.
+Using simulated data as above is reassuring about what the models
+learn and why, but we also want to know how they perform with a real
+natural language vocabulary. Unfortunately, as far as we are aware,
+there are no available resources labeling such a vocabulary with the
+relations from Table~\ref{b-table}. However, the relations in WordNet
+\cite{fellbaum2010wordnet} come close and pose the same substantive
+challenges.
 
-We extract three types of relation from WordNet. \ii{Hypernym} and \ii{hyponym} can be are represented
-directly in the WordNet graph structure, and correspond closely to the $\natrev$ and $\natfor$ relations from
-natural logic. As in natural logic, these relations are mirror images of one another: if \ii{dog} is a
-hyponym of \ii{animal} (perhaps indirectly by way of \ii{canid}, \ii{mammal}, etc.), then \ii{animal} must be a 
-hypernym of \ii{dog}. We also extract \ii{coordinate} terms, which share
-a direct hypernym, like \ii{dalmation}, \ii{pug}, and \ii{puppy}, which are all direct hyponyms of \ii{dog}. 
-Coordinate terms tend to exclude one another (as with $\natalt$ above) \cite{Hurford:1974}, but this tendancy
-is not universal. WordNet defines hypernymy and hyponymy over sets of synonyms, rather than over individual 
-terms, so we do not include a \ii{synonym} or \ii{equivalent} relation, but rather simply consider only one
-member of each set of synonyms.
+% WordNet \cite{fellbaum2010wordnet} provides a different type of
+% lattice structure which is compatible with our learning paradigm.
+
+We extract three types of relation from WordNet. \ii{Hypernym} and
+\ii{hyponym} can be are represented directly in the WordNet graph
+structure, and correspond closely to the $\natrev$ and $\natfor$
+relations from natural logic. As in natural logic, these relations are
+mirror images of one another: if \ii{dog} is a hyponym of \ii{animal}
+(perhaps indirectly by way of \ii{canid}, \ii{mammal}, etc.), then
+\ii{animal} is a hypernym of \ii{dog}. We also extract \ii{coordinate}
+terms, which share a direct hypernym, like \ii{dalmation}, \ii{pug},
+and \ii{puppy}, which are all direct hyponyms of \ii{dog}.  Coordinate
+terms tend to exclude one another, thereby providing a reasonable
+approximation of exclusion. WordNet defines hypernymy and hyponymy over
+sets of synonyms, rather than over individual terms, so we do not
+include a \ii{synonym} or \ii{equivalent} relation, but rather
+consider only one member of each set of synonyms.
 
 To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
 instances of these three relations for single word nouns in WordNet that are hyponyms of the node 
@@ -30,23 +37,24 @@ dataset. Embeddings were fixed at 25 dimensions and were initialized either rand
 vectors from GloVe \cite{pennington2014glove}.
 
 \paragraph{Results} 
-We find that our model can perform almost perfectly, and that performance remains fairly good even when the model 
-is trained only on a fraction of the ground truth relations. Neither model has reached perfect performance in any
-of our experiments, though we are continuing to tune both models. We also find that the two comparison functions
+We find that the NTN performs almost perfectly even when trained only
+on a fraction of the ground truth relations. The plain NN is much less
+successful. Neither model has reached perfect performance in any of
+our experiments, though we are continuing to tune both models.
 
 \begin{table}[h]
 \centering\resizebox{5.5in}{!}{
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
-  \begin{tabular}{l l l l l l} 
+  \begin{tabular}{r r@{ }r r@{ }r r@{ }r r@{ }r r@{ }r} 
     \toprule
-     Portion of training data & \multicolumn{2}{c}{NN} & \multicolumn{2}{c}{NTN} & Baseline\\
-       & \multicolumn{1}{c}{w/ GloVe} & \multicolumn{1}{c}{w/o GloVe} & \multicolumn{1}{c}{w/ GloVe} & \multicolumn{1}{c}{w/o GloVe} \\
+     Portion of & \multicolumn{4}{c}{NN} & \multicolumn{4}{c}{NTN} & \multicolumn{2}{c}{Baseline}\\
+     training data  & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
     \midrule
-     100\%   & 99.5 (100.0) & 98.9 (99.7) & \textbf{99.6} (100.0) & 99.2 (100.0) & 37.9 (--)\\
-     75\%   & 98.9 (100.0) & 37.9 (37.0) & 98.6 (100.0) & 98.4 (100.0) & 37.9 (--)\\
-     33\%   & 96.0 (100.0) & 37.0 (37.0) & 95.4 (100.0) & 95.3 (100.0) & 37.9 (--)\\ % TODO: Rerunning. Got stuck predicting the most frequent class.
-     16\%   & 91.8 (100.0) & 91.9 (100.0) & 92.1 (99.7) & 92.2 (100.0) & 37.9 (--)\\
+     100\%   & 99.5 &(100.0) & 98.9 &(99.7)    & \textbf{99.6} &(100.0) & 99.2 &(100.0) & 37.9 &(--)\\
+     75\%    & 98.9 &(100.0) & 37.9 &(37.0)    & 98.6 &(100.0)          & 98.4 &(100.0) & 37.9 &(--)\\
+     33\%    & 96.0 &(100.0) & 37.0 &(37.0)    & 95.4 &(100.0)          & 95.3 &(100.0) & 37.9 &(--)\\ % TODO: Rerunning. Got stuck predicting the most frequent class.
+     16\%    & 91.8 &(100.0) & 91.9 &(100.0)   & 92.1 &(99.7)           & 92.2 &(100.0) & 37.9 &(--)\\
     \bottomrule
   \end{tabular}}
  \caption{Test (train) accuracy figures on the WordNet data. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}}  
