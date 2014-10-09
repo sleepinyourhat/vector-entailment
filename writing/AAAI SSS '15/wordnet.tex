@@ -12,8 +12,7 @@ We extract three types of relation from WordNet. \ii{Hypernym} and \ii{hyponym} 
 directly in the WordNet graph structure, and correspond closely to the $\natrev$ and $\natfor$ relations from
 natural logic. As in natural logic, these relations are mirror images of one another: if \ii{dog} is a
 hyponym of \ii{animal} (perhaps indirectly by way of \ii{canid}, \ii{mammal}, etc.), then \ii{animal} must be a 
-hypernym of \ii{dog}. A third informative relation can 
-be readily derived from the graph, which we call \ii{coordinate}. Coordinate terms are those which share
+hypernym of \ii{dog}. We also extract \ii{coordinate} terms, which share
 a direct hypernym, like \ii{dalmation}, \ii{pug}, and \ii{puppy}, which are all direct hyponyms of \ii{dog}. 
 Coordinate terms tend to exclude one another (as with $\natalt$ above) \cite{Hurford:1974}, but this tendancy
 is not universal. WordNet defines hypernymy and hyponymy over sets of synonyms, rather than over individual 
@@ -21,18 +20,19 @@ terms, so we do not include a \ii{synonym} or \ii{equivalent} relation, but rath
 member of each set of synonyms.
 
 To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
-instances of these three relations for those terms in WordNet that are hyponyms of the node \texttt{organism.n.01}.
-In order to balance the distribution of the classes, we slightly downsample instances of the \ii{coordinate} relation,
-yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these relations as test data. Unlike in the
-previous experiment, it is not straightforward here to determine in advance how much training data should be required
-to learn an accurate model, so we performed training runs with various fractions of the training portion of the 
-dataset. 
+instances of these three relations for single word nouns in WordNet that are hyponyms of the node 
+\texttt{organism.n.01}. In order to balance the distribution of the classes, we slightly downsample instances 
+of the \ii{coordinate} relation, yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these 
+relations as test data. Unlike in the previous experiment, it is not straightforward here to determine in advance
+ how much training data should be required to learn an accurate model, so we performed training runs with 
+ various fractions of the training portion of the 
+dataset. Embeddings were fixed at 25 dimensions and were initialized either randomly or using distributional 
+vectors from GloVe \cite{pennington2014glove}.
 
 \paragraph{Results} 
-We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. Neither model has reached perfect performance in any of our experiments, though we are continuing to tune both models. We find that the NN and NTN both capture the required generalizations very well.
-
-% TODO: Describe use of GloVe once there are clearer results. Since it doesn't look like it makes a huge difference,
-% should we perhaps just omit mention of it entirely to save space?
+We find that our model can perform almost perfectly, and that performance remains fairly good even when the model 
+is trained only on a fraction of the ground truth relations. Neither model has reached perfect performance in any
+of our experiments, though we are continuing to tune both models. We also find that the two comparison functions
 
 \begin{table}[h]
 \centering\resizebox{5.5in}{!}{
