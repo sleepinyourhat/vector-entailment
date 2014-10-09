@@ -2,65 +2,61 @@
   % TODO: Trim and revise
   % Less focus on RNTNs, more on embedding spaces
 
-Supervised recursive neural network models (RNNs) for sentence meaning
-have been successful in an array of sophisticated language tasks,
-including sentiment analysis \cite{socher2011semi,socher2013acl1},
-image description \cite{sochergrounded}, and paraphrase detection
-\cite{Socher-etal:2011:Paraphrase}. These results are encouraging for
-the ability of these models to learn compositional semantic grammars,
-but it remains an open question whether they can achieve the same
-results as grammars based in logical forms
-\cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}
-when it comes to the core semantic concepts of quantification,
-entailment, and contradiction needed to identify the relationships
-between sentences like \\resizebox{5.25in}{!}{{every animal walks}, \ii{every turtle
-  moves}, and \ii{most reptiles don't move}. To date, experimental
-investigations of these concepts using distributed representations
-have been largely confined to short phrases
-\cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment,kalchbrenner2014convolutional}.
-For robust natural language understanding, it is essential to model
-these phenomena in their full generality on complex linguistic
-structures.
+Natural logic offers a powerful \emph{relational} conception of
+semantics: the meanings for expressions are given, at least in part,
+by their inferential connections with other expressions
+\cite{vanBenthem08NATLOG,maccartney2009extended}. For instance,
+\word{turtle} is analyzed, not primarily by its extension in the
+world, but rather by its lexical network: it entails \word{reptile},
+excludes \word{chair}, is entailed by \word{sea
+  turtle}, and so forth. With generalized notions of entailment and
+contradiction, these relationships can be defined for all lexical
+categories as well as complex phrases, sentences, and even texts. The
+resulting theories of meaning offer valuable new analytic tools for
+tasks involving database inference, relation extraction, and textual
+entailment.
 
-We address this question in the context of \ii{natural language
-  inference} (also known as \ii{recognizing textual entailment};
-\cite{dagan2006pascal}), in which the goal is to determine the core
-inferential relationship between two sentences. Much of the
-theoretical work on this task (and some successful implemented models
-\cite{maccartney2009extended,watanabe2012latent}) involves \ii{natural
-  logics}, which are formal systems that define rules of inference
-between natural language words, phrases, and sentences without the
-need of intermediate representations in an artificial logical
-language. Following \cite{bowman2013can}, we use the natural logic
-developed by \cite{maccartney2009extended} as our formal model. This
-logic defines seven core relations of synonymy, entailment,
-contradiction, and mutual consistency, as summarized in
-Table~\ref{b-table}, and it provides rules of semantic combination for
-projecting these relations from the lexicon up to complex phrases. The
-formal properties and inferential strength of this system are now
-well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
+These approaches are naturally paired with theories using distributed
+(e.g., vector) representations, where meaning is also naturally
+modeled as relational. Distributed representations have been used
+successfully in a wide array of sophisticated language tasks,
+including sentiment analysis, analogy completion, relation extraction,
+and named entity recognition. However, it remains an open question
+whether it is possible to train such representations to support the
+rich, diverse logical reasoning captured by natural logic; while such
+representations excel at synonymy (similarity), the results are more
+mixed for entailment, contradiction, and mutual consistency.
 
-In our experiments, we use this pre-specified logical grammar to
-generate controlled data sets encoding the semantic relationships
-between pairs of expressions and evaluate whether each of two classes
-of neural model --- plain RNNs and recursive neural tensor networks
-(RNTNs, \cite{socher2013acl1}) --- can learn those relationships
-correctly. In our first experiment (Section~\ref{sec:join}), we
-evaluate the ability of these models to learn the core relational
-algebra of natural logic from data. Our second experiment
-(Section~\ref{sec:recursion}) extends this evaluation to relations
-between complex recursive structures like $(a \plor b)$ and
-$\plneg(\plneg a \pland \plneg b)$, and our third experiment
-(Section~\ref{sec:quantifiers}) involves relations between quantified
-statements like \ii{every reptile walks} and \ii{no turtle moves}.
-We find that the plain RNN achieves only mixed results in all three
-experiments, whereas the stronger RNTN model generalizes well in every
-case, suggesting that it has in fact learned, or at least learned to
-simulate, our target logical
-concepts. These experiments differentiate the increased power of RNTNs
-better than previous work and provide the most convincing
-demonstration to date of the ability of neural networks to model
-semantic inferences in complex natural language sentences.
+Using the natural logic of \cite{maccartney2009extended} as our formal
+model, we address this open question for two classes of neural model:
+plain neural networks and neural tensor networks (NTNs;
+\cite{socher2013acl1}). The natural logic is built from the seven
+relations defined in Table~\ref{b-table}. Its formal properties and
+inferential strength of the natural logic are now well-understood
+\cite{Icard:Moss:2013,Icard:Moss:2013:LILT}, so it provides a rigorous
+and challenging set of goals for our distributed representations. To
+keep the discussion managable, we limit attention to experiments
+involving the lexicon; for a more extended treatment involving complex
+expressions involving logical connectives and quantifiers, see
+\cite{Bowman:Potts:Manning:2014}.
+
+In our first experiment, we use the pre-specified logical grammar to
+generate controlled data sets and assses the ability of the two
+classes of neural network to learn the core underlying relational
+algebra from this simulated data. In our second experiment, we define
+a simple modification of the logical grammar so that it aligns well
+with the WordNet noun graph, and we again assess our two classes of
+RNN on this data. The controlled data of our first experiment helps us
+to achieve analytic insights into what the models are able to learn,
+and the large, diverse lexicon of the second experiment shows us how
+they fare in the real world. We find that the plain RNN achieves only
+mixed results in these experiments, whereas the stronger RNTN model
+generalizes well in both cases, suggesting that it has in fact
+learned, or at least learned to simulate, our target logical concepts.
+% These experiments differentiate the increased power of RNTNs better
+% than previous work and provide the most convincing demonstration to
+% date of the ability of neural networks to model semantic inferences
+% in complex natural language sentences.
 
 \begin{table}[tp]
   \centering\small
