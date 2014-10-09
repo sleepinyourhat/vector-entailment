@@ -28,11 +28,10 @@ captured by natural logic; while they excel at
 synonymy (similarity), the results are more mixed for entailment,
 contradiction, and mutual consistency.  Using the natural logic of
 \cite{maccartney2009extended} as our formal model, we address this
-open question for two classes of neural model: plain neural networks
-and neural tensor networks (NTNs; \cite{socher2013acl1}). The natural
-logic is built from the seven relations defined in
+open question for a simple neural network-based classification model. 
+The natural logic is built from the seven relations defined in
 Table~\ref{b-table}. Its formal properties are now well-understood
-\cite{Icard:Moss:2013,Icard:Moss:2013:LILT}, so it provides a rigorous
+\cite{Icard:Moss:2013:LILT}, so it provides a rigorous
 set of goals for our neural models. To keep the discussion managable,
 we limit attention to experiments involving the lexicon; for a more
 extended treatment of complex expressions involving logical
@@ -42,10 +41,9 @@ In our experiments, we evaluate these models' ability to learn the
 basic algebra of natural logic relations from simulated data and from
 the WordNet noun graph. The simulated data help us to achieve analytic
 insights into what the models learn, and WordNet data show how they
-fare in the real world.  We find that the plain RNN achieves only
-mixed results in these experiments, whereas the stronger RNTN model
-generalizes well in both cases, suggesting that it has in fact
-learned, or at least learned to simulate, our target logical concepts.
+fare in the real world.  We find that even our model is able to learn
+natural logic-style relational reasoning with near-perfect accuracy
+in both settings.
 
 % In our first experiment, we use the pre-specified logical grammar to
 % generate controlled data sets and assess the ability of the two
