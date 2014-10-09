@@ -1,18 +1,16 @@
 
-\subsection*{Recursive neural network models} \label{methods}
+\subsection*{Neural network models for relation classification} \label{methods}
 
-We study neural models that adhere to the linguistic \ii{principle of
- compositionality}, which says that the meanings for complex
-expressions are derived from the meanings of their constituent parts
-via specific composition functions \cite{Partee84,Janssen97}. In our
-distributed setting, word meanings are vectors of length $n$. The
-composition function maps pairs of them to single vectors of length $n$, 
-which can then be merged again to represent more complex
-phrases. Once the entire sentence-level representation has been
-derived, it serves as a fixed-length input for some subsequent function.
+% TODO: Should we cite our NIPS manuscript?
 
-We use the model architecture proposed in \cite{bowman2013can} and
-depicted in Figure~\ref{sample-figure}. The two phrases being compared
+We follow the approach to learning semantically meaningful embeddings 
+proposed in \cite{bowman2013can}, which is centered on the problem of
+labeling a pair of words or sentences with one of a small set of logical
+relations. The architecture of the model that we use is depicted in
+Figure~\ref{sample-figure}. The model represents the two 
+
+
+The two phrases being compared
 are built up separately on each side of the tree, using the same
 composition function, until they have each been reduced to single
 vectors. The resulting vectors are fed into a separate comparison

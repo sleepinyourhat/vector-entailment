@@ -29,7 +29,8 @@ some or all of the remaining data.
 
 We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. 
 
-% TODO: Describe use of GloVe once there are clearer results. Should we omit mention of it entirely?
+% TODO: Describe use of GloVe once there are clearer results. Since it doesn't look like it makes a huge difference,
+% should we perhaps just omit mention of it entirely to save space?
 
 \begin{table}[h]
 \centering\resizebox{4in}{!}{\small
@@ -38,6 +39,7 @@ We find that with only a small amount of hyperparamater tuning, our model can pe
   \begin{tabular}{l c l l} 
     \toprule
     Comparison layer & \% training data & w/ GloVe & w/o GloVe \\
+    Most frequent class & -- & 37.9 (--) & 37.9 (--) \\
     NN       & 100\%   & TODO & TODO \\
     NN       & 75\%   & 98.6 (100.0) & TODO \\
     NN       & 33\%   & TODO & 37.0 (37.0) \\ % TODO: See if this improves
