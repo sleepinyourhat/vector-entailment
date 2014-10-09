@@ -58,31 +58,6 @@ learned, or at least learned to simulate, our target logical concepts.
 % date of the ability of neural networks to model semantic inferences
 % in complex natural language sentences.
 
-\begin{table}[tp]
-  \centering\small
-  \setlength{\tabcolsep}{15pt}
-  \renewcommand{\arraystretch}{1.1}
-  \begin{tabular}{l c l l} 
-    \toprule
-    Name & Symbol & Set-theoretic definition & Example \\ 
-    \midrule
-    entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle, reptile}  \\ 
-    reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile, turtle}  \\ 
-    equivalence        & $x \nateq y$    & $x = y$       & \ii{couch, sofa} \\ 
-    alternation        & $x \natalt y$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{turtle, warthog} \\ 
-    negation           & $x \natneg y$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$    & \ii{able, unable} \\
-    cover              & $x \natcov y$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-turtle} \\ 
-    independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
-    \bottomrule
-  \end{tabular}
-  \caption{The seven natural logic relations of \cite{maccartney2009extended}. 
-    $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
-    and the relation $\natind$ applies whenever none of the other six do.} %, including when there 
-    %is insufficient knowledge to choose a label.}
-  \label{b-table}
-\end{table}
-
-
 % TODO: Add citations on related work in structuring relations in embedding spaces:
 % - Representing part–whole relations in conceptual spaces
 % - Something McCallum/Universal Schema?

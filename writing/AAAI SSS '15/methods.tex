@@ -4,7 +4,7 @@
 % TODO: Should we cite our NIPS manuscript?
 
 We follow the approach to learning semantically meaningful embeddings 
-proposed in \citet{bowman2013can}, which is centered on the problem of
+of \citet{Bowman:Potts:Manning:2014}, which is centered on the problem of
 labeling a pair of words or sentences with one of a small set of logical
 relations. The architecture of the model that we use, which is limited
 to only pairs of single symbols (such as words), is depicted in
@@ -26,28 +26,17 @@ through backpropagation with AdaGrad \cite{duchi2011adaptive}.
 
 For a comparison funtion, we evaluate versions of the model with both a plain neural
 network (NN) layer function and a neural tensor network (NTN) layer function
-\eqref{rntn} proposed in \citet{chen2013learning}. A leaky ReLU
+proposed in \citet{chen2013learning}, which adds a third order tensor parameter
+to mediate multiplicative interactions between the two inputs. A leaky ReLU
 nonlinearity \cite{maasrectifier} is applied to the output of either
 layer function.
 %
 \begin{gather} \label{rnn}
-\vec{y}_{\textit{NN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\ % TODO: Add column vectors?
-\label{rntn}
-\vec{y}_{\textit{NTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
+\vec{y}_{\textit{NN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) ~~~~~~~~~~~~~~~ \vec{y}_{\textit{NTN}} = f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)} + \mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b})
 \end{gather} 
 %
-Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
-representations for the left and right children of the node, and
-$\vec{y}$ is the node's output.  The RNN concatenates them, multiplies
-them by an $n \times 2n$ matrix of learned weights, and applies the
-element-wise non-linearity to the resulting vector. The RNTN has the
-same basic structure, but with the addition of a learned third-order
-tensor $\mathbf{T}$, dimension $n \times n \times n$, modeling
-multiplicative interactions between the child vectors. Both models
-include a bias vector~$\vec{b}$.
 
-
-This model differs from that of \citet{bowman2013can} in two ways. Because 
+This model differs from that of \citet{Bowman:Potts:Manning:2014} in two ways. Because 
 the inputs are single symbols, there is no need for the composition functions
 which are used in that (and prior) work. Also, for our second experiment on 
 WordNet data, we introduce a new neural network layer between the embedding input
