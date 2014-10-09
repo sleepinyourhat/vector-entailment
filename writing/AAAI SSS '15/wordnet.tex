@@ -2,7 +2,19 @@
 
 % TODO: Fill out
 
-% Can a model to do this with something that has the scale and structure of a real vocabulary?
+We have shown that a model can learn to reason using relations over a small artificial dataset, 
+but it the question of whether the same model can show this behavior over the type and number of
+relations seen in a real natural language vocabulary.
+
+Unfortunately, we are aware of no reliable source of relation data that covers a large natural 
+language vocabulary using the natural logic relations discussed above. However, WordNet 
+\cite{fellbaum2010wordnet} provides a different type of lattice structure which is compatible with
+our learning paradigm.
+
+We extract three types of relation from WordNet. \ii{Hypernym} and \ii{hyponym} can be are represented
+directly in the WordNet graph structure, and correspond closely to the \natrev and \natfor relations from
+natural logic. As in natural logic, these relations are mirror images of one another: if \ii{dog} is a
+hyponym of \ii{animal}, then \ii{animal} must be a hypernym of \ii{dog}. 
 
 % Wordnet! Subsumption lattice for words!
 
