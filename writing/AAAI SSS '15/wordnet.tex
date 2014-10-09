@@ -23,37 +23,30 @@ member of each set of synonyms.
 To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
 instances of these three relations for those terms in WordNet that are hyponyms of the node \texttt{organism.n.01}.
 In order to balance the distribution of the classes, we slightly downsample instances of the \ii{coordinate} relation,
-yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these relations as test data, and train on
-some or all of the remaining data.
+yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these relations as test data. Unlike in the
+previous experiment, it is not straightforward here to determine in advance how much training data should be required
+to learn an accurate model, so we performed training runs with various fractions of the training portion of the 
+dataset. 
 
 \paragraph{Results} 
-We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. Neither model has reached perfect performance in any of our experiments, though we are 
-continuing to tune both models. We find that the NN and NTN both capture the required
-generalizations extremely well.
+We find that with only a small amount of hyperparamater tuning, our model can perform almost perfectly, and that performance remains fairly good even when the fraction of the training data used is decreased. Neither model has reached perfect performance in any of our experiments, though we are continuing to tune both models. We find that the NN and NTN both capture the required generalizations very well.
 
 % TODO: Describe use of GloVe once there are clearer results. Since it doesn't look like it makes a huge difference,
 % should we perhaps just omit mention of it entirely to save space?
 
 \begin{table}[h]
-\centering\resizebox{4in}{!}{\small
+\centering\resizebox{5.5in}{!}{
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
-  \begin{tabular}{l c l l l l} 
+  \begin{tabular}{l l l l l l} 
     \toprule
-    Comparison layer & \% training data & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
-     &  & NN & NTN & NN & NTN \\
+     Portion of training data & \multicolumn{2}{c}{NN} & \multicolumn{2}{c}{NTN} & Baseline\\
+       & \multicolumn{1}{c}{w/ GloVe} & \multicolumn{1}{c}{w/o GloVe} & \multicolumn{1}{c}{w/ GloVe} & \multicolumn{1}{c}{w/o GloVe} \\
     \midrule
-    Baseline & -- & 37.9 (--) & 37.9 (--) & 37.9 (--) & 37.9 (--) \\
-    \midrule
-    NN       & 100\%   & 99.5 (100.0) & 98.9 (99.7) \\
-    NN       & 75\%   & 98.9 (100.0) & 37.9 (37.0) \\
-    NN       & 33\%   & 96.0 (100.0) & 37.0 (37.0) \\ % TODO: Rerunning. Got stuck predicting the most frequent class.
-    NN       & 16\%   & 91.8 (100.0) & 91.9 (100.0)\\
-    \midrule
-    NTN       & 100\%   & \textbf{99.6} (100.0) & 99.2 (100.0) \\
-    NTN       & 75\%   & 98.6 (100.0) & 98.4 (100.0)\\
-    NTN       & 33\%   & 95.4 (100.0) & 95.3 (100.0) \\
-    NTN       & 16\%   & 92.1 (99.7) & 92.2 (100.0) \\
+     100\%   & 99.5 (100.0) & 98.9 (99.7) & \textbf{99.6} (100.0) & 99.2 (100.0) & 37.9 (--)\\
+     75\%   & 98.9 (100.0) & 37.9 (37.0) & 98.6 (100.0) & 98.4 (100.0) & 37.9 (--)\\
+     33\%   & 96.0 (100.0) & 37.0 (37.0) & 95.4 (100.0) & 95.3 (100.0) & 37.9 (--)\\ % TODO: Rerunning. Got stuck predicting the most frequent class.
+     16\%   & 91.8 (100.0) & 91.9 (100.0) & 92.1 (99.7) & 92.2 (100.0) & 37.9 (--)\\
     \bottomrule
   \end{tabular}}
  \caption{Test (train) accuracy figures on the WordNet data. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}}  

@@ -1,7 +1,7 @@
 \subsection*{Reasoning about semantic relations}\label{sec:join}
 
 \begin{table}[tp]
-  \centering
+  \centering\small
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
   \begin{tabular}{l c l l} 
@@ -52,7 +52,7 @@ of relations for which no valid inference can be drawn in our logic.
   \setlength{\arraycolsep}{8pt}
   \renewcommand{\arraystretch}{1.1}
   \newcommand{\UNK}{\cdot}  
-  $\begin{array}[t]{c@{ \ }|*{7}{c}|}
+  \resizebox{2.2in}{!}{$\begin{array}[t]{c@{ \ }|*{7}{c}|}
     %\hline
     \multicolumn{1}{c}{}
              & \nateq     & \natfor     & \natrev     & \natneg    & \natalt     & \natcov     & \multicolumn{1}{c}{\natind} \\
@@ -65,7 +65,7 @@ of relations for which no valid inference can be drawn in our logic.
     \natcov & \natcov &  \natcov &  \UNK &  \natrev &   \natrev &  \UNK &  \UNK \\
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
-  \end{array}$
+  \end{array}$}
   \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
   \label{tab:jointable}
 \end{table}
@@ -132,7 +132,7 @@ the RNN.
     \centering
     \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
     \setlength{\unitlength}{1cm}
-    \begin{picture}(5,5.5)
+    \resizebox{1.5in}{!}{\begin{picture}(5,5.5)
       \labelednode{2.50}{5}{}{1,2,3}
       
       \put(0.75,4){\line(3,1){1.5}}
@@ -162,7 +162,7 @@ the RNN.
       \put(2.5,1){\line(3,1){1.5}}
       
       \labelednode{2.5}{0.5}{}{}
-    \end{picture}
+    \end{picture}}
     \caption{Simple boolean structure. The letters name the sets. Not all sets have names, and
     some sets have multiple names, so that learning $\nateq$ is non-trivial.}
   \end{subfigure}
@@ -170,7 +170,7 @@ the RNN.
   \begin{subfigure}[t]{0.43\textwidth}
     \centering
     \setlength{\tabcolsep}{12pt}
-    \begin{tabular}[b]{c  c}
+    \resizebox{1.05in}{!}{\begin{tabular}[b]{c  c}
       \toprule
       Train & Test \\
       \midrule
@@ -186,7 +186,7 @@ the RNN.
       $e \natfor c$ &               \\[-1ex]
       $\vdots$      & $\vdots$ \\
       \bottomrule
-    \end{tabular}
+    \end{tabular}}
 
     \caption{A train/test split of the atomic statements about the
       model.  Test statements not provable from the training data are
