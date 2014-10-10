@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, loadwords, dsp)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, loadwords, dsp, fold)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -100,6 +100,10 @@ end
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
 hyperParams.name = expName;
+
+% If the fold number is grater than one, the train/test split on split data will 
+% be offset accordingly.
+hyperParams.foldNumber = fold;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
