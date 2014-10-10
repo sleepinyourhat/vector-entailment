@@ -33,12 +33,13 @@ of the \ii{coordinate} relation, yielding 36,772 relations among 3,217 terms. We
 relations as test data. Unlike in the previous experiment, it is not straightforward here to determine in advance
  how much training data should be required to learn an accurate model, so we performed training runs with 
  various fractions of the training portion of the 
-dataset. Embeddings were fixed at 25 dimensions and were initialized either randomly or using distributional 
-vectors from GloVe \cite{pennington2014glove}.
+dataset. Embeddings were fixed at 25 dimensions and were initialized randomly or using distributional 
+vectors from GloVe \cite{pennington2014glove}. The feature vector produced by the comparison layer was fixed at 
+80 dimensions.
 
 \paragraph{Results} 
 We find that the NTN performs almost perfectly even when trained only
-on a fraction of the ground truth relations. The plain NN is much less
+on a fraction of the ground truth relations. The plain NN is somewhat less
 successful. Neither model has reached perfect performance in any of
 our experiments, though we are continuing to tune both models.
 
