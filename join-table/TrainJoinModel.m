@@ -108,7 +108,7 @@ if hyperParams.minFunc
     options.OutputFcn = @Display;
 else
     % AdaGradSGD learning options
-    options.numPasses = 10000;
+    options.numPasses = 100;
     options.miniBatchSize = mbs;
 
 % LR
@@ -164,7 +164,7 @@ if ~isempty(savedParams)
 else
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder ] = ...
+    [ modelState.theta, modelState.thetaDecoder, modelState.constWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 end
 

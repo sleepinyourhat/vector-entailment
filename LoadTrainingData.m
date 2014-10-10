@@ -17,8 +17,9 @@ rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
 wordList = cell(length(C{1}), 1);
 
 % Establish (manually specified) relations
-relations = {'#', '=', '>', '<', '|', '^', 'v'};
-relationMap = containers.Map(relations,1:length(relations));
+relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
+relationMap = cell(1, 1);
+relationMap{1} = containers.Map(relations{1}, 1:length(relations{1}));
 
 % Parse the file
 itemNo = 1;
@@ -32,7 +33,7 @@ for line = 1:maxLine;
         
         if ~(length(splitLine{1}) ~= 1 || splitLine{1} == '%')
             % Skip lines that are blank or have a multicharacter first chunk
-            rawData(itemNo).relation = relationMap(splitLine{1});
+            rawData(itemNo).relation = relationMap{1}(splitLine{1});
             rawData(itemNo).leftText = splitLine{2};
             rawData(itemNo).rightText = splitLine{3};
 

@@ -180,6 +180,19 @@ echo "cd quant; mbs = 64; lambda = 0.0005; ed = 1; loadWords = 1; penult = 80, d
 
 # Join
 
-echo "cd quant; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, dim, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join1-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join2-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join3-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join4-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join5-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join1R-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 0, lambda, 75, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join2R-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 0, lambda, 75, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join3R-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 0, lambda, 75, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join4R-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 0, lambda, 75, 0);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant/join-table; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join5R-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, 11, 0, lambda, 75, 0);" | /afs/cs/software/bin/matlab_r2012b
+
+
+
 
 
