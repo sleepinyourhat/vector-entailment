@@ -11,7 +11,7 @@ function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
 % relationIndices: An optional matrix with three rows, one each for 
 % train/test/split, indicating which set of relations the dataset uses.
 
-PERCENT_USED_FOR_TESTING = 0.20;
+PERCENT_USED_FOR_TESTING = 0.10;
 
 if hyperParams.fragmentData
     trainDataset = trainFilenames;
@@ -59,13 +59,15 @@ for i = 1:length(splitFilenames)
     Log(hyperParams.statlog, ['Loading split dataset ', splitFilenames{i}]);
     dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     lengthOfTestPortion = ceil(length(dataset) * PERCENT_USED_FOR_TESTING);
-    startOfTrainPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
-    endOfTrainPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
-    trainPortion = dataset(startOfTrainPortion:endOfTrainPortion);
-    testPortion = [dataset(1:(startOfTrainPortion - 1)); dataset(endOfTrainPortion + 1:length(dataset))];
+    startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
+    endOfTestPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
+    testPortion = dataset(startOfTestPortion:endOfTestPortion);
+    trainPortion = [dataset(1:(startOfTestPortion - 1)); dataset(endOfTestPortion + 1:length(dataset))];
     testDatasets = [testDatasets, {testPortion}];
+    
     % TODO - make fragment-safe
     trainDataset = [trainDataset; trainPortion];
+    assert( length(testPortion) == lengthOfTestPortion);
     assert(length(testPortion) + length(trainPortion) == length(dataset));
 end
 

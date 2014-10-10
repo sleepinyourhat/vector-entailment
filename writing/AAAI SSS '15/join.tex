@@ -24,11 +24,8 @@
   \label{b-table}
 \end{table}
 
-If a model is to learn the behavior of a relational logic like the natural
-logic presented here over some domain from a finite amount of data, it 
-must learn to deduce new relational statements from seen ones in a sound manner.
-The simplest such deductions, and the only ones that can be made using relations
-between single terms, involve the set of inference rules schematized in 
+In this experiment, we test our model's ability to learn and use
+the natural logic inference rules schematized in 
 Figure~\ref{tab:jointable}. For instance, given that $a \natrev b$ and $b
 \natrev c$, one can conclude that $a \natrev c$, by basic
 set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
@@ -91,8 +88,8 @@ sets% . In both cases, the models were implemented exactly as
 We found that the NTN model worked best with 11-dimensional vector
 representations for the 80 sets and a 90-dimensional feature vector
 for the classifier, though the performance of the model was not highly
-sensitive to either dimensionality parameter in any of the experiments
-discussed here. This model was able to correctly label 99.4\% (94.3
+dependant on either dimensionality setting. 
+This model was able to correctly label 99.4\% (94.3
 macroaveraged F1) of the provably derivable test examples, and 95.4\%
 (92.2 macro-F1) of the remaining test examples. The simpler NN worked
 best with 11 and 75 dimensions, respectively, but was able to achieve

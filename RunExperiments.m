@@ -178,4 +178,8 @@ echo "cd quant; mbs = 64; lambda = 0.0005; ed = 1; loadWords = 1; penult = 80, d
 echo "cd quant; mbs = 64; lambda = 0.0005; ed = 1; loadWords = 1; penult = 80, dp = .33, name=['otss-l', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(loadWords), '-pen', num2str(penult), '-mbs', num2str(mbs), '-dp', num2str(dp)]; disp(name); Crossvalidate('synset-relations', '', name, mbs, 25, penult, 0.1, lambda, 1, ed, loadWords, dp);" | /afs/cs/software/bin/matlab_r2012b
 echo "cd quant; mbs = 64; lambda = 0.0005; ed = 1; loadWords = 1; penult = 80, dp = .11, name=['otss-l', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(loadWords), '-pen', num2str(penult), '-mbs', num2str(mbs), '-dp', num2str(dp)]; disp(name); Crossvalidate('synset-relations', '', name, mbs, 25, penult, 0.1, lambda, 1, ed, loadWords, dp);" | /afs/cs/software/bin/matlab_r2012b
 
+# Join
+
+echo "cd quant; mbs = 64; lambda = 0.0005; ed = 1; penult = 80, name=['join-l', num2str(lambda), '-ed', num2str(ed), '-pen', num2str(penult), '-mbs', num2str(mbs)]; disp(name);  TrainJoinModel(name, mbs, dim, 1, lambda, 90, 0);" | /afs/cs/software/bin/matlab_r2012b
+
 

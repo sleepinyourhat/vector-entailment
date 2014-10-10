@@ -6,7 +6,7 @@ natural language vocabulary. Unfortunately, as far as we are aware,
 there are no available resources labeling such a vocabulary with the
 relations from Table~\ref{b-table}. However, the relations in WordNet
 \cite{fellbaum2010wordnet} come close and pose the same substantive
-challenges.
+challenges within a somewhat easier classification problem.
 
 % WordNet \cite{fellbaum2010wordnet} provides a different type of
 % lattice structure which is compatible with our learning paradigm.
@@ -20,22 +20,23 @@ mirror images of one another: if \ii{dog} is a hyponym of \ii{animal}
 \ii{animal} is a hypernym of \ii{dog}. We also extract \ii{coordinate}
 terms, which share a direct hypernym, like \ii{dalmatian}, \ii{pug},
 and \ii{puppy}, which are all direct hyponyms of \ii{dog}.  Coordinate
-terms tend to exclude one another, thereby providing a reasonable
-approximation of exclusion. WordNet defines hypernymy and hyponymy over
+terms tend to exclude one another, thereby providing a loose approximation 
+of the natural logic exclusion relation $\natneg$. 
+WordNet defines hypernymy and hyponymy over
 sets of synonyms, rather than over individual terms, so we do not
 include a \ii{synonym} or \ii{equivalent} relation, but rather
-consider only one member of each set of synonyms.
+consider only one member of each set of synonyms. Word pairs which do
+not fall into these three relations are not included in the dataset.
 
 To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
 instances of these three relations for single word nouns in WordNet that are hyponyms of the node 
 \texttt{organism.n.01}. In order to balance the distribution of the classes, we slightly downsample instances 
-of the \ii{coordinate} relation, yielding 36,772 relations among 3,217 terms. We randomly select 15\% of these 
-relations as test data. Unlike in the previous experiment, it is not straightforward here to determine in advance
- how much training data should be required to learn an accurate model, so we performed training runs with 
- various fractions of the training portion of the 
-dataset. Embeddings were fixed at 25 dimensions and were initialized randomly or using distributional 
-vectors from GloVe \cite{pennington2014glove}. The feature vector produced by the comparison layer was fixed at 
-80 dimensions.
+of the \ii{coordinate} relation, yielding a total of 36,772 relations among 3,217 terms. We report results below using crossvalidation, choosing a disjoin 10\% test sample for each of five runs. Unlike in the previous experiment,
+it is not straightforward here to determine in advance
+how much data should be required to train an accurate model, so we performed training runs with 
+various fractions of the remaining data. Embeddings were fixed at 25 dimensions and were initialized 
+randomly or using distributional vectors from GloVe \cite{pennington2014glove}. The feature vector 
+produced by the comparison layer was fixed at 80 dimensions.
 
 \paragraph{Results} 
 We find that the NTN performs almost perfectly even when trained only
@@ -53,9 +54,9 @@ our experiments, though we are continuing to tune both models.
      training data  & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
     \midrule
      100\%   & 99.5 &(100.0) & 98.9 &(99.7)    & \textbf{99.6} &(100.0) & 99.2 &(100.0) & 37.9 &(--)\\
-     75\%    & 98.9 &(100.0) & 37.9 &(37.0)    & 98.6 &(100.0)          & 98.4 &(100.0) & 37.9 &(--)\\
-     33\%    & 96.0 &(100.0) & 37.0 &(37.0)    & 95.4 &(100.0)          & 95.3 &(100.0) & 37.9 &(--)\\ % TODO: Rerunning. Got stuck predicting the most frequent class.
-     16\%    & 91.8 &(100.0) & 91.9 &(100.0)   & 92.1 &(99.7)           & 92.2 &(100.0) & 37.9 &(--)\\
+     33\%    & 96.0 &(100.0) & 37.0 &(37.0)    & 95.4 &(100.0)          & 95.3 &(100.0) & 37.9 &(--)\\
+     11\%    & 91.8 &(100.0) & 91.9 &(100.0)   & 92.1 &(99.7)           & 92.2 &(100.0) & 37.9 &(--)\\
+     % 2\%    & 86.0 &(100.0) & ... &(100.0)   & 86.2 &(100.0)           & 76.4 &(87.3) & 37.9 &(--)\\ % Accidental run with slightly different train/test split.
     \bottomrule
   \end{tabular}}
  \caption{Test (train) accuracy figures on the WordNet data. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}}  
