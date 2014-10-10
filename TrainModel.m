@@ -99,7 +99,7 @@ end
 
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
-hyperParams.name = expName;
+hyperParams.name = [expName,  '-fold', num2str(hyperParams.foldNumber)];
 
 % If the fold number is grater than one, the train/test split on split data will 
 % be offset accordingly.
@@ -176,7 +176,7 @@ options.PlotFcns = [];
 %%% AdaGradSGD learning options
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
-options.numPasses = 1000;
+options.numPasses = 50;
 options.miniBatchSize = mbs;
 
 %%% Generic learning options
@@ -198,7 +198,7 @@ options.confusionFreq = 500;
 options.examplesFreq = 1000; 
 
 % How often (in steps) to save parameters to disk.
-options.checkpointFreq = 4000; 
+options.checkpointFreq = 32000; 
 
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
