@@ -72,6 +72,10 @@ hyperParams.untied = false;
 hyperParams.datasetsPortion = 1;
 hyperParams.dataPortion = 1;
 
+
+hyperParams.embeddingTransformDepth = 0;
+hyperParams.trainWords = 1;
+
 % Whether to use a plain RNN or an RNTN
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
@@ -158,23 +162,10 @@ if ~isempty(savedParams)
     a = load(savedParams);
     modelState = a.modelState;
 else
-<<<<<<< HEAD
-<<<<<<< HEAD
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
     [ modelState.theta, modelState.thetaDecoder ] = ...
        InitializeModel(wordMap, hyperParams);
-=======
-=======
->>>>>>> FETCH_HEAD
-    modelState.pass = 0;
-    Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder ] = ...
-       InitializeModel(size(wordMap, 1), hyperParams);
-<<<<<<< HEAD
->>>>>>> FETCH_HEAD
-=======
->>>>>>> FETCH_HEAD
 end
 
 % Choose which files to load in each category.
