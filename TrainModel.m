@@ -97,13 +97,13 @@ else
     hyperParams.fragmentData = false;
 end
 
-% The name assigned to the current full run. Used in checkpoint naming, and must
-% match the directory created above.
-hyperParams.name = [expName,  '-fold', num2str(hyperParams.foldNumber)];
-
 % If the fold number is grater than one, the train/test split on split data will 
 % be offset accordingly.
 hyperParams.foldNumber = fold;
+
+% The name assigned to the current full run. Used in checkpoint naming, and must
+% match the directory created above.
+hyperParams.name = [expName,  '-fold', num2str(hyperParams.foldNumber)];
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.

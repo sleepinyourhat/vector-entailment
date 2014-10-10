@@ -59,8 +59,8 @@ for i = 1:length(splitFilenames)
     Log(hyperParams.statlog, ['Loading split dataset ', splitFilenames{i}]);
     dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     lengthOfTestPortion = ceil(length(dataset) * PERCENT_USED_FOR_TESTING);
-    startOfTrainPortion = (hyperParam.foldNumber - 1) * lengthOfTrainPortion;
-    endOfTrainPortion = hyperParam.foldNumber * lengthOfTrainPortion;
+    startOfTrainPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
+    endOfTrainPortion = max(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
     trainPortion = dataset(startOfTrainPortion:endOfTrainPortion);
     testPortion = [dataset(1:(startOfTrainPortion - 1)), dataset(endOfTrainPortion + 1:length(dataset))];
     testDatasets = [testDatasets, {testPortion}];
