@@ -11,7 +11,7 @@ function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
 % relationIndices: An optional matrix with three rows, one each for 
 % train/test/split, indicating which set of relations the dataset uses.
 
-PERCENT_USED_FOR_TESTING = 0.80;
+PERCENT_USED_FOR_TESTING = 0.20;
 
 if hyperParams.fragmentData
     trainDataset = trainFilenames;
