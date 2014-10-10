@@ -3,14 +3,22 @@ function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
+% If the fold number is grater than one, the train/test split on split data will 
+% be offset accordingly.
+hyperParams.foldNumber = fold;
+
+% The name assigned to the current full run. Used in checkpoint naming, and must
+% match the directory created above.
+hyperParams.name = [expName,  '-fold', num2str(hyperParams.foldNumber)];
+
 % Set up an experimental directory.
 if nargin > 4
-    mkdir(expName); 
+    mkdir(hyperParams.name); 
 else
     expName = '.';
 end
-hyperParams.statlog = fopen([expName '/stat_log'], 'a');
-hyperParams.examplelog = fopen([expName '/example_log'], 'a');
+hyperParams.statlog = fopen([hyperParams.name '/stat_log'], 'a');
+hyperParams.examplelog = fopen([hyperParams.name '/example_log'], 'a');
 
 % Load the vocabulary.
 if strcmp(dataflag, 'and-or') ||  strcmp(dataflag, 'and-or-deep') ||  strcmp(dataflag, 'and-or-deep-unlim')
@@ -97,14 +105,6 @@ else
     hyperParams.fragmentData = false;
 end
 
-% If the fold number is grater than one, the train/test split on split data will 
-% be offset accordingly.
-hyperParams.foldNumber = fold;
-
-% The name assigned to the current full run. Used in checkpoint naming, and must
-% match the directory created above.
-hyperParams.name = [expName,  '-fold', num2str(hyperParams.foldNumber)];
-
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
 hyperParams.topDepth = 1;
@@ -176,7 +176,7 @@ options.PlotFcns = [];
 %%% AdaGradSGD learning options
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
-options.numPasses = 50;
+options.numPasses = 100;
 options.miniBatchSize = mbs;
 
 %%% Generic learning options

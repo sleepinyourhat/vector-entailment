@@ -50,7 +50,7 @@ elseif mod(modelState.step, options.costFreq) == 0
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
 end
 
-if mod(modelState.step, options.checkpointFreq) == 0
+if mod(modelState.step, options.checkpointFreq) == 0 && modelState.step > 0
     % Write a checkpoint to disk.
     save([options.name, '/', 'ckpt-', options.runName, datestr(now, 'yymmddHHMMSS'),...
        '@', num2str(modelState.step)] , 'modelState');
