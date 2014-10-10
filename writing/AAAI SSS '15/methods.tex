@@ -1,7 +1,7 @@
 
-\subsection*{Neural network models for relation classification} \label{methods}
+\section{Neural network models for relation classification} \label{methods}
 
-We build an embedding based model using the method of
+We build an embedding-based model using the method of
 \cite{Bowman:Potts:Manning:2014}, which is centered on the task of
 labeling a pair of words or sentences with one of a small set of
 logical relations. The architecture of the model that we use, which is
@@ -14,12 +14,13 @@ representation is then fed into a softmax classifier, which outputs a
 distribution over possible labels. The entire network, including the
 embeddings, are trained using backpropagation. 
 
-The simpler version of the comparison simply concatenates the two input
-vectors before feeding them into a standard neural network (NN) layer.
-The more powerful neural tensor network (NTN) version uses an additional 
-third-order tensor parameter to allow for multiplicative
-interactions between the two inputs. For more details on the implementation and
-training of the layer functions, see \cite{Bowman:Potts:Manning:2014}.
+The simpler version of the comparison simply concatenates the two
+input vectors before feeding them into a standard neural network (NN)
+layer.  The more powerful neural tensor network (NTN) version uses an
+additional third-order tensor parameter to allow for multiplicative
+interactions between the two inputs \cite{chen2013learning}. For more
+details on the implementation and training of the layer functions, see
+\cite{Bowman:Potts:Manning:2014}.
 
 \begin{figure}[tp]
   \centering
@@ -34,7 +35,7 @@ a composition function here. Also, for our experiment on WordNet data,
 we introduce an additional neural network layer between the embedding 
 input and the comparison function, which facilitates initializing the 
 embeddings themselves from pretrained vectors and was found to help 
-peformance in that setting.
+performance in that setting.
 
 %\ii{Source code and generated data will be released after the conclusion of the review period.} % TODO: Or upon request? Attach anonymized code?
 

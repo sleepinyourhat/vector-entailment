@@ -1,4 +1,4 @@
-\subsection*{Introduction}\label{sec:intro}
+\section{Introduction}\label{sec:intro}
   % TODO: Trim and revise
   % Less focus on RNTNs, more on embedding spaces
 
@@ -19,7 +19,7 @@ entailment.
 Natural logic aligns well with distributed (e.g., vector)
 representations, which also naturally model meaning relationally.
 Distributed representations have been used successfully in a wide
-array of sophisticated language tasks. %,
+array of sophisticated language tasks \cite{collobert2011natural}. %,
 % including sentiment analysis, analogy completion, relation
 % extraction, and named entity recognition.
 However, it remains an open question whether it is possible to train
@@ -32,7 +32,7 @@ open question for a simple neural network-based classification model.
 The natural logic is built from the seven relations defined in
 Table~\ref{b-table}. Its formal properties are now well-understood
 \cite{Icard:Moss:2013:LILT}, so it provides a rigorous
-set of goals for our neural models. To keep the discussion managable,
+set of goals for our neural models. To keep the discussion manageable,
 we limit attention to experiments involving the lexicon; for a more
 extended treatment of complex expressions involving logical
 connectives and quantifiers, see \citet{Bowman:Potts:Manning:2014}.
@@ -41,9 +41,9 @@ In our experiments, we evaluate these models' ability to learn the
 basic algebra of natural logic relations from simulated data and from
 the WordNet noun graph. The simulated data help us to achieve analytic
 insights into what the models learn, and WordNet data show how they
-fare in the real world.  We find that even our model is able to learn
-natural logic-style relational reasoning with near-perfect accuracy
-in both settings.
+fare in the real world.  We find that only the NTN is able to fully
+learn the underlying algebra, but that both models excel in the 
+WordNet experiment.
 
 % In our first experiment, we use the pre-specified logical grammar to
 % generate controlled data sets and assess the ability of the two
