@@ -12,7 +12,7 @@ challenges within a somewhat easier classification problem.
 % lattice structure which is compatible with our learning paradigm.
 
 We extract three types of relation from WordNet. \ii{Hypernym} and
-\ii{hyponym} can be are represented directly in the WordNet graph
+\ii{hyponym} can be represented directly in the WordNet graph
 structure, and correspond closely to the $\natrev$ and $\natfor$
 relations from natural logic. As in natural logic, these relations are
 mirror images of one another: if \ii{dog} is a hyponym of \ii{animal}
@@ -21,17 +21,17 @@ mirror images of one another: if \ii{dog} is a hyponym of \ii{animal}
 terms, which share a direct hypernym, like \ii{dalmatian}, \ii{pug},
 and \ii{puppy}, which are all direct hyponyms of \ii{dog}.  Coordinate
 terms tend to exclude one another, thereby providing a loose approximation 
-of the natural logic exclusion relation $\natneg$. 
+of the natural logic exclusion relation $\natalt$. 
 WordNet defines hypernymy and hyponymy over
 sets of synonyms, rather than over individual terms, so we do not
 include a \ii{synonym} or \ii{equivalent} relation, but rather
 consider only one member of each set of synonyms. Word pairs which do
-not fall into these three relations are not included in the dataset.
+not fall into these three relations are not included in the data set.
 
 To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
 instances of these three relations for single word nouns in WordNet that are hyponyms of the node 
 \texttt{organism.n.01}. In order to balance the distribution of the classes, we slightly downsample instances 
-of the \ii{coordinate} relation, yielding a total of 36,772 relations among 3,217 terms. We report results below using crossvalidation, choosing a disjoin 10\% test sample for each of five runs. Unlike in the previous experiment,
+of the \ii{coordinate} relation, yielding a total of 36,772 relations among 3,217 terms. We report results below using crossvalidation, choosing a disjoint 10\% test sample for each of five runs. Unlike in the previous experiment,
 it is not straightforward here to determine in advance
 how much data should be required to train an accurate model, so we performed training runs with 
 various fractions of the remaining data. Embeddings were fixed at 25 dimensions and were initialized 
@@ -39,9 +39,12 @@ randomly or using distributional vectors from GloVe \cite{pennington2014glove}. 
 produced by the comparison layer was fixed at 80 dimensions.
 
 \paragraph{Results} 
-We find that the NTN performs perfectly with random initialization, and that the plain NN performs almost as well. We also find that initialization with GloVe is helpful in allowing the models to maintain fair performance
+We find that the NTN performs perfectly with random initialization, and that the plain NN performs almost as well,
+a point of contrast with the results of Section~\ref{sec:join}. We also find that initialization with GloVe is helpful in allowing the models to maintain fair performance
 with smaller amounts of training data. Some of the randomly initialized model runs failed to learn
 usable representations at all and labeled all examples with the most frequent labels. We excluded these runs from the statistics, but marked settings for which this occurred with the symbol $\dagger$. For all of the remaining runs, training accuracy was consistently above 99\%.
+
+\newcommand{\nodagger}{\phantom{$^\dagger$}}
 
 \begin{table}[h]
 \centering\resizebox{5.5in}{!}{
@@ -52,12 +55,12 @@ usable representations at all and labeled all examples with the most frequent la
      Portion of & \multicolumn{4}{c}{NN} & \multicolumn{4}{c}{NTN} & \multicolumn{2}{c}{Baseline}\\
      training data  & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
     \midrule
-     100\%   & 99.73 &(0.04) & 99.37$^\dagger$ &(0.14)    & 99.61 &(0.02) & \textbf{99.95} &(0.03) & 37.9 &(--)\\
-     33\%    & 95.96 &(0.2) & 95.3 &(0.12)                & 95.83 &(0.35)          & 95.45$^\dagger$ &(0.31) & 37.9 &(--)\\
-     11\%    & 91.11 &(0.24) & 90.81$^\dagger$ &(0.2)    & 91.27 &(0.27)          & 90.9$^\dagger$ &(0.13) & 37.9 &(--)\\
+     100\%   & 99.73 &(0.04) & 99.37$^\dagger$ &(0.14)    & 99.61 &(0.02) & \textbf{99.95}\nodagger &(0.03) & 37.05 &(--)\\
+     33\%    & 95.96 &(0.20) & 95.30\nodagger &(0.12)                & 95.83 &(0.35)          & 95.45$^\dagger$ &(0.31) & 37.05 &(--)\\
+     11\%    & 91.11 &(0.24) & 90.81$^\dagger$ &(0.20)    & 91.27 &(0.27)          & 90.90$^\dagger$ &(0.13) & 37.05 &(--)\\
      % 2\%    & 86.0 &(100.0) & ... &(100.0)   & 86.2 &(100.0)           & 76.4 &(87.3) & 37.9 &(--)\\ % Accidental run with slightly different train/test split.
     \bottomrule
   \end{tabular}}
- \caption{Mean test \% accuracy scores (with standard error) on the WordNet data over five-fold crossvalidation. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}} 
+ \caption{Mean test \% accuracy scores (with standard error) on the WordNet data over five-fold crossvalidation. The baseline figure is the frequency of the most frequent class, \ii{hypernym}.\label{b-table}} 
 \end{table}
 
