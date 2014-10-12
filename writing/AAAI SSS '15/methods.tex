@@ -5,11 +5,11 @@ We build an embedding-based model using the method of
 \cite{Bowman:Potts:Manning:2014}, which is centered on the task of
 labeling a pair of words or sentences with one of a small set of
 logical relations. The architecture of the model that we use, which is
-limited to only pairs of single symbols (such as words), is depicted
+limited to only pairs of single terms (such as words), is depicted
 in Figure~\ref{sample-figure}. The model represents the two input
-symbols as embeddings, which are fed into a comparison function based
+terms as embeddings, which are fed into a comparison function based
 on one of two types of neural network layer functions to produce a
-representation for the relationship between the two symbols. This
+representation for the relationship between the two terms. This
 representation is then fed into a softmax classifier, which outputs a
 distribution over possible labels. The entire network, including the
 embeddings, are trained using backpropagation. 
@@ -30,7 +30,7 @@ details on the implementation and training of the layer functions, see
 \end{figure}
 
 This model used here differs from the one described in that work in
-two ways. Because the inputs are single symbols, we do not use
+two ways. Because the inputs are single terms, we do not use
 a composition function here. Also, for our experiment on WordNet data, 
 we introduce an additional neural network layer between the embedding 
 input and the comparison function, which facilitates initializing the 

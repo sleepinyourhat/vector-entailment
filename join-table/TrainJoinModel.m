@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainJoinModel(expName, mbs, dim, tot, lambda, penult, sig)
+function TrainJoinModel(expName, dataflag, mbs, dim, tot, lambda, penult, sig)
 % The main training and testing script for the model that learns the 
 % join table (Experiment 1). 
 
@@ -16,8 +16,56 @@ end
 hyperParams.statlog = fopen([expName '/stat_log'], 'a');
 hyperParams.examplelog = fopen([expName '/example_log'], 'a');
 
-[wordMap, relationMap, relations] = ...
-    LoadTrainingData('./data/6x80_train.tsv')
+if findstr(dataflag, 'fold1')
+    % Choose which files to load in each category.
+    splitFilenames = {};
+    trainFilenames = {'./data/train_1.tsv'};
+    testFilenames = {'./data/test_1.tsv', ...
+                     './data/underivable_1.tsv'};
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./data/train_1.tsv')
+elseif findstr(dataflag, 'fold2')
+    % Choose which files to load in each category.
+    splitFilenames = {};
+    trainFilenames = {'./data/train_2.tsv'};
+    testFilenames = {'./data/test_2.tsv', ...
+                     './data/underivable_2.tsv'};
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./data/train_2.tsv')
+elseif findstr(dataflag, 'fold3')
+    % Choose which files to load in each category.
+    splitFilenames = {};
+    trainFilenames = {'./data/train_3.tsv'};
+    testFilenames = {'./data/test_3.tsv', ...
+                     './data/underivable_3.tsv'};
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./data/train_3.tsv')
+elseif findstr(dataflag, 'fold4')
+    % Choose which files to load in each category.
+    splitFilenames = {};
+    trainFilenames = {'./data/train_4.tsv'};
+    testFilenames = {'./data/test_4.tsv', ...
+                     './data/underivable_4.tsv'};
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./data/train_4.tsv')
+elseif findstr(dataflag, 'fold5')
+    % Choose which files to load in each category.
+    splitFilenames = {};
+    trainFilenames = {'./data/train_5.tsv'};
+    testFilenames = {'./data/test_5.tsv', ...
+                     './data/underivable_5.tsv'};
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./data/train_5.tsv')
+else
+    % Choose which files to load in each category.
+    assert(false)
+    splitFilenames = {};
+    trainFilenames = {'./data/6x80_train.tsv'};
+    testFilenames = {'./data/6x80_test.tsv', ...
+                     './data/6x80_test_underivable.tsv'}; % TODO, check dir!
+    [wordMap, relationMap, relations] = ...
+        LoadTrainingData('./data/6x80_train.tsv')
+end
 
 % disp('Uninformativizing:');
 % worddata = Uninformativize(worddata);
@@ -47,7 +95,7 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = penult;
 
 % Regularization coefficient.
-hyperParams.lambda = lambda; %0.002;
+hyperParams.lambda = 0.002;
 
 % A vector of text relation labels.
 hyperParams.relations = relations;
@@ -108,7 +156,7 @@ if hyperParams.minFunc
     options.OutputFcn = @Display;
 else
     % AdaGradSGD learning options
-    options.numPasses = 100;
+    options.numPasses = 3000;
     options.miniBatchSize = mbs;
 
 % LR
@@ -131,7 +179,7 @@ options.confusionFreq = 500;
 options.examplesFreq = 1000; 
 
 % How often (in steps) to save parameters to disk.
-options.checkpointFreq = 4000; 
+options.checkpointFreq = 400000; 
 
 % The name assigned to the current full run. Used in checkpoint naming.
 options.name = expName; 
@@ -149,14 +197,12 @@ Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
 
 % Load saved parameters if available
 savedParams = '';
-if nargin > 7 && ~isempty(pretrainingFilename)
-    savedParams = pretrainingFilename;
-else
-    listing = dir([options.name, '/', 'ckpt*']);
-    if ~isempty(listing)
-        savedParams = [options.name, '/', listing(end).name];
-    end
+
+listing = dir([options.name, '/', 'ckpt*']);
+if ~isempty(listing)
+    savedParams = [options.name, '/', listing(end).name];
 end
+
 if ~isempty(savedParams)
     Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
     a = load(savedParams);
@@ -167,12 +213,6 @@ else
     [ modelState.theta, modelState.thetaDecoder, modelState.constWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 end
-
-% Choose which files to load in each category.
-splitFilenames = {};
-trainFilenames = {'./data/6x80_train.tsv'};
-testFilenames = {'./data/6x80_test.tsv', ...
-                 './data/6x80_test_underivable.tsv'}; % TODO, check dir!
 
 % splitFilenames = setdiff(splitFilenames, testFilenames);
 hyperParams.firstSplit = size(testFilenames, 2) + 1;

@@ -89,12 +89,11 @@ We found that the NTN model worked best with 11-dimensional vector
 representations for the 80 sets and a 90-dimensional feature vector
 for the classifier, though the performance of the model was not highly
 dependant on either dimensionality setting. 
-This model was able to correctly label 99.4\% (94.3
-macroaveraged F1) of the provably derivable test examples, and 95.4\%
-(92.2 macro-F1) of the remaining test examples. The simpler NN worked
+Averaging over five randomly generated datasets, the model was able to correctly label 98.1\% (standard deviation $\sigma = 1.5\%$) of the provably derivable test examples, and 87.7\%
+($\sigma = 8.0\%$) of the remaining test examples. The simpler NN worked
 best with 11 and 75 dimensions, respectively, but was able to achieve
-accuracies of only 89.0\% (80.7 macro-F1) and 62.5\% (40.7 macro-F1),
-respectively. Training accuracy was 99.8\% for the NTN and 95.4\% for
+accuracies of only 84.8\% ($\sigma = 1.9\%$) and 68.7\% ($\sigma = 3.5\%$),
+respectively. Training accuracy was 99.8\% ($\sigma = 0.1\%$) for the NTN and 94.7\% ($\sigma = 2.0\%$) for
 the NN.
 
 \begin{figure}[tp]

@@ -176,7 +176,7 @@ options.PlotFcns = [];
 %%% AdaGradSGD learning options
 % Rarely does anything interesting happen past 
 % ~iteration ~200.
-options.numPasses = 100;
+options.numPasses = 32;
 options.miniBatchSize = mbs;
 
 %%% Generic learning options
@@ -187,7 +187,7 @@ options.lr = lr;    % 0.2;
 options.costFreq = 500;
 
 % How often (in steps) to run on test data.
-options.testFreq = 500;
+options.testFreq = 100;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.

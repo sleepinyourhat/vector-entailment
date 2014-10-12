@@ -39,10 +39,9 @@ randomly or using distributional vectors from GloVe \cite{pennington2014glove}. 
 produced by the comparison layer was fixed at 80 dimensions.
 
 \paragraph{Results} 
-We find that the NTN performs almost perfectly even when trained only
-on a fraction of the ground truth relations. The plain NN is somewhat less
-successful. Neither model has reached perfect performance in any of
-our experiments, though we are continuing to tune both models.
+We find that the NTN performs perfectly with random initialization, and that the plain NN performs almost as well. We also find that initialization with GloVe is helpful in allowing the models to maintain fair performance
+with smaller amounts of training data. Some of the randomly initialized model runs failed to learn
+usable representations at all and labeled all examples with the most frequent labels. We excluded these runs from the statistics, but marked settings for which this occurred with the symbol $\dagger$. For all of the remaining runs, training accuracy was consistently above 99\%.
 
 \begin{table}[h]
 \centering\resizebox{5.5in}{!}{
@@ -53,12 +52,12 @@ our experiments, though we are continuing to tune both models.
      Portion of & \multicolumn{4}{c}{NN} & \multicolumn{4}{c}{NTN} & \multicolumn{2}{c}{Baseline}\\
      training data  & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
     \midrule
-     100\%   & 99.5 &(100.0) & 98.9 &(99.7)    & \textbf{99.6} &(100.0) & 99.2 &(100.0) & 37.9 &(--)\\
-     33\%    & 96.0 &(100.0) & 37.0 &(37.0)    & 95.4 &(100.0)          & 95.3 &(100.0) & 37.9 &(--)\\
-     11\%    & 91.8 &(100.0) & 91.9 &(100.0)   & 92.1 &(99.7)           & 92.2 &(100.0) & 37.9 &(--)\\
+     100\%   & 99.7 &(0.0) & 99.4$^\dagger$ &(0.3)    & 99.6 &(0.0) & \textbf{100.0} &(0.1) & 37.9 &(--)\\
+     33\%    & 96.0 &(0.5) & 95.3 &(0.2)     & 95.8 &(0.8)          & 95.5$^\dagger$ &(0.5) & 37.9 &(--)\\
+     11\%    & 91.1 &(0.5) & 90.8$^\dagger$ &(0.3)    & 91.3 &(0.6)          & 90.9$^\dagger$ &(0.2) & 37.9 &(--)\\
      % 2\%    & 86.0 &(100.0) & ... &(100.0)   & 86.2 &(100.0)           & 76.4 &(87.3) & 37.9 &(--)\\ % Accidental run with slightly different train/test split.
     \bottomrule
   \end{tabular}}
- \caption{Test (train) accuracy figures on the WordNet data. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}}  
+ \caption{Mean test \% accuracy scores (with standard deviations) on the WordNet data over five-fold crossvalidation. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}} 
 \end{table}
 
