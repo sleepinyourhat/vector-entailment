@@ -52,12 +52,12 @@ usable representations at all and labeled all examples with the most frequent la
      Portion of & \multicolumn{4}{c}{NN} & \multicolumn{4}{c}{NTN} & \multicolumn{2}{c}{Baseline}\\
      training data  & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
     \midrule
-     100\%   & 99.7 &(0.0) & 99.4$^\dagger$ &(0.3)    & 99.6 &(0.0) & \textbf{100.0} &(0.1) & 37.9 &(--)\\
-     33\%    & 96.0 &(0.5) & 95.3 &(0.2)     & 95.8 &(0.8)          & 95.5$^\dagger$ &(0.5) & 37.9 &(--)\\
-     11\%    & 91.1 &(0.5) & 90.8$^\dagger$ &(0.3)    & 91.3 &(0.6)          & 90.9$^\dagger$ &(0.2) & 37.9 &(--)\\
+     100\%   & 99.73 &(0.04) & 99.37$^\dagger$ &(0.14)    & 99.61 &(0.02) & \textbf{99.95} &(0.03) & 37.9 &(--)\\
+     33\%    & 95.96 &(0.2) & 95.3 &(0.12)                & 95.83 &(0.35)          & 95.45$^\dagger$ &(0.31) & 37.9 &(--)\\
+     11\%    & 91.11 &(0.24) & 90.81$^\dagger$ &(0.2)    & 91.27 &(0.27)          & 90.9$^\dagger$ &(0.13) & 37.9 &(--)\\
      % 2\%    & 86.0 &(100.0) & ... &(100.0)   & 86.2 &(100.0)           & 76.4 &(87.3) & 37.9 &(--)\\ % Accidental run with slightly different train/test split.
     \bottomrule
   \end{tabular}}
- \caption{Mean test \% accuracy scores (with standard deviations) on the WordNet data over five-fold crossvalidation. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}} 
+ \caption{Mean test \% accuracy scores (with standard error) on the WordNet data over five-fold crossvalidation. The baseline figure is simply the frequency of the most frequent class, \ii{coordinate}.\label{b-table}} 
 \end{table}
 
