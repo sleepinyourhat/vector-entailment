@@ -24,18 +24,19 @@ array of sophisticated language tasks (e.g., \cite{collobert2011natural}). %,
 % extraction, and named entity recognition.
 However, it remains an open question whether it is possible to train
 such representations to support the rich, diverse logical reasoning
-captured by natural logic; while they excel at
-synonymy (similarity), the results are more mixed for entailment,
-contradiction, and mutual consistency.  Using the natural logic of
-\cite{maccartney2009extended} as our formal model, we address this
-open question for a simple neural network-based classification model. 
-The natural logic is built from the seven relations defined in
-Table~\ref{b-table}. Its formal properties are now well-understood
-\cite{Icard:Moss:2013:LILT}, so it provides a rigorous
-set of goals for our neural models. To keep the discussion manageable,
-we limit attention to experiments involving the lexicon; for a more
-extended treatment of complex expressions involving logical
-connectives and quantifiers, see \citet{Bowman:Potts:Manning:2014}.
+captured by natural logic; while they excel at synonymy (similarity),
+the results are more mixed for entailment, contradiction, and mutual
+consistency.  Using the natural logic of \cite{maccartney2009extended}
+as our formal model, we address this open question using two neural
+network-based models for learning embeddings: plain neural networks
+and neural tensor networks (NTNs).  The natural logic is built from
+the seven relations defined in Table~\ref{b-table}. Its formal
+properties are now well-understood \cite{Icard:Moss:2013:LILT}, so it
+provides a rigorous set of goals for our neural models. To keep the
+discussion manageable, we limit attention to experiments involving the
+lexicon; for a more extended treatment of complex expressions
+involving logical connectives and quantifiers, see
+\citet{Bowman:Potts:Manning:2014}.
 
 In our experiments, we evaluate these models' ability to learn the
 basic algebra of natural logic relations from simulated data and from
