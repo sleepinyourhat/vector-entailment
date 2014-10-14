@@ -8,6 +8,10 @@ if findstr(dataflag, 'sick-')
 	relationMap = cell(2, 1);
 	relationMap{1} = containers.Map(relations{1}, 1:length(relations{1}));
 	relationMap{2} = containers.Map(relations{2}, 1:length(relations{2}));
+elseif strcmp(dataflag, 'imageflickr') 
+	relations = {{'ENTAILMENT', 'null1', 'null2', 'NONENTAILMENT'}};
+	relationMap = cell(1, 1);
+	relationMap{1} = containers.Map(relations{1}, 1:length(relations{1}));
 elseif findstr(dataflag, 'G-')
 	relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
 	relationMap = cell(1, 1);

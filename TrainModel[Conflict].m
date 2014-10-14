@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, trainwords, dsp, fold)
+function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, loadwords, dsp, fold)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -39,10 +39,10 @@ elseif findstr(dataflag, 'sick-only')
     [wordMap, relationMap, relations] = ...
         InitializeMaps('sick_data/sick_words_t4.txt', dataflag);
     hyperParams.vocabName = 'sot4'; 
-elseif strcmp(dataflag, 'sick-plus') || strcmp(dataflag, 'imageflickr')
+elseif findstr(dataflag, 'sick-') or findstr(dataflag, 'imageflickr') 
     [wordMap, relationMap, relations] = ...
         InitializeMaps('sick_data/flickr_words_t4.txt', dataflag);
-    hyperParams.vocabName = 'spt4b';
+    hyperParams.vocabName = 'spt4'; 
 elseif findstr(dataflag, 'word-relations')
     [wordMap, relationMap, relations] = ...
         InitializeMaps('word-relations/google-10000-english.txt', dataflag);
@@ -77,14 +77,7 @@ if findstr(dataflag, 'sick-')
 
     % Initialize word vectors from disk.
     hyperParams.loadWords = true;
-    hyperParams.trainWords = trainwords;
-elseif findstr(dataflag, 'imageflickr')
-    % The number of relations.
-    hyperParams.numRelations = 4; 
-
-    % Initialize word vectors from disk.
-    hyperParams.loadWords = true;
-    hyperParams.trainWords = trainwords;
+    hyperParams.trainWords = loadwords;
 elseif findstr(dataflag, 'word-relations')
     hyperParams.numRelations = [4]; 
 
@@ -99,7 +92,7 @@ elseif findstr(dataflag, 'synset-relations')
     hyperParams.numRelations = [3]; 
 
     % Initialize word vectors from disk.
-    hyperParams.loadWords = trainwords;
+    hyperParams.loadWords = loadwords;
     hyperParams.trainWords = true;
 
     % Don't keep the whole training data in memory, rather keep it in the form of

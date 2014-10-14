@@ -33,9 +33,8 @@ for sourceFilenameIndex = 1:length(trainingData)
     filename = fragmentFiles{sourceFilenameIndex}{fragmentIndex};
     filepath = fileparts(trainingData{sourceFilenameIndex});
     disp(['Loading ' filename]);
-    a = load([filepath, '/', filename],'-mat');
-    openFragments{sourceFilenameIndex} = a.data;
-    openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(a.data));
+    openFragments{sourceFilenameIndex} = load([filepath, '/', filename],'-mat');
+    openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(openFragments{sourceFilenameIndex}.data));
     openFragmentExampleOrderIndices(sourceFilenameIndex) = 1;
     clearvars a
 end
@@ -47,7 +46,7 @@ while true
     end
 
     % Load a new file if needed
-    if openFragmentExampleOrderIndices(sourceFilenameIndex) >= length(openFragments{sourceFilenameIndex})
+    if openFragmentExampleOrderIndices(sourceFilenameIndex) >= length(openFragments{sourceFilenameIndex}.data)
         fragmentOrderIndices(sourceFilenameIndex) = fragmentOrderIndices(sourceFilenameIndex) + 1;
         
         % Check that we haven't just exhausted this source
@@ -58,9 +57,8 @@ while true
             nextFileIndex = fragmentOrders{sourceFilenameIndex}(fragmentOrderIndices(sourceFilenameIndex));
             filename = fragmentFiles{sourceFilenameIndex}{nextFileIndex};
             filepath = fileparts(trainingData{sourceFilenameIndex});
-            a = load([filepath, '/', filename],'-mat');
-            openFragments{sourceFilenameIndex} = a.data;
-            openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(a.data));
+            openFragments{sourceFilenameIndex} = load([filepath, '/', filename],'-mat');
+            openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(openFragments{sourceFilenameIndex}.data));
             openFragmentExampleOrderIndices(sourceFilenameIndex) = 1;
             clearvars a
         end
@@ -68,12 +66,12 @@ while true
 
     beginMiniBatch = openFragmentExampleOrderIndices(sourceFilenameIndex);
     endMiniBatch = min(beginMiniBatch + options.miniBatchSize, ...
-        length(openFragments{sourceFilenameIndex}));
+        length(openFragments{sourceFilenameIndex}.data));
     openFragmentExampleOrderIndices(sourceFilenameIndex) = ...
         openFragmentExampleOrderIndices(sourceFilenameIndex) + endMiniBatch;
     batchInd = openFragmentExampleOrders{sourceFilenameIndex} ...
         (beginMiniBatch:endMiniBatch);
-    batch = openFragments{sourceFilenameIndex}(batchInd);
+    batch = openFragments{sourceFilenameIndex}.data(batchInd);
 
     % TODO: This is a hack. Remove it when the preloaded DenotationGraph data is refreshed.
     if length(batch(1).relation) < length(hyperParams.numRelations)

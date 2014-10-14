@@ -87,10 +87,11 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
         data(dataInd).relation = rawData(dataInd).relation;
     end
 
-    for i = 1:length(data)
-        assert(~isempty(data(i).leftTree.getText()), ['Did not finish processing trees.' num2str(i)]);
-        assert(~isempty(data(i).rightTree.getText()), ['Did not finish processing trees.' num2str(i)]);       
-    end
+    % Turn on if further debugging is needed. Slow.
+    % for i = 1:length(data)
+    %     assert(~isempty(data(i).leftTree.getText()), ['Did not finish processing trees.' num2str(i)]);
+    %     assert(~isempty(data(i).rightTree.getText()), ['Did not finish processing trees.' num2str(i)]);       
+    % end
 
     [pathname, filenamePart, ext] = fileparts(filename);
     save([pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, '-', num2str(nextItemNo), '.mat'], 'data');

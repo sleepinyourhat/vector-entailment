@@ -13,7 +13,7 @@ if modelState.step == 0
 end 
 
 while modelState.pass < options.numPasses
-    TestAndLog(CostGradFunc, modelState, options, trainingData, ...
+    modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
         hyperParams, testDatasets);
 
     % Check the stopping criterion.

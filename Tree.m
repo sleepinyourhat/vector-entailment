@@ -10,9 +10,10 @@ classdef Tree < handle
         daughters = []; % 2 x 1 vector of trees
         text = 'NO_TEXT';
         features = []; % DIM x 1 vector
+        featuresPreNL = [];
         wordIndex = -1; % -1 => Not a lexical item node.
-        transformInnerActivations = [] % Stored activations for the embedding tranform layers.
-        transformActivations = [] % Stored activations for the embedding tranform layers.
+        transformInnerActivations = []; % Stored activations for the embedding tranform layers.
+        transformActivations = []; % Stored activations for the embedding tranform layers.
         type = 0; % 0 - predicate or predicate + neg
                   % 1 - quantifier
                   % 2 - neg
@@ -169,9 +170,10 @@ classdef Tree < handle
                 end
                
                 if size(compMatrices, 1) ~= 0
-                    obj.features = compNL(ComputeInnerTensorLayer( ...
+                    obj.featuresPreNL = ComputeInnerTensorLayer( ...
                         lFeatures, rFeatures, compMatrices(:,:,:,typeInd),...
-                        compMatrix(:,:,typeInd), compBias(:,typeInd)));
+                        compMatrix(:,:,typeInd), compBias(:,typeInd));
+                    obj.features = compNL(obj.featuresPreNL);
                 else
                     obj.features = compNL(compMatrix(:,:,typeInd) * ...
                         [lFeatures; rFeatures] + compBias(:,typeInd));
@@ -260,7 +262,7 @@ classdef Tree < handle
                           compMatrices(:,:,:,typeInd), ...
                           compMatrix(:,:,typeInd), ...
                           compBias(:,typeInd), delta, ...
-                          compNLDeriv);
+                          compNLDeriv, obj.featuresPreNL);
                 end
 
                 upwardCompositionMatricesGradients(:,:,:,typeInd) = ...
