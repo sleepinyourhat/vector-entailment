@@ -22,7 +22,7 @@ for layer = (STACKSIZE):-1:1
     end
 
     % Calculate bias gradients
-    biasStackGradients(:, layer) = (NLDeriv .* deltaDown);
+    biasStackGradients(:, layer) = deltaDown;
 
     % Calculate deltas to pass down
     thirdTerm = matrixStack(:, :, layer)';

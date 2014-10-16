@@ -1,6 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
-    (trainFilenames, splitFilenames, testFilenames, wordMap, relationMap, hyperParams)
+function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets (wordMap, relationMap, hyperParams)
 % Load and combine all of the training and test data.
 % This is slow. And can probably be easily improved if it matters.
 
@@ -11,17 +10,17 @@ function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets ...
 % relationIndices: An optional matrix with three rows, one each for 
 % train/test/split, indicating which set of relations the dataset uses.
 
-PERCENT_USED_FOR_TESTING = 0.10;
+PERCENT_USED_FOR_TESTING = hyperParams.testFraction;
 
 if hyperParams.fragmentData
-    trainDataset = trainFilenames;
+    trainDataset = hyperParams.trainFilenames;
 else
     trainDataset = [];
 end
 testDatasets = {};
 
-for i = 1:length(trainFilenames)
-    Log(hyperParams.statlog, ['Loading training dataset ', trainFilenames{i}]);
+for i = 1:length(hyperParams.trainFilenames)
+    Log(hyperParams.statlog, ['Loading training dataset ', hyperParams.trainFilenames{i}]);
     if isfield(hyperParams, 'relationIndices')
         relationIndex = hyperParams.relationIndices(1, i);
     else
@@ -29,35 +28,36 @@ for i = 1:length(trainFilenames)
     end
         
     if ~hyperParams.fragmentData
-        dataset = LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+        dataset = LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, ...
+                                  hyperParams, false, relationIndex);
         trainDataset = [trainDataset; dataset];
     else
-        LoadConstitData(trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
+        LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
     end
         
 end
 
-for i = 1:length(testFilenames)
+for i = 1:length(hyperParams.testFilenames)
     if isfield(hyperParams, 'relationIndices')
         relationIndex = hyperParams.relationIndices(2, i);
     else
         relationIndex = 1
     end
 
-    Log(hyperParams.statlog, ['Loading test dataset ', testFilenames{i}]);
-    dataset = LoadConstitData(testFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    Log(hyperParams.statlog, ['Loading test dataset ', hyperParams.testFilenames{i}]);
+    dataset = LoadConstitData(hyperParams.testFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     testDatasets = [testDatasets, {dataset}];
 end
 
-for i = 1:length(splitFilenames)
+for i = 1:length(hyperParams.splitFilenames)
     if isfield(hyperParams, 'relationIndices')
         relationIndex = hyperParams.relationIndices(3, i);
     else
         relationIndex = 1
     end
 
-    Log(hyperParams.statlog, ['Loading split dataset ', splitFilenames{i}]);
-    dataset = LoadConstitData(splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    Log(hyperParams.statlog, ['Loading split dataset ', hyperParams.splitFilenames{i}]);
+    dataset = LoadConstitData(hyperParams.splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     lengthOfTestPortion = ceil(length(dataset) * PERCENT_USED_FOR_TESTING);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
     endOfTestPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
@@ -72,5 +72,5 @@ for i = 1:length(splitFilenames)
 end
 
 % Evaluate on test datasets, and show set-by-set results
-datasetNames = [testFilenames, splitFilenames];
+datasetNames = [hyperParams.testFilenames, hyperParams.splitFilenames];
 testDatasetsCell = {datasetNames, testDatasets};

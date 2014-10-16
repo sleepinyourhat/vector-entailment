@@ -29,8 +29,8 @@ for i = 1:outDim
 end
 
 % Calculate vector gradients for tensor layer
-biasGradients = (tensorDeriv .* delta);
-delta = biasGradients;
+biasGradients = delta;
+delta = (tensorDeriv .* delta);
 
 innerTensorLayerMatrix = zeros(inDim, outDim);
 for i = 1:outDim

@@ -18,7 +18,7 @@ classifierParameters = rand(sum(hyperParams.numRelations), PENULT + 1) .* .02 - 
 
 % Randomly initialize tensor parameters
 if hyperParams.useThirdOrderComparison
-    classifierMatrices = rand(DIM , DIM, PENULT) .* .02 - .01;
+    classifierMatrices = rand(DIM, DIM, PENULT) .* .02 - .01;
 else
     classifierMatrices = zeros(0, 0, PENULT) .* .02 - .01;
 end

@@ -47,9 +47,9 @@ if hyperParams.useThirdOrderComparison
         rightFeatures, classifierMatrices, classifierMatrix, classifierBias);
     classTensorOutput = hyperParams.classNL(tensorInnerOutput);
 else
-      tensorInnerOutput = classifierMatrix * [leftFeatures; rightFeatures]...
+    innerOutput = classifierMatrix * [leftFeatures; rightFeatures]...
           + classifierBias;
-    classTensorOutput = hyperParams.classNL(tensorInnerOutput);  
+    classTensorOutput = hyperParams.classNL(innerOutput);  
 end
        
 % Run layers forward
@@ -117,7 +117,7 @@ if nargout > 1
             classifierDeltaRight] = ...
           ComputeLayerGradients(leftFeatures, rightFeatures, ...
               classifierMatrix, classifierBias, ...
-              extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+              extraDelta, hyperParams.classNLDeriv, innerOutput);
     end
 
     [ upwardWordGradients, ...

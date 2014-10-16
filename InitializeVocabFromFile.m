@@ -13,6 +13,7 @@ if loadFromMat
     words = v.words;
     fullVocab = v.We2';
 else
+    % The vocabulary that comes with the vector source.
     fid = fopen('sick_data/words_25d.txt');
     words = textscan(fid,'%s','Delimiter','\n');
     words = words{1};
