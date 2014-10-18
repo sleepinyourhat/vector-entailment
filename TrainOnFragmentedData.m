@@ -3,16 +3,19 @@ function [ modelState ] = TrainOnFragmentedData(CostGradFunc, trainingData, test
 % Preloaded MAT files for each training dataset, 
 % outer index = sourceFilenameIndex, inner index reflect
 % an arbitrary order within the framents of the source file.
-openFragments = {};
-fragmentFiles = {};
-fragmentOrders = {};
-fragmentOrderIndices = [];
-sourceSizes = [];
-openFragmentExampleOrders = {};
-openFragmentExampleOrderIndices = [];
+openFragments = {}; % Loaded data by filenameIndex.
+fragmentFiles = {}; % 
+fragmentOrders = {}; % Permutations of the fragment indices for each 
+fragmentOrderIndices = []; % How far along training is in the list of fragments for each file.
+sourceSizes = []; % The length of each complete dataset.
+openFragmentExampleOrders = {}; % Permutations of the item indices in each open fragment.
+openFragmentExampleOrderIndices = []; % How far along training is in each fragment.
 totalNumTrainingExamples = 0;
 
+% Initialize all of the source files.
 for sourceFilenameIndex = 1:length(trainingData)
+
+    % Find the files to use.
     [pathname, filename, ext] = fileparts(trainingData{sourceFilenameIndex});
     listing = dir([pathname, '/pp-', filename, ext, '-', hyperParams.vocabName, '*.mat']);
     finalListing = dir([pathname, '/pp-', filename, ext, '-final-', hyperParams.vocabName, '*.mat']);
@@ -21,7 +24,7 @@ for sourceFilenameIndex = 1:length(trainingData)
 
     % Get the total example count for the source
     [startIndex, endIndex] = regexpi(finalListing(1).name,'[0-9]+.mat');
-    sourceSizes(sourceFilenameIndex) = str2num(finalListing(1).name(startIndex(1):(endIndex(1)-4)));
+    sourceSizes(sourceFilenameIndex) = str2num(finalListing(1).name(startIndex(1):(endIndex(1)-4)))
     totalNumTrainingExamples = totalNumTrainingExamples + sourceSizes(sourceFilenameIndex);
 
     % Permute the fragments of the source
@@ -39,6 +42,7 @@ for sourceFilenameIndex = 1:length(trainingData)
     clearvars a
 end
 
+% Iterate through all of the data.
 while true
     sourceFilenameIndex = chooseDataset(trainingData, fragmentOrderIndices, fragmentOrders, sourceSizes);
     if sourceFilenameIndex == 0
@@ -54,9 +58,10 @@ while true
             continue
         else
             % Open a file and permute its examples
-            nextFileIndex = fragmentOrders{sourceFilenameIndex}(fragmentOrderIndices(sourceFilenameIndex));
-            filename = fragmentFiles{sourceFilenameIndex}{nextFileIndex};
+            nextFragmentIndex = fragmentOrders{sourceFilenameIndex}(fragmentOrderIndices(sourceFilenameIndex));
+            filename = fragmentFiles{sourceFilenameIndex}{nextFragmentIndex};
             filepath = fileparts(trainingData{sourceFilenameIndex});
+            disp(['Loading ' filename]);
             openFragments{sourceFilenameIndex} = load([filepath, '/', filename],'-mat');
             openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(openFragments{sourceFilenameIndex}.data));
             openFragmentExampleOrderIndices(sourceFilenameIndex) = 1;
@@ -64,32 +69,21 @@ while true
         end
     end
 
+    % Work out which span of the example order index to look in.
     beginMiniBatch = openFragmentExampleOrderIndices(sourceFilenameIndex);
     endMiniBatch = min(beginMiniBatch + options.miniBatchSize, ...
         length(openFragments{sourceFilenameIndex}.data));
     openFragmentExampleOrderIndices(sourceFilenameIndex) = ...
-        openFragmentExampleOrderIndices(sourceFilenameIndex) + endMiniBatch;
+        openFragmentExampleOrderIndices(sourceFilenameIndex) + (endMiniBatch - beginMiniBatch + 1);
+    assert(((beginMiniBatch - endMiniBatch + 1) == options.miniBatchSize) || ...
+           (endMiniBatch == length(openFragments{sourceFilenameIndex}.data)));
+
+    % Work out the actual example numbers to train on.
     batchInd = openFragmentExampleOrders{sourceFilenameIndex} ...
         (beginMiniBatch:endMiniBatch);
     batch = openFragments{sourceFilenameIndex}.data(batchInd);
 
-    % TODO: This is a hack. Remove it when the preloaded DenotationGraph data is refreshed.
-    if length(batch(1).relation) < length(hyperParams.numRelations)
-        if (~isempty(strfind(trainingData{sourceFilenameIndex}, 'denotation')) || ~isempty(strfind(trainingData{sourceFilenameIndex}, 'Flickr')))
-            parfor i = 1:length(batch)
-                if batch(i).relation == 1
-                    batch(i).relation = [0 1];
-                else
-                    batch(i).relation = [0 2]; 
-                end
-            end
-        else
-            parfor i = 1:length(batch)
-                batch(i).relation = [batch(i).relation 0];
-            end
-        end
-    end
-
+    % Run the minibatch.
     [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.constWordFeatures, hyperParams);
     modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
 
@@ -134,6 +128,6 @@ for sourceFilenameIndex = 1:length(trainingData)
     end
 end
 
-disp('Error')
+assert(false, 'chooseDataset failed.')
 
 end

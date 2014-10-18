@@ -231,6 +231,10 @@ echo "cd quant; lambda = 0.0005; ed = 0; train = 1; penult = 75; lr = 0.1, name=
 echo "cd quant; lambda = 0.005; ed = 0; train = 1; penult = 75; lr = 0.01, name=['if-', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(train), '-pen', num2str(penult), '-lr', num2str(lr)]; disp(name); TrainModel('', name, 1, @Sick, 'imageflickr', ed, penult, lambda, 1, 64, lr, train);" | /afs/cs/software/bin/matlab_r2012b
 echo "cd quant; lambda = 0.0005; ed = 0; train = 1; penult = 75; lr = 0.001, name=['if-', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(train), '-pen', num2str(penult), '-lr', num2str(lr)]; disp(name); TrainModel('', name, 1, @Sick, 'imageflickr', ed, penult, lambda, 1, 64, lr, train);" | /afs/cs/software/bin/matlab_r2012b
 
+echo "cd quant; lambda = 0.0005; ed = 1; train = 1; penult = 75; lr = 0.1, name=['if-frag-', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(train), '-pen', num2str(penult), '-lr', num2str(lr)]; disp(name); TrainModel('', name, 1, @Sick, 'imageflickrshort', ed, penult, lambda, 1, 64, lr, train, 1);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant; lambda = 0.0005; ed = 1; train = 1; penult = 75; lr = 0.1, name=['if-nofrag-', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(train), '-pen', num2str(penult), '-lr', num2str(lr)]; disp(name); TrainModel('', name, 1, @Sick, 'imageflickrshort', ed, penult, lambda, 1, 64, lr, train, 0);" | /afs/cs/software/bin/matlab_r2012b
+
+
 echo "cd quant;TrainModel('', 'test', 1, @GradCheck, 1, 1, 1);" | /afs/cs/software/bin/matlab_r2012b
 echo "cd quant;TrainModel('', 'test', 1, @GradCheck, 1, 1, 0);" | /afs/cs/software/bin/matlab_r2012b
 

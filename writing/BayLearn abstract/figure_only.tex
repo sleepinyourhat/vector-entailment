@@ -1,0 +1,127 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{nips14submit_e,times}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[leqno, fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage[numbers]{natbib}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+
+
+
+\definecolor{mylinkcolor}{rgb}{0,0,0} % black
+\hypersetup{colorlinks, linkcolor=mylinkcolor, urlcolor=mylinkcolor, citecolor=mylinkcolor}
+
+\newcommand{\nateq}{\equiv}
+\newcommand{\natind}{\mathbin{\#}}
+%\newcommand{\natneg}{\raisebox{2px}{\tiny\thinspace$\wedge$\thinspace}}
+\newcommand{\natneg}{\mathbin{^{\wedge}}}
+\newcommand{\natfor}{\sqsubset}
+\newcommand{\natrev}{\sqsupset}
+\newcommand{\natalt}{\mathbin{|}}
+\newcommand{\natcov}{\mathbin{\smallsmile}}
+
+\newcommand{\plneg}{\mathop{\textit{not}}}
+\newcommand{\pland}{\mathbin{\textit{and}}}
+\newcommand{\plor}{\mathbin{\textit{or}}}
+
+
+
+% Strikeout
+\newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
+\begin{picture}(0,0)\put(0,1){\line(-1,0){\howlong\divide\unitlength}}\end{picture}}
+
+\newcommand{\True}{\texttt{T}}
+\newcommand{\False}{\texttt{F}}
+\usepackage{stmaryrd}
+\newcommand{\sem}[1]{\ensuremath{\llbracket#1\rrbracket}}
+
+
+\renewcommand{\bibsection}{\subsubsection*{References}}
+
+\usepackage{gb4e}
+
+\def\ii#1{\textit{#1}}
+
+\newcommand{\mynote}[1]{{\color{red}\framebox{\begin{tabular}{p{0.9\textwidth}}\footnotesize#1 \end{tabular}}}}
+
+
+\title{Recursive Neural Networks for Learning Logical Semantics}
+
+\author{
+Samuel R.\ Bowman$^{\ast\dag}$ \\
+\texttt{sbowman@stanford.edu} \\[2ex]
+$^{\ast}$Stanford Linguistics \\
+\And
+Christopher Potts$^{\ast}$\\
+\texttt{cgpotts@stanford.edu} \\[2ex]
+$^{\dag}$Stanford NLP Group
+\And
+Christopher D.\ Manning$^{\ast\dag\ddag}$\\
+\texttt{manning@stanford.edu}\\[2ex]
+$^{\ddag}$Stanford Computer Science
+}
+
+% \author{
+% Samuel R.\ Bowman \\
+% NLP Group, Dept.\ of Linguistics\\
+% Stanford University\\
+% Stanford, CA 94305-2150 \\
+% \texttt{sbowman@stanford.edu}
+%  \And
+%  Christopher Potts \\
+% Dept.\ of Linguistics\\
+% Stanford University\\
+% Stanford, CA 94305-2150 \\
+% \texttt{cgpotts@stanford.edu}
+%  \And
+% Christopher D.\ Manning \\
+% NLP Group,  Depts.\ of Computer Science and Linguistics\\
+% Stanford University\\
+% Stanford, CA 94305-2150 \\
+% \texttt{manning@stanford.edu}
+% }
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\nipsfinalcopy % Uncomment for camera-ready version
+
+\begin{document}
+
+
+\begin{table}[tp]
+  \centering
+  \setlength{\tabcolsep}{10pt}
+  \begin{tabular}{ l rr r r }
+    \toprule
+    Data & \multicolumn{1}{c}{Chance} & \multicolumn{1}{c}{16 dim RNN}  & \multicolumn{1}{c}{20 dim RNTN}\\
+    \midrule
+    \textsc{all split}              & 35.4  &  67.4& \textbf{100.0} 
+    \\[1ex]    
+    \textsc{two/less-than-two} & 59.8 & 77.2  &  \textbf{100.0}  \\
+    \textsc{not-all/not-most}  &    0    & 66.0  &  \textbf{93.8}   \\
+    \textsc{all/some}      &    0   & 62.7   & \textbf{78.4}  \\
+    \textsc{no/no}             & 30.8  & 67.8  &  \textbf{99.9}   \\
+    \bottomrule
+  \end{tabular}
+  \caption{Performance on the quantifier experiments. Results are reported as accuracy scores followed by macroaveraged F1 scores in parentheses.}
+  \label{resultstable}
+\end{table} 
+
+
+\begin{figure}[hp]
+  \centering\resizebox{4.5in}{!}{
+  \input{figure1}}
+  % \caption{The model structure used to compare \ii{((all reptiles) walk)} and \ii{((some turtles) move)}. 
+  %  The same structure is used for both the RNN and RNTN layer functions.} 
+  \label{sample-figure}
+\end{figure}
+
+\end{document}
