@@ -6,7 +6,14 @@ randomOrder = randperm(N);
 
 for batchNo = 0:(numBatches-1)
     beginMiniBatch = (batchNo * options.miniBatchSize+1);
-    endMiniBatch = min((batchNo+1) * options.miniBatchSize,N);
+    endMiniBatch = (batchNo+1) * options.miniBatchSize;
+
+    % Don't bother with the last few examples if they don't make up a full minibatch. 
+    % They'll be reshuffled in the next pass.
+    if endMiniBatch > N
+        return
+    end
+
     batchInd = randomOrder(beginMiniBatch:endMiniBatch);
     batch = trainingData(batchInd);
 
