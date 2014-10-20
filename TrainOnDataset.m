@@ -10,23 +10,6 @@ for batchNo = 0:(numBatches-1)
     batchInd = randomOrder(beginMiniBatch:endMiniBatch);
     batch = trainingData(batchInd);
 
-    if length(batch(1).relation) < length(hyperParams.numRelations)
-        disp('Temporary hack: Modifying labels')
-        if (~isempty(strfind(trainingData{sourceFilenameIndex}, 'denotation')) || ~isempty(strfind(trainingData{sourceFilenameIndex}, 'flickr')))
-            parfor i = 1:length(batch)
-                if batch(i).relation == 1
-                    batch(i).relation = [0 1];
-                else
-                    batch(i).relation = [0 2]; 
-                end
-            end
-        else
-            parfor i = 1:length(batch)
-                batch(i).relation = [batch(i).relation 0];
-            end
-        end
-    end
-
     [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.constWordFeatures, hyperParams);
     modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
 

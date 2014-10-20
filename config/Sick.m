@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords, frag)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords, frag, loadwords)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -23,7 +23,7 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
 
-hyperParams.loadWords = true;
+hyperParams.loadWords = loadwords;
 hyperParams.trainWords = trainwords;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
@@ -75,14 +75,14 @@ elseif findstr(dataflag, 'sick-plus')
     hyperParams.fragmentData = true;
 elseif strcmp(dataflag, 'imageflickr')
     % The number of relations.
-    hyperParams.numRelations = 2; 
+    hyperParams.numRelations = 4; 
 
-    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
+    hyperParams.relations = {{'ENTAILMENT', 'na', 'na2', 'NONENTAILMENT'}};
 	relationMap = cell(1, 1);
 	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
     wordMap = InitializeMaps('sick_data/flickr_words_t4.txt');
-    hyperParams.vocabName = 'spt4-2cl';
+    hyperParams.vocabName = 'spt4b';
 
     hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...

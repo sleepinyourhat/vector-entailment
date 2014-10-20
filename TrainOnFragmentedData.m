@@ -24,7 +24,7 @@ for sourceFilenameIndex = 1:length(trainingData)
 
     % Get the total example count for the source
     [startIndex, endIndex] = regexpi(finalListing(1).name,'[0-9]+.mat');
-    sourceSizes(sourceFilenameIndex) = str2num(finalListing(1).name(startIndex(1):(endIndex(1)-4)))
+    sourceSizes(sourceFilenameIndex) = str2num(finalListing(1).name(startIndex(1):(endIndex(1)-4)));
     totalNumTrainingExamples = totalNumTrainingExamples + sourceSizes(sourceFilenameIndex);
 
     % Permute the fragments of the source
@@ -46,11 +46,12 @@ end
 while true
     sourceFilenameIndex = chooseDataset(trainingData, fragmentOrderIndices, fragmentOrders, sourceSizes);
     if sourceFilenameIndex == 0
+        disp(['Finished pass at step ' num2str(modelState.step)]);
         return
     end
 
     % Load a new file if needed
-    if openFragmentExampleOrderIndices(sourceFilenameIndex) >= length(openFragments{sourceFilenameIndex}.data)
+    if openFragmentExampleOrderIndices(sourceFilenameIndex) > length(openFragments{sourceFilenameIndex}.data)
         fragmentOrderIndices(sourceFilenameIndex) = fragmentOrderIndices(sourceFilenameIndex) + 1;
         
         % Check that we haven't just exhausted this source
@@ -71,12 +72,18 @@ while true
 
     % Work out which span of the example order index to look in.
     beginMiniBatch = openFragmentExampleOrderIndices(sourceFilenameIndex);
-    endMiniBatch = min(beginMiniBatch + options.miniBatchSize, ...
+    endMiniBatch = min(beginMiniBatch + options.miniBatchSize - 1, ...
         length(openFragments{sourceFilenameIndex}.data));
+
+    % Skip updates that are too small.
+    if (endMiniBatch - beginMiniBatch + 1) < options.miniBatchSize
+        openFragmentExampleOrderIndices(sourceFilenameIndex) = ...
+            openFragmentExampleOrderIndices(sourceFilenameIndex) + (endMiniBatch - beginMiniBatch + 1); 
+        continue;
+    end       
+
     openFragmentExampleOrderIndices(sourceFilenameIndex) = ...
         openFragmentExampleOrderIndices(sourceFilenameIndex) + (endMiniBatch - beginMiniBatch + 1);
-    assert(((beginMiniBatch - endMiniBatch + 1) == options.miniBatchSize) || ...
-           (endMiniBatch == length(openFragments{sourceFilenameIndex}.data)));
 
     % Work out the actual example numbers to train on.
     batchInd = openFragmentExampleOrders{sourceFilenameIndex} ...
@@ -85,11 +92,18 @@ while true
 
     % Run the minibatch.
     [ cost, grad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.constWordFeatures, hyperParams);
+    assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
+    assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.');
+
     modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
 
     % Do an AdaGrad-scaled parameter update
     adaEps = 0.001;
     modelState.theta = modelState.theta - modelState.lr * (grad ./ (sqrt(modelState.sumSqGrad) + adaEps));
+    assert(sum(isnan(modelState.theta)) == 0, 'NaNs in theta.')
+    assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.')
+
+
     modelState.step = modelState.step + 1;
     modelState.lastHundredCosts(mod(modelState.step, 100) + 1) = cost(1);
 

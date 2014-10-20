@@ -78,13 +78,13 @@ WordNet experiment.
     \toprule
     Name & Symbol & Set-theoretic definition & Example \\ 
     \midrule
-    entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle, reptile}  \\ 
-    reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile, turtle}  \\ 
-    equivalence        & $x \nateq y$    & $x = y$       & \ii{couch, sofa} \\ 
-    alternation        & $x \natalt y$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{turtle, warthog} \\ 
-    negation           & $x \natneg y$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$    & \ii{able, unable} \\
-    cover              & $x \natcov y$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-turtle} \\ 
-    independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
+    entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle $\natfor$ reptile}  \\ 
+    reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile $\natrev$ turtle}  \\ 
+    equivalence        & $x \nateq y$    & $x = y$       & \ii{couch $\nateq$ sofa} \\ 
+    alternation        & $x \natalt y$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{turtle $\natalt$ warthog} \\ 
+    negation           & $x \natneg y$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$    & \ii{able $\natneg$ unable} \\
+    cover              & $x \natcov y$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal $\natcov$ non-turtle} \\ 
+    independence       & $x \natind y$   & (else) & \ii{turtle $\natind$ pet}\\
     \bottomrule
   \end{tabular}
   \caption{The seven natural logic relations of \cite{maccartney2009extended}. 

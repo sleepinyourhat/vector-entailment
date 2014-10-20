@@ -64,7 +64,7 @@ for line = (lastSave + 1):maxLine
             nextItemNo = nextItemNo + 1;
         end
     end
-    if (mod(nextItemNo, 10000) == 0 && fragment)
+    if (mod(nextItemNo - 1, 10000) == 0 && nextItemNo > 0 && fragment)
         message = ['Lines loaded: ', num2str(nextItemNo), '/~', num2str(maxLine)];
         Log(hyperParams.statlog, message);
         data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams);
@@ -72,7 +72,12 @@ for line = (lastSave + 1):maxLine
     end
 end
 
-data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-final'], hyperParams);
+if fragment
+    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-final'], hyperParams);
+else
+    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-full'], hyperParams);
+end
+    
 
 end
 

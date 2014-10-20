@@ -4,6 +4,7 @@ function [ theta ] = AdaGradSGD(CostGradFunc, modelState, options, trainingData,
 % Home-baked implementation of SGD with AdaGrad.
 
 if modelState.step == 0
+    Log(hyperParams.examplelog, 'Initializing AdaGrad.')
     modelState.prevCost = intmax;
     modelState.bestTestAcc = 0;
     modelState.lr = options.lr;
