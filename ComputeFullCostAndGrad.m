@@ -1,12 +1,12 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, constWordFeatures, hyperParams, ~)
+function [ cost, grad, embGrad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, separateWordFeatures, hyperParams, ~)
 % Compute gradient and cost with regularization over a set of examples
 % for some parameters.
 
 N = length(data);
 
 argout = nargout;
-if nargout > 3
+if nargout > 4
     confusions = zeros(N, 2);
 end
 
@@ -14,6 +14,15 @@ accumulatedCost = 0;
 accumulatedSuccess = 0;
 if nargout > 1
     accumulatedGrad = zeros(length(theta), 1);
+
+    % If fastEmbed is on, set up a separate sparse accumulator for the embeddings.
+    if hyperParams.fastEmbed
+        accumulatedSeparateWordFeatureGradients = sparse([], [], [], ...
+          size(separateWordFeatures, 1), size(separateWordFeatures, 2), hyperParams.dim * 5 * length(data));
+        % TODO: This unsparsifies in the parfor below. Investigate.
+    else
+        accumulatedSeparateWordFeatureGradients = [];
+    end
 end
 
 % Check that we are set up for parallelization
@@ -34,10 +43,13 @@ if nargout > 1
     parfor i = 1:N
         assert(~isempty(data(i).relation), 'Null relation.')
 
-        [localCost, localGrad, localPred] = ...
-            ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
+        [localCost, localGrad, localEmbGrad, localPred] = ...
+            ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams);
         accumulatedCost = accumulatedCost + localCost;
         accumulatedGrad = accumulatedGrad + localGrad;
+        if hyperParams.fastEmbed
+            accumulatedSeparateWordFeatureGradients = accumulatedSeparateWordFeatureGradients + localEmbGrad;
+        end
         
         localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
 
@@ -49,7 +61,7 @@ if nargout > 1
         end
 
         % Record statistics
-        if argout > 3
+        if argout > 4
             confusions(i,:) = [localPred, data(i).relation(find(data(i).relation > 0))];
         end
         accumulatedSuccess = accumulatedSuccess + localCorrect;
@@ -63,7 +75,7 @@ if nargout > 1
     end
     
     % Create the confusion matrix
-    if nargout > 3
+    if nargout > 4
         confusion = zeros(hyperParams.numRelations(find(data(1).relation)));
         for i = 1:N
            confusion(confusions(i,1), confusions(i,2)) = ...
@@ -74,7 +86,7 @@ else
     % Just compute the cost, parallelizing as above
     parfor i = 1:N
         localCost = ...
-            ComputeCostAndGrad(theta, decoder, data(i), constWordFeatures, hyperParams);
+            ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams);
         accumulatedCost = accumulatedCost + localCost;
     end
 end
@@ -111,6 +123,31 @@ if nargout > 1
         % Apply L1 regularization to the gradient
         grad = grad + hyperParams.lambda * sign(theta);
     end
+
+    if hyperParams.fastEmbed
+        % Compile the embedding gradient
+        embGrad = accumulatedSeparateWordFeatureGradients * 1/length(data);
+
+        for wordInd = find(embGrad(:,1))'   % TODO: Parfor
+            % Apply regularization to the gradient
+            if hyperParams.norm == 2
+                % Apply L2 regularization to the gradient
+                embGrad(wordInd, :) = embGrad(wordInd, :) + ...
+                    hyperParams.lambda * separateWordFeatures(wordInd, :);
+            else
+                % Apply L1 regularization to the gradient
+                embGrad(wordInd, :) = embGrad(wordInd, :) + ...
+                    hyperParams.lambda * sign(separateWordFeatures(wordInd, :));
+            end
+            assert(sum(isnan(embGrad(wordInd, :))) == 0, 'NaNs in computed embedding gradient.');
+            assert(sum(isinf(embGrad(wordInd, :))) == 0, 'Infs in computed embedding gradient.');
+        end
+    else
+        embGrad = [];
+    end
+
+    assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
+    assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
 
     acc = (accumulatedSuccess / N);
 end

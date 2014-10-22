@@ -38,7 +38,7 @@ maxLine = length(C{1});
 lastSave = 0;
 
 % Turn on to speed up gradient checks:
-% maxLine = 5;
+% maxLine = 130;
 
 if matlabpool('size') == 0 % checking to see if my pool is already open
     matlabpool;

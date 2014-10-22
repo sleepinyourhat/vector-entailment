@@ -41,7 +41,7 @@ for i = 1:length(hyperParams.testFilenames)
     if isfield(hyperParams, 'relationIndices')
         relationIndex = hyperParams.relationIndices(2, i);
     else
-        relationIndex = 1
+        relationIndex = 1;
     end
 
     Log(hyperParams.statlog, ['Loading test dataset ', hyperParams.testFilenames{i}]);
@@ -53,7 +53,7 @@ for i = 1:length(hyperParams.splitFilenames)
     if isfield(hyperParams, 'relationIndices')
         relationIndex = hyperParams.relationIndices(3, i);
     else
-        relationIndex = 1
+        relationIndex = 1;
     end
 
     Log(hyperParams.statlog, ['Loading split dataset ', hyperParams.splitFilenames{i}]);
@@ -67,7 +67,7 @@ for i = 1:length(hyperParams.splitFilenames)
     
     % TODO - make fragment-safe
     trainDataset = [trainDataset; trainPortion];
-    assert( length(testPortion) == lengthOfTestPortion);
+    assert(length(testPortion) == lengthOfTestPortion);
     assert(length(testPortion) + length(trainPortion) == length(dataset));
 end
 

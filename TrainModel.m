@@ -64,7 +64,7 @@ if ~isempty(savedParams)
 else
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder, modelState.constWordFeatures ] = ...
+    [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 end
 
@@ -90,7 +90,7 @@ if hyperParams.minFunc
 
     % Warning: L-BFGS won't save state across restarts
     modelState.theta = minFunc(@ComputeFullCostAndGrad, modelState.theta, options, ...
-        modelState.thetaDecoder, trainDataset, modelState.constWordFeatures, hyperParams, testDatasets);
+        modelState.thetaDecoder, trainDataset, modelState.separateWordFeatures, hyperParams, testDatasets);
 else
     modelState.theta = AdaGradSGD(@ComputeFullCostAndGrad, modelState, options, ...
         trainDataset, hyperParams, testDatasets);

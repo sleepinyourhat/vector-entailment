@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(transDepth, topDepth, tot, trainwords)
+function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, trainwords, fastemb)
 
 [hyperParams, options] = Defaults();
 
@@ -16,6 +16,10 @@ hyperParams.penultDim = 2;
 hyperParams.embeddingTransformDepth = transDepth;
 
 hyperParams.topDepth = topDepth;
+
+% If set, store embedding matrix gradients as spare matrices, and only apply regularization
+% to the parameters that are in use at each step.
+hyperParams.fastEmbed = fastemb;
 
 % Regularization coefficient.
 hyperParams.lambda = 0.02;

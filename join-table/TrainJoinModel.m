@@ -210,7 +210,7 @@ if ~isempty(savedParams)
 else
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder, modelState.constWordFeatures ] = ...
+    [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 end
 

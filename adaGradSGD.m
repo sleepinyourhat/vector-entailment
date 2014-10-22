@@ -9,6 +9,10 @@ if modelState.step == 0
     modelState.bestTestAcc = 0;
     modelState.lr = options.lr;
     modelState.sumSqGrad = zeros(size(modelState.theta));
+    if hyperParams.fastEmbed
+        % Set up a separate SubSqGrad tracker for the embeddings.
+        modelState.sumSqEmbGrad = zeros(size(modelState.separateWordFeatures));
+    end
     modelState.pass = 0;
     modelState.lastHundredCosts = zeros(100, 1);
 end 
@@ -34,6 +38,7 @@ while modelState.pass < options.numPasses
     % Reset the AdaGrad stored weights.
     if mod(modelState.step + 1, options.resetSumSqFreq) == 0
         modelState.sumSqGrad = zeros(size(modelState.theta));
+        modelState.embSumSqEmbGrad = zeros(size(modelState.separateWordFeatures));
     end
 
     modelState.pass = modelState.pass + 1;

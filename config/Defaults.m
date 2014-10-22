@@ -53,6 +53,11 @@ hyperParams.classNLDeriv = @LReLUDeriv;
 % If set, don't try to keep the entire training data set in memory at once.
 hyperParams.fragmentData = false;
 
+% If set, store embedding matrix gradients as spare matrices, and only apply regularization
+% to the parameters that are in use at each step. This does nothing if trainWords is false.
+% Useful as long as the vocabulary size is fairly large. (Exact threshold unknown.)
+hyperParams.fastEmbed = false;
+
 %%% minFunc options: %%%
 
 options.Method = 'lbfgs';
@@ -80,21 +85,21 @@ options.testFreq = 100;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 400;
+options.confusionFreq = 100;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
 options.examplesFreq = 800; 
 
 % How often (in steps) to save parameters to disk.
-options.checkpointFreq = 2400; 
+options.checkpointFreq = 2000; 
 
 % The name assigned to the current call to AdaGradSGD. This can be used to
 % distinguish multiple phases of training in the same experiment.
 options.runName = 'tr';
 
 % Reset the sum of squared gradients after this many iterations.
-options.resetSumSqFreq = 500000; % Don't bother.
+options.resetSumSqFreq = 3200;
 
 
 end

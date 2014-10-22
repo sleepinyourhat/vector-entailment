@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords)
+function [ hyperParams, options, wordMap, relationMap ] = SynsetRelations(transDepth, penult, lambda, tot, mbs, lr, trainwords, fastemb)
 
 [hyperParams, options] = Defaults();
 
@@ -24,6 +24,10 @@ hyperParams.useThirdOrderComparison = tot;
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = trainwords;
+
+% If set, store embedding matrix gradients as spare matrices, and only apply regularization
+% to the parameters that are in use at each step.
+hyperParams.fastEmbed = fastemb;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = mbs;

@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ theta, thetaDecoder, constWordFeatures ] = InitializeModel(wordMap, hyperParams)
+function [ theta, thetaDecoder, separateWordFeatures ] = InitializeModel(wordMap, hyperParams)
 % Initialize the learned parameters of the model. 
 
 vocabLength = size(wordMap, 1);
@@ -53,12 +53,12 @@ else
     wordFeatures = rand(vocabLength, DIM) .* .02 - .01;
 end
 
-if ~hyperParams.trainWords
-    % Move the initialized word features into constWordFeatures
-    constWordFeatures = wordFeatures;
+if ~hyperParams.trainWords || hyperParams.fastEmbed
+    % Move the initialized word features into separateWordFeatures
+    separateWordFeatures = wordFeatures;
     wordFeatures = [];
 else
-    constWordFeatures = [];
+    separateWordFeatures = [];
 end
 
 [theta, thetaDecoder] = param2stack(classifierMatrices, classifierMatrix, ...

@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords, frag, loadwords)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords, frag, loadwords, fastEmb)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -12,6 +12,10 @@ hyperParams.dim = 25;
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
 hyperParams.embeddingTransformDepth = transDepth;
+
+% If set, store embedding matrix gradients as spare matrices, and only apply regularization
+% to the parameters that are in use at each step.
+hyperParams.fastEmbed = fastEmb;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -86,7 +90,7 @@ elseif strcmp(dataflag, 'imageflickr')
 
     hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
-    				 './sick_data/denotation_graph_training_subsample.tsv'};
+    				 './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
     hyperParams.splitFilenames = {};
     hyperParams.fragmentData = true;
 elseif strcmp(dataflag, 'imageflickrshort')
@@ -102,7 +106,7 @@ elseif strcmp(dataflag, 'imageflickrshort')
 
     hyperParams.trainFilenames = {'./sick_data/clean_parsed_entailment_pairs_second10k.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
-    				 './sick_data/denotation_graph_training_subsample.tsv'};
+    				 './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
     hyperParams.splitFilenames = {};
     hyperParams.fragmentData = frag;
 end

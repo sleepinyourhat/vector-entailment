@@ -21,6 +21,20 @@ classdef Tree < handle
     end
     
     methods(Static)
+        function t = printAllProperties(obj)
+            disp(obj.text)
+            disp(obj.features)
+            disp(obj.featuresPreNL)
+            disp(obj.wordIndex)
+            disp(obj.transformInnerActivations)
+            disp(obj.transformActivations)
+            disp(obj.type)
+            disp('(')
+            for daughterInd = 1:length(obj.daguhters)
+                printAllProperties(obj.daguhters(daughterInd))
+            end
+            disp(')')
+        end
 
         function t = makeTree(iText, wordMap)
             assert(~isempty(iText), 'Bad tree input text.');
