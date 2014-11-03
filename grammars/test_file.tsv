@@ -1,2 +1,3 @@
 =	 ( all warthogs ) walk	 ( all warthogs ) walk
 <	 ( all warthogs ) walk	 ( all warthogs ) move
+|	 ( all warthogs ) walk	 ( some warthogs ) ( not move )

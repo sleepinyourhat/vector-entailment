@@ -42,7 +42,7 @@ if findstr(dataflag, 'sick-only')
 
     hyperParams.numRelations = 3;
    	hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
-	relationMap = cell(2, 1);
+	relationMap = cell(1, 1);
 	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt'};    
@@ -52,7 +52,82 @@ if findstr(dataflag, 'sick-only')
     				 './sick_data/SICK_trial_parsed_18plusparens.txt', ...
     				 './sick_data/SICK_trial_parsed_lt18_parens.txt'};
     hyperParams.splitFilenames = {};
-elseif findstr(dataflag, 'sick-plus')
+elseif strcmp(dataflag, 'sick-plus-10k')
+    % The number of relations.
+    hyperParams.numRelations = [3 2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}, {'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(2, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+
+    wordMap = ...
+        InitializeMaps('sick_data/flickr_words_t4.txt');
+    hyperParams.vocabName = 'spt4b';
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
+                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_10k.tsv'};
+    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_justneg.txt', ...
+                     './sick_data/SICK_trial_parsed_noneg.txt', ...
+                     './sick_data/SICK_trial_parsed_18plusparens.txt', ...
+                     './sick_data/SICK_trial_parsed_lt18_parens.txt', ...
+                     './sick_data/denotation_graph_training_subsample.tsv'};
+    hyperParams.splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
+    hyperParams.fragmentData = false;
+    elseif strcmp(dataflag, 'sick-plus-100k')
+    % The number of relations.
+    hyperParams.numRelations = [3 2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}, {'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(2, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+
+    wordMap = ...
+        InitializeMaps('sick_data/flickr_words_t4.txt');
+    hyperParams.vocabName = 'spt4b';
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
+                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
+    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_justneg.txt', ...
+                     './sick_data/SICK_trial_parsed_noneg.txt', ...
+                     './sick_data/SICK_trial_parsed_18plusparens.txt', ...
+                     './sick_data/SICK_trial_parsed_lt18_parens.txt', ...
+                     './sick_data/denotation_graph_training_subsample.tsv'};
+    hyperParams.splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
+    hyperParams.fragmentData = false;
+elseif strcmp(dataflag, 'sick-plus-600k')
+    % The number of relations.
+    hyperParams.numRelations = [3 2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}, {'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(2, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+
+    wordMap = ...
+        InitializeMaps('sick_data/flickr_words_t4.txt');
+    hyperParams.vocabName = 'spt4b';
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
+                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
+    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_justneg.txt', ...
+                     './sick_data/SICK_trial_parsed_noneg.txt', ...
+                     './sick_data/SICK_trial_parsed_18plusparens.txt', ...
+                     './sick_data/SICK_trial_parsed_lt18_parens.txt', ...
+                     './sick_data/denotation_graph_training_subsample.tsv'};
+    hyperParams.splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
+    hyperParams.fragmentData = false;
+elseif strcmp(dataflag, 'sick-plus')
     % The number of relations.
     hyperParams.numRelations = [3 2];
 

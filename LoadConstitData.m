@@ -50,7 +50,7 @@ for line = (lastSave + 1):maxLine
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');
         splitLine = splitLine{1};
         
-        if ~(splitLine{1} == '%')
+        if (sum(splitLine{1} == '%') == 0) && (size(splitLine, 1) >= 3)
             % Skip commented lines
             if nargin > 5
                 rawData(nextItemNo - lastSave).relation = zeros(length(hyperParams.numRelations), 1);
@@ -62,6 +62,8 @@ for line = (lastSave + 1):maxLine
             rawData(nextItemNo - lastSave).leftText = splitLine{2};
             rawData(nextItemNo - lastSave).rightText = splitLine{3};
             nextItemNo = nextItemNo + 1;
+        else
+            disp('Skipped line.');
         end
     end
     if (mod(nextItemNo - 1, 10000) == 0 && nextItemNo > 0 && fragment)

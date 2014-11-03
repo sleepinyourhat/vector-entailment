@@ -92,14 +92,14 @@ options.confusionFreq = 100;
 options.examplesFreq = 800; 
 
 % How often (in steps) to save parameters to disk.
-options.checkpointFreq = 2000; 
+options.checkpointFreq = 20000; 
 
 % The name assigned to the current call to AdaGradSGD. This can be used to
 % distinguish multiple phases of training in the same experiment.
 options.runName = 'tr';
 
 % Reset the sum of squared gradients after this many iterations.
-options.resetSumSqFreq = 3200;
+options.resetSumSqFreq = 10000;
 
 
 end
