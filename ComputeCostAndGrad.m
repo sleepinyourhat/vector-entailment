@@ -43,6 +43,9 @@ rightTree.updateFeatures(wordFeatures, compositionMatrices, ...
 leftFeatures = leftTree.getFeatures();
 rightFeatures = rightTree.getFeatures();
 
+[leftFeatures, leftMask] = Dropout(leftFeatures, hyperParams.dropoutPresProb);
+[rightFeatures, rightMask] = Dropout(rightFeatures, hyperParams.dropoutPresProb);
+
 % Compute classification tensor layer
 if hyperParams.useThirdOrderComparison
     tensorInnerOutput = ComputeInnerTensorLayer(leftFeatures, ...
@@ -122,6 +125,9 @@ if nargout > 1
               extraDelta, hyperParams.compNLDeriv, innerOutput);
     end
 
+    classifierDeltaLeft = classifierDeltaLeft .* leftMask;
+    classifierDeltaRight = classifierDeltaRight .* rightMask;
+
     [ upwardWordGradients, ...
       upwardCompositionMatricesGradients, ...
       upwardCompositionMatrixGradients, ...
@@ -133,6 +139,7 @@ if nargout > 1
                             compositionBias,  embeddingTransformMatrix, embeddingTransformBias, ...
                             hyperParams.compNLDeriv, hyperParams);
                       
+
     if hyperParams.trainWords
       localWordFeatureGradients = localWordFeatureGradients ...
           + upwardWordGradients;

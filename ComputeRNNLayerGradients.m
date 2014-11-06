@@ -3,7 +3,7 @@ function [matrixGradients, biasGradients, ...
           deltaLeft, deltaRight] = ...
       ComputeRNNLayerGradients(a, b, matrix, bias, delta, ...
                                   nonlinearityDeriv, innerOutput)
-                              
+
 if nargin < 7
     innerOutput = matrix * [a;b] + bias;
 end
@@ -17,10 +17,12 @@ matrixGradients = (delta * [a;b]');
 % Calculate bias gradients
 biasGradients = delta;
 
-% Calculate deltas to pass down
-thirdTerm = matrix';
-deltaDown = (thirdTerm * (biasGradients .* NLDeriv));
-deltaLeft = deltaDown(1:length(a));
-deltaRight = deltaDown(length(a)+1:2*length(a));
+if nargout > 2
+	% Calculate deltas to pass down
+	thirdTerm = matrix';
+	deltaDown = (thirdTerm * (biasGradients .* NLDeriv));
+	deltaLeft = deltaDown(1:length(a));
+	deltaRight = deltaDown(length(a)+1:2*length(a));
+end
 
 end

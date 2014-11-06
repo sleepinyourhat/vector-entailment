@@ -225,7 +225,8 @@ classdef Tree < handle
                    upwardEmbeddingTransformMatrixGradients, ...
                    upwardEmbeddingTransformBiasGradients ] = ...
             getGradient(obj, delta, wordFeatures, compMatrices, ...
-                        compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, compNLDeriv, hyperParams)
+                        compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
+                        compNLDeriv, hyperParams)
             % Note: Delta should be a column vector.
             
             DIM = length(delta);
@@ -238,7 +239,7 @@ classdef Tree < handle
             else % Untied RNN
                 NUMCOMP = 3; % TODO: Hardcoded for now, here and elsewhere.
             end
- 
+
             upwardWordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
             

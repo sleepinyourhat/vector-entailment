@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, summing, mbs, lr, trainwords, frag, loadwords, fastEmb, scale)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, scale, dropout)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -15,7 +15,7 @@ hyperParams.embeddingTransformDepth = transDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = fastEmb;
+hyperParams.fastEmbed = trainwords; % If we train words, go ahead and use it.
 
 % Most parameters will be initialized within the range (-initScale, initScale).
 hyperParams.initScale = scale;
@@ -26,6 +26,10 @@ hyperParams.penultDim = penult;
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
 
+% Apply dropout to the top feature vector of each tree, preserving activations
+% with this probability. If this is set to 1, dropout is effectively not used.
+hyperParams.dropoutPresProb = 1;
+
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
@@ -34,6 +38,8 @@ hyperParams.useSumming = summing;
 
 hyperParams.loadWords = loadwords;
 hyperParams.trainWords = trainwords;
+
+hyperParams.fragmentData = false;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = mbs;
@@ -81,7 +87,6 @@ elseif strcmp(dataflag, 'sick-plus-10k')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
-    hyperParams.fragmentData = false;
     elseif strcmp(dataflag, 'sick-plus-100k')
     % The number of relations.
     hyperParams.numRelations = [3 2];
@@ -131,7 +136,6 @@ elseif strcmp(dataflag, 'sick-plus-600k')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
-    hyperParams.fragmentData = false;
 elseif strcmp(dataflag, 'sick-plus')
     % The number of relations.
     hyperParams.numRelations = [3 2];
@@ -188,7 +192,6 @@ elseif strcmp(dataflag, 'imageflickrshort')
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
     				 './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
     hyperParams.trainFilenames = {};
-    hyperParams.fragmentData = frag;
 end
 
 end

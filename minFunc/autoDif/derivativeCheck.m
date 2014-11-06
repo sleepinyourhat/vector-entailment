@@ -19,7 +19,7 @@ if order == 2
 	[f2,g2,H2] = autoHess(x,type,funObj,varargin{:});
 	
 	fprintf('Max difference between user and numerical hessian: %e\n',max(abs(H(:)-H2(:))));
-	if max(abs(H(:)-H2(:))) > 1e-4
+	if max(abs(H(:)-H2(:))) > 1e-5
 		H
 		H2
 		diff = abs(H-H2)
@@ -32,7 +32,7 @@ else
 	[f2,g2] = autoGrad(x,type,funObj,varargin{:});
 	
 	fprintf('Max difference between user and numerical gradient: %e\n',max(abs(g-g2)));
-	if max(abs(g-g2)) > 1e-4
+	if max(abs(g-g2)) > 1e-5
 		fprintf('User NumDif:\n');
 		[g g2]
 		diff = abs(g-g2)
