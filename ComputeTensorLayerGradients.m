@@ -19,8 +19,9 @@ matricesGradients = zeros(inDim , inDim, outDim);
 matrixGradients = zeros(outDim, 2 * inDim);
 
 % Calculate third order tensor gradients
+inputProduct = (a * b');
 for i = 1:outDim
-    matricesGradients(:,:,i) = (tensorDeriv(i) * delta(i)) .* (a * b');
+    matricesGradients(:,:,i) = (tensorDeriv(i) * delta(i)) .* inputProduct;
 end
     
 % Calculate matrix gradients for tensor layer
@@ -29,8 +30,7 @@ for i = 1:outDim
 end
 
 % Calculate vector gradients for tensor layer
-biasGradients = (tensorDeriv .* delta);
-delta = biasGradients;
+biasGradients = delta .* tensorDeriv;
 
 innerTensorLayerMatrix = zeros(inDim, outDim);
 for i = 1:outDim

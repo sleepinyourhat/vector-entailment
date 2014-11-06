@@ -92,7 +92,7 @@ end
 % Compute mean cost
 normalizedCost = (1/length(data) * accumulatedCost);
 
-% Apply regularization to the cost
+% Apply regularization to the cost (TODO: Include fastEmbed embeddings.)
 if hyperParams.norm == 2
     % Apply L2 regularization
     regCost = hyperParams.lambda/2 * sum(theta.^2);

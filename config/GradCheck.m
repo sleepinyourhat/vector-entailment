@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, trainwords, fastemb)
+function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb)
 
 [hyperParams, options] = Defaults();
 
@@ -27,6 +27,9 @@ hyperParams.lambda = 0.02;
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
+
+% Use a simple summing layer function for composition.
+hyperParams.useSumming = summing;
 
 hyperParams.loadWords = false;
 hyperParams.trainWords = true;

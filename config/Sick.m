@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords, frag, loadwords, fastEmb)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, summing, mbs, lr, trainwords, frag, loadwords, fastEmb, scale)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -17,6 +17,9 @@ hyperParams.embeddingTransformDepth = transDepth;
 % to the parameters that are in use at each step.
 hyperParams.fastEmbed = fastEmb;
 
+% Most parameters will be initialized within the range (-initScale, initScale).
+hyperParams.initScale = scale;
+
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
 
@@ -26,6 +29,8 @@ hyperParams.lambda = lambda; % 0.002 works?;
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
+
+hyperParams.useSumming = summing;
 
 hyperParams.loadWords = loadwords;
 hyperParams.trainWords = trainwords;
@@ -179,10 +184,10 @@ elseif strcmp(dataflag, 'imageflickrshort')
     wordMap = InitializeMaps('sick_data/flickr_words_t4.txt');
     hyperParams.vocabName = 'spt4-2cl';
 
-    hyperParams.trainFilenames = {'./sick_data/clean_parsed_entailment_pairs_second10k.tsv'};
+    hyperParams.splitFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_10k.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
     				 './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
-    hyperParams.splitFilenames = {};
+    hyperParams.trainFilenames = {};
     hyperParams.fragmentData = frag;
 end
 

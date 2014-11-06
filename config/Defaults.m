@@ -41,6 +41,10 @@ hyperParams.testFraction = 0.1;
 hyperParams.useThirdOrder = true;
 hyperParams.useThirdOrderComparison = true;
 
+% Use a simple summing layer in place of the composition (R)NN layer.
+% useThirdOrder should be false if this is used.
+hyperParams.useSumming = false;
+
 % If set, train using minFunc. Only partially supported. See GradCheck for an example.
 hyperParams.minFunc = false;
 
@@ -57,6 +61,9 @@ hyperParams.fragmentData = false;
 % to the parameters that are in use at each step. This does nothing if trainWords is false.
 % Useful as long as the vocabulary size is fairly large. (Exact threshold unknown.)
 hyperParams.fastEmbed = false;
+
+% Most parameters will be initialized within the range (-initScale, initScale).
+hyperParams.initScale = 0.01;
 
 %%% minFunc options: %%%
 

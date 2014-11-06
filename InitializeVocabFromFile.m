@@ -24,7 +24,11 @@ end
 fullWordmap = containers.Map(words,2:length(words) + 1);
 
 x = size(wordlist, 2);
-vocab = zeros(x, DIM) .* .02 - .01;
+
+SCALE = mean(abs(fullVocab(:)))
+OFFSET = 2 * SCALE;
+
+vocab = rand(x, DIM) .* OFFSET - SCALE;
 
 for wordlistIndex = 1:length(wordlist)
     if fullWordmap.isKey(wordlist{wordlistIndex})

@@ -6,7 +6,7 @@ function [ theta ] = AdaGradSGD(CostGradFunc, modelState, options, trainingData,
 if modelState.step == 0
     Log(hyperParams.examplelog, 'Initializing AdaGrad.')
     modelState.prevCost = intmax;
-    modelState.bestTestAcc = 0;
+    modelState.bestTestAcc = [0 0 0];
     modelState.lr = options.lr;
     modelState.sumSqGrad = zeros(size(modelState.theta));
     if hyperParams.fastEmbed
