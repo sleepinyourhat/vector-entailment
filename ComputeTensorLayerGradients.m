@@ -18,32 +18,31 @@ inDim = inDim / 2;
 matricesGradients = zeros(inDim , inDim, outDim);
 matrixGradients = zeros(outDim, 2 * inDim);
 
-% Calculate third order tensor gradients
+% Calculate third order tensor gradients.
+% Sadly, there doesn't seem to be an efficient vectorized option here.
 inputProduct = (a * b');
 for i = 1:outDim
     matricesGradients(:,:,i) = (tensorDeriv(i) * delta(i)) .* inputProduct;
 end
     
 % Calculate matrix gradients for tensor layer
-for i = 1:outDim
-    matrixGradients(i, :) = (tensorDeriv(i) * delta(i)) .* [a; b];
-end
+matrixGradients = (delta * [a; b]');
 
 % Calculate vector gradients for tensor layer
-biasGradients = delta .* tensorDeriv;
+biasGradients = delta;
 
-innerTensorLayerMatrix = zeros(inDim, outDim);
+% Compute the deltas.
+innerTensorLayerMatrixA = zeros(inDim, outDim);
+innerTensorLayerMatrixB = zeros(inDim, outDim);
 for i = 1:outDim
-    innerTensorLayerMatrix(:, i) = matrices(:,:,i) * b;
+	innerTensorLayerMatrixA(:, i) = a' * matrices(:,:,i);
+    innerTensorLayerMatrixB(:, i) = matrices(:,:,i) * b;
 end
-thirdTerm = innerTensorLayerMatrix + matrix(:, 1:inDim)';
+
+thirdTerm = innerTensorLayerMatrixB + matrix(:, 1:inDim)';
 deltaLeft = (thirdTerm * (delta .* tensorDeriv));
 
-innerTensorLayerMatrix = zeros(inDim, outDim);
-for i = 1:outDim
-    innerTensorLayerMatrix(:, i) = a' * matrices(:,:,i);
-end
-thirdTerm = innerTensorLayerMatrix + matrix(:, inDim+1:2*inDim)';    
+thirdTerm = innerTensorLayerMatrixA + matrix(:, inDim+1:2*inDim)';    
 deltaRight = (thirdTerm * (delta .* tensorDeriv));
 
 end

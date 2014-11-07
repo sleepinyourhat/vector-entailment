@@ -25,11 +25,6 @@ if nargout > 1
     end
 end
 
-% Check that we are set up for parallelization
-if matlabpool('size') == 0
-    matlabpool;
-end
-
 if nargout > 1
     % Iterate over individual examples, letting MATLAB distribute different
     % examples to different threads.

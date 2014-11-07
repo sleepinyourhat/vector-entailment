@@ -37,13 +37,6 @@ maxLine = length(C{1});
 % Which nextItemNo was the last to be included in the last MAT file.
 lastSave = 0;
 
-% Turn on to speed up gradient checks:
-% maxLine = 130;
-
-if matlabpool('size') == 0 % checking to see if my pool is already open
-    matlabpool;
-end
-
 % Iterate over examples
 for line = (lastSave + 1):maxLine
     if ~isempty(C{1}{line}) 

@@ -6,6 +6,19 @@ function TrainModel(pretrainingFilename, expName, fold, ConfigFn, varargin)
 % Look for configuration scripts in the config/ directory.
 addpath('config/')
 
+% Set up paralellization
+c=parcluster();
+t=tempname();
+mkdir(t);
+c.JobStorageLocation=t;
+if exist('parpool')
+  % >= 2013b
+  parpool(c);
+else
+  % < 2013b
+  matlabpool(c, c.NumWorkers);
+end
+
 [ hyperParams, options, wordMap, relationMap ] = ConfigFn(varargin{:});
 
 % If the fold number is grater than one, the train/test split on split data will 
