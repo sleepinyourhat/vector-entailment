@@ -38,7 +38,7 @@ classdef Tree < handle
 
         function t = makeTree(iText, wordMap)
             assert(~isempty(iText), 'Bad tree input text.');
-            tyingMap = GetTyingMap(wordMap); % TODO
+            % tyingMap = GetTyingMap(wordMap); % TODO
             
             % Parsing strategy example:          
             % ( a b ) ( c d )
@@ -64,7 +64,7 @@ classdef Tree < handle
             for i = 1:length(C)
                 if ~strcmp(C{i}, '(') && ~strcmp(C{i}, ')')
                     % Turn words into leaf nodes
-                    stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap, tyingMap);
+                    stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap);
                     stackTop = stackTop + 1;
                 elseif strcmp(C{i}, ')')
                     % Merge at the ends of constituents
@@ -89,12 +89,11 @@ classdef Tree < handle
             assert((length(t.daughters) > 0 || t.wordIndex ~= -1), 'Bad tree!')
         end
         
-        function t = makeLeaf(iText, wordMap, tyingMap)
+        function t = makeLeaf(iText, wordMap)
             t = Tree();
             t.text = lower(iText);
             if wordMap.isKey(t.text)
                 t.wordIndex = wordMap(t.text);
-                % t.type = tyingMap(t.wordIndex);
             elseif all(ismember(t.text, '0123456789.-'))
                 disp(['Collapsing number ' t.text]);
                 t.wordIndex = wordMap('*NUM*');               

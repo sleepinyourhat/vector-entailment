@@ -16,6 +16,7 @@ else
 end
 
 SCALE = hyperParams.initScale;
+EYESCALE = hyperParams.eyeScale;
 OFFSET = 2 * hyperParams.initScale;
 
 % Randomly initialize softmax layer
@@ -49,6 +50,10 @@ embeddingTransformBias = rand(DIM, NUMTRANS) .* OFFSET - SCALE;
 for matrixDepth = 1:NUMTRANS
     embeddingTransformMatrix(:, :, matrixDepth) = ...
         embeddingTransformMatrix(:, :, matrixDepth) + eye(DIM);
+end
+
+if NUMTRANS > 0
+  embeddingTransformMatrix(:, :, 1) = embeddingTransformMatrix(:, :, 1) .* EYESCALE;
 end
 
 if hyperParams.loadWords

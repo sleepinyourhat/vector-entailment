@@ -18,7 +18,9 @@ hyperParams.embeddingTransformDepth = transDepth;
 hyperParams.fastEmbed = trainwords; % If we train words, go ahead and use it.
 
 % Most parameters will be initialized within the range (-initScale, initScale).
-hyperParams.initScale = scale;
+hyperParams.initScale = 0.05;
+hyperParams.eyeScale = scale;
+
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -48,8 +50,8 @@ options.lr = lr;
 
 if findstr(dataflag, 'sick-only')
     wordMap = ...
-        InitializeMaps('sick_data/sick_words_t4.txt');
-    hyperParams.vocabName = 'sot4'; 
+        InitializeMaps('sick_data/combined_words.txt');
+    hyperParams.vocabName = 'sick_all'; 
 
     hyperParams.numRelations = 3;
    	hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
@@ -191,6 +193,21 @@ elseif strcmp(dataflag, 'imageflickrshort')
     hyperParams.splitFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_10k.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
     				 './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
+    hyperParams.trainFilenames = {};
+elseif strcmp(dataflag, 'imageflickrshort100')
+    % The number of relations.
+    hyperParams.numRelations = 2; 
+
+    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    wordMap = InitializeMaps('sick_data/flickr_words_t4.txt');
+    hyperParams.vocabName = 'spt4-2cl';
+
+    hyperParams.splitFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
+    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
+                     './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
     hyperParams.trainFilenames = {};
 end
 

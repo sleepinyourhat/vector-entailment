@@ -20,6 +20,10 @@ hyperParams.penultDim = 75;
 % Regularization coefficient.
 hyperParams.lambda = 0.0002;
 
+% Apply dropout to the top feature vector of each tree, preserving activations
+% with this probability. If this is set to 1, dropout is effectively not used.
+hyperParams.dropoutPresProb = 1;
+
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.
 hyperParams.norm = 2;
@@ -64,6 +68,8 @@ hyperParams.fastEmbed = false;
 
 % Most parameters will be initialized within the range (-initScale, initScale).
 hyperParams.initScale = 0.01;
+
+hyperParams.eyeScale = 0.1;
 
 %%% minFunc options: %%%
 
