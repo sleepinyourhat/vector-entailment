@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, scale, dropout)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, scale, dropout)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -12,6 +12,11 @@ hyperParams.dim = 25;
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
 hyperParams.embeddingTransformDepth = transDepth;
+
+
+% The number of comparison layers. topDepth > 1 means NN layers will be
+% added between the RNTN composition layer and the softmax layer.
+hyperParams.topDepth = topDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
@@ -75,8 +80,8 @@ elseif strcmp(dataflag, 'sick-plus-10k')
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
     wordMap = ...
-        InitializeMaps('sick_data/flickr_words_t4.txt');
-    hyperParams.vocabName = 'spt4b';
+        InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    hyperParams.vocabName = 'comt4';
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
                       '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_10k.tsv'};
@@ -89,7 +94,7 @@ elseif strcmp(dataflag, 'sick-plus-10k')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
-    elseif strcmp(dataflag, 'sick-plus-100k')
+elseif strcmp(dataflag, 'sick-plus-100k')
     % The number of relations.
     hyperParams.numRelations = [3 2];
 
@@ -99,8 +104,8 @@ elseif strcmp(dataflag, 'sick-plus-10k')
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
     wordMap = ...
-        InitializeMaps('sick_data/flickr_words_t4.txt');
-    hyperParams.vocabName = 'spt4b';
+        InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    hyperParams.vocabName = 'comt4';
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
                       '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
@@ -124,8 +129,8 @@ elseif strcmp(dataflag, 'sick-plus-600k')
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
     wordMap = ...
-        InitializeMaps('sick_data/flickr_words_t4.txt');
-    hyperParams.vocabName = 'spt4b';
+        InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    hyperParams.vocabName = 'comt4';
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
                       '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
@@ -148,8 +153,8 @@ elseif strcmp(dataflag, 'sick-plus')
 	relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
     wordMap = ...
-        InitializeMaps('sick_data/flickr_words_t4.txt');
-    hyperParams.vocabName = 'spt4b';
+        InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    hyperParams.vocabName = 'comt4';
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
      				  '/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs.tsv'};
