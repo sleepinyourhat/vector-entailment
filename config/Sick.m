@@ -1,17 +1,20 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, transDepth, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, scale, dropout)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, dropout)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
-hyperParams.dim = 25;
+hyperParams.dim = dim;
+hyperParams.embeddingDim = embDim;
+
+hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
-hyperParams.embeddingTransformDepth = transDepth;
+hyperParams.embeddingTransformDepth = 1;
 
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
@@ -21,11 +24,6 @@ hyperParams.topDepth = topDepth;
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
 hyperParams.fastEmbed = trainwords; % If we train words, go ahead and use it.
-
-% Most parameters will be initialized within the range (-initScale, initScale).
-hyperParams.initScale = 0.05;
-hyperParams.eyeScale = scale;
-
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -70,6 +68,30 @@ if findstr(dataflag, 'sick-only')
     				 './sick_data/SICK_trial_parsed_18plusparens.txt', ...
     				 './sick_data/SICK_trial_parsed_lt18_parens.txt'};
     hyperParams.splitFilenames = {};
+elseif strcmp(dataflag, 'sick-plus-100')
+    % The number of relations.
+    hyperParams.numRelations = [3 2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}, {'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(2, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+
+    wordMap = ...
+        InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    hyperParams.vocabName = 'comt4';
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
+                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
+    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_justneg.txt', ...
+                     './sick_data/SICK_trial_parsed_noneg.txt', ...
+                     './sick_data/SICK_trial_parsed_18plusparens.txt', ...
+                     './sick_data/SICK_trial_parsed_lt18_parens.txt', ...
+                     './sick_data/denotation_graph_training_subsample.tsv'};
+    hyperParams.splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
 elseif strcmp(dataflag, 'sick-plus-10k')
     % The number of relations.
     hyperParams.numRelations = [3 2];

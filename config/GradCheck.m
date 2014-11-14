@@ -5,6 +5,7 @@ function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
 hyperParams.dim = 2;
+hyperParams.embeddingDim = 3;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = 2;

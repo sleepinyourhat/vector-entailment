@@ -13,7 +13,6 @@ classdef Tree < handle
         featuresPreNL = [];
         wordIndex = -1; % -1 => Not a lexical item node.
         transformInnerActivations = []; % Stored activations for the embedding tranform layers.
-        transformActivations = []; % Stored activations for the embedding tranform layers.
         type = 0; % 0 - predicate or predicate + neg
                   % 1 - quantifier
                   % 2 - neg
@@ -27,7 +26,6 @@ classdef Tree < handle
             disp(obj.featuresPreNL)
             disp(obj.wordIndex)
             disp(obj.transformInnerActivations)
-            disp(obj.transformActivations)
             disp(obj.type)
             disp('(')
             for daughterInd = 1:length(obj.daguhters)
@@ -173,8 +171,8 @@ classdef Tree < handle
                         compNL);
                 end
                 
-                lFeatures = obj.daughters(1).getFeatures();
-                rFeatures = obj.daughters(2).getFeatures();
+                lFeatures = obj.daughters(1).features;
+                rFeatures = obj.daughters(2).features;
                 
                 if size(compBias, 2) <= 1 % if not untied
                     typeInd = 1;
@@ -198,21 +196,12 @@ classdef Tree < handle
                     % We have no transform layer, so just use the word features.
                     obj.features = wordFeatures(obj.wordIndex, :)'; 
                 else
-                    % Run the transfrom layers.
-                    obj.transformActivations = zeros(length(compBias), size(embeddingTransformMatrix, 3) + 1);
-                    obj.transformInnerActivations = zeros(length(compBias), size(embeddingTransformMatrix, 3));
+                    % Run the transfrom layer.
+                    obj.transformInnerActivations = embeddingTransformMatrix ...
+                                                    * wordFeatures(obj.wordIndex, :)' + ...
+                                                    embeddingTransformBias;
 
-                    % Set the first set of activations to the word features.
-                    obj.transformActivations(:,1) = wordFeatures(obj.wordIndex, :)';
-
-                    for layer = 1:size(embeddingTransformMatrix, 3)
-                        obj.transformInnerActivations(:, layer) = (embeddingTransformMatrix(:,:,layer) ...
-                                                        * obj.transformActivations(:,layer)) + ...
-                                                        embeddingTransformBias(:,layer);
-                        obj.transformActivations(:, layer + 1) = compNL(obj.transformInnerActivations(:,layer));
-                    end
-                    % TODO: Make getFeatures use this output directly instead of features.
-                    obj.features = obj.transformActivations(:, size(obj.transformActivations, 2));
+                    obj.features = compNL(obj.transformInnerActivations);
                 end
             end
         end
@@ -229,6 +218,7 @@ classdef Tree < handle
             % Note: Delta should be a column vector.
             
             DIM = length(delta);
+            EMBDIM = size(embeddingTransformMatrix, 2);
             NUMTRANS = size(embeddingTransformMatrix, 3);
 
             if size(compBias, 2) == 1 % Using tied composition parameters
@@ -250,7 +240,7 @@ classdef Tree < handle
 
             upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM, NUMCOMP);
             upwardCompositionBiasGradients = zeros(DIM, NUMCOMP);
-            upwardEmbeddingTransformMatrixGradients = zeros(DIM, DIM, NUMTRANS);
+            upwardEmbeddingTransformMatrixGradients = zeros(DIM, EMBDIM, NUMTRANS);
             upwardEmbeddingTransformBiasGradients = zeros(DIM, NUMTRANS);
 
             if (~isempty(obj.daughters))
@@ -260,8 +250,8 @@ classdef Tree < handle
                     typeInd = obj.daughters(1).getType();
                 end
                 
-                lFeatures = obj.daughters(1).getFeatures();
-                rFeatures = obj.daughters(2).getFeatures();
+                lFeatures = obj.daughters(1).features();
+                rFeatures = obj.daughters(2).features();
                 
                 if length(compMatrices) ~= 0 % RNTN
                     [tempCompositionMatricesGradients, ...
@@ -365,7 +355,7 @@ classdef Tree < handle
                     [upwardEmbeddingTransformMatrixGradients, ...
                           upwardEmbeddingTransformBiasGradients, delta] = ...
                           ComputeExtraClassifierGradients(embeddingTransformMatrix, ...
-                              delta, obj.transformActivations, ...
+                              delta, wordFeatures(obj.wordIndex, :)', ...
                               obj.transformInnerActivations, compNLDeriv);
                 end
 
@@ -377,7 +367,7 @@ classdef Tree < handle
                 [upwardEmbeddingTransformMatrixGradients, ...
                       upwardEmbeddingTransformBiasGradients, ~] = ...
                       ComputeExtraClassifierGradients(embeddingTransformMatrix, ...
-                          delta, obj.transformActivations, ...
+                          delta, wordFeatures(obj.wordIndex, :)', ...
                           obj.transformInnerActivations, compNLDeriv);
             end            
         end

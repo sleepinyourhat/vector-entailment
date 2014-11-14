@@ -18,7 +18,7 @@ if nargout > 1
     % If fastEmbed is on, set up a separate sparse accumulator for the embeddings.
     if hyperParams.fastEmbed
         accumulatedSeparateWordFeatureGradients = sparse([], [], [], ...
-          size(separateWordFeatures, 1), size(separateWordFeatures, 2), hyperParams.dim * 5 * length(data));
+          size(separateWordFeatures, 1), size(separateWordFeatures, 2), hyperParams.embeddingDim * 5 * length(data));
         % TODO: This unsparsifies in the parfor below. Investigate.
     else
         accumulatedSeparateWordFeatureGradients = [];
@@ -36,7 +36,7 @@ if nargout > 1
     logMessages = cell(N, 1);
 
     parfor i = 1:N
-        assert(~isempty(data(i).relation), 'Null relation.')
+        % assert(~isempty(data(i).relation), 'Null relation.')
 
         [localCost, localGrad, localEmbGrad, localPred] = ...
             ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams);

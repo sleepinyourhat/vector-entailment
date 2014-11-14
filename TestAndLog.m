@@ -16,16 +16,25 @@ if mod(modelState.step, options.testFreq) == 0
                                       num2str(max(modelState.separateWordFeatures(:)))]);
 
     % Test on training data
+
+
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
     acc = -1;
     if ~hyperParams.fragmentData
+        if length(trainingData) > hyperParams.maxTrainingEvalSampleSize
+            randomOrder = randperm(length(trainingData));
+            trainingSample = trainingData(randomOrder(1:hyperParams.maxTrainingEvalSampleSize));
+        else
+            trainingSample = trainingData;
+        end
+
         if mod(modelState.step, options.examplesFreq) == 0 && modelState.step > 0
             hyperParams.showExamples = true;
             Log(hyperParams.examplelog, 'Training data:')
         else
             hyperParams.showExamples = false;
         end
-        [cost, ~, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingData, modelState.separateWordFeatures, hyperParams);
+        [cost, ~, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams);
     end
 
     % Test on test data

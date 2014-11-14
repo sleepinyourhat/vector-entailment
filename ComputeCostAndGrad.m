@@ -16,6 +16,7 @@ else
 end
 
 DIM = hyperParams.dim;
+EMBDIM = hyperParams.embeddingDim;
 
 % Set the number of composition functions
 if hyperParams.useSumming
@@ -78,7 +79,7 @@ if nargout > 1
     % Initialize the gradients
     if hyperParams.trainWords
       localWordFeatureGradients = sparse([], [], [], ...
-          size(wordFeatures, 1), size(wordFeatures, 2), hyperParams.dim * 25);
+          size(wordFeatures, 1), size(wordFeatures, 2), hyperParams.embeddingDim * 25);
     else
       localWordFeatureGradients = zeros(0); 
     end
@@ -91,7 +92,7 @@ if nargout > 1
     end 
     localCompositionMatrixGradients = zeros(DIM, 2 * DIM, NUMCOMP);
     localCompositionBiasGradients = zeros(DIM, NUMCOMP);
-    localEmbeddingTransformMatrixGradients = zeros(DIM, DIM, NUMTRANS);
+    localEmbeddingTransformMatrixGradients = zeros(DIM, EMBDIM, NUMTRANS);
     localEmbeddingTransformBiasGradients = zeros(DIM, NUMTRANS);
     
     [localSoftmaxGradient, softmaxDelta] = ...

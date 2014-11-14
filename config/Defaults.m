@@ -3,6 +3,7 @@ function [ hyperParams, options ] = Defaults()
 
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = 25;
+hyperParams.embeddingDim = 25;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -41,6 +42,10 @@ hyperParams.dataPortion = 1.0;
 % use this much as test data.
 hyperParams.testFraction = 0.1;
 
+% When evaluating random samples from a training data set, don't evaluate
+% more than this many in each session.
+hyperParams.maxTrainingEvalSampleSize = 1000;
+
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = true;
 hyperParams.useThirdOrderComparison = true;
@@ -51,6 +56,10 @@ hyperParams.useSumming = false;
 
 % If set, train using minFunc. Only partially supported. See GradCheck for an example.
 hyperParams.minFunc = false;
+
+hyperParams.loadWords = false;
+hyperParams.trainWords = true;
+hyperParams.vocabPath = '';
 
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
@@ -65,11 +74,6 @@ hyperParams.fragmentData = false;
 % to the parameters that are in use at each step. This does nothing if trainWords is false.
 % Useful as long as the vocabulary size is fairly large. (Exact threshold unknown.)
 hyperParams.fastEmbed = false;
-
-% Most parameters will be initialized within the range (-initScale, initScale).
-hyperParams.initScale = 0.01;
-
-hyperParams.eyeScale = 0.1;
 
 %%% minFunc options: %%%
 
@@ -91,18 +95,18 @@ options.miniBatchSize = 64;
 options.lr = 0.05;
 
 % How often (in steps) to report cost.
-options.costFreq = 200;
+options.costFreq = 250;
 
 % How often (in steps) to run on test data.
-options.testFreq = 100;
+options.testFreq = 250;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 100;
+options.confusionFreq = 250;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
-options.examplesFreq = 800; 
+options.examplesFreq = 1000; 
 
 % How often (in steps) to save parameters to disk.
 options.checkpointFreq = 20000; 

@@ -18,15 +18,14 @@ else
     trainDataset = [];
 end
 testDatasets = {};
+relationIndex = 1;
 
 for i = 1:length(hyperParams.trainFilenames)
     Log(hyperParams.statlog, ['Loading training dataset ', hyperParams.trainFilenames{i}]);
     if isfield(hyperParams, 'relationIndices')
         relationIndex = hyperParams.relationIndices(1, i);
-    else
-        relationIndex = 1;
     end
-        
+
     if ~hyperParams.fragmentData
         dataset = LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, ...
                                   hyperParams, false, relationIndex);
