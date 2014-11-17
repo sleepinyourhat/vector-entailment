@@ -10,6 +10,7 @@ classdef Tree < handle
         daughters = []; % 2 x 1 vector of trees
         text = 'NO_TEXT';
         features = []; % DIM x 1 vector
+        mask = []; % Used in dropout
         featuresPreNL = [];
         wordIndex = -1; % -1 => Not a lexical item node.
         transformInnerActivations = []; % Stored activations for the embedding tranform layers.
@@ -161,14 +162,14 @@ classdef Tree < handle
         end
         
         function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, compBias,  embeddingTransformMatrix, embeddingTransformBias, compNL)
+                                compMatrix, compBias,  embeddingTransformMatrix, embeddingTransformBias, compNL, dropout)
             % Recomputes features using fresh parameters.
 
             if (~isempty(obj.daughters))
                 for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
                         wordFeatures, compMatrices, compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
-                        compNL);
+                        compNL, dropout);
                 end
                 
                 lFeatures = obj.daughters(1).features;
@@ -201,7 +202,10 @@ classdef Tree < handle
                                                     * wordFeatures(obj.wordIndex, :)' + ...
                                                     embeddingTransformBias;
 
-                    obj.features = compNL(obj.transformInnerActivations);
+                    activations = compNL(obj.transformInnerActivations);
+
+                    [obj.features, obj.mask] = Dropout(activations, dropout);
+
                 end
             end
         end
@@ -364,6 +368,8 @@ classdef Tree < handle
                     upwardWordGradients(obj.getWordIndex, :) + delta';
             elseif NUMTRANS > 0
                 % Compute gradients for embedding transform layers
+                delta = delta .* obj.mask; % Take dropout into account
+
                 [upwardEmbeddingTransformMatrixGradients, ...
                       upwardEmbeddingTransformBiasGradients, ~] = ...
                       ComputeExtraClassifierGradients(embeddingTransformMatrix, ...

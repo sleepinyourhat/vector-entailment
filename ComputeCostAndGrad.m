@@ -36,26 +36,33 @@ trueRelation = dataPoint.relation;
 relationRange = ComputeRelationRange(hyperParams, trueRelation);
 
 % Make sure word features are current
+if nargout > 1 || hyperParams.minFunc
+  bottomDropout = hyperParams.bottomDropout;
+  topDropout = hyperParams.topDropout;
+else
+  bottomDropout = 1;
+  topDropout = 1;
+end
+
+
 leftTree.updateFeatures(wordFeatures, compositionMatrices, ...
-        compositionMatrix, compositionBias, embeddingTransformMatrix, embeddingTransformBias, hyperParams.compNL);
+        compositionMatrix, compositionBias, embeddingTransformMatrix, embeddingTransformBias, hyperParams.compNL, bottomDropout);
 rightTree.updateFeatures(wordFeatures, compositionMatrices, ...
-        compositionMatrix, compositionBias, embeddingTransformMatrix, embeddingTransformBias, hyperParams.compNL);
+        compositionMatrix, compositionBias, embeddingTransformMatrix, embeddingTransformBias, hyperParams.compNL, bottomDropout);
 
 leftFeatures = leftTree.getFeatures();
 rightFeatures = rightTree.getFeatures();
 
-[leftFeatures, leftMask] = Dropout(leftFeatures, hyperParams.dropoutPresProb);
-[rightFeatures, rightMask] = Dropout(rightFeatures, hyperParams.dropoutPresProb);
+[leftFeatures, leftMask] = Dropout(leftFeatures, topDropout);
+[rightFeatures, rightMask] = Dropout(rightFeatures, topDropout);
 
-% Compute classification tensor layer
+% Compute classification tensor layer (or plain RNN layer)
 if hyperParams.useThirdOrderComparison
-    tensorInnerOutput = ComputeInnerTensorLayer(leftFeatures, ...
-        rightFeatures, classifierMatrices, classifierMatrix, classifierBias);
-    classTensorOutput = hyperParams.classNL(tensorInnerOutput);
+    [classTensorOutput, tensorInnerOutput] = ComputeTensorLayer(leftFeatures, ...
+        rightFeatures, classifierMatrices, classifierMatrix, classifierBias, hyperParams.classNL);
 else
-    innerOutput = classifierMatrix * [leftFeatures; rightFeatures]...
-          + classifierBias;
-    classTensorOutput = hyperParams.classNL(innerOutput);  
+    [classTensorOutput, innerOutput] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
+        classifierMatrix, classifierBias, hyperParams.classNL);
 end
        
 % Run layers forward
@@ -114,7 +121,7 @@ if nargout > 1
             classifierDeltaRight] = ...
           ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
               classifierMatrices, classifierMatrix, classifierBias, ...
-              extraDelta, hyperParams.compNLDeriv, tensorInnerOutput);
+              extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
     else
          % Compute gradients for classification first layer
          localClassificationMatricesGradients = zeros(0, 0, 0);  
@@ -123,7 +130,7 @@ if nargout > 1
             classifierDeltaRight] = ...
           ComputeRNNLayerGradients(leftFeatures, rightFeatures, ...
               classifierMatrix, classifierBias, ...
-              extraDelta, hyperParams.compNLDeriv, innerOutput);
+              extraDelta, hyperParams.classNLDeriv, innerOutput);
     end
 
     classifierDeltaLeft = classifierDeltaLeft .* leftMask;

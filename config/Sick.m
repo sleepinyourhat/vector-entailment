@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, dropout)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, bottomDropout, topDropout, datamult, collo, scale)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -8,7 +8,13 @@ function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, embDim,
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
+hyperParams.initScale = scale; %0.05
+
+if collo
+    hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
+else
+    hyperParams.vocabPath = ['../data/collo.scaled.' num2str(embDim) 'd.txt'];    
+end
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -33,7 +39,8 @@ hyperParams.lambda = lambda; % 0.002 works?;
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
-hyperParams.dropoutPresProb = 1;
+hyperParams.bottomDropout = bottomDropout;
+hyperParams.topDropout = topDropout;
 
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
@@ -92,7 +99,7 @@ elseif strcmp(dataflag, 'sick-plus-100')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
-elseif strcmp(dataflag, 'sick-plus-10k')
+elseif strcmp(dataflag, 'sick-plus-10kp') || strcmp(dataflag, 'sick-plus-10k') 
     % The number of relations.
     hyperParams.numRelations = [3 2];
 
@@ -104,6 +111,9 @@ elseif strcmp(dataflag, 'sick-plus-10k')
     wordMap = ...
         InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
     hyperParams.vocabName = 'comt4';
+
+    hyperParams.firstMultiplier = datamult;
+    hyperParams.firstCutoff = 2895;
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
                       '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_10k.tsv'};
@@ -128,6 +138,9 @@ elseif strcmp(dataflag, 'sick-plus-100k')
     wordMap = ...
         InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
     hyperParams.vocabName = 'comt4';
+
+    hyperParams.firstMultiplier = datamult;
+    hyperParams.firstCutoff = 2895;
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
                       '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};

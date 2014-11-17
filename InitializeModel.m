@@ -16,43 +16,37 @@ else
     NUMCOMP = 3;
 end
 
-assert(DIM == EMBDIM || NUMTRANS > 0, ...
-  'If embeddingDim is not equal to dim, a transform layer must be used.');
+SCALE = hyperParams.initScale;
+OFFSET = 2 * hyperParams.initScale;
 
 % Randomly initialize softmax layer
-SCALE = sqrt(6 / (PENULT + sum(hyperParams.numRelations)));
-classifierParameters = rand(sum(hyperParams.numRelations), PENULT + 1) .* (2 * SCALE) - SCALE;
+classifierParameters = rand(sum(hyperParams.numRelations), PENULT + 1) .* OFFSET - SCALE;
 
 % Randomly initialize tensor parameters
 if hyperParams.useThirdOrderComparison
-    SCALE = sqrt(6 / (PENULT + 2 * DIM)) * .1;
-    classifierMatrices = rand(DIM, DIM, PENULT) .* (2 * SCALE) - SCALE;
+    classifierMatrices = rand(DIM, DIM, PENULT) .* OFFSET - SCALE;
 else
     classifierMatrices = rand(0, 0, PENULT);
 end
-SCALE = sqrt(6 / (PENULT + 2 * DIM));
-classifierMatrix = rand(PENULT, DIM * 2) .* (2 * SCALE) - SCALE;
+classifierMatrix = rand(PENULT, DIM * 2) .* OFFSET - SCALE;
 classifierBias = zeros(PENULT, 1);
 
 if hyperParams.useThirdOrder
-    SCALE = sqrt(6 / (3 * DIM)) * .1;
-    compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* (2 * SCALE) - SCALE;
+    compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* OFFSET - SCALE;
 else
     compositionMatrices = zeros(0, 0, 0, NUMCOMP);
 end
-SCALE = sqrt(6 / (3 * DIM));
-compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * SCALE) - SCALE;
+compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* OFFSET - SCALE;
 for i = 1:NUMCOMP
-  compositionMatrix(:, :, i) = compositionMatrix(:, :, i) ./ 2 + [eye(DIM) eye(DIM)] ./ 2;
+  compositionMatrix(:, :, i) = compositionMatrix(:, :, i) + [eye(DIM) eye(DIM)];
 end
+
 compositionBias = zeros(DIM, NUMCOMP);
 
-SCALE = sqrt(6 / (2 * PENULT));
-classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* (2 * SCALE) - SCALE;
+classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* OFFSET - SCALE;
 classifierExtraBias = zeros(PENULT, TOPD - 1);
 
-SCALE = sqrt(6 / (EMBDIM + DIM));
-embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* (2 * SCALE) - SCALE;
+embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* OFFSET - SCALE;
 embeddingTransformBias = zeros(DIM, NUMTRANS);
 
 if NUMTRANS > 0
@@ -61,14 +55,13 @@ end
 
 if hyperParams.loadWords
    Log(hyperParams.statlog, 'Loading the vocabulary.')
-   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
+   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, SCALE);
    if ~hyperParams.trainWords
        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
    end
 else 
     % Randomly initialize the words
-    SCALE = .5;
-    wordFeatures = rand(vocabLength, EMBDIM) .* (2 * SCALE) - SCALE;
+    wordFeatures = rand(vocabLength, EMBDIM) .* OFFSET - SCALE;
 end
 
 if ~hyperParams.trainWords || hyperParams.fastEmbed

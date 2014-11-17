@@ -4,6 +4,17 @@ N = length(trainingData);
 numBatches = ceil(N/options.miniBatchSize);
 randomOrder = randperm(N);
 
+if isfield(hyperParams, 'firstMultiplier')
+    modifiedOrder = hyperParams.firstCutoff + 1:length(trainingData);
+    for i = 1:hyperParams.firstMultiplier
+        modifiedOrder = [modifiedOrder 1:hyperParams.firstCutoff];
+    end
+    tempOrder = randperm(length(modifiedOrder));
+    randomOrder = modifiedOrder(tempOrder);
+else
+    randomOrder = randperm(N);
+end
+
 for batchNo = 0:(numBatches - 1)
     beginMiniBatch = (batchNo * options.miniBatchSize + 1);
     endMiniBatch = (batchNo + 1) * options.miniBatchSize;

@@ -5,6 +5,8 @@ function [ hyperParams, options ] = Defaults()
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
+hyperParams.initScale = 0.05;
+
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
@@ -23,7 +25,9 @@ hyperParams.lambda = 0.0002;
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
-hyperParams.dropoutPresProb = 1;
+hyperParams.bottomDropout = 1;
+hyperParams.topDropout = 1;
+
 
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.

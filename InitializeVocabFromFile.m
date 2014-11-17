@@ -1,4 +1,4 @@
-function [ vocab, fullVocab, fullWordmap ] = InitializeVocabFromFile(wordMap, loc)
+function [ vocab, fullVocab, fullWordmap ] = InitializeVocabFromFile(wordMap, loc, initScale)
 
 loadFromMat = false;
 wordlist = wordMap.keys();
@@ -30,8 +30,10 @@ fullWordmap = containers.Map(words,2:length(words) + 1);
 
 x = size(wordlist, 2);
 
-SCALE = 1;
-vocab = rand(x, size(fullVocab, 2)) .* (2 * SCALE - SCALE);
+dataScale = mean(abs(fullVocab(:)));
+LOADSCALE = initScale/(2 * dataScale);
+
+vocab = rand(x, size(fullVocab, 2)) .* (2 * initScale) - initScale;
 
 for wordlistIndex = 1:length(wordlist)
     if fullWordmap.isKey(wordlist{wordlistIndex})
@@ -47,7 +49,7 @@ for wordlistIndex = 1:length(wordlist)
     end
     if loadedIndex > 0
         % Copy in the loaded vector
-        vocab(wordMap(wordlist{wordlistIndex}), :) = fullVocab(loadedIndex, :);
+        vocab(wordMap(wordlist{wordlistIndex}), :) = fullVocab(loadedIndex, :) .* LOADSCALE;
     end % Else: We keep the randomly initialized entry
 end
 

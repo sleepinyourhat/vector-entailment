@@ -23,10 +23,11 @@ hyperParams.topDepth = topDepth;
 hyperParams.fastEmbed = fastemb;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.02;
+hyperParams.lambda = 0.0002;
 
 % Hack: -1 means to always drop out the same one unit.
-hyperParams.dropoutPresProb = -1;
+hyperParams.bottomDropout = -1;
+hyperParams.topDropout = -1;
 
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
