@@ -1,0 +1,2626 @@
+%%% Derived from training data compiled for Bill MacCartney's 2009 PhD thesis
+<	Affective Disorder	disorder
+<	African Elephant	elephant
+<	African elephant	elephant
+<	Anniversary of Normandy Landings	anniversary
+<	Arabic Language	language
+<	Baltic Countries	countries
+<	Baltic Countries	countries
+<	Bulls basketball	National Basketball Association
+<	Bush administration	administration
+<	Climate change	changes
+<	Clinical trials	trial
+<	Daffodils	Plants
+<	Every	The
+<	Everyone	The people
+<	Italian-born	born
+<	Italy	nation
+<	John	Someone
+<	Judge John Roberts	judge
+<	Militant Islamic Palestinian Organization	Palestinian organization
+<	Monkeys	Primates
+<	Nobel Prize	Prize
+<	Nuclear Power Plant of Sosnovyi Bor	plant
+<	Operation Condor	operation
+<	Organic fertilizers	fertilizers
+<	Pharos Lighthouse	lighthouse
+<	Poland	land
+<	Polish-born	born
+<	President	leader
+<	Rising prices	prices
+<	Scientists	researchers
+<	Sex-change operations	operations
+<	Smith , Anderson and Jones	a group of people
+<	Storm Debby	storm
+<	Toulnustouc Hydroelectric Project	hydroelectric project
+<	Tropical Storms Elyne	storm
+<	Typhoon Xangsane	typhoon
+<	a successful former university student	successful
+<	affective disorder	disorder
+<	airliner	plane
+<	anabolic steroid	steroid
+<	and	or
+<	aspirin	drug
+<	astrophysicist	physicist
+<	auction houses	houses
+<	basketball team	team
+<	buried	died
+<	candidate	leader
+<	car bomb	explosion
+<	car manufacturer	manufacturer
+<	civilians	people
+<	co-owner	owners
+<	commander	man
+<	congestive heart failure	heart failure
+<	crudes	oil
+<	dance	move
+<	dance	move
+<	dances	moves
+<	deafening	loud
+<	drinking	drinking water
+<	drivers	workers
+<	every	the
+<	every month	in July 1994
+<	ferry	vessel
+<	first language	language
+<	from 1988 to 1992	in 1990
+<	gasoline	refined
+<	giant panda	pandas
+<	high jump	jump
+<	home runs	runs
+<	home runs	runs
+<	jet	plane
+<	liberal party	parties
+<	macaque	monkey
+<	macaques	monkeys
+<	magazine	publication
+<	military operation	operation
+<	missile	weapons
+<	monkey	primate
+<	monkeys	primates
+<	more	some
+<	neutron star	star
+<	nursery schools	schools
+<	parties	political parties
+<	radioactive waste	waste
+<	satellites	spacecraft
+<	seaweed	vegetation
+<	security systems	systems
+<	sinking	wreck
+<	site visit	visits
+<	space	spaceflight
+<	space station	station
+<	territorial waters	water
+<	territorial waters	waters
+<	tomatoes	vegetables
+<	waste-water	waste
+<	$ 1.84 per share	*BLANK*
+<	, was an astronomer of the Kerala school founded by Madhava of Sangamagrama and a student of Damodara .	*BLANK*
+<	-LRB- 265m -RRB-	*BLANK*
+<	APCOM	*BLANK*
+<	Alan	*BLANK*
+<	Also	*BLANK*
+<	As an active member of the National Guard , he was called to duty in 1941 .	*BLANK*
+<	As late as 1799	*BLANK*
+<	As much as 200 mm of rain	*BLANK*
+<	At least three	*BLANK*
+<	Based	*BLANK*
+<	Bill	*BLANK*
+<	Bill , Frank	*BLANK*
+<	Bill did	*BLANK*
+<	Bill did too	*BLANK*
+<	Blue Mountain Lumber	*BLANK*
+<	Bosnia 's leading Muslim daily Dnevni Avaz	*BLANK*
+<	Bountiful arrived after war 's end , sailing into San Francisco Bay 21 August 1945 .	*BLANK*
+<	Britain	*BLANK*
+<	British	*BLANK*
+<	Bush	*BLANK*
+<	But	*BLANK*
+<	But I am afraid , honestly , I am afraid .	*BLANK*
+<	But these are only first hazards .	*BLANK*
+<	Chicago-based	*BLANK*
+<	Chile	*BLANK*
+<	Either Smith ,	*BLANK*
+<	Exactly two	*BLANK*
+<	First circumambulation	*BLANK*
+<	First American winter ascent of Pumori -LRB- elev .	*BLANK*
+<	First Canadian	*BLANK*
+<	Fortune 500	*BLANK*
+<	Friday	*BLANK*
+<	General	*BLANK*
+<	George	*BLANK*
+<	Hanssen	*BLANK*
+<	Hugh	*BLANK*
+<	If Smith and Anderson did not sign the contract ,	*BLANK*
+<	In 1927	*BLANK*
+<	In 1984	*BLANK*
+<	In 1994	*BLANK*
+<	In 1999	*BLANK*
+<	In two years	*BLANK*
+<	Including	*BLANK*
+<	Iran	*BLANK*
+<	Irish	*BLANK*
+<	It is	*BLANK*
+<	Italian	*BLANK*
+<	Java	*BLANK*
+<	John	*BLANK*
+<	John did n't visit us	*BLANK*
+<	John wrote a report	*BLANK*
+<	Jones	*BLANK*
+<	Just	*BLANK*
+<	Jyestadeva	*BLANK*
+<	Khan	*BLANK*
+<	Kittery	*BLANK*
+<	Last week	*BLANK*
+<	Legally	*BLANK*
+<	Made seven flights in the X-15 program -LRB- 1960 photo -RRB- , reaching an altitude of 207,500 feet .	*BLANK*
+<	Malaysian forestry transnational corporation	*BLANK*
+<	Many	*BLANK*
+<	March 1993	*BLANK*
+<	Meanwhile	*BLANK*
+<	Most	*BLANK*
+<	New	*BLANK*
+<	New York-based	*BLANK*
+<	New Year	*BLANK*
+<	New York	*BLANK*
+<	On 12	*BLANK*
+<	On 12 August , the San Carlos Battalion came across mines placed in their path and one soldier was killed while two were seriously injured .	*BLANK*
+<	On 21	*BLANK*
+<	On 24 March 1992	*BLANK*
+<	On April 27th , Pavolini went on , ahead of his troops , and reached Mussolini .	*BLANK*
+<	On April 28 1945	*BLANK*
+<	On February 1 , 1990	*BLANK*
+<	On Friday evening	*BLANK*
+<	On Jan. 27 , 1756	*BLANK*
+<	On July 12	*BLANK*
+<	On July 8th	*BLANK*
+<	On June 29 , 1995	*BLANK*
+<	On May 17 , 2005	*BLANK*
+<	On October 1	*BLANK*
+<	On Tuesday , October 7 , 2003	*BLANK*
+<	On the morning of 1	*BLANK*
+<	On the other hand , the article , `` Fiction and Facts About Drug Legalization '' , by Joseph Califano identifies possible social problems that could occur as a result of marijuana being decriminalized in any form , whether for medical purposes or for recreational use .	*BLANK*
+<	Once	*BLANK*
+<	One-third	*BLANK*
+<	One	*BLANK*
+<	One day	*BLANK*
+<	One economic study will not be the basis of Canada 's public policy decisions	*BLANK*
+<	One reason	*BLANK*
+<	One year	*BLANK*
+<	Other	*BLANK*
+<	Other artists like Jije -LRB- Joseph Gillain -RRB- took care of the feature .	*BLANK*
+<	Other changes involve joint Research and Development programs with other companies .	*BLANK*
+<	Other regional sweeps have been conducted before ; but this was the first of its kind at the national level and resulted in the highest number of arrests ever recorded in a single operation .	*BLANK*
+<	Others	*BLANK*
+<	Parviz Davudi	*BLANK*
+<	Portuguese	*BLANK*
+<	Predictably	*BLANK*
+<	Prime Minister	*BLANK*
+<	Scandinavian	*BLANK*
+<	Several	*BLANK*
+<	Since 1987	*BLANK*
+<	Since independence and the blood bath of partition , in which an estimated 15 million people were uprooted and 200,000 died	*BLANK*
+<	Since the ancient Greeks , inhalation has been recognized as a highly effective means of ingesting drugs .	*BLANK*
+<	Since the fear of death is virtually a universal phenomenon	*BLANK*
+<	Singapore	*BLANK*
+<	Six people were killed	*BLANK*
+<	Six	*BLANK*
+<	Sixto Duran-Ballen	*BLANK*
+<	Slash and burn cycle of clearing	*BLANK*
+<	Slovakia	*BLANK*
+<	Slovenia	*BLANK*
+<	Slovenian and Croatian	*BLANK*
+<	Small	*BLANK*
+<	Small business owners	*BLANK*
+<	Smith	*BLANK*
+<	Smriti Kana Saha	*BLANK*
+<	So far	*BLANK*
+<	So	*BLANK*
+<	Soap-like alternatives exist .	*BLANK*
+<	Social	*BLANK*
+<	Social Conservative	*BLANK*
+<	Some	*BLANK*
+<	Some 55 percent of the German public	*BLANK*
+<	Some large Russian oil companies	*BLANK*
+<	Some member states have already introduced major reforms -LRB- e.g. Germany , France and Austria -RRB- others have continued to adapt their existing systems .	*BLANK*
+<	Some observers	*BLANK*
+<	Some people	*BLANK*
+<	Some other objections	*BLANK*
+<	Sony Corp. 's	*BLANK*
+<	Sotheby 's	*BLANK*
+<	South Africa	*BLANK*
+<	South African	*BLANK*
+<	South African President Thabo Mbeki	*BLANK*
+<	Still , the storm surge was both stronger and earlier than expected , apparently coming through waterways southeast of the city	*BLANK*
+<	The New York Times	*BLANK*
+<	The US	*BLANK*
+<	The US invasion of Afghanistan	*BLANK*
+<	The US troops stayed in Iraq	*BLANK*
+<	The fact	*BLANK*
+<	The fact that Bin Laden was in Tora Bora	*BLANK*
+<	The paper	*BLANK*
+<	The president	*BLANK*
+<	The president has n't gone to Iraq	*BLANK*
+<	The press	*BLANK*
+<	Today	*BLANK*
+<	Today	*BLANK*
+<	Today 's best estimate	*BLANK*
+<	U.N.	*BLANK*
+<	U.S.-led	*BLANK*
+<	U.S.	*BLANK*
+<	U.S. Military	*BLANK*
+<	US	*BLANK*
+<	US President George W. Bush	*BLANK*
+<	US officials	*BLANK*
+<	US Federal Reserve boss	*BLANK*
+<	Ukrainian	*BLANK*
+<	When Jones got his job at the CIA	*BLANK*
+<	When Smith arrived in Katmandu	*BLANK*
+<	a $ 30 million project	*BLANK*
+<	a belief	*BLANK*
+<	a citizen	*BLANK*
+<	a follower	*BLANK*
+<	a haven	*BLANK*
+<	a house	*BLANK*
+<	a lot	*BLANK*
+<	a meeting	*BLANK*
+<	able	*BLANK*
+<	accept	*BLANK*
+<	active	*BLANK*
+<	all	*BLANK*
+<	also	*BLANK*
+<	amid the discovery	*BLANK*
+<	among Australian political scientists	*BLANK*
+<	among others	*BLANK*
+<	among teenagers	*BLANK*
+<	among the Tamil peoples of northern Sri Lanka	*BLANK*
+<	among youngsters	*BLANK*
+<	amount	*BLANK*
+<	amounted to EUR 9.2 bn in Germany , EUR 2.9 bn in Austria and EUR 2.3 bn in the Czech Republic	*BLANK*
+<	an 11th-hour offer	*BLANK*
+<	an AOS or AAS degree	*BLANK*
+<	an American official	*BLANK*
+<	an American woman	*BLANK*
+<	an IFA truck	*BLANK*
+<	an Oregon woman with Alzheimer 's disease	*BLANK*
+<	an ` outpost of tyranny '	*BLANK*
+<	an acquaintance	*BLANK*
+<	an acronym	*BLANK*
+<	an active member	*BLANK*
+<	an actor and director	*BLANK*
+<	an advantage in what is the strongest commercial aircraft market in five years	*BLANK*
+<	an adverse effect	*BLANK*
+<	an agreement	*BLANK*
+<	an allegation	*BLANK*
+<	an alliance	*BLANK*
+<	an annual rate	*BLANK*
+<	an area	*BLANK*
+<	an army of 20 thousand men	*BLANK*
+<	an arrest warrant	*BLANK*
+<	an astounding haul	*BLANK*
+<	an attack	*BLANK*
+<	an attorney	*BLANK*
+<	an attorney for Eliza May	*BLANK*
+<	an average	*BLANK*
+<	an electrician	*BLANK*
+<	an elementary particle discovered in 1995	*BLANK*
+<	an emergency	*BLANK*
+<	an emergency landing	*BLANK*
+<	an employee	*BLANK*
+<	an enchanting country	*BLANK*
+<	an energy windfall	*BLANK*
+<	an enzyme	*BLANK*
+<	an unbelievable cult status across the world , not least	*BLANK*
+<	and	*BLANK*
+<	and been awarded	*BLANK*
+<	animal	*BLANK*
+<	animals	*BLANK*
+<	annual ongoing support	*BLANK*
+<	anti-war	*BLANK*
+<	anticyclone	*BLANK*
+<	antiwar	*BLANK*
+<	are also taking part in the march	*BLANK*
+<	are being violated	*BLANK*
+<	are extremely tenacious	*BLANK*
+<	arrive	*BLANK*
+<	arrived	*BLANK*
+<	as the ITEL-XZ	*BLANK*
+<	as the press	*BLANK*
+<	as	*BLANK*
+<	assigned	*BLANK*
+<	assisted	*BLANK*
+<	attacked	*BLANK*
+<	attacks	*BLANK*
+<	attended	*BLANK*
+<	attracted	*BLANK*
+<	authored	*BLANK*
+<	authorities	*BLANK*
+<	auto	*BLANK*
+<	aware	*BLANK*
+<	based	*BLANK*
+<	based in Dallas	*BLANK*
+<	before she arrived in Katmandu	*BLANK*
+<	blocked	*BLANK*
+<	blood	*BLANK*
+<	booked	*BLANK*
+<	bought	*BLANK*
+<	bought	*BLANK*
+<	broke	*BLANK*
+<	but	*BLANK*
+<	but also	*BLANK*
+<	by car	*BLANK*
+<	by train	*BLANK*
+<	casino	*BLANK*
+<	chose	*BLANK*
+<	client	*BLANK*
+<	collaborate	*BLANK*
+<	collected	*BLANK*
+<	come	*BLANK*
+<	comes	*BLANK*
+<	company	*BLANK*
+<	computer	*BLANK*
+<	could face the death penalty	*BLANK*
+<	could face the death penalty	*BLANK*
+<	customers	*BLANK*
+<	death	*BLANK*
+<	do not change a person 's gender in the eyes of the church	*BLANK*
+<	do not in any way reflect the views of the club	*BLANK*
+<	docked	*BLANK*
+<	docked with the International Space Station , after a two-day flight from the Baikonur Cosmodrome in Kazakhstan	*BLANK*
+<	docking	*BLANK*
+<	docks	*BLANK*
+<	doctors	*BLANK*
+<	documents	*BLANK*
+<	documents being shredded all night	*BLANK*
+<	does need overhauling	*BLANK*
+<	does not make the rules much easier	*BLANK*
+<	does not mean that the investigations are not proceeding well	*BLANK*
+<	does that mean for travelers	*BLANK*
+<	dogs	*BLANK*
+<	doing press interviews , Sunday	*BLANK*
+<	dollars	*BLANK*
+<	domesticated	*BLANK*
+<	dominated	*BLANK*
+<	donated	*BLANK*
+<	dons	*BLANK*
+<	doses	*BLANK*
+<	double-digit	*BLANK*
+<	double	*BLANK*
+<	doubt	*BLANK*
+<	downgraded	*BLANK*
+<	drafting	*BLANK*
+<	either	*BLANK*
+<	every	*BLANK*
+<	familiar	*BLANK*
+<	family	*BLANK*
+<	fat	*BLANK*
+<	fatalities	*BLANK*
+<	female	*BLANK*
+<	few	*BLANK*
+<	fill up	*BLANK*
+<	filled	*BLANK*
+<	filled with tourists returning home to the French Caribbean island of Martinique	*BLANK*
+<	film-maker	*BLANK*
+<	finally	*BLANK*
+<	financed Shah	*BLANK*
+<	financial	*BLANK*
+<	financial , oil , fisheries , and military	*BLANK*
+<	financial and trade	*BLANK*
+<	financing , inflation and interest	*BLANK*
+<	find	*BLANK*
+<	find	*BLANK*
+<	find out	*BLANK*
+<	finding	*BLANK*
+<	finger holes	*BLANK*
+<	finished in 1974	*BLANK*
+<	fired	*BLANK*
+<	firefighters	*BLANK*
+<	fires	*BLANK*
+<	firm	*BLANK*
+<	firm projects	*BLANK*
+<	first-quarter	*BLANK*
+<	first-time Emmy winners	*BLANK*
+<	first	*BLANK*
+<	first child of the Duke and Duchess of York	*BLANK*
+<	first	*BLANK*
+<	first appeared	*BLANK*
+<	first proposed by Albert Einstein	*BLANK*
+<	fishermen	*BLANK*
+<	fishermen from both sides	*BLANK*
+<	fishing	*BLANK*
+<	five	*BLANK*
+<	five Spanish-born Jesuit priests	*BLANK*
+<	five of the men	*BLANK*
+<	five times	*BLANK*
+<	flagship	*BLANK*
+<	flavors	*BLANK*
+<	fled	*BLANK*
+<	fledgling	*BLANK*
+<	flee	*BLANK*
+<	flew	*BLANK*
+<	flies direct daily from Los Angeles to Frankfurt	*BLANK*
+<	flies direct from Los Angeles to Dusseldorf and Munich on Mondays and Thursdays	*BLANK*
+<	follows	*BLANK*
+<	for literature	*BLANK*
+<	for more than two years	*BLANK*
+<	for two hours	*BLANK*
+<	for two years	*BLANK*
+<	force	*BLANK*
+<	forced	*BLANK*
+<	forced	*BLANK*
+<	forces	*BLANK*
+<	forcing the team to punt	*BLANK*
+<	forecast	*BLANK*
+<	foreign participation	*BLANK*
+<	foreign exchange markets	*BLANK*
+<	foremost	*BLANK*
+<	forestry	*BLANK*
+<	forget that	*BLANK*
+<	forgot	*BLANK*
+<	forgot that	*BLANK*
+<	form	*BLANK*
+<	form	*BLANK*
+<	form half the population and 54 % of the voters in the country	*BLANK*
+<	form to help	*BLANK*
+<	formally	*BLANK*
+<	format	*BLANK*
+<	formation	*BLANK*
+<	formed	*BLANK*
+<	former communists known as the Left Party	*BLANK*
+<	former immigration minister	*BLANK*
+<	forming	*BLANK*
+<	forms	*BLANK*
+<	formulated	*BLANK*
+<	fortunate	*BLANK*
+<	forward	*BLANK*
+<	fought	*BLANK*
+<	found	*BLANK*
+<	found Mary	*BLANK*
+<	found	*BLANK*
+<	founded	*BLANK*
+<	four-legged	*BLANK*
+<	four American soldiers	*BLANK*
+<	four former Soviet republics of central Asia	*BLANK*
+<	four hooded individuals	*BLANK*
+<	four of whom	*BLANK*
+<	four times by at least one assassin	*BLANK*
+<	fraud	*BLANK*
+<	free-market	*BLANK*
+<	free	*BLANK*
+<	free	*BLANK*
+<	from APCOM	*BLANK*
+<	frustrated	*BLANK*
+<	gain	*BLANK*
+<	gather	*BLANK*
+<	gave	*BLANK*
+<	happy	*BLANK*
+<	he closed the window	*BLANK*
+<	he did	*BLANK*
+<	his secretary	*BLANK*
+<	home	*BLANK*
+<	humans	*BLANK*
+<	imprisoned	*BLANK*
+<	in 1996	*BLANK*
+<	in 2006	*BLANK*
+<	in Cairo	*BLANK*
+<	in Campania	*BLANK*
+<	in France	*BLANK*
+<	in September	*BLANK*
+<	in captivity	*BLANK*
+<	in major national newspapers	*BLANK*
+<	in the Midlands region of the UK	*BLANK*
+<	in the central town of Visoko	*BLANK*
+<	in the process	*BLANK*
+<	in the third quarter	*BLANK*
+<	in two hours	*BLANK*
+<	in two years	*BLANK*
+<	including	*BLANK*
+<	including Jaime Pardo Leal -LRB- president of Colombia 's national coordination committee -RRB-	*BLANK*
+<	including Scottie Pippen	*BLANK*
+<	including a commission recommendation that the Bank stop lending to emerging market economies , concentrate its resources on the poorest countries and shift the IFI 's concessional assistance from loans to grants	*BLANK*
+<	including stepped-up enforcement and the elimination of tax incentives that led to large-scale land clearing	*BLANK*
+<	including the Democratic Republican Movement -LRB- MDR -RRB- , the Liberal Party -LRB- LP -RRB- , the Democratic and Socialist Party -LRB- PSD -RRB- , and the Coalition for the Defense of the Republic -LRB- CDR -RRB-	*BLANK*
+<	including the creation of an independent electoral commission to oversee the presidential vote , which is slated for October 30	*BLANK*
+<	income	*BLANK*
+<	incorporating	*BLANK*
+<	instance	*BLANK*
+<	instructed	*BLANK*
+<	intelligent	*BLANK*
+<	interest	*BLANK*
+<	interesting	*BLANK*
+<	interrogated	*BLANK*
+<	into San Francisco Bay 21	*BLANK*
+<	introduced	*BLANK*
+<	invented	*BLANK*
+<	invention	*BLANK*
+<	involved	*BLANK*
+<	it was	*BLANK*
+<	killed	*BLANK*
+<	killed	*BLANK*
+<	knew	*BLANK*
+<	know that	*BLANK*
+<	knows	*BLANK*
+<	landed	*BLANK*
+<	large	*BLANK*
+<	last non-UK retail operation	*BLANK*
+<	last week	*BLANK*
+<	last year	*BLANK*
+<	lawyers	*BLANK*
+<	leaders	*BLANK*
+<	leading	*BLANK*
+<	led	*BLANK*
+<	led to the suspicion that the Afghan campaign was mismanaged	*BLANK*
+<	led	*BLANK*
+<	left	*BLANK*
+<	legally	*BLANK*
+<	like almost every country	*BLANK*
+<	likely	*BLANK*
+<	little known	*BLANK*
+<	located	*BLANK*
+<	loses	*BLANK*
+<	made	*BLANK*
+<	made	*BLANK*
+<	made his way through a crush of reporters and television cameras	*BLANK*
+<	made up	*BLANK*
+<	made up	*BLANK*
+<	mafia	*BLANK*
+<	magnesium	*BLANK*
+<	main	*BLANK*
+<	make a copy	*BLANK*
+<	male	*BLANK*
+<	many	*BLANK*
+<	married	*BLANK*
+<	met	*BLANK*
+<	more orders	*BLANK*
+<	more than two years	*BLANK*
+<	new	*BLANK*
+<	next month	*BLANK*
+<	next summer	*BLANK*
+<	next week	*BLANK*
+<	nicknamed Eve	*BLANK*
+<	now	*BLANK*
+<	oil company	*BLANK*
+<	old	*BLANK*
+<	on 18 August in Bogota	*BLANK*
+<	on 26 March	*BLANK*
+<	on 28	*BLANK*
+<	on 31	*BLANK*
+<	on 3G technologies	*BLANK*
+<	on April 10	*BLANK*
+<	on Argentina	*BLANK*
+<	on Aug. 6	*BLANK*
+<	on D-Day	*BLANK*
+<	on December 26 , 2004	*BLANK*
+<	on February 6 , 1952	*BLANK*
+<	on Friday	*BLANK*
+<	on Friday , April 8 ,	*BLANK*
+<	on January 1 , 2002	*BLANK*
+<	on July 14	*BLANK*
+<	on Microsoft 's MSN website	*BLANK*
+<	on Monday	*BLANK*
+<	on Ray 's claim of innocence	*BLANK*
+<	on Saturday	*BLANK*
+<	on Saturday , one of only two sub-par rounds on the day	*BLANK*
+<	on September 19	*BLANK*
+<	on Sri Lanka 's army headquarters	*BLANK*
+<	on Sunday	*BLANK*
+<	on Sunday , 31	*BLANK*
+<	on Thursday	*BLANK*
+<	on Tuesday	*BLANK*
+<	on Wednesday	*BLANK*
+<	on a Sunday	*BLANK*
+<	on a highway in central El Salvador	*BLANK*
+<	on a par with such highly developed countries	*BLANK*
+<	on a park bench	*BLANK*
+<	on a report in Italy 's la Repubblica newspaper	*BLANK*
+<	on a short novel	*BLANK*
+<	on a special type of nitroglycerine	*BLANK*
+<	on a stormy Baltic night	*BLANK*
+<	on an active fight	*BLANK*
+<	on apparently incriminating discoveries	*BLANK*
+<	on board	*BLANK*
+<	on coca eradication	*BLANK*
+<	on forming a new government	*BLANK*
+<	on hold	*BLANK*
+<	on its mission to pick up U.S. astronaut Shannon Lucid , who has spent a record-breaking six months in orbit	*BLANK*
+<	on ivory	*BLANK*
+<	on new efforts	*BLANK*
+<	on our way	*BLANK*
+<	on production costs	*BLANK*
+<	on record	*BLANK*
+<	on scene	*BLANK*
+<	on the 12th of January	*BLANK*
+<	on the 15th	*BLANK*
+<	on the 15th of August 1874	*BLANK*
+<	on the 2000 campaign trail	*BLANK*
+<	on the 6th of March	*BLANK*
+<	on the New York Mercantile Exchange , the lowest settlement price since Aug. 5	*BLANK*
+<	on the Philippines	*BLANK*
+<	on the White House lawn	*BLANK*
+<	on the army staff	*BLANK*
+<	on the basis of their suspicions	*BLANK*
+<	on the border of Pakistan	*BLANK*
+<	on the coast in the heart of the area	*BLANK*
+<	on the country 's west coast in partnership	*BLANK*
+<	on the island since 1989	*BLANK*
+<	on the joint U.S. \ Colombian initiative and its effects	*BLANK*
+<	on the mainland	*BLANK*
+<	on the market	*BLANK*
+<	on the personal computer desktop	*BLANK*
+<	on the sale of Talisman 's holdings	*BLANK*
+<	on the ship	*BLANK*
+<	on the side of the Republicans	*BLANK*
+<	on third-and-one	*BLANK*
+<	on time	*BLANK*
+<	on to Sri Lanka	*BLANK*
+<	on tobacco products	*BLANK*
+<	on two occasions about the effort	*BLANK*
+<	on velocity measurements of a whirlpool of hot gas	*BLANK*
+<	on vice president-elect	*BLANK*
+<	once	*BLANK*
+<	once again	*BLANK*
+<	one	*BLANK*
+<	one giant leap	*BLANK*
+<	one giant leap for mankind	*BLANK*
+<	one new method of steel making it is considering	*BLANK*
+<	one of America 's principal symbols of freedom	*BLANK*
+<	one of Namibia 's most precious resources , its abundant wildlife and especially its threatened black rhinoceros ,	*BLANK*
+<	one of its immediate aims	*BLANK*
+<	one of the Lords Justices	*BLANK*
+<	one of the beaches used by British troops in the allied invasion	*BLANK*
+<	one of the world 's most significant private collections of African artwork , yesterday ,	*BLANK*
+<	one of the world 's poorest countries	*BLANK*
+<	one of their most respected and beloved mentors	*BLANK*
+<	one of them	*BLANK*
+<	one set	*BLANK*
+<	one small step	*BLANK*
+<	or	*BLANK*
+<	or Anderson	*BLANK*
+<	orders	*BLANK*
+<	originally	*BLANK*
+<	other	*BLANK*
+<	other chronic inflammatory conditions	*BLANK*
+<	other countries	*BLANK*
+<	other ideas	*BLANK*
+<	other leading makers	*BLANK*
+<	other leading makers of mobile phones	*BLANK*
+<	other legendary characters	*BLANK*
+<	other medicines	*BLANK*
+<	other members of the panel	*BLANK*
+<	other parts	*BLANK*
+<	other people	*BLANK*
+<	other persons	*BLANK*
+<	others	*BLANK*
+<	patients	*BLANK*
+<	people	*BLANK*
+<	persecution	*BLANK*
+<	person	*BLANK*
+<	politician	*BLANK*
+<	predictably	*BLANK*
+<	realize	*BLANK*
+<	realized	*BLANK*
+<	red	*BLANK*
+<	report	*BLANK*
+<	sad	*BLANK*
+<	said	*BLANK*
+<	sandy	*BLANK*
+<	saw	*BLANK*
+<	should	*BLANK*
+<	should go together	*BLANK*
+<	since 1910	*BLANK*
+<	since 1950	*BLANK*
+<	since 1991	*BLANK*
+<	since Monday	*BLANK*
+<	since October 1998	*BLANK*
+<	since his election as president of Iran earlier this year	*BLANK*
+<	since the 1920s	*BLANK*
+<	since the 1980s	*BLANK*
+<	since the late 1950 's	*BLANK*
+<	single-handedly	*BLANK*
+<	single	*BLANK*
+<	sinking	*BLANK*
+<	site	*BLANK*
+<	sitting	*BLANK*
+<	situated	*BLANK*
+<	situations	*BLANK*
+<	six-party	*BLANK*
+<	six	*BLANK*
+<	six Maoists	*BLANK*
+<	so did Jones	*BLANK*
+<	so does Jones	*BLANK*
+<	spent	*BLANK*
+<	state-owned	*BLANK*
+<	still	*BLANK*
+<	students	*BLANK*
+<	substantially	*BLANK*
+<	successful	*BLANK*
+<	such	*BLANK*
+<	surprising	*BLANK*
+<	take place	*BLANK*
+<	tall	*BLANK*
+<	than APCOM	*BLANK*
+<	than APCOM did	*BLANK*
+<	than APCOM lost	*BLANK*
+<	than the ITEL-XZ	*BLANK*
+<	that Bill did too	*BLANK*
+<	that	*BLANK*
+<	the ITEL-ZY	*BLANK*
+<	the diplomat left Baghdad	*BLANK*
+<	the meeting	*BLANK*
+<	the students	*BLANK*
+<	the suspicion	*BLANK*
+<	the time	*BLANK*
+<	three	*BLANK*
+<	three accountants	*BLANK*
+<	time	*BLANK*
+<	to Paris	*BLANK*
+<	to Paris by car , and Bill by train	*BLANK*
+<	to the SEC	*BLANK*
+<	today	*BLANK*
+<	today states	*BLANK*
+<	together	*BLANK*
+<	together to fight terrorism	*BLANK*
+<	together	*BLANK*
+<	two hours	*BLANK*
+<	two years	*BLANK*
+<	used	*BLANK*
+<	used state tobacco monopoly liberalization	*BLANK*
+<	used	*BLANK*
+<	used each year by Cal State Long Beach colleges and departments	*BLANK*
+<	used for medical purposes	*BLANK*
+<	used in Asia	*BLANK*
+<	useful	*BLANK*
+<	was rusted shrapnel	*BLANK*
+<	when	*BLANK*
+<	where	*BLANK*
+<	which	*BLANK*
+<	who are resident in Europe	*BLANK*
+<	who are resident outside Europe	*BLANK*
+<	won	*BLANK*
+<	won power 13 months ago	*BLANK*
+<	won	*BLANK*
+<	works	*BLANK*
+<	works	*BLANK*
+<	works for the Metroplitan Police	*BLANK*
+<	worldwide	*BLANK*
+<	worldwide	*BLANK*
+<	worried	*BLANK*
+<	worries	*BLANK*
+<	worsened	*BLANK*
+<	writing the report	*BLANK*
+#	$	MCI Communications Inc.
+#	$	bid
+=	$	dollars
+#	%	mice
+#	'	company
+#	'	proposal
+=	'90	1990
+|	'90	9
+=	'92	1992
+#	's	company
+>	's	her
+=	's	of
+#	's	proposal
+#	's	should
+#	's	that
+#	,	suggested
+#	,	the
+#	,	to
+=	.	.
+|	1	81
+|	10,000	12,000
+|	10,000	45,000
+|	10,000	90,000
+|	10,000	million
+|	10	1993
+|	10	20
+|	10	90
+|	10	nine
+|	100	135
+|	100	19
+|	100	2,000
+|	100	28
+|	100	370
+|	100	400
+|	100	45
+|	100	Eleven
+#	100	dozens
+=	10th	10th
+|	11	32
+|	11	eight
+|	12	32
+|	13	5100
+|	15	8-1\
+|	16	19
+|	17	two
+>	1810-1811	1811
+|	1837	1839
+|	1848	1886
+>	1869-1947	1900
+>	1900-1946	1946
+|	1900	1946
+>	1921-22	1921
+|	1932	2,45
+=	1936	1936
+|	1937	1989
+|	1942	1975
+|	1944	1946
+|	1944	two
+|	1955	1995
+>	1960s	1969
+|	1961	1969
+=	1966	66
+|	19680504	19680505
+|	1970	2002
+|	1972	1975
+=	1980	80
+|	1982	1994
+|	1988	One
+=	1989	1989
+|	1990	1997
+|	1990	eight
+|	1991	1992
+#	1992	ITEL
+|	1994	2003
+|	1994	201
+|	1994	three
+|	1996	1997
+=	1m	million
+|	2,45	21 3\
+|	2	60
+|	20	40
+#	200,000	forced
+|	200	240
+|	2000	million
+=	2002	2002
+|	2004	2007
+|	2005	7
+|	2005	million
+|	220,000	223,000
+#	233-year-old	oldest
+|	25	30
+#	250,000-barrel-per-day	250,000
+|	291	794
+=	3,000	3000
+|	3,598	3746
+|	3.8	3.82
+|	369	946
+|	3746	7.5
+=	390m	390m
+|	4,498,252,900	5100
+|	6.7	6.75
+|	61	65
+|	63-27	three
+|	730	one
+|	730	three
+|	75	83
+#	8,586-meter	meters
+|	8586	seven
+=	89	89
+=	A	A
+=	A few	At least a few
+|	APCOM	ITEL
+#	APCOM	existed
+=	Abraham Lincoln	Lincoln
+=	Accardo	he
+=	Aeschylus	Aeschylus
+=	Afghans	Afghans
+>	Africa	West Africa
+>	Africa	north Africa
+>	Africa	sub-Saharan Africa
+=	African	African
+=	African elephant	African elephants
+=	African elephants	Their
+=	Agreement	agreement
+=	Ahmadinejab	Ahmadinejad
+=	Ahmadinejad	Ahmedinejad
+|	Air Canada	Canada
+=	Air travel	air travel
+=	Airbus SAS	Airbus SAS
+>	Airport	Miami International Airport
+=	Akbar Hashemi Rafsanjani	Hashemi Rafsanjani
+=	Akbar Hashemi Rafsanjani	Rafsanjani
+=	Al-Rashi	Al-Rashi
+=	Alan Greenspan	Greenspan
+=	Alassane Ouattara	Ouattara
+=	Albania	Albanian
+=	Aldrich Hazen	Aldrich Hazen Ames
+=	Alexander	Alexander the Great
+=	Alexandre Berthier	Louis Alexandre Berthier
+=	Alfred Nobel	Nobel
+=	Alfred Nobel	he
+#	All	Many
+#	All	take
+=	All the people	Everyone
+=	Allen	he
+=	An	an
+=	Andreotti	Giulio Andreotti
+=	Andy Warhol	Andy Warhol
+=	Anna Politkovskaya	her
+=	Antarctic	Antarctica
+|	Anti-nuclear	Nuclear
+=	Arabs	Arabs
+=	Arafat	Yasser Arafat
+=	Argentina	Argentine
+=	Argentina	it
+=	Argentina	itself
+=	Armstrong	Neil Armstrong
+=	Army Of National Liberation	pro-Castro Army Of National Liberation
+=	Arquette	Patricia Arquette
+=	Art	art
+=	Asia Pacific Economic Cooperation	Asia Pacific Economic Cooperation
+=	Asian	Asian
+=	Aspirin	aspirin
+=	Atlantis	Space Shuttle Atlantis
+=	Attack	attack
+>	August	mid-August
+=	Australia	Australian
+=	Australia	Australian
+=	Authority	ita
+=	Award	Award
+=	Babe Ruth	Ruth
+=	Babe Ruth	his
+=	Bacteria	bacterial
+=	Baghdad	Baghdad
+=	Bahrain	Bahrain
+=	Baikalfinansgroup	Baikalfinansgroup
+=	Bakri	Omar Bakri
+=	Bank Antonveneta	bank Antonveneta
+>	Banks	Fuji Bank
+=	Barbara	Barbara Bush
+=	Barbara	Barbara Pierce
+=	Barings	Barings
+=	Barings	Barings Bank
+=	Barings	Barings PLC
+=	Barings Bank	Barings Bank PLC.
+=	Barings Bank PLC.	Barings Plc.
+=	Bavarians	Bavarians
+=	Bechtlsheim	Bechtolsheim
+=	Bechtolsheim	Bechtolsheim
+=	Becky Lourey	Lourey
+=	Beetle	Beetle
+>	Beetle	Bio-Beetle
+#	Before Salt Lake City	Salt Lake City
+=	Begum	herself
+=	Benito Mussolini	Mussolini
+=	Berliner Verlag	Berliner Verlag
+=	Big Bang	big bang
+=	Bill	Bill ''
+#	Bill	If
+|	Bill	John
+|	Bill	Mary
+#	Bill	boss
+=	Bill Clinton	President Clinton
+=	Bill Clinton	his
+#	Bills	they
+#	Bills	will
+=	Black Sparrow Press	Black Sparrow Press
+=	Bledsoe	Drew Bledsoe
+=	Bledsoe	Drew Bledsoe
+=	Blue Mountain Lumber	it
+=	Bosnia	Bosnia and Herzegovina
+=	Bracamonte Battalion	Bracamonte Battalion
+>	Britain	London
+=	Britain	UK
+=	Britannia	Britannia
+=	Britian	UK
+=	British	British
+=	British	British
+=	Broadhurst Theatre	Broadhurst Theatre
+>	Buddhism	Theravada Buddhism
+=	Burns	burns
+|	Bush-appointed	Bush
+=	Bush	President Bush
+=	Bush	his
+=	CIA	Central Intelligence Agency
+=	CNOOC	CNOOC
+=	California-based	California
+>	California	North Hollywood
+=	Cameroon	Cameroon
+=	Camilli Economics	Camilli Economics
+=	Canada	Canadian
+=	Capital punishment	death penalty
+=	Caribbean	Caribbean island
+=	Carl Lewis	His
+=	Carnival Cruise Lines	Carnival Cruise Lines
+=	Carolina Analytical Laboratories	Carolina Analytical Laboratories LLC
+=	Casey	her
+=	Castro	Fidel Castro
+=	Castro	his
+=	Catholic	Catholic
+>	Center	Las Vegas Convention Center
+=	Centrifuges	centrifuges
+=	Charles de Gaulle	Charles de Gaulle
+=	Charles de Gaulle	He
+|	Chicago	Chicago Bulls
+=	Chicago White Sox Charities	Chicago White Sox Charities
+=	Chief Financial Officer	chief financial officer
+=	Child Labour Abolition	Child Labour Abolition
+=	Children	children
+=	Children	children
+=	China	its
+=	Chinook	Chinooks
+=	Chris Evans	he
+=	Chris Evans	he
+=	Christian Democratic	Christian Democratic Union
+|	Christian Democratic Union	Democrat
+=	Christopher Reeve	Christopher Reeve
+=	Christopher Reeve	his
+=	Chávez	Hugo Chávez
+=	Claes	Willy Claes
+=	Clark	James Clark
+=	Clement VII	his
+=	Clients	clients
+=	Clonaid	they
+=	Condoleeza Rice	Condoleezza Rice
+=	Congressman	congressman
+#	Corfu	Corfu Channel
+=	Cortland Manor	Cortlandt Manor
+=	Cote d'Ivoire	Cote d' Ivoire
+=	Cote d'Ivoire	Ivoire
+#	Court	fourth
+=	Cox	Cox
+=	Craig Conway	Craig Conway
+=	Crude oil	crude
+|	Crude oil	natural gas
+=	Cruise	he
+#	Cyanide	hydrogen cyanide
+#	Cyanide	Hydrogen cyanide
+=	Cyanide	cyanide
+=	Cyanide	cyanide
+=	Cyrillic	Cyrillic alphabet
+=	Côte	Côte
+=	Côte	Côte d' Ivoire
+=	Dagbladet	Dagbladet
+=	Dakosaurus	Dakosaurus
+=	Dali	Salvador Dali
+=	Dam	dam
+=	Dam	dams
+=	David Cameron	David Cameron
+=	David H. Levy	David H. Levy
+=	David Wells	Wells
+=	Day	day
+=	Dayton Peace	Dayton Peace Treaty
+=	Deaf	deaf
+=	Dean	Deane
+=	Dec.	December
+=	Declaration of Independence	US Declaration of Independence
+=	Delbert	Delbert Ward
+=	Democrat Culbert L. Olson	Democrat Culbert L. Olson
+#	Democrats	It
+=	Dennis Kozlowski	his
+=	Deutsche Telekom	Deutsche Telekom AG
+=	Devils	Devils
+=	Diego Pol	Diego Pol of Ohio State University
+=	Dietary	dietary
+=	Dinosaur	dinosaur
+=	Disney	Walt Disney Co.
+>	Disneyland	Hong Kong Disneyland
+=	Doctors	Doctors
+=	Does	Does
+|	Domestic	non-domestic
+=	Don Brash	Don Brash
+#	Don Brash	brash
+=	Dortmund	Dortmund
+=	Douglas Hurd	Douglas Hurd
+=	Dr. Eugene Shoemaker	Shoemaker
+=	Dr. Martin Luther King Jr.	Martin Luther King
+=	Dr Wood	her
+>	Drug	cannabis
+=	Drug	drug
+=	Drug	drugs
+>	Drug	marijuana
+>	Drug	narcotics
+=	Dutch	Dutch
+=	Dynamite	dynamite
+=	ETA	it
+=	EU	European Union
+=	East Jerusalem	east Jerusalem
+=	East Timor	it
+=	Eastern Europe	eastern Europe
+#	Ebola-Sudan	Ebola
+#	Ebola-Zaire	Zaire
+=	Ebro Delta	Ebro Delta -LRB- delta
+=	Economic Forecasting Center	Economic Forecasting Center at Georgia State University
+|	Ecuador	Peru
+=	Ed	Ed
+=	Eddy Curry	Eddy Curry
+=	Edvard Munch	Edvard Munch
+=	Edvard Munch	Munch
+=	Edward VIII	he
+=	Egon Eiermann	Egon Eiermann
+=	Egypt	Egyptian
+=	Egypt	Egyptian
+=	Eighteen	eighteen
+>	Either Smith , Jones or Anderson	Jones
+=	El-Nashar	el-Nashar
+|	El Salvador	San Salvador
+=	Elephant	elephant
+=	Employee	employees
+=	Epidemic	epidemic
+=	Epidemic	it
+=	Ernst	Ernst and Young
+=	Eurest Support Services	Eurest Support Services
+=	Euro-Disney	Euro-Disney
+#	Euro	European Union
+=	Europeans	Europeans
+>	Europeans	Swedes
+=	Evander Holyfield	Holyfield
+=	Everest	Mt. Everest
+=	Everest	Mount Everest
+=	Everest	Mt. Everest
+|	Every	No
+=	Every	all
+|	Everyone	No one
+|	Exactly two	Six
+=	FDA	it
+=	FMLN	FMLN
+=	Falkland islands	Falklands
+=	Felipe González	González
+=	Felipe González	He
+=	Fenastras	Fenastras
+=	Fermi Linux LTS	Linux LTS
+=	Fiat	its
+=	Field Marshal Pibul	Pibul
+=	Film Festival	film Festival
+=	Flooding	flooding
+=	Food and Drug Administration	it
+=	Ford Escort	Ford Escort
+=	Foreign	foreign
+=	Frances	Frances Galyean
+=	Francisco Merino	Merino
+#	Frank	suggested
+=	Frank	they
+=	Franz Liszt	Franz Liszt
+|	Friday	Saturday
+=	Frye	Frye
+=	Full	full
+=	GUS	its
+=	Gamble	Procter and Gamble
+=	Games	Games
+=	Games	games
+=	Gamma ray	Gamma rays
+=	Gateway	Gateway Inc.
+=	Gavin Newsom	Mayor Gavin Newsom
+|	George V. Her	George VI
+=	George VI	King George VI
+=	Gerhard Schroeder	Mr. Schroeder
+=	Gerhardt Schroeder	Mr Gerhardt Schroeder
+=	German	Germany
+=	Gilda Flores	Gilda Flores
+=	Glasgow	Glasgow
+=	Global Partnerships	Global Partnerships
+=	Glue-sniffing	Glue-sniffing
+=	Glue-sniffing	Glue-sniffing
+=	Goethe	Johann Wolfgang von Goethe
+=	Gold	gold
+=	Goosen	Retief Goosen
+=	Goryal Scales	Goryal Scales
+=	Government	government
+=	Greek	Greeks
+|	Greenhouse effect	greenhouse gases
+=	Guatemala	Guatemala
+>	Gulf	Gulf of Mexico
+=	Gulf War	Gulf War
+=	Gulf War	Gulf War
+=	Gurkhas	Gurkhas
+=	HRH Duchess of Cornwall	HRH Duchess of Cornwall
+=	Hanssen	Hanssen
+=	Hanssen	who
+=	Hashemite	Hashemite
+=	He	Kieslowski
+=	He	Neil Armstrong
+=	He	Nick Leeson
+=	Helena Brighton	her
+=	Helmut Kohl	Kohl
+=	Herceptin	it
+=	Honorary	honorary
+>	House of Assembly	House of Assembly of Newfoundland
+=	Howard	John Howard
+=	Hubble	Hubble Space Telescope
+=	Hugh	he
+|	Humans	ape-humans
+#	Humans	many
+=	I-tunes	iTunes
+=	I	me
+#	I already knew	It will be the case
+#	ITEL	In
+=	Illusionist	illusionist
+>	India	Southern India
+=	Inflammation	inflammation
+=	International	international
+=	International Atomic Energy Agency	International Atomic Energy Agency
+=	International Energy Agency	International Energy Agency
+#	International Trade	international
+=	Iraq	Iraqi
+=	Iraq	Iraqi
+|	Iraq	Libya
+=	Israel	Israeli
+=	Israel	Israeli
+=	It	it
+=	It	red planet
+#	It is the case	he knew
+=	Jader Barbalho	Jador Barbalho
+=	Jake Borski	Jake Borski
+=	James Jones	Jones
+=	Jan.	January
+|	Jan De Bont	Keanu Reeves
+=	Jean-Claude Trichet	he
+=	Jean Charles de Menezes	de Menezes
+=	Jesuit	Jesuits
+=	Jim Lankes	Jim Lankes
+=	Joaquin Navarro-Valls	Joaquin Navarro-Valls
+=	Joaquin Navarro-Valls	spokesman Joaquin Navarro-Valls
+=	John	John Galyean
+#	John	The
+=	John	he
+=	John Lennon	Lennon
+=	Johnny Stompanato	Johnny Stomponato
+|	Jones	No
+|	Jones	Smith
+>	Jones	Smith , Jones and Anderson
+>	Jones	Smith , Jones and several lawyers
+=	Jones	he
+=	Jones	his
+=	Joseph Wilson	Joseph Wilson
+=	Juan Carlos Lecompte	Juan Carlos Lecompte
+=	Jurassic Park	Jurassic Park
+=	Kakhovskaya	Kakhovskaya Line
+=	Kanchenjunga	Mt. Kanchenjunga
+=	Kevin Vincent	Kevin Vincent
+=	Kieslowski	Krzysztof Kieslowski
+=	Kinetoscope	Kinetoscope
+=	King	king
+=	Kinston Indians	Kinston Indians
+=	Laboratory	Laboratory
+#	Lao	Laos
+=	Laura	Laura Bush
+=	Libyan	Libyans
+=	Linda Johnson	Linda Johnson
+=	Line	line
+=	Lockerbie	Pan Am Lockerbie
+=	Lopez	Mr Lopez
+=	Luis	Luis Carlos Galan
+=	Macedonia	Macedonia
+=	Mack Sennett	Sennett
+=	Mag-lev	Maglev
+=	Maglev	maglev
+=	Maglev	maglev
+=	Mahmoud Abbas	Mahmoud Abbas
+=	Man	man
+=	Managing Director	managing director
+=	Manas	Manas
+=	Manchester	Manchester City
+=	Manuel Ruiz Zorrilla	Zorrilla
+=	Maoist	Maoist
+=	Maria Eugenia Ochoa Garcia	Ochoa Garcia
+#	Marine	important
+=	Marine	marine
+=	Martha Stewart	Martha Stewart
+=	Martin Luther King	Martin Luther King
+=	Maternity	maternity
+=	Mauricio Pineda	Mauricio Pineda
+=	Melvyn Percy	he
+=	Men	Men
+=	Mental health	mental health
+=	Mercedes-Benz	Mercedez-Benz
+=	Mexico	it
+=	Michel Camdessus	Michel Camdessus
+=	Microsoft Windows	Windows
+=	Mike Tyson	Tyson
+=	Mike Tyson	he
+=	Military	military forces
+>	Military	naval forces
+#	Military	positions
+#	Military	troops
+=	Mine	mining
+=	Minerva Rigging	Minerva Rigging
+=	Minister	minister
+=	Mir	Mir
+=	Mir	Mir
+>	Model	Standard Model
+=	Mogadishu	Mogadishu
+=	Mohammad Jamal Khalifa	Mohammad Khalifa
+=	Mohammad Khalifa	Mohammad Oreibi al-Khalifa
+=	Mohandas	Mohandas Karamchand Gandhi
+=	Molly Walsh	she
+=	Moog	Moog
+=	Mount Olympus	Mount Olympus
+=	Mozart	Wolfgang Amadeus Mozart
+=	Mr. Abbas	Mr. Abbas
+|	Mr. Bush	Mrs. Bush
+=	Mr. Hariri	Rafik Hariri
+=	Mr. Mugabe	Robert Mugabe
+=	Mr. Zhu	Zhu Rongji
+=	Mr. de Menezes	de Menezes
+=	Mr Piech	Piech
+=	Mrs. Ellen Johnson-Sirleaf	Mrs. Ellen Johnson-Sirleaf
+=	Mrs. Parker Bowles	Parker Bowles
+=	Ms. Robbins	Ms Robbins
+=	Ms. Sheehan	Sheehan
+=	Museum	museum
+=	NASA Ames	NASA Ames Research Center
+=	NGO	NGOs
+=	Nandrolone	Nandrolone
+^	Neither	One of the
+=	Nelson Beaver	Nelson Beavers
+=	Nelson Beavers	Nelson Beavers
+=	Net income	profits
+=	New	new
+=	New Jersey	New Yersey
+=	New Orleans Ochsner Foundation Hospital	Ochsner Foundation Hospital
+=	New Orleans Saints	New Orleans Saints
+=	New Year	New Year
+=	Nick Leeson	Nick Leeson
+=	Nike	Nike Inc.
+=	Nikolai Haitov	Nikolai Haitov
+^	No	Some
+^	No	There are
+^	No	a
+|	No	one
+^	No	some
+#	Nobel	Nobel prizes
+=	North Korea	it
+=	OTN	OTN
+=	Obesity	obesity
+=	Observer	Observer
+=	Ocean	ocean
+#	Ocean	ocean bottom
+=	Oil	oil
+|	Olympic	Paralympic
+|	Olympic	Paralympics
+>	Olympics	Winter Olympic Games
+>	Operation	Operation Condor
+=	Organic fertilizer	Organic fertilizers
+=	Osama Bin Laden	bin Laden
+=	Palestinian	Palestinians
+#	Palestinian	pro-Palestinian
+=	Panchen Lama	Panchen Lama
+=	Parliament	parliament
+=	Parmalat	Parmalat
+=	Patricia Amy	Patricia Amy Messier
+=	Paul Watson	Paul Watson
+=	Peace	peace
+|	People	compromise
+|	People 's Movement	Social Christian People 's Movement
+|	Persia	Persian Gulf War
+=	Philip Morris	Philip Morris
+=	Philippine	Philippines
+=	Philippines	Philippines
+=	Phobia	phobia
+=	Pibul	Pibul Songgram
+=	Pierce	he
+=	Pilar	Pilar
+=	Police	police
+=	Police	they
+#	Polio	epidemic
+|	Polio	polio-free
+=	Polio	polio
+=	Political	political
+>	Pope	Pope John Paul
+>	Portuguese	Portuguese Navy
+|	Prehistoric	history
+=	President	president
+=	President Bush	President Bush
+=	Prime Minister	prime minister
+=	Priscilla Presley	Priscilla Presley
+#	Prospective	effective
+=	Qin	Qin Shi Huang
+=	Quarantine	quarantine
+=	Québec	Québeckers
+=	Radwa Ashour	Rwada Ashour
+=	Regina Schueller	Regina Shueller
+=	Rehnquist	Rehnquist
+=	Relations	relations
+=	Relations	relationship
+=	Rennyo	he
+=	Republicans	they
+=	River Forecast Centre	River Forecast Centre
+=	Robert F. Scott	Scott
+=	Robert Senacal	Senacal
+=	Robotics	Robots
+>	Robots	mini-robots
+|	Robots	rescue
+=	Robots	robot
+=	Robots	robots
+=	Rock	rock
+=	Rolf Ekeus	Rolf Ekeus
+=	Roman Catholic	Roman Catholic Church
+=	Ronald Reagan	Ronald Regan
+=	Rose	his
+=	Rosneft	Rosneft
+=	Running	Running
+=	Russia	Russian
+=	Russia	it
+=	Russian	Russians
+=	Russian	Russians
+|	Rwanda	Uganda
+=	SNCF	SNCF
+=	Salt Lake	Salt Lake City
+=	San Diego Padres	San Diego Padres
+|	Saturday	Sunday
+=	Saturn	Saturn
+=	Schwarzenegger	he
+=	Seal-hunting	Seal-hunting
+=	Seal-hunting	Seal-hunting
+=	Second	second
+=	Secretary	secretary
+=	Secretary General	secretary general
+|	Seven	three
+=	Sex-change operations	sex-change
+=	She	she
+=	Shining Path	Shining Path
+=	Shop	Shop
+|	Six	three
+|	Six	two
+=	Smith	he
+=	Smith	his
+=	Smith	she
+=	Socialism	socialism
+=	Software faults	software faults
+^	Some	no
+>	Some	one
+=	Some	some
+=	Sony BMG	Sony BMG
+=	South African	South African
+=	Southeast	Southeast
+=	Speed	Speed
+=	Sportswomen	sportswomen
+=	Sri Lanka	Sri Lanka
+=	Statue of Liberty	it
+=	Stephen Hawking	Stephen Hawking
+=	Steps	steps
+=	Struggling	Struggling
+=	Sue Robbins	Sue Robbins
+=	Sylvia Costas	Sylvia Costas
+=	T.R. Mahalingam	T.R. Mahalingham
+|	Texas	Washington
+=	The	the
+=	There	there
+#	Thousands	they
+|	Three	five
+|	Three	seven
+=	Tokyo Stock Exchange	Tokyo Stock Exchange
+=	Tom Online	Tom Online
+=	Tomb	tombs
+=	Toshiba Corp.	it
+=	Tour de France	Tour de France
+=	Trade	trade
+#	Trade secrets	they
+=	Trains	Trains
+=	Tropical	tropical
+=	Two	Two
+=	Two	Two
+>	U.S.	U.S. Navy
+=	U.S.	US
+=	U.S.	United States
+=	U.S.	United States
+=	U.S.	United States
+|	U.S.	family
+=	UN	United Nations
+=	US-government	US-government
+=	US	United States
+=	US	United States
+=	UV-B	UV-B
+=	United Arab Emirates	United Arab Emirates
+=	United Iraqi Alliance	United Iraqi Alliance
+=	United Nations	United Nations
+=	Valero Energy Corp.	Valero Energy Corp.
+=	Vance	he
+=	Verdens Gang	Verdens Gang
+=	Verizon Communications	Verizon Communications Inc.
+=	Volkswagen AG	Volkswagen AG
+=	WSF	WSF
+=	WTO	WTO
+=	War	war
+=	We	we
+=	What	something
+=	Wilkins	Wilkins
+=	Wilkins	Wilkins
+=	Winter Olympic Games	Winter Olympic Games
+=	Winter Olympic Games	Winter Olympics
+=	Women	they
+=	Women	women
+=	Women	womens
+=	Woodson-Tenent	Woodson-Tenent
+=	Workers	workers
+=	World	world
+=	Yakuza	yakuza
+=	Yasser Arafat	Yasser Arafat
+=	Yuganskneftegaz	Yuganskneftegaz
+=	Yunus	Yunus
+=	Zapatero	he
+=	a	an
+=	a	her
+>	a	more
+#	a	the
+#	a	too
+>	a	two
+=	a business	it
+#	a former successful university student	successful
+=	a new species	it
+=	a novel	it
+=	abdicate	abdicated
+=	accept	accepts
+|	accident	disaster
+|	accident	emergency
+=	accountant	accountants
+=	accountants	accountants
+=	accused	accused
+=	acquire	acquisition
+>	acquired	bought
+=	acquisition	deal
+=	action	steps
+=	activists	protesters
+>	activities	role
+|	actor	drama
+=	address	discuss
+=	administration	government
+=	adopted	adopted
+>	affective disorder	depression
+|	after	before
+=	after	since
+=	ago	ago
+=	agree	agreement
+#	agreed	free
+=	agreement	deal
+|	agriculture	program
+|	airline	flight
+=	alien	aliens
+|	allows	forbids
+#	altered	entered
+>	an	two
+#	and	company
+#	and	proposal
+#	and	that
+#	and	to
+=	angered	angering
+>	animals	cows
+>	animals	humans
+=	announce	announced
+=	announce	announced
+=	answer	answers
+|	antibiotic-resistant	antibiotics
+>	apparel	footwear
+=	approval	approve
+=	approval	approved
+#	approve	vote
+=	approved	approved
+=	are	be
+=	are	been
+=	are	is
+=	area	region
+=	areas	region
+=	arm	arms
+=	arrest	arrested
+=	arrested	detained
+=	arrive	arrived
+#	arrive	been
+|	arrive	left
+|	arrived	left
+=	arrived	came
+|	art	artist
+|	art	works
+=	as	as
+=	as	than
+=	ask	asked
+=	assassinated	assassinated
+>	assistants	flight attendants
+=	astronomer	astronomers
+=	attack	attacked
+=	attack	attacks
+>	attack	car bomb
+=	attack	attacking
+=	attacked	attacked
+=	attacked	attacks
+=	attempting	trying
+>	attraction	museum
+=	author	authored
+>	author	playwright
+=	author	writer
+#	authorities	them
+=	autumn	fall
+#	avenue	have
+=	award	awarded
+=	award	honors
+=	awarded	awarded
+>	awareness	publicity
+#	baby	girl
+|	baby	mother
+=	ban	ban
+=	banking	banks
+=	battered	batters
+>	battle	gunbattle
+=	be	been
+=	be	is
+=	be	was
+>	been	gone
+=	been	is
+#	been	leave
+#	been	left
+=	been	was
+=	been	were
+|	before	since
+=	before	until
+>	began	start
+=	being	was
+=	best	best
+#	best	best seller
+#	best	top
+=	bid	bids
+=	bid	bids
+>	big	enormous
+=	big	large
+=	biggest	largest
+#	bilateral	currency
+#	bilateral	territorial waters
+#	bill	will
+=	billionaires	billionaires
+|	biscuit	tobacco
+#	bit	bit
+=	black hole	black holes
+|	blast	burst
+=	blast	explosion
+|	bomb-handling	bomb
+>	bomb	car bomb
+#	bomb	massive
+>	book	novel
+=	border	borders
+=	border	borders
+#	border	coca
+=	born	born
+|	bottled water	bottles
+=	bought	buy
+=	bought	purchase
+|	boy	girl
+=	boycott	boycott
+=	breast cancer	breast cancer
+|	brother-in-law	father-in-law
+=	build	building
+=	build	built
+|	building	roof
+#	building	finished
+=	built	built
+#	built	finished
+=	business	businesses
+=	buy	buying
+|	buy	sold
+=	call	called
+=	called	calls
+=	called	named
+=	came	come
+=	camping	camping out
+=	captain	captaincy
+|	career	lifetime
+|	career	tenure
+=	carried out	carried out
+=	carry	held
+=	cast	cast
+|	cat	dog
+|	cats	monkeys
+=	cause	caused
+=	cause	causes
+#	cause	suffer
+=	caused	caused
+=	caused	causes
+#	caused	used
+#	causing	using
+=	chair	chairs
+=	championship	championships
+|	channel	version
+=	choice	chosen
+>	citizens	civilians
+|	citizens	members
+|	citizens	soldiers
+=	civilian	civilian
+#	civilian	other
+|	civilians	prisoners
+#	classic	epic
+=	clean	cleaning
+=	cleverer	cleverer
+=	climb	climbing
+=	climb	climbing
+=	climbing	climbing
+=	clone	cloned
+=	closed down	closed down
+|	coach	team
+|	coalition	government
+=	collected	collected
+=	colluded	collusion
+=	combatant	combatants
+=	commercially	commercially
+=	commissioner	commissioners
+#	common	major
+=	communities	community
+=	companies	company
+=	competitor	competitors
+=	complex	complicated
+=	compulsory	compulsory
+|	computer	computer networks
+|	computer networks	computer systems
+|	computer networks	server
+=	concerned	concerns
+#	concerned	continued
+>	condition	situation
+=	confess	confessed
+=	confirmed	confirmed
+=	confirmed	confirmed
+^	confirmed	unconfirmed
+=	considered	thinks
+=	containg	containing
+#	continued	pressing
+|	continues	stops
+|	contract	order
+|	convoy	gunmen
+|	cool	raised the temperature of
+=	cooled	lower the temperature of
+=	cooperate	cooperating
+=	cost	cost
+=	cost	costs
+>	cost	postage
+|	cotton	ghost
+>	could	did
+#	country	they
+=	crashed	crashed
+=	create	creates
+=	crises	crisis
+=	criticism	criticized
+=	criticized	criticized
+=	cross	cross
+|	crude	refined
+=	cure	cures
+=	damage	damages
+=	damage	damaging
+=	damage	damaging
+#	dance	fart
+>	dance	tango
+#	dance	fart
+>	dance	tango
+>	dances	tangos
+|	daughter	family
+|	daughter	father
+=	day	days
+|	days	week
+|	deal	takeover
+=	death	died
+|	death	fire
+=	debates	debates
+|	decision	removal
+=	deep	deepen
+=	delegate	delegates
+=	delicious	tasty
+=	denied	denying
+#	denim	padded
+=	departed	left
+=	destroyed	destruction
+=	destroyer	destroyers
+|	destruction	rainforest
+=	detailed	specific
+=	deterrent	deterring
+=	devastating	devastation
+=	develop	development
+|	development	project
+=	did	does
+=	did	has
+#	did	wrote
+=	die	died
+|	die	live
+=	died	died
+=	diplomat	diplomats
+|	diplomat	president
+=	direct	directly
+=	directed	director
+#	directed	tautly-directed
+=	discovered	discovering
+=	discovered	discovery
+#	discovered	spent
+=	discovered	discovery
+=	discovered	found
+#	discovering	many
+=	discovers	discovery
+^	discovers	undiscovered
+#	disposal	disposed
+=	dispute	disputed
+=	docked	docks
+|	doctor	woman
+=	doping	doping
+=	dramatist	dramatists
+#	dressed	headdress
+=	drive	drove
+=	dynamite	dynamite
+=	early	early
+=	easily	easy
+#	economic	economy
+|	effects	risk
+=	effort	efforts
+=	egg	eggs
+|	eight	seven
+=	elected	electing
+=	elected	election
+=	elected	elections
+=	election	elections
+=	emerged	emerged
+=	endangered	endangered
+=	engine	engines
+=	entered	entered
+=	episode	episodes
+=	escape	escaped
+=	established	founded
+|	estimates	survey
+=	evacuated	evacuated
+=	evacuated	evacuating
+=	evacuated	evacuation
+|	ex-husband	wife
+|	exactly a	two
+=	exert	exerted
+=	expected	expected
+|	expertise	help
+|	experts	theft
+=	explore	explored
+=	explored	exploring
+=	extend	extends
+#	extinct	extinction
+=	factories	factory
+=	factory	plant
+#	fair	market
+|	family	home
+#	family	members
+>	family	royal family
+#	fans	them
+=	fantasy	fantasy
+=	fast	fast
+#	fast	faster
+#	fast	faster
+#	fast	slower
+|	father	wife
+=	fed	fed
+#	federal	federal government
+|	female	male
+#	fetal	human
+|	film	film maker
+=	find	found
+=	finish	finished
+=	fire	fires
+|	fired	hired
+=	firing	shooting
+=	first	first
+|	fish	fishing
+|	five	two
+=	flare	flash
+=	flee	flees
+=	flew	fly
+|	flight	plane
+=	flute	flute
+|	football	football player
+=	for	on
+#	for	the
+=	forbid	forbids
+=	forbid	prohibited
+=	force	forced
+>	forest	rainforest
+=	form	form
+=	form	form
+=	form	forming
+#	found	identified
+=	founded	founder
+#	founded	in
+|	four	six
+#	free	hot
+=	from	of
+>	fuel	gasoline
+=	gain	gains
+=	gasoline	petrol
+#	gastrointestinal	serious
+#	gatherers	pygmies
+=	give	giving
+#	global	global warming
+#	go	wife
+=	gone	went
+=	gonzo	gonzo
+>	government	regime
+#	governor	he
+=	grammes	grams
+=	grew	growth
+=	grow	grown
+=	grow	grown
+=	growers	grown
+=	grown	growth
+=	guerrilla	guerrillas
+|	guest	story
+|	hackers	personnel
+=	had	had
+=	had	has
+=	had	have
+=	harvest	harvested
+=	has	have
+=	has	have
+>	has	used
+#	has	will
+=	has gone to	visited
+=	have	have
+=	have	having
+#	he	supported
+#	heavy	major
+#	help	make
+|	highest	lowest
+#	him	when
+=	historian	historians
+=	hit	hit
+#	hit	lead
+>	hold	maintain
+=	holed	holed
+#	holes	side effect
+=	home	home
+|	home	homeland
+=	homeopathic	homeopathy
+=	homeopathic	homeopathy
+#	host	meet
+=	hour	hours
+#	how	which
+#	ill	illness
+=	in	than
+=	in	to
+=	increase	increased
+=	increased	increases
+=	indicated	indicated
+=	industries	industry
+>	industry	steel industry
+=	infected	infected
+=	inhabitant	inhabitants
+|	inhibitors	study
+=	injured	injured
+=	injured	injuring
+=	injured	wounded
+=	injuries	injury
+>	inquiry	probe
+|	intake	metabolism
+#	intake	sodium-potassium
+=	intelligence agencies	intelligence agency
+>	interval	period
+=	introduced	introduction
+#	introduction	revealed
+|	intruders	personnel
+=	invented	inventor
+=	invented	invention
+=	invention	inventor
+=	investigate	investigates
+=	investigating	investigation
+=	invite	invited
+=	invited	inviting
+#	is	leave
+=	is	was
+=	is	were
+#	is female	used her workstation
+#	it	its
+#	it	meeting
+=	it	plane
+#	it	suggested
+=	it	typhoon
+=	item	items
+=	ivory	ivory
+=	ivory	ivory
+=	jail	prison
+|	job	payroll
+=	joined	joining
+=	journalism	journalist
+=	kidnapped	kidnapped
+=	kidnapped	kidnapping
+=	kill	killed
+=	killed	killed
+=	killed	killing
+>	killed	murdered
+=	killed	killing
+=	killed	killing
+>	killed	murdered
+=	knew	know
+=	know	knows
+#	labor	them
+=	landed	landing
+=	landed	landings
+|	large	small
+=	lasted	lasts
+#	later	vacation
+=	leach	leaching
+=	lead	lead
+=	leader	leaders
+>	leaders	political leaders
+#	leading	major
+=	leave	leave
+#	left	was
+#	left	theft
+=	legalization	legalization
+=	legalization	legalizing
+>	lethal	lethal dose
+=	life-support	life-support
+|	life	return
+|	life	wife
+=	lift	lifted
+=	lift	lifted
+=	lighting up	lit up
+#	liquid	soil
+=	list	list
+=	lithograph	lithography
+=	live	live
+=	loan	loan
+=	loaned	loans
+#	local	tobacco
+>	locate	relocate
+=	located	locations
+|	longest	second-longest
+=	longevity	longevity
+>	looked	stared
+=	loss	lost
+=	lost	lost
+#	lost	mostly
+|	lost	won
+=	loud	loud
+=	love me	loves me
+|	lungs	youngsters
+=	lyricists	lyricists
+=	m	m
+=	made	making
+=	magistrate	magistrates
+#	make	return
+=	male	males
+>	man	mankind
+|	manslaughter	mercy
+|	manslaughter	patients
+=	many	numerous
+|	margin	win
+#	marine	vegetation
+|	market	volume
+=	measures	measuring
+=	meet	meeting
+|	meet	seek
+=	meeting	meets
+=	member	members
+|	member	politician
+|	members	membership
+=	members	they
+=	merge	merger
+>	metal	steel
+=	metres	metres
+|	mice	stem cells
+>	military	military personnel
+>	military	soldiers
+=	mining	mining
+>	minister	prime minister
+|	month	weeks
+>	moon	new moon
+|	mother	son
+=	move	movement
+=	murder	murdered
+=	name	named
+=	name	names
+|	name	wife
+=	national	nationals
+=	nationalistic	nationalistic
+=	need	needed
+|	nephew	wife
+#	new	strong
+=	notebook computer	notebook computers
+=	noted	noted
+|	novelist	novels
+>	nuclear	nuclear weapons
+>	nuclear	nuclear weapons
+=	nuclear weapons	nuclear weapons
+=	obtain	obtaining
+=	occupied	occupied
+=	offer	offer
+=	offered	offers
+=	official	official
+|	officials	talks
+|	oil	reserves
+#	one	the
+|	one	two
+>	one or more	the
+=	opened	opened
+=	opposed	opposed
+|	options	situations
+|	orange juice	pepper
+=	orbit	orbit
+=	other	others
+=	over	over
+#	own	proposal
+=	owned	owner
+=	paid	pay
+=	parliament	parliaments
+|	parole	prison
+=	part	participated
+=	partial	partially
+=	participate	participated
+=	partners	partnerships
+>	party	political party
+=	passes	passing
+=	passport	passports
+=	patient	patients
+|	pension	retirement
+=	people	persons
+=	people	population
+=	people	they
+=	pet	pets
+=	philosopher	philosophers
+=	place	position
+=	plan	plans
+>	planet	red planet
+=	plans	plans
+>	plans	secret plans
+=	play	played
+=	police	police
+=	police	police officers
+=	police	policeman
+>	police	police captain
+=	police officers	policemen
+=	political	politics
+=	politician	politicians
+>	politician	senator
+=	poll	survey
+#	ponds	waste-water
+|	poor	rich
+=	population	populations
+=	predicted	predicted
+=	prediction	predictions
+=	presidency	president
+#	presidency	presidential
+=	pressing	pressure
+=	prevent	stop
+=	prevent	reduce
+=	preventing	prevents
+=	prime minister	prime minister
+#	pro-women	women
+=	problems	trouble
+>	process	use
+=	produce	produces
+=	produce	produces
+=	produced	production
+=	produced	products
+#	productive	productivity
+|	profit	sales
+=	proposed	proposed
+=	prosecute	prosecuting
+|	protesters	transport
+=	protestors	protests
+=	published	published
+=	quarantine	quarantine
+>	quarks	top quark
+=	rabies	rabies
+=	rain forest	rainforest
+=	ran	running
+=	re-elected	re-elected
+=	rebel	rebels
+=	reckless	recklessly
+#	record-breaker	record
+|	record	space
+=	recorded	recording
+=	recovered	recovered
+=	recovered	recovery
+=	reduce	shorten
+=	refuse	refused
+=	register	registration
+=	release	release
+=	released	releasing
+#	relief	such
+=	remains	remains
+=	remote	remote
+=	remote	remote
+=	reported	reporting
+=	representation	represented
+=	reserves	stockpile
+=	resident	residents
+=	resign	resigned
+=	restricting	restrictions
+=	retreat	retreat
+=	return	returned
+=	return	returned
+=	return	returning
+=	return	returns
+=	returned	returns
+=	reunified	reunited
+|	revenue	sales
+#	rise	risks
+=	robot	robots
+#	robotic	robots
+>	rose	soared
+=	rowing	rows
+=	ruled	rules
+=	rulers	rules
+#	rural	western
+=	safeguard	safeguards
+=	said	says
+=	said	told
+=	said	say
+=	sale	sold
+|	salt	vinegar
+=	sank	sinking
+=	say	saying
+=	say	speak
+=	scored	scorer
+=	secret	secret
+=	sell	selling
+=	sell	sells
+=	sell	sold
+=	sells	sold
+=	sensing	sensing
+=	sensing	sensing
+=	sensing	sensing
+=	sensing	sensing
+=	sentenced	sentencing
+=	served	serving
+=	shaken up	shook up
+=	shareholder	shareholders
+=	shot	shot
+=	shut down	shut down
+=	shut down	shutdown
+>	shuttle	space shuttle
+>	shuttle	space shuttle
+=	sign	signed
+=	signed	signed
+=	singers	singing
+=	sinking	sinking
+=	situational	situations
+=	soap	soaps
+=	soar	surged
+=	sold	sold
+=	soldiers	them
+#	soldiers	themselves
+=	soldiers	they
+=	soldiers	troops
+=	solo	solo
+|	son	wife
+=	speak	speak
+=	species	species
+=	spending	spending
+#	spent	was
+#	spent	wrote
+=	spoken	spoken
+=	spread	spreads
+=	squirted	squirted
+#	start	work
+=	states	states
+|	stay	time
+=	stem cells	stem cells
+=	stole	stolen
+=	stolen	theft
+=	stopped	stopped
+=	storage	storing
+|	story	string
+=	students	students
+=	stun	stun
+=	subsidiary	unit
+=	substance	substances
+=	succeeds	success
+=	suffered	suffers
+|	sugar	vanilla
+=	suggested	suggested
+|	suicide	suicide bomber
+=	sulfur	sulphur
+=	support	supported
+=	supporter	supporters
+=	surgeons	surgeons
+=	suspicion	suspicions
+=	swam	swim
+=	system failure	system failure
+=	tabloid	tabloids
+=	take	take
+=	take	taken
+=	take place	took place
+|	telephone	telephone company
+=	telling	told
+=	ten-thousand-metres	ten-thousand-metres
+=	territorial waters	territorial waters
+=	terrorism	terrorist
+=	testing	tests
+=	that	that
+=	that	that
+=	that	to
+#	that	where
+=	that	whether
+=	the	the
+=	they	troops
+=	thing	this
+=	threat	threatens
+=	threaten	threats
+|	threats	trade
+|	three	two
+#	to	together
+#	to	was
+#	together	was
+#	toss	whisk
+=	tourist	tourists
+=	trade	trading
+=	trader	trades
+=	treat	treated
+=	treated	treating
+=	tried	try
+|	tsunamis	waves
+=	twin	twin
+=	underwrites	underwriting
+=	use	use
+=	use	used
+=	used	used
+=	used	used
+=	used	uses
+=	used	using
+=	vacation	vacationers
+=	varies	vary
+=	vehicle	vehicles
+=	visit	visits
+=	visit	visited
+=	visit	visited
+=	visits	visits
+|	war	war crimes
+=	was	were
+=	was mismanaged	was mismanaged
+|	water	water pistol
+=	will	would
+=	win	won
+=	win	won
+=	win	won
+=	win	won
+=	winning	won
+=	winning	won
+=	wins	won
+=	withdrawal	withdrawn
+=	won	won
+=	work	worked
+=	work	working
+=	world-wide	worldwide
+|	world	year
+=	worse	worsened
+=	write	written
+=	writer	writing
+=	writing	wrote
+=	written	wrote
+=	year	years
+=	!	*BLANK*
+=	$	*BLANK*
+=	%	*BLANK*
+=	''	*BLANK*
+=	'	*BLANK*
+=	'	*BLANK*
+=	'll	*BLANK*
+=	're	*BLANK*
+=	's	*BLANK*
+=	's	*BLANK*
+=	've	*BLANK*
+=	,	*BLANK*
+=	,	*BLANK*
+=	--	*BLANK*
+=	-	*BLANK*
+=	-LRB-	*BLANK*
+=	-RRB-	*BLANK*
+=	...	*BLANK*
+=	.	*BLANK*
+=	:	*BLANK*
+=	;	*BLANK*
+=	;	*BLANK*
+=	?	*BLANK*
+=	A	*BLANK*
+=	After	*BLANK*
+=	Although	*BLANK*
+=	Amid	*BLANK*
+=	Among	*BLANK*
+=	An	*BLANK*
+=	Around	*BLANK*
+=	As	*BLANK*
+=	At	*BLANK*
+=	Because	*BLANK*
+=	Before	*BLANK*
+=	By	*BLANK*
+=	Despite	*BLANK*
+=	During	*BLANK*
+#	Fake	*BLANK*
+=	For	*BLANK*
+=	From	*BLANK*
+=	He	*BLANK*
+=	Her	*BLANK*
+=	I	*BLANK*
+=	If	*BLANK*
+=	In	*BLANK*
+=	It	*BLANK*
+^	It is false that	*BLANK*
+#	May	*BLANK*
+^	Not	*BLANK*
+=	On	*BLANK*
+=	Our	*BLANK*
+=	Out	*BLANK*
+=	Over	*BLANK*
+=	She	*BLANK*
+=	Since	*BLANK*
+=	The	*BLANK*
+=	There	*BLANK*
+=	There is	*BLANK*
+=	There was	*BLANK*
+=	They	*BLANK*
+=	Though	*BLANK*
+=	To	*BLANK*
+=	Unlike	*BLANK*
+=	Was	*BLANK*
+=	We	*BLANK*
+=	What	*BLANK*
+=	While	*BLANK*
+=	With	*BLANK*
+=	Within	*BLANK*
+=	Without	*BLANK*
+=	`	*BLANK*
+=	``	*BLANK*
+=	a	*BLANK*
+=	about	*BLANK*
+=	above	*BLANK*
+=	across	*BLANK*
+=	after	*BLANK*
+=	against	*BLANK*
+=	albeit	*BLANK*
+=	along	*BLANK*
+=	although	*BLANK*
+=	am	*BLANK*
+=	amid	*BLANK*
+=	among	*BLANK*
+=	an	*BLANK*
+=	are	*BLANK*
+=	around	*BLANK*
+=	as	*BLANK*
+=	at	*BLANK*
+>	attempted	*BLANK*
+>	attempting	*BLANK*
+=	be	*BLANK*
+=	because	*BLANK*
+=	been	*BLANK*
+=	before	*BLANK*
+=	behind	*BLANK*
+=	being	*BLANK*
+#	believe	*BLANK*
+#	believe	*BLANK*
+#	believed	*BLANK*
+#	believed	*BLANK*
+#	believes	*BLANK*
+=	below	*BLANK*
+=	between	*BLANK*
+=	but	*BLANK*
+=	by	*BLANK*
+#	can	*BLANK*
+#	claimed	*BLANK*
+#	claimed	*BLANK*
+#	claiming	*BLANK*
+#	concluded	*BLANK*
+#	could	*BLANK*
+=	currently	*BLANK*
+=	despite	*BLANK*
+=	did	*BLANK*
+=	do	*BLANK*
+=	do	*BLANK*
+=	does	*BLANK*
+=	doing	*BLANK*
+=	done	*BLANK*
+=	during	*BLANK*
+#	fake	*BLANK*
+^	false	*BLANK*
+=	for	*BLANK*
+^	forget to	*BLANK*
+^	forgot to	*BLANK*
+|	former	*BLANK*
+=	from	*BLANK*
+=	genuine	*BLANK*
+=	got	*BLANK*
+=	had	*BLANK*
+=	had	*BLANK*
+=	has	*BLANK*
+=	have	*BLANK*
+=	have	*BLANK*
+=	having	*BLANK*
+=	he	*BLANK*
+=	her	*BLANK*
+=	her	*BLANK*
+=	herself	*BLANK*
+=	him	*BLANK*
+=	himself	*BLANK*
+=	his	*BLANK*
+=	if	*BLANK*
+=	in	*BLANK*
+=	in order	*BLANK*
+=	inside	*BLANK*
+=	into	*BLANK*
+=	is	*BLANK*
+|	is not	*BLANK*
+=	it	*BLANK*
+=	its	*BLANK*
+=	itself	*BLANK*
+=	like	*BLANK*
+=	manage to	*BLANK*
+=	managed	*BLANK*
+=	managed to	*BLANK*
+=	managed to	*BLANK*
+=	manages	*BLANK*
+#	may	*BLANK*
+=	me	*BLANK*
+^	n't	*BLANK*
+=	near	*BLANK*
+#	needed	*BLANK*
+#	needed	*BLANK*
+#	needs	*BLANK*
+^	not	*BLANK*
+=	of	*BLANK*
+=	off	*BLANK*
+=	on	*BLANK*
+=	our	*BLANK*
+=	ourselves	*BLANK*
+=	out	*BLANK*
+=	outside	*BLANK*
+=	over	*BLANK*
+=	past	*BLANK*
+=	per	*BLANK*
+|	pretend that	*BLANK*
+|	pretended that	*BLANK*
+|	prevented	*BLANK*
+|	refuse to	*BLANK*
+#	refuse	*BLANK*
+#	refused	*BLANK*
+|	refused to	*BLANK*
+#	refused	*BLANK*
+#	refusing	*BLANK*
+#	reported	*BLANK*
+#	reported	*BLANK*
+#	reports	*BLANK*
+#	say	*BLANK*
+#	say	*BLANK*
+#	says	*BLANK*
+=	she	*BLANK*
+=	since	*BLANK*
+=	since	*BLANK*
+=	so	*BLANK*
+#	stated	*BLANK*
+=	succeeded	*BLANK*
+=	than	*BLANK*
+=	that	*BLANK*
+=	the	*BLANK*
+=	their	*BLANK*
+=	them	*BLANK*
+=	themselves	*BLANK*
+=	there	*BLANK*
+=	they	*BLANK*
+#	think	*BLANK*
+#	think	*BLANK*
+#	thinks	*BLANK*
+=	though	*BLANK*
+#	thought	*BLANK*
+#	thought	*BLANK*
+=	through	*BLANK*
+=	throughout	*BLANK*
+=	till	*BLANK*
+=	to	*BLANK*
+=	toward	*BLANK*
+>	tried	*BLANK*
+>	tried to	*BLANK*
+>	tried	*BLANK*
+=	true	*BLANK*
+>	try	*BLANK*
+>	try to	*BLANK*
+>	trying	*BLANK*
+=	under	*BLANK*
+=	unless	*BLANK*
+=	until	*BLANK*
+=	up	*BLANK*
+=	up to	*BLANK*
+=	upon	*BLANK*
+=	us	*BLANK*
+=	via	*BLANK*
+#	want to	*BLANK*
+#	want	*BLANK*
+#	wanted	*BLANK*
+#	wanted to	*BLANK*
+#	wants	*BLANK*
+=	was	*BLANK*
+=	we	*BLANK*
+=	were	*BLANK*
+=	what	*BLANK*
+=	whether	*BLANK*
+=	while	*BLANK*
+=	who	*BLANK*
+=	whom	*BLANK*
+=	will	*BLANK*
+=	with	*BLANK*
+=	within	*BLANK*
+=	worth	*BLANK*
+=	would	*BLANK*
+=	you	*BLANK*
+=	your	*BLANK*

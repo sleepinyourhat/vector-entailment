@@ -12,6 +12,10 @@ openFragmentExampleOrders = {}; % Permutations of the item indices in each open 
 openFragmentExampleOrderIndices = []; % How far along training is in each fragment.
 totalNumTrainingExamples = 0;
 
+if isfield(hyperParams, 'trainingMultipliers')
+    assert(sum(hyperParams.trainingMultipliers == 1), 'Multipliers aren't supported in fragmented mode.');
+end
+
 % Initialize all of the source files.
 for sourceFilenameIndex = 1:length(trainingData)
 
@@ -39,7 +43,7 @@ for sourceFilenameIndex = 1:length(trainingData)
     openFragments{sourceFilenameIndex} = load([filepath, '/', filename],'-mat');
     openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(openFragments{sourceFilenameIndex}.data));
     openFragmentExampleOrderIndices(sourceFilenameIndex) = 1;
-    clearvars a
+    clearvars a  % TODO: What is this?
 end
 
 % Iterate through all of the data.

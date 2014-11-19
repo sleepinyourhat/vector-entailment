@@ -82,7 +82,7 @@ else
 end
 
 % Load training/test data
-[trainDataset, testDatasets] = ...
+[trainDataset, testDatasets, hyperParams.trainingLengths] = ...
     LoadConstitDatasets(wordMap, relationMap, hyperParams);
 % trainDataset = Symmetrize(trainDataset);
 

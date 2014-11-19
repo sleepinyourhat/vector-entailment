@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ trainDataset, testDatasetsCell ] = LoadConstitDatasets (wordMap, relationMap, hyperParams)
+function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadConstitDatasets (wordMap, relationMap, hyperParams)
 % Load and combine all of the training and test data.
 % This is slow. And can probably be easily improved if it matters.
 
@@ -20,6 +20,8 @@ end
 testDatasets = {};
 relationIndex = 1;
 
+trainingLengths = [];
+
 for i = 1:length(hyperParams.trainFilenames)
     Log(hyperParams.statlog, ['Loading training dataset ', hyperParams.trainFilenames{i}]);
     if isfield(hyperParams, 'relationIndices')
@@ -30,6 +32,7 @@ for i = 1:length(hyperParams.trainFilenames)
         dataset = LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, ...
                                   hyperParams, false, relationIndex);
         trainDataset = [trainDataset; dataset];
+        trainingLengths = [trainingLengths; length(dataset)];
     else
         LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
     end

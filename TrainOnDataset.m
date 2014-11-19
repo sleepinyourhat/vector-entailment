@@ -1,9 +1,5 @@
 function [ modelState ] = TrainOnDataset(CostGradFunc, trainingData, testDatasets, modelState, hyperParams, options, filename)
 
-N = length(trainingData);
-numBatches = ceil(N/options.miniBatchSize);
-randomOrder = randperm(N);
-
 if isfield(hyperParams, 'firstMultiplier')
     modifiedOrder = hyperParams.firstCutoff + 1:length(trainingData);
     for i = 1:hyperParams.firstMultiplier
@@ -11,9 +7,23 @@ if isfield(hyperParams, 'firstMultiplier')
     end
     tempOrder = randperm(length(modifiedOrder));
     randomOrder = modifiedOrder(tempOrder);
+elseif isfield(hyperParams, 'trainingMultipliers')
+    modifiedOrder = [];
+    startIndex = 1;
+    for datasetIndex = 1:length(hyperParams.trainingMultipliers)
+        for count = 1:hyperParams.trainingMultipliers(datasetIndex)
+            modifiedOrder = [modifiedOrder startIndex:startIndex + hyperParams.trainingLengths(datasetIndex) - 1];
+        end
+        startIndex = startIndex + hyperParams.trainingLengths(datasetIndex);
+    end
+    tempOrder = randperm(length(modifiedOrder));
+    randomOrder = modifiedOrder(tempOrder);
 else
     randomOrder = randperm(N);
 end
+
+N = length(randomOrder);
+numBatches = ceil(N/options.miniBatchSize);
 
 for batchNo = 0:(numBatches - 1)
     beginMiniBatch = (batchNo * options.miniBatchSize + 1);

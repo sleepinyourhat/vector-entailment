@@ -1,0 +1,100 @@
+NEUTRAL	( ( ( A group ) ( of ( kids ( is ( playing ( in ( ( ( a yard ) and ) ( an ( old man ) ) ) ) ) ) ) ) ) ( is ( standing ( in ( the background ) ) ) ) )	( ( ( ( ( A group ) ( of ( boys ( in ( a yard ) ) ) ) ) ( is playing ) ) and ) ( ( a man ) ( is ( standing ( in ( the background ) ) ) ) ) )	4.5	1
+NEUTRAL	( ( ( ( ( A group ) ( of children ) ) ( is ( playing ( in ( the house ) ) ) ) ) and ) ( there ( is ( ( no ( man standing ) ) ( in ( the background ) ) ) ) ) )	( ( ( A group ) ( of ( kids ( is ( playing ( in ( ( ( a yard ) and ) ( an ( old man ) ) ) ) ) ) ) ) ) ( is ( standing ( in ( the background ) ) ) ) )	3.2	2
+ENTAILMENT	( ( The ( young boys ) ) ( are ( playing ( ( ( outdoors and ) ( the man ) ) ( is ( smiling nearby ) ) ) ) ) )	( ( The kids ) ( are ( playing ( outdoors ( near ( ( a man ) ( with ( a smile ) ) ) ) ) ) ) )	4.7	3
+NEUTRAL	( ( The kids ) ( are ( playing ( outdoors ( near ( ( a man ) ( with ( a smile ) ) ) ) ) ) ) )	( ( ( A group ) ( of ( kids ( is ( playing ( in ( ( ( a yard ) and ) ( an ( old man ) ) ) ) ) ) ) ) ) ( is ( standing ( in ( the background ) ) ) ) )	3.4	5
+NEUTRAL	( ( The ( young boys ) ) ( are ( playing ( ( ( outdoors and ) ( the man ) ) ( is ( smiling nearby ) ) ) ) ) )	( ( ( A group ) ( of ( kids ( is ( playing ( in ( ( ( a yard ) and ) ( an ( old man ) ) ) ) ) ) ) ) ) ( is ( standing ( in ( the background ) ) ) ) )	3.7	9
+NEUTRAL	( ( Two dogs ) ( are fighting ) )	( ( Two dogs ) ( are ( ( wrestling and ) hugging ) ) )	4	12
+NEUTRAL	( ( A ( brown dog ) ) ( is ( attacking ( ( another animal ) ( in ( front ( of ( ( the man ) ( in pants ) ) ) ) ) ) ) ) )	( ( Two dogs ) ( are fighting ) )	3.5	14
+NEUTRAL	( ( A ( brown dog ) ) ( is ( attacking ( ( another animal ) ( in ( front ( of ( ( the man ) ( in pants ) ) ) ) ) ) ) ) )	( ( Two dogs ) ( are ( ( wrestling and ) hugging ) ) )	3.2	18
+NEUTRAL	( Nobody ( is ( riding ( ( the bicycle ) ( on ( one wheel ) ) ) ) ) )	( ( ( A person ) ( in ( a ( black jacket ) ) ) ) ( is ( ( doing tricks ) ( on ( a motorbike ) ) ) ) )	2.8	25
+NEUTRAL	( ( A person ) ( is ( riding ( ( the bicycle ) ( on ( one wheel ) ) ) ) ) )	( ( ( A man ) ( in ( a ( black jacket ) ) ) ) ( is ( ( doing tricks ) ( on ( a motorbike ) ) ) ) )	3.7	26
+NEUTRAL	( ( ( A person ) ( on ( a ( black motorbike ) ) ) ) ( is ( ( doing tricks ) ( with ( a jacket ) ) ) ) )	( ( A person ) ( is ( riding ( ( the bicycle ) ( on ( one wheel ) ) ) ) ) )	3.4	28
+ENTAILMENT	( ( ( A man ) ( with ( a jersey ) ) ) ( is ( ( dunking ( the ball ) ) ( at ( a ( basketball game ) ) ) ) ) )	( ( The ball ) ( is ( being ( dunked ( by ( ( a man ) ( with ( ( a jersey ) ( at ( a ( basketball game ) ) ) ) ) ) ) ) ) ) )	4.9	30
+NEUTRAL	( ( ( A man ) ( with ( a jersey ) ) ) ( is ( ( dunking ( the ball ) ) ( at ( a ( basketball game ) ) ) ) ) )	( ( ( A man ) ( who ( is ( ( playing ( dunks ( the basketball ) ) ) ( into ( ( ( the net ) and ) ( a crowd ) ) ) ) ) ) ) ( is ( in background ) ) )	3.6	35
+NEUTRAL	( ( The player ) ( is ( ( dunking ( the basketball ) ) ( into ( ( ( the net ) and ) ( ( a crowd ) ( is ( in background ) ) ) ) ) ) ) )	( ( ( A man ) ( with ( a jersey ) ) ) ( is ( ( dunking ( the ball ) ) ( at ( a ( basketball game ) ) ) ) ) )	3.8	40
+CONTRADICTION	( ( ( ( Two people ) ( are kickboxing ) ) and ) ( spectators ( ( are not ) watching ) ) )	( ( ( ( Two people ) ( are kickboxing ) ) and ) ( spectators ( are watching ) ) )	3.4	42
+ENTAILMENT	( ( Two ( young women ) ) ( are ( sparring ( in ( a ( kickboxing fight ) ) ) ) ) )	( ( Two women ) ( are ( sparring ( in ( a ( kickboxing match ) ) ) ) ) )	4.9	44
+NEUTRAL	( ( Two ( young women ) ) ( ( are not ) ( sparring ( in ( a ( kickboxing fight ) ) ) ) ) )	( ( Two women ) ( are ( sparring ( in ( a ( kickboxing match ) ) ) ) ) )	3.9	45
+NEUTRAL	( ( ( ( Two people ) ( are kickboxing ) ) and ) ( spectators ( are watching ) ) )	( ( Two ( young women ) ) ( ( are not ) ( sparring ( in ( a ( kickboxing fight ) ) ) ) ) )	3.415	47
+NEUTRAL	( ( Two women ) ( are ( sparring ( in ( a ( kickboxing match ) ) ) ) ) )	( ( ( ( Two people ) ( are kickboxing ) ) and ) ( spectators ( ( are not ) watching ) ) )	3.7	49
+ENTAILMENT	( ( Three boys ) ( are ( jumping ( in ( the leaves ) ) ) ) )	( ( Three kids ) ( are ( jumping ( in ( the leaves ) ) ) ) )	4.4	55
+NEUTRAL	( ( Three kids ) ( are ( sitting ( in ( the leaves ) ) ) ) )	( ( Three kids ) ( are ( jumping ( in ( the leaves ) ) ) ) )	3.8	56
+NEUTRAL	( ( Children ( in ( red shirts ) ) ) ( are ( playing ( in ( the leaves ) ) ) ) )	( ( Three kids ) ( are ( sitting ( in ( the leaves ) ) ) ) )	3.5	58
+NEUTRAL	( ( Children ( in ( red shirts ) ) ) ( are ( playing ( in ( the leaves ) ) ) ) )	( ( Three kids ) ( are ( jumping ( in ( the leaves ) ) ) ) )	4	62
+NEUTRAL	( ( Two angels ) ( are ( ( making snow ) ( on ( the ( lying children ) ) ) ) ) )	( ( Two children ) ( ( ( are ( lying ( in ( the snow ) ) ) ) and ) ( are ( making ( snow angels ) ) ) ) )	2.9	65
+NEUTRAL	( ( Two children ) ( ( ( are ( lying ( in ( the snow ) ) ) ) and ) ( are ( drawing angels ) ) ) )	( ( ( Two people ) ( in snowsuits ) ) ( are ( ( ( lying ( in ( the snow ) ) ) and ) ( making ( snow angels ) ) ) ) )	4.1	70
+NEUTRAL	( ( ( Two people ) ( in snowsuits ) ) ( are ( ( ( lying ( in ( the snow ) ) ) and ) ( making ( snow angels ) ) ) ) )	( ( Two angels ) ( are ( ( making snow ) ( on ( the ( lying children ) ) ) ) ) )	2.5	72
+NEUTRAL	( ( Two children ) ( ( ( are ( lying ( in ( the snow ) ) ) ) and ) ( are ( making ( snow angels ) ) ) ) )	( ( ( Two people ) ( in snowsuits ) ) ( are ( ( ( lying ( in ( the snow ) ) ) and ) ( making ( snow angels ) ) ) ) )	4.2	73
+ENTAILMENT	( ( People ( wearing costumes ) ) ( ( ( are ( gathering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( the ( same direction ) ) ) ) ) ) )	( ( Masked people ) ( are ( looking ( in ( ( the ( same direction ) ) ( in ( a forest ) ) ) ) ) ) )	4.4	77
+NEUTRAL	( ( People ( wearing costumes ) ) ( ( ( are ( gathering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( the ( same direction ) ) ) ) ) ) )	( ( People ( wearing costumes ) ) ( ( ( are ( scattering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( different directions ) ) ) ) ) )	3.2	78
+NEUTRAL	( People ( are ( looking ( at ( ( some costumes ) ( gathered ( in ( ( the vicinity ) ( of ( the forest ) ) ) ) ) ) ) ) ) )	( ( People ( wearing costumes ) ) ( ( ( are ( gathering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( the ( same direction ) ) ) ) ) ) )	3.635	79
+NEUTRAL	( ( A ( little girl ) ) ( is ( looking ( at ( ( a woman ) ( in costume ) ) ) ) ) )	( ( People ( wearing costumes ) ) ( ( ( are ( scattering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( different directions ) ) ) ) ) )	2.4	81
+NEUTRAL	( ( A ( little girl ) ) ( is ( looking ( at ( ( a woman ) ( in costume ) ) ) ) ) )	( People ( are ( looking ( at ( ( some costumes ) ( gathered ( in ( ( the vicinity ) ( of ( the forest ) ) ) ) ) ) ) ) ) )	2.6	82
+NEUTRAL	( ( A ( young girl ) ) ( is ( looking ( at ( ( a woman ) ( in costume ) ) ) ) ) )	( ( People ( wearing costumes ) ) ( ( ( are ( gathering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( the ( same direction ) ) ) ) ) ) )	2.2	83
+NEUTRAL	( ( People ( wearing costumes ) ) ( ( ( are ( gathering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( the ( same direction ) ) ) ) ) ) )	( ( The ( little girl ) ) ( is ( looking ( at ( ( a man ) ( in costume ) ) ) ) ) )	3	84
+NEUTRAL	( ( People ( wearing costumes ) ) ( ( ( are ( gathering ( in ( a forest ) ) ) ) and ) ( are ( looking ( in ( the ( same direction ) ) ) ) ) ) )	( ( ( A ( little girl ) ) ( in costume ) ) ( looks ( like ( a woman ) ) ) )	2	85
+ENTAILMENT	( ( A ( lone biker ) ) ( is ( jumping ( in ( the air ) ) ) ) )	( ( A biker ) ( is ( ( ( jumping ( in ( the air ) ) ) , ) alone ) ) )	5	87
+CONTRADICTION	( There ( is ( ( no biker ) ( jumping ( in ( the air ) ) ) ) ) )	( ( A ( lone biker ) ) ( is ( jumping ( in ( the air ) ) ) ) )	4.2	88
+CONTRADICTION	( ( A man ) ( is ( jumping ( into ( an ( empty pool ) ) ) ) ) )	( ( A man ) ( is ( jumping ( into ( a ( full pool ) ) ) ) ) )	3	90
+NEUTRAL	( ( A man ) ( is ( jumping ( into ( an ( empty pool ) ) ) ) ) )	( ( ( The ( man 's ) ) jumper ) ( is ( in ( the ( empty pool ) ) ) ) )	3.1	91
+NEUTRAL	( ( A ( lone biker ) ) ( is ( jumping ( in ( the air ) ) ) ) )	( ( A man ) ( is ( jumping ( into ( a ( full pool ) ) ) ) ) )	1.7	93
+NEUTRAL	( ( ( The ( man 's ) ) jumper ) ( is ( in ( the ( empty pool ) ) ) ) )	( ( A ( lone biker ) ) ( is ( jumping ( in ( the air ) ) ) ) )	1.4	94
+NEUTRAL	( ( A ( lone biker ) ) ( is ( jumping ( in ( the air ) ) ) ) )	( ( A man ) ( is ( jumping ( into ( an ( empty pool ) ) ) ) ) )	1.5	97
+ENTAILMENT	( ( Four kids ) ( are ( doing ( backbends ( in ( the park ) ) ) ) ) )	( ( Four children ) ( are ( doing ( backbends ( in ( the park ) ) ) ) ) )	4.8	98
+NEUTRAL	( ( Four children ) ( are ( doing ( backbends ( in ( the gym ) ) ) ) ) )	( ( Four children ) ( are ( doing ( backbends ( in ( the park ) ) ) ) ) )	3.8	99
+ENTAILMENT	( ( Four girls ) ( are ( ( ( doing backbends ) and ) ( playing ( in ( the garden ) ) ) ) ) )	( ( Four girls ) ( are ( ( ( doing backbends ) and ) ( playing outdoors ) ) ) )	4.1	100
+ENTAILMENT	( ( ( A man ) ( who ( is playing ) ) ) ( is ( running ( with ( ( the ball ) ( in ( his hands ) ) ) ) ) ) )	( ( A player ) ( is ( running ( with ( the ball ) ) ) ) )	4.3	107
+NEUTRAL	( ( ( Two groups ) ( of people ) ) ( are ( playing football ) ) )	( ( A player ) ( is ( running ( with ( the ball ) ) ) ) )	2.1	112
+NEUTRAL	( ( Two teams ) ( are ( competing ( in ( a ( baseball game ) ) ) ) ) )	( ( A player ) ( is ( running ( with ( the ball ) ) ) ) )	3	113
+NEUTRAL	( ( A player ) ( is ( running ( with ( the ball ) ) ) ) )	( ( Two teams ) ( are ( competing ( in ( a ( football match ) ) ) ) ) )	2.6	117
+NEUTRAL	( ( Five ( wooden stands ) ) ( are ( in ( front ( of ( ( each ( child 's ) ) hut ) ) ) ) ) )	( ( Five children ) ( are ( standing ( in ( front ( of ( a ( wooden hut ) ) ) ) ) ) ) )	3.2	120
+CONTRADICTION	( ( ( ( Five kids ) ( are ( standing ( close together ) ) ) ) and ) ( ( one kid ) ( has ( a gun ) ) ) )	( ( ( ( ( Five kids ) ( are ( standing ( close together ) ) ) ) and ) ( none ( of ( the kids ) ) ) ) ( has ( a gun ) ) )	3.7	122
+NEUTRAL	( ( ( ( ( Five kids ) ( are ( standing ( close together ) ) ) ) and ) ( none ( of ( the kids ) ) ) ) ( has ( a gun ) ) )	( ( Five children ) ( are ( standing ( in ( front ( of ( a ( wooden hut ) ) ) ) ) ) ) )	2.6	124
+NEUTRAL	( ( Five children ) ( are ( standing ( in ( a ( wooden hut ) ) ) ) ) )	( ( ( ( Five kids ) ( are ( standing ( close together ) ) ) ) and ) ( ( one kid ) ( has ( a gun ) ) ) )	2.7	126
+NEUTRAL	( ( Five ( wooden stands ) ) ( are ( in ( front ( of ( ( each ( child 's ) ) hut ) ) ) ) ) )	( ( ( ( Five kids ) ( are ( standing ( close together ) ) ) ) and ) ( ( one kid ) ( has ( a gun ) ) ) )	2.3	127
+ENTAILMENT	( ( An ( old man ) ) ( is ( sitting ( in ( a field ) ) ) ) )	( ( A man ) ( is ( sitting ( in ( a field ) ) ) ) )	4.4	129
+NEUTRAL	( ( A man ) ( is ( sitting ( in ( a field ) ) ) ) )	( ( A man ) ( is ( running ( in ( a field ) ) ) ) )	2.6	130
+NEUTRAL	( ( A person ) ( ( ( is ( wearing ( a hat ) ) ) and ) ( is ( sitting ( on ( the grass ) ) ) ) ) )	( ( A person ) ( ( ( is ( sitting ( in ( a field ) ) ) ) and ) ( is ( wearing ( a hat ) ) ) ) )	4.1	131
+NEUTRAL	( ( A person ) ( is ( ( ( sitting and ) wearing ) ( a ( grass hat ) ) ) ) )	( ( A person ) ( ( ( is ( wearing ( a hat ) ) ) and ) ( is ( sitting ( on ( the grass ) ) ) ) ) )	3.4	133
+NEUTRAL	( ( A person ) ( is ( ( ( sitting and ) wearing ) ( a ( grass hat ) ) ) ) )	( ( A man ) ( is ( sitting ( in ( a field ) ) ) ) )	3.3	136
+NEUTRAL	( ( A man ) ( is ( sitting ( in ( a field ) ) ) ) )	( ( A person ) ( ( ( is ( wearing ( a hat ) ) ) and ) ( is ( sitting ( on ( the grass ) ) ) ) ) )	3.8	139
+ENTAILMENT	( ( The current ) ( is ( being ( ridden ( by ( ( a group ) ( of ( friends ( in ( a raft ) ) ) ) ) ) ) ) ) )	( ( ( A group ) ( of friends ) ) ( are ( ( riding ( the current ) ) ( in ( a raft ) ) ) ) )	4.9	140
+CONTRADICTION	( ( ( A group ) ( of friends ) ) ( are ( ( riding ( the current ) ) ( in ( a raft ) ) ) ) )	( ( A group ) ( ( is not ) ( ( riding ( the current ) ) ( in ( a raft ) ) ) ) )	3.7	141
+NEUTRAL	( ( The current ) ( is ( being ( ridden ( by ( ( a group ) ( of ( friends ( in ( a raft ) ) ) ) ) ) ) ) ) )	( ( ( This group ) ( of people ) ) ( is ( ( ( practicing ( water safety ) ) and ) ( wearing preservers ) ) ) )	3.2	146
+NEUTRAL	( ( ( A group ) ( of friends ) ) ( are ( ( riding ( the current ) ) ( in ( a raft ) ) ) ) )	( ( ( This group ) ( of people ) ) ( is ( ( ( practicing ( water safety ) ) and ) ( wearing preservers ) ) ) )	3.1	148
+CONTRADICTION	( ( A deer ) ( is ( jumping ( over ( a fence ) ) ) ) )	( ( A deer ) ( ( is n't ) ( jumping ( over ( the fence ) ) ) ) )	3.9	150
+NEUTRAL	( People ( are ( walking ( inside ( ( a building ) ( that ( has ( ( many murals ) ( on it ) ) ) ) ) ) ) ) )	( People ( are ( walking ( outside ( ( a building ) ( that ( has ( ( many murals ) ( on it ) ) ) ) ) ) ) ) )	3.4	159
+CONTRADICTION	( ( Several people ) ( are ( in ( front ( of ( a ( colorful building ) ) ) ) ) ) )	( Nobody ( is ( in ( front ( of ( the ( colorful building ) ) ) ) ) ) )	3.5	161
+NEUTRAL	( People ( are ( walking ( outside ( ( a building ) ( that ( has ( ( many murals ) ( on it ) ) ) ) ) ) ) ) )	( Nobody ( is ( in ( front ( of ( the ( colorful building ) ) ) ) ) ) )	3.6	163
+ENTAILMENT	( People ( are ( walking ( outside ( ( the building ) ( that ( has ( ( several murals ) ( on it ) ) ) ) ) ) ) ) )	( ( Several people ) ( are ( in ( front ( of ( a ( colorful building ) ) ) ) ) ) )	3.6	164
+NEUTRAL	( ( A family ) ( is ( watching ( ( a ( little boy ) ) ( who ( is ( hitting ( a baseball ) ) ) ) ) ) ) )	( ( A family ) ( is ( watching ( ( a ( little boy ) ) ( who ( is ( missing ( a baseball ) ) ) ) ) ) ) )	3.9	170
+NEUTRAL	( ( A child ) ( is ( hitting ( a baseball ) ) ) )	( ( A family ) ( is ( watching ( ( a ( little boy ) ) ( who ( is ( missing ( a baseball ) ) ) ) ) ) ) )	3.015	173
+NEUTRAL	( ( A child ) ( is ( missing ( a baseball ) ) ) )	( ( A family ) ( is ( watching ( ( a ( little boy ) ) ( who ( is ( hitting ( a baseball ) ) ) ) ) ) ) )	2.7	176
+NEUTRAL	( ( ( A ( purple crowd ) ) ( of people ) ) ( is ( eating ( on ( various ( red ( lit ( restaurant tables ) ) ) ) ) ) ) )	( ( Various people ) ( are ( eating ( at ( ( red tables ) ( in ( ( a ( crowded restaurant ) ) ( with ( purple lights ) ) ) ) ) ) ) ) )	3.3	183
+NEUTRAL	( ( ( A ( large group ) ) ( of ( Asian people ) ) ) ( is ( eating ( at ( a restaurant ) ) ) ) )	( ( Various customers ) ( are ( eating ( in ( ( a ( crowded restaurant ) ) ( with ( purple lights ) ) ) ) ) ) )	2.9	184
+NEUTRAL	( ( ( A ( purple crowd ) ) ( of people ) ) ( is ( eating ( on ( various ( red ( lit ( restaurant tables ) ) ) ) ) ) ) )	( ( ( A ( large group ) ) ( of ( Asian people ) ) ) ( is ( eating ( at ( a restaurant ) ) ) ) )	3.1	186
+NEUTRAL	( ( Various people ) ( are ( eating ( at ( ( red tables ) ( in ( ( a ( crowded restaurant ) ) ( with ( purple lights ) ) ) ) ) ) ) ) )	( ( ( A ( small group ) ) ( of people ) ) ( is ( waiting ( to ( eat ( in ( a restaurant ) ) ) ) ) ) )	3.2	188
+CONTRADICTION	( ( A ( motorcycle rider ) ) ( is ( ( standing up ) ( on ( ( the seat ) ( of ( a ( white motorcycle ) ) ) ) ) ) ) )	( ( No ( motorcycle rider ) ) ( is ( ( standing up ) ( on ( ( the seat ) ( of ( a motorcycle ) ) ) ) ) ) )	3.8	192
+CONTRADICTION	( Nobody ( ( ( is ( on ( a motorcycle ) ) ) and ) ( is ( standing ( on ( the seat ) ) ) ) ) )	( Someone ( ( ( is ( on ( a ( black ( and ( white motorcycle ) ) ) ) ) ) and ) ( is ( standing ( on ( the seat ) ) ) ) ) )	3.7	194
+ENTAILMENT	( ( A motorcyclist ) ( is ( ( riding ( ( a motorbike ) dangerously ) ) ( along ( a roadway ) ) ) ) )	( ( A motorcyclist ) ( is ( riding ( ( a motorbike ) ( along ( a roadway ) ) ) ) ) )	4.6	200
+CONTRADICTION	( There ( is ( ( no motorcyclist ) ( riding ( ( a motorbike ) ( along ( a roadway ) ) ) ) ) ) )	( ( A motorcyclist ) ( is ( riding ( ( a motorbike ) ( along ( a roadway ) ) ) ) ) )	3.7	201
+ENTAILMENT	( ( ( A man ) ( with ( ( a helmet ) ( painted red ) ) ) ) ( is ( ( riding ( a ( blue motorcycle ) ) ) ( down ( the road ) ) ) ) )	( ( ( A motorcyclist ) ( with ( a ( red helmet ) ) ) ) ( is ( ( riding ( a ( blue motorcycle ) ) ) ( down ( the road ) ) ) ) )	4.8	202
+NEUTRAL	( ( ( A motorcyclist ) ( without ( a helmet ) ) ) ( is ( waiting ( on ( ( a ( blue motorcycle ) ) ( near ( the road ) ) ) ) ) ) )	( ( A motorcyclist ) ( is ( riding ( ( a motorbike ) ( along ( a roadway ) ) ) ) ) )	3.3	205
+NEUTRAL	( ( Two dogs ) ( are ( playing ( by ( a tree ) ) ) ) )	( ( A dog ) ( is ( catching ( ( ( a stick ) ( in ( ( ( the air ) and ) another ) ) ) ( is watching ) ) ) ) )	3.7	215
+NEUTRAL	( ( Two dogs ) ( are ( playing ( by ( a tree ) ) ) ) )	( There ( is ( ( no dog ) ( leaping ( in ( the air ) ) ) ) ) )	2.7	216
+NEUTRAL	( ( Two dogs ) ( are ( playing ( by ( a tree ) ) ) ) )	( ( ( ( A dog ) ( is ( leaping ( high ( in ( the air ) ) ) ) ) ) and ) ( another ( is watching ) ) )	3	217
+NEUTRAL	( ( ( A girl ) ( in white ) ) ( is dancing ) )	( ( The dancer ) ( is ( dancing ( in ( front ( of ( the ( sound equipment ) ) ) ) ) ) ) )	4	223
+NEUTRAL	( ( ( A girl ) ( in white ) ) ( is dancing ) )	( ( The ( blond girl ) ) ( is ( dancing ( behind ( the ( sound equipment ) ) ) ) ) )	3.3	224
+NEUTRAL	( ( A girl ) ( ( ( is ( wearing ( white clothes ) ) ) and ) ( is dancing ) ) )	( ( The ( blond girl ) ) ( is ( dancing ( in ( front ( of ( the ( sound equipment ) ) ) ) ) ) ) )	3.5	226
+NEUTRAL	( ( The ( blond girl ) ) ( is ( dancing ( in ( front ( of ( the ( sound equipment ) ) ) ) ) ) ) )	( There ( is ( ( no girl ) ( in ( white dancing ) ) ) ) )	3.3	227
+CONTRADICTION	( ( ( ( Three ( Asian kids ) ) ( are dancing ) ) and ) ( ( a man ) ( is looking ) ) )	( ( ( ( Three ( Asian kids ) ) ( are dancing ) ) and ) ( there ( is ( ( no man ) looking ) ) ) )	3.9	232
+NEUTRAL	( ( ( ( Three ( Asian kids ) ) ( are dancing ) ) and ) ( ( a man ) ( is looking ) ) )	( ( An ( Asian man ) ) ( is ( ( ( dancing and ) ( three kids ) ) ( are looking ) ) ) )	3.7	233
+NEUTRAL	( ( ( The children ) ( of ( a family ) ) ) ( are ( ( playing and ) waiting ) ) )	( ( ( ( Three ( Asian kids ) ) ( are dancing ) ) and ) ( ( a ( serious man ) ) ( is looking ) ) )	1.9	234
+NEUTRAL	( ( ( The children ) ( of ( a family ) ) ) ( ( are patiently ) ( ( playing and ) waiting ) ) )	( ( ( ( Three ( Asian kids ) ) ( are dancing ) ) and ) ( ( a man ) ( is looking ) ) )	2.3	237
+NEUTRAL	( There ( are ( ( no children ) ( ( playing and ) waiting ) ) ) )	( ( ( ( Three ( Asian kids ) ) ( are dancing ) ) and ) ( ( a man ) ( is looking ) ) )	1.6	238
+ENTAILMENT	( ( A woman ) ( is ( ( wearing ( an ( Egyptian hat ) ) ) ( on ( her head ) ) ) ) )	( ( A woman ) ( is ( wearing ( an ( Egyptian headdress ) ) ) ) )	4.3	240
+NEUTRAL	( ( A woman ) ( is ( wearing ( an ( Egyptian headdress ) ) ) ) )	( ( A woman ) ( is ( wearing ( an ( Indian headdress ) ) ) ) )	4	241
+NEUTRAL	( ( The ( black woman ) ) ( is ( wearing ( glasses ( over ( the headdress ) ) ) ) ) )	( ( A woman ) ( is ( wearing ( an ( Egyptian headdress ) ) ) ) )	3.6	248
+NEUTRAL	( ( A woman ) ( is ( ( wearing ( an ( Egyptian hat ) ) ) ( on ( her head ) ) ) ) )	( ( The woman ) ( is ( wearing ( ( glasses and ) ( a ( black headdress ) ) ) ) ) )	2.5	249
+CONTRADICTION	( ( A hiker ) ( ( ( is ( on ( top ( of ( the mountain ) ) ) ) ) and ) ( is dancing ) ) )	( There ( is ( ( no ( hiker dancing ) ) ( on ( top ( of ( the mountain ) ) ) ) ) ) )	3.2	254
+CONTRADICTION	( There ( ( is ( ( ( no man ) ( on ( a rock ) ) ) ( high ( above ( some trees ) ) ) ) ) ( standing ( in ( a ( strange position ) ) ) ) ) )	( ( A man ) ( ( ( is ( on ( ( a ( rock high ) ) ( above ( some trees ) ) ) ) ) and ) ( is ( standing ( in ( a ( strange position ) ) ) ) ) ) )	4.3	256
