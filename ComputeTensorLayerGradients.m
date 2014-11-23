@@ -12,6 +12,8 @@ end
 
 tensorDeriv = nonlinearityDeriv(tensorInnerOutput);
 
+delta = delta .* tensorDeriv;
+
 [outDim, inDim] = size(matrix);
 inDim = inDim / 2;
 
@@ -22,7 +24,7 @@ matrixGradients = zeros(outDim, 2 * inDim);
 % Sadly, there doesn't seem to be an efficient vectorized option here.
 inputProduct = (a * b');
 for i = 1:outDim
-    matricesGradients(:,:,i) = (tensorDeriv(i) * delta(i)) .* inputProduct;
+    matricesGradients(:,:,i) = delta(i) .* inputProduct;
 end
     
 % Calculate matrix gradients for tensor layer
@@ -40,9 +42,9 @@ for i = 1:outDim
 end
 
 thirdTerm = innerTensorLayerMatrixB + matrix(:, 1:inDim)';
-deltaLeft = (thirdTerm * (delta .* tensorDeriv));
+deltaLeft = (thirdTerm * delta);
 
 thirdTerm = innerTensorLayerMatrixA + matrix(:, inDim+1:2*inDim)';    
-deltaRight = (thirdTerm * (delta .* tensorDeriv));
+deltaRight = (thirdTerm * delta);
 
 end

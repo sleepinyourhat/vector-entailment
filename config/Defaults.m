@@ -8,10 +8,13 @@ hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
 % Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.initScale = 1;
+hyperParams.initScale = 0.1;
 
 % The raw range bound on word vectors.
-hyperParams.wordScale = 0.1;
+hyperParams.wordScale = 0.01;
+
+% Add identity matrices where appropriate in initiazilation.
+hyperParams.useEyes = 1;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -27,7 +30,7 @@ hyperParams.topDepth = 1;
 hyperParams.penultDim = 75;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.0002;
+hyperParams.lambda = 0;
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
@@ -74,8 +77,8 @@ hyperParams.vocabPath = '';
 % Nonlinearities.
 hyperParams.compNL = @Sigmoid;
 hyperParams.compNLDeriv = @SigmoidDeriv; 
-hyperParams.classNL = @LReLU;
-hyperParams.classNLDeriv = @LReLUDeriv;
+hyperParams.classNL = @Sigmoid;
+hyperParams.classNLDeriv = @SigmoidDeriv;
 
 % If set, don't try to keep the entire training data set in memory at once.
 hyperParams.fragmentData = false;

@@ -1,0 +1,400 @@
+%entailment_judgment	sentence_A	sentence_B	relatedness_score	pair_ID
+NEUTRAL	 ( young:A_young_girl ( is dancing ) ) 	 ( young:A_young_girl ( is ( standing ( on ( one leg ) ) ) ) ) 	2.7	6592
+NEUTRAL	 ( ( A man ) ( is ( ( falling off ) ( ( a surfboard ) ( in ( the water ) ) ) ) ) ) 	 ( ( A surfer ) ( is ( riding ( the wave ) ) ) ) 	3.5	7464
+ENTAILMENT	 ( ( A man ) ( is ( walking ( in ( the rain ) ) ) ) ) 	 ( It ( is ( raining ( on ( a ( walking man ) ) ) ) ) ) 	4.9	3670
+NEUTRAL	 ( ( A ( white dog ) ) ( is ( ( approaching ( a ( golden dog ) ) ) ( on ( pebbly beach ) ) ) ) ) 	 ( ( Two dogs ) ( are ( playing ( on ( a ( rocky beach ) ) ) ) ) ) 	2.9	9036
+ENTAILMENT	 ( man:A_man_and_a_woman ( are ( ( walking together ) ( through ( the woods ) ) ) ) ) 	 ( man:A_man_and_a_woman ( are ( walking ( through ( a ( wooded area ) ) ) ) ) ) 	4.6	1192
+NEUTRAL	 ( ( A woman ) ( is ( slicing ( a carrot ) ) ) ) 	 ( ( A potato ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	3	1170
+NEUTRAL	 ( ( ( ( ( A ( little boy ) ) , ) ( who ( looks fearful ) ) ) , ) ( ( is ( on ( a ( climbing wall ) ) ) ) . ) ) 	 ( ( A boy ) ( ( ( is ( ( climbing up ) ( ( a wall ) ( artificially ( built ( for climbing ) ) ) ) ) ) and ) ( is ( attached ( to ( a rope ) ) ) ) ) ) 	3.5	619
+NEUTRAL	 ( dog:A_dog ( is ( ( herding pack:a_pack_of_white_sheep ) a:on_a_dusty_farm ) ) ) 	 ( dog:A_dog ( is ( ( scattering pack:a_pack_of_white_sheep ) a:on_a_dusty_farm ) ) ) 	3.8	6396
+NEUTRAL	 ( ( men:Two_men ( in ( a race ) ) ) ( are ( flipping ( ( the tires ) ( of ( a tractor ) ) ) ) ) ) 	 ( men:Two_men ( are ( competing ( in ( a ( tire ( rolling race ) ) ) ) ) ) ) 	3.7	4411
+ENTAILMENT	 ( girl:A_girl ( ( ( is ( wearing ( white clothes ) ) ) and ) dancing:is_dancing ) ) 	 ( ( girl:A_girl ( in white ) ) dancing:is_dancing ) 	4.9	218
+ENTAILMENT	 ( ( The woman ) ( is ( measuring ( the ( other woman ) ) ) ) ) 	 ( ( A woman ) ( is ( being ( measured ( by ( another woman ) ) ) ) ) ) 	4.9	1333
+ENTAILMENT	 ( black:A_black_and_white_dog ( is ( ( carrying ( a ( huge stick ) ) ) ( on ( the ( green grass ) ) ) ) ) ) 	 ( ( black:A_black_and_white_dog ( with ( a ( large branch ) ) ) ) ( is ( running ( in ( the field ) ) ) ) ) 	4.5	9713
+NEUTRAL	 ( ( A man ) ( is ( playing ( a trumpet ) ) ) ) 	 ( ( The man ) ( is ( playing ( a guitar ) ) ) ) 	2.2	2485
+NEUTRAL	 ( ( A cat ) ( is ( jumping ( high ( into ( ( the air ) ( in ( the country ) ) ) ) ) ) ) ) 	 ( ( A dog ) ( is ( jumping ( in ( ( the shade ) ( of ( some trees ) ) ) ) ) ) ) 	1.6	9453
+ENTAILMENT	 ( ( One man ) ( is ( doing ( floor exercises ) ) ) ) 	 ( ( A man ) ( is ( doing exercises ) ) ) 	4.3	3598
+NEUTRAL	 ( ( ( The man ) ( dressed ( in ( ( chaps:leather_chaps and ) purple:a_purple_shirt ) ) ) ) ( is ( standing ( in ( front ( of ( someone lookers ) ) ) ) ) ) ) 	 ( ( A man ) ( ( ( is ( wearing ( ( purple:a_purple_shirt and ) ( black chaps:leather_chaps ) ) ) ) and ) ( is ( posing ( for ( the camera ) ) ) ) ) ) 	3.3	9401
+NEUTRAL	 ( girl:A_girl ( ( ( is ( standing ( in ( a group ) ) ) ) and ) ( is ( wearing ( ( ( a ( black shirt ) ) and ) ( pink beads ) ) ) ) ) ) 	 ( girl:A_girl ( has ( ( colored patches ) ( on ( the cheeks ) ) ) ) ) 	2.4	8212
+ENTAILMENT	 ( ( A hole ) ( is ( being ( burrowed ( by ( the badger ) ) ) ) ) ) 	 ( ( A badger ) ( is ( ( shrewdly digging ) ( the earth ) ) ) ) 	4.5	1584
+CONTRADICTION	 ( Nobody playing:is_playing_the_guitar ) 	 ( ( A man ) playing:is_playing_the_guitar ) 	3.7	3258
+NEUTRAL	 ( ( A kid ) ( is ( playing guitar ) ) ) 	 ( ( A woman ) ( is ( playing ( an ( electric guitar ) ) ) ) ) 	3	9931
+NEUTRAL	 ( ( The ( tall person ) ) ( is ( ( setting fire ) ( to ( the cameras ) ) ) ) ) 	 ( ( A person ) ( is ( ( burning ( some cameras ) ) ( with ( a ( blow torch ) ) ) ) ) ) 	3.8	2362
+ENTAILMENT	 ( ( One man ) riding:is_riding_a_horse ) 	 ( ( A man ) riding:is_riding_a_horse ) 	4.7	4079
+NEUTRAL	 ( man:A_man_and_a_woman ( are ( down:driving_down ( ( the street ) ( in ( a jeep ) ) ) ) ) ) 	 ( man:A_man_and_a_woman ( are ( down:driving_down ( ( the road ) ( in ( an ( open-air vehicle ) ) ) ) ) ) ) 	4	5904
+ENTAILMENT	 ( ( ( ( A man ) and ) ( ( two women ) ( in ( a ( dark room ) ) ) ) ) ( are ( sitting ( at ( ( a table ) ( with candles ) ) ) ) ) ) 	 ( ( ( The group ) ( of people ) ) ( is ( sitting ( in ( a ( dim room ) ) ) ) ) ) 	3.6	7471
+NEUTRAL	 ( ( A ( little boy ) ) ( ( ( is ( wearing ( a ( yellow ( tank top ) ) ) ) ) and ) ( is laughing ) ) ) 	 ( ( A ( laughing boy ) ) ( ( ( is ( in ( a ( yellow tank ) ) ) ) and ) ( is ( wearing ( a top ) ) ) ) ) 	3.5	6450
+NEUTRAL	 ( ( A woman ) ( is ( slicing potatoes ) ) ) 	 ( ( A horse ) ( is ( being ( ridden ( by ( a person ) ) ) ) ) ) 	1	5920
+NEUTRAL	 ( man:A_man ( is ( ( ( ( skiing down ) ( a hill ) ) and ) ( jumping ( a ( red obstacle ) ) ) ) ) ) 	 ( man:A_man ( is ( ( snowboarding down ) ( ( a railing ) ( in ( the snow ) ) ) ) ) ) 	3.1	9287
+NEUTRAL	 ( woman:A_woman ( is ( and:dancing_and_singing ( with ( other women ) ) ) ) ) 	 ( woman:A_woman ( is ( and:dancing_and_singing ( in ( the rain ) ) ) ) ) 	4.1	1241
+NEUTRAL	 ( ( ( A ( grey ( silky dog ) ) ) ( is ( lying ( in ( ( ( the grass ) and ) ( a dog:brown_dog ) ) ) ) ) ) ( is ( looking on ) ) ) 	 ( ( The dog:brown_dog ) ( is ( spotting ( ( a ( black dog ) ) ( lying ( in ( the ( dry grass ) ) ) ) ) ) ) ) 	3.2	8558
+ENTAILMENT	 ( man:A_man ( is ( and:singing_and_playing ( a guitar ) ) ) ) 	 ( man:A_man ( is ( and:singing_and_playing ( a ( musical instrument ) ) ) ) ) 	4.5	4916
+NEUTRAL	 ( ( A ( laughing child ) ) ( is ( ( ( holding ( a ( water gun ) ) ) and ) ( getting ( sprayed ( with water ) ) ) ) ) ) 	 ( ( ( A person ) ( in ( a ( blue jacket ) ) ) ) ( is ( jumping ( onto ( a ( tall ( cement wall ) ) ) ) ) ) ) 	1.1	9759
+NEUTRAL	 ( ( The person ) ( is ( ( setting fire ) ( to ( the cameras ) ) ) ) ) 	 ( ( ( A person ) ( by ( some cameras ) ) ) ( is ( blowing ( on ( a ( burning torch ) ) ) ) ) ) 	3.3	2366
+NEUTRAL	 ( ( ( A group ) ( of ( football players ) ) ) ( is ( ( standing still ) ( in ( the field ) ) ) ) ) 	 ( ( The crowd ) ( is ( watching ( a ( football game ) ) ) ) ) 	2.6	7088
+NEUTRAL	 ( ( few:A_few_men ( in ( a competition ) ) ) ( are ( running outside ) ) ) 	 ( few:A_few_men ( are ( ( running competitions ) outside ) ) ) 	3.9	718
+NEUTRAL	 ( ( boy:A_boy ( in ( a ( white t-shirt ) ) ) ) ( is ( splashing ( in ( shallow water ) ) ) ) ) 	 ( boy:A_boy ( is ( running ( through ( ( the water ) ( at ( the beach ) ) ) ) ) ) ) 	3.5	7951
+ENTAILMENT	 ( ( A person ) ( is ( playing ( a and:guitar_and_singing ) ) ) ) 	 ( ( One person ) ( is ( playing ( the and:guitar_and_singing ) ) ) ) 	4.9	1964
+NEUTRAL	 ( woman:A_woman ( is ( planting ( some flowers ) ) ) ) 	 ( woman:A_woman ( is ( cutting broccoli ) ) ) 	1.2	1525
+NEUTRAL	 ( ( A keyboard ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( a harp ) ) ) ) 	2.4	4638
+ENTAILMENT	 ( Someone ( is ( cooking ( okra a:in_a_pan ) ) ) ) 	 ( Okra ( is ( being ( cooked a:in_a_pan ) ) ) ) 	4.9	3536
+NEUTRAL	 ( dog:A_dog ( is ( playing ( with ( a toy ) ) ) ) ) 	 ( dog:A_dog ( is ( eating ( a doll ) ) ) ) 	3.6	4191
+NEUTRAL	 ( guy:A_guy ( is ( leaping ( into ( air:the_air ( in wood ) ) ) ) ) ) 	 ( guy:A_guy ( is ( leaping ( into ( air:the_air ( in ( a ( wooded area ) ) ) ) ) ) ) ) 	4.3	9211
+NEUTRAL	 ( dog:A_dog ( is ( jumping ( in ( ( the shade ) ( of ( some trees ) ) ) ) ) ) ) 	 ( dog:A_dog ( is ( jumping ( into ( ( the air ) ( in ( the country ) ) ) ) ) ) ) 	3.7	9452
+ENTAILMENT	 ( child:A_child ( is ( in:running_in_and_out ( of ( the ( ocean waves ) ) ) ) ) ) 	 ( child:A_child ( is ( in:running_in_and_out ( of ( ( the waves ) ( of ( the ocean ) ) ) ) ) ) ) 	4.9	3275
+ENTAILMENT	 ( woman:A_woman ( ( ( is ( using ( ( a pencil ) ( for eyes ) ) ) ) and ) ( is ( ( applying ( eye liner ) ) her:to_her_eyelid ) ) ) ) 	 ( woman:A_woman ( is ( ( applying cosmetics ) her:to_her_eyelid ) ) ) 	4.6	3122
+NEUTRAL	 ( ( ( ( ( A biker ) ( with ( ( ( ( ( a ( blue jacket ) ) , ) ( black pants ) ) and ) ( a ( white helmet ) ) ) ) ) ( is ( driving ( on dirt ) ) ) ) and ) ( people ( are watching ) ) ) 	 ( ( The ( motocross rider ) ) ( is ( standing naked ) ) ) 	2.6	7043
+NEUTRAL	 ( ( A baby ) ( is ( playing ( with ( a toy ) ) ) ) ) 	 ( ( A ( baby tiger ) ) ( is ( playing ( with ( a ball ) ) ) ) ) 	3.2	5747
+NEUTRAL	 ( ( Some cheerleaders ) ( are relaxing ) ) 	 ( ( A ( female cheerleader ) ) ( is ( sitting ( on ( ( the knee ) ( of ( a ( male cheerleader ) ) ) ) ) ) ) ) 	3	8122
+NEUTRAL	 ( ( The ( blond girl ) ) ( is ( dancing ( in ( front ( of ( the ( sound equipment ) ) ) ) ) ) ) ) 	 ( ( ( A girl ) ( in white ) ) ( is dancing ) ) 	3.3	228
+ENTAILMENT	 ( people:Two_people ( are ( driving ( ( jeep:a_jeep_and ( a girl ) ) sitting:is_sitting_on_the_top_of_it ) ) ) ) 	 ( people:Two_people ( are ( driving ( ( jeep:a_jeep_and ( a lady ) ) sitting:is_sitting_on_the_top_of_it ) ) ) ) 	4.8	8163
+NEUTRAL	 ( ( A woman ) ( is ( playing ( a guitar ) ) ) ) 	 ( ( A ( talented man ) ) ( is ( playing ( the guitar ) ) ) ) 	3.2	3747
+NEUTRAL	 ( ( A tower ) ( is ( being ( looked ( at ( by ( a ( blonde lady ) ) ) ) ) ) ) ) 	 ( ( A woman ) ( is ( looking ( at ( ( the view ) ( of ( a city ) ) ) ) ) ) ) 	3.3	7363
+NEUTRAL	 ( dog:A_dog ( is ( ( playing alone ) ( on ( ( a beach ) ( covered ( by snow ) ) ) ) ) ) ) 	 ( dog:A_dog ( is ( walking ( along ( a snowdrift ) ) ) ) ) 	3.2	7743
+NEUTRAL	 ( dogs:Two_dogs ( are ( ( playing together ) ( on grass:the_grass ) ) ) ) 	 ( dogs:Two_dogs ( are ( ( resting together ) ( in grass:the_grass ) ) ) ) 	3.3	6231
+ENTAILMENT	 ( ( Two ( teenage girls ) ) wearing:are_wearing_fancy_dresses_at_an_event ) 	 ( ( ( Two girls ) ( in ( their teens ) ) ) wearing:are_wearing_fancy_dresses_at_an_event ) 	4.8	6649
+NEUTRAL	 ( brown:A_brown_and_white_dog ( is ( running ( through ( the ( tall grass ) ) ) ) ) ) 	 ( brown:A_brown_and_white_dog ( is ( moving ( through ( the ( wild grass ) ) ) ) ) ) 	4.4	382
+ENTAILMENT	 ( man:A_man ( is ( emptying ( container:a_container of:made_of_plastic ) ) ) ) 	 ( man:A_man ( is ( emptying ( container:a_container ( of:made_of_plastic completely ) ) ) ) ) 	4.7	1703
+ENTAILMENT	 ( ( The doctors ) ( are ( healing ( a man ) ) ) ) 	 ( ( The doctor ) ( is ( helping ( the patient ) ) ) ) 	4.2	4505
+NEUTRAL	 ( man:A_man ( is ( ( walking down ) ( a road ) ) ) ) 	 ( ( man:A_man ( from ( the wilderness ) ) ) ( is ( on ( a ( walking path ) ) ) ) ) 	3.4	3861
+NEUTRAL	 ( ( ( A girl ) ( in ( a band ) ) ) ( is ( playing ( an instrument ) ) ) ) 	 ( ( The dog ) ( is ( snapping ( at ( ( some droplets ) ( of water ) ) ) ) ) ) 	1	9975
+ENTAILMENT	 ( man:A_man ( rock:is_rock ( ( ( ( ,:climbing_, pausing ) and ) calculating ) route:the_route ) ) ) 	 ( man:A_man ( rock:is_rock ( ( ( ( ,:climbing_, stopping ) and ) calculating ) route:the_route ) ) ) 	4.8	8633
+NEUTRAL	 ( man:The_man ( is ( ( removing knives ) ( from tree:a_tree ) ) ) ) 	 ( man:The_man ( is ( ( throwing knives ) ( at tree:a_tree ) ) ) ) 	3.3	4067
+NEUTRAL	 ( woman:A_woman ( ( ( is ( parking ( a ( blue bicycle ) ) ) ) and ) ( is ( wearing ( lots ( of ( riding helmets ) ) ) ) ) ) ) 	 ( woman:A_woman ( ( ( is ( wearing ( a ( blue helmet ) ) ) ) and ) ( is ( riding ( ( a bicycle ) ( in ( a ( parking lot ) ) ) ) ) ) ) ) 	3.1	6568
+ENTAILMENT	 ( Noodles ( are ( being ( ( boiled water:in_water ) ( by ( a woman ) ) ) ) ) ) 	 ( ( A woman ) ( is ( boiling ( noodles water:in_water ) ) ) ) 	5	2704
+ENTAILMENT	 ( ( A dog ) ( is ( licking ( a baby ) ) ) ) 	 ( ( The dog ) ( is ( licking ( the baby ) ) ) ) 	4.8	3501
+NEUTRAL	 ( ( A ( small dog:white_dog ) ) running:is_running_across_a_lawn ) 	 ( ( A ( big dog:white_dog ) ) running:is_running_across_a_lawn ) 	3.1	8841
+NEUTRAL	 ( ( The monkey ) ( is ( brushing ( a dog:bull_dog ) ) ) ) 	 ( ( A dog:bull_dog ) ( is ( brushing ( the monkey ) ) ) ) 	3.9	2606
+NEUTRAL	 ( ( A ( ( ( black and ) white ) dog ) ) ( is ( ( dropping baseball:a_baseball ) ( from mouth:its_mouth ) ) ) ) 	 ( ( A ( brown ( and ( white dog ) ) ) ) ( is ( holding ( baseball:a_baseball ( in mouth:its_mouth ) ) ) ) ) 	3.3	6119
+ENTAILMENT	 ( ( ( The bunch ) ( of men ) ) ( are ( rugby:playing_rugby ( on ( ( a field ) ( full ( of mud ) ) ) ) ) ) ) 	 ( ( Some men ) ( are rugby:playing_rugby ) ) 	4.5	7582
+NEUTRAL	 ( ( Two ( small children ) ) ( are ( playing ( with ( ( a ( toy car ) ) ( in ( the street ) ) ) ) ) ) ) 	 ( ( A dog ) ( ( ( is ( running ( through ( a field ) ) ) ) and ) ( is ( chasing ( a toy ) ) ) ) ) 	1.4	9771
+NEUTRAL	 ( ( ( A kid ) ( in ( a ( white t-shirt ) ) ) ) ( is ( splashing ( in ( shallow water ) ) ) ) ) 	 ( ( A boy ) ( is ( running ( through ( ( the water ) ( at ( the beach ) ) ) ) ) ) ) 	3.4	7947
+ENTAILMENT	 ( ( The snowboarder ) ( is ( ( doing ( a flip ) ) ( over ( ( a mound ) ( of snow ) ) ) ) ) ) 	 ( Somebody ( is ( jumping ( in ( ( the air ) ( on ( a board ) ) ) ) ) ) ) 	3.8	6932
+ENTAILMENT	 ( ( The lady ) picking:is_picking_up_the_kangaroo ) 	 ( ( The woman ) picking:is_picking_up_the_kangaroo ) 	4.9	4015
+NEUTRAL	 ( race:A_race_car_driver ( ( ( is ( sitting down ) ) and ) ( is motionless ) ) ) 	 ( race:A_race_car_driver ( is ( ( ( standing up ) and ) ( ( pointing ( his hand ) ) ( at ( the sky ) ) ) ) ) ) 	3	6153
+NEUTRAL	 ( ( The woman ) erasing:is_erasing_the_drawing_on_the_board ) 	 ( ( The man ) erasing:is_erasing_the_drawing_on_the_board ) 	3.7	4164
+NEUTRAL	 ( ( ( Some ( dangerous men ) ) ( with knives ) ) ( are ( throwing ( ( a bike ) ( against tree:a_tree ) ) ) ) ) 	 ( ( A man ) ( is ( dangerously ( ( throwing knives ) ( at tree:a_tree ) ) ) ) ) 	3.3	2019
+NEUTRAL	 ( ( A man ) ( is ( dancing ( on ( the road ) ) ) ) ) 	 ( ( A biker ) ( is ( ( riding away ) ( from ( a fence ) ) ) ) ) 	1.2	9880
+NEUTRAL	 ( ( ( A ( black dog ) ) a:on_a_leash ) ( is ( walking ( in water:the_water ) ) ) ) 	 ( ( The dog ) ( ( ( is a:on_a_leash ) and ) ( is ( walking ( near water:the_water ) ) ) ) ) 	4.5	8855
+CONTRADICTION	 ( ( A ( large ball:green_ball ) ) ( is ( hitting potato:a_potato ) ) ) 	 ( ( A ( big ball:green_ball ) ) ( is ( missing potato:a_potato ) ) ) 	3.4	2972
+NEUTRAL	 ( ( An onion ) ( is ( being ( ( sliced ( with ( a knife ) ) ) ( by ( the woman ) ) ) ) ) ) 	 ( ( A man ) ( is ( preparing ( some dish ) ) ) ) 	1.3	2410
+NEUTRAL	 ( ( ( ( boy:A_boy , ) is:who_is_wearing_a_blue_coat ) , ) ( is ( being ( ( held ( by father:his_father ) ) an:under_an_umbrella ) ) ) ) 	 ( ( boy:A_boy an:under_an_umbrella ) ( is ( being ( held ( by ( father:his_father is:who_is_wearing_a_blue_coat ) ) ) ) ) ) 	4.3	7726
+NEUTRAL	 ( ( ( A woman ) ( in jeans ) ) ( is ( sitting ( on ( ( the saddle ) ( of ( a horse ) ) ) ) ) ) ) 	 ( ( ( A person ) ( wearing jeans ) ) ( is ( ( sitting happily ) ( on ( ( the top ) ( of ( a ( horse saddle ) ) ) ) ) ) ) ) 	4.2	6078
+NEUTRAL	 ( ( ( A girl ) ( in white ) ) ( is dancing ) ) 	 ( ( ( The equipment ) ( in ( front ( of ( the ( blond ( dancing girl ) ) ) ) ) ) ) ( is sound ) ) 	2.7	225
+ENTAILMENT	 ( ( An ( elder man ) ) ( ( sitting:is_sitting_on_a_bench and ) ( is ( wearing ( ( ( a ( gray jacket ) ) and ) ( black pants ) ) ) ) ) ) 	 ( ( An ( elderly man ) ) sitting:is_sitting_on_a_bench ) 	4.5	9571
+NEUTRAL	 ( man:A_man ( is ( ( laying down ) guitar:a_guitar ) ) ) 	 ( man:A_man ( is ( playing guitar:a_guitar ) ) ) 	3.3	2996
+NEUTRAL	 ( ( A boy ) ( is ( holding ( ( a hose ) ( ( next ( to ( ( ( a man ) and ) ( another boy ) ) ) ) ( is watching ) ) ) ) ) ) 	 ( ( A child ) ( ( ( is ( watching ( someone ( playing outdoors ) ) ) ) and ) ( is ( ( spouting water ) ( over ( ( the rest ) ( of ( his family ) ) ) ) ) ) ) ) 	3	7533
+ENTAILMENT	 ( man:The_man ( is ( speaking the:on_the_telephone ) ) ) 	 ( man:The_man ( is ( talking the:on_the_telephone ) ) ) 	4.9	5030
+ENTAILMENT	 ( ( ( A group ) ( of people ) ) ( are ( standing ( around ( a ( sound ( mixing table ) ) ) ) ) ) ) 	 ( ( Some people ) ( is ( looking ( at ( sound equipment ) ) ) ) ) 	3.5	8727
+ENTAILMENT	 ( ( A horse ) ( is ( being ( ridden ( by ( a woman ) ) ) ) ) ) 	 ( ( A woman ) ( is ( riding ( a horse ) ) ) ) 	5	4983
+ENTAILMENT	 ( ( A boy ) ( is ( ( filling ( a pitcher ) ) water:with_water ) ) ) 	 ( ( A pitcher ) ( is ( being ( ( filled water:with_water ) ( by ( a boy ) ) ) ) ) ) 	5	3657
+NEUTRAL	 ( dog:A_dog ( is ( in ( sand:the_sand ( that ( is ( blowing ( in air:the_air ) ) ) ) ) ) ) ) 	 ( dog:A_dog ( is ( in ( ( ( a ( sandy area ) ) ( with ( sand:the_sand ( that ( is ( being ( ( stirred up ) ( into ( ( air:the_air and ) ( several plants ) ) ) ) ) ) ) ) ) ) ( are ( in ( the background ) ) ) ) ) ) ) 	4.1	9424
+NEUTRAL	 ( white:A_white_dog ( is ( standing fallen:on_fallen_leaves ) ) ) 	 ( white:A_white_dog ( is ( lying fallen:on_fallen_leaves ) ) ) 	3.8	7007
+ENTAILMENT	 ( ( A person ) ( is ( playing ( a and:guitar_and_singing ) ) ) ) 	 ( ( One person ) ( is ( playing ( the and:guitar_and_singing ) ) ) ) 	4.9	1964
+NEUTRAL	 ( ( ( The woman ) ( wearing ( ( ( ( ( silver pants ) , ) ( pink bellbottoms ) ) and ) ( a ( pink scarf ) ) ) ) ) ( is ( riding ( a bike ) ) ) ) 	 ( ( A ( pedestrian woman ) ) ( is ( building ( ( pink bicycles ) ( for ( boa ( wearing riders ) ) ) ) ) ) ) 	2.4	526
+NEUTRAL	 ( woman:A_woman ( is ( rocking ( over ( blanket:a_blanket ( ( lying ( on someone ) ) a:reading_a_book ) ) ) ) ) ) 	 ( ( woman:A_woman ( on ( a rock ) ) ) ( is ( ( ( lying ( on blanket:a_blanket ) ) and ) a:reading_a_book ) ) ) 	2.7	2726
+NEUTRAL	 ( ( The cop ) ( is ( sitting ( on ( a ( police bike ) ) ) ) ) ) 	 ( ( The animal ) ( is ( grazing ( on ( the grass ) ) ) ) ) 	1	9963
+NEUTRAL	 ( ( A ( practicing jumper ) ) ( is ( ( tossing ( ( a ( person 's ) ) snowboard ) ) ( into ( the air ) ) ) ) ) 	 ( ( Two people ) ( are ( riding ( a bike ) ) ) ) 	2	9822
+ENTAILMENT	 ( dog:A_dog ( is ( jumping a:on_a_trampoline ) ) ) 	 ( dog:A_dog ( is ( bouncing a:on_a_trampoline ) ) ) 	4.7	4135
+ENTAILMENT	 ( ( A ( large flute ) ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( a flute ) ) ) ) 	4.3	5349
+ENTAILMENT	 ( man:A_man ( is ( playing ( an ( electric guitar ) ) ) ) ) 	 ( man:A_man ( is ( playing guitar ) ) ) 	4.9	1493
+NEUTRAL	 ( ( ( The picture ) ( of ( ( a camera ) ( set up ) ) ) ) ( is ( being ( taken ( by ( ( a man ) ( on ( ( the beach ) ( at ( the sunset ) ) ) ) ) ) ) ) ) ) 	 ( ( A man ) ( is ( taking ( pictures ( of ( a lake ) ) ) ) ) ) 	3	2157
+NEUTRAL	 ( ( A ( white dog ) ) ( is ( ( approaching ( a ( golden dog ) ) ) ( on ( pebbly beach ) ) ) ) ) 	 ( ( Two dogs ) ( are ( playing ( on ( a ( rocky beach ) ) ) ) ) ) 	2.9	9036
+ENTAILMENT	 ( woman:A_woman ( is ( slicing potato:a_potato ) ) ) 	 ( woman:A_woman ( is ( cutting potato:a_potato ) ) ) 	4.8	4661
+ENTAILMENT	 ( ( A bear:panda_bear ) ( is ( eating ( some bamboo ) ) ) ) 	 ( ( Some bamboo ) ( is ( being ( eaten ( by ( a bear:panda_bear ) ) ) ) ) ) 	4.8	3384
+NEUTRAL	 ( man:A_man ( is ( reloading shotgun:a_shotgun ) ) ) 	 ( man:A_man ( is ( firing shotgun:a_shotgun ) ) ) 	3.7	5706
+NEUTRAL	 ( big:A_big_green_ball ( is ( missing potato:a_potato ) ) ) 	 ( big:A_big_green_ball ( is ( knocking potato:a_potato ) ) ) 	3.3	2965
+NEUTRAL	 ( ( The turtle ) ( is ( following ( the fish ) ) ) ) 	 ( ( A fish ) ( is ( hunting ( for ( ( a turtle ) ( in ( the sea ) ) ) ) ) ) ) 	3.5	1137
+ENTAILMENT	 ( tennis:A_tennis_player ( is ( jumping the:to_the_left ) ) ) 	 ( tennis:A_tennis_player ( is ( lunging the:to_the_left ) ) ) 	4.4	7795
+ENTAILMENT	 ( ( young:A_young_girl ( in ( a ( blue leotard ) ) ) ) jumping:is_jumping_in_the_air ) 	 ( ( young:A_young_girl ( in ( ( a leotard ) ( colored ( in blue ) ) ) ) ) jumping:is_jumping_in_the_air ) 	5	7546
+NEUTRAL	 ( ( A ( yellow dog ) ) ( is ( chasing ( a ball ) ) ) ) 	 ( ( A dog ) ( is ( ( ( turning ( on ( the grass ) ) ) and ) ( pursuing ( a ( flying ( tennis ball ) ) ) ) ) ) ) 	4.4	9188
+NEUTRAL	 ( ( A man ) wearing:is_wearing_a_blue_shirt_and_walking_barefoot_on_a_tennis_court ) 	 ( ( A woman ) wearing:is_wearing_a_blue_shirt_and_walking_barefoot_on_a_tennis_court ) 	3.6	9623
+ENTAILMENT	 ( man:A_man ( ( is hurriedly ) ( getting ( into ( car:a_car ( in ( a garage ) ) ) ) ) ) ) 	 ( man:A_man ( is ( getting ( into car:a_car ) ) ) ) 	4.1	2678
+ENTAILMENT	 ( ( The cat ) ( is ( playing ( passionately a:with_a_watermelon ) ) ) ) 	 ( ( A cat ) ( is ( playing a:with_a_watermelon ) ) ) 	4.5	2286
+NEUTRAL	 ( man:A_man ( is ( standing ( on ( boat:a_boat ( in ( front ( of ( sunset:the_sunset a:near_a_flag ) ) ) ) ) ) ) ) ) 	 ( man:A_man ( is ( sitting ( on ( boat:a_boat ( in ( ( ( font ( of sunset:the_sunset ) ) , ) a:near_a_flag ) ) ) ) ) ) ) 	3.8	6213
+NEUTRAL	 ( ( ( The man ) ( in blue ) ) ( is ( ( posing ( for ( a picture ) ) ) ( next ( to ( a vehicle ) ) ) ) ) ) 	 ( ( A man ) ( is ( standing ( at ( ( the wheel ) ( of ( ( a ( classic ( American car ) ) ) ( that ( has ( its ( door ( and ( trunk open ) ) ) ) ) ) ) ) ) ) ) ) ) 	3.2	9242
+ENTAILMENT	 ( ( The lady ) penciling:is_penciling_on_eyeshadow ) 	 ( ( The woman ) penciling:is_penciling_on_eyeshadow ) 	5	2829
+NEUTRAL	 ( biker:A_biker ( is ( wearing ( gear ( which ( is black ) ) ) ) ) ) 	 ( ( biker:A_biker ( wearing black ) ) ( is ( breaking ( the gears ) ) ) ) 	3.1	530
+ENTAILMENT	 ( band:A_band ( is ( playing ( on ( a stage ) ) ) ) ) 	 ( band:A_band ( is ( playing onstage ) ) ) 	5	1266
+ENTAILMENT	 ( ( ( ( A ( big dog:brown_dog ) ) and ) small:a_small_grey_dog ) standing:are_standing_on_a_rocky_surface ) 	 ( ( ( ( A ( large dog:brown_dog ) ) and ) small:a_small_grey_dog ) standing:are_standing_on_a_rocky_surface ) 	4.8	6756
+ENTAILMENT	 ( girl:A_girl ( is ( rope:skipping_rope ( on ( a sidewalk ) ) ) ) ) 	 ( girl:A_girl ( is ( rope:skipping_rope ( on ( near ( a street ) ) ) ) ) ) 	4.3	8786
+ENTAILMENT	 ( ( ( ( A horse ) and ) ( its rider ) ) ( are ( leaping ( over ( a barrier ) ) ) ) ) 	 ( ( A hurdle ) ( is ( being ( leapt ( by ( ( a horse ) ( that ( has ( ( a rider ) ( on ( its back ) ) ) ) ) ) ) ) ) ) ) 	4.5	6634
+ENTAILMENT	 ( girl:The_girl_,_who_is_little_, ( ( is carefully ) her:combing_her_hair_into_a_pony_tail ) ) 	 ( girl:The_girl_,_who_is_little_, ( ( is her:combing_her_hair_into_a_pony_tail ) . ) ) 	4.6	1839
+ENTAILMENT	 ( man:A_man_and_a_woman ( are ( in ( ( a room ) ( ( ( ( painted ( beige ( , dark:wearing_dark_colored_shirts ) ) ) and ) monitor:a_monitor ) in:is_in_the_background ) ) ) ) ) 	 ( man:A_man_and_a_woman ( are ( in ( ( ( ( ( a ( beige room ) ) , ) dark:wearing_dark_colored_shirts ) and ) ( monitor:a_monitor in:is_in_the_background ) ) ) ) ) 	5	6047
+NEUTRAL	 ( ( A boy ) ( is ( standing ( outside ( the water ) ) ) ) ) 	 ( ( The boy ) ( is ( wading ( through ( the ( blue ocean ) ) ) ) ) ) 	3.135	280
+NEUTRAL	 ( ( The guitar ) ( is ( being ( played ( by ( the man ) ) ) ) ) ) 	 ( ( A boat ) ( is ( ( sailing peacefully ) ( over ( the water ) ) ) ) ) 	1.1	1676
+ENTAILMENT	 ( ( The person ) ( is ( slicing onions ) ) ) 	 ( Onions ( are ( being ( sliced ( by ( the person ) ) ) ) ) ) 	4.9	3721
+NEUTRAL	 ( ( A ( small child ) ) ( is ( ( showing excitement ) ( on ( ( a swing ) ( set ( at ( the park ) ) ) ) ) ) ) ) 	 ( ( ( ( ( ( ( The girl ) , ) ( who ( is little ) ) ) , ) ( is swinging ) ) and ) ( ( the woman ) ( is ( standing behind ) ) ) ) 	3.6	7448
+ENTAILMENT	 ( Men ( are ( sawing logs ) ) ) 	 ( Men ( are ( cutting wood ) ) ) 	4.5	1412
+NEUTRAL	 ( children:Five_children ( are ( standing ( in wooden:a_wooden_hut ) ) ) ) 	 ( children:Five_children ( are ( standing ( in ( front ( of wooden:a_wooden_hut ) ) ) ) ) ) 	4.2	119
+NEUTRAL	 ( ( A woman ) ( is ( cooking ( a ( breaded ( pork chop ) ) ) ) ) ) 	 ( ( The woman ) ( is ( chopping ( ( ( some bread ) and ) ( fried pork ) ) ) ) ) 	3.2	3322
+NEUTRAL	 ( ( A ( ( ( black and ) orange ) bird ) ) ( is ( standing ( in ( the grass ) ) ) ) ) 	 ( ( ( The ( black bird ) ) ( with ( a ( yellow beak ) ) ) ) ( is ( standing ( in ( the ( green grass ) ) ) ) ) ) 	4	8700
+ENTAILMENT	 ( woman:A_woman ( is ( riding ( a ( water scooter ) ) ) ) ) 	 ( woman:A_woman ( is ( riding ( ( a scooter ) ( for water ) ) ) ) ) 	4.1	3373
+NEUTRAL	 ( ( The man ) ( is ( going ( into ( the water ) ) ) ) ) 	 ( ( The person ) ( is ( going ( into ( the sea ) ) ) ) ) 	4.1	8500
+NEUTRAL	 ( ( An ( animated airplane ) ) ( is ( taking off ) ) ) 	 ( ( A plane ) ( is landing ) ) 	2.7	2812
+NEUTRAL	 ( ( A woman ) ( ( ( is ( ( wearing ( a ( blue shirt ) ) ) ( with ( ( ( a ( white vest ) ) and ) ( a ( white cap ) ) ) ) ) ) and ) ( is ( ( talking and ) marching ) ) ) ) 	 ( ( ( The woman ) ( wearing ( ( the ( ( ( blue and ) white ) uniform ) ) ( with ( a ( white ( and ( blue hat ) ) ) ) ) ) ) ) ( ( ( is ( ( keeping ( her mouth ) ) open ) ) and ) ( is ( ( near others ) ( who ( are ( dressed ( in ( the ( same fashion ) ) ) ) ) ) ) ) ) ) 	3.4	6912
+ENTAILMENT	 ( white:A_white_and_tan_dog ( is ( running ( through ( the ( ( ( tall and ) green ) grass ) ) ) ) ) ) 	 ( white:A_white_and_tan_dog ( is ( running ( through ( a field ) ) ) ) ) 	4.35	384
+NEUTRAL	 ( People ( are ( ( ( riding and ) paddling ) raft:a_raft ) ) ) 	 ( ( A ( few people ) ) ( are ( floating ( on raft:a_raft ) ) ) ) 	3.8	2525
+ENTAILMENT	 ( group:The_group_of_people ( is ( sitting ( in ( a ( dim room ) ) ) ) ) ) 	 ( group:The_group_of_people ( is ( sitting ( in ( ( a room ) ( which ( is dim ) ) ) ) ) ) ) 	4.9	7466
+ENTAILMENT	 ( ( A girl ) ( is ( eating ( a cupcake ) ) ) ) 	 ( ( A cupcake ) ( is ( being ( eaten ( by ( a girl ) ) ) ) ) ) 	5	5588
+NEUTRAL	 ( ( The kid ) ( ( is happily ) ( sliding ( in ( the snow ) ) ) ) ) 	 ( ( ( A boy ) ( on ( ( a hill ) ( covered ( in snow ) ) ) ) ) ( ( ( is ( wearing ( ( ( a ( red jacket ) ) and ) ( a ( black hat ) ) ) ) ) and ) ( is ( sliding ( on ( his knees ) ) ) ) ) ) 	4	765
+ENTAILMENT	 ( woman:A_woman ( is ( ( putting eggs:two_eggs ) a:into_a_pot_of_water ) ) ) 	 ( woman:A_woman ( is ( ( placing eggs:two_eggs ) a:into_a_pot_of_water ) ) ) 	4.9	3250
+NEUTRAL	 ( ( ( ( ( A ( small group ) ) ( of people ) ) ( are standing ) ) and ) ( two ( are ( sitting ( on ( the sofa ) ) ) ) ) ) 	 ( ( ( A group ) ( of ( five ( young adults ) ) ) ) ( are ( lounging indoors ) ) ) 	3.8	8963
+NEUTRAL	 ( ( men:Two_men ( with cars ) ) ( are ( on ( ( the side ) ( of snowy:a_snowy_road ) ) ) ) ) 	 ( men:Two_men ( are ( ( taking ( a break ) ) ( from ( ( a trip ) ( on snowy:a_snowy_road ) ) ) ) ) ) 	4	417
+ENTAILMENT	 ( ( ( A man ) a:in_a_motocross_uniform ) wearing:is_wearing_a_helmet_and_rides_a_red_motorcycle ) 	 ( ( ( A person ) a:in_a_motocross_uniform ) wearing:is_wearing_a_helmet_and_rides_a_red_motorcycle ) 	4.8	8343
+NEUTRAL	 ( ( ( ( A ( little girl ) ) and ) ( ( a woman ) ( wearing ( a ( yellow shirt ) ) ) ) ) ( are ( ( getting splashed ) ( by ( a ( city fountain ) ) ) ) ) ) 	 ( ( ( A ( young girl ) ) ( is ( playing ( on ( ( the edge ) ( of ( ( ( a fountain ) and ) ( an ( older woman ) ) ) ) ) ) ) ) ) ( is ( watching her ) ) ) 	3.5	9677
+NEUTRAL	 ( small:A_small_boy ( is ( scolding dog:a_dog ) ) ) 	 ( small:A_small_boy ( is ( playing ( with dog:a_dog ) ) ) ) 	3.4	2130
+ENTAILMENT	 ( ( A horse ) ( is ( being ( ridden ( by ( a person ) ) ) ) ) ) 	 ( ( A person ) ( is ( riding ( a horse ) ) ) ) 	5	5914
+NEUTRAL	 ( ( A veteran ) ( is ( ( showing ( different things ) ) ( from ( ( a war ) ( to ( some people ) ) ) ) ) ) ) 	 ( ( A ( large man ) ) ( is ( sitting ( in ( a ( military ( accessories store ) ) ) ) ) ) ) 	2.8	9093
+NEUTRAL	 ( ( The dog ) ( is ( having ( ( a nap ) ( in ( the park ) ) ) ) ) ) 	 ( ( ( ( A ( big brown ) ) and ) ( white ( spotted dog ) ) ) ( is ( lying ( on ( ( a jacket ) ( on ( the street ) ) ) ) ) ) ) 	2.9	9500
+NEUTRAL	 ( ( ( The kittens ) the:on_the_trays ) ( are ( being ( eaten ( as ( food ( for ( an advertisement ) ) ) ) ) ) ) ) 	 ( ( ( The food ) the:on_the_trays ) ( is ( being ( eaten ( by ( the kittens ) ) ) ) ) ) 	3.5	1877
+ENTAILMENT	 ( group:A_group_of_people ( is ( equipped ( with ( gear ( used ( for protection ) ) ) ) ) ) ) 	 ( group:A_group_of_people ( is ( equipped ( with ( protective gear ) ) ) ) ) 	5	816
+ENTAILMENT	 ( ( A man ) ( is ( ( ( wearing ( a hat:straw_hat ) ) and ) ( smoking ( a cigarette ) ) ) ) ) 	 ( ( A cigarette ) ( is ( being ( smoked ( by ( ( the man ) ( in ( the hat:straw_hat ) ) ) ) ) ) ) ) 	4.8	7311
+ENTAILMENT	 ( ( A ( big cat ) ) ( ( ( is ( ( opening ( a ( plastic drawer ) ) ) ( with ( its paws ) ) ) ) and ) ( is inside:jumping_inside ) ) ) 	 ( ( A cat ) ( is ( ( ( opening ( a drawer ) ) and ) inside:jumping_inside ) ) ) 	4.4	5003
+CONTRADICTION	 ( people:Some_people_and_vehicles ( are ( on ( a ( crowded street ) ) ) ) ) 	 ( people:Some_people_and_vehicles ( are ( on ( a ( ( almost empty ) street ) ) ) ) ) 	4.2	8263
+NEUTRAL	 ( ( Two children ) ( are ( playing ( on statue:a_statue ) ) ) ) 	 ( ( Small children ) ( are ( climbing ( statue:a_statue ( in ( a park ) ) ) ) ) ) 	4.1	7356
+ENTAILMENT	 ( Someone ( is ( strumming guitar:the_guitar ) ) ) 	 ( Someone ( is ( playing guitar:the_guitar ) ) ) 	4.5	2557
+NEUTRAL	 ( ( A cook ) ( is ( coating ( ( a pork ) chop ) ) ) ) 	 ( ( A woman ) ( is ( grating carrots ) ) ) 	2.1	3292
+NEUTRAL	 ( ( A dog ) ( is ( swimming ( after ( a ( tennis ball ) ) ) ) ) ) 	 ( ( A ( young man ) ) ( is ( ( pushing ( a ( motocross bike ) ) ) ( down ( a ( dirt hill ) ) ) ) ) ) 	1	9988
+ENTAILMENT	 ( ( A man ) ( is ( climbing rope:a_rope ) ) ) 	 ( ( The man ) ( is ( ( climbing up ) rope:a_rope ) ) ) 	4.8	4006
+ENTAILMENT	 ( group:A_group_of_rollerbladers ( is ( up:lining_up ( on ( the road ) ) ) ) ) 	 ( group:A_group_of_rollerbladers ( is ( up:lining_up ( on ( the street ) ) ) ) ) 	4.9	8660
+ENTAILMENT	 ( ( A skateboarder ) jumping:is_jumping_in_the_air ) 	 ( ( The skateboarder ) jumping:is_jumping_in_the_air ) 	4.9	9303
+CONTRADICTION	 ( black:A_black_and_white_dog_with_a_large_branch ( is ( running the:in_the_field ) ) ) 	 ( black:A_black_and_white_dog_with_a_large_branch ( is ( standing the:in_the_field ) ) ) 	4.2	9706
+NEUTRAL	 ( ( ( A ( little boy ) ) ( in pink:a_pink_shirt ) ) ( is ( running ( under ( ( a tree ) ( in ( the desert ) ) ) ) ) ) ) 	 ( ( A girl ) ( ( ( is ( wearing ( ( jeans and ) pink:a_pink_shirt ) ) ) and ) ( is running ) ) ) 	2.8	6330
+ENTAILMENT	 ( man:A_man ( ( is recklessly ) a:climbing_a_rope ) ) 	 ( man:A_man ( is a:climbing_a_rope ) ) 	4.3	4001
+ENTAILMENT	 ( ( man:A_man ( in ( a ( black jersey ) ) ) ) standing:is_standing_in_a_gym ) 	 ( ( man:A_man ( in ( ( a jersey ) ( which ( is black ) ) ) ) ) standing:is_standing_in_a_gym ) 	4.9	9132
+ENTAILMENT	 ( tennis:A_tennis_player ( is ( jumping the:to_the_left ) ) ) 	 ( tennis:A_tennis_player ( is ( lunging the:to_the_left ) ) ) 	4.4	7795
+NEUTRAL	 ( boys:Three_boys ( are ( walking rocks:on_rocks_along_a_river ) ) ) 	 ( boys:Three_boys ( are ( resting rocks:on_rocks_along_a_river ) ) ) 	3.8	6764
+NEUTRAL	 ( Ferrets ( are ( ( climbing down ) ( from ( a shelf ) ) ) ) ) 	 ( ( A ( few ferrets ) ) ( are ( ( climbing out ) ( of ( the cage ) ) ) ) ) 	3.1	2668
+NEUTRAL	 ( ( A man ) ( is screaming ) ) 	 ( ( A ( sad man ) ) ( is crying ) ) 	2.9	1400
+NEUTRAL	 ( ( A woman ) ( is ( playing ( an ( electric guitar ) ) ) ) ) 	 ( ( A man ) ( is ( ( laying down ) ( a guitar ) ) ) ) 	2.3	3002
+NEUTRAL	 ( ( People ( at ( a ( drag race ) ) ) ) ( are ( ( running away ) ( from ( ( the flames ) ( that ( are ( ( coming out ) ( of ( the cars ) ) ) ) ) ) ) ) ) ) 	 ( ( The crowd ) ( is ( watching ( ( two ( racing cars ) ) ( that ( are ( leaving ( the ( starting line ) ) ) ) ) ) ) ) ) 	2.6	6228
+NEUTRAL	 ( ( ( A boy ) ( in ( a ( white t-shirt ) ) ) ) ( is ( splashing ( in ( shallow water ) ) ) ) ) 	 ( ( A girl ) ( is ( running ( through ( ( the water ) ( at ( the beach ) ) ) ) ) ) ) 	2.3	7950
+NEUTRAL	 ( woman:A_woman_dressed_in_elegant_clothing ( inside:is_inside_a_crowd_of_people_and ( is ( looking down ) ) ) ) 	 ( woman:A_woman_dressed_in_elegant_clothing ( inside:is_inside_a_crowd_of_people_and ( is ( looking up ) ) ) ) 	3.1	7937
+NEUTRAL	 ( ( A ( bald person ) ) playing:is_playing_a_guitar ) 	 ( ( A person ) ( ( ( has ( blonde ( and ( flyaway hair ) ) ) ) and ) playing:is_playing_a_guitar ) ) 	3.9	285
+ENTAILMENT	 ( ( The man ) ( is ( ( ( singing and ) playing ) ( the guitar ) ) ) ) 	 ( ( The guitar ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	4.3	3909
+NEUTRAL	 ( ( football:A_football_player ( in ( a ( purple jersey ) ) ) ) ( is ( running ( with ( ( the ball ) ( for ( a touchdown ) ) ) ) ) ) ) 	 ( football:A_football_player ( is ( ( carrying ( an official ) ) ( past ( a ( rolling football ) ) ) ) ) ) 	2.9	7544
+ENTAILMENT	 ( ( The woman ) holding:is_holding_the_paintbrush_next_to_the_artist_'s_easel ) 	 ( ( The lady ) holding:is_holding_the_paintbrush_next_to_the_artist_'s_easel ) 	4.9	9584
+ENTAILMENT	 ( ( A man ) doing:is_doing_a_trick_on_a_skateboard ) 	 ( ( A person ) doing:is_doing_a_trick_on_a_skateboard ) 	4.4	8334
+ENTAILMENT	 ( ( The woman ) cleaning:is_cleaning_a_shrimp ) 	 ( ( A woman ) cleaning:is_cleaning_a_shrimp ) 	4.9	3364
+ENTAILMENT	 ( ( A dog ) swimming:is_swimming_in_a_body_of_water ) 	 ( ( An animal ) swimming:is_swimming_in_a_body_of_water ) 	4.5	8806
+ENTAILMENT	 ( man:A_man ( is ( playing ( an ( electric guitar ) ) ) ) ) 	 ( man:A_man ( is ( playing guitar ) ) ) 	4.9	1493
+ENTAILMENT	 ( Vegetables ( are ( being ( ( put a:into_a_pot ) ( by ( a man ) ) ) ) ) ) 	 ( Someone ( is ( ( pouring ingredients ) a:into_a_pot ) ) ) 	4	5938
+NEUTRAL	 ( ( A ( young boy ) ) ( is ( playing ( a ( wind instrument ) ) ) ) ) 	 ( ( A kid ) ( is ( ( throwing away ) ( an instrument ) ) ) ) 	2.8	3174
+NEUTRAL	 ( ( A man ) leaning:is_leaning_on_the_ledge_of_a_balcony ) 	 ( ( A woman ) leaning:is_leaning_on_the_ledge_of_a_balcony ) 	3.8	8832
+NEUTRAL	 ( ( A motorcycle ) ( is ( riding ( ( standing up ) ( on ( seat:the_seat ( of ( the vehicle ) ) ) ) ) ) ) ) 	 ( Someone ( ( ( is ( on ( a ( black ( and ( white motorcycle ) ) ) ) ) ) and ) ( is ( standing ( on seat:the_seat ) ) ) ) ) 	3.165	197
+NEUTRAL	 ( ( A ( practicing jumper ) ) ( is ( ( tossing ( ( a ( person 's ) ) snowboard ) ) ( into ( the air ) ) ) ) ) 	 ( ( Two people ) ( are ( riding ( a bike ) ) ) ) 	2	9822
+NEUTRAL	 ( ( ( ( A person ) ( is ( looking ( at ( ( a bike ) ( designed ( for ( motocross ( that ( is ( lying ( on ( its side ) ) ) ) ) ) ) ) ) ) ) ) ) and ) ( another ( is ( racing by ) ) ) ) 	 ( ( The ( bike rider ) ) ( is ( looking ( at ( ( an accident ) ( of ( another ( bike rider ) ) ) ) ) ) ) ) 	3.1	7590
+CONTRADICTION	 ( toy:A_toy_train ( is ( striking toy:a_toy_car ) ) ) 	 ( toy:A_toy_train ( is ( missing toy:a_toy_car ) ) ) 	3.8	3711
+NEUTRAL	 ( ( A toddler ) ( is ( making ( ( a splash ) ( inside ( a ( blue ( paddling pool ) ) ) ) ) ) ) ) 	 ( ( The child ) ( is ( splashing ( water ( in ( a ( big ( red pool ) ) ) ) ) ) ) ) 	3.1	8548
+NEUTRAL	 ( woman:A_woman ( is ( refrigerating potato:a_potato ) ) ) 	 ( woman:A_woman ( is ( peeling potato:a_potato ) ) ) 	3.7	3982
+ENTAILMENT	 ( ( The horse ) ( is ( being ( ridden ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( riding ( the horse ) ) ) ) 	5	2001
+NEUTRAL	 ( ( The ( little boy ) ) ( is ( ( ( sticking tongue:his_tongue ) out ) ( for ( ( camera:the_camera_and ( another boy ) ) ( is ( looking on ) ) ) ) ) ) ) 	 ( ( ( Two ( young boys ) ) ( are ( ( looking up ) ( at ( camera:the_camera_and one ) ) ) ) ) ( is ( ( sticking out ) tongue:his_tongue ) ) ) 	4.4	9745
+CONTRADICTION	 ( few:A_few_men_in_a_competition ( are ( running outside ) ) ) 	 ( few:A_few_men_in_a_competition ( are ( running indoors ) ) ) 	3.9	717
+NEUTRAL	 ( person:A_person ( is ( eating ( in ( a restaurant ) ) ) ) ) 	 ( person:A_person ( is ( making ( a bed ) ) ) ) 	1.2	5657
+NEUTRAL	 ( ( A ( race ( car driver ) ) ) ( ( ( is ( standing up ) ) and ) ( ( is fiercely ) ( ( pointing ( his hand ) ) ( at ( the sky ) ) ) ) ) ) 	 ( ( ( The person ) ( in ( the ( blue jacket ) ) ) ) ( is ( wearing ( a ( colorful helmet ) ) ) ) ) 	1.6	6158
+ENTAILMENT	 ( ( A girl ) ( is ( eating ( a cupcake ) ) ) ) 	 ( ( A cupcake ) ( is ( being ( eaten ( by ( a girl ) ) ) ) ) ) 	5	5588
+ENTAILMENT	 ( ( A lady ) ( is ( ( cutting ( up ( some meat ) ) ) precisely ) ) ) 	 ( ( Some meat ) ( is ( being ( ( cut ( into pieces ) ) ( by ( a woman ) ) ) ) ) ) 	4.8	2058
+ENTAILMENT	 ( man:The_man ( is ( ( hurling knives ) a:at_a_tree ) ) ) 	 ( man:The_man ( is ( ( throwing knives ) a:at_a_tree ) ) ) 	4.6	4066
+ENTAILMENT	 ( dog:A_dog ( is ( ( running breathlessly ) the:on_the_road ) ) ) 	 ( dog:A_dog ( is ( running the:on_the_road ) ) ) 	4.5	4054
+CONTRADICTION	 ( Nobody ( is in:standing_in_the_ocean_and_watching_the_sunset ) ) 	 ( ( Two people ) ( are in:standing_in_the_ocean_and_watching_the_sunset ) ) 	2.5	6146
+NEUTRAL	 ( ( Three men ) ( are ( practicing ( karate outdoors ) ) ) ) 	 ( ( ( Three boys ) ( in ( karate costumes ) ) ) ( are fighting ) ) 	3.8	1506
+ENTAILMENT	 ( ( young:A_young_girl ( in ( a bikini ) ) ) jumping:is_jumping_on_the_beach ) 	 ( ( young:A_young_girl ( in ( swimming suite ) ) ) jumping:is_jumping_on_the_beach ) 	4.4	8986
+NEUTRAL	 ( ( A dog ) ( is ( running ( with ( a ball ) ) ) ) ) 	 ( ( The ( black dog ) ) ( is ( carrying ( ( a ( ( ( blue and ) white ) ball ) ) ( in ( its mouth ) ) ) ) ) ) 	4	9224
+NEUTRAL	 ( ( A ( big fish ) ) ( is ( catching ( a man ) ) ) ) 	 ( ( A woman ) ( is ( deboning ( a fish ) ) ) ) 	1.9	3420
+NEUTRAL	 ( ( ( Four people ) ( are ( ( walking ( along ( ( ( a ( city sidewalk ) ) and ) ( the one ) ) ) ) ( in ( the hat:green_hat ) ) ) ) ) ( is ( phoning someone ) ) ) 	 ( ( ( A group ) ( of people ) ) ( is ( ( ( walking down ) ( ( ( the street ) and ) ( a person ) ) ) ( in ( ( a hat:green_hat ) ( is ( on ( the phone ) ) ) ) ) ) ) ) 	4.2	9336
+NEUTRAL	 ( Nobody ( is ( slicing ( a tomato ) ) ) ) 	 ( ( The person ) ( is ( slicing ( a vegetable ) ) ) ) 	3.1	2544
+ENTAILMENT	 ( man:A_man ( is ( cutting ( a note ) ) ) ) 	 ( man:A_man ( is ( cutting ( a paper ) ) ) ) 	4.4	4360
+ENTAILMENT	 ( white:Two_white_dogs ( ( are quickly ) together:running_together ) ) 	 ( white:Two_white_dogs ( are together:running_together ) ) 	4.6	8714
+ENTAILMENT	 ( ( The lady ) ( is ( slicing tomato:a_tomato ) ) ) 	 ( Someone ( is ( cutting tomato:a_tomato ) ) ) 	4.7	2405
+NEUTRAL	 ( ( A snowboarder ) ( is ( ( grinding down ) ( a ( long ( concrete rail ) ) ) ) ) ) 	 ( ( A person ) ( is ( ( doing acrobatics ) ( on ( a snowboard ) ) ) ) ) 	3.3	9314
+ENTAILMENT	 ( man:A_man ( is ( ( applying silencer:a_silencer ) ( to ( a gun ) ) ) ) ) 	 ( man:A_man ( is ( ( fitting silencer:a_silencer ) ( to ( a pistol ) ) ) ) ) 	4.8	4734
+ENTAILMENT	 ( white:Two_white_dogs ( are ( playing ( with ( brown:a_brown_dog_and ( a ( tennis ball ) ) ) ) ) ) ) 	 ( white:Two_white_dogs ( are ( playing ( with ( brown:a_brown_dog_and ( a ball ) ) ) ) ) ) 	4.7	7889
+ENTAILMENT	 ( ( A ( small pig:guinea_pig ) ) ( is ( ( ( ( gnawing and ) eating ) ( ( a piece ) ( of carrot ) ) ) ( on ( the floor ) ) ) ) ) 	 ( ( A pig:guinea_pig ) ( is ( devouring ( a carrot ) ) ) ) 	4.5	2795
+ENTAILMENT	 ( man:A_man ( is ( climbing rope:a_rope ) ) ) 	 ( man:A_man ( is ( ( climbing up ) rope:a_rope ) ) ) 	4.8	4011
+ENTAILMENT	 ( ( A dog:bull_dog ) ( is ( being ( brushed ( by ( the monkey ) ) ) ) ) ) 	 ( ( The monkey ) ( is ( brushing ( a dog:bull_dog ) ) ) ) 	4.8	2604
+ENTAILMENT	 ( ( A man ) ( is ( dancing ( on ( ceiling:the_ceiling ( of ( a room ) ) ) ) ) ) ) 	 ( ( The man ) ( is ( ( dancing upside-down ) ( on ceiling:the_ceiling ) ) ) ) 	4.4	3880
+ENTAILMENT	 ( ( ( ( A ( black dog ) ) and ) ( a ( small ( ( ( white and ) black ) dog ) ) ) ) ( are ( ( looking up ) ( at ( a ( kitchen countertop ) ) ) ) ) ) 	 ( ( ( ( A ( large dog ) ) and ) ( a ( small dog ) ) ) ( ( ( are ( ( standing next ) ( to ( the ( kitchen counter ) ) ) ) ) and ) ( are investigating ) ) ) 	4.2	8576
+CONTRADICTION	 ( woman:A_woman ( is ( ( ( ( ( taking off ) cloak:a_cloak_,_which_is_very_large ) , ) and ) ( revealing extravagant:an_extravagant_dress ) ) ) ) 	 ( woman:A_woman ( is ( ( ( putting ( on ( cloak:a_cloak_,_which_is_very_large , ) ) ) and ) ( concealing extravagant:an_extravagant_dress ) ) ) ) 	3.5	592
+NEUTRAL	 ( ( A man ) ( is ( ( chopping ( a log ) ) an:with_an_axe ) ) ) 	 ( ( The man ) ( is ( ( chopping ( a ( tree trunk ) ) ) an:with_an_axe ) ) ) 	4.4	3459
+NEUTRAL	 ( child:A_child ( is ( swimming ( underwater ( in ( a pool ) ) ) ) ) ) 	 ( child:A_child ( is ( smiling ( at ( the ( camera ( and ( swimming underwater ) ) ) ) ) ) ) ) 	4.1	7394
+NEUTRAL	 ( ( A man ) ( is ( ( doing ( back flips ) ) a:on_a_trampoline ) ) ) 	 ( ( Several boys ) ( are ( jumping a:on_a_trampoline ) ) ) 	3.4	4140
+NEUTRAL	 ( ( An ( old topless:,_topless_woman ) ) covered:is_covered_in_paint ) 	 ( ( A ( young topless:,_topless_woman ) ) covered:is_covered_in_paint ) 	3.8	304
+ENTAILMENT	 ( ( black:A_black_dog ( is ( running ( in ( ( grass:the_grass and ) ( its tongue ) ) ) ) ) ) ( is ( hanging out ) ) ) 	 ( black:A_black_dog ( is ( running ( in grass:the_grass ) ) ) ) 	4.9	6287
+NEUTRAL	 ( man:A_man ( is ( wearing ( ( a ( blue shirt ) ) ( which ( ( ( has ( long ( ( sleeves and ) jeans ) ) ) and ) ( is ( ( riding unicycle:a_unicycle ) ( down ( a street ) ) ) ) ) ) ) ) ) ) 	 ( man:A_man ( is ( ( ( wearing ( a ( blue ( checkered shirt ) ) ) ) and ) ( riding ( unicycle:a_unicycle ( in ( the street ) ) ) ) ) ) ) 	4.3	7319
+ENTAILMENT	 ( Swimmers ( are ( racing a:in_a_lake ) ) ) 	 ( ( Some racers ) ( are ( swimming a:in_a_lake ) ) ) 	4.3	3733
+NEUTRAL	 ( ( A man ) ( is ( cutting onions ) ) ) 	 ( ( A woman ) ( is ( cutting ( an onion ) ) ) ) 	3.5	5047
+NEUTRAL	 ( ( A man ) ( is ( running the:on_the_road ) ) ) 	 ( ( A dog ) ( is ( ( running breathlessly ) the:on_the_road ) ) ) 	2.6	4060
+ENTAILMENT	 ( ( A person ) ( is ( peeling ( a potato ) ) ) ) 	 ( ( A potato ) ( is ( being ( peeled ( by ( a person ) ) ) ) ) ) 	5	5799
+ENTAILMENT	 ( ( ( ( ( A pig:guinea_pig ) , ) ( which ( is small ) ) ) , ) gnawing:is_gnawing_and_eating_a_piece_of_carrot_on_the_floor ) 	 ( ( A ( small pig:guinea_pig ) ) gnawing:is_gnawing_and_eating_a_piece_of_carrot_on_the_floor ) 	4.8	2791
+ENTAILMENT	 ( ( A rollerblader ) ( is ( performing ( ( a trick ) a:on_a_ramp ) ) ) ) 	 ( ( A trick ) ( is ( being ( performed ( by ( ( a rollerblader ) a:on_a_ramp ) ) ) ) ) ) 	5	7064
+ENTAILMENT	 ( ( ( A girl ) blue:in_blue ) ( is ( ( sliding down ) ( a ( green slide ) ) ) ) ) 	 ( ( ( The ( young girl ) ) blue:in_blue ) ( is ( enjoying ( a slide ) ) ) ) 	4.3	8383
+NEUTRAL	 ( ( group:A_group ( of scouts ) ) ( are ( hiking the:through_the_grass ) ) ) 	 ( ( group:A_group ( of explorers ) ) ( are ( walking the:through_the_grass ) ) ) 	4.1	402
+NEUTRAL	 ( ( A family ) ( is ( ( buying something ) ( at ( the ( vending machine ) ) ) ) ) ) 	 ( ( ( A man ) ( in ( a suit ) ) ) ( is ( standing ( at ( a ( ( microphone and ) singing ) ) ) ) ) ) 	1	9843
+NEUTRAL	 ( ( A tower ) ( is ( being ( looked ( at ( by ( a ( blonde lady ) ) ) ) ) ) ) ) 	 ( ( A woman ) ( is ( looking ( at ( ( the view ) ( of ( a city ) ) ) ) ) ) ) 	3.3	7363
+NEUTRAL	 ( large:A_large_green_ball ( is ( hitting potato:a_potato ) ) ) 	 ( large:A_large_green_ball ( is ( missing potato:a_potato ) ) ) 	3.5	2968
+ENTAILMENT	 ( ( Some corndogs ) ( are ( being ( eaten ( by ( ( two toddlers ) ( who ( are a:in_a_wagon_,_which_is_really_small ) ) ) ) ) ) ) ) 	 ( ( Two toddlers ) ( are ( ( eating corndogs ) a:in_a_wagon_,_which_is_really_small ) ) ) 	4.8	947
+ENTAILMENT	 ( man:A_man ( is ( standing ( on ( boat:a_boat ( in ( front ( of ( sunset:the_sunset ( near ( a flag ) ) ) ) ) ) ) ) ) ) ) 	 ( man:A_man ( is ( on ( boat:a_boat ( in ( front ( of sunset:the_sunset ) ) ) ) ) ) ) 	4.1	6219
+NEUTRAL	 ( ( ( The ( white reindeer ) ) ( wearing ( dog ears ) ) ) ( is ( near ( a ( brown reindeer ) ) ) ) ) 	 ( ( A ( white dog ) ) ( is ( wearing ( ( a ( Christmas reindeer ) ) ( ( headband and ) ( is ( playing ( with ( ( a ( brown dog ) ) ( in ( the grass ) ) ) ) ) ) ) ) ) ) ) 	2.2	6344
+NEUTRAL	 ( ( ( A man ) ( in green ) ) ( is ( kicking ( ( ( ( a ball:soccer_ball ) and ) ( ( a man ) ( in ( ( purple and ) white ) ) ) ) ( is ( rising up ) ) ) ) ) ) 	 ( ( The players ) ( is ( maneuvering ( for ( the ball:soccer_ball ) ) ) ) ) 	3.5	9380
+NEUTRAL	 ( ( ( ( ( Two ( large dogs ) ) , ) ( ( ( a ( light ( colored one ) ) ) and ) ( a ( dark one ) ) ) ) , ) ( are ( sleeping ( on ( a ( snowy terrain ) ) ) ) ) ) 	 ( ( Two dogs ) ( are ( leaping ( through ( snowy ( ( grass and ) rocks ) ) ) ) ) ) 	2.4	8375
+ENTAILMENT	 ( ( ( ( ( ( ( The girl ) , ) ( who ( is little ) ) ) , ) swinging:is_swinging ) and ) ( woman:the_woman ( is ( standing behind ) ) ) ) 	 ( ( ( ( The ( little girl ) ) swinging:is_swinging ) and ) ( woman:the_woman ( is ( standing ( behind her ) ) ) ) ) 	4.9	7445
+ENTAILMENT	 ( ( Three women ) dancing:are_dancing ) 	 ( ( A ( few women ) ) dancing:are_dancing ) 	4.6	2566
+NEUTRAL	 ( man:A_man ( ( ( is ( standing a:near_a_bike ) ) and ) ( is ( writing ( on ( a ( piece paper ) ) ) ) ) ) ) 	 ( man:A_man ( ( ( is ( sitting a:near_a_bike ) ) and ) ( is ( writing ( a note ) ) ) ) ) 	3.6	394
+ENTAILMENT	 ( ( child:A_child ( in ( light ( colored clothing ) ) ) ) standing:is_standing_with_his_arms_extended_outward ) 	 ( ( child:A_child ( in ( clothing ( which ( is ( light colored ) ) ) ) ) ) standing:is_standing_with_his_arms_extended_outward ) 	5	7018
+ENTAILMENT	 ( man:The_man ( is ( lifting barbells ) ) ) 	 ( man:The_man ( is ( lifting weights ) ) ) 	4.3	2898
+NEUTRAL	 ( woman:A_woman ( is ( taking ( ( a mixture ) ( out ( of ( a bowl ) ) ) ) ) ) ) 	 ( woman:A_woman ( is ( preparing ( ( an egg ) ( in ( a skillet ) ) ) ) ) ) 	2.7	2822
+NEUTRAL	 ( ( A boy ) ( is ( ( filling ( a pitcher ) ) ( with water ) ) ) ) 	 ( ( A woman ) ( is ( ( collecting ( the water ) ) ( from ( ( a tap ) ( in ( a mug ) ) ) ) ) ) ) 	2.7	3661
+ENTAILMENT	 ( man:A_man ( is ( practicing drum:the_drum ) ) ) 	 ( man:A_man ( is ( playing drum:the_drum ) ) ) 	4.6	3586
+NEUTRAL	 ( ( A waterfall ) ( is ( flowing ( into ( a ( shallow pool ) ) ) ) ) ) 	 ( ( The people ) ( are ( ( walking ( on ( the road ) ) ) ( beside ( a ( beautiful waterfall ) ) ) ) ) ) 	2.3	6394
+ENTAILMENT	 ( man:A_man_and_a_woman ( are ( ( walking together ) ( through ( the woods ) ) ) ) ) 	 ( man:A_man_and_a_woman ( are ( hiking ( through ( a ( wooded area ) ) ) ) ) ) 	4.3	1190
+NEUTRAL	 ( ( A ( white man ) ) walking:is_walking_next_to_a_building_in_a_big_city ) 	 ( ( A ( black man ) ) walking:is_walking_next_to_a_building_in_a_big_city ) 	3.3	8389
+NEUTRAL	 ( man:A_man ( is ( flooring ( a ( sitting ( guitar player ) ) ) ) ) ) 	 ( man:A_man ( is ( ( ( sitting ( on ( ( the floor ) ( in ( a room ) ) ) ) ) and ) ( strumming ( a guitar ) ) ) ) ) 	2.3	3107
+NEUTRAL	 ( ( Three ( young men ) ) ( ( are furiously ) ( ( ( ( running , ) jumping ) and ) ( kicking ( near ( a ( vending machine ) ) ) ) ) ) ) 	 ( ( Three men ) ( are ( ( jumping off ) ( a wall ) ) ) ) 	2.5	1470
+NEUTRAL	 ( dog:A_dog ( is ( leaving ( ball:a_ball ( in ( the dirt ) ) ) ) ) ) 	 ( dog:A_dog ( is ( ( chasing ball:a_ball ) ( through dirt ) ) ) ) 	3.7	5955
+NEUTRAL	 ( group:A_group_of_people ( are marching ) ) 	 ( group:A_group_of_people ( are ( dancing ( in ( a show ) ) ) ) ) 	2.3	5540
+NEUTRAL	 ( ( ( The microphone ) ( in ( front ( of ( the ( talking parrot ) ) ) ) ) ) ( is ( being muted ) ) ) 	 ( ( The parrot ) ( is ( talking ( into ( the microphone ) ) ) ) ) 	4	1861
+ENTAILMENT	 ( woman:A_woman ( is ( using ( machine:a_machine ( made ( for sewing ) ) ) ) ) ) 	 ( woman:A_woman ( is ( sewing ( with machine:a_machine ) ) ) ) 	4.8	2166
+ENTAILMENT	 ( ( The woman ) ( is ( slicing ( cooked octopus ) ) ) ) 	 ( ( A woman ) ( is ( ( chopping up ) ( an octopus ) ) ) ) 	4.4	4288
+NEUTRAL	 ( ( A ( snow ball ) ) ( is ( being ( made ( by ( a child ) ) ) ) ) ) 	 ( ( ( A kid ) ( in orange ) ) ( is ( ( playing outside ) ( with ( a snowball ) ) ) ) ) 	3.3	6729
+ENTAILMENT	 ( man:A_man ( is ( rowing ( a canoe ) ) ) ) 	 ( man:A_man ( is ( rowing ( a boat ) ) ) ) 	4.2	5806
+NEUTRAL	 ( ( The elephant ) ( is ( being ( ridden ( by ( the woman ) ) ) ) ) ) 	 ( ( A person ) ( is ( slicing ( some mushrooms ) ) ) ) 	1	9763
+ENTAILMENT	 ( woman:A_woman ( is ( slicing ( ( a pepper ) ( which ( is green ) ) ) ) ) ) 	 ( woman:A_woman ( is ( slicing ( a ( green pepper ) ) ) ) ) 	4.8	3812
+NEUTRAL	 ( ( ( A group ) ( of people ) ) ( is ( ( ( holding drinks ) and ) ( pointing ( at ( the camera ) ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( an ( electric guitar ) ) ) ) ) 	1	9788
+NEUTRAL	 ( ( The man ) sprinkling:is_sprinkling_cheese_on_the_pizza ) 	 ( ( The cook ) sprinkling:is_sprinkling_cheese_on_the_pizza ) 	4	5698
+ENTAILMENT	 ( ( A ( young mother ) ) ( is ( playing ( with ( ( her boy ) ( in park:the_park ) ) ) ) ) ) 	 ( ( A ( young boy ) ) ( is ( playing ( in ( park:the_park ( with ( his mother ) ) ) ) ) ) ) 	4.5	7677
+NEUTRAL	 ( ( ( A boy ) ( in ( a ( white t-shirt ) ) ) ) ( is ( splashing ( in ( shallow water ) ) ) ) ) 	 ( ( A girl ) ( is ( running ( through ( ( the water ) ( at ( the beach ) ) ) ) ) ) ) 	2.3	7950
+NEUTRAL	 ( woman:A_woman ( is ( ( putting away ) carrots ) ) ) 	 ( woman:A_woman ( is ( coating ( ( a pork ) chop ) ) ) ) 	1.7	3291
+ENTAILMENT	 ( ( Two ( sumo wrestlers ) ) fighting:are_fighting ) 	 ( ( Two ( sumo ringers ) ) fighting:are_fighting ) 	4	5113
+ENTAILMENT	 ( surfer:A_surfer ( is ( surfing ( a ( huge wave ) ) ) ) ) 	 ( surfer:A_surfer ( is ( surfing ( a ( big wave ) ) ) ) ) 	4.9	9359
+NEUTRAL	 ( man:A_man ( is ( slicing ( a tomato ) ) ) ) 	 ( man:A_man ( is ( slicing ( a bun ) ) ) ) 	3.6	1232
+NEUTRAL	 ( ( young:A_young_girl ( in blue:a_blue_shirt ) ) ( is ( ( on:walking_on_the_sidewalk and ) ( up:holding_up pink:a_pink_sign ) ) ) ) 	 ( ( young:A_young_girl ( by pink:a_pink_sign ) ) ( ( ( is ( up:holding_up blue:a_blue_shirt ) ) and ) ( is on:walking_on_the_sidewalk ) ) ) 	3.4	6005
+NEUTRAL	 ( man:A_man ( is scared ) ) 	 ( man:A_man ( is screaming ) ) 	3.6	1396
+ENTAILMENT	 ( ( A ( young girl ) ) ( wearing:is_wearing_a_blue_patterned_swim_suit_,_a_black_and_yellow_swim_cap_and ( has ( swimming:blue_swimming_goggles ( on ( her head ) ) ) ) ) ) 	 ( ( A ( little girl ) ) ( wearing:is_wearing_a_blue_patterned_swim_suit_,_a_black_and_yellow_swim_cap_and ( has ( swimming:blue_swimming_goggles ( on ( the head ) ) ) ) ) ) 	4.8	8057
+NEUTRAL	 ( men:Two_men ( are ( outside cattle:a_cattle_pen ) ) ) 	 ( men:Two_men ( are ( fighting ( in cattle:a_cattle_pen ) ) ) ) 	3	2936
+NEUTRAL	 ( dogs:Two_dogs ( are ( running ( through water ) ) ) ) 	 ( dogs:Two_dogs ( are ( running ( through ( high grass ) ) ) ) ) 	3.335	8220
+ENTAILMENT	 ( ( man:A_man ( in ( a ( black jersey ) ) ) ) standing:is_standing_in_a_gym ) 	 ( man:A_man ( ( standing:is_standing_in_a_gym and ) ( is ( wearing ( a jersey ) ) ) ) ) 	4.5	9136
+NEUTRAL	 ( ( One man ) ( is ( ( climbing ( a cliff ) ) ( with ( a rope ) ) ) ) ) 	 ( ( ( A person ) ( with ( pink ( climbing gear ) ) ) ) ( roped ( the rock ) ) ) 	3.3	647
+CONTRADICTION	 ( woman:A_woman ( is ( and:dancing_and_singing ( with ( other women ) ) ) ) ) 	 ( woman:A_woman ( is ( and:dancing_and_singing alone ) ) ) 	3.285	1236
+NEUTRAL	 ( man:A_man ( is ( parking ( car:a_car ( in ( a garage ) ) ) ) ) ) 	 ( man:A_man ( is ( getting ( into car:a_car ) ) ) ) 	3.4	2679
+ENTAILMENT	 ( dogs:Two_dogs ( are ( playing ( by ( a tree ) ) ) ) ) 	 ( dogs:Two_dogs ( are ( playing ( by ( a plant ) ) ) ) ) 	4.6	211
+NEUTRAL	 ( man:A_man ( ( is carelessly ) ( holding ( a frog ) ) ) ) 	 ( man:A_man ( is ( emptying ( ( a container ) ( made ( of plastic ) ) ) ) ) ) 	1.1	1711
+NEUTRAL	 ( ( A man ) ( ( is lazily ) ( ( walking down ) ( a road ) ) ) ) 	 ( ( The man ) ( is ( ( walking ( along ( a path ) ) ) ( through ( the wilderness ) ) ) ) ) 	3.285	3862
+NEUTRAL	 ( ( Two ( young girls ) ) ( are ( ( ( wearing hats ) and ) ( ( sticking ( their tongues:colored_tongues ) ) out ) ) ) ) 	 ( ( Two kids ) ( are ( ( sticking out ) ( ( ( blue and ) green ) tongues:colored_tongues ) ) ) ) 	3.6	9056
+NEUTRAL	 ( ( A man ) ( is ( packing guitar:the_guitar ) ) ) 	 ( ( The man ) ( is ( ( ( singing and ) playing ) guitar:the_guitar ) ) ) 	3.4	3910
+NEUTRAL	 ( ( ( A ( little child ) ) ( in ( a ( pink sweater ) ) ) ) ( is ( climbing ( a ( concrete staircase ) ) ) ) ) 	 ( ( A ( small child ) ) ( is ( outdoors ( climbing ( steps ( in ( a ( grassy area ) ) ) ) ) ) ) ) 	3.5	6709
+ENTAILMENT	 ( ( The person ) scrubbing:is_scrubbing_a_zucchini ) 	 ( ( A person ) scrubbing:is_scrubbing_a_zucchini ) 	5	3790
+NEUTRAL	 ( ( An onion ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	 ( ( The woman ) ( is ( cutting ( a carrot ) ) ) ) 	2.4	2932
+CONTRADICTION	 ( ( A surfer ) ( is ( ( riding ( a ( big wave ) ) ) ( across ( dark ( green water ) ) ) ) ) ) 	 ( ( The surfer ) ( is ( riding ( a ( small wave ) ) ) ) ) 	3.9	7772
+NEUTRAL	 ( ( A bicyclist ) ( is ( ( holding ( ( a bike ) ( over ( his head ) ) ) ) ( in ( group:a_group ( of people ) ) ) ) ) ) 	 ( ( A cyclist ) ( is ( being ( held ( over ( ( the heads ) ( of ( group:a_group ( of ( people ( with ( the bike ) ) ) ) ) ) ) ) ) ) ) ) 	3.4	6203
+NEUTRAL	 ( ( ( A ( young woman ) ) ( with ( ( Indian ( ( clothing and ) henna ) ) ( on ( her hand ) ) ) ) ) ( is ( going ( through paperwork ) ) ) ) 	 ( ( A woman ) ( is ( wearing ( ( ( a ( colorful shirt ) ) and ) ( ( a lot ) ( of jewelry ) ) ) ) ) ) 	2.4	9125
+NEUTRAL	 ( ( An officer ) ( is ( talking ( to ( the recruits ) ) ) ) ) 	 ( Recruits ( are ( talking ( to ( an officer ) ) ) ) ) 	3.7	4934
+ENTAILMENT	 ( girl:A_girl_in_blue_sweater ( holding:is_holding_a_multicolor_toy_and ( is ( sitting ( on ( shoulders:the_shoulders ( of ( ( an ( old man ) ) grey:with_grey_hair ) ) ) ) ) ) ) ) 	 ( girl:A_girl_in_blue_sweater ( holding:is_holding_a_multicolor_toy_and ( is ( sitting ( on ( shoulders:the_shoulders ( of ( ( a man ) grey:with_grey_hair ) ) ) ) ) ) ) ) 	4.6	8471
+ENTAILMENT	 ( hiker:A_hiker ( on:is_on_top_of_the_mountain_and ( is ( doing ( a ( joyful dance ) ) ) ) ) ) 	 ( hiker:A_hiker ( on:is_on_top_of_the_mountain_and ( is dancing ) ) ) 	4.7	253
+ENTAILMENT	 ( man:A_man ( is ( playing guitar:a_guitar ) ) ) 	 ( man:A_man ( is ( strumming guitar:a_guitar ) ) ) 	4.9	1495
+NEUTRAL	 ( ( A ( young ( , ( topless woman ) ) ) ) ( is ( covered ( in paint ) ) ) ) 	 ( ( Some instruments ) ( are ( being ( played ( by ( a band ) ) ) ) ) ) 	1	9838
+NEUTRAL	 ( ( A child ) ( is ( experiencing ( a ( new world ) ) ) ) ) 	 ( ( ( A boy ) ( under ( an umbrella ) ) ) ( is ( being ( held ( by ( ( his father ) ( who ( is ( wearing ( a ( blue coat ) ) ) ) ) ) ) ) ) ) ) 	1.5	7734
+NEUTRAL	 ( ( A flute ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( The adult ) ( is ( playing ( ( the guitar ) loudly ) ) ) ) 	2.4	1807
+NEUTRAL	 ( man:A_man ( is spitting ) ) 	 ( man:A_man ( is ( talking ( on ( the radio ) ) ) ) ) 	1.7	1443
+ENTAILMENT	 ( Garlic ( is ( being ( chopped ( by ( a woman ) ) ) ) ) ) 	 ( ( A woman ) ( is ( chopping garlic ) ) ) 	4.7	4963
+NEUTRAL	 ( ( A man ) ( is ( ( standing ( on ( ( the top ) ( of ( the rocks ) ) ) ) ) ( with ( clouds ( behind them ) ) ) ) ) ) 	 ( Somebody ( is ( standing ( on ( a ( mountain top ) ) ) ) ) ) 	3.1	7374
+NEUTRAL	 ( ( ( ( ( dog:A_dog ( next ( to ( a tree ) ) ) ) , ) ( which ( ( is probably ) ( a pine ) ) ) ) , ) ( is ( biting ( a bucket ) ) ) ) 	 ( ( dog:A_dog ( which ( is ( ( furry and ) black ) ) ) ) ( ( ( is ( in ( a ( back yard ) ) ) ) and ) ( is ( carrying ( ( a basket ) ( in ( its mouth ) ) ) ) ) ) ) 	2.785	698
+ENTAILMENT	 ( ( ( The group ) people:of_people ) standing:is_standing_together_and_looking_at_the_camera ) 	 ( ( ( A group ) people:of_people ) standing:is_standing_together_and_looking_at_the_camera ) 	5	7093
+NEUTRAL	 ( ( A ( young child ) ) ( is ( splashing ( in water:the_water ) ) ) ) 	 ( ( The ( small child ) ) ( ( ( is ( walking ( through water:the_water ) ) ) and ) ( is ( being ( guided ( by ( another person ) ) ) ) ) ) ) 	3.4	6042
+NEUTRAL	 ( ( Two dogs ) ( are ( playing ( in ( a forest ) ) ) ) ) 	 ( ( A ( brown dog ) ) ( is ( running ( after ( ( a ( black dog ) ) ( on ( a ( rocky shore ) ) ) ) ) ) ) ) 	2.3	9029
+ENTAILMENT	 ( yellow:A_yellow_dog ( is ( running ( on ( snow:white_snow ( on ( a ( very day:sunny_day ) ) ) ) ) ) ) ) 	 ( yellow:A_yellow_dog ( is ( running ( on ( snow:white_snow ( on ( a day:sunny_day ) ) ) ) ) ) ) 	4.6	6315
+NEUTRAL	 ( ( Four athletes ) ( are ( with ( ( a woman ) ( in ( a ( crowded stadium ) ) ) ) ) ) ) 	 ( ( ( A person ) ( in ( a ( pink jacket ) ) ) ) ( is ( running ( onto ( the field ) ) ) ) ) 	2	7932
+NEUTRAL	 ( ( The woman ) ( is ( holding ( a ( whole tomato ) ) ) ) ) 	 ( Someone ( is ( cutting ( a tomato ) ) ) ) 	3.5	2402
+NEUTRAL	 ( ( Two ( sumo ringers ) ) ( are fighting ) ) 	 ( ( A man ) ( is ( riding ( ( a ( water toy ) ) ( in ( the water ) ) ) ) ) ) 	1	5119
+ENTAILMENT	 ( ( ( A group ) ( of people ) ) ( is singing ) ) 	 ( ( Some people ) ( are singing ) ) 	4.7	2476
+ENTAILMENT	 ( flute:A_flute ( is ( being ( ( played ( in ( a ( lovely way ) ) ) ) a:by_a_girl ) ) ) ) 	 ( flute:A_flute ( is ( being ( played a:by_a_girl ) ) ) ) 	4.6	1754
+NEUTRAL	 ( ( A woman ) ( is ( ( pouring ingredients ) ( into ( a bowl ) ) ) ) ) 	 ( ( The chef ) ( is ( seasoning ( the oil ) ) ) ) 	3.1	5909
+ENTAILMENT	 ( ( ( Two kids ) ( are ( ( looking up ) ( at ( camera:the_camera_and one ) ) ) ) ) ( is ( ( sticking out ) tongue:his_tongue ) ) ) 	 ( ( A ( little boy ) ) ( is ( ( ( sticking tongue:his_tongue ) out ) ( for ( ( camera:the_camera_and ( another boy ) ) ( is ( looking on ) ) ) ) ) ) ) 	4.4	9747
+NEUTRAL	 ( ( Two teams ) ( are ( competing ( in ( a ( football match ) ) ) ) ) ) 	 ( ( A player ) ( is ( throwing ( the ball ) ) ) ) 	2.9	116
+NEUTRAL	 ( ( A woman ) ( is ( playing ( the flute ) ) ) ) 	 ( ( A man ) ( is ( playing ( a flute ) ) ) ) 	3.7	5461
+NEUTRAL	 ( woman:A_woman ( is ( tapping fingers:her_fingers ) ) ) 	 ( woman:A_woman ( is ( ( resting fingers:her_fingers ) ( on ( a table ) ) ) ) ) 	3.1	2231
+NEUTRAL	 ( ingredients:Some_ingredients ( are ( being ( ( mixed a:in_a_bowl ) a:by_a_person ) ) ) ) 	 ( ingredients:Some_ingredients ( are ( being ( ( separated a:in_a_bowl ) a:by_a_person ) ) ) ) 	4.6	1628
+NEUTRAL	 ( monkey:A_monkey ( is ( ( teasing ( a dog ) ) ( at ( the zoo ) ) ) ) ) 	 ( monkey:A_monkey ( is ( pulling ( ( a ( dog 's ) ) tail ) ) ) ) 	4.4	4814
+ENTAILMENT	 ( ( ( The food ) ( on ( the trays ) ) ) ( is ( being ( eaten ( by ( the kittens ) ) ) ) ) ) 	 ( ( A ( few kittens ) ) ( are eating ) ) 	4.2	1881
+NEUTRAL	 ( ( A man ) ( is ( doing pull-ups ) ) ) 	 ( ( The man ) ( is ( doing ( exercises ( in ( a gym ) ) ) ) ) ) 	4	4891
+NEUTRAL	 ( ( A ( grey dog ) ) ( is ( ( bouncing ( a ( soccer ball ) ) ) ( on ( ( its head ) ( in ( a ( grass field ) ) ) ) ) ) ) ) 	 ( ( ( A dog ) ( with ( a ( blue collar ) ) ) ) ( is ( playing ( with ( the ( ball outside ) ) ) ) ) ) 	3.4	9102
+NEUTRAL	 ( ( A girl ) ( is ( practicing ( the piano ) ) ) ) 	 ( ( A ( little girl ) ) ( is ( ( playing ( a ( grand piano ) ) ) ( on stage ) ) ) ) 	3.8	2842
+NEUTRAL	 ( ( A woman ) ( is exercising ) ) 	 ( ( A person ) ( is dancing ) ) 	3	4866
+NEUTRAL	 ( ( ( ( woman:A_woman , ) ( who ( is old ) ) ) , ) ( is ( near ( a ( white dog ) ) ) ) ) 	 ( ( ( woman:A_woman and ) ( a dog ) ) ( are ( sitting ( on ( a ( tree stump ) ) ) ) ) ) 	3.1	780
+NEUTRAL	 ( ( A woman ) ( is ( riding ( a horse ) ) ) ) 	 ( ( A man ) ( is ( opening ( ( a ( small package ) ) ( that ( contains headphones ) ) ) ) ) ) 	1	1102
+ENTAILMENT	 ( girl:The_girl ( has ( hair:red_hair_and_eyebrows_,_several_piercings_in_a_ear_and ( ( a drawing ) the:on_the_back ) ) ) ) 	 ( girl:The_girl ( has ( hair:red_hair_and_eyebrows_,_several_piercings_in_a_ear_and ( ( a tattoo ) the:on_the_back ) ) ) ) 	4.4	8138
+NEUTRAL	 ( ( One man ) ( is ( sitting ( on ( the chair ) ) ) ) ) 	 ( ( ( ( ( The girl ) , ) ( who ( is little ) ) ) , ) ( is ( ruffling ( her hair ) ) ) ) 	1	1847
+NEUTRAL	 ( ( A woman ) buttering:is_buttering_a_piece_of_bread ) 	 ( ( A man ) buttering:is_buttering_a_piece_of_bread ) 	3.5	5148
+NEUTRAL	 ( ( group:A_group ( of boys ) ) playing:is_playing_soccer_on_the_beach ) 	 ( ( group:A_group ( of men ) ) playing:is_playing_soccer_on_the_beach ) 	4.4	4707
+ENTAILMENT	 ( man:A_man_in_a_white_shirt_and_sunglasses_and_a_man_in_a_black_shirt_and_sunglasses ( are ( sitting ( at ( table:a_table ( with ( four ( beer bottles ) ) ) ) ) ) ) ) 	 ( man:A_man_in_a_white_shirt_and_sunglasses_and_a_man_in_a_black_shirt_and_sunglasses ( are ( sitting ( at ( table:a_table ( with ( ( four bottles ) ( of beer ) ) ) ) ) ) ) ) 	4.9	7477
+ENTAILMENT	 ( ( The woman ) ( is ( ( putting pasta ) a:into_a_dish ) ) ) 	 ( Pasta ( is ( being ( ( put a:into_a_dish ) ( by ( a woman ) ) ) ) ) ) 	5	5203
+NEUTRAL	 ( ( ( Two dogs ) ( of ( different breeds ) ) ) ( are ( looking ( at ( ( each other ) ( across ( a street ) ) ) ) ) ) ) 	 ( ( One ( white dog ) ) ( is ( staring ( at ( the ( black street ) ) ) ) ) ) 	3.4	687
+ENTAILMENT	 ( skateboarder:A_skateboarder ( is ( ( jumping off ) ramp:a_ramp ) ) ) 	 ( skateboarder:A_skateboarder ( is ( ( making ( a jump ) ) ( off ramp:a_ramp ) ) ) ) 	4.8	8678
+NEUTRAL	 ( ( An ( elegant woman ) ) ( ( ( ( is inside ) ( ( a crowd ) ( of people ) ) ) and ) ( is ( looking down ) ) ) ) 	 ( ( An ( Asian woman ) ) ( is ( holding ( a ( fur scarf ) ) ) ) ) 	2.2	7938
+ENTAILMENT	 ( ( One man ) ( is ( ( running down ) ( the road ) ) ) ) 	 ( ( A man ) ( is running ) ) 	4.4	2430
+ENTAILMENT	 ( ( ( ( ( A child ) , ) ( who ( is small ) ) ) , ) ( ( is outdoors ) ( ( climbing ( steps outdoors ) ) ( in ( ( an area ) ( full ( of grass ) ) ) ) ) ) ) 	 ( ( A ( small child ) ) ( is ( outdoors ( climbing ( steps ( in ( a ( grassy area ) ) ) ) ) ) ) ) 	4.9	6705
+NEUTRAL	 ( ( The men ) talking:are_talking ) 	 ( ( Some ( old women ) ) talking:are_talking ) 	3	4429
+NEUTRAL	 ( cat:The_cat ( is ( out:looking_out ( window:the_window ( at ( table:the_table ( on ( the perch ) ) ) ) ) ) ) ) 	 ( ( cat:The_cat ( perched ( on table:the_table ) ) ) ( is ( out:looking_out window:the_window ) ) ) 	4.1	3485
+NEUTRAL	 ( ( A ( young girl ) ) ( is ( standing ( on ( one leg ) ) ) ) ) 	 ( ( A ( young female ) ) ( is dancing ) ) 	3.3	6590
+NEUTRAL	 ( People ( are ( ( ( riding and ) paddling ) raft:a_raft ) ) ) 	 ( ( Four people ) ( are ( floating ( on raft:a_raft ) ) ) ) 	4.2	2527
+NEUTRAL	 ( ( A ( football player ) ) ( is ( wearing ( black armbands ) ) ) ) 	 ( ( An ( American footballer ) ) ( is ( wearing ( the ( ( ( red and ) white ) strip ) ) ) ) ) 	2.4	7410
+ENTAILMENT	 ( cat:The_cat ( is ( playing ( passionately a:with_a_watermelon ) ) ) ) 	 ( cat:The_cat ( is ( playing a:with_a_watermelon ) ) ) 	4.7	2284
+NEUTRAL	 ( ( A man ) ( is ( ( ( squatting ( in brush ) ) and ) ( taking ( a photo ) ) ) ) ) 	 ( ( ( A girl ) ( in ( ( gold and ) purple ) ) ) ( is ( holding ( a ( rainbow afghan ) ) ) ) ) 	1	9789
+ENTAILMENT	 ( person:A_person ( is ( ( pouring oil ) ( for ( cooking a:into_a_pot ) ) ) ) ) 	 ( person:A_person ( is ( ( pouring ( cooking oil ) ) a:into_a_pot ) ) ) 	5	2772
+NEUTRAL	 ( ( A ( skilled person ) ) ( is ( riding ( ( a bicycle ) ( on ( one wheel ) ) ) ) ) ) 	 ( ( ( A person ) ( in ( a ( black jacket ) ) ) ) ( is ( ( doing tricks ) ( on ( a motorbike ) ) ) ) ) 	3.4	24
+NEUTRAL	 ( ( young:A_young_girl ( in blue:a_blue_shirt ) ) ( is ( ( on:walking_on_the_sidewalk and ) ( up:holding_up pink:a_pink_sign ) ) ) ) 	 ( ( young:A_young_girl ( by pink:a_pink_sign ) ) ( ( ( is ( up:holding_up blue:a_blue_shirt ) ) and ) ( is on:walking_on_the_sidewalk ) ) ) 	3.4	6005
+ENTAILMENT	 ( ( A ( large ( green ball ) ) ) hitting:is_hitting_a_potato ) 	 ( ( A ( large ( green ( colored ball ) ) ) ) hitting:is_hitting_a_potato ) 	4.8	2967
+NEUTRAL	 ( ( The ( little boy ) ) ( is ( ( ( sticking tongue:his_tongue ) out ) ( for ( ( camera:the_camera_and ( another boy ) ) ( is ( looking on ) ) ) ) ) ) ) 	 ( ( ( Two ( young boys ) ) ( are ( ( looking up ) ( at ( camera:the_camera_and one ) ) ) ) ) ( is ( ( sticking out ) tongue:his_tongue ) ) ) 	4.4	9745
+ENTAILMENT	 ( ( ( ( ( A woman ) , ) ( who ( is seated ) ) ) , ) singing:is_singing_a_song_and_playing_the_guitar ) 	 ( ( A ( seated woman ) ) singing:is_singing_a_song_and_playing_the_guitar ) 	5	2722
+ENTAILMENT	 ( ( A woman ) ( is ( slicing ( an octopus ) ) ) ) 	 ( ( An octopus ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	5	5374
+ENTAILMENT	 ( yellow:A_yellow_dog ( is ( running ( on ( snow:white_snow ( on ( a ( very day:sunny_day ) ) ) ) ) ) ) ) 	 ( yellow:A_yellow_dog ( is ( running ( on ( snow:white_snow ( on ( a day:sunny_day ) ) ) ) ) ) ) 	4.6	6315
+NEUTRAL	 ( little:A_little_brown_and_white_dog ( is ( running ( on ( the sidewalk ) ) ) ) ) 	 ( little:A_little_brown_and_white_dog ( is ( running ( on ( the road ) ) ) ) ) 	3.7	9169
+NEUTRAL	 ( woman:A_woman ( is ( combing hair:her_hair ) ) ) 	 ( woman:A_woman ( is ( arranging hair:her_hair ) ) ) 	4.1	1177
+ENTAILMENT	 ( woman:A_woman ( is ( cutting ( a lemon ) ) ) ) 	 ( woman:A_woman ( is ( cutting fruit ) ) ) 	4.2	5498
+NEUTRAL	 ( woman:A_woman ( is ( ( chopping up ) garlic ) ) ) 	 ( woman:A_woman ( is ( ( putting away ) ( the garlic ) ) ) ) 	3.6	3505
+NEUTRAL	 ( man:A_man ( is ( praying fervently ) ) ) 	 ( man:A_man ( is dancing ) ) 	1.7	4196
+ENTAILMENT	 ( ( The woman ) ( is ( slicing ( cooked octopus ) ) ) ) 	 ( ( A woman ) ( is ( ( chopping up ) ( an octopus ) ) ) ) 	4.4	4288
+NEUTRAL	 ( ( man:A_man ( in blue ) ) ( is ( riding ( ( a horse ) ( on ( a ( dirt road ) ) ) ) ) ) ) 	 ( ( man:A_man ( in ( a ( blue ( cowboy hat ) ) ) ) ) ( is ( riding ( a ( white horse ) ) ) ) ) 	3.9	7877
+NEUTRAL	 ( ( ( The group ) ( of ( dim people ) ) ) ( is ( sitting ( in ( a room ) ) ) ) ) 	 ( ( ( ( A man ) and ) ( ( two women ) ( in ( a ( darkened room ) ) ) ) ) ( are ( sitting ( at ( ( a table ) ( with candles ) ) ) ) ) ) 	2.5	7475
+NEUTRAL	 ( ( An ( Asian man ) ) ( is ( ( ( dancing and ) ( three kids ) ) ( are looking ) ) ) ) 	 ( ( ( The children ) ( of ( a family ) ) ) ( are ( ( playing and ) waiting ) ) ) 	1.9	236
+NEUTRAL	 ( ( ( A man ) ( in ( blue jeans ) ) ) ( is ( ( standing ( in ( front ( of ( ( a group ) ( of children ) ) ) ) ) ) ( beside ( ( a stone ) ( built house ) ) ) ) ) ) 	 ( ( A lady ) ( ( ( is ( standing ( on ( the street ) ) ) ) and ) ( is ( surrounded ( by ( school children ) ) ) ) ) ) 	2	9200
+CONTRADICTION	 ( ( A ( blond child ) ) going:is_going_down_a_slide_and_throwing_up_his_arms ) 	 ( ( ( A child ) ( with ( dark hair ) ) ) going:is_going_down_a_slide_and_throwing_up_his_arms ) 	3.7	9014
+NEUTRAL	 ( ( Some women ) ( are and:dancing_and_singing ) ) 	 ( ( A woman ) ( is ( and:dancing_and_singing ( in ( the rain ) ) ) ) ) 	3.8	1237
+ENTAILMENT	 ( ( A band ) ( is ( playing ( some instruments ) ) ) ) 	 ( ( Some instruments ) ( are ( being ( played ( by ( a band ) ) ) ) ) ) 	5	4851
+NEUTRAL	 ( ( ( A person ) ( with ( ( ( a ( red ( hooded jacket ) ) ) and ) ( a ( black backpack ) ) ) ) ) ( is ( walking ( near ( a ( rocky wall ) ) ) ) ) ) 	 ( ( ( A man ) ( in ( ( ( a ( red jacket ) ) and ) ( khaki pants ) ) ) ) ( is ( walking ( through ( an ( European state ) ) ) ) ) ) 	3	9371
+NEUTRAL	 ( ( A bike ) ( is ( being ( ridden ( over ( a monkey ) ) ) ) ) ) 	 ( ( A person ) ( is ( ( riding ( a ( dirt bike ) ) ) ( down ( a ( dirt hill ) ) ) ) ) ) 	2.8	9869
+NEUTRAL	 ( ( A monkey ) ( is ( kicking ( at ( ( a ( person 's ) ) glove ) ) ) ) ) 	 ( ( The monkey ) ( is ( practicing ( martial arts ) ) ) ) 	3.6	3143
+NEUTRAL	 ( ( ( ( A man ) and ) ( a woman ) ) ( are ( eating happily ) ) ) 	 ( ( A ( ( man and ) woman ) ) ( are talking ) ) 	2.6	2766
+NEUTRAL	 ( man:A_man ( is ( playing flute ) ) ) 	 ( man:A_man ( is ( ( playing ( a game ) ) ( with ( a ball ) ) ) ) ) 	1.5	1302
+NEUTRAL	 ( ( One man ) ( is ( ( climbing ( a cliff ) ) ( with rope:a_rope ) ) ) ) 	 ( ( A person ) ( is ( ( climbing ( a rock ) ) ( with ( ( rope:a_rope , ) ( which ( is pink ) ) ) ) ) ) ) 	4.6	651
+NEUTRAL	 ( ( Few people ) ( are ( ( eating ( at ( ( red tables ) ( in restaurant:a_restaurant ) ) ) ) ( without lights ) ) ) ) 	 ( ( ( A ( large group ) ) ( of ( Asian people ) ) ) ( is ( eating ( at restaurant:a_restaurant ) ) ) ) 	2.6	185
+ENTAILMENT	 ( ( The meat ) ( is ( being ( dropped a:into_a_pan ) ) ) ) 	 ( Someone ( is ( ( dropping ( the meat ) ) a:into_a_pan ) ) ) 	4.7	3626
+NEUTRAL	 ( ( ( A ( man 's ) ) ( white car ) ) ( is ( being ( driven away ) ) ) ) 	 ( ( The man ) ( is ( granting ( an interview ) ) ) ) 	1.1	2096
+NEUTRAL	 ( ( A baby ) ( is ( playing ( with ( a doll ) ) ) ) ) 	 ( ( A ( tiger cub ) ) ( is ( playing ( with ( a ball ) ) ) ) ) 	1.4	5745
+ENTAILMENT	 ( ( A ( black dog ) ) running:is_running_in_the_grass ) 	 ( ( ( ( ( A dog ) , ) ( which ( is black ) ) ) , ) running:is_running_in_the_grass ) 	5	6280
+NEUTRAL	 ( ( A horse ) ( is ( tossing ( ( the cowboy ) ( wearing ( pants ( of ( blue ( and ( red color ) ) ) ) ) ) ) ) ) ) 	 ( ( A man ) ( is ( getting ( on ( ( a horse ) ( on ( ( a track ) ( laid ( in ( the wild ) ) ) ) ) ) ) ) ) ) 	2.1	980
+NEUTRAL	 ( person:A_person ( is ( slicing ( an onion ) ) ) ) 	 ( person:A_person ( is ( cutting ( some ginger ) ) ) ) 	3	4823
+NEUTRAL	 ( boy:A_boy_in_a_striped_shirt ( is ( jumping ( in ( front ( of water:a_water_fountain ) ) ) ) ) ) 	 ( boy:A_boy_in_a_striped_shirt ( is ( jumping ( behind water:a_water_fountain ) ) ) ) 	4.2	8362
+ENTAILMENT	 ( boys:Two_boys ( are ( ( laying ( in ( the ( ocean close ) ) ) ) the:to_the_beach ) ) ) 	 ( boys:Two_boys ( are ( ( laying ( in ( the ( water close ) ) ) ) the:to_the_beach ) ) ) 	4.4	9069
+NEUTRAL	 ( girl:A_girl ( is ( ( skipping rope ) ( on ( near ( a street ) ) ) ) ) ) 	 ( girl:A_girl ( is ( ( jumping rope ) ( on ( ( a sidewalk ) ( near ( a ( parking garage ) ) ) ) ) ) ) ) 	3.7	8792
+NEUTRAL	 ( ( ( A talk ) ( about ( ( ( an adult ) and ) boy:a_boy ) ) ) ( is ( given the:in_the_amphitheater ) ) ) 	 ( ( An adult ) ( ( ( is the:in_the_amphitheater ) and ) ( is ( talking ( to boy:a_boy ) ) ) ) ) 	3.1	988
+CONTRADICTION	 ( man:The_man ( is ( denying interview:an_interview ) ) ) 	 ( man:The_man ( is ( granting interview:an_interview ) ) ) 	3.2	2089
+ENTAILMENT	 ( ( The and:black_and_white_dog ) ( is ( running ( in ( a ( green yard ) ) ) ) ) ) 	 ( ( A and:black_and_white_dog ) ( is ( running outdoors ) ) ) 	4.4	9433
+NEUTRAL	 ( ( A ( karate practitioner ) ) ( is ( kicking ( at ( ( another man ) ( who ( is ( wearing ( protective ( boxing gloves ) ) ) ) ) ) ) ) ) ) 	 ( ( The man ) ( is ( ( kick boxing ) ( with ( a trainer ) ) ) ) ) 	4	2721
+ENTAILMENT	 ( ( ( A girl:young_girl ) blue:in_blue ) jumping:is_jumping_in_the_air ) 	 ( ( ( The girl:young_girl ) blue:in_blue ) jumping:is_jumping_in_the_air ) 	5	7548
+NEUTRAL	 ( ( Four children ) ( are ( doing ( backbends ( in ( the gym ) ) ) ) ) ) 	 ( ( Four girls ) ( are ( ( ( doing backbends ) and ) ( playing outdoors ) ) ) ) 	3.8	105
+ENTAILMENT	 ( ( Some cameras ) ( are ( being ( burned ( by ( ( a person ) ( with ( a ( blow torch ) ) ) ) ) ) ) ) ) 	 ( ( The person ) ( is ( ( setting fire ) ( to ( the cameras ) ) ) ) ) 	4.2	2364
+NEUTRAL	 ( ( ( ( ( Two children ) , ) ( who ( are small ) ) ) , ) ( are ( playing ( with ( ( a ( toy car ) ) ( in ( the street ) ) ) ) ) ) ) 	 ( ( A father ) ( is ( ( pushing ( his daughter ) ) ( on ( ( ( a go-kart ) and ) ( ( another girl ) ( is watching ) ) ) ) ) ) ) 	2.2	6849
+NEUTRAL	 ( person:A_person ( is ( ( cutting ( an onion ) ) pieces:into_pieces ) ) ) 	 ( person:A_person ( is ( ( slicing ( a carrot ) ) pieces:into_pieces ) ) ) 	3.4	2385
+NEUTRAL	 ( person:A_person ( is ( standing ( near ( a motorcycle ) ) ) ) ) 	 ( person:A_person ( is ( chopping ( an onion ) ) ) ) 	1.2	1390
+NEUTRAL	 ( ( A ( blond girl ) ) ( is ( looking ( at ( the waves ) ) ) ) ) 	 ( ( A lady ) ( is ( ( ( surfing and ) riding ) ( a wave ) ) ) ) 	3.3	450
+NEUTRAL	 ( woman:A_woman ( is ( ( resting fingers:her_fingers ) a:on_a_table ) ) ) 	 ( woman:A_woman ( is ( ( tapping fingers:her_fingers ) a:on_a_table ) ) ) 	4.1	2229
+NEUTRAL	 ( ( boy:A_boy ( wearing ( a ( striped shirt ) ) ) ) ( is ( ( running barefoot ) ( on ( the ( sandy hill ) ) ) ) ) ) 	 ( boy:A_boy ( is ( running ( through ( the sand ) ) ) ) ) 	3.9	9722
+NEUTRAL	 ( ( An onion ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	 ( ( The woman ) ( is ( cutting ( a carrot ) ) ) ) 	2.4	2932
+NEUTRAL	 ( ( ( The rider ) ( dressed ( in orange ) ) ) ( is ( driving ( ( a motorcycle ) ( on ( one wheel ) ) ) ) ) ) 	 ( ( ( A man ) ( on ( a ( yellow ( sport bike ) ) ) ) ) ( is ( ( doing ( ( ( a wheelie ) and ) ( a friend ) ) ) ( on ( ( a ( black bike ) ) ( is ( catching up ) ) ) ) ) ) ) 	2.8	9545
+NEUTRAL	 ( ( ( A group ) ( of ( students ( in uniforms ) ) ) ) ( is ( ( listening attentively ) ( at ( ( the front ) ( of ( the class ) ) ) ) ) ) ) 	 ( ( ( A classroom ) ( full ( of students ) ) ) ( is ( ( looking attentively ) ( in ( ( the ( same direction ) ) ( inside ( a ( bamboo structure ) ) ) ) ) ) ) ) 	2.8	6673
+NEUTRAL	 ( man:A_man ( is ( ( walking down ) road:a_road ) ) ) 	 ( man:A_man ( is ( stopping ( in ( ( the middle ) ( of road:a_road ) ) ) ) ) ) 	3.2	3855
+NEUTRAL	 ( girl:The_girl ( is ( cheering ( ( the man ) the:in_the_blue_and_white_uniform ) ) ) ) 	 ( ( girl:The_girl the:in_the_blue_and_white_uniform ) ( is cheering ) ) 	3.1	882
+NEUTRAL	 ( ( ( A ( young girl ) ) ( with ( painted face ) ) ) ( is ( ( standing next ) ( to ( some ( other children ) ) ) ) ) ) 	 ( Children ( are ( ( ( being ( dressed ( in costumes ) ) ) and ) ( playing ( a game ) ) ) ) ) 	3.1	8313
+NEUTRAL	 ( people:Two_people ( are ( sitting ( on ( park:a_park_bench ( on ( a ( hot day ) ) ) ) ) ) ) ) 	 ( people:Two_people ( are ( sitting ( on ( park:a_park_bench ( on ( a ( sunny day ) ) ) ) ) ) ) ) 	4.3	8505
+NEUTRAL	 ( ( A ( white man ) ) ( is ( staging ( ( ( a hat ) and ) ( a guitar:playing_guitar ) ) ) ) ) 	 ( ( ( A man ) ( in ( a ( white hat ) ) ) ) ( is ( guitar:playing_guitar ( on stage ) ) ) ) 	3	6961

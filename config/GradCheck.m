@@ -2,12 +2,12 @@ function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, 
 
 [hyperParams, options] = Defaults();
 
-hyperParams.name = name;
+hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
 hyperParams.dim = 2;
-hyperParams.embeddingDim = 3;
+hyperParams.embeddingDim = 2;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = 2;
@@ -25,11 +25,11 @@ hyperParams.topDepth = topDepth;
 hyperParams.fastEmbed = fastemb;
 
 % Regularization coefficient.
-hyperParams.lambda = 0.0002;
+hyperParams.lambda = 0;
 
 % Hack: -1 means to always drop out the same one unit.
-hyperParams.bottomDropout = -1;
-hyperParams.topDropout = -1;
+hyperParams.bottomDropout = 1;
+hyperParams.topDropout = 1;
 
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;
@@ -62,7 +62,7 @@ options.numPasses = 1;
 options.lr = 0.1;
 
 wordMap = InitializeMaps('./grammars/wordlist.tsv'); 
-hyperParams.vocabName = 'quantifiers'
+hyperParams.vocabName = 'quantifiers';
 
 hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
 hyperParams.numRelations = [7];

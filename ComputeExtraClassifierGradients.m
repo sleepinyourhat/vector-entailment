@@ -21,18 +21,16 @@ assert(INDIM == OUTDIM || STACKSIZE < 2, 'Inconsistent dimensions.');
 for layer = (STACKSIZE):-1:1
     NLDeriv = classNLDeriv(innerOutputs(:, layer));
 
+    deltaDown = NLDeriv .* deltaDown;
+
     % Calculate matrix gradients
-    for i = 1:OUTDIM
-        matrixStackGradients(i, :, layer) = (NLDeriv(i) * deltaDown(i)) ...
-            .* inputs(:, layer);
-    end
+    matrixGradients(:, :, layer) = deltaDown * inputs(:, layer)';
 
     % Calculate bias gradients
     biasStackGradients(:, layer) = deltaDown;
 
     % Calculate deltas to pass down
-    thirdTerm = matrixStack(:, :, layer)';
-    deltaDown = (thirdTerm * (biasStackGradients(:, layer) .* NLDeriv));
+    deltaDown = matrixStack(:, :, layer)' * deltaDown;
 end
     
 end

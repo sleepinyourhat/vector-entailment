@@ -16,7 +16,7 @@ else
     NUMCOMP = 3;
 end
 
-SCALE = 0.01 * (30 / DIM);
+SCALE = 0.05;
 TSCALE = hyperParams.initScale * SCALE;
 
 % Randomly initialize softmax layer

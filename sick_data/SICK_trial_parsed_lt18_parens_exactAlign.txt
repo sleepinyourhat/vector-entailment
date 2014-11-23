@@ -1,0 +1,226 @@
+%entailment_judgment	sentence_A	sentence_B	relatedness_score	pair_ID
+NEUTRAL	 ( young:A_young_girl ( is dancing ) ) 	 ( young:A_young_girl ( is ( standing ( on ( one leg ) ) ) ) ) 	2.7	6592
+ENTAILMENT	 ( ( A man ) ( is ( walking ( in ( the rain ) ) ) ) ) 	 ( It ( is ( raining ( on ( a ( walking man ) ) ) ) ) ) 	4.9	3670
+NEUTRAL	 ( ( A woman ) ( is ( slicing ( a carrot ) ) ) ) 	 ( ( A potato ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	3	1170
+ENTAILMENT	 ( girl:A_girl ( ( ( is ( wearing ( white clothes ) ) ) and ) dancing:is_dancing ) ) 	 ( ( girl:A_girl ( in white ) ) dancing:is_dancing ) 	4.9	218
+CONTRADICTION	 ( There ( is ( ( no woman ) kissed:being_kissed_by_a_man ) ) ) 	 ( ( A woman ) ( is kissed:being_kissed_by_a_man ) ) 	4.2	913
+ENTAILMENT	 ( ( The woman ) ( is ( measuring ( the ( other woman ) ) ) ) ) 	 ( ( A woman ) ( is ( being ( measured ( by ( another woman ) ) ) ) ) ) 	4.9	1333
+NEUTRAL	 ( ( A man ) ( is ( playing ( a trumpet ) ) ) ) 	 ( ( The man ) ( is ( playing ( a guitar ) ) ) ) 	2.2	2485
+ENTAILMENT	 ( ( One man ) ( is ( doing ( floor exercises ) ) ) ) 	 ( ( A man ) ( is ( doing exercises ) ) ) 	4.3	3598
+ENTAILMENT	 ( ( A hole ) ( is ( being ( burrowed ( by ( the badger ) ) ) ) ) ) 	 ( ( A badger ) ( is ( ( shrewdly digging ) ( the earth ) ) ) ) 	4.5	1584
+CONTRADICTION	 ( Nobody ( is ( pla(ying guitar:the_guitar ) ) ) 	 ( ( A man ) ( is ( playing guitar:the_guitar ) ) ) 	3.7	3258
+NEUTRAL	 ( ( A kid ) ( is ( playing guitar ) ) ) 	 ( ( A woman ) ( is ( playing ( an ( electric guitar ) ) ) ) ) 	3	9931
+ENTAILMENT	 ( ( One man ) riding:is_riding_a_horse ) 	 ( ( A man ) riding:is_riding_a_horse ) 	4.7	4079
+NEUTRAL	 ( ( A woman ) ( is ( slicing potatoes ) ) ) 	 ( ( A horse ) ( is ( being ( ridden ( by ( a person ) ) ) ) ) ) 	1	5920
+NEUTRAL	 ( woman:A_woman ( is ( and:dancing_and_singing ( with ( other women ) ) ) ) ) 	 ( woman:A_woman ( is ( and:dancing_and_singing ( in ( the rain ) ) ) ) ) 	4.1	1241
+ENTAILMENT	 ( man:A_man ( is ( and:singing_and_playing ( a guitar ) ) ) ) 	 ( man:A_man ( is ( and:singing_and_playing ( a ( musical instrument ) ) ) ) ) 	4.5	4916
+CONTRADICTION	 ( ( A man ) ( is drawing ) ) 	 ( There ( is ( no ( man drawing ) ) ) ) 	3.8	4321
+NEUTRAL	 ( ( few:A_few_men ( in ( a competition ) ) ) ( are ( running outside ) ) ) 	 ( few:A_few_men ( are ( ( running competitions ) outside ) ) ) 	3.9	718
+ENTAILMENT	 ( ( A person ) ( is ( playing ( a and:guitar_and_singing ) ) ) ) 	 ( ( One person ) ( is ( playing ( the and:guitar_and_singing ) ) ) ) 	4.9	1964
+NEUTRAL	 ( woman:A_woman ( is ( planting ( some flowers ) ) ) ) 	 ( woman:A_woman ( is ( cutting broccoli ) ) ) 	1.2	1525
+NEUTRAL	 ( ( A keyboard ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( a harp ) ) ) ) 	2.4	4638
+ENTAILMENT	 ( Someone ( is ( cooking ( okra a:in_a_pan ) ) ) ) 	 ( Okra ( is ( being ( cooked a:in_a_pan ) ) ) ) 	4.9	3536
+NEUTRAL	 ( dog:A_dog ( is ( playing ( with ( a toy ) ) ) ) ) 	 ( dog:A_dog ( is ( eating ( a doll ) ) ) ) 	3.6	4191
+NEUTRAL	 ( ( A baby ) ( is ( playing ( with ( a toy ) ) ) ) ) 	 ( ( A ( baby tiger ) ) ( is ( playing ( with ( a ball ) ) ) ) ) 	3.2	5747
+NEUTRAL	 ( ( A woman ) ( is ( playing ( a guitar ) ) ) ) 	 ( ( A ( talented man ) ) ( is ( playing ( the guitar ) ) ) ) 	3.2	3747
+CONTRADICTION	 ( man:The_man ( ( is not ) ( slicing ( the potato ) ) ) ) 	 ( man:The_man ( is ( slicing ( a potato ) ) ) ) 	2.7	2392
+CONTRADICTION	 ( Boys ( are in:dancing_in_front_of_some_people ) ) 	 ( Boys ( ( are not ) in:dancing_in_front_of_some_people ) ) 	3.8	3922
+CONTRADICTION	 ( ( A boy ) ( is guitar:playing_guitar ) ) 	 ( There ( is ( ( no boy ) guitar:playing_guitar ) ) ) 	3.8	4776
+NEUTRAL	 ( dogs:Two_dogs ( are ( ( playing together ) ( on grass:the_grass ) ) ) ) 	 ( dogs:Two_dogs ( are ( ( resting together ) ( in grass:the_grass ) ) ) ) 	3.3	6231
+ENTAILMENT	 ( ( The doctors ) ( are ( healing ( a man ) ) ) ) 	 ( ( The doctor ) ( is ( helping ( the patient ) ) ) ) 	4.2	4505
+CONTRADICTION	 ( ( A man ) ( is exercising ) ) 	 ( There ( is ( ( no man ) exercising ) ) ) 	3.4	3897
+NEUTRAL	 ( ( ( A girl ) ( in ( a band ) ) ) ( is ( playing ( an instrument ) ) ) ) 	 ( ( The dog ) ( is ( snapping ( at ( ( some droplets ) ( of water ) ) ) ) ) ) 	1	9975
+NEUTRAL	 ( man:The_man ( is ( ( removing knives ) ( from tree:a_tree ) ) ) ) 	 ( man:The_man ( is ( ( throwing knives ) ( at tree:a_tree ) ) ) ) 	3.3	4067
+CONTRADICTION	 ( ( A dog ) ( is ( eating ( a doll ) ) ) ) 	 ( There ( is ( ( no dog ) ( playing ( with ( a toy ) ) ) ) ) ) 	3.8	4187
+ENTAILMENT	 ( Noodles ( are ( being ( ( boiled water:in_water ) ( by ( a woman ) ) ) ) ) ) 	 ( ( A woman ) ( is ( boiling ( noodles water:in_water ) ) ) ) 	5	2704
+ENTAILMENT	 ( ( A dog ) ( is ( licking ( a baby ) ) ) ) 	 ( ( The dog ) ( is ( licking ( the baby ) ) ) ) 	4.8	3501
+NEUTRAL	 ( ( A ( small dog:white_dog ) ) running:is_running_across_a_lawn ) 	 ( ( A ( big dog:white_dog ) ) running:is_running_across_a_lawn ) 	3.1	8841
+NEUTRAL	 ( ( The monkey ) ( is ( brushing ( a dog:bull_dog ) ) ) ) 	 ( ( A dog:bull_dog ) ( is ( brushing ( the monkey ) ) ) ) 	3.9	2606
+NEUTRAL	 ( ( The man ) ( ( is not ) ( hiking the:in_the_woods ) ) ) 	 ( ( A man ) ( is ( trekking the:in_the_woods ) ) ) 	3.8	3181
+CONTRADICTION	 ( There ( is ( ( no man ) ( playing ( a flute ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( a ( large flute ) ) ) ) ) 	4.1	5352
+ENTAILMENT	 ( ( The lady ) picking:is_picking_up_the_kangaroo ) 	 ( ( The woman ) picking:is_picking_up_the_kangaroo ) 	4.9	4015
+NEUTRAL	 ( ( The woman ) erasing:is_erasing_the_drawing_on_the_board ) 	 ( ( The man ) erasing:is_erasing_the_drawing_on_the_board ) 	3.7	4164
+NEUTRAL	 ( ( A man ) ( is ( dancing ( on ( the road ) ) ) ) ) 	 ( ( A biker ) ( is ( ( riding away ) ( from ( a fence ) ) ) ) ) 	1.2	9880
+CONTRADICTION	 ( ( A ( large ball:green_ball ) ) ( is ( hitting potato:a_potato ) ) ) 	 ( ( A ( big ball:green_ball ) ) ( is ( missing potato:a_potato ) ) ) 	3.4	2972
+NEUTRAL	 ( ( A woman ) ( is dancing ) ) 	 ( ( The man ) ( ( is not ) dancing ) ) 	3.3	3518
+NEUTRAL	 ( man:A_man ( is ( ( laying down ) guitar:a_guitar ) ) ) 	 ( man:A_man ( is ( playing guitar:a_guitar ) ) ) 	3.3	2996
+ENTAILMENT	 ( man:The_man ( is ( speaking the:on_the_telephone ) ) ) 	 ( man:The_man ( is ( talking the:on_the_telephone ) ) ) 	4.9	5030
+ENTAILMENT	 ( ( A horse ) ( is ( being ( ridden ( by ( a woman ) ) ) ) ) ) 	 ( ( A woman ) ( is ( riding ( a horse ) ) ) ) 	5	4983
+NEUTRAL	 ( white:A_white_dog ( is ( standing fallen:on_fallen_leaves ) ) ) 	 ( white:A_white_dog ( is ( lying fallen:on_fallen_leaves ) ) ) 	3.8	7007
+ENTAILMENT	 ( ( A person ) ( is ( playing ( a and:guitar_and_singing ) ) ) ) 	 ( ( One person ) ( is ( playing ( the and:guitar_and_singing ) ) ) ) 	4.9	1964
+NEUTRAL	 ( ( The cop ) ( is ( sitting ( on ( a ( police bike ) ) ) ) ) ) 	 ( ( The animal ) ( is ( grazing ( on ( the grass ) ) ) ) ) 	1	9963
+ENTAILMENT	 ( dog:A_dog ( is ( jumping a:on_a_trampoline ) ) ) 	 ( dog:A_dog ( is ( bouncing a:on_a_trampoline ) ) ) 	4.7	4135
+ENTAILMENT	 ( ( A ( large flute ) ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( a flute ) ) ) ) 	4.3	5349
+ENTAILMENT	 ( man:A_man ( is ( playing ( an ( electric guitar ) ) ) ) ) 	 ( man:A_man ( is ( playing guitar ) ) ) 	4.9	1493
+ENTAILMENT	 ( woman:A_woman ( is ( slicing potato:a_potato ) ) ) 	 ( woman:A_woman ( is ( cutting potato:a_potato ) ) ) 	4.8	4661
+ENTAILMENT	 ( ( A bear:panda_bear ) ( is ( eating ( some bamboo ) ) ) ) 	 ( ( Some bamboo ) ( is ( being ( eaten ( by ( a bear:panda_bear ) ) ) ) ) ) 	4.8	3384
+NEUTRAL	 ( man:A_man ( is ( reloading shotgun:a_shotgun ) ) ) 	 ( man:A_man ( is ( firing shotgun:a_shotgun ) ) ) 	3.7	5706
+NEUTRAL	 ( big:A_big_green_ball ( is ( missing potato:a_potato ) ) ) 	 ( big:A_big_green_ball ( is ( knocking potato:a_potato ) ) ) 	3.3	2965
+ENTAILMENT	 ( tennis:A_tennis_player ( is ( jumping the:to_the_left ) ) ) 	 ( tennis:A_tennis_player ( is ( lunging the:to_the_left ) ) ) 	4.4	7795
+ENTAILMENT	 ( ( The cat ) ( is ( playing ( passionately a:with_a_watermelon ) ) ) ) 	 ( ( A cat ) ( is ( playing a:with_a_watermelon ) ) ) 	4.5	2286
+ENTAILMENT	 ( ( The lady ) penciling:is_penciling_on_eyeshadow ) 	 ( ( The woman ) penciling:is_penciling_on_eyeshadow ) 	5	2829
+NEUTRAL	 ( biker:A_biker ( is ( wearing ( gear ( which ( is black ) ) ) ) ) ) 	 ( ( biker:A_biker ( wearing black ) ) ( is ( breaking ( the gears ) ) ) ) 	3.1	530
+ENTAILMENT	 ( band:A_band ( is ( playing ( on ( a stage ) ) ) ) ) 	 ( band:A_band ( is ( playing onstage ) ) ) 	5	1266
+ENTAILMENT	 ( girl:A_girl ( is ( rope:skipping_rope ( on ( a sidewalk ) ) ) ) ) 	 ( girl:A_girl ( is ( rope:skipping_rope ( on ( near ( a street ) ) ) ) ) ) 	4.3	8786
+NEUTRAL	 ( ( A boy ) ( is ( standing ( outside ( the water ) ) ) ) ) 	 ( ( The boy ) ( is ( wading ( through ( the ( blue ocean ) ) ) ) ) ) 	3.135	280
+NEUTRAL	 ( ( The guitar ) ( is ( being ( played ( by ( the man ) ) ) ) ) ) 	 ( ( A boat ) ( is ( ( sailing peacefully ) ( over ( the water ) ) ) ) ) 	1.1	1676
+ENTAILMENT	 ( ( The person ) ( is ( slicing onions ) ) ) 	 ( Onions ( are ( being ( sliced ( by ( the person ) ) ) ) ) ) 	4.9	3721
+CONTRADICTION	 ( man:The_man ( ( is not ) exercises:doing_exercises ) ) 	 ( man:The_man ( is exercises:doing_exercises ) ) 	3.8	5924
+ENTAILMENT	 ( Men ( are ( sawing logs ) ) ) 	 ( Men ( are ( cutting wood ) ) ) 	4.5	1412
+NEUTRAL	 ( ( A woman ) ( is ( cooking ( a ( breaded ( pork chop ) ) ) ) ) ) 	 ( ( The woman ) ( is ( chopping ( ( ( some bread ) and ) ( fried pork ) ) ) ) ) 	3.2	3322
+ENTAILMENT	 ( woman:A_woman ( is ( riding ( a ( water scooter ) ) ) ) ) 	 ( woman:A_woman ( is ( riding ( ( a scooter ) ( for water ) ) ) ) ) 	4.1	3373
+NEUTRAL	 ( ( The man ) ( is ( going ( into ( the water ) ) ) ) ) 	 ( ( The person ) ( is ( going ( into ( the sea ) ) ) ) ) 	4.1	8500
+CONTRADICTION	 ( There ( is ( ( no woman ) her:combing_her_hair ) ) ) 	 ( ( A woman ) ( is her:combing_her_hair ) ) 	3.6	1178
+NEUTRAL	 ( ( An ( animated airplane ) ) ( is ( taking off ) ) ) 	 ( ( A plane ) ( is landing ) ) 	2.7	2812
+CONTRADICTION	 ( There ( is ( ( no man ) a:cooking_a_snake ) ) ) 	 ( ( A man ) ( is a:cooking_a_snake ) ) 	3.7	4767
+NEUTRAL	 ( People ( are ( ( ( riding and ) paddling ) raft:a_raft ) ) ) 	 ( ( A ( few people ) ) ( are ( floating ( on raft:a_raft ) ) ) ) 	3.8	2525
+ENTAILMENT	 ( ( A girl ) ( is ( eating ( a cupcake ) ) ) ) 	 ( ( A cupcake ) ( is ( being ( eaten ( by ( a girl ) ) ) ) ) ) 	5	5588
+CONTRADICTION	 ( ( A woman ) ( is on:putting_on_makeup ) ) 	 ( There ( is ( ( no woman ) on:putting_on_makeup ) ) ) 	4	2911
+CONTRADICTION	 ( boys:Three_boys_in_karate_costumes ( are fighting ) ) 	 ( boys:Three_boys_in_karate_costumes ( ( are n't ) fighting ) ) 	3.3	1503
+NEUTRAL	 ( small:A_small_boy ( is ( scolding dog:a_dog ) ) ) 	 ( small:A_small_boy ( is ( playing ( with dog:a_dog ) ) ) ) 	3.4	2130
+NEUTRAL	 ( ( The woman ) ( ( is n't ) ( stirring ( eggs ( in ( a bowl ) ) ) ) ) ) 	 ( Someone ( is ( beating ( an egg ) ) ) ) 	3.2	3398
+CONTRADICTION	 ( ( A man ) ( is a:playing_a_guitar ) ) 	 ( There ( is ( ( no man ) a:playing_a_guitar ) ) ) 	3.6	4520
+ENTAILMENT	 ( ( A horse ) ( is ( being ( ridden ( by ( a person ) ) ) ) ) ) 	 ( ( A person ) ( is ( riding ( a horse ) ) ) ) 	5	5914
+NEUTRAL	 ( ( A woman ) ( is ( playing ( the violin ) ) ) ) 	 ( There ( is ( ( no man ) ( playing ( the piano ) ) ) ) ) 	2.1	5082
+NEUTRAL	 ( ( Two children ) ( are ( playing ( on statue:a_statue ) ) ) ) 	 ( ( Small children ) ( are ( climbing ( statue:a_statue ( in ( a park ) ) ) ) ) ) 	4.1	7356
+ENTAILMENT	 ( Someone ( is ( strumming guitar:the_guitar ) ) ) 	 ( Someone ( is ( playing guitar:the_guitar ) ) ) 	4.5	2557
+NEUTRAL	 ( ( A cook ) ( is ( coating ( ( a pork ) chop ) ) ) ) 	 ( ( A woman ) ( is ( grating carrots ) ) ) 	2.1	3292
+ENTAILMENT	 ( ( A man ) ( is ( climbing rope:a_rope ) ) ) 	 ( ( The man ) ( is ( ( climbing up ) rope:a_rope ) ) ) 	4.8	4006
+NEUTRAL	 ( ( Rugby players ) ( ( are not ) ( tackling ( each other ) ) ) ) 	 ( ( A ( soccer player ) ) ( is ( being ( tackled ( by ( his opponent ) ) ) ) ) ) 	2.5	7002
+ENTAILMENT	 ( ( A skateboarder ) jumping:is_jumping_in_the_air ) 	 ( ( The skateboarder ) jumping:is_jumping_in_the_air ) 	4.9	9303
+CONTRADICTION	 ( There ( are ( ( no racers ) down:running_down_a_track ) ) ) 	 ( Racers ( are down:running_down_a_track ) ) 	3.7	3680
+ENTAILMENT	 ( man:A_man ( ( is recklessly ) a:climbing_a_rope ) ) 	 ( man:A_man ( is a:climbing_a_rope ) ) 	4.3	4001
+CONTRADICTION	 ( ( A man ) ( is a:driving_a_car ) ) 	 ( There ( is ( ( no man ) a:driving_a_car ) ) ) 	4.4	4614
+ENTAILMENT	 ( tennis:A_tennis_player ( is ( jumping the:to_the_left ) ) ) 	 ( tennis:A_tennis_player ( is ( lunging the:to_the_left ) ) ) 	4.4	7795
+NEUTRAL	 ( boys:Three_boys ( are ( walking rocks:on_rocks_along_a_river ) ) ) 	 ( boys:Three_boys ( are ( resting rocks:on_rocks_along_a_river ) ) ) 	3.8	6764
+NEUTRAL	 ( Ferrets ( are ( ( climbing down ) ( from ( a shelf ) ) ) ) ) 	 ( ( A ( few ferrets ) ) ( are ( ( climbing out ) ( of ( the cage ) ) ) ) ) 	3.1	2668
+NEUTRAL	 ( ( A man ) ( is screaming ) ) 	 ( ( A ( sad man ) ) ( is crying ) ) 	2.9	1400
+NEUTRAL	 ( ( A woman ) ( is ( playing ( an ( electric guitar ) ) ) ) ) 	 ( ( A man ) ( is ( ( laying down ) ( a guitar ) ) ) ) 	2.3	3002
+CONTRADICTION	 ( band:A_band ( ( is not ) some:playing_some_instruments ) ) 	 ( band:A_band ( is some:playing_some_instruments ) ) 	3.8	4852
+ENTAILMENT	 ( ( The man ) ( is ( ( ( singing and ) playing ) ( the guitar ) ) ) ) 	 ( ( The guitar ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	4.3	3909
+ENTAILMENT	 ( ( A man ) doing:is_doing_a_trick_on_a_skateboard ) 	 ( ( A person ) doing:is_doing_a_trick_on_a_skateboard ) 	4.4	8334
+ENTAILMENT	 ( ( The woman ) cleaning:is_cleaning_a_shrimp ) 	 ( ( A woman ) cleaning:is_cleaning_a_shrimp ) 	4.9	3364
+ENTAILMENT	 ( ( A dog ) swimming:is_swimming_in_a_body_of_water ) 	 ( ( An animal ) swimming:is_swimming_in_a_body_of_water ) 	4.5	8806
+ENTAILMENT	 ( man:A_man ( is ( playing ( an ( electric guitar ) ) ) ) ) 	 ( man:A_man ( is ( playing guitar ) ) ) 	4.9	1493
+NEUTRAL	 ( ( A ( young boy ) ) ( is ( playing ( a ( wind instrument ) ) ) ) ) 	 ( ( A kid ) ( is ( ( throwing away ) ( an instrument ) ) ) ) 	2.8	3174
+CONTRADICTION	 ( toy:A_toy_train ( is ( striking toy:a_toy_car ) ) ) 	 ( toy:A_toy_train ( is ( missing toy:a_toy_car ) ) ) 	3.8	3711
+NEUTRAL	 ( woman:A_woman ( is ( refrigerating potato:a_potato ) ) ) 	 ( woman:A_woman ( is ( peeling potato:a_potato ) ) ) 	3.7	3982
+ENTAILMENT	 ( ( The horse ) ( is ( being ( ridden ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( riding ( the horse ) ) ) ) 	5	2001
+NEUTRAL	 ( ( The man ) ( ( is not ) ( doing exercises ) ) ) 	 ( ( Two men ) ( are fighting ) ) 	2.3	5930
+CONTRADICTION	 ( few:A_few_men_in_a_competition ( are ( running outside ) ) ) 	 ( few:A_few_men_in_a_competition ( are ( running indoors ) ) ) 	3.9	717
+NEUTRAL	 ( person:A_person ( is ( eating ( in ( a restaurant ) ) ) ) ) 	 ( person:A_person ( is ( making ( a bed ) ) ) ) 	1.2	5657
+ENTAILMENT	 ( ( A girl ) ( is ( eating ( a cupcake ) ) ) ) 	 ( ( A cupcake ) ( is ( being ( eaten ( by ( a girl ) ) ) ) ) ) 	5	5588
+ENTAILMENT	 ( man:The_man ( is ( ( hurling knives ) a:at_a_tree ) ) ) 	 ( man:The_man ( is ( ( throwing knives ) a:at_a_tree ) ) ) 	4.6	4066
+ENTAILMENT	 ( dog:A_dog ( is ( ( running breathlessly ) the:on_the_road ) ) ) 	 ( dog:A_dog ( is ( running the:on_the_road ) ) ) 	4.5	4054
+NEUTRAL	 ( ( Three men ) ( are ( practicing ( karate outdoors ) ) ) ) 	 ( ( ( Three boys ) ( in ( karate costumes ) ) ) ( are fighting ) ) 	3.8	1506
+CONTRADICTION	 ( There ( is ( ( no boy ) across:walking_across_a_bridge ) ) ) 	 ( ( A boy ) ( is across:walking_across_a_bridge ) ) 	3.7	3222
+NEUTRAL	 ( ( A ( big fish ) ) ( is ( catching ( a man ) ) ) ) 	 ( ( A woman ) ( is ( deboning ( a fish ) ) ) ) 	1.9	3420
+NEUTRAL	 ( Nobody ( is ( slicing ( a tomato ) ) ) ) 	 ( ( The person ) ( is ( slicing ( a vegetable ) ) ) ) 	3.1	2544
+CONTRADICTION	 ( There ( is ( ( no man ) a:drawing_a_picture ) ) ) 	 ( ( A man ) ( is a:drawing_a_picture ) ) 	3.9	4086
+ENTAILMENT	 ( man:A_man ( is ( cutting ( a note ) ) ) ) 	 ( man:A_man ( is ( cutting ( a paper ) ) ) ) 	4.4	4360
+ENTAILMENT	 ( white:Two_white_dogs ( ( are quickly ) together:running_together ) ) 	 ( white:Two_white_dogs ( are together:running_together ) ) 	4.6	8714
+ENTAILMENT	 ( ( The lady ) ( is ( slicing tomato:a_tomato ) ) ) 	 ( Someone ( is ( cutting tomato:a_tomato ) ) ) 	4.7	2405
+CONTRADICTION	 ( There ( is ( ( no woman ) a:slicing_a_fish ) ) ) 	 ( ( A woman ) ( is a:slicing_a_fish ) ) 	2.7	4966
+NEUTRAL	 ( ( A snowboarder ) ( is ( ( grinding down ) ( a ( long ( concrete rail ) ) ) ) ) ) 	 ( ( A person ) ( is ( ( doing acrobatics ) ( on ( a snowboard ) ) ) ) ) 	3.3	9314
+ENTAILMENT	 ( man:A_man ( is ( ( applying silencer:a_silencer ) ( to ( a gun ) ) ) ) ) 	 ( man:A_man ( is ( ( fitting silencer:a_silencer ) ( to ( a pistol ) ) ) ) ) 	4.8	4734
+ENTAILMENT	 ( man:A_man ( is ( climbing rope:a_rope ) ) ) 	 ( man:A_man ( is ( ( climbing up ) rope:a_rope ) ) ) 	4.8	4011
+ENTAILMENT	 ( ( A dog:bull_dog ) ( is ( being ( brushed ( by ( the monkey ) ) ) ) ) ) 	 ( ( The monkey ) ( is ( brushing ( a dog:bull_dog ) ) ) ) 	4.8	2604
+NEUTRAL	 ( ( A man ) ( is ( ( doing ( back flips ) ) a:on_a_trampoline ) ) ) 	 ( ( Several boys ) ( are ( jumping a:on_a_trampoline ) ) ) 	3.4	4140
+NEUTRAL	 ( ( An ( old topless:,_topless_woman ) ) covered:is_covered_in_paint ) 	 ( ( A ( young topless:,_topless_woman ) ) covered:is_covered_in_paint ) 	3.8	304
+CONTRADICTION	 ( ( A person ) ( is some:cutting_some_ginger ) ) 	 ( There ( is ( ( no person ) some:cutting_some_ginger ) ) ) 	3.8	4816
+ENTAILMENT	 ( Swimmers ( are ( racing a:in_a_lake ) ) ) 	 ( ( Some racers ) ( are ( swimming a:in_a_lake ) ) ) 	4.3	3733
+NEUTRAL	 ( ( A man ) ( is ( cutting onions ) ) ) 	 ( ( A woman ) ( is ( cutting ( an onion ) ) ) ) 	3.5	5047
+NEUTRAL	 ( ( A man ) ( is ( running the:on_the_road ) ) ) 	 ( ( A dog ) ( is ( ( running breathlessly ) the:on_the_road ) ) ) 	2.6	4060
+ENTAILMENT	 ( ( A person ) ( is ( peeling ( a potato ) ) ) ) 	 ( ( A potato ) ( is ( being ( peeled ( by ( a person ) ) ) ) ) ) 	5	5799
+CONTRADICTION	 ( man:A_man ( is a:playing_a_flute ) ) 	 ( man:A_man ( ( is not ) a:playing_a_flute ) ) 	4.2	5454
+NEUTRAL	 ( ( group:A_group ( of scouts ) ) ( are ( hiking the:through_the_grass ) ) ) 	 ( ( group:A_group ( of explorers ) ) ( are ( walking the:through_the_grass ) ) ) 	4.1	402
+NEUTRAL	 ( large:A_large_green_ball ( is ( hitting potato:a_potato ) ) ) 	 ( large:A_large_green_ball ( is ( missing potato:a_potato ) ) ) 	3.5	2968
+NEUTRAL	 ( ( A flute ) ( ( is n't ) ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( A man ) ( is ( playing ( ( the guitar ) loudly ) ) ) ) 	2.4	1811
+ENTAILMENT	 ( ( Three women ) dancing:are_dancing ) 	 ( ( A ( few women ) ) dancing:are_dancing ) 	4.6	2566
+CONTRADICTION	 ( ( A man ) ( is a:playing_a_wooden_flute ) ) 	 ( There ( is ( ( no man ) a:playing_a_wooden_flute ) ) ) 	3.7	4155
+ENTAILMENT	 ( man:The_man ( is ( lifting barbells ) ) ) 	 ( man:The_man ( is ( lifting weights ) ) ) 	4.3	2898
+ENTAILMENT	 ( man:A_man ( is ( practicing drum:the_drum ) ) ) 	 ( man:A_man ( is ( playing drum:the_drum ) ) ) 	4.6	3586
+CONTRADICTION	 ( ( The lady ) ( is ( slicing tomato:a_tomato ) ) ) 	 ( There ( ( is ( no one ) ) ( cutting tomato:a_tomato ) ) ) 	3	2404
+NEUTRAL	 ( dog:A_dog ( is ( leaving ( ball:a_ball ( in ( the dirt ) ) ) ) ) ) 	 ( dog:A_dog ( is ( ( chasing ball:a_ball ) ( through dirt ) ) ) ) 	3.7	5955
+NEUTRAL	 ( group:A_group_of_people ( are marching ) ) 	 ( group:A_group_of_people ( are ( dancing ( in ( a show ) ) ) ) ) 	2.3	5540
+ENTAILMENT	 ( woman:A_woman ( is ( using ( machine:a_machine ( made ( for sewing ) ) ) ) ) ) 	 ( woman:A_woman ( is ( sewing ( with machine:a_machine ) ) ) ) 	4.8	2166
+CONTRADICTION	 ( ( ( A girl ) ( in white ) ) ( is dancing ) ) 	 ( There ( is ( ( no girl ) ( in ( white dancing ) ) ) ) ) 	4.2	219
+ENTAILMENT	 ( ( The woman ) ( is ( slicing ( cooked octopus ) ) ) ) 	 ( ( A woman ) ( is ( ( chopping up ) ( an octopus ) ) ) ) 	4.4	4288
+NEUTRAL	 ( ( A boy ) ( is ( playing ( a piano ) ) ) ) 	 ( There ( is ( no ( man ( ( ( singing and ) playing ) ( a guitar ) ) ) ) ) ) 	2.2	3996
+ENTAILMENT	 ( man:A_man ( is ( rowing ( a canoe ) ) ) ) 	 ( man:A_man ( is ( rowing ( a boat ) ) ) ) 	4.2	5806
+NEUTRAL	 ( ( The elephant ) ( is ( being ( ridden ( by ( the woman ) ) ) ) ) ) 	 ( ( A person ) ( is ( slicing ( some mushrooms ) ) ) ) 	1	9763
+ENTAILMENT	 ( woman:A_woman ( is ( slicing ( ( a pepper ) ( which ( is green ) ) ) ) ) ) 	 ( woman:A_woman ( is ( slicing ( a ( green pepper ) ) ) ) ) 	4.8	3812
+CONTRADICTION	 ( There ( is ( ( no boy ) ( checking calendar:a_calendar ) ) ) ) 	 ( ( A boy ) ( is ( looking ( at calendar:a_calendar ) ) ) ) 	3.9	3941
+NEUTRAL	 ( ( The man ) sprinkling:is_sprinkling_cheese_on_the_pizza ) 	 ( ( The cook ) sprinkling:is_sprinkling_cheese_on_the_pizza ) 	4	5698
+NEUTRAL	 ( woman:A_woman ( is ( ( putting away ) carrots ) ) ) 	 ( woman:A_woman ( is ( coating ( ( a pork ) chop ) ) ) ) 	1.7	3291
+ENTAILMENT	 ( ( Two ( sumo wrestlers ) ) fighting:are_fighting ) 	 ( ( Two ( sumo ringers ) ) fighting:are_fighting ) 	4	5113
+ENTAILMENT	 ( surfer:A_surfer ( is ( surfing ( a ( huge wave ) ) ) ) ) 	 ( surfer:A_surfer ( is ( surfing ( a ( big wave ) ) ) ) ) 	4.9	9359
+NEUTRAL	 ( man:A_man ( is ( slicing ( a tomato ) ) ) ) 	 ( man:A_man ( is ( slicing ( a bun ) ) ) ) 	3.6	1232
+NEUTRAL	 ( man:A_man ( is scared ) ) 	 ( man:A_man ( is screaming ) ) 	3.6	1396
+NEUTRAL	 ( men:Two_men ( are ( outside cattle:a_cattle_pen ) ) ) 	 ( men:Two_men ( are ( fighting ( in cattle:a_cattle_pen ) ) ) ) 	3	2936
+NEUTRAL	 ( dogs:Two_dogs ( are ( running ( through water ) ) ) ) 	 ( dogs:Two_dogs ( are ( running ( through ( high grass ) ) ) ) ) 	3.335	8220
+NEUTRAL	 ( ( One man ) ( is ( ( climbing ( a cliff ) ) ( with ( a rope ) ) ) ) ) 	 ( ( ( A person ) ( with ( pink ( climbing gear ) ) ) ) ( roped ( the rock ) ) ) 	3.3	647
+CONTRADICTION	 ( woman:A_woman ( is ( and:dancing_and_singing ( with ( other women ) ) ) ) ) 	 ( woman:A_woman ( is ( and:dancing_and_singing alone ) ) ) 	3.285	1236
+NEUTRAL	 ( man:A_man ( is ( parking ( car:a_car ( in ( a garage ) ) ) ) ) ) 	 ( man:A_man ( is ( getting ( into car:a_car ) ) ) ) 	3.4	2679
+ENTAILMENT	 ( dogs:Two_dogs ( are ( playing ( by ( a tree ) ) ) ) ) 	 ( dogs:Two_dogs ( are ( playing ( by ( a plant ) ) ) ) ) 	4.6	211
+NEUTRAL	 ( man:A_man ( ( is carelessly ) ( holding ( a frog ) ) ) ) 	 ( man:A_man ( is ( emptying ( ( a container ) ( made ( of plastic ) ) ) ) ) ) 	1.1	1711
+NEUTRAL	 ( ( A man ) ( is ( packing guitar:the_guitar ) ) ) 	 ( ( The man ) ( is ( ( ( singing and ) playing ) guitar:the_guitar ) ) ) 	3.4	3910
+ENTAILMENT	 ( ( The person ) scrubbing:is_scrubbing_a_zucchini ) 	 ( ( A person ) scrubbing:is_scrubbing_a_zucchini ) 	5	3790
+NEUTRAL	 ( ( An onion ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	 ( ( The woman ) ( is ( cutting ( a carrot ) ) ) ) 	2.4	2932
+CONTRADICTION	 ( man:A_man ( is ( ( slicing potato:a_potato ) ( into pieces ) ) ) ) 	 ( man:A_man ( ( is not ) ( cutting potato:a_potato ) ) ) 	4	4831
+NEUTRAL	 ( ( An officer ) ( is ( talking ( to ( the recruits ) ) ) ) ) 	 ( Recruits ( are ( talking ( to ( an officer ) ) ) ) ) 	3.7	4934
+ENTAILMENT	 ( man:A_man ( is ( playing guitar:a_guitar ) ) ) 	 ( man:A_man ( is ( strumming guitar:a_guitar ) ) ) 	4.9	1495
+NEUTRAL	 ( ( A ( young ( , ( topless woman ) ) ) ) ( is ( covered ( in paint ) ) ) ) 	 ( ( Some instruments ) ( are ( being ( played ( by ( a band ) ) ) ) ) ) 	1	9838
+NEUTRAL	 ( ( A flute ) ( is ( being ( played ( by ( a man ) ) ) ) ) ) 	 ( ( The adult ) ( is ( playing ( ( the guitar ) loudly ) ) ) ) 	2.4	1807
+NEUTRAL	 ( man:A_man ( is spitting ) ) 	 ( man:A_man ( is ( talking ( on ( the radio ) ) ) ) ) 	1.7	1443
+ENTAILMENT	 ( Garlic ( is ( being ( chopped ( by ( a woman ) ) ) ) ) ) 	 ( ( A woman ) ( is ( chopping garlic ) ) ) 	4.7	4963
+NEUTRAL	 ( ( The woman ) ( is ( holding ( a ( whole tomato ) ) ) ) ) 	 ( Someone ( is ( cutting ( a tomato ) ) ) ) 	3.5	2402
+ENTAILMENT	 ( ( ( A group ) ( of people ) ) ( is singing ) ) 	 ( ( Some people ) ( are singing ) ) 	4.7	2476
+NEUTRAL	 ( ( A woman ) ( is ( ( pouring ingredients ) ( into ( a bowl ) ) ) ) ) 	 ( ( The chef ) ( is ( seasoning ( the oil ) ) ) ) 	3.1	5909
+NEUTRAL	 ( There ( is ( ( no ( brown ( dog standing ) ) ) the:in_the_water ) ) ) 	 ( ( ( A dog ) ( with ( golden fur ) ) ) ( is the:in_the_water ) ) 	2.8	6001
+CONTRADICTION	 ( ( A woman ) ( is ( playing ( a flute ) ) ) ) 	 ( ( The woman ) ( ( is not ) ( playing ( the flute ) ) ) ) 	3.2	2886
+NEUTRAL	 ( ( Two teams ) ( are ( competing ( in ( a ( football match ) ) ) ) ) ) 	 ( ( A player ) ( is ( throwing ( the ball ) ) ) ) 	2.9	116
+NEUTRAL	 ( ( A woman ) ( is ( playing ( the flute ) ) ) ) 	 ( ( A man ) ( is ( playing ( a flute ) ) ) ) 	3.7	5461
+NEUTRAL	 ( woman:A_woman ( is ( tapping fingers:her_fingers ) ) ) 	 ( woman:A_woman ( is ( ( resting fingers:her_fingers ) ( on ( a table ) ) ) ) ) 	3.1	2231
+NEUTRAL	 ( monkey:A_monkey ( is ( ( teasing ( a dog ) ) ( at ( the zoo ) ) ) ) ) 	 ( monkey:A_monkey ( is ( pulling ( ( a ( dog 's ) ) tail ) ) ) ) 	4.4	4814
+NEUTRAL	 ( ( A man ) ( is ( doing pull-ups ) ) ) 	 ( ( The man ) ( is ( doing ( exercises ( in ( a gym ) ) ) ) ) ) 	4	4891
+NEUTRAL	 ( ( A woman ) ( is exercising ) ) 	 ( ( A person ) ( is dancing ) ) 	3	4866
+CONTRADICTION	 ( There ( is ( ( no man ) ( eating food ) ) ) ) 	 ( ( A man ) ( is ( eating ( a pizza ) ) ) ) 	3.2	4114
+NEUTRAL	 ( ( A woman ) buttering:is_buttering_a_piece_of_bread ) 	 ( ( A man ) buttering:is_buttering_a_piece_of_bread ) 	3.5	5148
+ENTAILMENT	 ( skateboarder:A_skateboarder ( is ( ( jumping off ) ramp:a_ramp ) ) ) 	 ( skateboarder:A_skateboarder ( is ( ( making ( a jump ) ) ( off ramp:a_ramp ) ) ) ) 	4.8	8678
+ENTAILMENT	 ( ( One man ) ( is ( ( running down ) ( the road ) ) ) ) 	 ( ( A man ) ( is running ) ) 	4.4	2430
+CONTRADICTION	 ( There ( is ( ( no girl ) a:playing_a_flute ) ) ) 	 ( ( A girl ) ( is a:playing_a_flute ) ) 	3.6	5310
+NEUTRAL	 ( ( The men ) talking:are_talking ) 	 ( ( Some ( old women ) ) talking:are_talking ) 	3	4429
+NEUTRAL	 ( ( A ( young girl ) ) ( is ( standing ( on ( one leg ) ) ) ) ) 	 ( ( A ( young female ) ) ( is dancing ) ) 	3.3	6590
+NEUTRAL	 ( People ( are ( ( ( riding and ) paddling ) raft:a_raft ) ) ) 	 ( ( Four people ) ( are ( floating ( on raft:a_raft ) ) ) ) 	4.2	2527
+ENTAILMENT	 ( cat:The_cat ( is ( playing ( passionately a:with_a_watermelon ) ) ) ) 	 ( cat:The_cat ( is ( playing a:with_a_watermelon ) ) ) 	4.7	2284
+ENTAILMENT	 ( ( A ( large ( green ball ) ) ) hitting:is_hitting_a_potato ) 	 ( ( A ( large ( green ( colored ball ) ) ) ) hitting:is_hitting_a_potato ) 	4.8	2967
+CONTRADICTION	 ( ( The man ) ( is drawing ) ) 	 ( There ( is ( no ( man drawing ) ) ) ) 	3.4	4330
+ENTAILMENT	 ( ( A woman ) ( is ( slicing ( an octopus ) ) ) ) 	 ( ( An octopus ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	5	5374
+NEUTRAL	 ( woman:A_woman ( is ( combing hair:her_hair ) ) ) 	 ( woman:A_woman ( is ( arranging hair:her_hair ) ) ) 	4.1	1177
+ENTAILMENT	 ( woman:A_woman ( is ( cutting ( a lemon ) ) ) ) 	 ( woman:A_woman ( is ( cutting fruit ) ) ) 	4.2	5498
+NEUTRAL	 ( woman:A_woman ( is ( ( chopping up ) garlic ) ) ) 	 ( woman:A_woman ( is ( ( putting away ) ( the garlic ) ) ) ) 	3.6	3505
+NEUTRAL	 ( man:A_man ( is ( praying fervently ) ) ) 	 ( man:A_man ( is dancing ) ) 	1.7	4196
+ENTAILMENT	 ( ( The woman ) ( is ( slicing ( cooked octopus ) ) ) ) 	 ( ( A woman ) ( is ( ( chopping up ) ( an octopus ) ) ) ) 	4.4	4288
+NEUTRAL	 ( ( Some women ) ( are and:dancing_and_singing ) ) 	 ( ( A woman ) ( is ( and:dancing_and_singing ( in ( the rain ) ) ) ) ) 	3.8	1237
+CONTRADICTION	 ( There ( is ( ( no woman ) meat:putting_meat_in_a_pan ) ) ) 	 ( ( A woman ) ( is meat:putting_meat_in_a_pan ) ) 	3.4	3625
+ENTAILMENT	 ( ( A band ) ( is ( playing ( some instruments ) ) ) ) 	 ( ( Some instruments ) ( are ( being ( played ( by ( a band ) ) ) ) ) ) 	5	4851
+NEUTRAL	 ( ( A man ) ( is ( playing ( an ( acoustic guitar ) ) ) ) ) 	 ( ( The woman ) ( ( is not ) ( playing ( an ( electric guitar ) ) ) ) ) 	3	2738
+NEUTRAL	 ( There ( is ( ( no cat ) ( ( eating corn ) ( on ( the cob ) ) ) ) ) ) 	 ( ( A cat ) ( is ( eating ( some corn ) ) ) ) 	2.5	2535
+NEUTRAL	 ( ( A monkey ) ( is ( kicking ( at ( ( a ( person 's ) ) glove ) ) ) ) ) 	 ( ( The monkey ) ( is ( practicing ( martial arts ) ) ) ) 	3.6	3143
+NEUTRAL	 ( ( ( ( A man ) and ) ( a woman ) ) ( are ( eating happily ) ) ) 	 ( ( A ( ( man and ) woman ) ) ( are talking ) ) 	2.6	2766
+NEUTRAL	 ( man:A_man ( is ( playing flute ) ) ) 	 ( man:A_man ( is ( ( playing ( a game ) ) ( with ( a ball ) ) ) ) ) 	1.5	1302
+ENTAILMENT	 ( ( The meat ) ( is ( being ( dropped a:into_a_pan ) ) ) ) 	 ( Someone ( is ( ( dropping ( the meat ) ) a:into_a_pan ) ) ) 	4.7	3626
+NEUTRAL	 ( ( ( A ( man 's ) ) ( white car ) ) ( is ( being ( driven away ) ) ) ) 	 ( ( The man ) ( is ( granting ( an interview ) ) ) ) 	1.1	2096
+NEUTRAL	 ( ( A baby ) ( is ( playing ( with ( a doll ) ) ) ) ) 	 ( ( A ( tiger cub ) ) ( is ( playing ( with ( a ball ) ) ) ) ) 	1.4	5745
+NEUTRAL	 ( person:A_person ( is ( slicing ( an onion ) ) ) ) 	 ( person:A_person ( is ( cutting ( some ginger ) ) ) ) 	3	4823
+CONTRADICTION	 ( man:The_man ( is ( denying interview:an_interview ) ) ) 	 ( man:The_man ( is ( granting interview:an_interview ) ) ) 	3.2	2089
+NEUTRAL	 ( ( Four children ) ( are ( doing ( backbends ( in ( the gym ) ) ) ) ) ) 	 ( ( Four girls ) ( are ( ( ( doing backbends ) and ) ( playing outdoors ) ) ) ) 	3.8	105
+CONTRADICTION	 ( puppy:The_puppy ( is with:playing_with_a_plastic_container ) ) 	 ( puppy:The_puppy ( ( is not ) with:playing_with_a_plastic_container ) ) 	3.2	3036
+NEUTRAL	 ( person:A_person ( is ( ( cutting ( an onion ) ) pieces:into_pieces ) ) ) 	 ( person:A_person ( is ( ( slicing ( a carrot ) ) pieces:into_pieces ) ) ) 	3.4	2385
+CONTRADICTION	 ( ( A man ) ( is a:opening_a_door ) ) 	 ( There ( is ( ( no man ) a:opening_a_door ) ) ) 	3.6	5051
+NEUTRAL	 ( person:A_person ( is ( standing ( near ( a motorcycle ) ) ) ) ) 	 ( person:A_person ( is ( chopping ( an onion ) ) ) ) 	1.2	1390
+NEUTRAL	 ( ( A ( blond girl ) ) ( is ( looking ( at ( the waves ) ) ) ) ) 	 ( ( A lady ) ( is ( ( ( surfing and ) riding ) ( a wave ) ) ) ) 	3.3	450
+NEUTRAL	 ( woman:A_woman ( is ( ( resting fingers:her_fingers ) a:on_a_table ) ) ) 	 ( woman:A_woman ( is ( ( tapping fingers:her_fingers ) a:on_a_table ) ) ) 	4.1	2229
+NEUTRAL	 ( ( An onion ) ( is ( being ( sliced ( by ( a woman ) ) ) ) ) ) 	 ( ( The woman ) ( is ( cutting ( a carrot ) ) ) ) 	2.4	2932
+NEUTRAL	 ( There ( ( is ( no one ) ) ( playing ( a piano ) ) ) ) 	 ( ( A man ) ( is ( playing ( a guitar ) ) ) ) 	2.7	4376

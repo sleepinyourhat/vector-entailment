@@ -7,20 +7,23 @@ function [matrixGradients, biasGradients, ...
 if nargin < 7
     innerOutput = matrix * [a;b] + bias;
 end
-                    
+
+assert(min(innerOutput == matrix * [a;b] + bias), '!');
+
 % Compute the gradients and deltas for an RNN layer for a given example
 NLDeriv = nonlinearityDeriv(innerOutput);
 
-% Compute the matrix gradients
-matrixGradients = (delta * [a;b]');
+delta = NLDeriv .* delta;
 
 % Calculate bias gradients
 biasGradients = delta;
 
+% Compute the matrix gradients
+matrixGradients = (delta * [a;b]');
+
 if nargout > 2
 	% Calculate deltas to pass down
-	thirdTerm = matrix';
-	deltaDown = (thirdTerm * (biasGradients .* NLDeriv));
+	deltaDown = (matrix' * delta);
 	deltaLeft = deltaDown(1:length(a));
 	deltaRight = deltaDown(length(a)+1:2*length(a));
 end
