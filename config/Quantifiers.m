@@ -1,6 +1,8 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(dataflag, penult, lambda, tot, mbs, lr)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(name, dataflag, penult, lambda, tot, mbs, lr)
 
 [hyperParams, options] = Defaults();
+
+hyperParams.name = name;
 
 % the GloVe vectors.
 hyperParams.dim = 25;

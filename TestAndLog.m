@@ -71,6 +71,8 @@ if mod(modelState.step, options.testFreq) == 0
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
             ' acc: ', num2str(acc)]);
     end
+
+    FlushLogs(hyperParams);
 elseif mod(modelState.step, options.costFreq) == 0
     % Just compute the cost.
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
@@ -86,6 +88,7 @@ end
 if mod(modelState.step, options.costFreq) == 0
     Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
         ' cost: ', num2str(cost)]);
+    FlushLogs(hyperParams);
 end
 
 end

@@ -2,6 +2,8 @@ function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, 
 
 [hyperParams, options] = Defaults();
 
+hyperParams.name = name;
+
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
 hyperParams.dim = 2;

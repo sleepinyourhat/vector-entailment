@@ -1,11 +1,17 @@
 function [ hyperParams, options ] = Defaults()
 % Set defaults for all model and learning parameters.
 
+hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
+
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
-hyperParams.initScale = 0.05;
+% Used to compute the bound on the range for RNTN parameter initialization.
+hyperParams.initScale = 1;
+
+% The raw range bound on word vectors.
+hyperParams.wordScale = 0.1;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when

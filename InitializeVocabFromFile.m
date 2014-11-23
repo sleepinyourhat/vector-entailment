@@ -30,10 +30,13 @@ fullWordmap = containers.Map(words,2:length(words) + 1);
 
 x = size(wordlist, 2);
 
-dataScale = mean(abs(fullVocab(:)));
-LOADSCALE = initScale/(2 * dataScale);
+% Standard deviation of the loaded vectors (pooled across all units).
+dataStd = std(fullVocab(:));
 
-vocab = rand(x, size(fullVocab, 2)) .* (2 * initScale) - initScale;
+% Rescale the loaded vectors into the same neighborhood as the random ones.
+loadScale = initScale / dataStd;
+
+vocab = rand(x, size(fullVocab, 2)) .* initScale - initScale;
 
 for wordlistIndex = 1:length(wordlist)
     if fullWordmap.isKey(wordlist{wordlistIndex})
@@ -49,7 +52,7 @@ for wordlistIndex = 1:length(wordlist)
     end
     if loadedIndex > 0
         % Copy in the loaded vector
-        vocab(wordMap(wordlist{wordlistIndex}), :) = fullVocab(loadedIndex, :) .* LOADSCALE;
+        vocab(wordMap(wordlist{wordlistIndex}), :) = fullVocab(loadedIndex, :) .* loadScale;
     end % Else: We keep the randomly initialized entry
 end
 

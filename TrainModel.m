@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function TrainModel(pretrainingFilename, expName, fold, ConfigFn, varargin)
+function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
 % The main training and testing script. The first arguments to the function
 % have been tweaked quite a few times depending on what is being tuned.
 
@@ -27,15 +27,10 @@ hyperParams.foldNumber = fold;
 
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
-hyperParams.name = expName;
-options.name = expName;
+options.name = hyperParams.name;
 
 % Set up an experimental directory.
-if nargin > 4
-    mkdir(hyperParams.name); 
-else
-    expName = '.';
-end
+mkdir(hyperParams.name); 
 
 hyperParams.statlog = fopen([hyperParams.name '/stat_log'], 'a');
 hyperParams.examplelog = fopen([hyperParams.name '/example_log'], 'a');
@@ -46,6 +41,9 @@ hyperParams.showConfusions = false;
 
 Log(hyperParams.statlog, ['Model config: ' evalc('disp(hyperParams)')])
 Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
+
+hyperParams = FlushLogs(hyperParams);
+
 
 % Remove the test data from the split data
 hyperParams.splitFilenames = setdiff(hyperParams.splitFilenames, hyperParams.testFilenames);
@@ -80,6 +78,8 @@ else
     [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 end
+
+hyperParams = FlushLogs(hyperParams);
 
 % Load training/test data
 [trainDataset, testDatasets, hyperParams.trainingLengths] = ...

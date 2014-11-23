@@ -1,0 +1,59 @@
+\section{The SICK textual entailment challenge}
+
+What SICK is. \cite{marelli2014sick}
+\\ \\ \\ \\
+
+
+\begin{table*}[htp]
+  \centering
+  \begin{tabular}{lcl}
+    \toprule
+    (all turtles) walk      &    $\natind$  & (less-than-three turtles) walk\\
+    (three warthogs) move  &        $\natneg$ & (less-than-three warthogs) move\\
+    (all mammals) (not move) &         $\natalt$ & (some warthogs) swim\\
+    (some (not pets)) swim     &     $\natcov$  & (all (not pets)) (not move)\\
+    \bottomrule
+  \end{tabular}
+  \caption{\label{examplesofsickdata}Examples of successful classifications on SICK.}
+\end{table*}
+
+We initialized our word embeddings using precomputed TODO dimensional vectors from 
+(TODO: Where?). Before any embedding is used as an input to a recursive layer, 
+it is passed through an additional $\tanh$ neural network layer that transforms
+the embedding from the embedding
+dimension to the dimension of the recursive layer.
+
+We supplemented the roughly 5000 SICK training examples\footnote{We tuned the model using performance on a held out development set, but report performance here for a version of the model trained on both the training and development data and tested on the SICK test set.} with training data from (CITE CITE CITE CITE CITE CITE CITE CITE CITE CITE CITE). We trained a single model on data from all sources, but used a separate set of softmax parameters for classifying into the labels from each source.
+
+\begin{table}[tp]
+  \centering
+  \setlength{\tabcolsep}{10pt}
+  \begin{tabular}{ r@{ \ }r r@{ \ }r r@{ \ }r }
+    \toprule
+    \multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{16 dim RNN}  & \multicolumn{2}{c}{20 dim RNTN}\\
+    \midrule
+    56.7 &(...) &	...&(...)& \textbf{...} & \textbf{(...)}\\
+    \bottomrule
+  \end{tabular}
+  \caption{Performance on the SICK.}
+  \label{sresultstable}
+\end{table} 
+
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}. 
+Explain Figure \ref{examplesofsickdata}.
+
+% TODO: Last runs, train on dev.

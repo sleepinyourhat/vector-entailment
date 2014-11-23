@@ -1,7 +1,6 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords)
+function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords)
 
 % TODO: Assign wordMap.
-
 [hyperParams, options] = Defaults();
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match

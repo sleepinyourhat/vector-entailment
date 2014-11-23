@@ -1,6 +1,8 @@
-function [ hyperParams, options, wordMap, relationMap ] = SynsetRelations(transDepth, penult, lambda, tot, mbs, lr, trainwords, fastemb)
+function [ hyperParams, options, wordMap, relationMap ] = SynsetRelations(name, transDepth, penult, lambda, tot, mbs, lr, trainwords, fastemb)
 
 [hyperParams, options] = Defaults();
+
+hyperParams.name = name;
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
