@@ -40,18 +40,10 @@ for batchNo = 0:(numBatches - 1)
 
     [ cost, grad, embGrad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.separateWordFeatures, hyperParams);
 
-    % Do an AdaGrad-scaled parameter update
-    modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
-    adaEps = 0.001;
-    modelState.theta = modelState.theta - modelState.lr * (grad ./ (sqrt(modelState.sumSqGrad) + adaEps));
-
-    assert(sum(isnan(modelState.theta)) == 0, 'NaNs in theta.')
-    assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.')
-
-    % Do an AdaGrad-scaled parameter update to the separate word features
-    if hyperParams.fastEmbed
-        modelState.sumSqEmbGrad = modelState.sumSqEmbGrad + embGrad.^2;
-        modelState.separateWordFeatures = modelState.separateWordFeatures - modelState.lr * (embGrad ./ (sqrt(modelState.sumSqEmbGrad) + adaEps));
+    if isfield(options, 'updateFn')
+        modelState = options.updateFn(modelState, options, grad, embGrad);
+    else
+        modelState = AdaGradUpdate(modelState, options, grad, embGrad);
     end
 
     modelState.step = modelState.step + 1;

@@ -179,7 +179,6 @@ if hyperParams.minFunc
 
     theta = minFunc(@ComputeFullLatticeCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);
-    % TODO: Forget metadata and repeat?
 else
     theta = AdaGradSGD(@ComputeFullLatticeCostAndGrad, theta, options, ...
         thetaDecoder, trainDataset, hyperParams, testDatasets);

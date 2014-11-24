@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, eyes)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, eyes, update, epsi)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -10,7 +10,8 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-pen', num2str(penult), '-lr', num2str(lr), '-loadw', num2str(loadwords),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-wsc', num2str(wordScale),...
-    '-mb', num2str(mbs), '-e', num2str(eyes), '-rte', num2str(rtemult), '-nli', num2str(nlimult)];
+    '-mb', num2str(mbs), '-e', num2str(eyes), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
+    '-eps', num2str(epsi)];
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
@@ -18,7 +19,7 @@ hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
 % Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.initScale = tensorScale; % 1?
+hyperParams.tensorScale = tensorScale; % 1?
 
 % The raw range bound on word vectors.
 hyperParams.wordScale = wordScale; % 0.1?
@@ -73,6 +74,9 @@ hyperParams.fragmentData = false;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = mbs;
+
+options.updateFn = update;
+options.adaDeltaEps = epsi;
 
 options.lr = lr;
 

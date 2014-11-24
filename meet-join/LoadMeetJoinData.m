@@ -19,8 +19,6 @@ rawData = repmat(struct('solution', 0, 'treeText', ''), ...
 % Parse the file
 itemNo = 1;
 maxLine = length(C{1});
-%maxLine = 25; 
-%disp('TODO: FIX MAXLINE !!!!!!!!!!!!!!!')
 for line = 1:maxLine
     if ~isempty(C{1}{line}) 
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');

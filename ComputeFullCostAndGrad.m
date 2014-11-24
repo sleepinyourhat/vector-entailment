@@ -87,7 +87,7 @@ end
 % Compute mean cost
 normalizedCost = (1/length(data) * accumulatedCost);
 
-% Apply regularization to the cost (TODO: Include fastEmbed embeddings.)
+% Apply regularization to the cost (does not include fastEmbed embeddings).
 if hyperParams.norm == 2
     % Apply L2 regularization
     regCost = hyperParams.lambda/2 * sum(theta.^2);
@@ -121,7 +121,7 @@ if nargout > 1
         % Compile the embedding gradient
         embGrad = accumulatedSeparateWordFeatureGradients * 1/length(data);
 
-        for wordInd = find(embGrad(:,1))'   % TODO: Parfor
+        for wordInd = find(embGrad(:,1))'   % TODO: parfor!
             % Apply regularization to the gradient
             if hyperParams.norm == 2
                 % Apply L2 regularization to the gradient

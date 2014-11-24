@@ -1,18 +1,14 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ theta ] = AdaGradSGD(CostGradFunc, modelState, options, trainingData, ...
+function [ theta ] = TrainSGD(CostGradFunc, modelState, options, trainingData, ...
     hyperParams, testDatasets)
-% Home-baked implementation of SGD with AdaGrad.
+% Home-baked implementation of SGD with AdaGrad/AdaDelta. Should be launched
+% using TrainModel.m.
 
 if modelState.step == 0
-    Log(hyperParams.examplelog, 'Initializing AdaGrad.')
+    Log(hyperParams.examplelog, 'Initializing SGD.')
     modelState.prevCost = intmax;
     modelState.bestTestAcc = [0 0 0];
     modelState.lr = options.lr;
-    modelState.sumSqGrad = zeros(size(modelState.theta));
-    if hyperParams.fastEmbed
-        % Set up a separate SubSqGrad tracker for the embeddings.
-        modelState.sumSqEmbGrad = zeros(size(modelState.separateWordFeatures));
-    end
     modelState.pass = 0;
     modelState.lastHundredCosts = zeros(100, 1);
 end 

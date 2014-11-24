@@ -28,8 +28,8 @@ hyperParams.fastEmbed = fastemb;
 hyperParams.lambda = 0;
 
 % Hack: -1 means to always drop out the same one unit.
-hyperParams.bottomDropout = 1;
-hyperParams.topDropout = 1;
+hyperParams.bottomDropout = -1;
+hyperParams.topDropout = -1;
 
 % Use NTN layers in place of NN layers.
 hyperParams.useThirdOrder = tot;

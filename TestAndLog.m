@@ -1,8 +1,6 @@
 function modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
     hyperParams, testDatasets)
 
-% TODO: Change freqs
-
 % Do mid-run testing
 if mod(modelState.step, options.testFreq) == 0
     Log(hyperParams.statlog, ['Theta min/mean/meanabs/max: ',  num2str(min(modelState.theta)), ' ', ...

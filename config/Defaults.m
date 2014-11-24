@@ -8,7 +8,7 @@ hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
 % Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.initScale = 0.1;
+hyperParams.tensorScale = 1;
 
 % The raw range bound on word vectors.
 hyperParams.wordScale = 0.01;
@@ -104,6 +104,13 @@ options.PlotFcns = [];
 options.numPasses = 250;
 options.miniBatchSize = 64;
 
+options.updateFn = @AdaGradUpdate;
+
+% Learning parameters
+options.adaDeltaRho = 0.95;
+options.adaDeltaEps = 1e-6;
+options.adaEps = 0.01;
+
 % AdaGrad LR
 options.lr = 0.05;
 
@@ -130,6 +137,7 @@ options.runName = 'tr';
 
 % Reset the sum of squared gradients after this many iterations.
 options.resetSumSqFreq = 10000;
+
 
 
 end

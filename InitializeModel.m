@@ -17,11 +17,12 @@ else
 end
 
 SCALE = 0.05;
-TSCALE = hyperParams.initScale * SCALE;
+TSCALE = hyperParams.tensorScale * SCALE;
 
 % Randomly initialize softmax layer
 % SCALE = 1 / sqrt(PENULT + 1);
-classifierParameters = rand(sum(hyperParams.numRelations), PENULT + 1) .* (2 * SCALE) - SCALE;
+classifierParameters = [zeros(sum(hyperParams.numRelations) + SCALE, 1), ...
+                        rand(sum(hyperParams.numRelations), PENULT) .* (2 * SCALE) - SCALE];
 
 % Randomly initialize tensor parameters
 % SCALE = (1 / (2 * sqrt(DIM))) * hyperParams.initScale;
@@ -42,11 +43,11 @@ else
 end
 % SCALE = 1 / (2 * sqrt(2 * DIM));
 compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * SCALE) - SCALE;
-if hyperParams.useEyes
-  for i = 1:NUMCOMP
-    compositionMatrix(:, :, i) = compositionMatrix(:, :, i) ./ 2 + [eye(DIM) eye(DIM)] ./ 4;
-  end
+
+for i = 1:NUMCOMP
+  compositionMatrix(:, :, i) = compositionMatrix(:, :, i) ./ 2 + [eye(DIM) eye(DIM)] ./ 4;
 end
+
 
 compositionBias = zeros(DIM, NUMCOMP);
 
@@ -58,8 +59,10 @@ classifierExtraBias = zeros(PENULT, TOPD - 1);
 embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* (2 * SCALE) - SCALE;
 embeddingTransformBias = zeros(DIM, NUMTRANS);
 
-if NUMTRANS > 0
-  embeddingTransformMatrix(:, :, 1) = embeddingTransformMatrix(:, :, 1) ./ 2 + TiledEye(DIM, EMBDIM) ./ ((EMBDIM / DIM) * 2);
+if hyperParams.useEyes
+  if NUMTRANS > 0
+    embeddingTransformMatrix(:, :, 1) = embeddingTransformMatrix(:, :, 1) ./ 2 + TiledEye(DIM, EMBDIM) ./ ((EMBDIM / DIM) * 2);
+  end
 end
 
 if hyperParams.loadWords
@@ -67,7 +70,6 @@ if hyperParams.loadWords
    wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, hyperParams.wordScale);
 else 
     % Randomly initialize the words
-    SCALE = hyperParams.wordScale;
     wordFeatures = rand(vocabLength, EMBDIM) .* (2 * hyperParams.wordScale) - hyperParams.wordScale;
     if ~hyperParams.trainWords
        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     

@@ -10,7 +10,6 @@ else
 	try
 		fprintf(file, '%s\n', [datestr(clock, 0) ': ' message]);
 	catch err
-		% TODO: Fix logging from inside parfor
 	end
 end
 

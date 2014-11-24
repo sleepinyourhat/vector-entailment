@@ -61,8 +61,6 @@ echo "cd quant; lambda = 0.005; lr = 0.1; ed = 0; mbs = 64; name=['wr-tfrozen-',
 
 echo "cd quant; lambda = 0.000001; lr = 0.1; mbs = 16; trainwords = true; ed = 0; name=['sick-plus-demo-', num2str(lr), '-', num2str(lambda), '-', num2str(mbs), '-', num2str(ed), '-', num2str(trainwords)]; disp(name); TrainModel('sick-plus', '', name, mbs, 25, 80, lr, lambda, 1, ed, trainwords);" | /afs/cs/software/bin/matlab_r2012b
 
-# TODO: Turn on word loading
-# TODO: try not training words?
 function TrainModel(dataflag, pretrainingFilename, expName, mbs, dim, penult, lr, lambda, tot, transDepth, trainwords)
 
 echo "cd quant; lambda = 0.0005; ed = 0; train = 0; penult = 80, name=['wr-tfrozen-l', num2str(lambda), '-ed', num2str(ed), '-tr', num2str(train), '-pen', num2str(penult)]; disp(name); TrainModel('word-relations', '', name, 64, 25, penult, 0.1, lambda, 1, ed, train);" | /afs/cs/software/bin/matlab_r2012b
