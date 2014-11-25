@@ -36,7 +36,7 @@ dataStd = std(fullVocab(:));
 % Rescale the loaded vectors into the same neighborhood as the random ones.
 loadScale = initScale / dataStd;
 
-vocab = rand(x, size(fullVocab, 2)) .* initScale - initScale;
+vocab = rand(x, size(fullVocab, 2)) .* (2 * initScale) - initScale;
 
 for wordlistIndex = 1:length(wordlist)
     if fullWordmap.isKey(wordlist{wordlistIndex})

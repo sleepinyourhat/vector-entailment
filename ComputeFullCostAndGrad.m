@@ -50,7 +50,7 @@ if nargout > 1
 
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
             logMessages{i} = ['for: ', data(i).leftTree.getText, ' ', data(i).rightTree.getText, ...
-                  ' hypothesis:  ', num2str(localPred)];
+                  ' hypothesis:  ', num2str(localPred), ' cost: ', localCost];
         end
 
         % Record statistics

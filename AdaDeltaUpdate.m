@@ -11,13 +11,13 @@ if modelState.step == 0
 end
 
 % Do an AdaGrad-scaled parameter update
-modelState.sumSqGrad = modelState.sumSqGrad .* options.adaDeltaRho + (grad.^2) .* (1 - options.adaDeltaRho);
+modelState.sumSqGrad = modelState.sumSqGrad * options.adaDeltaRho + (grad.^2) * (1 - options.adaDeltaRho);
 
 rmsLastDelta = sqrt(modelState.sumSqDelta + options.adaDeltaEps);
 rmsGrad = sqrt(modelState.sumSqGrad + options.adaDeltaEps);
 
 delta = -1 * (rmsLastDelta ./ rmsGrad) .* grad;
-modelState.sumSqDelta = modelState.sumSqDelta .* options.adaDeltaRho + (delta.^2) .* (1 - options.adaDeltaRho);
+modelState.sumSqDelta = modelState.sumSqDelta * options.adaDeltaRho + (delta.^2) * (1 - options.adaDeltaRho);
 
 modelState.theta = modelState.theta + delta;
 
@@ -26,13 +26,13 @@ assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.');
 
 % Do an AdaGrad-scaled parameter update to the separate word features
 if length(embGrad) > 0
-    modelState.sumSqEmbGrad = modelState.sumSqEmbGrad .* options.adaDeltaRho + (embGrad.^2) .* (1 - options.adaDeltaRho);
+    modelState.sumSqEmbGrad = modelState.sumSqEmbGrad * options.adaDeltaRho + (embGrad.^2) * (1 - options.adaDeltaRho);
 
     rmsLastEmbDelta = sqrt(modelState.sumSqEmbDelta + options.adaDeltaEps);
     rmsEmbGrad = sqrt(modelState.sumSqEmbGrad + options.adaDeltaEps);
 
     embDelta = -1 * (rmsLastEmbDelta ./ rmsEmbGrad) .* embGrad;
-    modelState.sumSqEmbDelta = modelState.sumSqEmbDelta .* options.adaDeltaRho + (embDelta.^2) .* (1 - options.adaDeltaRho);
+    modelState.sumSqEmbDelta = modelState.sumSqEmbDelta * options.adaDeltaRho + (embDelta.^2) * (1 - options.adaDeltaRho);
 
     modelState.separateWordFeatures = modelState.separateWordFeatures + embDelta;
 end

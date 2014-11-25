@@ -1,6 +1,6 @@
 #/bin/bash
 #PBS -l nodes=1:ppn=4 	### Request at least 4 cores
-#PBS -l walltime=12:00:00	### Die after 12h
+#PBS -l walltime=18:00:00	### Die after 18h
 #PBS -l mem=6000MB
 #PBS -W x=NACCESSPOLICY:SINGLEJOB	### Use all cores on node
 #PBS -n	### Use all cores on node (alternate specification)
@@ -9,5 +9,6 @@
 
 # [Don't] change to the submission directory
 cd $PBS_O_WORKDIR 
-echo $MATLABCMD 
+echo `hostname`: $MATLABCMD 
+echo `hostname` - $PBS_JOBID - $MATLABCMD >> ~/machine_assignments.txt
 echo $MATLABCMD | /afs/cs/software/bin/matlab_r2012b -nodisplay

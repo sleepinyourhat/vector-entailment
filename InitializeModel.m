@@ -44,8 +44,10 @@ end
 % SCALE = 1 / (2 * sqrt(2 * DIM));
 compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * SCALE) - SCALE;
 
-for i = 1:NUMCOMP
-  compositionMatrix(:, :, i) = compositionMatrix(:, :, i) ./ 2 + [eye(DIM) eye(DIM)] ./ 4;
+if hyperParams.useEyes
+  for i = 1:NUMCOMP
+    compositionMatrix(:, :, i) = compositionMatrix(:, :, i) + [eye(DIM) eye(DIM)];
+  end
 end
 
 
@@ -59,18 +61,18 @@ classifierExtraBias = zeros(PENULT, TOPD - 1);
 embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* (2 * SCALE) - SCALE;
 embeddingTransformBias = zeros(DIM, NUMTRANS);
 
-if hyperParams.useEyes
-  if NUMTRANS > 0
-    embeddingTransformMatrix(:, :, 1) = embeddingTransformMatrix(:, :, 1) ./ 2 + TiledEye(DIM, EMBDIM) ./ ((EMBDIM / DIM) * 2);
-  end
-end
+% if hyperParams.useEyes
+%   if NUMTRANS > 0
+%     embeddingTransformMatrix(:, :, 1) = embeddingTransformMatrix(:, :, 1) ./ 2 + TiledEye(DIM, EMBDIM) ./ ((EMBDIM / DIM) * 2);
+%   end
+% end
 
 if hyperParams.loadWords
    Log(hyperParams.statlog, 'Loading the vocabulary.')
    wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, hyperParams.wordScale);
 else 
     % Randomly initialize the words
-    wordFeatures = rand(vocabLength, EMBDIM) .* (2 * hyperParams.wordScale) - hyperParams.wordScale;
+    wordFeatures = rand(vocabLength, EMBDIM) .*   (2 * hyperParams.wordScale) - hyperParams.wordScale;
     if ~hyperParams.trainWords
        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
    end

@@ -1,17 +1,13 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(name, dataflag, penult, lambda, tot, mbs, lr)
+function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, tot, relu, tdrop)
 
 [hyperParams, options] = Defaults();
 
-hyperParams.name = name;
+hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
+				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda),...
+				    '-dropout', num2str(tdrop)];
 
-% the GloVe vectors.
-hyperParams.dim = 25;
-
-% The number of embedding transform layers. topDepth > 0 means NN layers will be
-% added above the embedding matrix. This is likely to only be useful when
-% learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
-hyperParams.embeddingTransformDepth = 0;
+hyperParams.dim = dim;
+hyperParams.embeddingDim = dim;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -23,13 +19,14 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
 
-hyperParams.loadWords = false;
-hyperParams.trainWords = true;
+hyperParams.topDepth = top;
 
-% How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = mbs;
+hyperParams.topDropout = tdrop;
 
-options.lr = lr;
+if relu
+  hyperParams.classNL = @LReLU;
+  hyperParams.classNLDeriv = @LReLUDeriv;
+end
 
 wordMap = InitializeMaps('./grammars/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers'
@@ -39,25 +36,11 @@ hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-listingG = dir('grammars/data/quant*');
-hyperParams.splitFilenames = {};
+listingG = dir('grammars/data/quant_*');
 hyperParams.trainFilenames = {};
 hyperParams.testFilenames = {};
+hyperParams.splitFilenames = {listingG.name};
 
-elseif strcmp(dataflag, 'G-two_lt_two')
-    hyperParams.testFilenames = {'grammars/data/quant_two_lt_two'};
-    hyperParams.splitFilenames = {listingG.name};
-elseif strcmp(dataflag, 'G-no_no')
-    hyperParams.testFilenames = {'grammars/data/quant_no_no'};
-    hyperParams.splitFilenames = {listingG.name};
-elseif strcmp(dataflag, 'G-not_all_not_most')
-    hyperParams.testFilenames = {'grammars/data/quant_not_all_not_most'};
-    hyperParams.splitFilenames = {listingG.name};
-elseif strcmp(dataflag, 'G-all_some')
-    hyperParams.testFilenames = {'grammars/data/quant_all_some'};
-    hyperParams.splitFilenames = {listingG.name};
-elseif strcmp(dataflag, 'G-splitall')
-    hyperParams.splitFilenames = {listingG.name};
-end
+options.numPasses = 2500;
 
 end

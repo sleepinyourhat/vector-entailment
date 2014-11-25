@@ -53,7 +53,7 @@ hyperParams.dataPortion = 1.0;
 
 % When a dataset is to be automatically split into train and test portions,
 % use this much as test data.
-hyperParams.testFraction = 0.1;
+hyperParams.testFraction = 0.2;
 
 % When evaluating random samples from a training data set, don't evaluate
 % more than this many in each session.
@@ -99,19 +99,20 @@ options.LS_init = '2'; % Attempt to minimize evaluations per step...
 options.PlotFcns = [];
 % options.OutputFcn = @Display;  % Custom error reporting for minFunc
 
-%%% AdaGradSGD learning options. %%%
+%%% TrainSGD learning options. %%%
 
 options.numPasses = 250;
-options.miniBatchSize = 64;
-
-options.updateFn = @AdaGradUpdate;
+options.miniBatchSize = 32;
 
 % Learning parameters
-options.adaDeltaRho = 0.95;
-options.adaDeltaEps = 1e-6;
-options.adaEps = 0.01;
+options.updateFn = @AdaDeltaUpdate;
 
-% AdaGrad LR
+% AdaDelta
+options.adaDeltaRho = 0.95;
+options.adaDeltaEps = 1e-7;
+
+% AdaGrad
+options.adaEps = 0.01;
 options.lr = 0.05;
 
 % How often (in steps) to report cost.

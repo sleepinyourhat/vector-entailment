@@ -6,9 +6,10 @@ function [matrixGradients, biasGradients, ...
 
 if nargin < 7
     innerOutput = matrix * [a;b] + bias;
+% else  % Slow diagnostic assert:
+	% assert(min(innerOutput == matrix * [a;b] + bias), '!');
 end
 
-assert(min(innerOutput == matrix * [a;b] + bias), '!');
 
 % Compute the gradients and deltas for an RNN layer for a given example
 NLDeriv = nonlinearityDeriv(innerOutput);

@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, trainwords, loadwords, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, eyes, update, epsi)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, relu, epsi)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -6,12 +6,24 @@ function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
-    '-ed', num2str(embDim), '-td', num2str(topDepth), '-tr', num2str(trainwords),...
-    '-pen', num2str(penult), '-lr', num2str(lr), '-loadw', num2str(loadwords),...
+    '-ed', num2str(embDim), '-td', num2str(topDepth),...
+    '-pen', num2str(penult), '-lr', num2str(lr),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-wsc', num2str(wordScale),...
-    '-mb', num2str(mbs), '-e', num2str(eyes), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
-    '-eps', num2str(epsi)];
+    '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
+    '-eps', num2str(epsi), '-relu', num2str(relu)];
+
+if datamult < 0
+  % Use the firstMultiplier method
+  datamult = -1 * datamult;
+  hyperParams.firstMultiplier = 30;
+  hyperParams.firstCutoff = 2895;
+end
+
+if relu
+  hyperParams.classNL = @LReLU;
+  hyperParams.classNLDeriv = @LReLUDeriv;
+end
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
@@ -24,7 +36,8 @@ hyperParams.tensorScale = tensorScale; % 1?
 % The raw range bound on word vectors.
 hyperParams.wordScale = wordScale; % 0.1?
 
-hyperParams.useEyes = eyes;
+% Initialize the composition matrix with a fuzzy identity.
+hyperParams.useEyes = 1;
 
 if collo == 1
     hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
@@ -48,7 +61,7 @@ hyperParams.topDepth = topDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = trainwords; % If we train words, go ahead and use it.
+hyperParams.fastEmbed = true; % If we train words, go ahead and use it.
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -67,15 +80,15 @@ hyperParams.useThirdOrderComparison = tot;
 
 hyperParams.useSumming = summing;
 
-hyperParams.loadWords = loadwords;
-hyperParams.trainWords = trainwords;
+hyperParams.loadWords = true;
+hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = mbs;
 
-options.updateFn = update;
+options.updateFn = @AdaDeltaUpdate;
 options.adaDeltaEps = epsi;
 
 options.lr = lr;
@@ -167,8 +180,9 @@ elseif strcmp(dataflag, 'sick-plus-100k')
     relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
     relationMap{4} = containers.Map(hyperParams.relations{4}, 1:length(hyperParams.relations{4}));
 
-    wordMap = InitializeMaps('sick_data/all_words.txt');
-    hyperParams.vocabName = 'comwc';
+    wordMap = InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    'TODO!'
+    hyperParams.vocabName = 'comt4';
 
     hyperParams.trainingMultipliers = [datamult; nlimult; rtemult; 1];
 
@@ -181,6 +195,39 @@ elseif strcmp(dataflag, 'sick-plus-100k')
                      './sick_data/SICK_trial_parsed_noneg.txt', ...
                      './sick_data/SICK_trial_parsed_18plusparens.txt', ...
                      './sick_data/SICK_trial_parsed_lt18_parens.txt', ...
+                     './sick_data/denotation_graph_training_subsample.tsv'};
+    hyperParams.splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 2, 3, 4, 0, 0; 1, 1, 1, 1, 1, 4; 0, 0, 0, 0, 0, 0];
+elseif strcmp(dataflag, 'sick-plus-100k-ea') 
+    % The number of relations.
+    hyperParams.numRelations = [3 7 2 2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
+                             {'#', '=', '>', '<', '|', '^', '_'},
+                             {'ENTAILMENT', 'NONENTAILMENT'},
+                             {'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(4, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+    relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
+    relationMap{4} = containers.Map(hyperParams.relations{4}, 1:length(hyperParams.relations{4}));
+
+    wordMap = InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
+    'TODO!'
+    hyperParams.vocabName = 'comt4';
+
+    hyperParams.trainingMultipliers = [datamult; nlimult; rtemult; 1];
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
+                      '../data/parsed_wcmac_data.txt', ...
+                      '../data/parsed_rte.txt', ...
+                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
+    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed_exactAlign.txt', ...
+                     './sick_data/SICK_trial_parsed_justneg_exactAlign.txt', ...
+                     './sick_data/SICK_trial_parsed_noneg_exactAlign.txt', ...
+                     './sick_data/SICK_trial_parsed_18plusparens_exactAlign.txt', ...
+                     './sick_data/SICK_trial_parsed_lt18_parens_exactAlign.txt', ...
                      './sick_data/denotation_graph_training_subsample.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.

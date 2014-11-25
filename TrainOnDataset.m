@@ -12,14 +12,15 @@ elseif isfield(hyperParams, 'trainingMultipliers')
     startIndex = 1;
     for datasetIndex = 1:length(hyperParams.trainingMultipliers)
         for count = 1:hyperParams.trainingMultipliers(datasetIndex)
-            modifiedOrder = [modifiedOrder startIndex:startIndex + hyperParams.trainingLengths(datasetIndex) - 1];
+            modifiedOrder = [modifiedOrder, startIndex:startIndex + hyperParams.trainingLengths(datasetIndex) - 1];
         end
         startIndex = startIndex + hyperParams.trainingLengths(datasetIndex);
     end
     tempOrder = randperm(length(modifiedOrder));
     randomOrder = modifiedOrder(tempOrder);
+    assert(length(randomOrder) == sum(hyperParams.trainingLengths .* hyperParams.trainingMultipliers));
 else
-    randomOrder = randperm(N);
+    randomOrder = randperm(length(trainingData));
 end
 
 N = length(randomOrder);
@@ -40,11 +41,7 @@ for batchNo = 0:(numBatches - 1)
 
     [ cost, grad, embGrad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.separateWordFeatures, hyperParams);
 
-    if isfield(options, 'updateFn')
-        modelState = options.updateFn(modelState, options, grad, embGrad);
-    else
-        modelState = AdaGradUpdate(modelState, options, grad, embGrad);
-    end
+    modelState = options.updateFn(modelState, options, grad, embGrad);
 
     modelState.step = modelState.step + 1;
     modelState.lastHundredCosts(mod(modelState.step, 100) + 1) = cost(1);

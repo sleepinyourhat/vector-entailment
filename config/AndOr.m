@@ -1,11 +1,13 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, transDepth, penult, lambda, tot, mbs, lr, trainwords)
+function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop)
 
-% TODO: Assign wordMap.
 [hyperParams, options] = Defaults();
 
-% The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
-% the GloVe vectors.
+hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
+				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda), ...
+				    '-dropout', num2str(tdrop)];
+
 hyperParams.dim = dim;
+hyperParams.embeddingDim = dim;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -17,15 +19,16 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.useThirdOrder = tot;
 hyperParams.useThirdOrderComparison = tot;
 
-hyperParams.loadWords = false;
-hyperParams.trainWords = true;
+hyperParams.topDropout = tdrop;
 
-% How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = mbs;
+hyperParams.topDepth = top;
+
+if relu
+  hyperParams.classNL = @LReLU;
+  hyperParams.classNLDeriv = @LReLUDeriv;
+end
 
 options.numPasses = 15000;
-
-options.lr = lr;
 
 wordMap = LoadTrainingData('./RC/train1');
 % The name assigned to the current vocabulary. Used in deciding whether to load a 
@@ -36,6 +39,8 @@ hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
 hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+% TODO: Set up folds
 
 if strcmp(dataflag, 'and-or') 
     hyperParams.trainFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4'};
