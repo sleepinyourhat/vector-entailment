@@ -182,9 +182,8 @@ elseif strcmp(dataflag, 'sick-plus-100k')
     relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
     relationMap{4} = containers.Map(hyperParams.relations{4}, 1:length(hyperParams.relations{4}));
 
-    wordMap = InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
-    'TODO!'
-    hyperParams.vocabName = 'comt4';
+    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [datamult; nlimult; rtemult; 1];
 
@@ -215,9 +214,8 @@ elseif strcmp(dataflag, 'sick-plus-100k-ea')
     relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
     relationMap{4} = containers.Map(hyperParams.relations{4}, 1:length(hyperParams.relations{4}));
 
-    wordMap = InitializeMaps('sick_data/sick_plus_words_flickr_t4.txt');
-    'TODO!'
-    hyperParams.vocabName = 'comt4';
+    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [datamult; datamult; 1];
 
@@ -225,77 +223,35 @@ elseif strcmp(dataflag, 'sick-plus-100k-ea')
                      './sick_data/SICK_trial_parsed_exactAlign.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
     hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
-                     './sick_data/SICK_trial_parsed_justneg_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed_noneg_exactAlign.txt', ...
                      './sick_data/SICK_trial_parsed_18plusparens_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed_lt18_parens_exactAlign.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 4, 0, 0, 0; 1, 1, 1, 1, 1, 4; 0, 0, 0, 0, 0, 0];
-elseif strcmp(dataflag, 'sick-plus-100k-eav') 
+elseif strcmp(dataflag, 'sick-plus-600k-ea') 
     % The number of relations.
     hyperParams.numRelations = [3 7 2 2];
 
     hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
-                             {'#', '=', '>', '<', '|', '^', '_'},
-                             {'ENTAILMENT', 'NONENTAILMENT'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(4, 1);
+    relationMap = cell(2, 1);
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
-    relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
-    relationMap{4} = containers.Map(hyperParams.relations{4}, 1:length(hyperParams.relations{4}));
 
-    wordMap = ...
-        InitializeMaps('sick_data/all_words.txt');
-    hyperParams.vocabName = 'comwc';
+    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    hyperParams.vocabName = 'aspt4';
 
-    hyperParams.trainingMultipliers = [datamult; datamult; 1];
+    hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); 1];
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
                      './sick_data/SICK_trial_parsed_exactAlign.txt', ...
-                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
+                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
     hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
-                     './sick_data/SICK_trial_parsed_justneg_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed_noneg_exactAlign.txt', ...
                      './sick_data/SICK_trial_parsed_18plusparens_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed_lt18_parens_exactAlign.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 1, 4, 0, 0, 0; 1, 1, 1, 1, 1, 4; 0, 0, 0, 0, 0, 0];
-elseif strcmp(dataflag, 'sick-plus-600k') 
-    % The number of relations.
-    hyperParams.numRelations = [3 7 2 2];
-
-    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
-                             {'#', '=', '>', '<', '|', '^', '_'},
-                             {'ENTAILMENT', 'NONENTAILMENT'},
-                             {'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(4, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
-    relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
-    relationMap{4} = containers.Map(hyperParams.relations{4}, 1:length(hyperParams.relations{4}));
-
-    wordMap = InitializeMaps('sick_data/all_words.txt');
-    hyperParams.vocabName = 'comwc';
-
-    hyperParams.trainingMultipliers = [datamult; nlimult; rtemult; 1]; % [33, 40, 20, 1]
-    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
-                      '../data/parsed_wcmac_data.txt', ...
-                      '../data/parsed_rte.txt', ...
-                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
-    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
-                     './sick_data/SICK_trial_parsed_justneg.txt', ...
-                     './sick_data/SICK_trial_parsed_noneg.txt', ...
-                     './sick_data/SICK_trial_parsed_18plusparens.txt', ...
-                     './sick_data/SICK_trial_parsed_lt18_parens.txt', ...
-                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
-    hyperParams.splitFilenames = {};
-    % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 2, 3, 4, 0, 0; 1, 1, 1, 1, 1, 4; 0, 0, 0, 0, 0, 0];
+    hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
 elseif strcmp(dataflag, 'sick-plus')
     % The number of relations.
     hyperParams.numRelations = [3 2];

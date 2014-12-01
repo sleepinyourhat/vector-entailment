@@ -50,7 +50,7 @@ hyperParams = FlushLogs(hyperParams);
 
 
 % Remove the test data from the split data
-hyperParams.splitFilenames = setdiff(hyperParams.splitFilenames, hyperParams.testFilenames);
+% hyperParams.splitFilenames = setdiff(hyperParams.splitFilenames, hyperParams.testFilenames);
 
 % TODO
 hyperParams.firstSplit = length(hyperParams.testFilenames) + 1;

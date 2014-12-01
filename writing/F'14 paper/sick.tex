@@ -3,13 +3,13 @@
 The tree-pair model architecture that we use is novel, and though the underlying recursive approach has been validated elsewhere, there is no guarantee that this architecture is suitable for handling inference over real natural language. To ensure that this is the case, we also train a version of our model on an existing competition dataset, the ICK textual entailment challenge \cite{marelli2014sick}. The corpus consists of about 10k natural language sentence pairs (generated using data expansion from a smaller set), labeled with \ii{entailment}, \ii{contradiction}, or \ii{neutral}. At only a few thousand distinct sentences (many of them variants on an even smaller set of template sentences), the corpus is not large enough to train a high quality learned model of general natural language, but it is the largest hand labeled entailment corpus that we are aware of.
 
 \begin{table*}[htp]
-  \centering
-  \begin{tabular}{l}
+  \centering\small
+  \begin{tabular}{lcl}
     \toprule
-example example example example example example example example example example example \\
-example example example example example example example example example example example \\
-ENTAILMENT A skilled person is riding a bicycle on one wheel	A person is riding the bicycle on one wheel\\
-CONTRADICTION The player is missing the basket and a crowd is in background	The player is dunking the basketball into the net and a crowd is in background\\
+A woman is not boiling shrimps.& \ii{contradiction}&	A woman is boiling shrimps.\\
+A wild deer is jumping a fence. &\ii{entailment}	&A deer is jumping a fence.\\
+A potato is being sliced by a woman. &\ii{entailment}	&A woman is slicing a potato.\\
+The plane, which is south African, is flying in a blue sky.& \ii{entailment}&	An airplane is flying through the air.\\
     \bottomrule
   \end{tabular}
   \caption{\label{examplesofsickdata}Examples of successful classifications on SICK.}
@@ -28,7 +28,7 @@ We supplemented the roughly 5000 SICK training examples\footnote{We tuned the mo
     \toprule
     ~&\multicolumn{1}{c}{$\natind$ only} & \multicolumn{1}{c}{??d RNN}  & \multicolumn{1}{c}{??d RNTN}\\
     \midrule
-    Test & 56.7 &	...& \textbf{...} \\
+    Test & 56.7 &	...& \textbf{75.5} \\
     Train &- &- &-  \\
     \bottomrule
   \end{tabular}
@@ -38,18 +38,4 @@ We supplemented the roughly 5000 SICK training examples\footnote{We tuned the mo
 
 Despite the small amount of high quality training data available, it is possible to train our model to perform competitively on textual entailment. Our performance did not reach the state of the art (84.6\%), but exceeded the median submission to the competition (77.06\%) in a field including many models which used sophisticated hand-engineered features specific to the specific version of the entailment task at hand.
 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
-Explain Table \ref{examplesofsickdata}. 
+Table \ref{examplesofsickdata} shows a few typical examples of correct classifications. The model appears to be able to successfully recognize negation and the insertion and deletion of words, as demonstrated in the first two examples. The latter two show that the model still recognize entailments and contradictions between sentences which are not superficially similar, such as passive--active pairs and sentences with low lexical overlap.

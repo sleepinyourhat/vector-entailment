@@ -60,16 +60,25 @@ for i = 1:length(hyperParams.splitFilenames)
 
     Log(hyperParams.statlog, ['Loading split dataset ', hyperParams.splitFilenames{i}]);
     dataset = LoadConstitData(hyperParams.splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    length(dataset)
+
     lengthOfTestPortion = ceil(length(dataset) * PERCENT_USED_FOR_TESTING);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
     endOfTestPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
     testPortion = dataset(startOfTestPortion:endOfTestPortion);
-    trainPortion = [dataset(1:(startOfTestPortion - 1)); dataset(endOfTestPortion + 1:length(dataset))];
     testDatasets = [testDatasets, {testPortion}];
     
+    length(testPortion)
     % TODO - make fragment-safe
-    if ~(isfield(hyperParams, 'specialAndOrMode') && i > 10)
+    if ~(isfield(hyperParams, 'specialAndOrMode') && i > 9)
+        firstTrainPortion = dataset(1:(startOfTestPortion - 1));
+        secondTrainPortion = dataset(endOfTestPortion + 1:length(dataset));
+        trainPortion = [firstTrainPortion; secondTrainPortion];
         trainDataset = [trainDataset; trainPortion];
+        trainingLengths = [trainingLengths; length(dataset)];
+        length(trainPortion)
+    else
+        Log(hyperParams.statlog, ['Discarding train portion of split dataset ', hyperParams.splitFilenames{i}]);
     end
     % assert(length(testPortion) == lengthOfTestPortion);
     % assert(length(testPortion) + length(trainPortion) == length(dataset));

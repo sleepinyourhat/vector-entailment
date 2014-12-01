@@ -40,7 +40,7 @@ wordMap = LoadTrainingData('./RC/train1');
 hyperParams.vocabName = 'RC'; 
 
 hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-hyperParams.numRelations = [7];
+hyperParams.numRelations = 7;
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
@@ -52,11 +52,7 @@ if strcmp(dataflag, 'and-or')
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep') 
     hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4', './RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
-    hyperParams.testFilenames = {};
-elseif strcmp(dataflag, 'and-or-deep-unlim') 
-    hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4', './RC/longer2/test0', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
+    hyperParams.splitFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4', './RC/longer2/test1', './RC/longer2/test2', './RC/longer2/test3', './RC/longer2/test4', './RC/longer2/test5', './RC/longer2/test6', './RC/longer2/test7', './RC/longer2/test8', './RC/longer2/test9', './RC/longer2/test10', './RC/longer2/test11', './RC/longer2/test12'};
     hyperParams.testFilenames = {};
 end
 

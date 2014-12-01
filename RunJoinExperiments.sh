@@ -47,3 +47,20 @@ export MATLABCMD="cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 20; td = 1
 export MATLABCMD="cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 4);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 1);" ; qsub -v MATLABCMD quant/run.sh
 
+export MATLABCMD="cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold2'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold3'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold4'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold5'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 1; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+
+
+export MATLABCMD="cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold2'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold3'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold4'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'fold5'; lambda = 0.001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='tj'; relu = 1; TrainModel(''\, 1\, @Join\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+
+
+
+?? jude25.stanford.edu - 769613.scail.stanford.edu - cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 20; td = 1; penult = 75; dropout = 1; tot = 0; name='tjf'; relu = 1; TrainModel('', 2, @Join, name, dataflag, dim, penult, td, lambda, tot, relu, dropout, 32);
+?? jude19.stanford.edu - 769616.scail.stanford.edu - cd quant; dataflag = 'fold1'; lambda = 0.001; dim = 20; td = 1; penult = 75; dropout = 1; tot = 0; name='tjf'; relu = 1; TrainModel('', 5, @Join, name, dataflag, dim, penult, td, lambda, tot, relu, dropout, 32);
