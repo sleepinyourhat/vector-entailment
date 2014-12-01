@@ -36,6 +36,6 @@ We supplemented the roughly 5000 SICK training examples\footnote{We tuned the mo
   \label{sresultstable}
 \end{table} 
 
-Despite the small amount of high quality training data available, it is possible to train our model to perform competitively on textual entailment. Our performance did not reach the state of the art (84.6\%), but exceeded the median submission to the competition (77.06\%) in a field including many models which used sophisticated hand-engineered features specific to the specific version of the entailment task at hand.
+Despite the small amount of high quality training data available and the lack of resources for learning lexical relationships (especially exclusion, as in \ii{cat}--\ii{dog}), it is possible to train our model to perform competitively on textual entailment. Our performance did not reach the state of the art (84.6\%), but exceeded the median submission to the competition (77.06\%) in a field including many models which used sophisticated hand-engineered features specific to the specific version of the entailment task at hand.
 
 Table \ref{examplesofsickdata} shows a few typical examples of correct classifications. The model appears to be able to successfully recognize negation and the insertion and deletion of words, as demonstrated in the first two examples. The latter two show that the model still recognize entailments and contradictions between sentences which are not superficially similar, such as passive--active pairs and sentences with low lexical overlap.
