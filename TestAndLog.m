@@ -58,6 +58,7 @@ if mod(modelState.step, options.testFreq) == 0
         hyperParams.showExamples = false;
         if (testAcc(1) == modelState.bestTestAcc(1)) && (modelState.step > 0)
             % Write a checkpoint to disk.
+            delete([options.name, '/', 'ckpt-best-', options.runName, '*']);
             save([options.name, '/', 'ckpt-best-', options.runName, datestr(now, 'yymmddHHMMSS'),...
                     '@', num2str(modelState.step)] , 'modelState');
         end

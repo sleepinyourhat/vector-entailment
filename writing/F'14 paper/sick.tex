@@ -1,59 +1,55 @@
 \section{The SICK textual entailment challenge}
 
-What SICK is. \cite{marelli2014sick}
-\\ \\ \\ \\
-
+The tree-pair model architecture that we use is novel, and though the underlying recursive approach has been validated elsewhere, there is no guarantee that this architecture is suitable for handling inference over real natural language. To ensure that this is the case, we also train a version of our model on an existing competition dataset, the ICK textual entailment challenge \cite{marelli2014sick}. The corpus consists of about 10k natural language sentence pairs (generated using data expansion from a smaller set), labeled with \ii{entailment}, \ii{contradiction}, or \ii{neutral}. At only a few thousand distinct sentences (many of them variants on an even smaller set of template sentences), the corpus is not large enough to train a high quality learned model of general natural language, but it is the largest hand labeled entailment corpus that we are aware of.
 
 \begin{table*}[htp]
   \centering
-  \begin{tabular}{lcl}
+  \begin{tabular}{l}
     \toprule
-    (all turtles) walk      &    $\natind$  & (less-than-three turtles) walk\\
-    (three warthogs) move  &        $\natneg$ & (less-than-three warthogs) move\\
-    (all mammals) (not move) &         $\natalt$ & (some warthogs) swim\\
-    (some (not pets)) swim     &     $\natcov$  & (all (not pets)) (not move)\\
+example example example example example example example example example example example \\
+example example example example example example example example example example example \\
+ENTAILMENT A skilled person is riding a bicycle on one wheel	A person is riding the bicycle on one wheel\\
+CONTRADICTION The player is missing the basket and a crowd is in background	The player is dunking the basketball into the net and a crowd is in background\\
     \bottomrule
   \end{tabular}
   \caption{\label{examplesofsickdata}Examples of successful classifications on SICK.}
 \end{table*}
 
-We initialized our word embeddings using precomputed TODO dimensional vectors from 
-(TODO: Where?). Before any embedding is used as an input to a recursive layer, 
+We initialized our word embeddings using the TODO dimensional vectors provided with 
+GloVe \cite{pennington2014glove}. Before any embedding is used as an input to a recursive layer, 
 it is passed through an additional $\tanh$ neural network layer that transforms
-the embedding from the embedding
-dimension to the dimension of the recursive layer.
+the embedding from the embedding dimension to the dimension of the recursive layer.
 
-We supplemented the roughly 5000 SICK training examples\footnote{We tuned the model using performance on a held out development set, but report performance here for a version of the model trained on both the training and development data and tested on the SICK test set.} with training data from (CITE CITE CITE CITE CITE CITE CITE CITE CITE CITE CITE). We trained a single model on data from all sources, but used a separate set of softmax parameters for classifying into the labels from each source.
+We supplemented the roughly 5000 SICK training examples\footnote{We tuned the model using performance on a held out development set, but report performance here for a version of the model trained on both the training and development data and tested on the SICK test set.} with TODO examples of approximate entailment data from the Denotation Graph project \cite{hodoshimage}. We parsed all data with the Stanford PCFG Parser v. 3.3.1 \cite{klein2003accurate}. To accelerate convergence, we collapsed subtrees that were identical across both sentences in a pair down to a single head word. In order to improve regularization on the noisier data, we used dropout \cite{hinton2012improving} at the input to the comparison layer (10\%) and at the output from the embedding transform layer (25\%). We trained a single model on data from both sources, but used a separate set of softmax parameters for classifying into the labels from each source.
 
 \begin{table}[tp]
-  \centering
-  \setlength{\tabcolsep}{10pt}
-  \begin{tabular}{ r@{ \ }r r@{ \ }r r@{ \ }r }
+  \centering \small
+  \begin{tabular}{ l r@{ \ } r@{ \ } r@{ \ } }
     \toprule
-    \multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{16 dim RNN}  & \multicolumn{2}{c}{20 dim RNTN}\\
+    ~&\multicolumn{1}{c}{$\natind$ only} & \multicolumn{1}{c}{??d RNN}  & \multicolumn{1}{c}{??d RNTN}\\
     \midrule
-    56.7 &(...) &	...&(...)& \textbf{...} & \textbf{(...)}\\
+    Test & 56.7 &	...& \textbf{...} \\
+    Train &- &- &-  \\
     \bottomrule
   \end{tabular}
-  \caption{Performance on the SICK.}
+  \caption{Performance on SICK.}
   \label{sresultstable}
 \end{table} 
 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}. 
-Explain Figure \ref{examplesofsickdata}.
+Despite the small amount of high quality training data available, it is possible to train our model to perform competitively on textual entailment. Our performance did not reach the state of the art (84.6\%), but exceeded the median submission to the competition (77.06\%) in a field including many models which used sophisticated hand-engineered features specific to the specific version of the entailment task at hand.
 
-% TODO: Last runs, train on dev.
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 
+Explain Table \ref{examplesofsickdata}. 

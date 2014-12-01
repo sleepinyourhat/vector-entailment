@@ -27,7 +27,11 @@ hyperParams.foldNumber = fold;
 
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
+if fold > 1
+    hyperParams.name = [hyperParams.name, 'f', num2str(fold)];
+end
 options.name = hyperParams.name;
+
 
 % Set up an experimental directory.
 mkdir(hyperParams.name); 
@@ -63,9 +67,15 @@ savedParams = '';
 if ~isempty(pretrainingFilename)
     savedParams = pretrainingFilename;
 else
-    listing = dir([options.name, '/', 'ckpt-tr@*']);
+    listing = dir([options.name, '/ckpt-best*']);
+
     if ~isempty(listing)
         savedParams = [options.name, '/', listing(end).name];
+    else 
+        listing = dir([options.name, '/ckpt-*']);       
+        if ~isempty(listing)
+            savedParams = [options.name, '/', listing(end).name];
+        end
     end
 end
 if ~isempty(savedParams)

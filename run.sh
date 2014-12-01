@@ -1,6 +1,6 @@
 #/bin/bash
 #PBS -l nodes=1:ppn=4 	### Request at least 4 cores
-#PBS -l walltime=18:00:00	### Die after 18h
+#PBS -l walltime=30:00:00	### Die after 30h
 #PBS -l mem=6000MB
 #PBS -W x=NACCESSPOLICY:SINGLEJOB	### Use all cores on node
 #PBS -n	### Use all cores on node (alternate specification)

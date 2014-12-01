@@ -63,9 +63,8 @@ unseen pairs of sentences.
 \end{table*}
 
 % TODO: Rewrite experimental setup.
-We evaluate the model using two experimental settings. In the simpler
-setting, \textsc{all split}, we randomly sample 85\% of the data and evaluate on the
-remaining 15\%. In this setting, the model is being asked to learn a
+We evaluate the model by randomly sampling 20\% of the data to
+test on and training on the remainder. In this setting, the model is being asked to learn a
 complete reasoning system for the limited language and logic presented
 in the training data, but it is not being asked to generalize to test
 examples that are substantially different from those it was trained
@@ -87,40 +86,22 @@ determine \eqref{p3}.
 %
 % do not allow a blank line --- adds too much space
 %
-In this configuration the model ...
-
 \begin{table}[tp]
-  \centering
-  \setlength{\tabcolsep}{10pt}
-  \begin{tabular}{ r@{ \ }r r@{ \ }r r@{ \ }r }
+  \centering \small
+  \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
     \toprule
-    \multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{16 dim RNN}  & \multicolumn{2}{c}{20 dim RNTN}\\
+    ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{??d RNN}  & \multicolumn{2}{c}{??d RNTN}\\
     \midrule
-    35.4 &(7.5) &	67.4&(56.5)& \textbf{100.0} & \textbf{(100.0)}\\
+    Test & 35.4 &(7.5) &	99.1&(99.2)& \textbf{-} & \textbf{(-)}\\
+    Train & 35.4 &(7.5) &	-&	-&	-&	-\\	
     \bottomrule
   \end{tabular}
   \caption{Performance on the quantifier experiments.}
   \label{qresultstable}
 \end{table} 
+%
+% do not allow a blank line --- adds too much space
+%
+\paragraph{Results} The results, reported in Figure \ref{qresultstable}, show that both models are able to learn to generalize the underlying logic well.
 
-
-\paragraph{Results} % TODO: Rewrite!
-The results for these experiments are shown in
-Table~\ref{qresultstable}. We compare the results to a most frequent
-class baseline, which reflects the frequency in the test data of the
-most frequent class in the training data, $\natind$.  After some
-cross-validation, we chose 16- and 20-dimensional representations for
-the RNN and RNTN, respectively, and 75-dimensional feature vectors for
-the classifier. Training
-accuracy was near 80\% for the each of the five RNN experiments, and 
-near 98\% for each of the five RNTN experiments.
-
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion. 
-Discussion discussion.
+% TODO: More to say?

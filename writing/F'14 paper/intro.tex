@@ -55,7 +55,7 @@ to handle entailment classification, we describe a novel method for this task
 in the spirit of prior work on recursive neural networks (\ref{methods}).
 In three experiments, we use this pre-specified logical grammar to
 generate controlled data sets encoding the semantic relationships
-between pairs of expressions and evaluate whether this model can 
+between pairs of expressions and evaluate whether models with this architecture can 
 learn to correctly identify the relationships between novel pairs.
 In our first experiment (Section~\ref{sec:join}), we
 evaluate the ability of these models to learn the core relational
@@ -65,7 +65,7 @@ between complex recursive structures like $(a \plor b)$ and
 $\plneg (\plneg a \pland \plneg b)$, and our third experiment
 (Section~\ref{sec:quantifiers}) involves relations between quantified
 statements like \ii{every reptile walks} and \ii{no turtle moves}.
-We find that the plain RNN achieves only mixed results in all three
+We find that the plain recursive NN achieves only mixed results in all three
 experiments, whereas the stronger RNTN model generalizes well in every
 case, suggesting that it has in fact learned, or at least learned to
 simulate, our target logical concepts. These experiments provide the 

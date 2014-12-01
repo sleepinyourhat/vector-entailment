@@ -1,10 +1,10 @@
-function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, tot, relu, tdrop)
+function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, tot, relu, tdrop, mbs)
 
 [hyperParams, options] = Defaults();
 
 hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda),...
-				    '-dropout', num2str(tdrop)];
+				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
@@ -42,5 +42,7 @@ hyperParams.testFilenames = {};
 hyperParams.splitFilenames = {listingG.name};
 
 options.numPasses = 2500;
+
+options.miniBatchSize = mbs;
 
 end

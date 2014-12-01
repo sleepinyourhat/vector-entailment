@@ -68,9 +68,11 @@ for i = 1:length(hyperParams.splitFilenames)
     testDatasets = [testDatasets, {testPortion}];
     
     % TODO - make fragment-safe
-    trainDataset = [trainDataset; trainPortion];
-    assert(length(testPortion) == lengthOfTestPortion);
-    assert(length(testPortion) + length(trainPortion) == length(dataset));
+    if ~(isfield(hyperParams, 'specialAndOrMode') && i > 10)
+        trainDataset = [trainDataset; trainPortion];
+    end
+    % assert(length(testPortion) == lengthOfTestPortion);
+    % assert(length(testPortion) + length(trainPortion) == length(dataset));
 end
 
 % Evaluate on test datasets, and show set-by-set results
