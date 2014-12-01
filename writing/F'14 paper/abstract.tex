@@ -1,5 +1,26 @@
-\begin{abstract}
-Recursive neural network models for sentence meaning have been successful in many tasks, but it remains an open question whether any such model can learn compositional semantic representations that support logical deduction. We pursue this question directly by evaluating whether two such models can correctly learn to identify logical relationships such as entailment and contradiction between sentences. We first describe a recursive neural tensor network model for entailment and demonstrate it on the SICK challenge. We then use artificial data from a logical grammar to test the model's ability to learn to handle basic relational reasoning, recursive functions, and quantification. The model performs competitively on the SICK data and generalizes well in all three experiments on simulated data, suggesting that it can learn suitable representations for logical inference in natural language.
+% \begin{abstract}
+% Recursive neural network models for sentence meaning have been successful in many tasks, but it remains an open question whether any such model can learn compositional semantic representations that support logical deduction. We pursue this question directly by evaluating whether two such models can correctly learn to identify logical relationships such as entailment and contradiction between sentences. We first describe a recursive neural tensor network model for entailment and demonstrate it on the SICK challenge. We then use artificial data from a logical grammar to test the model's ability to learn to handle basic relational reasoning, recursive functions, and quantification. The model performs competitively on the SICK data and generalizes well in all three experiments on simulated data, suggesting that it can learn suitable representations for logical inference in natural language.
+% \end{abstract}
+
+
+%%%% POTTS REVISION
+\begin{abstract} 
+  Recursive neural networks (RNNs) for sentence meaning have been
+  successful in many tasks, but it remains an open question whether
+  any such model can learn compositional semantic representations that
+  support logical deduction. We pursue this question by
+  evaluating whether two such models---RNNs and recursive neural
+  tensor networks (RNTNs)---can correctly learn to identify logical
+  relationships such as entailment and contradiction. % between sentences.
+  In our first set of experiments, we generate artificial data from a
+  logical grammar and use it to evaluate the models' ability to learn
+  to handle basic relational reasoning, recursive structures, and
+  quantification. We then evaluate the models on the more naturalistic
+  SICK challenge data. Both models perform competitively on the SICK
+  data and generalize well in all three experiments on simulated data,
+  suggesting that they can learn suitable representations for logical
+  inference in natural language. 
 \end{abstract}
+
 
 % TODO: Is there anything I should add that would be more specific than 'many tasks'? 'Tasks like paraphrase detection'?	
