@@ -48,17 +48,11 @@ from the lexicon up to complex phrases. The formal properties and
 inferential strength of this system are now well-understood
 \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
 
-% TODO: Do we need both of these Icard/Moss citations? -- I'd prefer
-% to keep them ---CP.
-
-% Since no existing model architecture can be adopted without modification
-% to handle entailment classification, we describe a novel method for this task
-% in the spirit of prior work on recursive neural networks (\ref{methods}).
 In our first set of experiments, we use this pre-specified logical
 grammar to generate controlled data sets encoding the semantic
 relationships between pairs of expressions and evaluate whether each
-of two classes of neural model---plain RNNs and recursive neural
-tensor networks (RNTNs; \cite{socher2013acl1})---can learn those
+of two classes of neural model---plain recursive NNs and recursive neural
+tensor networks (RNTNs; \citealt{socher2013acl1})---can learn those
 relationships correctly. In our first experiment
 (Section~\ref{sec:join}), we evaluate the ability of these models to
 learn the core relational algebra of natural logic from data. Our
