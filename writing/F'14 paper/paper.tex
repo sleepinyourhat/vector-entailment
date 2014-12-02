@@ -44,10 +44,37 @@
 \usepackage{stmaryrd}
 \newcommand{\sem}[1]{\ensuremath{\llbracket#1\rrbracket}}
 
+<<<<<<< HEAD
+=======
+
+\newcommand{\mynote}[1]{{\color{blue}#1}}
+
+\newcommand{\tbchecked}[1]{{\color{red}#1}}
+
+>>>>>>> FETCH_HEAD
 \usepackage{gb4e}
 
 \def\ii#1{\textit{#1}}
 \newcommand{\word}[1]{\emph{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Code to simulate natbib's citealt, which prints citations with
+%%%%% no parentheses:
+
+\makeatletter
+\def\citealt{\def\citename##1{{\frenchspacing##1} }\@internalcitec}
+\def\@citexc[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \def\@citea{}\@citealt{\@for\@citeb:=#2\do
+    {\@citea\def\@citea{;\penalty\@m\ }\@ifundefined
+       {b@\@citeb}{{\bf ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+{\csname b@\@citeb\endcsname}}}{#1}}
+\def\@internalcitec{\@ifnextchar [{\@tempswatrue\@citexc}{\@tempswafalse\@citexc[]}}
+\def\@citealt#1#2{{#1\if@tempswa, #2\fi}}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%% %%%
 
