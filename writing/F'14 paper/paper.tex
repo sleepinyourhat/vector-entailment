@@ -57,8 +57,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Code to simulate natbib's citealt, which prints citations with
 %%%%% no parentheses:
+
 \makeatletter
-\newcommand{\@citealt}[1]{#1}
+\def\citealt{\def\citename##1{{\frenchspacing##1} }\@internalcitec}
+\def\@citexc[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \def\@citea{}\@citealt{\@for\@citeb:=#2\do
+    {\@citea\def\@citea{;\penalty\@m\ }\@ifundefined
+       {b@\@citeb}{{\bf ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+{\csname b@\@citeb\endcsname}}}{#1}}
+\def\@internalcitec{\@ifnextchar [{\@tempswatrue\@citexc}{\@tempswafalse\@citexc[]}}
+\def\@citealt#1#2{{#1\if@tempswa, #2\fi}}
 \makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
