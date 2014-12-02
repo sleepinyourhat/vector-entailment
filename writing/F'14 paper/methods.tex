@@ -3,7 +3,7 @@
 
 We study neural models that adhere to the linguistic \ii{principle of
  compositionality}, which says that the meanings for complex
-expressions are derived from the meanings of their constituent parts
+expressions are derived from the meanings of their parts
 via specific composition functions \cite{Partee84,Janssen97}. In our
 distributed setting, word meanings are vectors of dimension $n$. The
 composition function maps pairs of them to single vectors of dimension $n$, 
@@ -11,7 +11,8 @@ which can then be merged again to represent more complex
 phrases. Once the entire sentence-level representation has been
 derived, it serves as a fixed-dimensional input for some subsequent function.
 
-We use the model architecture depicted in Figure~\ref{sample-figure}. 
+We use the tree pair model architecture depicted in Figure~\ref{sample-figure}, which is novel 
+but closely modeled after past work on recursive NNs. 
 The two phrases being compared are processed separately using a pair 
 of recursive networks that share a single set of parameters. 
 The resulting vectors are fed into a separate comparison
@@ -43,7 +44,7 @@ composition layers (either an NN layer or an NTN layer) with
 independently learned parameters and a separate nonlinearity function.
 Rather than use a $\tanh$ nonlinearity here, we found better results with a rectified linear function. In
 particular, we use the leaky rectified linear function
-\shortcite{maasrectifier}: $f(x)=\max(x, 0) +
+\cite{maasrectifier}: $f(x)=\max(x, 0) +
 0.01\min(x, 0)$.
 
 To run the model forward and label a pair of phrases, the structure of
@@ -63,7 +64,7 @@ The parameters (including the vocabulary) are initialized randomly.
 Because the classes are not balanced in general, we report performance
 using both accuracy and macroaveraged F1, since the latter emphasizes
  performance on infrequent classes. We compute macroaveraged F1 
-as the harmonic mean of mean precision and mean recall, both computed
+as the harmonic mean of average precision and average recall, both computed
 for all classes for which there is test data, setting precision to 0 
 where it is not defined. Source code and generated data will be released
 after the review period.

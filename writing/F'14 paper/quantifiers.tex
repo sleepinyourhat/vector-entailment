@@ -1,14 +1,12 @@
 \section{Reasoning with natural language quantifiers and negation}\label{sec:quantifiers}
 
-% TODO: Compress?
-
 We have seen that recursive NNs can learn an approximation of propositional
 logic.  However, natural languages can express functional meanings of
-considerably greater complexity than this.  As a first step towards
+considerably greater complexity than this.  As a step towards
 investigating whether our models can capture this complexity, we now
-attempt to directly measure the degree to which they are able to
+directly measure the degree to which they are able to
 develop suitable representations for the semantics of natural language
-quantifiers like \ii{some} and \ii{all}. Quantification is far from
+quantifiers like \ii{most} and \ii{all}. Quantification is far from
 the only place in natural language where complex functional meanings
 are found, but it is a natural starting point, since it can be tested
 in sentences whose structures are otherwise quite simple, and since it
@@ -50,13 +48,10 @@ unseen pairs of sentences.
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
-% TODO: Rewrite experimental setup.
 We evaluate the models by randomly sampling 20\% of the data to
-test on and training on the remainder. In this setting, the models are being asked to learn a
+test on and training on the remainder. In this setting, each model being asked to learn a
 complete reasoning system for the limited language and logic presented
-in the training data, but it is not being asked to generalize to test
-examples that are substantially different from those it was trained
-on. Crucially, though, to succeed on this task, the models must be able
+in the training data. To succeed on this task, the model must be able
 to recognize all of the lexical relations between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
 \eqref{p1} and \eqref{p2} in training and, from that information,
@@ -81,12 +76,10 @@ determine \eqref{p3}.
     Train & 35.4 &(7.5) &	100&		(100)&	100&	(100)\\	
     \bottomrule
   \end{tabular}
-  \caption{\mynote{Performance on the quantifier experiments.}}
+  \caption{\mynote{Performance on the quantifier experiments, given as \% correct and macroaveraged F1.}}
   \label{qresultstable}
 \end{table} 
 %
 % do not allow a blank line --- adds too much space
 %
 \paragraph{Results} The results, reported in Figure \ref{qresultstable}, show that both models are able to learn to generalize the underlying logic well.
-
-% TODO: More to say?

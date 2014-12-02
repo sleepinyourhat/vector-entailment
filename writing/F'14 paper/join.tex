@@ -53,7 +53,7 @@ sets of entities from a small domain.  Figure~\ref{lattice-figure}
 depicts a structure of this form. The lattice gives the full model,
 for which all the statements on the right are valid. We divide these
 statements evenly into training and test sets, and remove from the
-test set those statements which cannot be proven from the training
+test set statements which cannot be proven from the training
 statements.
 % using the logic depicted in Figure~\ref{lattice-figure}.
 
@@ -64,11 +64,11 @@ chosen as a test set, and that test set is further reduced to the 2960
 examples that can be provably derived from the training data.
 
 We trained versions of both the RNN model and the RNTN model on these
-data sets. In both cases, the models were implemented exactly as
+data sets. In both cases, the models are implemented exactly as
 described in Section~\ref{methods}, but since the items being compared
 are single terms rather than full tree structures, the composition
-layer was not involved, and the two models differed only in which
-layer function was used for the comparison layer. We simply present
+layer is not involved, and the two models differed only in which
+layer function is used for the comparison layer. We simply present
 the models with two single terms, each of which corresponds to a
 single vector in the (randomly initialized) vocabulary matrix $V$,
 thereby ensuring that the model has no information about the terms
@@ -157,9 +157,9 @@ being compared except the relations between them.
 
 
 \paragraph{Results} 
-Table \ref{joinresultstable} shows the results, which are fairly straightforward 
-to interpret. Both models were able to accurately encode the relations 
+Table \ref{joinresultstable} shows the results, which are straightforward 
+to interpret. Both models are able to accurately encode the relations 
 between the terms in the geometric relations between their vectors, 
-and was able to then use that information to recover relations that 
-were not overtly included in the training data.
+and is able to then use that information to recover relations that 
+are not overtly included in the training data.
 

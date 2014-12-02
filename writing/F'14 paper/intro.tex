@@ -24,11 +24,9 @@ structures. Other recent work
 \cite{grefenstette2013towards,rocktaschellow} has developed rich
 frameworks for computing the meanings of complex fragments of natural
 language compositionally from vector or tensor representations, but
-these approaches do not confront the question of how to learn their
+these approaches have not yet attempted to learn their
 highly structured representations from data using existing applied
 machine learning models.
-
-% TODO: Any way to avoid nested parens? Yes, use \citealt ---CP
 
 Our research uses the task of \ii{natural language
   inference} (also known as \ii{recognizing textual entailment};
@@ -79,7 +77,11 @@ nonetheless able to achieve competitive performance on it
 \mynote{CONSIDER ADDING A CONCRETE DETAIL --- E.G., ACCURACY
   AND ITS RELATION TO THE COMPETITION MEDIAN}, suggesting that the
 representational abilities that we observe in the previous sections
-are not limited to carefully circumscribed tasks.
+are not limited to carefully circumscribed tasks. We conclude that RNTN models
+are adequate for typical cases of natural logic inference, and that there is not yet
+any clear level of inferential complexity for which other approaches work and NN models fail.
+
+% TODO: Clean up and condense to column length?
 
 \begin{table*}[tp]
   \centering\small

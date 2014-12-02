@@ -1,13 +1,13 @@
-\section{General discussion}\label{sec:discussion}
+\section{Discussion and conclusion}\label{sec:discussion}
 
-This paper evaluated two recursive models on a series of three increasingly
-challenging interpretive tasks involving natural language inference---
-the core relational algebra of natural logic with entailment and
+This paper first evaluates two recursive models on a series of three increasingly
+challenging interpretive tasks involving natural language inference---the 
+core relational algebra of natural logic with entailment and
 exclusion; recursive propositional logic structures; and statements
-involving quantification and negation---as well as on an entailment task on
-natural language image captions. The results suggest that RNTNs,
-but not necessarily plain RNNs, have the capacity to meet the 
-challenges of these tasks with reasonably-sized training sets. These positive results are
+involving quantification and negation. We then showed that the same models can learn to
+perform an entailment task on natural language image captions. \mynote{The results suggest that RNTNs,
+but not necessarily plain RNNs}, have the capacity to model these tasks with 
+reasonably-sized training sets. These positive results are
 promising for the future of learned representation models in the
 applied modeling of compositional semantics.
 
@@ -15,10 +15,10 @@ Of course, challenges remain. In terms of our experimental data, even
 the RNTN falls short of perfection in the recursion experiment, with
 performance falling off steadily as the size of the expressions grows. It
 remains to be seen whether these deficiencies can be overcome with
-stronger models or the optimization procedures. The space of possible stronger
+stronger models or optimization procedures. The space of possible stronger
 models is sizable, including extensions of the recursive models used here
 \cite{sochergrounded,kalchbrenner2014convolutional,irsoydeep}, recurrent
-ones \cite{sutskever2014sequence}, and even learning-oriented variants 
+models \cite{sutskever2014sequence}, and even learning-enabled variants 
 of more structured models like those of \newcite{grefenstette2013towards} or \newcite{rocktaschellow}.
 In addition,
 there remain subtle questions about how to fairly assess whether these
@@ -28,13 +28,13 @@ them a chance to learn the target logical functions and revealing the
 answer to them in a way that leads to overfitting. The underlying
 logical theories provide only limited guidance on this point.
 
-Finally, our artificial data experiments have only scratched the surface 
+Our artificial data experiments have only scratched the surface 
 of the logical complexity of natural language; in future experiments, we hope to test sentences
 with embedded quantifiers, multiple interacting quantifiers, relative
 clauses, and other kinds of recursive structure. Nonetheless, the
 rapid progress the field has made with these models in recent years
 provides ample reason to be optimistic that they can be trained to
-meet the challenges of natural language semantics.
+meet all the challenges of natural language semantics.
 
 % These experiments represent one of the first attempts to reproduce any large fragment of the behavior of a complex logic within a neural network model, and the first attempt that we are aware of to address either the encoding of lexical relations or the learning of recursive operators. This presents considerable challenges in evaluating the particular models that we choose, since we cannot rely on prior results to establish that any particular amount or type of training data is sufficient to teach any model the structure of the logic. The positive results that we have found, however, are extremely promising for the future of learned representation models in the applied modeling of meaning. We have seen that recursive neural tensor networks are able to encode lexical relations accurately and encode recursive operators. We have also seen that both RNNs and RNTNs are able to handle the meanings of quantifiers in an inference setting in at least some cases. 
 
