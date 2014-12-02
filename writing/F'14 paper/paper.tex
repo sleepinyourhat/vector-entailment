@@ -45,10 +45,24 @@
 \newcommand{\sem}[1]{\ensuremath{\llbracket#1\rrbracket}}
 
 
+\newcommand{\mynote}[1]{{\color{blue}#1}}
+
+\newcommand{\tbchecked}[1]{{\color{red}#1}}
+
 \usepackage{gb4e}
 
 \def\ii#1{\textit{#1}}
 \newcommand{\word}[1]{\emph{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Code to simulate natbib's citealt, which prints citations with
+%%%%% no parentheses:
+\makeatletter
+\newcommand{\@citealt}[1]{#1}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%% %%%
 

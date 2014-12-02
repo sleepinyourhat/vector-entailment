@@ -14,75 +14,83 @@ entailment, and contradiction needed to identify the relationships
 between sentences like \ii{every animal walks}, \ii{every turtle
   moves}, and \ii{most reptiles don't move}. 
   
-To date, experimental investigations of these concepts using 
-distributed representations have been largely confined to short phrases
+To date, experimental investigations of these concepts using
+distributed representations have been largely confined to short
+phrases
 \cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment}.
-For robust natural language understanding, it is essential to model
-these phenomena in their full generality on complex linguistic
-structures. Other recent work \cite{grefenstette2013towards,rocktaschellow} has
-developed well-understood frameworks that can compute the meanings of 
-certain fragments of natural language compositionally from vector or
-tensor representations. These frameworks are too structured to allow broad
-coverage meaning representations to be learned in
-supervised natural language tasks, and as such do not provide direct insight
-into the question of what existing applied machine learning models are 
-capable of.
+However, for robust natural language understanding, it is essential to
+model these phenomena in their full generality on complex linguistic
+structures. Other recent work
+\cite{grefenstette2013towards,rocktaschellow} has developed rich
+frameworks for computing the meanings of complex fragments of natural
+language compositionally from vector or tensor representations, but
+these approaches do not confront the question of how to learn their
+highly structured representations from data using existing applied
+machine learning models.
 
-% TODO: Any way to avoid nested parens?
+% TODO: Any way to avoid nested parens? Yes, use \citealt ---CP
 
 Our research uses the task of \ii{natural language
-  inference} (also known as \ii{recognizing textual entailment}
-\cite{dagan2006pascal}), in which the goal is to determine the core
+  inference} (also known as \ii{recognizing textual entailment}; 
+\citealt{dagan2006pascal}), in which the goal is to determine the core
 inferential relationship between two sentences. Much of the
-theoretical work on this task (and some successful implemented models
-\cite{maccartney2009extended,watanabe2012latent}) involves \ii{natural
+theoretical work on this task (and some successful implemented models; 
+\citealt{maccartney2009extended,watanabe2012latent}) involves \ii{natural
   logics}, which are formal systems that define rules of inference
 between natural language words, phrases, and sentences without the
 need of intermediate representations in an artificial logical
-language. We use the natural logic developed by MacCartney and Manning 
-\shortcite{maccartney2009extended} 
-as our formal model. This logic defines seven core relations of synonymy, 
-entailment, contradiction, and mutual consistency, as summarized in
-Table~\ref{b-table}, and it provides rules of semantic combination for
-projecting these relations from the lexicon up to complex phrases. The
-formal properties and inferential strength of this system are now
-well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
+language. We use the natural logic developed by
+\newcite{maccartney2009extended} as our formal model. This logic
+defines seven core relations of synonymy, entailment, contradiction,
+and mutual consistency, as summarized in Table~\ref{b-table}, and it
+provides rules of semantic combination for projecting these relations
+from the lexicon up to complex phrases. The formal properties and
+inferential strength of this system are now well-understood
+\cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
 
-% TODO: Do we need both of these Icard/Moss citations?
- 
-Since no existing model architecture can be adopted without modification
-to handle entailment classification, we describe a novel method for this task
-in the spirit of prior work on recursive neural networks (\ref{methods}).
-In three experiments, we use this pre-specified logical grammar to
-generate controlled data sets encoding the semantic relationships
-between pairs of expressions and evaluate whether models with this architecture can 
-learn to correctly identify the relationships between novel pairs.
-In our first experiment (Section~\ref{sec:join}), we
-evaluate the ability of these models to learn the core relational
-algebra of natural logic from data. Our second experiment
-(Section~\ref{sec:recursion}) extends this evaluation to relations
-between complex recursive structures like $(a \plor b)$ and
-$\plneg (\plneg a \pland \plneg b)$, and our third experiment
-(Section~\ref{sec:quantifiers}) involves relations between quantified
-statements like \ii{every reptile walks} and \ii{no turtle moves}.
-We find that the plain recursive NN achieves only mixed results in all three
-experiments, whereas the stronger RNTN model generalizes well in every
-case, suggesting that it has in fact learned, or at least learned to
-simulate, our target logical concepts. These experiments provide the 
-most convincing demonstration to date of the ability of neural networks to model
-semantic inferences in complex natural language sentences.
+% TODO: Do we need both of these Icard/Moss citations? -- I'd prefer
+% to keep them ---CP.
 
-Finally, we perform a simple additional experiment to verify that our novel
-model structure is able to show similar reasoning behavior on real natural language data.
-The small size of existing entailment data precludes a state-of-the-art result, but we show
-that our model is able to perform competitively on the SICK entailment challenge, suggesting
-that the representational abilities that we observe in the previous sections are not limited to 
-narrowly defined artificial tasks.
+% Since no existing model architecture can be adopted without modification
+% to handle entailment classification, we describe a novel method for this task
+% in the spirit of prior work on recursive neural networks (\ref{methods}).
+In our first set of experiments, we use this pre-specified logical
+grammar to generate controlled data sets encoding the semantic
+relationships between pairs of expressions and evaluate whether each
+of two classes of neural model---plain RNNs and recursive neural
+tensor networks (RNTNs; \cite{socher2013acl1})---can learn those
+relationships correctly. In our first experiment
+(Section~\ref{sec:join}), we evaluate the ability of these models to
+learn the core relational algebra of natural logic from data. Our
+second experiment (Section~\ref{sec:recursion}) extends this
+evaluation to relations between complex recursive structures like
+$(a \plor b)$ and $\plneg (\plneg a \pland \plneg b)$, and our third
+experiment (Section~\ref{sec:quantifiers}) involves relations between
+quantified statements like \ii{every reptile walks} and \ii{no turtle
+  moves}. \tbchecked{We find that the plain recursive NN achieves only
+  mixed results in all three experiments, whereas the stronger RNTN
+  model generalizes well in every case, suggesting that it has in fact
+  learned, or at least learned to simulate, our target logical
+  concepts.}
+
+The experiments with simulated data provide a convincing demonstration
+of the ability of neural networks to learn to encode semantic
+inferences in complex natural language sentences from reasonably-sized
+training sets. However, we are also interested in the more practical
+question of whether they can learn these representations from more
+naturalistic text. To address this question, we apply our models to
+the SICK entailment challenge data. The small size of this corpus puts
+data-intensive neural models like ours at a disadvantage, but we are
+nonetheless able to achieve competitive performance on it
+\mynote{CONSIDER ADDING A CONCRETE DETAIL --- E.G., ACCURACY
+  AND ITS RELATION TO THE COMPETITION MEDIAN}, suggesting that the
+representational abilities that we observe in the previous sections
+are not limited to carefully circumscribed tasks.
 
 \begin{table*}[tp]
   \centering\small
   \setlength{\tabcolsep}{15pt}
-  \renewcommand{\arraystretch}{1.1}
+  \renewcommand{\arraystretch}{1}
   \begin{tabular}{l c l l} 
     \toprule
     Name & Symbol & Set-theoretic definition & Example \\ 
