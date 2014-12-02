@@ -5,11 +5,11 @@ We study neural models that adhere to the linguistic \ii{principle of
  compositionality}, which says that the meanings for complex
 expressions are derived from the meanings of their constituent parts
 via specific composition functions \cite{Partee84,Janssen97}. In our
-distributed setting, word meanings are vectors of length $n$. The
-composition function maps pairs of them to single vectors of length $n$, 
+distributed setting, word meanings are vectors of dimension $n$. The
+composition function maps pairs of them to single vectors of dimension $n$, 
 which can then be merged again to represent more complex
 phrases. Once the entire sentence-level representation has been
-derived, it serves as a fixed-length input for some subsequent function.
+derived, it serves as a fixed-dimensional input for some subsequent function.
 
 We use the model architecture depicted in Figure~\ref{sample-figure}. 
 The two phrases being compared are processed separately using a pair 
@@ -21,11 +21,11 @@ given to a softmax classifier, which in turn produces a hypothesized
 distribution over the seven relations represented in Table~\ref{b-table}.
 
 For a composition layer, we evaluate models with both the plain neural
-network layer function \eqref{rnn} and a more powerful extension, the RNTN layer function
-\eqref{rntn} proposed in \newcite{chen2013learning}. A $\tanh$ nonlinearity is applied to the output of the layer function.
+network layer function \eqref{rnn} and the more powerful RNTN layer function
+\eqref{rntn} proposed in \newcite{chen2013learning}. The nonlinearity $f(x) = \tanh(x)$ is applied to the output of the layer function.
 %
 \begin{gather} \label{rnn}
-\vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}) \\
+\vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}\,) \\
 \label{rntn}
 \vec{y}_{\textit{RNTN}} = \vec{y}_{\textit{RNN}} + f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
 \end{gather} 
@@ -35,16 +35,16 @@ representations for the left and right children of the node, and
 $\vec{y}$ is the node's output.  The RNN concatenates them, multiplies
 them by an $n \times 2n$ matrix of learned weights, adds a bias $\vec{b}$, and applies the
 element-wise non-linearity to the resulting vector. The RNTN adds a learned third-order tensor 
-$\mathbf{T}$, dimension $n \times n \times n$, modeling
+$\mathbf{T}$, of dimension $n \times n \times n$, modeling
 multiplicative interactions between the child vectors.
 
 The comparison layer uses the same layer function as the
 composition layers (either an NN layer or an NTN layer) with
 independently learned parameters and a separate nonlinearity function.
-Rather than use a $\tanh$ nonlinearity here, we use a rectified linear function. In
+Rather than use a $\tanh$ nonlinearity here, we found better results with a rectified linear function. In
 particular, we use the leaky rectified linear function
-\shortcite{maasrectifier}: $f(\vec{x})=\max(\vec{x}, 0) +
-0.01\min(\vec{x}, 0)$, applied element-wise.
+\shortcite{maasrectifier}: $f(x)=\max(x, 0) +
+0.01\min(x, 0)$.
 
 To run the model forward and label a pair of phrases, the structure of
 the lower layers of the network is assembled so as to mirror the tree
@@ -58,7 +58,7 @@ correct label.
 % Removed 'minibatch' -> For two of the experiments, we use minibatches
 % of size 1, which doesn't really count.
 We train the model using stochastic gradient descent (SGD)
-with learning rates computed using ADADELTA \cite{zeiler2012adadelta}.
+with learning rates computed using AdaDelta \cite{zeiler2012adadelta}.
 The parameters (including the vocabulary) are initialized randomly.
 Because the classes are not balanced in general, we report performance
 using both accuracy and macroaveraged F1, since the latter emphasizes

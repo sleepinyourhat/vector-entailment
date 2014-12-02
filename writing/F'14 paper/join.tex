@@ -9,8 +9,7 @@ Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
 set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
 $a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  The
 full set of sound inferences of this form is summarized in
-Table~\ref{tab:jointable}; cells containing a dot correspond to pairs
-of relations for which no valid inference can be drawn in our logic.
+Table~\ref{tab:jointable}.
 
 % about the relations themselves that do not depend on the
 % internal structure of the things being compared. For example, given
@@ -42,7 +41,8 @@ of relations for which no valid inference can be drawn in our logic.
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
   \end{array}$
-  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
+  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths. Cells containing a dot correspond to pairs
+of relations for which no valid inference can be drawn.}
   \label{tab:jointable}
 \end{table}
 
@@ -132,7 +132,7 @@ being compared except the relations between them.
 %  \end{subfigure}
 %  \qquad
 %  \begin{subfigure}[t]{0.43\textwidth}
-    \centering\small
+    \centering
     \setlength{\tabcolsep}{12pt}
     \begin{tabular}[b]{c  c}
       \toprule
@@ -160,15 +160,10 @@ being compared except the relations between them.
 
 \paragraph{Results} 
 Table \ref{joinresultstable} shows the results, which are fairly straightforward 
-to interpret. The RNTN model
-was able to accurately encode the relations between the terms in the
-geometric relations between their vectors, and was able to then use
-that information to recover relations that were not overtly included
-in the training data. In contrast, the RNN model was able to achieve
-this behavior only incompletely. It is possible but not likely that it
-could be made to find a good solution with further optimization on
-different learning algorithms, or that it would do better on a larger
-universe of sets, for which there would be a larger set of training
-data to learn from, but the RNTN is readily able to achieve these
-effects in the setting discussed here.
-
+to interpret. Both models were able to accurately encode the relations 
+between the terms in the geometric relations between their vectors, 
+and was able to then use that information to recover relations that 
+were not overtly included in the training data.  The model's slightly 
+poorer performance on the unprovable test examples shows that it
+ has not simply encoded an approximation the entire underlying 
+ model, but is rather taking advantage of the specific statements seen in the test data.

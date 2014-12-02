@@ -1,6 +1,8 @@
 \section{Reasoning with natural language quantifiers and negation}\label{sec:quantifiers}
 
-We have seen that the RNTN can learn an approximation of propositional
+% TODO: Compress?
+
+We have seen that recursive NNs can learn an approximation of propositional
 logic.  However, natural languages can express functional meanings of
 considerably greater complexity than this.  As a first step towards
 investigating whether our models can capture this complexity, we now
@@ -26,8 +28,8 @@ with differing lexical items, we define the lexical relations between
 each noun--noun pair, each verb--verb pair, and each
 quantifier--quantifier pair. The grammar accepts aligned pairs of
 sentences of this form and calculates the natural logic relationship
-between them.  Some examples of these data are provided in
-Table~\ref{examplesofdata}.  As in previous sections, the goal of
+between them.  Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
+  As in previous sections, the goal of
 learning is then to assign these relational labels accurately to
 unseen pairs of sentences.
 
@@ -48,44 +50,27 @@ unseen pairs of sentences.
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
-\begin{table*}[htp]
-  \centering\small
-  \begin{tabular}{lcl}
-    \toprule
-    (all turtles) walk      &    $\natind$  & (less-than-three turtles) walk\\
-    (three warthogs) move  &        $\natneg$ & (less-than-three warthogs) move\\
-    (all mammals) (not move) &         $\natalt$ & (some warthogs) swim\\
-    (some (not pets)) swim     &     $\natcov$  & (all (not pets)) (not move)\\
-    \bottomrule
-  \end{tabular}
-  \caption{\label{examplesofdata}Examples of pairs of artificial setences with quantifiers.}
-
-\end{table*}
-
 % TODO: Rewrite experimental setup.
-We evaluate the model by randomly sampling 20\% of the data to
-test on and training on the remainder. In this setting, the model is being asked to learn a
+We evaluate the models by randomly sampling 20\% of the data to
+test on and training on the remainder. In this setting, the models are being asked to learn a
 complete reasoning system for the limited language and logic presented
 in the training data, but it is not being asked to generalize to test
 examples that are substantially different from those it was trained
-on. Crucially, though, to succeed on this task, the model must be able
+on. Crucially, though, to succeed on this task, the models must be able
 to recognize all of the lexical relations between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
 \eqref{p1} and \eqref{p2} in training and, from that information,
 determine \eqref{p3}.
-%
-% do not allow a blank line --- adds too much space
-%
+
+\vspace{-0.6cm}
 \begin{gather}
   \text{(most turtle) swim} \natalt \text{(no turtle) move}\label{p1}
   \\
   \text{(all lizard) reptile} \natfor  \text{(some lizard) animal}\label{p2}
   \\
   \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
-\end{gather}
-%
-% do not allow a blank line --- adds too much space
-%
+\end{gather}\vspace{-0.8cm}
+
 \begin{table}[tp]
   \centering \small
   \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }

@@ -1,37 +1,35 @@
 \section{General discussion}\label{sec:discussion}
 
 This paper evaluated two recursive models on a series of three increasingly
-challenging interpretive tasks involving natural language inference:
+challenging interpretive tasks involving natural language inference---
 the core relational algebra of natural logic with entailment and
 exclusion; recursive propositional logic structures; and statements
-involving quantification and negation. The results suggest that RNTNs,
-but not plain RNNs, have the capacity to meet the challenges of these
-tasks with reasonably-sized training sets. These positive results are
+involving quantification and negation---as well as on an entailment task on
+natural language image captions. The results suggest that RNTNs,
+but not necessarily plain RNNs, have the capacity to meet the 
+challenges of these tasks with reasonably-sized training sets. These positive results are
 promising for the future of learned representation models in the
 applied modeling of compositional semantics.
 
 Of course, challenges remain. In terms of our experimental data, even
-the RNTN falls short of perfection in our more complex tasks, with
-performance falling off steadily as the depth of recursion grows. It
+the RNTN falls short of perfection in the recursion experiment, with
+performance falling off steadily as the size of the expressions grows. It
 remains to be seen whether these deficiencies can be overcome with
-stronger models---either extended recursive models 
-\cite{sochergrounded,kalchbrenner2014convolutional,irsoydeep} or recurrent
-ones \cite{sutskever2014sequence}---or the optimization procedures. In addition,
+stronger models or the optimization procedures. The space of possible stronger
+models is sizable, including extensions of the recursive models used here
+\cite{sochergrounded,kalchbrenner2014convolutional,irsoydeep}, recurrent
+ones \cite{sutskever2014sequence}, and even learning-oriented variants 
+of more structured models like those of \newcite{grefenstette2013towards} or \newcite{rocktaschellow}.
+In addition,
 there remain subtle questions about how to fairly assess whether these
 models have truly generalized in the way we want them to. There is a
 constant tension between showing the models training data that gives
 them a chance to learn the target logical functions and revealing the
 answer to them in a way that leads to overfitting. The underlying
 logical theories provide only limited guidance on this point.
-%
-%, and the fact that there is a finite universe of possible
-%  expressions makes his an unavoidable issue. 
-%
-%  CP: I don't understand the above. It is false if taken literally;
-%  our PL generates an infinte number of formulae.
-%
-Finally, we have only scratched the surface of the logical complexity
-of natural language; in future experiments, we hope to test sentences
+
+Finally, our artificial data experiments have only scratched the surface 
+of the logical complexity of natural language; in future experiments, we hope to test sentences
 with embedded quantifiers, multiple interacting quantifiers, relative
 clauses, and other kinds of recursive structure. Nonetheless, the
 rapid progress the field has made with these models in recent years

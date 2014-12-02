@@ -12,14 +12,20 @@ if isempty(strfind(filename, '/'))
 end
 
 % Check whether we already loaded this file
-if fragment
-    [pathname, filenamePart, ext] = fileparts(filename);
-    listing = dir([pathname, '/pp-', filenamePart, ext, '-final-', hyperParams.vocabName, '*']);
-    if length(listing) > 0
-        Log(hyperParams.statlog, ['File ', filename, ' was already processed.']);
-        return
+
+[pathname, filenamePart, ext] = fileparts(filename);
+listing = dir([pathname, '/pp-', filenamePart, ext, '-final-', hyperParams.vocabName, '*']);
+if length(listing) > 0
+    Log(hyperParams.statlog, ['File ', filename, ' was already processed.']);
+    if ~fragment
+        loadname = listing.name{1};
+        disp(['Loading preprocessed file ' loadname]);
+        l = load([pathname, '/', loadname],'-mat');
+        data = l.data
     end
+    return
 end
+
 
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
