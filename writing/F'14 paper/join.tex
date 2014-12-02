@@ -80,8 +80,7 @@ being compared except the relations between them.
     \toprule
     ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{??d RNN}  & \multicolumn{2}{c}{??d RNTN}\\
     \midrule
-    Provable test &52.0 &(10.3) &	95...&(-)& \textbf{96.8...} & \textbf{(-)}\\
-    All test &53.8 &(10.5) &	-&(-)& \textbf{-} & \textbf{(-)}\\
+    Test &52.0 &(10.3) &	95...&(-)& \textbf{96.8...} & \textbf{(-)}\\
     Train &53.8 &(10.5)    & -&(-)& \textbf{-} & \textbf{(-)}\\
 
     \bottomrule
@@ -156,15 +155,11 @@ being compared except the relations between them.
 % but we suggest that there is additional training data, so we can cross lines
 % out willy-nilly without fear.
 
-% TODO: Do we still care about the unprovable test examples?
 
 \paragraph{Results} 
 Table \ref{joinresultstable} shows the results, which are fairly straightforward 
 to interpret. Both models were able to accurately encode the relations 
 between the terms in the geometric relations between their vectors, 
 and was able to then use that information to recover relations that 
-were not overtly included in the training data.  \tbchecked{The model's slightly 
-poorer performance on the unprovable test examples shows that it
- has not simply encoded an approximation the entire underlying 
- model, but is rather taking advantage of the specific statements seen in the test data.}
+were not overtly included in the training data.
 

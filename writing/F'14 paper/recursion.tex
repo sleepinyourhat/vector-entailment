@@ -1,8 +1,9 @@
 \section{Recursive structure}\label{sec:recursion}
 
-Recursive structure is a prominent feature of natural languages and an
-important part of their expressivity, as it allows people to use and
-interpret complex compositional structures they have never encountered before.
+Complex embedding is a prominent feature of natural languages. 
+The principle of compositionality explains how the meanings of 
+such structures are derived systematically from their parts, thereby
+ enabling people to use novel phrases and sentences.
 Theoretical accounts of natural language syntax and semantics
 therefore rely heavily on recursive structures, and we expect that
 accurate computational models will have to come to grips with them as
@@ -140,7 +141,7 @@ We trained both the RNN and RNTN models on data with up to 4
 connectives (65k pairs) and tested it on examples of up to 12
 connectives (44k pairs). We initialized the model parameters randomly,
 including the vector representations of the six variables. The results
-are shown in Figure~\ref{prop-results}. In tuning, we found that the
+are shown in Figure~\ref{prop-results}. \mynote{In tuning, we found that the
 RNN model was approximately optimal with 45-dimensional vector
 representations, and the RNTN model was approximately optimal with 25
 dimensions. We fixed the size of the feature vector for the classifier
@@ -151,10 +152,7 @@ Starting at size four, performance gradually falls with increasing
 size.  The RNN model did not perform well, reaching only 90.5\% (81.4
 micro-F1) accuracy on the smallest test examples, and declining from
 there to near-baseline performance on formulae of length 12. Training
-accuracy was 99.6\% for the RNTN and 87.6\% for the RNN.
-
-% thu-and-or-deep-25-32b.txt iter 136
-% mon-and-or-deep-45r-32.txt iter 480
+accuracy was 99.6\% for the RNTN and 87.6\% for the RNN.}
 
 The performance of the RNTN model on small unseen test examples
 indicates that it learned a correct approximation of the underlying

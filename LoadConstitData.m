@@ -12,20 +12,14 @@ if isempty(strfind(filename, '/'))
 end
 
 % Check whether we already loaded this file
-
-[pathname, filenamePart, ext] = fileparts(filename);
-listing = dir([pathname, '/pp-', filenamePart, ext, '-final-', hyperParams.vocabName, '*']);
-if length(listing) > 0
-    Log(hyperParams.statlog, ['File ', filename, ' was already processed.']);
-    if ~fragment
-        loadname = listing.name{1};
-        disp(['Loading preprocessed file ' loadname]);
-        l = load([pathname, '/', loadname],'-mat');
-        data = l.data
+if fragment
+    [pathname, filenamePart, ext] = fileparts(filename);
+    listing = dir([pathname, '/pp-', filenamePart, ext, '-final-', hyperParams.vocabName, '*']);
+    if length(listing) > 0
+        Log(hyperParams.statlog, ['File ', filename, ' was already processed.']);
+        return
     end
-    return
 end
-
 
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));
@@ -68,21 +62,21 @@ for line = (lastSave + 1):maxLine
     if (mod(nextItemNo - 1, 10000) == 0 && nextItemNo > 0 && fragment)
         message = ['Lines loaded: ', num2str(nextItemNo), '/~', num2str(maxLine)];
         Log(hyperParams.statlog, message);
-        data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams);
+        data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment);
         lastSave = nextItemNo - 1;
     end
 end
 
 if fragment
-    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-final'], hyperParams);
+    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-final'], hyperParams, fragment);
 else
-    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-full'], hyperParams);
+    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-full'], hyperParams, fragment);
 end
     
 
 end
 
-function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams)
+function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment)
     numElements = nextItemNo - (lastSave + 1);
 
     data = repmat(struct('relation', 0, 'leftTree', Tree(), 'rightTree', Tree()), numElements, 1);
@@ -99,6 +93,8 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
     %     assert(~isempty(data(i).rightTree.getText()), ['Did not finish processing trees.' num2str(i)]);       
     % end
 
-    [pathname, filenamePart, ext] = fileparts(filename);
-    save([pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, '-', num2str(nextItemNo), '.mat'], 'data');
+    if fragment
+        [pathname, filenamePart, ext] = fileparts(filename);
+        save([pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, '-', num2str(nextItemNo), '.mat'], 'data');
+    end
 end
