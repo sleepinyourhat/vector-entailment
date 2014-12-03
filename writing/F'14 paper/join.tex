@@ -57,7 +57,7 @@ test set statements which cannot be proven from the training
 statements.
 % using the logic depicted in Figure~\ref{lattice-figure}.
 
-In our experiments, we create 80 randomly generated sets drawing from
+In each experimental run, we create 80 randomly generated sets drawing from
 a domain of seven elements. This yields a data set consisting of
 6400 statements about pairs of formulae. 3200 of these pairs are
 chosen as a test set, and that test set is further reduced to the 2960
@@ -67,7 +67,7 @@ We trained versions of both the RNN model and the RNTN model on these
 data sets. In both cases, the models are implemented exactly as
 described in Section~\ref{methods}, but since the items being compared
 are single terms rather than full tree structures, the composition
-layer is not involved, and the two models differed only in which
+layer is not involved, and the two models differ only in which
 layer function is used for the comparison layer. We simply present
 the models with two single terms, each of which corresponds to a
 single vector in the (randomly initialized) vocabulary matrix $V$,
@@ -124,11 +124,17 @@ being compared except the relations between them.
       \toprule
       Train & Test \\
       \midrule
-      $b \natcov c$              & $b \nateq b$ \\
-      $c \natcov d$              & $b \natcov d$ \\
-      $c \natrev e$              & \strikeout{$b \natrev e$} \\
-      $c \natrev g$               & \strikeout{$c \nateq f$} \\
-      $e \natfor c$              & $e \natfor b$ \\
+      $a \natfor b$              & $c \natrev a$ \\
+      $b \natfor c$              & $a \natfor d$ \\
+      $b \nateq d$              & \strikeout{$a \natfor e$} \\
+      $d \natalt e$               & \strikeout{$e \natrev a$} \\
+      $e \natalt b$              & $e \nateq e$ \\
+%      a animal
+%     b mammal
+%      c dog
+ %     d mammal'
+ %     e nonmammal OR reptile
+ %     b nonmammal' OR reptile'
       \bottomrule
     \end{tabular}
     \caption{A train/test split of the atomic statements about the
@@ -148,9 +154,8 @@ being compared except the relations between them.
     \toprule
     ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{15d RNN}  & \multicolumn{2}{c}{15d RNTN}\\
     \midrule
-    Test &52.0 &(10.3) &	94.0&(87.0)& \textbf{99.6} & \textbf{(95.5)}\\
     Train &53.8 &(10.5)    & 99.8&	(99.0) & \textbf{100} & \textbf{(100)}\\
-
+    Test &52.0 &(10.3) &	94.0&(87.0)& \textbf{99.6} & \textbf{(95.5)}\\
     \bottomrule
   \end{tabular}
   \caption{Performance on the semantic relation experiments. These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses.}
@@ -163,5 +168,7 @@ to interpret. The RNTN is able to accurately encode the relations
 between the terms in the geometric relations between their vectors, 
 and is able to then use that information to recover relations that 
 are not overtly included in the training data. The RNN, in contrast, was not able to learn
-to do this well in this setting.
+to do this well under these conditions, though we cannot rule
+out the possibility that different optimization techniques or further hyperparameter 
+tuning could lead an RNN model to succeed here.
 

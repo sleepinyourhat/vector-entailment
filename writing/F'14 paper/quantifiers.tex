@@ -49,7 +49,8 @@ unseen pairs of sentences.
 % in Table~\ref{examplesofdata}.
 
 We evaluate the models by randomly sampling 20\% of the data to
-test on and training on the remainder. In this setting, each model being asked to learn a
+test on and training on the remainder in five fold cross-validation.
+In this setting, each model being asked to learn a
 complete reasoning system for the limited language and logic presented
 in the training data. To succeed on this task, the model must be able
 to recognize all of the lexical relations between the nouns, verbs,
@@ -72,8 +73,8 @@ determine \eqref{p3}.
     \toprule
     ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{25d RNN}  & \multicolumn{2}{c}{25d RNTN}\\
     \midrule
-    Test & 35.4 &(7.5) &	99.1&(99.2)& \textbf{99.5} & \textbf{(99.3)}\\
     Train & 35.4 &(7.5) &	100&		(100)&	100&	(100)\\	
+    Test & 35.4 &(7.5) &	99.1&(99.2)& \textbf{99.5} & \textbf{(99.3)}\\
     \bottomrule
   \end{tabular}
   \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1.}

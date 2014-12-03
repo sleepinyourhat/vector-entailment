@@ -11,12 +11,13 @@ which can then be merged again to represent more complex
 phrases. Once the entire sentence-level representation has been
 derived, it serves as a fixed-dimensional input for some subsequent function.
 
-We use the tree pair model architecture depicted in Figure~\ref{sample-figure}, which is novel 
-but closely modeled after past work on recursive NNs. 
-The two phrases being compared are processed separately using a pair 
+To apply recursive models to this inference class, we propose the tree 
+pair model architecture depicted in Figure~\ref{sample-figure}, which is novel but
+closely modeled after past work on recursive NNs. 
+In it, the two phrases being compared are processed separately using a pair 
 of recursive networks that share a single set of parameters. 
 The resulting vectors are fed into a separate comparison
-layer (fixed at 75 dimensions) that is meant to generate a feature vector capturing the
+layer that is meant to generate a feature vector (fixed at 75 dimensions) capturing the
 relation between the two phrases. The output of this layer is then
 given to a softmax classifier, which in turn produces a hypothesized
 distribution over the seven relations represented in Table~\ref{b-table}.
@@ -35,7 +36,7 @@ Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
 representations for the left and right children of the node, and
 $\vec{y}$ is the node's output.  The RNN concatenates them, multiplies
 them by an $n \times 2n$ matrix of learned weights, adds a bias $\vec{b}$, and applies the
-element-wise non-linearity to the resulting vector. The RNTN adds a learned third-order tensor 
+non-linearity element-wise to the resulting vector. The RNTN adds a learned third-order tensor 
 $\mathbf{T}$, of dimension $n \times n \times n$, modeling
 multiplicative interactions between the child vectors.
 

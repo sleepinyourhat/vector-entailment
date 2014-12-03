@@ -53,7 +53,7 @@ hyperParams = FlushLogs(hyperParams);
 % hyperParams.splitFilenames = setdiff(hyperParams.splitFilenames, hyperParams.testFilenames);
 
 % TODO
-hyperParams.firstSplit = length(hyperParams.testFilenames) + 1;
+hyperParams.firstSplit = 1;
 
 % Trim out data files if needed
 if hyperParams.datasetsPortion < 1

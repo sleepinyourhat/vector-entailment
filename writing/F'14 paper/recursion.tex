@@ -2,7 +2,7 @@
 
 Complex embedding is a prominent feature of natural languages. 
 The principle of compositionality explains how the meanings of 
-such structures are derived systematically from their parts, thereby
+such structures are derived systematically from their parts,
  enabling people to use novel phrases and sentences.
 Theoretical accounts of natural language syntax and semantics
 therefore rely heavily on recursive structures. This section examines the 
@@ -95,14 +95,14 @@ possible statements that the intermediate vector representations need
 to be able to distinguish if we are to learn this logical system in its
 full generality.
 
-For our experiments, we randomly generate a large set of  unique pairs 
+In our experiments, we randomly generate a large set of unique pairs 
 of formulae and compute the relation that holds for each pair.
 We discard pairs in which either statement is a tautology or
 contradiction (a statement that is true of either all or no possible
 assignments), for which none of the seven relation labels in
 Table~\ref{b-table} can hold. The resulting set of formula pairs is
 then partitioned into bins based on the number of logical operators in
-the longer of the two formulae. We then randomly sample 15\% of each
+the longer of the two formulae. We then randomly sample 20\% of each
 bin for a held-out test set.
 
 If we do not implement any constraint that the two statements being
@@ -131,10 +131,12 @@ referring to more than four of the six propositional variables.
 
 \paragraph{Results} 
 We trained both the RNN and RNTN models on data with up to 4
-connectives (65k pairs) and tested it on examples of up to 12
-connectives (44k pairs). We initialized the model parameters randomly,
-including the vector representations of the six variables. The results
-are shown in Figure~\ref{prop-results}. \mynote{In tuning, we found that the
+connectives (60k pairs) and tested it on a separate set of examples of up to 12
+connectives (21k pairs). We initialized the model parameters randomly,
+including the vector representations of the six variables, and tested the model
+in five fold cross-validation, discarding all but 20\% of the examples with 
+more than four connectives. The results are shown in Figure~\ref{prop-results}. 
+\mynote{In tuning, we found that the
 RNN model was approximately optimal with 45-dimensional vector
 representations, and the RNTN model was approximately optimal with 25
 dimensions. We fixed the size of the feature vector for the classifier
