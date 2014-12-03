@@ -75,79 +75,87 @@ thereby ensuring that the model has no information about the terms
 being compared except the relations between them.
 
 
-
-\begin{figure}[tp]
+\begin{figure}[t]
   \centering
-%  \begin{subfigure}[t]{0.45\textwidth}
-%    \centering
-%    \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
-%    \setlength{\unitlength}{1cm}
-%    \begin{picture}(5,5.5)
-%      \labelednode{2.50}{5}{}{1,2,3}
-%      
-%      \put(0.75,4){\line(3,1){1.5}}
-%      \put(2.5,4){\line(0,1){0.5}}
-%      \put(4.25,4){\line(-3,1){1.5}}
-%      
-%      \labelednode{0.75}{3.5}{a,b}{1,2}
-%      \labelednode{2.50}{3.5}{c}{1,3}
-%      \labelednode{4.25}{3.5}{d}{2,3}
-%      
-%      \put(0.75,2.5){\line(0,1){0.5}}
-%      \put(0.75,2.5){\line(3,1){1.5}}
-%      
-%      \put(2.5,2.5){\line(-3,1){1.5}}
-%      \put(2.5,2.5){\line(3,1){1.5}}
-%      
-%      \put(4.25,2.5){\line(0,1){0.5}}
-%      \put(4.25,2.5){\line(-3,1){1.5}}
-%      
-%
-%      \labelednode{0.75}{2}{e,f}{1}
-%      \labelednode{2.50}{2}{}{2}
-%      \labelednode{4.25}{2}{g,h}{3}
-%      
-%      \put(2.5,1){\line(-3,1){1.5}}
-%      \put(2.5,1){\line(0,1){0.5}}
-%      \put(2.5,1){\line(3,1){1.5}}
-%      
-%      \labelednode{2.5}{0.5}{}{}
-%    \end{picture}
-%    \caption{Simple boolean structure. The letters name the sets. Not all sets have names, and
-%    some sets have multiple names, so that learning $\nateq$ is non-trivial.}
-%  \end{subfigure}
-%  \qquad
-%  \begin{subfigure}[t]{0.43\textwidth}
+  \begin{subfigure}[t]{0.45\textwidth}
     \centering
+    \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
+    \setlength{\unitlength}{1cm}\scalebox{0.7}{
+    \begin{picture}(5,5.5)
+      \labelednode{2.50}{5}{}{1,2,3}
+      
+      \put(0.75,4){\line(3,1){1.5}}
+      \put(2.5,4){\line(0,1){0.5}}
+      \put(4.25,4){\line(-3,1){1.5}}
+      
+      \labelednode{0.75}{3.5}{a,b}{1,2}
+      \labelednode{2.50}{3.5}{c}{1,3}
+      \labelednode{4.25}{3.5}{d}{2,3}
+      
+      \put(0.75,2.5){\line(0,1){0.5}}
+      \put(0.75,2.5){\line(3,1){1.5}}
+      
+      \put(2.5,2.5){\line(-3,1){1.5}}
+      \put(2.5,2.5){\line(3,1){1.5}}
+      
+      \put(4.25,2.5){\line(0,1){0.5}}
+      \put(4.25,2.5){\line(-3,1){1.5}}
+      
+
+      \labelednode{0.75}{2}{e,f}{1}
+      \labelednode{2.50}{2}{}{2}
+      \labelednode{4.25}{2}{g,h}{3}
+      
+      \put(2.5,1){\line(-3,1){1.5}}
+      \put(2.5,1){\line(0,1){0.5}}
+      \put(2.5,1){\line(3,1){1.5}}
+      
+      \labelednode{2.5}{0.5}{}{}
+    \end{picture}}
+    \caption{Simple boolean structure. The letters name the sets. Not all sets have names, and
+    some sets have multiple names, so that learning $\nateq$ is non-trivial.}
+  \end{subfigure}
+  \qquad
+    \begin{subfigure}[t]{0.43\textwidth}
+    \centering \vspace{0.4cm}
     \setlength{\tabcolsep}{12pt}
     \begin{tabular}[b]{c  c}
       \toprule
       Train & Test \\
       \midrule
-      $a \natfor b$              & $c \natrev a$ \\
-      $b \natfor c$              & $a \natfor d$ \\
-      $b \nateq d$              & \strikeout{$a \natfor e$} \\
-      $d \natalt e$               & \strikeout{$e \natrev a$} \\
-      $e \natalt b$              & $e \nateq e$ \\
-%      a animal
-%     b mammal
-%      c dog
- %     d mammal'
- %     e nonmammal OR reptile
- %     b nonmammal' OR reptile'
+
+      $a \nateq b$              & $b \nateq b$ \\
+      $a \natfor e$              & $b \natfor e$ \\
+      $a \natneg g$              & \strikeout{$e \nateq f$} \\
+      $d \natfor h$              & \strikeout{$g \natrev d$} \\
+      $e \natalt g$            & $h \natrev d$ \\
+
       \bottomrule
     \end{tabular}
+
     \caption{A train/test split of the atomic statements about the
       model.  Test statements not provable from the training data are
       crossed out.}
- % \end{subfigure}  
- %  \caption{Small example structure and data for learning relation composition.}
+  \end{subfigure}  
+  \caption{Small example structure and data for learning relation composition.}
   \label{lattice-figure}
 \end{figure} 
+
+
+\paragraph{Results} 
+Table \ref{joinresultstable} shows the results, which are straightforward 
+to interpret. The RNTN is able to accurately encode the relations 
+between the terms in the geometric relations between their vectors, 
+and is able to then use that information to recover relations that 
+are not overtly included in the training data. The RNN, in contrast, was not able to learn
+to do this well under these conditions, though we cannot rule
+out the possibility that different optimization techniques or further hyperparameter 
+tuning could lead an RNN model to succeed here.
+
+
 % Note: None of these test examples is derivable from the shown training data, 
 % but we suggest that there is additional training data, so we can cross lines
 % out willy-nilly without fear.
-
 \begin{table}[tp]
   \centering \small
   \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
@@ -161,14 +169,4 @@ being compared except the relations between them.
   \caption{Performance on the semantic relation experiments. These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses.}
   \label{joinresultstable}
 \end{table}
-
-\paragraph{Results} 
-Table \ref{joinresultstable} shows the results, which are straightforward 
-to interpret. The RNTN is able to accurately encode the relations 
-between the terms in the geometric relations between their vectors, 
-and is able to then use that information to recover relations that 
-are not overtly included in the training data. The RNN, in contrast, was not able to learn
-to do this well under these conditions, though we cannot rule
-out the possibility that different optimization techniques or further hyperparameter 
-tuning could lead an RNN model to succeed here.
 

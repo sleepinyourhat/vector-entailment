@@ -116,7 +116,7 @@ referring to more than four of the six propositional variables.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=5.3in]{recursion\string_results\string_final.eps}
+  \includegraphics[width=5.3in]{decayfig.eps}
 %  \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
   \caption{\mynote{Model performance on propositional logic, by expression size. }
 %    The dashed line indicates that only expressions of size four or less appeared in the training data. \textbf{Bottom:} Semantically distinct formulae should have different
@@ -136,41 +136,30 @@ connectives (21k pairs). We initialized the model parameters randomly,
 including the vector representations of the six variables, and tested the model
 in five fold cross-validation, discarding all but 20\% of the examples with 
 more than four connectives. The results are shown in Figure~\ref{prop-results}. 
-\mynote{In tuning, we found that the
+In tuning, we found that the
 RNN model was approximately optimal with 45-dimensional vector
-representations, and the RNTN model was approximately optimal with 25
-dimensions. We fixed the size of the feature vector for the classifier
-at 75 dimensions. We found that the RNTN model was able to perform
-almost perfectly on unseen small test examples, with accuracy above
-98.7\% on formulae below length four (macro-F1 was above 95.5).
+representations, \mynote{and the RNTN model was approximately optimal with 25
+dimensions. We found that the both models model were able to perform
+well on unseen small test examples, with RNN accuracy above
+97\% and RNTN accuracy above 98\% on formulae below length five.
 Starting at size four, performance gradually falls with increasing
-size.  The RNN model did not perform well, reaching only 90.5\% (81.4
-macro-F1) accuracy on the smallest test examples, and declining from
-there to near-baseline performance on formulae of length 12. Training
-accuracy was 99.6\% for the RNTN and 87.6\% for the RNN.}
+size. Training accuracy was 99\% for the RNN and 99.5\% for the RNTN.}
 
-The performance of the RNTN model on small unseen test examples
+The performance of these model on small unseen test examples
 indicates that it learned a correct approximation of the underlying
 logic. It appears that this approximation is accurate enough to yield
 correct answers when the composition layer is only applied a small
 number of times, but that the error in the approximation grows with
-increasing expression size, resulting in gradually dropping performance. In
-contrast, the RNN model did not appear to be able to accurately handle statements of any length, but it
-appears that the approximation that the RNN did learn decayed similarly
-with expression size. 
+increasing expression size, resulting in gradually dropping performance. 
 
-\mynote{In an effort to better understand why the RNTN outperformed the plain
-RNN, we evaluated both models on pairs of long formulae involving
+\mynote{In an effort to better understand how the models are decaying, 
+we evaluated both models on pairs of long formulae involving
 binary connectives, to assess how well they distinguish representations for semantically distinct
 formulae. We found that only the RNTN is able to learn
 substantially different representations for pairs of differing formulae like $(a \pland (a \pland a))$
  and $(a \pland (a \pland b))$ when the difference between the two is placed under multiple operators.
 The RNN separates the bare symbols by a euclidean distance of 3.5, but this falls to less than one once the two are placed under three operators, and quickly approaches zero as depth increases.
  The RNTN separates the bare symbols by 2.5, and this falls off much more gradually to 1.3 with twelve operators.}
- 
- % TODO: If results are still bad tomorrow, write something about why this is not fatal to the program.
-
-
 
 % we discovered that this model looses information about in longer
 % statements in a particularly problematic way. It appears that that

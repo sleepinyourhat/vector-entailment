@@ -136,6 +136,7 @@ elseif strcmp(dataflag, 'sick-plus-100')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 0, 0, 0, 0; 1, 1, 1, 1, 1, 2; 0, 0, 0, 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 1, 1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-10k') 
     % The number of relations.
     hyperParams.numRelations = [3 7 2 2];
@@ -168,6 +169,35 @@ elseif strcmp(dataflag, 'sick-plus-10k')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 3, 4, 0, 0; 1, 1, 1, 1, 1, 4; 0, 0, 0, 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 1, 1, 1, 4];
+elseif strcmp(dataflag, 'sick-plus-10k-ea-c') 
+    % The number of relations.
+    hyperParams.numRelations = [3 2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
+                             {'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(2, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+
+    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    hyperParams.vocabName = 'aspt4';
+
+    hyperParams.trainingMultipliers = [(datamult); (datamult); (datamult); (datamult); 1];
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
+                     './sick_data/SICK_train_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_exactAlign.txt', ...
+                     './sick_data/SICK_trial_parsed.txt', ...
+                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_10k.tsv'};
+    hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
+                     './sick_data/SICK_test_annotated_rearranged_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_exactAlign.txt', ...
+                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
+    hyperParams.splitFilenames = {};
+    % Use different classifiers for the different data sources.
+    hyperParams.relationIndices = [1, 1, 1, 1, 2; 1, 1, 1, 2, 0; 0, 0, 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-100k') 
     % The number of relations.
     hyperParams.numRelations = [3 7 2 2];
@@ -200,6 +230,7 @@ elseif strcmp(dataflag, 'sick-plus-100k')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 2, 3, 4, 0, 0; 1, 1, 1, 1, 1, 4; 0, 0, 0, 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 1, 1, 1, 4];
 elseif strcmp(dataflag, 'sick-plus-100k-ea') 
     % The number of relations.
     hyperParams.numRelations = [3 7 2 2];
@@ -228,6 +259,7 @@ elseif strcmp(dataflag, 'sick-plus-100k-ea')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 4; 1, 1, 4; 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 4];
 elseif strcmp(dataflag, 'sick-plus-100k-ea-s') 
     % The number of relations.
     hyperParams.numRelations = [3 7 2 2];
@@ -245,7 +277,7 @@ elseif strcmp(dataflag, 'sick-plus-100k-ea-s')
     wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
-    hyperParams.trainingMultipliers = [datamult; datamult; 1];
+    hyperParams.trainingMultipliers = [datamult; 1];
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100k.tsv'};
@@ -254,6 +286,7 @@ elseif strcmp(dataflag, 'sick-plus-100k-ea-s')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 4; 1, 4; 0, 0];
+    hyperParams.testRelationIndices = [1, 4];
 elseif strcmp(dataflag, 'sick-plus-100k-ea-c') 
     % The number of relations.
     hyperParams.numRelations = [3 2];
@@ -281,6 +314,7 @@ elseif strcmp(dataflag, 'sick-plus-100k-ea-c')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 1, 1, 2; 1, 1, 1, 2, 0; 0, 0, 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-ea-c') 
     % The number of relations.
     hyperParams.numRelations = [3 2];
@@ -308,6 +342,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-c')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 1, 1, 2; 1, 1, 1, 2, 0; 0, 0, 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-ea') 
     % The number of relations.
     hyperParams.numRelations = [3 2];
@@ -332,6 +367,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea')
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
+    hyperParams.testRelationIndices = [1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus')
     % The number of relations.
     hyperParams.numRelations = [3 2];

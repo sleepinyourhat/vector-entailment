@@ -65,6 +65,9 @@ for i = 1:length(hyperParams.splitFilenames)
     lengthOfTestPortion = ceil(length(dataset) * PERCENT_USED_FOR_TESTING);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
     endOfTestPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
+    if isfield(hyperParams, 'specialAndOrMode')
+        endOfTestPortion = min(startOfTestPortion + 100, endOfTestPortion);
+    end
     testPortion = dataset(startOfTestPortion:endOfTestPortion);
     testDatasets = [testDatasets, {testPortion}];
     

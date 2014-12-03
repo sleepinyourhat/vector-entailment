@@ -59,11 +59,11 @@ evaluation to relations between complex recursive structures like
 $(a \plor b)$ and $\plneg (\plneg a \pland \plneg b)$, and our third
 experiment (Section~\ref{sec:quantifiers}) involves relations between
 quantified statements like \ii{every reptile walks} and \ii{no turtle
-  moves}. We find that the plain recursive NN achieves only
-  mixed results in all three experiments, whereas the stronger RNTN
+  moves}. \mynote{Though the performance of the plain RNN model 
+ is somewhat poor in one experiment, we find that the stronger RNTN
   model generalizes well in every case, suggesting that it has in fact
   learned, or at least learned to simulate, our target logical
-  concepts.
+  concepts.}
 
 The experiments with simulated data provide a convincing demonstration
 of the ability of neural networks to learn to encode semantic
@@ -73,10 +73,9 @@ question of whether they can learn these representations from more
 naturalistic text. To address this question, we apply our models to
 the SICK entailment challenge data. The small size of this corpus puts
 data-intensive neural models like ours at a disadvantage, but we are
-nonetheless able to achieve competitive performance on it
-\mynote{CONSIDER ADDING A CONCRETE DETAIL --- E.G., ACCURACY
-  AND ITS RELATION TO THE COMPETITION MEDIAN}, suggesting that the
-representational abilities that we observe in the previous sections
+nonetheless able to achieve competitive performance on it,
+\mynote{surpassing several models with significant hand engineered task specific features.}
+This suggests that the representational abilities that we observe in the previous sections
 are not limited to carefully circumscribed tasks. We conclude that RNTN models
 are adequate for typical cases of natural logic inference, and that there is not yet
 any clear level of inferential complexity for which other approaches work and NN models fail.

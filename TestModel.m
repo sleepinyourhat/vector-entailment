@@ -15,7 +15,7 @@ for i = 1:length(testDatasets{1})
     if i == 1
         targetConfusion = confusion;
     end
-    if i < hyperParams.firstSplit && (~isfield(hyperParams, 'relationIndices') || hyperParams.relationIndices(i) == 1)
+    if i < hyperParams.firstSplit && (~isfield(hyperParams, 'testRelationIndices') || hyperParams.testRelationIndices(i) == 1)
         heldOutConfusion = heldOutConfusion + confusion;
     end
     if hyperParams.showConfusions && err > 0
@@ -23,7 +23,7 @@ for i = 1:length(testDatasets{1})
             evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
     end
-    if (~isfield(hyperParams, 'relationIndices') || hyperParams.relationIndices(i) == 1)
+    if (~isfield(hyperParams, 'testRelationIndices') || hyperParams.testRelationIndices(i) == 1)
         aggConfusion = aggConfusion + confusion;
     end
 end
