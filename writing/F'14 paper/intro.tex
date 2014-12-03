@@ -5,31 +5,31 @@ have been successful in an array of sophisticated language tasks,
 including sentiment analysis \cite{socher2011semi,socher2013acl1},
 image description \cite{sochergrounded}, and paraphrase detection
 \cite{Socher-etal:2011:Paraphrase}. These results are encouraging for
-the ability of these models to learn compositional semantic grammars,
-but it remains an open question whether they can achieve the same
-results as grammars based in logical forms
+the ability of these models to learn compositional semantic grammars.
+However, it remains an open question whether they can achieve the
+high-fidelity distributed representations of recent algebraic
+approaches \cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,rocktaschellow},
+and whether they can match the performance of grammars based in logical forms
 \cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}
 when it comes to the core semantic concepts of quantification,
 entailment, and contradiction needed to identify the relationships
 between sentences like \ii{every animal walks}, \ii{every turtle
-  moves}, and \ii{most reptiles don't move}. 
+ moves}, and \ii{most reptiles don't move}.
   
 To date, experimental investigations of these concepts using
 distributed representations have been largely confined to short
-phrases
-\cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment}.
+phrases \cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment}.
 However, for robust natural language understanding, it is essential to
 model these phenomena in their full generality on complex linguistic
-structures. Other recent work
-\cite{grefenstette2013towards,rocktaschellow} has developed rich
-frameworks for computing the meanings of complex fragments of natural
+structures. Recent work on the algebraic approach of
+\newcite{ClarkCoeckeSadrzadeh2011} has yielded rich frameworks 
+for computing the meanings of complex fragments of natural
 language compositionally from vector or tensor representations, but
-these approaches have not yet attempted to learn their
-highly structured representations from data using existing applied
-machine learning models.
+how to learn these representations entirely from data in a typical
+machine learning setting remains an open question.
 
-Our research uses the task of \ii{natural language
-  inference} (also known as \ii{recognizing textual entailment};
+Our research uses the task of \ii{natural language inference} 
+(also known as \ii{recognizing textual entailment};
 \citealt{dagan2006pascal}), in which the goal is to determine the core
 inferential relationship between two sentences. Much of the
 theoretical work on this task (and some successful implemented models;

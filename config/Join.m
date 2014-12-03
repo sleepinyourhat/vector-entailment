@@ -80,7 +80,7 @@ else
     wordMap = LoadTrainingData('./join-table/data/6x80_train.tsv');
 end
 
-options.numPasses = 2500;
+options.numPasses = 2600;
 
 options.miniBatchSize = mbs;
 

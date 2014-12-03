@@ -18,6 +18,7 @@ if mod(modelState.step, options.testFreq) == 0
 
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
     acc = -1;
+    macro = -1;
     if ~hyperParams.fragmentData
         if length(trainingData) > hyperParams.maxTrainingEvalSampleSize
             randomOrder = randperm(length(trainingData));
@@ -32,7 +33,13 @@ if mod(modelState.step, options.testFreq) == 0
         else
             hyperParams.showExamples = false;
         end
-        [cost, ~, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams);
+
+        if length(hyperParams.numRelations) == 1
+            [cost, ~, ~, acc, conf] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
+            macro = GetMacroF1(conf);
+        else
+            [cost, ~, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
+        end            
     end
 
     % Test on test data
@@ -45,7 +52,6 @@ if mod(modelState.step, options.testFreq) == 0
 
         if mod(modelState.step, options.examplesFreq) == 0 && modelState.step > 0
             hyperParams.showExamples = true;
-            Log(hyperParams.examplelog, 'Training data:')
         else
             hyperParams.showExamples = false;
         end
@@ -69,7 +75,7 @@ if mod(modelState.step, options.testFreq) == 0
     % Log statistics
     if testAcc ~= -1
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
-            ' train acc: ', num2str(acc), ' test acc: ', num2str(testAcc), ' (best: ', ...
+            ' train acc: ', num2str(acc), ' (mf1 ', num2str(macro), ') test acc: ', num2str(testAcc), ' (best: ', ...
             num2str(modelState.bestTestAcc), ')']);
     else
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...

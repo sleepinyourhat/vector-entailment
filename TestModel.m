@@ -11,7 +11,7 @@ heldOutConfusion = zeros(hyperParams.numRelations(1));
 targetConfusion = zeros(hyperParams.numRelations(1));
 
 for i = 1:length(testDatasets{1})
-    [~, ~, ~, err, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams);
+    [~, ~, ~, err, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
     if i == 1
         targetConfusion = confusion;
     end

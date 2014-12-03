@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, separateWordFeatures, hyperParams, ~)
+function [ cost, grad, embGrad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
 % Compute gradient and cost with regularization over a set of examples
 % for some parameters.
 
@@ -12,7 +12,8 @@ end
 
 accumulatedCost = 0;
 accumulatedSuccess = 0;
-if nargout > 1
+if (nargin < 6 || computeGrad) && nargout > 1
+    computeGrad = 1;
     accumulatedGrad = zeros(length(theta), 1);
 
     % If fastEmbed is on, set up a separate sparse accumulator for the embeddings.
@@ -23,6 +24,12 @@ if nargout > 1
     else
         accumulatedSeparateWordFeatureGradients = [];
     end
+else
+    computeGrad = 0;
+    accumulatedSeparateWordFeatureGradients = [];
+    accumulatedGrad = [];
+    grad = [];
+    embGrad = [];
 end
 
 if nargout > 1
@@ -39,7 +46,7 @@ if nargout > 1
         % assert(~isempty(data(i).relation), 'Null relation.')
 
         [localCost, localGrad, localEmbGrad, localPred] = ...
-            ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams);
+            ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams, computeGrad);
         accumulatedCost = accumulatedCost + localCost;
         accumulatedGrad = accumulatedGrad + localGrad;
         if hyperParams.fastEmbed
@@ -71,8 +78,8 @@ if nargout > 1
     if nargout > 4
         confusion = zeros(hyperParams.numRelations(find(data(1).relation)));
         for i = 1:N
-           confusion(confusions(i,1), confusions(i,2)) = ...
-               confusion(confusions(i,1), confusions(i,2)) + 1;
+            confusion(confusions(i,1), confusions(i,2)) = ...
+                confusion(confusions(i,1), confusions(i,2)) + 1;
         end
     end
 else
@@ -104,7 +111,7 @@ else
     cost = combinedCost;
 end
 
-if nargout > 1
+if computeGrad
     % Compile the gradient
     grad = (1/length(data) * accumulatedGrad);
 
@@ -141,9 +148,10 @@ if nargout > 1
 
     assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
-
-    acc = (accumulatedSuccess / N);
 end
 
+if nargout > 3
+    acc = (accumulatedSuccess / N);
+end
 
 end

@@ -74,20 +74,7 @@ single vector in the (randomly initialized) vocabulary matrix $V$,
 thereby ensuring that the model has no information about the terms
 being compared except the relations between them.
 
-\begin{table}[tp]
-  \centering \small
-  \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
-    \toprule
-    ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{??d RNN}  & \multicolumn{2}{c}{??d RNTN}\\
-    \midrule
-    Test &52.0 &(10.3) &	95...&(-)& \textbf{96.8...} & \textbf{(-)}\\
-    Train &53.8 &(10.5)    & -&(-)& \textbf{-} & \textbf{(-)}\\
 
-    \bottomrule
-  \end{tabular}
-  \caption{\mynote{Performance on the semantic relation experiments.} These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses.}
-  \label{joinresultstable}
-\end{table}
 
 \begin{figure}[tp]
   \centering
@@ -155,11 +142,26 @@ being compared except the relations between them.
 % but we suggest that there is additional training data, so we can cross lines
 % out willy-nilly without fear.
 
+\begin{table}[tp]
+  \centering \small
+  \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
+    \toprule
+    ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{15d RNN}  & \multicolumn{2}{c}{15d RNTN}\\
+    \midrule
+    Test &52.0 &(10.3) &	94.0&(87.0)& \textbf{99.6} & \textbf{(95.5)}\\
+    Train &53.8 &(10.5)    & 99.8&	(99.0) & \textbf{100} & \textbf{(100)}\\
+
+    \bottomrule
+  \end{tabular}
+  \caption{Performance on the semantic relation experiments. These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses.}
+  \label{joinresultstable}
+\end{table}
 
 \paragraph{Results} 
 Table \ref{joinresultstable} shows the results, which are straightforward 
-to interpret. Both models are able to accurately encode the relations 
+to interpret. The RNTN is able to accurately encode the relations 
 between the terms in the geometric relations between their vectors, 
 and is able to then use that information to recover relations that 
-are not overtly included in the training data.
+are not overtly included in the training data. The RNN, in contrast, was not able to learn
+to do this well in this setting.
 

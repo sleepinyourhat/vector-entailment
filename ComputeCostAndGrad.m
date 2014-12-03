@@ -1,6 +1,9 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, pred ] = ComputeCostAndGrad(theta, decoder, dataPoint, separateWordFeatures, hyperParams)
+function [ cost, grad, embGrad, pred ] = ComputeCostAndGrad(theta, decoder, dataPoint, separateWordFeatures, hyperParams, computeGradient)
 % Compute cost, gradient, and predicted label for one example.
+
+grad = [];
+embGrad = [];
 
 % Unpack theta
 [classifierMatrices, classifierMatrix, classifierBias, ...
@@ -82,7 +85,7 @@ relationProbs = ComputeSoftmaxProbabilities( ...
 cost = Objective(trueRelation, relationProbs, hyperParams);
 
 % Produce gradient
-if nargout > 1    
+if nargout > 1 && (nargin < 6 || computeGradient)
     % Initialize the gradients
     if hyperParams.trainWords
       localWordFeatureGradients = sparse([], [], [], ...
