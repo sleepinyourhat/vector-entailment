@@ -55,20 +55,23 @@ up from the vocabulary matrix $V$ (one of the model parameters), and
 the composition and comparison functions are used to pass information
 up the tree and into the classifier at the top. For an objective
 function, we use the negative log of the probability assigned to the
-correct label.
+correct label, plus L2 regularization.
 
 % Removed 'minibatch' -> For two of the experiments, we use minibatches
 % of size 1, which doesn't really count.
 We train the model using stochastic gradient descent (SGD)
 with learning rates computed using AdaDelta \cite{zeiler2012adadelta}.
-The parameters (including the vocabulary) are initialized randomly.
-Because the classes are not balanced in general, we report performance
+Training times on CPUs vary from hours to days across experiments, and
+the hyperparameters of AdaDelta, the dimensions of the representations,
+and the initialization strategy are all tuned manually.
+Because the classes are not balanced in the artificial data experiments, we report performance
 using both accuracy and macroaveraged F1, since the latter emphasizes
  performance on infrequent classes. We compute macroaveraged F1 
 as the harmonic mean of average precision and average recall, both computed
 for all classes for which there is test data, setting precision to 0 
-where it is not defined. Source code and generated data will be released
-after the review period.
+where it is not defined. On the artificial data experiments, we report mean
+results over five fold cross-validation, though differences across runs are small.
+Source code and generated data will be released after the review period.
 
 \begin{figure}[tp]
   \centering

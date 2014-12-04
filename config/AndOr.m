@@ -24,6 +24,7 @@ hyperParams.topDropout = tdrop;
 hyperParams.topDepth = top;
 
 hyperParams.specialAndOrMode = 1;
+hyperParams.truncateTest = 1;
 
 if relu
   hyperParams.classNL = @LReLU;
@@ -58,14 +59,14 @@ end
 
 
 % How often (in steps) to report cost.
-options.costFreq = 500;
+options.costFreq = 500; 'TODO'
 
 % How often (in steps) to run on test data.
-options.testFreq = 500;
+options.testFreq = 500; 'TODO'
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 500;
+options.confusionFreq = 500; 'TODO'
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.

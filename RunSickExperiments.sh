@@ -766,10 +766,25 @@ export MATLABCMD="cd quant; lambda = 0.0003; dim = 50; ed = 200; td = 1; penult 
 export MATLABCMD="cd quant; lambda = 0.0003; dim = 50; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75\, 0.9]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-600k-ea-c'; name='adn'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 1\, 0\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, rtemult\, nlimult\, collo\, tscale\, wscale\, 1\, 1e-7);" ; qsub -v MATLABCMD quant/run.sh -q john
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 30; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.7\, 0.85]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-100k-ea-c'; name='adr'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 0\, 0\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, rtemult\, nlimult\, collo\, tscale\, wscale\, 1\, 1e-7);" ; qsub -v MATLABCMD quant/run.sh -q john
 
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 30; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75\, 0.9]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-100k-ea-s'; name='adr'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 0\, 0\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, rtemult\, nlimult\, collo\, tscale\, wscale\, 1\, 1e-7);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+
+echo "cd quant; lambda = 0.0003; dim = 50; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75, 0.9]; rtemult = 0; nlimult = 0; mult = 15; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-600k-ea-c'; name='adn'; TrainModel('', 1, @Sick, name, dataflag, ed, dim, td, penult, lambda, 1, 0, mbs, lr, dropout(1), dropout(2), mult, rtemult, nlimult, collo, tscale, wscale, 1, 1e-7);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant; lambda = 0.0003; dim = 50; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75, 0.9]; rtemult = 0; nlimult = 0; mult = 10; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-600k-ea-c'; name='adn'; TrainModel('', 1, @Sick, name, dataflag, ed, dim, td, penult, lambda, 1, 0, mbs, lr, dropout(1), dropout(2), mult, rtemult, nlimult, collo, tscale, wscale, 1, 1e-7);" | /afs/cs/software/bin/matlab_r2012b
+echo "cd quant; lambda = 0.0003; dim = 40; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75, 0.9]; rtemult = 0; nlimult = 0; mult = 5; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-600k-ea-c'; name='adn'; TrainModel('', 1, @Sick, name, dataflag, ed, dim, td, penult, lambda, 1, 0, mbs, lr, dropout(1), dropout(2), mult, rtemult, nlimult, collo, tscale, wscale, 1, 1e-7);"  | /afs/cs/software/bin/matlab_r2012b
+
+
 export MATLABCMD="cd quant; lambda = 0.0003; dim = 50; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75\, 0.9]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-10k-ea-c'; name='adn'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 1\, 0\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, rtemult\, nlimult\, collo\, tscale\, wscale\, 1\, 1e-7);" ; qsub -v MATLABCMD quant/run.sh -q john
 
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 30; ed = 200; td = 1; penult = 75; lr = 0.02; dropout = [0.75\, 0.9]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-100k-ea-s'; name='adr'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 0\, 0\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, rtemult\, nlimult\, collo\, tscale\, wscale\, 1\, 1e-7);" ; qsub -v MATLABCMD quant/run.sh -q john
 
 # Stop test runs at 46750 steps
+# RNN: Maybe 62000
+
+ea-s to john
+RNN 600k-ea-c to john
+
+
 
 echo "cd quant; lambda = 0.0003; dim = 25; ed = 50; td = 1; penult = 75; lr = 0.02; dropout = [0.75, 0.9]; rtemult = 1; nlimult = 1; mult = 3; collo = 2; tscale = 1; wscale = 0.05; mbs = 32; dataflag='sick-plus-10k'; name='ad'; TrainModel('', 1, @Sick, name, dataflag, ed, dim, td, penult, lambda, 1, 0, mbs, lr, dropout(1), dropout(2), mult, rtemult, nlimult, collo, tscale, wscale, 0, 1e-6);" | /afs/cs/software/bin/matlab_r2012b
 

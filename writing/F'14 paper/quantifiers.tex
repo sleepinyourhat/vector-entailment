@@ -1,4 +1,4 @@
-\section{Reasoning with natural language quantifiers and negation}\label{sec:quantifiers}
+\section{Reasoning with quantifiers and negation}\label{sec:quantifiers}
 
 We have seen that recursive NNs can learn an approximation of propositional
 logic.  However, natural languages can express functional meanings of
@@ -6,11 +6,12 @@ considerably greater complexity than this.  As a step towards
 investigating whether our models can capture this complexity, we now
 directly measure the degree to which they are able to
 develop suitable representations for the semantics of natural language
-quantifiers like \ii{most} and \ii{all}. Quantification is far from
+quantifiers like \ii{most} and \ii{all} as they interact with negation. Quantifiers 
+and negation are far from
 the only place in natural language where complex functional meanings
-are found, but it is a natural starting point, since it can be tested
-in sentences whose structures are otherwise quite simple, and since it
-has formed a standard case study in prior formal work on natural
+are found, but they are natural starting point, since they can be tested
+in sentences whose structures are otherwise quite simple, and since they have
+formed a standard case study in prior formal work on natural
 language inference \cite{Icard:Moss:2013:LILT}.
 
 \paragraph{Experiments}
@@ -48,15 +49,13 @@ unseen pairs of sentences.
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
-We evaluate the models by randomly sampling 20\% of the data to
-test on and training on the remainder in five fold cross-validation.
-In this setting, each model being asked to learn a
+We evaluate the models by sampling 20\% of the data to test on and 
+training on the remainder. In this setting, each model must learn a
 complete reasoning system for the limited language and logic presented
 in the training data. To succeed on this task, the model must be able
 to recognize all of the lexical relations between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
-\eqref{p1} and \eqref{p2} in training and, from that information,
-determine \eqref{p3}.
+\eqref{p1} and \eqref{p2} in training and be required to then label \eqref{p3}.
 
 \vspace{-0.6cm}
 \begin{gather}
@@ -73,8 +72,8 @@ determine \eqref{p3}.
     \toprule
     ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{25d RNN}  & \multicolumn{2}{c}{25d RNTN}\\
     \midrule
-    Train & 35.4 &(7.5) &	100&		(100)&	100&	(100)\\	
-    Test & 35.4 &(7.5) &	99.4&(99.4)& \textbf{99.5} & \textbf{(99.4)}\\
+    Train & 35.4 &(7.5) &	\textbf{100}&		\textbf{(100)}&	99.5&	(99.3)\\	
+    Test & 35.4 &(7.5) &	\textbf{99.4}&\textbf{(99.5)}& \textbf{99.4} & (99.2)\\
     \bottomrule
   \end{tabular}
   \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1.}

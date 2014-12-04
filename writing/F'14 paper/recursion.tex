@@ -5,7 +5,7 @@ The principle of compositionality explains how the meanings of
 such structures are derived systematically from their parts,
  enabling people to use novel phrases and sentences.
 Theoretical accounts of natural language syntax and semantics
-therefore rely heavily on recursive structures. This section examines the 
+in turn rely heavily on recursive structures. This section examines the 
 question of whether our models are able to learn a 
 compositional semantics over such recursive structures.
 In our evaluations, we exploit the fact that our logical language
@@ -92,8 +92,7 @@ between $2^{6} = 64$ possible assignments of truth values, and
 expressions of this logic define arbitrary conditions on these
 possible assignments, for a total of $2^{64}$ %($\approx 10^{20}$)
 possible statements that the intermediate vector representations need
-to be able to distinguish if we are to learn this logical system in its
-full generality.
+to be able to distinguish if we are to learn this logical system in full.
 
 In our experiments, we randomly generate a large set of unique pairs 
 of formulae and compute the relation that holds for each pair.
@@ -116,7 +115,7 @@ referring to more than four of the six propositional variables.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=5.3in]{decayfig.eps}
+  \includegraphics[width=5in]{decayfig.eps}
 %  \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
   \caption{\mynote{Model performance on propositional logic, by expression size. }
 %    The dashed line indicates that only expressions of size four or less appeared in the training data. \textbf{Bottom:} Semantically distinct formulae should have different
@@ -133,33 +132,39 @@ referring to more than four of the six propositional variables.
 We trained both the RNN and RNTN models on data with up to 4
 connectives (60k pairs) and tested it on a separate set of examples of up to 12
 connectives (21k pairs). We initialized the model parameters randomly,
-including the vector representations of the six variables, and tested the model
-in five fold cross-validation, discarding all but 20\% of the examples with 
-more than four connectives. The results are shown in Figure~\ref{prop-results}. 
-In tuning, we found that the
-RNN model was approximately optimal with 45-dimensional vector
-representations, \mynote{and the RNTN model was approximately optimal with 25
-dimensions. We found that the both models model were able to perform
-well on unseen small test examples, with RNN accuracy above
-97\% and RNTN accuracy above 98\% on formulae below length five.
+including the vector representations of the six variables.
+Figure~\ref{prop-results} shows test the relationship
+between test accuracy and statement length. \mynote{We found that both 
+models were able to perform well on unseen small test examples, 
+with RNN accuracy above
+97\% and RNTN accuracy above 99\% on formulae below length five.
 Starting at size four, performance gradually falls with increasing
-size. Training accuracy was 99\% for the RNN and 99.5\% for the RNTN.}
+size. Training accuracy was 99.4\% for the RNN and 99.9\% for the RNTN.}
 
-The performance of these model on small unseen test examples
-indicates that it learned a correct approximation of the underlying
-logic. It appears that this approximation is accurate enough to yield
+The performance of these models on small unseen test examples
+indicates that they learned correct approximations of the underlying
+logic. It appears that these approximations are accurate enough to yield
 correct answers when the composition layer is only applied a small
 number of times, but that the error in the approximation grows with
 increasing expression size, resulting in gradually dropping performance. 
+It appears that the RNTN model overfit somewhat relative to the plain RNN,
+performing better on the training data and short examples, but worse on longer
+examples. Two factors are likely involved in this: even with the lower dimension,
+the RNTN composition function has about eight times as many parameters as the
+RNN, and this much more capacity to memorize a large number of narrow 
+generalizations that work on the test data but don't generalize as well. In addition,
+the RNTN used here used slightly less L2 regularization than the 
+RNN ($\lambda_{RNN} = 0.001$, $\lambda_{RNTN} = 0.0003$), as had
+yielded better performance earlier in tuning.
 
-\mynote{In an effort to better understand how the models are decaying, 
-we evaluated both models on pairs of long formulae involving
-binary connectives, to assess how well they distinguish representations for semantically distinct
-formulae. We found that only the RNTN is able to learn
-substantially different representations for pairs of differing formulae like $(a \pland (a \pland a))$
- and $(a \pland (a \pland b))$ when the difference between the two is placed under multiple operators.
-The RNN separates the bare symbols by a euclidean distance of 3.5, but this falls to less than one once the two are placed under three operators, and quickly approaches zero as depth increases.
- The RNTN separates the bare symbols by 2.5, and this falls off much more gradually to 1.3 with twelve operators.}
+% \mynote{In an effort to better understand why model performance decays, 
+%we evaluated both models on pairs of long formulae involving
+%binary connectives, to assess how well they distinguish representations for semantically distinct
+%formulae. We found that only the RNTN is able to learn
+%substantially different representations for pairs of differing formulae like $(a \pland (a \pland a))$
+% and $(a \pland (a \pland b))$ when the difference between the two is placed under multiple operators.
+%The RNN separates the bare symbols by a euclidean distance of 3.5, but this falls to less than one once the two are placed under three operators, and quickly approaches zero as depth increases.
+% The RNTN separates the bare symbols by 2.5, and this falls off much more gradually to 1.3 with twelve operators.}
 
 % we discovered that this model looses information about in longer
 % statements in a particularly problematic way. It appears that that
