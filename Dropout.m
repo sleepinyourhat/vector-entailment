@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ activations, mask ] = Dropout(activations, probPreserve)
 % Randomly zeroes out units with probability (1 - probPreserve).
 

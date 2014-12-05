@@ -1,4 +1,6 @@
 function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+% Configure the recursion experiments. 
+% NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
 
 [hyperParams, options] = Defaults();
 
@@ -13,18 +15,29 @@ hyperParams.embeddingDim = dim;
 hyperParams.penultDim = penult;
 
 % Regularization coefficient.
-hyperParams.lambda = lambda; % 0.002 works?;
+hyperParams.lambda = lambda;
 
 % Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = tot;
+if tot == 0
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 0;
+elseif tot == 1
+	hyperParams.useThirdOrder = 1;
+	hyperParams.useThirdOrderComparison = 1;
+elseif tot == 2
+	hyperParams.useThirdOrder = 1;
+	hyperParams.useThirdOrderComparison = 0;
+elseif tot == 3
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 1;
+end
 
 hyperParams.topDropout = tdrop;
 
 hyperParams.topDepth = top;
 
+% Split longer test sets for crossvalidation without training on them.
 hyperParams.specialAndOrMode = 1;
-hyperParams.truncateTest = 0;
 
 if relu
   hyperParams.classNL = @LReLU;
@@ -36,6 +49,7 @@ options.numPasses = 15000;
 options.miniBatchSize = mbs;
 
 wordMap = LoadTrainingData('./RC/train1');
+
 % The name assigned to the current vocabulary. Used in deciding whether to load a 
 % preparsed MAT form of an examples file.
 hyperParams.vocabName = 'RC'; 
@@ -59,14 +73,14 @@ end
 
 
 % How often (in steps) to report cost.
-options.costFreq = 1; 'TODO'
+options.costFreq = 1000;
 
 % How often (in steps) to run on test data.
-options.testFreq = 1; 'TODO'
+options.testFreq = 1000;
 
 % How often to report confusion matrices. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 1; 'TODO'
+options.confusionFreq = 1000;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.

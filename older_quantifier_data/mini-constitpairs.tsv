@@ -1,6 +1,0 @@
-<	all hippo	some hippo
-<	all hungry	some hungry
-^	some hippo	no hippo
-^	some hungry	no hungry
-|	all hippo	no hippo
-|	all hungry	no hungry

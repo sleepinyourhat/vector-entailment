@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function relationRange = ComputeRelationRange(hyperParams, trueRelation)
 % Figure out which columns of the classifier parameters to use, given a
 % label vector.

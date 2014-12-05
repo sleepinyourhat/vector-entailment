@@ -6,7 +6,7 @@ function [matrixGradients, biasGradients, ...
 
 if nargin < 7
     innerOutput = matrix * [a;b] + bias;
-% else  % Slow diagnostic assert:
+	% Slow diagnostic assert:
 	% assert(min(innerOutput == matrix * [a;b] + bias), '!');
 end
 

@@ -3,7 +3,7 @@ function stop = Display(theta, ~, i, ~,~,~,~,~,~,~, thetaDecoder, data, separate
 % This is passed to minFunc to get informative mid-run displays of the sort
 % built into AdaGradSGD.
 
-'NOT MAINTAINED'
+'DEPRECATED'
 
 stop = 0;
 pass = i;
@@ -45,7 +45,6 @@ if mod(pass, options.testFreq) == 0
 end
 if mod(pass, options.checkpointFreq) == 0
     % Write a checkpoint to disk
-    % TODO: Use integer timestamp for sorting.
     save([options.name, '/', 'theta-', options.runName, datestr(now, 'yymmddHHMMSS'),...
        '@', num2str(pass)] , 'theta', 'thetaDecoder');
 end

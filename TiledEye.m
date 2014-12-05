@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function m = TiledEye(x, y)
 % Creates a matrix that contains as few tiled identity matrices as are necessary to fit in the given dimensions.
 % Every row and every column will have at least one non-zero.

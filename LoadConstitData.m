@@ -1,18 +1,16 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
-% Load one file of constituent-pair data.
+% Load one file of constituency tree pair data.
 
 % Append a default prefix if we don't have a full path
 if isempty(strfind(filename, '/'))
     if strfind(filename, 'quant_')
         filename = ['grammars/data/', filename];
-    else   
-        filename = ['data-5/', filename];
     end
 end
 
-% Check whether we already loaded this file
 if fragment
+    % Check whether we already loaded this file
     [pathname, filenamePart, ext] = fileparts(filename);
     listing = dir([pathname, '/pp-', filenamePart, ext, '-final-', hyperParams.vocabName, '*']);
     if length(listing) > 0
@@ -30,7 +28,6 @@ rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
     length(10000), 1);
 
 % Parse the file
-
 nextItemNo = 1;
 maxLine = length(C{1});
 

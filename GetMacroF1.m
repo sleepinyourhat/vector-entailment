@@ -1,3 +1,4 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function mF1 = GetMacroF1(confusion)
 % Compute the macroaveraged F1 from a confusion matrix.
 % NOTE: There seems to be some disagreement in the literature

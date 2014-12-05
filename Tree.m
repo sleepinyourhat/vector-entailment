@@ -6,7 +6,7 @@ classdef Tree < handle
     % - The text with which the tree can be displayed.
     % - The features at the node.
     
-    properties (Hidden) %TODO: Make all private.
+    properties (Hidden)
         daughters = []; % 2 x 1 vector of trees
         text = 'NO_TEXT';
         features = []; % DIM x 1 vector
@@ -37,22 +37,7 @@ classdef Tree < handle
 
         function t = makeTree(iText, wordMap)
             assert(~isempty(iText), 'Bad tree input text.');
-            % tyingMap = GetTyingMap(wordMap); % TODO
-            
-            % Parsing strategy example:          
-            % ( a b ) ( c d )
-            % (
-            %  stack - a
-            %  stack - a b
-            % ) - merge last two nodes
-            % stack - ab
-            % (
-            %  stack ab c
-            %  stack ab c d
-            % ) - merge last two nodes
-            % stack ab cd
-            % end - merge last two nodes
-            % stack abcd
+            % tyingMap = GetTyingMap(wordMap); % DEPRECATED
             
             C = textscan(iText, '%s', 'delimiter', ' ');
             C = C{1};
@@ -126,7 +111,7 @@ classdef Tree < handle
     methods
         
         function resp = isLeaf(obj)
-            resp = (isempty(obj.daughters)); % TODO: Fill in for undefined.
+            resp = (isempty(obj.daughters));
         end
         
         function ld = getLeftDaughter(obj)

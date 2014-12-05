@@ -1,16 +1,26 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
-% The main training and testing script. The first arguments to the function
-% have been tweaked quite a few times depending on what is being tuned.
+% The main training and testing script.
+% Arguments:
+%% pretrainingFilename: Pass in the filename to a checkpoint file to start training
+%%%% from that checkpoint. If this argument is blank but a checkpoint with the exact same
+%%%% experiment name is found, that checkpoint will be loaded. To start a fresh experiment,
+%%%% use a fresh experiment name (set in the config file).
+%% fold: Used for five fold cross-validation. Settings other than 1 will cause f# to be
+%%%% appended to the experiment name.
+%% ConfigFn: A function handle to an experiment configuration function that sets up 
+%%%% hyperParams, options, wordMap, and relationMap. See examples in the config/ directory.
+%% varargin: All remaining arguments will be passed through to the config function.
 
-% Look for configuration scripts in the config/ directory.
+
+% Look for experiment configuration scripts in the config/ directory.
 addpath('config/')
 
 % Set up paralellization
-c=parcluster();
-t=tempname();
+c = parcluster();
+t = tempname();
 mkdir(t);
-c.JobStorageLocation=t;
+c.JobStorageLocation = t;
 if exist('parpool')
   % >= 2013b
   parpool(c);
@@ -32,7 +42,6 @@ if fold > 1
 end
 options.name = hyperParams.name;
 
-
 % Set up an experimental directory.
 mkdir(hyperParams.name); 
 
@@ -45,14 +54,9 @@ hyperParams.showConfusions = false;
 
 Log(hyperParams.statlog, ['Model config: ' evalc('disp(hyperParams)')])
 Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
-
 hyperParams = FlushLogs(hyperParams);
 
-
-% Remove the test data from the split data
-% hyperParams.splitFilenames = setdiff(hyperParams.splitFilenames, hyperParams.testFilenames);
-
-% TODO
+% TODO: Ressurect this feature or delete it.
 hyperParams.firstSplit = 1;
 
 % Trim out data files if needed
@@ -101,7 +105,6 @@ if hyperParams.dataPortion < 1
     trainDataset = trainDataset(1:round(hyperParams.dataPortion * length(trainDataset)));
 end
 
-% Train
 Log(hyperParams.statlog, 'Training')
 
 if hyperParams.minFunc

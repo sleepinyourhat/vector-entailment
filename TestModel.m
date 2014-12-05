@@ -1,11 +1,15 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [combined, aggConfusion] = TestModel(CostGradFunc, theta, thetaDecoder, testDatasets, separateWordFeatures, hyperParams)
+% Test on a collection of test sets.
 
-% Evaluate on test datasets, and show set-by-set results while aggregating
-% an overall confusion matrix.
+% NOTE: Currently results are reported in three accuracy figures and three MacroAvgF1 figures:
+% 1. Performance on the #1 test set. Used, for instance, with SICK.
+% 2. Aggregate performance on the first hyperParams.firstSplit test sets. This is not used much right now.
+% 3. Aggregate performance across all of the test sets. Used, for instance, with and/or and quantification.
 
-% TODO: Currently, I only aggregate across test datasets that use the no. 1 set 
+% TODO: Currently, I only aggregate average test statistics across test datasets that use the no. 1 set 
 % of relations.
+
 aggConfusion = zeros(hyperParams.numRelations(1));
 heldOutConfusion = zeros(hyperParams.numRelations(1));
 targetConfusion = zeros(hyperParams.numRelations(1));

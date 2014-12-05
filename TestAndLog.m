@@ -1,7 +1,7 @@
 function modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
     hyperParams, testDatasets)
+% Do a full set of test runs.
 
-% Do mid-run testing
 if mod(modelState.step, options.testFreq) == 0
     Log(hyperParams.statlog, ['Theta min/mean/meanabs/max: ',  num2str(min(modelState.theta)), ' ', ...
                                           num2str(mean(modelState.theta)), ' ', ...
@@ -13,9 +13,7 @@ if mod(modelState.step, options.testFreq) == 0
                                       num2str(mean(abs(modelState.separateWordFeatures(:)))), ' ', ...
                                       num2str(max(modelState.separateWordFeatures(:)))]);
 
-    % Test on training data
-
-
+    % Test on training data.
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
     acc = -1;
     macro = -1;
@@ -42,7 +40,7 @@ if mod(modelState.step, options.testFreq) == 0
         end            
     end
 
-    % Test on test data
+    % Test on test data.
     if nargin > 5
         if mod(modelState.step, options.confusionFreq) == 0 && modelState.step > 0
             hyperParams.showConfusions = true;
@@ -72,7 +70,7 @@ if mod(modelState.step, options.testFreq) == 0
         testAcc = -1;
     end
 
-    % Log statistics
+    % Log statistics.
     if testAcc ~= -1
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
             ' train acc: ', num2str(acc), ' (mf1 ', num2str(macro), ') test acc: ', num2str(testAcc), ' (best: ', ...

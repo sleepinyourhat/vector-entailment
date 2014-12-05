@@ -37,12 +37,12 @@ hyperParams.lambda = 0;
 hyperParams.bottomDropout = 1;
 hyperParams.topDropout = 1;
 
-
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.
 hyperParams.norm = 2;
 
 % Use the syntactically untied composition layer params.
+% NOTE: This is not well supported right now.
 hyperParams.untied = false; 
 
 % Use only the specified fraction of the training datasets
@@ -105,13 +105,16 @@ options.numPasses = 250;
 options.miniBatchSize = 32;
 
 % Learning parameters
+
+% Choose AdaGrad or AdaDelta to compute parameter updates. 
+% AdaDelta tends to find better solutions.
 options.updateFn = @AdaDeltaUpdate;
 
-% AdaDelta
+% AdaDelta hyperparameters
 options.adaDeltaRho = 0.95;
 options.adaDeltaEps = 1e-7;
 
-% AdaGrad
+% AdaGrad hyperparameters
 options.adaEps = 0.01;
 options.lr = 0.05;
 
@@ -132,13 +135,11 @@ options.examplesFreq = 1000;
 % How often (in steps) to save parameters to disk.
 options.checkpointFreq = 20000; 
 
-% The name assigned to the current call to AdaGradSGD. This can be used to
+% The name assigned to the current call to TrainSGD. This can be used to
 % distinguish multiple phases of training in the same experiment.
 options.runName = 'tr';
 
 % Reset the sum of squared gradients after this many iterations.
 options.resetSumSqFreq = 10000;
-
-
 
 end

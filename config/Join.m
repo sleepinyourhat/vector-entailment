@@ -1,4 +1,5 @@
 function [ hyperParams, options, wordMap, relationMap ] = Join(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+% Relation composition experiments.
 
 [hyperParams, options] = Defaults();
 

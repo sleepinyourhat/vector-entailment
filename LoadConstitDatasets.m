@@ -10,8 +10,6 @@ function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadConstitDatase
 % relationIndices: An optional matrix with three rows, one each for 
 % train/test/split, indicating which set of relations the dataset uses.
 
-PERCENT_USED_FOR_TESTING = hyperParams.testFraction;
-
 if hyperParams.fragmentData
     trainDataset = hyperParams.trainFilenames;
 else
@@ -62,12 +60,12 @@ for i = 1:length(hyperParams.splitFilenames)
     dataset = LoadConstitData(hyperParams.splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     length(dataset)
 
-    lengthOfTestPortion = ceil(length(dataset) * PERCENT_USED_FOR_TESTING);
+    lengthOfTestPortion = ceil(length(dataset) * hyperParams.testFraction);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
     endOfTestPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
-    if isfield(hyperParams, 'truncateTest')
-        endOfTestPortion = min(startOfTestPortion + 100, endOfTestPortion);
-    end
+    % if isfield(hyperParams, 'truncateTest')
+    %     endOfTestPortion = min(startOfTestPortion + 100, endOfTestPortion);
+    % end
     testPortion = dataset(startOfTestPortion:endOfTestPortion);
     testDatasets = [testDatasets, {testPortion}];
     
@@ -87,6 +85,5 @@ for i = 1:length(hyperParams.splitFilenames)
     % assert(length(testPortion) + length(trainPortion) == length(dataset));
 end
 
-% Evaluate on test datasets, and show set-by-set results
 datasetNames = [hyperParams.testFilenames, hyperParams.splitFilenames];
 testDatasetsCell = {datasetNames, testDatasets};

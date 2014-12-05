@@ -1,7 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ cost, grad, embGrad, acc, confusion ] = ComputeFullCostAndGrad( theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
-% Compute gradient and cost with regularization over a set of examples
-% for some parameters.
+% Compute cost, gradient, accuracy, and confusions over a set of examples for some parameters.
 
 N = length(data);
 
@@ -20,7 +19,7 @@ if (nargin < 6 || computeGrad) && nargout > 1
     if hyperParams.fastEmbed
         accumulatedSeparateWordFeatureGradients = sparse([], [], [], ...
           size(separateWordFeatures, 1), size(separateWordFeatures, 2), hyperParams.embeddingDim * 5 * length(data));
-        % TODO: This unsparsifies in the parfor below. Investigate.
+        % TODO: This unsparsifies below. Investigate.
     else
         accumulatedSeparateWordFeatureGradients = [];
     end
@@ -128,7 +127,7 @@ if computeGrad
         % Compile the embedding gradient
         embGrad = accumulatedSeparateWordFeatureGradients * 1/length(data);
 
-        for wordInd = find(embGrad(:,1))'   % TODO: parfor!
+        for wordInd = find(embGrad(:,1))'   % TODO: Parallelize
             % Apply regularization to the gradient
             if hyperParams.norm == 2
                 % Apply L2 regularization to the gradient

@@ -1,4 +1,7 @@
+% Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ modelState ] = TrainOnFragmentedData(CostGradFunc, trainingData, testDatasets, modelState, hyperParams, options)
+% DEPRECATED: This makes it possible to run SGD on more data than fits in memory.
+% It would be nice to have, but this version is terribly inefficient.
 
 % Preloaded MAT files for each training dataset, 
 % outer index = sourceFilenameIndex, inner index reflect

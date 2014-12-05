@@ -1,11 +1,11 @@
 function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb)
+% Set up a gradient check for the main learned parameters.
 
 [hyperParams, options] = Defaults();
 
 hyperParams.name = 'gradcheck';
 
-% The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
-% the GloVe vectors.
+% The dimensionality of the word/phrase vectors.
 hyperParams.dim = 2;
 hyperParams.embeddingDim = 2;
 

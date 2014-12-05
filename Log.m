@@ -5,7 +5,6 @@ function Log(file, message)
 if file < 3
 	disp(['Bad FileID: ' file]);
 else
-	% TODO: Set up non-verbose mode
 	disp(message);
 	try
 		fprintf(file, '%s\n', [datestr(clock, 0) ': ' message]);
