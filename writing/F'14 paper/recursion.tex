@@ -69,7 +69,7 @@ a valid theorem of the propositional logic.
       $a$               & $\natfor$ & $(a \plor b)$ \\
       $a$               & $\natrev$ & $(a \pland b)$ \\
       %$(a \natfor b)$   & $\nateq$  & $(b \natrev a)$ \\	
-      $\plneg(\plneg a \pland \plneg b)$ & $\nateq$ & $(a \plor b)$ \\ 
+      $\plneg\, (\plneg a \pland \plneg b)$ & $\nateq$ & $(a \plor b)$ \\ 
       \bottomrule
     \end{tabular}
     \caption{Examples of statements about relations between
@@ -115,17 +115,17 @@ referring to more than four of the six propositional variables.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=5in]{decayfig.eps}
+  \includegraphics[width=5.75in]{decayfig.eps}
 %  \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
-  \caption{\mynote{Model performance on propositional logic, by expression size. }
+  \caption{Model performance on propositional logic, by expression size.}
 %    The dashed line indicates that only expressions of size four or less appeared in the training data. \textbf{Bottom:} Semantically distinct formulae should have different
 %    representations. As measured by Euclidean distance, only the RNTN
 %    achieves this for formulae containing more than a small number of
 %    connectives (\ii{and} in this example). The RNN quickly collapses the representations,
 %    failing to capture the meaning contrasts.
-    }  
-  \label{prop-results}
-  % TODO: Regenerate figure from final model.
+    
+  \label{prop-results} 
+  
 \end{figure*}
 
 \paragraph{Results} 
@@ -134,16 +134,16 @@ connectives (60k pairs) and tested it on a separate set of examples of up to 12
 connectives (21k pairs). We initialized the model parameters randomly,
 including the vector representations of the six variables.
 Figure~\ref{prop-results} shows test the relationship
-between test accuracy and statement length. \mynote{We found that both 
+between test accuracy and statement length. We found that both 
 models were able to perform well on unseen small test examples, 
 with RNN accuracy above
-97\% and RNTN accuracy above 99\% on formulae below length five.
+98\% and RNTN accuracy above 99\% on formulae below length five.
 Starting at size four, performance gradually falls with increasing
-size. Training accuracy was 99.4\% for the RNN and 99.9\% for the RNTN.}
+size. Training accuracy was 99.4\% for the RNN and 99.8\% for the RNTN.
 
 The performance of these models on small unseen test examples
 indicates that they learned correct approximations of the underlying
-logic. It appears that these approximations are accurate enough to yield
+logic. These approximations are accurate enough to yield
 correct answers when the composition layer is only applied a small
 number of times, but that the error in the approximation grows with
 increasing expression size, resulting in gradually dropping performance. 
@@ -151,11 +151,11 @@ It appears that the RNTN model overfit somewhat relative to the plain RNN,
 performing better on the training data and short examples, but worse on longer
 examples. Two factors are likely involved in this: even with the lower dimension,
 the RNTN composition function has about eight times as many parameters as the
-RNN, and this much more capacity to memorize a large number of narrow 
-generalizations that work on the test data but don't generalize as well. In addition,
-the RNTN used here used slightly less L2 regularization than the 
-RNN ($\lambda_{RNN} = 0.001$, $\lambda_{RNTN} = 0.0003$), as had
-yielded better performance earlier in tuning.
+RNN, and thus more capacity to find a solution involving a large number of narrow 
+generalizations that work on the training data but don't generalize well. In addition,
+the RNTN used here has slightly weaker L2 regularization than the 
+RNN ($\lambda_{\textit{RNN}} = 0.001$, $\lambda_{\textit{RNTN}} = 0.0003$). This
+yielded better average performance, but may have facilitated this effect.
 
 % \mynote{In an effort to better understand why model performance decays, 
 %we evaluated both models on pairs of long formulae involving

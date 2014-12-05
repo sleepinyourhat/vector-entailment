@@ -11,7 +11,18 @@ which can then be merged again to represent more complex
 phrases. Once the entire sentence-level representation has been
 derived, it serves as a fixed-dimensional input for some subsequent function.
 
-To apply recursive models to this inference class, we propose the tree 
+
+\begin{figure}[tp]
+  \centering
+ % \includegraphics[scale=0.35]{model.eps}
+  \input{figure1}
+  \caption{The model structure used to compare \ii{((all reptiles) walk)} and \ii{((some turtles) move)}. 
+    The same structure is used for both the RNN and RNTN layer functions.} 
+  \label{sample-figure}
+\end{figure}
+
+
+To apply these recursive models to our task, we propose the tree 
 pair model architecture depicted in Figure~\ref{sample-figure}, which is novel but
 closely modeled after past work on recursive NNs. 
 In it, the two phrases being compared are processed separately using a pair 
@@ -70,14 +81,7 @@ using both accuracy and macroaveraged F1, since the latter emphasizes
 as the harmonic mean of average precision and average recall, both computed
 for all classes for which there is test data, setting precision to 0 
 where it is not defined. On the artificial data experiments, we report mean
-results over five fold cross-validation, though differences across runs are small.
+results over five fold cross-validation. Variance across runs is typically no
+more than two percentage points.
 Source code and generated data will be released after the review period.
 
-\begin{figure}[tp]
-  \centering
- % \includegraphics[scale=0.35]{model.eps}
-  \input{figure1}
-  \caption{The model structure used to compare \ii{((all reptiles) walk)} and \ii{((some turtles) move)}. 
-    The same structure is used for both the RNN and RNTN layer functions.} 
-  \label{sample-figure}
-\end{figure}

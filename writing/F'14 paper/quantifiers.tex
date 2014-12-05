@@ -6,7 +6,7 @@ considerably greater complexity than this.  As a step towards
 investigating whether our models can capture this complexity, we now
 directly measure the degree to which they are able to
 develop suitable representations for the semantics of natural language
-quantifiers like \ii{most} and \ii{all} as they interact with negation. Quantifiers 
+quantifiers like \ii{most} and \ii{all} as they interact with negation. Quantification 
 and negation are far from
 the only place in natural language where complex functional meanings
 are found, but they are natural starting point, since they can be tested
@@ -49,13 +49,14 @@ unseen pairs of sentences.
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
-We evaluate the models by sampling 20\% of the data to test on and 
-training on the remainder. In this setting, each model must learn a
+In each run, we sample 20\% of the 60k generated pairs to test on and 
+train on the remainder. In this setting, each model must learn a
 complete reasoning system for the limited language and logic presented
-in the training data. To succeed on this task, the model must be able
+in the training data, and must be able
 to recognize all of the lexical relations between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
-\eqref{p1} and \eqref{p2} in training and be required to then label \eqref{p3}.
+pairs like \eqref{p1} and \eqref{p2} in training and be required to 
+then label \eqref{p3}.
 
 \vspace{-0.6cm}
 \begin{gather}

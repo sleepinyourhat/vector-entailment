@@ -1,27 +1,3 @@
-\section{Reasoning about semantic relations}\label{sec:join}
-
-If a model is to learn the behavior of a relational logic like the one
-presented here from a finite amount of data, it must learn to deduce new
-relations from seen relations in a sound manner. The simplest such
-deductions involve atomic statements using the relations in
-Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
-\natrev c$, one can conclude that $a \natrev c$, by basic
-set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
-$a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  The
-full set of sound inferences of this form is summarized in
-Table~\ref{tab:jointable}.
-
-% about the relations themselves that do not depend on the
-% internal structure of the things being compared. For example, given
-% that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that
-% $a\sqsupset c$ by the transitivity of $\sqsupset$, even without
-% understanding $a$, $b$, or $c$. These seven relations support more
-% than just transitivity: MacCartney and Manning's
-% \cite{maccartney2009extended} join table defines 32 valid inferences
-% that can be made on the basis of pairs of relations of the form $a R
-% b$ and $b R' c$, including several less intuitive ones such as that if
-% $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
-
 \begin{table}[htp]
   \centering  \small
   \setlength{\arraycolsep}{8pt}
@@ -46,12 +22,37 @@ of relations for which no valid inference can be drawn.}
   \label{tab:jointable}
 \end{table}
 
+
+\section{Reasoning about semantic relations}\label{sec:join}
+
+If a model is to learn the behavior of a relational logic like the one
+presented here from a finite amount of data, it must learn to deduce new
+relations from seen relations in a sound manner. The simplest such
+deductions involve atomic statements using the relations in
+Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
+\natrev c$, one can conclude that $a \natrev c$, by basic
+set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
+$a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  The
+full set of sound such inferences is summarized in
+Table~\ref{tab:jointable}.
+
+% about the relations themselves that do not depend on the
+% internal structure of the things being compared. For example, given
+% that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that
+% $a\sqsupset c$ by the transitivity of $\sqsupset$, even without
+% understanding $a$, $b$, or $c$. These seven relations support more
+% than just transitivity: MacCartney and Manning's
+% \cite{maccartney2009extended} join table defines 32 valid inferences
+% that can be made on the basis of pairs of relations of the form $a R
+% b$ and $b R' c$, including several less intuitive ones such as that if
+% $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
+
 \paragraph{Experiments}
 To test our models' ability to learn these inferential patterns, we
 create small boolean structures for our logic in which terms denote
 sets of entities from a small domain.  Figure~\ref{lattice-figure}
 depicts a structure of this form. The lattice gives the full model,
-for which all the statements on below are valid. We divide these
+for which all the statements below it are valid. We divide these
 statements evenly into training and test sets, and remove from the
 test set statements which cannot be proven from the training
 statements.
@@ -64,15 +65,14 @@ chosen as a test set, and that test set is further reduced to the 2960
 examples that can be provably derived from the training data.
 
 We trained versions of both the RNN model and the RNTN model on these
-data sets. In both cases, the models are implemented exactly as
+data sets. In both cases, the models are implemented as
 described in Section~\ref{methods}, but since the items being compared
 are single terms rather than full tree structures, the composition
 layer is not involved, and the two models differ only in which
 layer function is used for the comparison layer. We simply present
-the models with two single terms, each of which corresponds to a
-single vector in the (randomly initialized) vocabulary matrix $V$,
-thereby ensuring that the model has no information about the terms
-being compared except the relations between them.
+the models with the (randomly initialized) embedding vectors for each
+of two terms, ensuring that the model has no information about the terms
+being compared except for the relations between them that appear in training.
 
 
 \begin{figure}[t]
@@ -80,7 +80,7 @@ being compared except the relations between them.
   \begin{subfigure}[t]{0.45\textwidth}
     \centering
     \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
-    \setlength{\unitlength}{1cm}\scalebox{0.7}{
+    \setlength{\unitlength}{1cm}\scalebox{0.8}{
     \begin{picture}(5,5.5)
       \labelednode{2.50}{5}{}{1,2,3}
       
@@ -141,18 +141,6 @@ being compared except the relations between them.
   \label{lattice-figure}
 \end{figure} 
 
-
-\paragraph{Results} 
-Table \ref{joinresultstable} shows the results, which are straightforward 
-to interpret. The RNTN is able to accurately encode the relations 
-between the terms in the geometric relations between their vectors, 
-and is able to then use that information to recover relations that 
-are not overtly included in the training data. The RNN, in contrast, was not able to learn
-to do this well under these conditions, though we cannot rule
-out the possibility that different optimization techniques or further hyperparameter 
-tuning could lead an RNN model to succeed here.
-
-
 % Note: None of these test examples is derivable from the shown training data, 
 % but we suggest that there is additional training data, so we can cross lines
 % out willy-nilly without fear.
@@ -169,4 +157,16 @@ tuning could lead an RNN model to succeed here.
   \caption{Performance on the semantic relation experiments. These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses.}
   \label{joinresultstable}
 \end{table}
+
+\paragraph{Results} 
+Table \ref{joinresultstable} shows the results. 
+The RNTN is able to accurately encode the relations 
+between the terms in the geometric relations between their vectors, 
+and is able to then use that information to recover relations that 
+are not overtly included in the training data. The RNN also generalizes fairly well, 
+but makes enough errors that it remains an open question whether 
+it is capable of learning representations with these properties. 
+We cannot rule out the possibility that different optimization techniques or
+further hyperparameter tuning could lead an RNN model to succeed here.
+
 

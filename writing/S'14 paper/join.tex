@@ -89,17 +89,8 @@ thereby ensuring that the model has no information about the terms
 being compared except the relations between them.
 
 \paragraph{Results} 
-We found that the RNTN model worked best with 11-dimensional vector
-representations for the 80 sets and a 90-dimensional feature vector
-for the classifier, though the performance of the model was not highly
-sensitive to either dimensionality parameter in any of the experiments
-discussed here. This model was able to correctly label 99.4\% (94.3
-macroaveraged F1) of the provably derivable test examples, and 95.4\%
-(92.2 macro-F1) of the remaining test examples. The simpler RNN model worked
-best with 11 and 75 dimensions, respectively, but was able to achieve
-accuracies of only 89.0\% (80.7 macro-F1) and 62.5\% (40.7 macro-F1),
-respectively. Training accuracy was 99.8\% for the RNTN and 95.4\% for
-the RNN.
+We found that the both models worked well with 15-dimensional vector
+representations for the 80 set symbols, 
 
 
 \begin{figure}[tp]
@@ -202,8 +193,7 @@ the RNN.
 % and 75 dimensions, respectively, but was able to achieve accuracies of
 % only 90.0\% and 87.\%, respectively.
 
-These results are fairly straightforward to interpret. The RNTN model
-was able to accurately encode the relations between the terms in the
+The RNTN model was able to accurately encode the relations between the terms in the
 geometric relations between their vectors, and was able to then use
 that information to recover relations that were not overtly included
 in the training data. In contrast, the RNN model was able to achieve
