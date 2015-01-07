@@ -17,7 +17,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{colortbl}
-\usepackage{caption}
+% \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{xcolor}
 
@@ -78,19 +78,29 @@
 
 %\Thanks{}}
 
-%\author{Author 1\\
-%	    XYZ Company\\
-%	    111 Anywhere Street\\
-%	    Mytown, NY 10000, USA\\
-%	    {\tt author1@xyz.org}
-%	  \And
-%	Author 2\\
-%  	ABC University\\
-%  	900 Main Street\\
-%  	Ourcity, PQ, Canada A1A 1T2\\
-%  {\tt author2@abc.ca}}
+\author{
+Samuel R.\ Bowman$^{\ast\dag}$ \\
+\texttt{sbowman@stanford.edu} \\[2ex]
+$^{\ast}$Stanford Linguistics \\
+\And
+Christopher Potts$^{\ast}$\\
+\texttt{cgpotts@stanford.edu} \\[2ex]
+$^{\dag}$Stanford NLP Group
+\And
+Christopher D.\ Manning$^{\ast\dag\ddag}$\\
+\texttt{manning@stanford.edu}\\[2ex]
+$^{\ddag}$Stanford Computer Science
+}
+
+% TODO: Add addresses to conform to conference standards.
 
 \date{}
+
+\makeatletter
+\newcommand{\@BIBLABEL}{\@emptybiblabel}
+\newcommand{\@emptybiblabel}[1]{}
+\makeatother
+\usepackage[breaklinks]{hyperref}
 
 \begin{document}
 \maketitle
@@ -103,6 +113,11 @@
 \input{quantifiers.tex}
 \input{sick.tex}
 \input{discussion.tex}
+
+\subsubsection*{Acknowledgments}
+
+We thank Jeffrey Pennington, Richard Socher, and audiences at CSLI, Nuance, and BayLearn, as well as Neha Nayak for developing the SICK collapsing technique.
+
 
 %\section{Introduction}
 %
