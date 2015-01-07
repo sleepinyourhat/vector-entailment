@@ -95,9 +95,10 @@ entailment.
 Natural logic aligns well with distributed (e.g., vector)
 representations, which also naturally model meaning relationally.
 Distributed representations have been used successfully in a wide
-array of sophisticated language tasks (e.g., \cite{collobert2011natural}). %,
-% including sentiment analysis, analogy completion, relation
-% extraction, and named entity recognition.
+array of sophisticated language tasks, including part of speach tagging,
+\cite{collobert2011natural}, semantic role labeling \cite{collobert2011natural},
+sentiment analysis \cite{socher2011semi}, and translation \cite{sutskever2014sequence} 
+among many others.
 However, it remains an open question whether it is possible to train
 such representations to support the rich, diverse logical reasoning
 captured by natural logic; while they excel at synonymy (similarity),
@@ -122,27 +123,6 @@ fare with a real natural language vocabulary.  We find that only the NTN is able
 learn the underlying algebra, but that both models excel in the 
 WordNet experiment.
 
-% TODO: Better Gref citation; cite Oriol/Ilya
-
-% In our first experiment, we use the pre-specified logical grammar to
-% generate controlled data sets and assess the ability of the two
-% classes of neural network to learn the core underlying relational
-% algebra from this simulated data. In our second experiment, we define
-% a simple modification of the logical grammar so that it aligns with
-% the WordNet noun graph, and we again assess our two classes of RNN on
-% this data. The controlled data of our first experiment helps us to
-% achieve analytic insights into what the models are able to learn, and
-% the large, diverse lexicon of the second experiment shows us how they
-% fare in the real world. 
-
-% These experiments differentiate the increased power of RNTNs better
-% than previous work and provide the most convincing demonstration to
-% date of the ability of neural networks to model semantic inferences
-% in complex natural language sentences.
-
-% TODO: Add citations on related work in structuring relations in embedding spaces:
-% - Representing part–whole relations in conceptual spaces
-% - Something McCallum/Universal Schema?
 
 \begin{table*}[tp]
   \centering\small
@@ -163,8 +143,7 @@ WordNet experiment.
   \end{tabular}
   \protect\caption{\protect\label{b-table}The seven natural logic relations of \protect\cite{maccartney2009extended}. 
     $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
-    and the relation $\natind$ applies whenever none of the other six do.} %, including when there 
-    %is insufficient knowledge to choose a label.}
+    and the relation $\natind$ applies whenever none of the other six do.} 
 \end{table*}
 
 \section{Neural network models for relation classification} \label{methods}
@@ -172,19 +151,25 @@ WordNet experiment.
 We build embedding-based models using the method of
 \cite{Bowman:Potts:Manning:2014}, which is centered on the task of
 labeling a pair of words or sentences with one of a small set of
-logical relations. The architecture that we use, which is limited to
-only pairs of single terms (such as words), is depicted in
+logical relations. Unlike in a classical inference
+setting, the model is not given specific premises to reason with at test time, but rather
+is expected to encode all of the information that it learns about each term (word) at training
+time in the term vectors, and to then use only the information encoded in the relevant pair of
+term vectors at test time. 
+The architecture that we use, which is limited to
+only pairs of single terms, is depicted in
 Figure~\ref{sample-figure}. The model represents the two input terms
 as embeddings, which are fed into a comparison function based on one
 of two types of neural network layer functions to produce a
 representation for the relationship between the two terms. This
 representation is then fed into a softmax classifier, which outputs a
 distribution over possible labels. The entire network, including the
-embeddings, is trained using backpropagation with AdaGrad \cite{duchi2011adaptive}.
+embeddings, is trained using backpropagation with AdaGrad \cite{duchi2011adaptive}
+with L2 regularization.
 
 The simpler version of the comparison concatenates the two
-input vectors before feeding them into a standard neural network (NN)
-layer.  The more powerful neural tensor network (NTN) version uses an
+input vectors before feeding them into a LReLU \cite{maasrectifier} neural network (NN)
+layer.  The more powerful neural tensor network (NTN) version adds an
 additional third-order tensor parameter to allow for multiplicative
 interactions between the two inputs \cite{chen2013learning}. For more
 details on the implementation and training of the layer functions, see
@@ -246,7 +231,7 @@ details on the implementation and training of the layer functions, see
 This model used here differs from the one described in that work in
 two ways. First, because the inputs are single terms, we do not use
 a composition function here. Second, for our experiment on WordNet data, 
-we introduce an additional neural network layer between the embedding 
+we introduce an additional $\tanh$ neural network layer between the embedding 
 input and the comparison function, which facilitates initializing the 
 embeddings themselves from pretrained vectors and was found to help 
 performance in that setting.
@@ -282,7 +267,7 @@ a small domain (e.g., Figure~\ref{lattice-figure}), employ logical
 deduction to identify the valid statements, divide those into train
 and test sets, and remove from the test set those statements which
 cannot be proven from the training statements
-(Figure~\ref{unprovable}).
+(Figure~\ref{unprovable}). 
 % using the logic depicted in Figure~\ref{lattice-figure}.
 %
 %
@@ -301,19 +286,11 @@ cannot be proven from the training statements
 %
 In our experiments, we create 80 randomly generated sets drawn from a
 domain of seven elements. This yields 6400 statements about pairs of
-formulae, of which 3200 are chosen as a test set, and that test set is
-further reduced to the 2960 examples that can be provably derived from
-the training data. We trained both the NN model and the NTN model on
-these data
-sets.% . In both cases, the models were implemented exactly as
-% described in Section~\ref{methods}, but since the items being compared
-% are single terms rather than full tree structures, the composition
-% layer was not involved, and the two models differed only in which
-% layer function was used for the comparison layer. We simply present
-% the models with two single terms, each of which corresponds to a
-% single vector in the (randomly initialized) vocabulary matrix $V$,
-% thereby ensuring that the model has no information about the terms
-% being compared except the relations between them.
+formulae, of which 3200 are chosen as a test set. For 240 of the test examples, 
+there is not sufficient evidence in the training data to support the choice of any 
+one relation, and we  exclude these from our primary test set. 
+We trained both the NN model and the 
+NTN model on these data sets. 
 
 \paragraph{Results} 
 We found that the NTN model worked best with 11-dimensional vector
@@ -459,22 +436,9 @@ data to learn from, but the NTN is readily able to achieve these
 effects in the setting discussed here. The fact that both models performed
 well above chance on the unprovable examples indicates that both were able
 to identify statistical cues to the properties of the underlying boolean structure,
-but that information of this kind is not sufficient to yield the near-perfect
+thereby going beyond what one would expect from a logical proof system. However, 
+information of this kind is not sufficient to yield the near-perfect
 accuracy that we saw on the provable data.
-
-\section{Reasoning about lexical relations in WordNet}\label{sec:wordnet}
-
-Using simulated data as above is reassuring about what the models
-learn and why, but we also want to know how they perform with a real
-natural language vocabulary. Unfortunately, as far as we are aware,
-there are no available resources labeling such a vocabulary with the
-relations from Table~\ref{b-table}. However, the relations in WordNet
-\cite{fellbaum2010wordnet} come close and pose the same substantive
-challenges within a somewhat easier classification problem.
-
-% WordNet \cite{fellbaum2010wordnet} provides a different type of
-% lattice structure which is compatible with our learning paradigm.
-
 
 \newcommand{\nodagger}{\phantom{$^\dagger$}}
 
@@ -496,6 +460,19 @@ challenges within a somewhat easier classification problem.
  \caption{Mean test \% accuracy scores (with standard error) on the WordNet data over five-fold crossvalidation. The baseline figure is the frequency of the most frequent class, \ii{hypernym}.\label{wn-table}} 
 \end{table*}
 
+\section{Reasoning about lexical relations in WordNet}\label{sec:wordnet}
+
+Using simulated data as above is reassuring about what the models
+learn and why, but we also want to know how they perform with a real
+natural language vocabulary. Unfortunately, as far as we are aware,
+there are no available resources labeling such a vocabulary with the
+relations from Table~\ref{b-table}. However, the relations in WordNet
+\cite{fellbaum2010wordnet} come close and pose the same substantive
+challenges within a somewhat easier classification problem.
+
+% WordNet \cite{fellbaum2010wordnet} provides a different type of
+% lattice structure which is compatible with our learning paradigm.
+
 We extract three types of relation from WordNet. \ii{Hypernym} and
 \ii{hyponym} can be represented directly in the WordNet graph
 structure, and correspond closely to the $\natrev$ and $\natfor$
@@ -506,7 +483,7 @@ mirror images of one another: if \ii{dog} is a hyponym of \ii{animal}
 terms, which share a direct hypernym, like \ii{dalmatian}, \ii{pug},
 and \ii{puppy}, which are all direct hyponyms of \ii{dog}.  Coordinate
 terms tend to exclude one another, thereby providing a loose approximation 
-of the natural logic exclusion relation $\natalt$. WordNet antonyms are both too narrowly defined
+of the natural logic exclusion relation $\natalt$. WordNet's antonym relation, however, is both too narrowly defined
 and too rare to use for this purpose. WordNet defines its relations over
 sets of synonyms, rather than over individual terms, so we do not
 include a \ii{synonym} or \ii{equivalent} relation, but rather
