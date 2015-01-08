@@ -81,7 +81,7 @@
 Natural logic offers a powerful \emph{relational} conception of
 semantics: the meanings for expressions are given, at least in part,
 by their inferential connections with other expressions
-\cite{vanBenthem08NATLOG,maccartney2009extended}. For instance,
+\cite{Katz72,maccartney2009extended,vanBenthem08NATLOG}. For instance,
 \word{turtle} is analyzed, not primarily by its extension in the
 world, but rather by its lexical network: it entails \word{reptile},
 excludes \word{chair}, is entailed by \word{sea
@@ -225,8 +225,8 @@ details on the implementation and training of the layer functions, see
 	\end{picture}
 	%}
         \caption{The model structure used to compare \ii{turtle} and
-          \ii{animal}.  learned word representations are fed through
-          either an NN or NTN comparison network and then to a softmax
+          \ii{animal}.  Learned word representations are fed through
+          either an NN or NTN comparison layer and then to a softmax
         classifier over the seven relations in Table~\ref{b-table}.}
   \label{sample-figure}
 \end{figure}
@@ -477,7 +477,7 @@ learn and why, but we also want to know how they perform with a real
 natural language vocabulary. Unfortunately, as far as we are aware,
 there are no available resources labeling such a vocabulary with the
 relations from Table~\ref{b-table}. However, the relations in WordNet
-\cite{fellbaum2010wordnet} come close and pose the same substantive
+\cite{fellbaum2010wordnet,WordNet95} come close and pose the same substantive
 challenges within a somewhat easier classification problem.
 
 % WordNet \cite{fellbaum2010wordnet} provides a different type of
@@ -524,7 +524,7 @@ constructing compositional word meanings in vector spaces
 extracting entailment information from distributional vector space
 models \cite{baroni2012entailment,rei2014looking}, and transferring
 information between logic programs and neural networks in constrained
-settings \cite{holldobler1999approximating,hitzler2004logic}. Our
+settings \cite{hitzler2004logic,holldobler1999approximating}. Our
 primary contribution is to establish a tight connection between these
 approaches and formal developments within natural logic.  More
 specifically, we showed that neural network models, optimized using
