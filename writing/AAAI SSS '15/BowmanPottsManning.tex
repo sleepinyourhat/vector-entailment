@@ -108,7 +108,7 @@ as our formal model, we address this open question using two neural
 network-based models for learning embeddings: plain neural networks
 and neural tensor networks (NTNs).  The natural logic is built from
 the seven relations defined in Table~\ref{b-table}. Its formal
-properties are now well-understood \cite{Icard:Moss:2013:LILT}, so it
+properties are now well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}, so it
 provides a rigorous set of goals for our neural models. To keep the
 discussion manageable, we limit attention to experiments involving the
 lexicon; for a more extended treatment of complex expressions
@@ -125,9 +125,9 @@ WordNet experiment.
 
 
 \begin{table*}[tp]
-  \centering\small
+  \centering%\small
   \setlength{\tabcolsep}{15pt}
-  \renewcommand{\arraystretch}{1.1}
+  \renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l c l l} 
     \toprule
     Name & Symbol & Set-theoretic definition & Example \\ 
@@ -190,7 +190,7 @@ details on the implementation and training of the layer functions, see
 
 	\setlength{\unitlength}{0.61cm}
 
-	\resizebox{3in}{!}{
+	%\resizebox{3in}{!}{
 	\begin{picture}(13.15, 5.5)
 	  
 	  \labeledtreenode[2.4]{6.5,5}{$P(\sqsubset) = 0.8$}{softmaxcolor}  
@@ -223,8 +223,11 @@ details on the implementation and training of the layer functions, see
 	  \labeledtreenode{11.5,1.9}{animal}{compositioncolor}
 	  
 	\end{picture}
-	}
-  \caption{The model structure used to compare \ii{turtle} and \ii{animal}.} 
+	%}
+        \caption{The model structure used to compare \ii{turtle} and
+          \ii{animal}.  learned word representations are fed through
+          either an NN or NTN comparison network and then to a softmax
+        classifier over the seven relations in Table~\ref{b-table}.}
   \label{sample-figure}
 \end{figure}
 
@@ -240,13 +243,15 @@ performance in that setting.
 
 \section{Reasoning about semantic relations}\label{sec:join}
 
-In this experiment, we test our model's ability to learn and use
-the natural logic inference rules schematized in 
-Figure~\ref{tab:jointable}. For instance, given that $a \natrev b$ and $b
-\natrev c$, one can conclude that $a \natrev c$, by basic
+In this experiment, we test our model's ability to learn and use the
+natural logic inference rules schematized in
+Figure~\ref{tab:jointable}. For instance, given that $a \natrev b$ and
+$b \natrev c$, one can conclude that $a \natrev c$, by basic
 set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
-$a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$. Cells in the
-table containing a dot correspond to pairs of relations for which no valid 
+$a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  There
+are 32 valid inferences that can be made on the basis of pairs of
+relations of the form $a R b$ and $b R' c$. Cells in the table
+containing a dot correspond to pairs of relations for which no valid
 inference can be drawn in our logic.
 
 % about the relations themselves that do not depend on the
@@ -433,17 +438,22 @@ could be made to find a good solution with further optimization on
 different learning algorithms, or that it would do better on a larger
 universe of sets, for which there would be a larger set of training
 data to learn from, but the NTN is readily able to achieve these
-effects in the setting discussed here. The fact that both models performed
-well above chance on the unprovable examples indicates that both were able
-to identify statistical cues to the properties of the underlying boolean structure,
-thereby going beyond what one would expect from a logical proof system. However, 
-information of this kind is not sufficient to yield the near-perfect
-accuracy that we saw on the provable data.
+effects in the setting discussed here. 
+
+It's noteworthy that both models performed well above chance on the
+unprovable examples. This indicates that both were able to identify
+statistical cues to the properties of the underlying boolean
+structure, thereby going beyond what one could obtain from the natural
+logic. Information of this kind is not sufficient to yield the
+near-perfect accuracy that we saw on the provable data, but it does
+highlight one of the ways in which trained inference models can turn
+out to be more powerful that rigidly defined proof systems.
 
 \newcommand{\nodagger}{\phantom{$^\dagger$}}
 
 \begin{table*}
-\centering\resizebox{5.5in}{!}{
+\centering%\resizebox{5.5in}{!}
+{
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
   \begin{tabular}{r r@{ }r r@{ }r r@{ }r r@{ }r r@{ }r} 
@@ -508,13 +518,27 @@ usable representations at all and labeled all examples with the most frequent la
 
 \section{Conclusion}\label{sec:discussion}
 
-Ours is not the first investigation into logical behavior in vector space models: 
- there is extensive prior work on constructing compositional word meanings in vector spaces \cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
- extracting entailment information from distributional vector space models \cite{baroni2012entailment,rei2014looking},
- and transferring information between logic programs and neural networks in 
- constrained settings \cite{holldobler1999approximating,hitzler2004logic}. However, this investigation
-  is the first that we are aware of on logical behavior in representations learned within conventionally
-   optimized neural network models.
+This investigation builds upon extensive prior research on
+constructing compositional word meanings in vector spaces
+\cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
+extracting entailment information from distributional vector space
+models \cite{baroni2012entailment,rei2014looking}, and transferring
+information between logic programs and neural networks in constrained
+settings \cite{holldobler1999approximating,hitzler2004logic}. Our
+primary contribution is to establish a tight connection between these
+approaches and formal developments within natural logic.  More
+specifically, we showed that neural network models, optimized using
+established techniques, can learn distributed representations that
+closely approximate the behavior one would expect from a natural logic
+inference algorithm.
+
+% Ours is not the first investigation into logical behavior in vector space models: 
+%  there is extensive prior work on constructing compositional word meanings in vector spaces \cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
+%  extracting entailment information from distributional vector space models \cite{baroni2012entailment,rei2014looking},
+%  and transferring information between logic programs and neural networks in 
+%  constrained settings \cite{holldobler1999approximating,hitzler2004logic}. However, this investigation
+%   is the first that we are aware of on logical behavior in representations learned within conventionally
+%    optimized neural network models.
 
 This paper evaluated two neural models on the task of learning 
 natural logic relations between distributed word representations. The
@@ -526,7 +550,7 @@ set of relations, and to subsequently use those embeddings to infer new
 relations. In
 \cite{Bowman:Potts:Manning:2014}, we extend these results to include
 complex expressions involving logical connectives and quantifiers, with similar
-conclusions about (tree structured recursive versions of) these models. These findings
+conclusions about (tree-structured recursive versions of) these models. These findings
 are promising for the future of learned distributed representations in the
 applied modeling of logical semantics.
 
