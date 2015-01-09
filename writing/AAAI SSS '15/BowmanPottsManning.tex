@@ -154,18 +154,17 @@ labeling a pair of words or sentences with one of a small set of
 logical relations. Unlike in a classical inference
 setting, the model is not given specific premises to reason with at test time, but rather
 is expected to encode all of the information that it learns about each term (word) at training
-time in the term vectors, and to then use only the information encoded in the relevant pair of
+time in the term embedding vectors, and to then use only the information encoded in the relevant pair of
 term vectors at test time. 
-The architecture that we use, which is limited to
-only pairs of single terms, is depicted in
+The architecture that we use is depicted in
 Figure~\ref{sample-figure}. The model represents the two input terms
-as embeddings, which are fed into a comparison function based on one
-of two types of neural network layer functions to produce a
+as single embedding vectors, which are fed into a comparison function based on one
+of two types of neural network layer function to produce a
 representation for the relationship between the two terms. This
 representation is then fed into a softmax classifier, which outputs a
 distribution over possible labels. The entire network, including the
 embeddings, is trained using backpropagation with AdaGrad \cite{duchi2011adaptive}
-with L2 regularization.
+and L2 regularization.
 
 The simpler version of the comparison concatenates the two
 input vectors before feeding them into a LReLU \cite{maasrectifier} neural network (NN)
@@ -204,7 +203,7 @@ details on the implementation and training of the layer functions, see
 	  \textlabel{6.5,2.1}{Optional embedding}{black}
 	  \textlabel{6.5,1.5}{transformation NN layers}{black}
 
-	  \textlabel{6.5,0.5}{Learned word vectors}{black}
+	  \textlabel{6.5,0.5}{Learned term vectors}{black}
 	  
 	  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -225,7 +224,7 @@ details on the implementation and training of the layer functions, see
 	\end{picture}
 	%}
         \caption{The model structure used to compare \ii{turtle} and
-          \ii{animal}.  Learned word representations are fed through
+          \ii{animal}.  Learned term representations are fed through
           either an NN or NTN comparison layer and then to a softmax
         classifier over the seven relations in Table~\ref{b-table}.}
   \label{sample-figure}
@@ -291,11 +290,10 @@ cannot be proven from the training statements
 %
 In our experiments, we create 80 randomly generated sets drawn from a
 domain of seven elements. This yields 6400 statements about pairs of
-formulae, of which 3200 are chosen as a test set. For 240 of the test examples, 
-there is not sufficient evidence in the training data to support the choice of any 
-one relation, and we  exclude these from our primary test set. 
-We trained both the NN model and the 
-NTN model on these data sets. 
+formulae, of which 3200 are chosen as a test set. 240 of the test examples 
+were excluded from the primary test set for lack of evidence in the training 
+data to support the choice of any one relation. 
+We then trained and evaluated both the NN model and the NTN model on these data sets. 
 
 \paragraph{Results} 
 We found that the NTN model worked best with 11-dimensional vector
