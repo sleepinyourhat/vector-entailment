@@ -1,7 +1,10 @@
-function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb)
+function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb, trees, parens)
 % Set up a gradient check for the main learned parameters.
 
 [hyperParams, options] = Defaults();
+
+hyperParams.useTrees = trees;
+hyperParams.parensInSequences = parens;
 
 hyperParams.name = 'gradcheck';
 

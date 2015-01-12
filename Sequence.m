@@ -6,6 +6,8 @@ classdef Sequence < handle
     % - The text with which the sequence can be displayed.
     % - The features at the node.
     
+    % Sentences can generally be represented by the handle of the final node in the sentence.
+
     properties (Hidden)
         pred = []; % the preceeding node or empty
         text = 'NO_TEXT';
@@ -18,20 +20,7 @@ classdef Sequence < handle
     end
     
     methods(Static)
-        function s = printAllProperties(obj)
-            if ~isempty(pred)
-                printAllProperties(pred)
-            end
-
-            disp(obj.text)
-            disp(obj.inputFeatures)
-            disp(obj.hiddenFeatures)
-            disp(obj.hiddenFeaturesPreNL)
-            disp(obj.wordIndex)
-            disp(obj.transformInnerActivations)
-        end
-
-        function s = makeSequence(iText, wordMap)
+        function s = makeSequence(iText, wordMap, useParens)
             assert(~isempty(iText), 'Bad input text.');
             
             C = textscan(iText, '%s', 'delimiter', ' ');
@@ -39,8 +28,10 @@ classdef Sequence < handle
             s = [];
             
             for i = 1:length(C)
-                % Turn words into nodes
-                s = Sequence.makeNode(C{i}, pred, wordMap);
+                if useParens || ~(strcmp(C{i}, '(') || strcmp(C{i}, ')'))
+                    % Turn words into nodes
+                    s = Sequence.makeNode(C{i}, s, wordMap);
+                end
             end
         end
         
@@ -67,7 +58,21 @@ classdef Sequence < handle
             assert(s.wordIndex ~= -1, 'Bad leaf!')
         end
     end
+
     methods
+        function printAllProperties(obj)
+            if ~isempty(obj.pred)
+                printAllProperties(obj.pred)
+            end
+
+            disp(obj.text)
+            disp(obj.inputFeatures)
+            disp(obj.hiddenFeatures)
+            disp(obj.hiddenFeaturesPreNL)
+            disp(obj.wordIndex)
+            disp(obj.transformInnerActivations)
+        end
+
         function resp = isStart(obj)
             resp = (isempty(obj.pred));
         end
@@ -113,20 +118,19 @@ classdef Sequence < handle
             end
 
             % Compute a feature vector for the predecessor node.
-            if (~isempty(obj.pred))
+            if ~isempty(obj.pred)
                 obj.pred.updateFeatures(...
-                    wordFeatures, compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
+                    wordFeatures, compMatrices, compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
                     compNL, dropout);
                 
-                predFeatures = obj.pred.features;
+                predFeatures = obj.pred.hiddenFeatures;
             else
-                predFeatures = zeros(1, size(compMatrix, 1))
+                predFeatures = zeros(size(compMatrix, 1), 1);
             end    
 
             % Update the hidden features.
             [obj.hiddenFeatures, obj.hiddenFeaturesPreNL] = ComputeRNNLayer(predFeatures, obj.inputFeatures,...
                 compMatrix, compBias, compNL);
-            end
         end
         
         function [ forwardWordGradients, ...
@@ -152,52 +156,52 @@ classdef Sequence < handle
 
             forwardWordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
-            
-            forwardEmbeddingTransformMatrixGradients = zeros(DIM, EMBDIM, NUMTRANS);
-            forwardEmbeddingTransformBiasGradients = zeros(DIM, NUMTRANS);
+
+            forwardCompositionMatricesGradients = zeros(0, 0, 0);            
+            forwardEmbeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM, NUMTRANS);
+            forwardEmbeddingTransformBiasGradients = zeros(HIDDENDIM, NUMTRANS);
 
             if ~isempty(obj.pred)
                 predFeatures = obj.pred.hiddenFeatures;
             else
-                predFeatures = zeros(1, size(compMatrix, 1))
+                predFeatures = zeros(size(compMatrix, 1), 1);
             end
             
             [forwardCompositionMatrixGradients, ...
                 forwardCompositionBiasGradients, compDeltaPred, ...
                 compDeltaInput] = ...
-            ComputeRNNLayerGradients(predFeatures, inputFeatures, ...
+            ComputeRNNLayerGradients(predFeatures, obj.inputFeatures, ...
                   compMatrix, compBias, delta, ...
-                  compNLDeriv, obj.featuresPreNL);
-              
-            % Take gradients from the predecessor
-            [ incomingWordGradients, ...
-              incomingCompositionMatrixGradients, ...
-              incomingCompositionBiasGradients, ...
-              incomingEmbeddingTransformMatrixGradients, ...
-              incomingEmbeddingTransformBiasGradients ] = ...
-              obj.pred.getGradient( ...
-                            compDeltaPred, wordFeatures, ...
-                            compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
-                            compNLDeriv, hyperParams);
-            if hyperParams.trainWords
-                forwardWordGradients = forwardWordGradients + ...
-                                      incomingWordGradients;
+                  compNLDeriv, obj.hiddenFeaturesPreNL);
+
+            if ~isempty(obj.pred)
+                % Take gradients from the predecessor
+                [ incomingWordGradients, incomingCompositionMatricesGradients, ...
+                  incomingCompositionMatrixGradients, incomingCompositionBiasGradients, ...
+                  incomingEmbeddingTransformMatrixGradients, ...
+                  incomingEmbeddingTransformBiasGradients ] = ...
+                  obj.pred.getGradient( ...
+                                compDeltaPred, wordFeatures,  compMatrices, ...
+                                compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
+                                compNLDeriv, hyperParams);
+                if hyperParams.trainWords
+                    forwardWordGradients = forwardWordGradients + ...
+                                          incomingWordGradients;
+                end
+
+                forwardCompositionMatrixGradients = ...
+                    forwardCompositionMatrixGradients + ...
+                    incomingCompositionMatrixGradients;
+                forwardCompositionBiasGradients = ...
+                    forwardCompositionBiasGradients + ...
+                    incomingCompositionBiasGradients;
+                forwardEmbeddingTransformMatrixGradients = ...
+                    forwardEmbeddingTransformMatrixGradients + ...
+                    incomingEmbeddingTransformMatrixGradients;
+                forwardEmbeddingTransformBiasGradients = ...
+                    forwardEmbeddingTransformBiasGradients + ...
+                    incomingEmbeddingTransformBiasGradients;
             end
-            forwardCompositionMatricesGradients = ...
-                forwardCompositionMatricesGradients + ...
-                incomingCompositionMatricesGradients;
-            forwardCompositionMatrixGradients = ...
-                forwardCompositionMatrixGradients + ...
-                incomingCompositionMatrixGradients;
-            forwardCompositionBiasGradients = ...
-                forwardCompositionBiasGradients + ...
-                incomingCompositionBiasGradients;
-            forwardEmbeddingTransformMatrixGradients = ...
-                forwardEmbeddingTransformMatrixGradients + ...
-                incomingEmbeddingTransformMatrixGradients;
-            forwardEmbeddingTransformBiasGradients = ...
-                forwardEmbeddingTransformBiasGradients + ...
-                incomingEmbeddingTransformBiasGradients;
             
             if hyperParams.trainWords
                 % Compute gradients for embedding transform layers and words

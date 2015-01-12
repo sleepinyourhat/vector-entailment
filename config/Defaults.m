@@ -3,6 +3,9 @@ function [ hyperParams, options ] = Defaults()
 
 hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 
+% Use Tree to represent data if set. Else, use Sequence.
+hyperParams.useTrees = 1;
+
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;

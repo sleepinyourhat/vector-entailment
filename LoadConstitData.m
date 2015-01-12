@@ -1,6 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
-% Load one file of constituency tree pair data.
+% Load one file of sentence pair data.
 
 % Append a default prefix if we don't have a full path
 if isempty(strfind(filename, '/'))
@@ -76,18 +76,26 @@ end
 function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment)
     numElements = nextItemNo - (lastSave + 1);
 
-    data = repmat(struct('relation', 0, 'leftTree', Tree(), 'rightTree', Tree()), numElements, 1);
-
-    parfor dataInd = 1:numElements
-        data(dataInd).leftTree = Tree.makeTree(rawData(dataInd).leftText, wordMap);
-        data(dataInd).rightTree = Tree.makeTree(rawData(dataInd).rightText, wordMap);
-        data(dataInd).relation = rawData(dataInd).relation;
+    if hyperParams.useTrees
+        data = repmat(struct('relation', 0, 'left', Tree(), 'right', Tree()), numElements, 1);
+        parfor dataInd = 1:numElements
+            data(dataInd).left = Tree.makeTree(rawData(dataInd).leftText, wordMap);
+            data(dataInd).right = Tree.makeTree(rawData(dataInd).rightText, wordMap);
+            data(dataInd).relation = rawData(dataInd).relation;
+        end
+    else
+        data = repmat(struct('relation', 0, 'left', Sequence(), 'right', Sequence()), numElements, 1);
+        parfor dataInd = 1:numElements
+            data(dataInd).left = Sequence.makeSequence(rawData(dataInd).leftText, wordMap, hyperParams.parensInSequences);
+            data(dataInd).right = Sequence.makeSequence(rawData(dataInd).rightText, wordMap, hyperParams.parensInSequences);
+            data(dataInd).relation = rawData(dataInd).relation;
+        end
     end
 
     % Turn on if further debugging is needed. Slow.
     % for i = 1:length(data)
-    %     assert(~isempty(data(i).leftTree.getText()), ['Did not finish processing trees.' num2str(i)]);
-    %     assert(~isempty(data(i).rightTree.getText()), ['Did not finish processing trees.' num2str(i)]);       
+    %     assert(~isempty(data(i).left.getText()), ['Did not finish processing.' num2str(i)]);
+    %     assert(~isempty(data(i).right.getText()), ['Did not finish processing.' num2str(i)]);       
     % end
 
     if fragment

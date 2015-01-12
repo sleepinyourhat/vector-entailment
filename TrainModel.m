@@ -116,7 +116,7 @@ if hyperParams.minFunc
 
     % Warning: L-BFGS won't save state across restarts
     modelState.theta = minFunc(@ComputeFullCostAndGrad, modelState.theta, options, ...
-        modelState.thetaDecoder, trainDataset, modelState.separateWordFeatures, hyperParams, testDatasets);
+        modelState.thetaDecoder, trainDataset, modelState.separateWordFeatures, hyperParams, 1);
 else
     modelState.theta = TrainSGD(@ComputeFullCostAndGrad, modelState, options, ...
         trainDataset, hyperParams, testDatasets);

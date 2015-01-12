@@ -18,3 +18,7 @@ export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 35; 
 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.003; dim = 35; td = 1; penult = 75; dropout = 1; tot = 2; name='taf2'; relu = 1; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.003; dim = 35; td = 1; penult = 75; dropout = 1; tot = 3; name='taf2'; relu = 1; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+echo "cd quant; TrainModel('', 1, @AndOrST, '', '', 6, 10, 1, 0.0003, 0, 1, 1, 32);" | /afs/cs/software/bin/matlab_r2012b -nodisplay
+echo "cd quant; TrainModel('', 1, @GradCheck, 1, 1, 0, 0, 1, 0, 1, 1);" | /afs/cs/software/bin/matlab_r2012b -nodisplay
+	 GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb, trees, parens)
