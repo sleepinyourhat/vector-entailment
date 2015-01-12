@@ -12,6 +12,7 @@ classdef Sequence < handle
         pred = []; % the preceeding node or empty
         text = 'NO_TEXT';
         hiddenFeatures = []; % DIM x 1 vector
+        hiddenC = []; % DIM x 1 vector
         inputFeatures = [];
         mask = []; % Used in dropout
         hiddenFeaturesPreNL = [];

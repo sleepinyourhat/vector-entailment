@@ -78,10 +78,10 @@ hyperParams.trainWords = true;
 hyperParams.vocabPath = '';
 
 % Nonlinearities.
-hyperParams.compNL = @Sigmoid;
-hyperParams.compNLDeriv = @SigmoidDeriv; 
-hyperParams.classNL = @Sigmoid;
-hyperParams.classNLDeriv = @SigmoidDeriv;
+hyperParams.compNL = @TanhActivation;
+hyperParams.compNLDeriv = @TanhDeriv; 
+hyperParams.classNL = @TanhActivation;
+hyperParams.classNLDeriv = @TanhDeriv;
 
 % If set, don't try to keep the entire training data set in memory at once.
 hyperParams.fragmentData = false;

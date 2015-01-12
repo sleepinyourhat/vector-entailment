@@ -2,6 +2,6 @@
 function outVec = SigmoidDeriv (inVec)
 % Compute the gradient of the sigmoid (now actually tanh) nonlinearity
 
-outVec = sech(inVec).^2;
+assert(0, 'Not used.')
 
 end
