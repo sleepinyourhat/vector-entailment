@@ -20,7 +20,7 @@ dIFOGf(1:DIM) = IFOGf(3 * DIM + 1:4 * DIM) .* dC;
 dIFOGf(3 * DIM + 1:4 * DIM) = IFOGf(1:DIM) .* dC;
 
 % Backprop through nonlinearities
-dIFOG(3 * DIM + 1:4 * DIM) = (1 - IFOGf(3 * DIM + 1:4 * DIM) ^ 2) .* dIFOGf(3 * DIM + 1:4 * DIM);
+dIFOG(3 * DIM + 1:4 * DIM) = (1 - IFOGf(3 * DIM + 1:4 * DIM) .^ 2) .* dIFOGf(3 * DIM + 1:4 * DIM);
 y = IFOGf(1:3 * DIM);
 dIFOG(1:3 * DIM) = (y .* (1.0 - y)) .* dIFOGf(1:3 * DIM);
 
