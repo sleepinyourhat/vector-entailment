@@ -6,6 +6,9 @@ hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 % Use Tree to represent data if set. Else, use Sequence.
 hyperParams.useTrees = 1;
 
+% If set, and if useTrees is false, use an LSTM RNN.
+hyperParams.lstm = 0;
+
 % The dimensionality of the word/phrase vectors.
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;

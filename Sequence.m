@@ -11,11 +11,11 @@ classdef Sequence < handle
     properties (Hidden)
         pred = []; % the preceeding node or empty
         text = 'NO_TEXT';
-        hiddenFeatures = []; % DIM x 1 vector
-        hiddenC = []; % DIM x 1 vector
-        inputFeatures = [];
+        activations = []; % DIM x 1 vector
+        cActivations = []; % DIM x 1 vector - LSTM use only
+        inputActivations = []; % DIM x 1 vector - the word vector (after transformation if applicable)
         mask = []; % Used in dropout
-        hiddenFeaturesPreNL = [];
+        activationCache = []; % Equivalent to activationsPreNL for RNNs and IFOGf for LSTMs.
         wordIndex = -1; % -1 => Not a lexical item node.
         transformInnerActivations = []; % Stored activations for the embedding tranform layers.       
     end
@@ -67,9 +67,9 @@ classdef Sequence < handle
             end
 
             disp(obj.text)
-            disp(obj.inputFeatures)
-            disp(obj.hiddenFeatures)
-            disp(obj.hiddenFeaturesPreNL)
+            disp(obj.inputActivations)
+            disp(obj.activations)
+            disp(obj.activationCache)
             disp(obj.wordIndex)
             disp(obj.transformInnerActivations)
         end
@@ -92,7 +92,7 @@ classdef Sequence < handle
         
         function f = getFeatures(obj)
             % Returns the saved features for the node.
-            f = obj.hiddenFeatures;
+            f = obj.activations;
         end
         
         function i = getWordIndex(obj)
@@ -100,22 +100,24 @@ classdef Sequence < handle
         end
         
         function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, compBias,  embeddingTransformMatrix, embeddingTransformBias, compNL, dropout)
+                                compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, compNL, dropout)
             % Recomputes features using fresh parameters.
+
+            LSTM = isempty(compBias);
 
             % Compute a feature vector for the input at this node.
             if length(embeddingTransformMatrix) == 0
                 % We have no transform layer, so just use the word features.
-                obj.inputFeatures = wordFeatures(obj.wordIndex, :)'; 
+                obj.inputActivations = wordFeatures(obj.wordIndex, :)';
             else
-                % Run the transfrom layer.
+                % Run the transform layer.
                 obj.transformInnerActivations = embeddingTransformMatrix ...
                                                 * wordFeatures(obj.wordIndex, :)' + ...
                                                 embeddingTransformBias;
 
                 activations = compNL(obj.transformInnerActivations);
 
-                [obj.inputFeatures, obj.mask] = Dropout(activations, dropout);
+                [obj.inputActivations, obj.mask] = Dropout(activations, dropout);
             end
 
             % Compute a feature vector for the predecessor node.
@@ -124,14 +126,28 @@ classdef Sequence < handle
                     wordFeatures, compMatrices, compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
                     compNL, dropout);
                 
-                predFeatures = obj.pred.hiddenFeatures;
+                predActivations = obj.pred.activations;
+
+                if LSTM
+                    predC = obj.pred.cActivations;
+                end
             else
-                predFeatures = zeros(size(compMatrix, 1), 1);
+                if LSTM
+                    predC = zeros(size(compMatrix, 1) / 4, 1);
+                    predActivations = zeros(size(compMatrix, 1) / 4, 1);
+                else
+                    predActivations = zeros(size(compMatrix, 1), 1);
+                end
             end    
 
             % Update the hidden features.
-            [obj.hiddenFeatures, obj.hiddenFeaturesPreNL] = ComputeRNNLayer(predFeatures, obj.inputFeatures,...
-                compMatrix, compBias, compNL);
+            if LSTM
+                [ obj.activations, obj.cActivations, obj.activationCache ] = ...
+                    ComputeLSTMLayer(compMatrix, predActivations, predC, obj.inputActivations);
+            else
+                [ obj.activations, obj.activationCache ] = ComputeRNNLayer(predActivations, obj.inputActivations,...
+                    compMatrix, compBias, compNL);
+            end
         end
         
         function [ forwardWordGradients, ...
@@ -140,12 +156,13 @@ classdef Sequence < handle
                    forwardCompositionBiasGradients, ...
                    forwardEmbeddingTransformMatrixGradients, ...
                    forwardEmbeddingTransformBiasGradients ] = ...
-            getGradient(obj, delta, wordFeatures, compMatrices, ...
+            getGradient(obj, deltaH, deltaC, wordFeatures, compMatrices, ...
                         compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
                         compNLDeriv, hyperParams)
             % Note: Delta should be a column vector.
             
-            HIDDENDIM = length(delta);
+            LSTM = isempty(compBias);
+            HIDDENDIM = length(deltaH);
             EMBDIM = size(wordFeatures, 2);
 
             if ~isempty(embeddingTransformMatrix)
@@ -158,22 +175,51 @@ classdef Sequence < handle
             forwardWordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
 
-            forwardCompositionMatricesGradients = zeros(0, 0, 0);            
+            forwardCompositionMatricesGradients = [];            
             forwardEmbeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM, NUMTRANS);
             forwardEmbeddingTransformBiasGradients = zeros(HIDDENDIM, NUMTRANS);
 
-            if ~isempty(obj.pred)
-                predFeatures = obj.pred.hiddenFeatures;
+            if LSTM
+                if ~isempty(obj.pred)
+                    predC = obj.pred.cActivations;
+                    predH = obj.pred.activations;
+                else
+                    predC = zeros(size(obj.cActivations, 1), 1);
+                    predH = zeros(size(obj.activations, 1), 1);
+                end
+
+                if isempty(deltaC)
+                    deltaC = 0 .* deltaH;
+                end
+
+                if ~isempty(obj.pred)
+                    [ forwardCompositionMatrixGradients, compDeltaInput, compDeltaPred, compDeltaPredC ] ...
+                        = ComputeLSTMLayerGradients(obj.inputActivations, compMatrix, obj.activationCache, ...
+                            predC, predH, obj.cActivations, deltaH, deltaC);
+                else
+                    [ forwardCompositionMatrixGradients, compDeltaInput ] ...
+                        = ComputeLSTMLayerGradients(obj.inputActivations, compMatrix, obj.activationCache, ...
+                            predC, predH, obj.cActivations, deltaH, deltaC);                 
+                end
+                    
+
+                forwardCompositionBiasGradients = [];
             else
-                predFeatures = zeros(size(compMatrix, 1), 1);
+               if ~isempty(obj.pred)
+                    predActivations = obj.pred.activations;
+                else
+                    predActivations = zeros(size(compMatrix, 1), 1);
+                end
+
+                [ forwardCompositionMatrixGradients, ...
+                    forwardCompositionBiasGradients, compDeltaPred, ...
+                    compDeltaInput ] = ...
+                ComputeRNNLayerGradients(predActivations, obj.inputActivations, ...
+                      compMatrix, compBias, deltaH, ...
+                      compNLDeriv, obj.activationCache);
+                compDeltaPredC = [];
             end
-            
-            [forwardCompositionMatrixGradients, ...
-                forwardCompositionBiasGradients, compDeltaPred, ...
-                compDeltaInput] = ...
-            ComputeRNNLayerGradients(predFeatures, obj.inputFeatures, ...
-                  compMatrix, compBias, delta, ...
-                  compNLDeriv, obj.hiddenFeaturesPreNL);
+                
 
             if ~isempty(obj.pred)
                 % Take gradients from the predecessor
@@ -182,7 +228,7 @@ classdef Sequence < handle
                   incomingEmbeddingTransformMatrixGradients, ...
                   incomingEmbeddingTransformBiasGradients ] = ...
                   obj.pred.getGradient( ...
-                                compDeltaPred, wordFeatures,  compMatrices, ...
+                                compDeltaPred, compDeltaPredC, wordFeatures,  compMatrices, ...
                                 compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, ...
                                 compNLDeriv, hyperParams);
                 if hyperParams.trainWords
@@ -208,9 +254,9 @@ classdef Sequence < handle
                 % Compute gradients for embedding transform layers and words
 
                 if NUMTRANS > 0
-                    delta = delta .* obj.mask; % Take dropout into account
+                    compDeltaInput = compDeltaInput .* obj.mask; % Take dropout into account
                     [tempEmbeddingTransformMatrixGradients, ...
-                          tempEmbeddingTransformBiasGradients, delta] = ...
+                          tempEmbeddingTransformBiasGradients, compDeltaInput] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, embeddingTransformBias, ...
                               compDeltaInput, wordFeatures(obj.wordIndex, :)', ...
                               obj.transformInnerActivations, compNLDeriv);
@@ -224,10 +270,10 @@ classdef Sequence < handle
 
                 % Compute the word feature gradients
                 forwardWordGradients(obj.getWordIndex, :) = ...
-                    forwardWordGradients(obj.getWordIndex, :) + delta';
+                    forwardWordGradients(obj.getWordIndex, :) + compDeltaInput';
             elseif NUMTRANS > 0
                 % Compute gradients for embedding transform layers only
-                delta = delta .* obj.mask; % Take dropout into account
+                compDeltaInput = compDeltaInput .* obj.mask; % Take dropout into account
 
                 [tempEmbeddingTransformMatrixGradients, ...
                       tempEmbeddingTransformBiasGradients, ~] = ...

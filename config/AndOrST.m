@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOrST(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+function [ hyperParams, options, wordMap, relationMap ] = AndOrST(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs, lstm)
 % Configure the recursion experiments. 
 % NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
 
@@ -6,6 +6,8 @@ function [ hyperParams, options, wordMap, relationMap ] = AndOrST(name, dataflag
 
 hyperParams.useTrees = 0;
 hyperParams.parensInSequences = 1;
+hyperParams.lstm = lstm;
+hyperParams.useEyes = 0;
 
 if length(name) == 0
 	name = 'and-or'

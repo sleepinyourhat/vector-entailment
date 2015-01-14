@@ -16,6 +16,10 @@ function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
 % Look for experiment configuration scripts in the config/ directory.
 addpath('config/')
 
+% Look for the NN internals in this directory.
+addpath('layer-fns/')
+
+
 % Set up paralellization
 c = parcluster();
 t = tempname();

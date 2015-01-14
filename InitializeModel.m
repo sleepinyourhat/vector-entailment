@@ -2,6 +2,10 @@
 function [ theta, thetaDecoder, separateWordFeatures ] = InitializeModel(wordMap, hyperParams)
 % Initialize the learned parameters of the model. 
 
+assert(~(hyperParams.lstm && hyperParams.useThirdOrder))
+assert(~(hyperParams.lstm && hyperParams.useEyes))
+assert(~(hyperParams.lstm && hyperParams.useTrees))
+
 vocabLength = size(wordMap, 1);
 DIM = hyperParams.dim;
 EMBDIM = hyperParams.embeddingDim;
@@ -30,15 +34,24 @@ if hyperParams.useThirdOrderComparison
 else
     classifierMatrices = rand(0, 0, PENULT);
 end
+
 classifierMatrix = rand(PENULT, DIM * 2) .* (2 * SCALE) - SCALE;
 classifierBias = zeros(PENULT, 1);
 
 if hyperParams.useThirdOrder
     compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* (2 * TSCALE) - TSCALE;
 else
-    compositionMatrices = zeros(0, 0, 0, NUMCOMP);
+    compositionMatrices = [];
 end
-compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * SCALE) - SCALE;
+
+if hyperParams.lstm
+  compositionMatrix = rand(DIM * 4, DIM * 2 + 1, NUMCOMP) .* (2 * SCALE) - SCALE;
+  compositionMatrix(DIM + 1:2 * DIM, 1) = 10 * SCALE;
+  compositionMatrix(2 * DIM + 1:3 * DIM, 1) = -10 * SCALE;
+else
+  compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * SCALE) - SCALE;
+end
+  
 
 if hyperParams.useEyes
   for i = 1:NUMCOMP
@@ -46,8 +59,11 @@ if hyperParams.useEyes
   end
 end
 
-
-compositionBias = zeros(DIM, NUMCOMP);
+if ~hyperParams.lstm
+  compositionBias = zeros(DIM, NUMCOMP);
+else
+  compositionBias = [];
+end
 
 classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* (2 * SCALE) - SCALE;
 classifierExtraBias = zeros(PENULT, TOPD - 1);
@@ -79,5 +95,6 @@ end
     classifierBias, classifierParameters, wordFeatures, compositionMatrices, ...
     compositionMatrix, compositionBias, classifierExtraMatrix, ...
     classifierExtraBias, embeddingTransformMatrix, embeddingTransformBias);
+
 end
 
