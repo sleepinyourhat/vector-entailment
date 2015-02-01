@@ -19,7 +19,6 @@ addpath('config/')
 % Look for the NN internals in this directory.
 addpath('layer-fns/')
 
-
 % Set up paralellization
 c = parcluster();
 t = tempname();
@@ -102,11 +101,15 @@ hyperParams = FlushLogs(hyperParams);
 % Load training/test data
 [trainDataset, testDatasets, hyperParams.trainingLengths] = ...
     LoadConstitDatasets(wordMap, relationMap, hyperParams);
-% trainDataset = Symmetrize(trainDataset);
 
-% Trim out individual examples if needed
+% Trim out individual examples if needed (only from the first source)
 if hyperParams.dataPortion < 1
-    trainDataset = trainDataset(1:round(hyperParams.dataPortion * length(trainDataset)));
+    Log(hyperParams.statlog, 'Trimming first two training data sets.')
+    trainDataset = trainDataset([1:round(hyperParams.dataPortion * hyperParams.trainingLengths(1)),...
+                                 hyperParams.trainingLengths(1) + 1:round(hyperParams.dataPortion * hyperParams.trainingLengths(2)),...
+                                 (hyperParams.trainingLengths(1) + hyperParams.trainingLengths(2) + 1):length(trainDataset)]);
+    hyperParams.trainingLengths(1) = round(hyperParams.dataPortion * hyperParams.trainingLengths(1));
+    hyperParams.trainingLengths(2) = round(hyperParams.dataPortion * hyperParams.trainingLengths(2)); % TEMPORARY
 end
 
 Log(hyperParams.statlog, 'Training')

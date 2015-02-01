@@ -6,6 +6,8 @@ function [ wordMap, relationMap, relations, data ] = ...
 % For some experiments, this is only used to initialize the words and
 % relations, and the data itself is not used.
 
+'USING LTD!'
+
 % Load the file
 fid = fopen(filename);
 C = textscan(fid,'%s','delimiter',sprintf('\n'));

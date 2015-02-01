@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, relu, epsi)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, relu, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -11,7 +11,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-wsc', num2str(wordScale),...
     '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
-    '-eps', num2str(epsi), '-relu', num2str(relu)];
+    '-dp', num2str(dp), '-relu', num2str(relu)];
 
 if datamult < 0
   % Use the firstMultiplier method
@@ -24,6 +24,8 @@ if relu
   hyperParams.classNL = @LReLU;
   hyperParams.classNLDeriv = @LReLUDeriv;
 end
+
+hyperParams.dataPortion = dp;
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
@@ -91,7 +93,6 @@ hyperParams.fragmentData = false;
 options.miniBatchSize = mbs;
 
 options.updateFn = @AdaDeltaUpdate;
-options.adaDeltaEps = epsi;
 
 options.lr = lr;
 
@@ -134,7 +135,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 1, 2; 1, 1, 2, 0; 0, 0, 0];
+    hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
     hyperParams.testRelationIndices = [1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-dev') 
     % The number of relations.

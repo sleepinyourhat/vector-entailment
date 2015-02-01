@@ -1,12 +1,24 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs, trees, lstm)
 % Configure the recursion experiments. 
 % NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
 
 [hyperParams, options] = Defaults();
 
-hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
+hyperParams.useTrees = trees;
+hyperParams.lstm = lstm;
+
+hyperParams.parensInSequences = 1 - trees;
+
+% Add identity matrices where appropriate in initiazilation.
+hyperParams.useEyes = 1 - lstm;
+
+if lstm
+	name = [name, 'lstm'];
+end
+
+hyperParams.name = [name, num2str(trees), '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda), ...
-				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
+				    '-dropout', num2str(tdrop), '-mb', num2str(mbs), '-lstm', num2str(lstm)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
@@ -48,7 +60,7 @@ options.numPasses = 15000;
 
 options.miniBatchSize = mbs;
 
-wordMap = LoadTrainingData('./RC/train1');
+wordMap = InitializeMaps('./RC/longer2/wordlist.txt');
 
 % The name assigned to the current vocabulary. Used in deciding whether to load a 
 % preparsed MAT form of an examples file.

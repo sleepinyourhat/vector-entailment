@@ -2,6 +2,6 @@
 function outVec = Sigmoid (inVec)
 % Compute the sigmoid nonlinearity.
 
-outVec = 1.0/(1.0 + exp(-inVec))
+outVec = 1.0 ./ (1.0 + exp(-inVec));
 
 end

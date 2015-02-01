@@ -19,7 +19,7 @@ classdef Sequence < handle
         wordIndex = -1; % -1 => Not a lexical item node.
         transformInnerActivations = []; % Stored activations for the embedding tranform layers.       
     end
-    
+
     methods(Static)
         function s = makeSequence(iText, wordMap, useParens)
             assert(~isempty(iText), 'Bad input text.');
@@ -40,6 +40,7 @@ classdef Sequence < handle
             s = Sequence();
             s.text = lower(iText);
             s.pred = pred;
+                
             if wordMap.isKey(s.text)
                 s.wordIndex = wordMap(s.text);
             elseif all(ismember(s.text, '0123456789.-'))
@@ -89,16 +90,31 @@ classdef Sequence < handle
                 s = [obj.getPred().getText(), ' ', obj.text()];
             end
         end
+
         
         function f = getFeatures(obj)
             % Returns the saved features for the node.
             f = obj.activations;
+        end
+                
+        function f = getCFeatures(obj)
+            % Returns the saved features for the node.
+            f = obj.cActivations;
         end
         
         function i = getWordIndex(obj)
             i = obj.wordIndex;
         end
         
+        function clearActivations(obj)
+            obj.activations = []; % DIM x 1 vector
+            obj.cActivations = []; % DIM x 1 vector - LSTM use only
+            obj.inputActivations = []; % DIM x 1 vector - the word vector (after transformation if applicable)
+            obj.mask = []; % Used in dropout
+            obj.activationCache = []; % Equivalent to activationsPreNL for RNNs and IFOGf for LSTMs.
+            obj.transformInnerActivations = []; % Stored activations for the embedding tranform layers.       
+        end
+
         function updateFeatures(obj, wordFeatures, compMatrices, ...
                                 compMatrix, compBias, embeddingTransformMatrix, embeddingTransformBias, compNL, dropout)
             % Recomputes features using fresh parameters.
@@ -171,6 +187,9 @@ classdef Sequence < handle
                 INPUTDIM = EMBDIM;
             end
             NUMTRANS = size(embeddingTransformMatrix, 3);
+            if isempty(embeddingTransformMatrix)
+                NUMTRANS = 0;
+            end
 
             forwardWordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
@@ -201,7 +220,6 @@ classdef Sequence < handle
                         = ComputeLSTMLayerGradients(obj.inputActivations, compMatrix, obj.activationCache, ...
                             predC, predH, obj.cActivations, deltaH, deltaC);                 
                 end
-                    
 
                 forwardCompositionBiasGradients = [];
             else

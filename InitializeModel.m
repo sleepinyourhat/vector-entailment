@@ -21,7 +21,7 @@ else
     NUMCOMP = 3;
 end
 
-SCALE = 0.05;
+SCALE = hyperParams.scale;
 TSCALE = hyperParams.tensorScale * SCALE;
 
 % Randomly initialize softmax layer
@@ -46,8 +46,7 @@ end
 
 if hyperParams.lstm
   compositionMatrix = rand(DIM * 4, DIM * 2 + 1, NUMCOMP) .* (2 * SCALE) - SCALE;
-  compositionMatrix(DIM + 1:2 * DIM, 1) = 10 * SCALE;
-  compositionMatrix(2 * DIM + 1:3 * DIM, 1) = -10 * SCALE;
+  compositionMatrix(:, 1) = SCALE * DIM * 2;
 else
   compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * SCALE) - SCALE;
 end

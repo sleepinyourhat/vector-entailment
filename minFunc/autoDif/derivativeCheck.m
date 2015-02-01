@@ -33,9 +33,12 @@ else
 	
 	fprintf('Max difference between user and numerical gradient: %e\n',max(abs(g-g2)));
 	if max(abs(g-g2)) > 1e-9
-		fprintf('User NumDif:\n');
-		[g g2]
-		diff = abs(g-g2)
+		format long
+		fprintf('User NumDif diff ratio:\n');
+		dif = abs(g-g2);
+		[g g2 dif]
+		(abs(g - g2) ./ (abs(g) + abs(g2) + eps)) .* (abs(g) + abs(g2) > 1e-7)
+		diff = dif;
 		pause
 	end
 end

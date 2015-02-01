@@ -20,6 +20,8 @@ hyperParams.embeddingDim = 2;
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = 2;
 
+hyperParams.testFraction = 0.33;
+
 % The number of embedding transform layers. transDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
@@ -47,7 +49,7 @@ hyperParams.useThirdOrderComparison = tot;
 hyperParams.useSumming = summing;
 
 hyperParams.loadWords = false;
-hyperParams.trainWords = true;
+hyperParams.trainWords = trainwords;
 
 hyperParams.minFunc = true;
 

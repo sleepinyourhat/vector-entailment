@@ -13,6 +13,9 @@ hyperParams.lstm = 0;
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
+% The bound on the random initialization of most parameters.
+hyperParams.scale = 0.05;
+
 % Used to compute the bound on the range for RNTN parameter initialization.
 hyperParams.tensorScale = 1;
 
@@ -93,6 +96,8 @@ hyperParams.fragmentData = false;
 % to the parameters that are in use at each step. This does nothing if trainWords is false.
 % Useful as long as the vocabulary size is fairly large. (Exact threshold unknown.)
 hyperParams.fastEmbed = false;
+
+hyperParams.clearActivations = false;
 
 %%% minFunc options: %%%
 

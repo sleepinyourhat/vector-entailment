@@ -21,8 +21,9 @@ Gr = 3 * DIM + 1:4 * DIM;
 
 dIFOGf = zeros(size(IFOGf, 1), size(IFOGf, 2));
 
-dIFOGf(Or) = (c .* delta_h)';
-dC = delta_c + IFOGf(Or)' .* delta_h;
+tanhC = TanhActivation(c);
+dIFOGf(Or) = (tanhC .* delta_h)';
+dC = delta_c + (1 - tanhC .^ 2) .* (IFOGf(Or)' .* delta_h);
 
 if nargout > 2 % If we aren't the first node
 	dIFOGf(Fr) = c_prev .* dC;
@@ -32,15 +33,15 @@ dIFOGf(Ir) = IFOGf(Gr) .* dC';
 dIFOGf(Gr) = IFOGf(Ir) .* dC';
 
 % Backprop through nonlinearities
-dIFOG(Gr) = TanhDeriv(IFOGf(Gr)) .* dIFOGf(Gr);
+dIFOG(Gr) = (1 - (IFOGf(Gr) .^ 2)) .* dIFOGf(Gr);		% Why not TanhDeriv?
 y = IFOGf([Ir Fr Or]);
 dIFOG([Ir Fr Or]) = (y .* (1.0 - y)) .* dIFOGf([Ir Fr Or]);
 
-dWLSTM = [1; x; h_prev] * dIFOG;
+dWLSTM = ([1; x; h_prev] * dIFOG)';
 dHin = WLSTM' * dIFOG';
 delta_x_down = dHin(2:DIM + 1);
 if nargout > 2
-	delta_h_back = dHin(DIM + 2:2 * DIM + 1);
+	delta_h_back = dHin(DIM + 2:2 .* DIM + 1);
 end
 
 end
