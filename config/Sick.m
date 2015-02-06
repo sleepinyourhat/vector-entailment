@@ -32,12 +32,6 @@ hyperParams.dataPortion = dp;
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = tensorScale; % 1?
-
-% The raw range bound on word vectors.
-hyperParams.wordScale = wordScale; % 0.1?
-
 % Initialize the composition matrix with a fuzzy identity.
 hyperParams.useEyes = 1;
 
@@ -58,6 +52,8 @@ end
 % the rest of the constituents do.
 hyperParams.embeddingTransformDepth = 1;
 
+% How much of a contribution should tensors give to outputs at initialization.
+hyperParams.tensorScale = tensorScale;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
@@ -125,14 +121,14 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
     wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
-    hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); 1];
+    hyperParams.trainingMultipliers = [(datamult * 1); (datamult * 1); 1];
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
                      './sick_data/SICK_train_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
     hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed_exactAlign.txt', ...
                      './sick_data/SICK_trial_parsed.txt', ...
-                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
+                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];

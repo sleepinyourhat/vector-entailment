@@ -104,12 +104,10 @@ hyperParams = FlushLogs(hyperParams);
 
 % Trim out individual examples if needed (only from the first source)
 if hyperParams.dataPortion < 1
-    Log(hyperParams.statlog, 'Trimming first two training data sets.')
+    Log(hyperParams.statlog, 'Trimming first training data set.')
     trainDataset = trainDataset([1:round(hyperParams.dataPortion * hyperParams.trainingLengths(1)),...
-                                 hyperParams.trainingLengths(1) + 1:round(hyperParams.dataPortion * hyperParams.trainingLengths(2)),...
-                                 (hyperParams.trainingLengths(1) + hyperParams.trainingLengths(2) + 1):length(trainDataset)]);
+                                 (round(hyperParams.trainingLengths(1)) + 1):length(trainDataset)]);
     hyperParams.trainingLengths(1) = round(hyperParams.dataPortion * hyperParams.trainingLengths(1));
-    hyperParams.trainingLengths(2) = round(hyperParams.dataPortion * hyperParams.trainingLengths(2)); % TEMPORARY
 end
 
 Log(hyperParams.statlog, 'Training')

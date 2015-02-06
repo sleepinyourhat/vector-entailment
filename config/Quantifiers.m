@@ -16,8 +16,18 @@ hyperParams.penultDim = penult;
 hyperParams.lambda = lambda; % 0.002 works?;
 
 % Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = tot;
+if tot < 2
+	hyperParams.useThirdOrder = tot;
+	hyperParams.useThirdOrderComparison = tot;
+else
+	hyperParams.lstm = 1;
+	hyperParams.useTrees = 0;
+	hyperParams.useEyes = 0;
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.parensInSequences = 0;
+end
+
 
 hyperParams.topDepth = top;
 

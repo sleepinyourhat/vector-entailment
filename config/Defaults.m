@@ -13,14 +13,8 @@ hyperParams.lstm = 0;
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
-% The bound on the random initialization of most parameters.
-hyperParams.scale = 0.05;
-
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = 1;
-
-% The raw range bound on word vectors.
-hyperParams.wordScale = 0.01;
+% How much of a contribution should tensors give to outputs at initialization.
+hyperParams.tensorScale = 0.9;
 
 % Add identity matrices where appropriate in initiazilation.
 hyperParams.useEyes = 1;
@@ -112,7 +106,7 @@ options.PlotFcns = [];
 
 %%% TrainSGD learning options. %%%
 
-options.numPasses = 250;
+options.numPasses = 1000;
 options.miniBatchSize = 32;
 
 % Learning parameters

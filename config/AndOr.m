@@ -12,10 +12,6 @@ hyperParams.parensInSequences = 1 - trees;
 % Add identity matrices where appropriate in initiazilation.
 hyperParams.useEyes = 1 - lstm;
 
-if lstm
-	name = [name, 'lstm'];
-end
-
 hyperParams.name = [name, num2str(trees), '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda), ...
 				    '-dropout', num2str(tdrop), '-mb', num2str(mbs), '-lstm', num2str(lstm)];
