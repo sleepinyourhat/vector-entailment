@@ -77,7 +77,7 @@ else
     hyperParams.splitFilenames = {};
     hyperParams.trainFilenames = {'./join-table/data/6x80_train.tsv'};
     hyperParams.testFilenames = {'./join-table/data/6x80_test.tsv', ...
-                     './join-table/data/6x80_test_underivable.tsv'}; % TODO, check dir!
+                     './join-table/data/6x80_test_underivable.tsv'};
     wordMap = LoadTrainingData('./join-table/data/6x80_train.tsv');
 end
 

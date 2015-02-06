@@ -7,7 +7,7 @@ hyperParams.useTrees = trees;
 hyperParams.lstm = lstm;
 
 % Add identity matrices where appropriate in initiazilation.
-hyperParams.useEyes = 1 - lstm;
+hyperParams.eyeScale = hyperParams.eyeScale * (1 - lstm);
 
 hyperParams.parensInSequences = parens;
 

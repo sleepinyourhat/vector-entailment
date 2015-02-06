@@ -3,7 +3,7 @@ function [ theta, thetaDecoder, separateWordFeatures ] = InitializeModel(wordMap
 % Initialize the learned parameters of the model. 
 
 assert(~(hyperParams.lstm && hyperParams.useThirdOrder))
-assert(~(hyperParams.lstm && hyperParams.useEyes))
+assert(~(hyperParams.lstm && hyperParams.eyeScale))
 assert(~(hyperParams.lstm && hyperParams.useTrees))
 
 vocabLength = size(wordMap, 1);
@@ -47,9 +47,9 @@ else
   compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * scale) - scale;
 end
   
-if hyperParams.useEyes
+if hyperParams.eyeScale > 0 && ~hyperParams.lstm
   for i = 1:NUMCOMP
-    compositionMatrix(:, :, i) = compositionMatrix(:, :, i) .* 0.2 + [eye(DIM) eye(DIM)] .* 0.8;
+    compositionMatrix(:, :, i) = compositionMatrix(:, :, i) .* (1 - hyperParams.eyeScale) + [eye(DIM) eye(DIM)] .* hyperParams.eyeScale;
   end
 end
 

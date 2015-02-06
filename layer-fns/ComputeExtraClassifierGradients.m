@@ -24,7 +24,7 @@ for layer = (STACKSIZE):-1:1
     deltaDown = NLDeriv .* deltaDown;
 
     % Calculate matrix gradients
-    matrixGradients(:, :, layer) = deltaDown * inputs(:, layer)';
+    matrixStackGradients(:, :, layer) = deltaDown * inputs(:, layer)';
 
     % Calculate bias gradients
     biasStackGradients(:, layer) = deltaDown;

@@ -19,7 +19,6 @@ if (nargin < 6 || computeGrad) && nargout > 1
     if hyperParams.fastEmbed
         accumulatedSeparateWordFeatureGradients = sparse([], [], [], ...
           size(separateWordFeatures, 1), size(separateWordFeatures, 2), hyperParams.embeddingDim * 5 * length(data));
-        % TODO: This unsparsifies below. Investigate.
     else
         accumulatedSeparateWordFeatureGradients = [];
     end

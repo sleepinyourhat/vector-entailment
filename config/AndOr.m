@@ -10,7 +10,7 @@ hyperParams.lstm = lstm;
 hyperParams.parensInSequences = 1 - trees;
 
 % Add identity matrices where appropriate in initiazilation.
-hyperParams.useEyes = 1 - lstm;
+hyperParams.eyeScale = hyperParams.eyeScale * (1 - lstm);
 
 hyperParams.name = [name, num2str(trees), '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda), ...
@@ -66,8 +66,6 @@ hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
 hyperParams.numRelations = 7;
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-
-% TODO: Set up folds
 
 if strcmp(dataflag, 'and-or') 
     hyperParams.trainFilenames = {};

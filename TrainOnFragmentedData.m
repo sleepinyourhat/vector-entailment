@@ -46,7 +46,6 @@ for sourceFilenameIndex = 1:length(trainingData)
     openFragments{sourceFilenameIndex} = load([filepath, '/', filename],'-mat');
     openFragmentExampleOrders{sourceFilenameIndex} = randperm(length(openFragments{sourceFilenameIndex}.data));
     openFragmentExampleOrderIndices(sourceFilenameIndex) = 1;
-    clearvars a  % TODO: What is this?
 end
 
 % Iterate through all of the data.

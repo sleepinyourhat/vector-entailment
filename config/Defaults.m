@@ -13,11 +13,11 @@ hyperParams.lstm = 0;
 hyperParams.dim = 25;
 hyperParams.embeddingDim = 25;
 
-% How much of a contribution should tensors give to outputs at initialization.
+% How much of a contribution (in the range 0-1) should tensors give to outputs at initialization.
 hyperParams.tensorScale = 0.9;
 
-% Add identity matrices where appropriate in initiazilation.
-hyperParams.useEyes = 1;
+% How much of the output of the matrix parameters (in the range 0-1) should be initialized with an identity matrix.
+hyperParams.eyeScale = 0.5;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when

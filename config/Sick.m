@@ -32,9 +32,6 @@ hyperParams.dataPortion = dp;
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-% Initialize the composition matrix with a fuzzy identity.
-hyperParams.useEyes = 1;
-
 if collo == 1
     hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
 elseif collo == 2

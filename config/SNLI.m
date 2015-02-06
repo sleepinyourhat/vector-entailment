@@ -29,14 +29,8 @@ hyperParams.dataPortion = dp;
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = tensorScale; % 1?
-
 % The raw range bound on word vectors.
 hyperParams.wordScale = wordScale; % 0.1?
-
-% Initialize the composition matrix with a fuzzy identity.
-hyperParams.useEyes = 1;
 
 if collo == 1
     hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];

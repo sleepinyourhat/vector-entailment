@@ -57,7 +57,7 @@ if mod(modelState.step, options.testFreq) == 0
         if (mod(modelState.step, options.examplesFreq) == 0 || mod(modelState.step, options.confusionFreq) == 0) && modelState.step > 0
             Log(hyperParams.statlog, 'Test data:');
         end
-        testAcc = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
+        [testAcc, testMf1] = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
         modelState.bestTestAcc = max(testAcc, modelState.bestTestAcc);
         hyperParams.showExamples = false;
         if (testAcc(1) == modelState.bestTestAcc(1)) && (modelState.step > 0)
@@ -73,8 +73,8 @@ if mod(modelState.step, options.testFreq) == 0
     % Log statistics.
     if testAcc ~= -1
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
-            ' train acc: ', num2str(acc), ' (mf1 ', num2str(macro), ') test acc: ', num2str(testAcc), ' (best: ', ...
-            num2str(modelState.bestTestAcc), ')']);
+            ' train acc: ', num2str(acc), ' (mf1 ', num2str(macro), ') test acc: ', num2str(testAcc), ...
+            ' mf1: ', num2str(testMf1), ' (best: ', num2str(modelState.bestTestAcc), ')']);
     else
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
             ' acc: ', num2str(acc)]);

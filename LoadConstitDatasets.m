@@ -62,13 +62,10 @@ for i = 1:length(hyperParams.splitFilenames)
     lengthOfTestPortion = ceil(length(dataset) * hyperParams.testFraction);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;
     endOfTestPortion = min(hyperParams.foldNumber * lengthOfTestPortion, length(dataset));
-    % if isfield(hyperParams, 'truncateTest')
-    %     endOfTestPortion = min(startOfTestPortion + 100, endOfTestPortion);
-    % end
+    
     testPortion = dataset(startOfTestPortion:endOfTestPortion);
     testDatasets = [testDatasets, {testPortion}];
     
-    % TODO - make fragment-safe
     if ~(isfield(hyperParams, 'specialAndOrMode') && i > 9)
         firstTrainPortion = dataset(1:(startOfTestPortion - 1));
         secondTrainPortion = dataset(endOfTestPortion + 1:length(dataset));
@@ -78,8 +75,6 @@ for i = 1:length(hyperParams.splitFilenames)
     else
         Log(hyperParams.statlog, ['Discarding train portion of split dataset ', hyperParams.splitFilenames{i}]);
     end
-    % assert(length(testPortion) == lengthOfTestPortion);
-    % assert(length(testPortion) + length(trainPortion) == length(dataset));
 end
 
 datasetNames = [hyperParams.testFilenames, hyperParams.splitFilenames];
