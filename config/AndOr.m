@@ -26,18 +26,22 @@ hyperParams.penultDim = penult;
 hyperParams.lambda = lambda;
 
 % Use NTN layers in place of NN layers.
-if tot == 0
-	hyperParams.useThirdOrder = 0;
-	hyperParams.useThirdOrderComparison = 0;
-elseif tot == 1
-	hyperParams.useThirdOrder = 1;
-	hyperParams.useThirdOrderComparison = 1;
+if tot < 2
+	hyperParams.useThirdOrder = tot;
+	hyperParams.useThirdOrderComparison = tot;
 elseif tot == 2
-	hyperParams.useThirdOrder = 1;
-	hyperParams.useThirdOrderComparison = 0;
-elseif tot == 3
+	hyperParams.lstm = 1;
+	hyperParams.useTrees = 0;
+	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrder = 0;
 	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.parensInSequences = 0;
+elseif tot == 3
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.parensInSequences = 0;
 end
 
 hyperParams.topDropout = tdrop;

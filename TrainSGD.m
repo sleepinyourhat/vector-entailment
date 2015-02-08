@@ -7,7 +7,7 @@ function [ theta ] = TrainSGD(CostGradFunc, modelState, options, trainingData, .
 if modelState.step == 0
     Log(hyperParams.examplelog, 'Initializing SGD.')
     modelState.prevCost = intmax;
-    modelState.bestTestAcc = [0 0 0];
+    modelState.bestTestAcc = [0 0];
     modelState.lr = options.lr;
     modelState.pass = 0;
     modelState.lastHundredCosts = zeros(100, 1);

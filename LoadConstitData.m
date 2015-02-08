@@ -17,6 +17,16 @@ if fragment
         Log(hyperParams.statlog, ['File ', filename, ' was already processed.']);
         return
     end
+else
+    % Check whether we already loaded this file
+    [pathname, filenamePart, ext] = fileparts(filename);
+    listing = dir([pathname, '/pp-', filenamePart, ext, '-full-', hyperParams.vocabName, '*']);
+    if length(listing) > 0
+        Log(hyperParams.statlog, ['File ', filename, ' was already processed. Loading.']);
+        d = load(listing(1).name,'-mat');
+        data = d.data;
+        return
+    end
 end
 
 fid = fopen(filename);

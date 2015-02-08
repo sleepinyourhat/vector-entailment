@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, relu, dp)
+function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, relu, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,7 +9,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-lr', num2str(lr),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-wsc', num2str(wordScale),...
+    '-m', num2str(datamult), '-tot', num2str(tot), ...
     '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
     '-dp', num2str(dp), '-relu', num2str(relu)];
 
@@ -18,9 +18,7 @@ if relu
   hyperParams.classNLDeriv = @LReLUDeriv;
 end
 
-hyperParams.useTrees = 0;
 hyperParams.parensInSequences = 0;
-hyperParams.lstm = 0;
 
 hyperParams.dataPortion = dp;
 
@@ -28,9 +26,6 @@ hyperParams.dataPortion = dp;
 % the GloVe vectors.
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
-
-% The raw range bound on word vectors.
-hyperParams.wordScale = wordScale; % 0.1?
 
 if collo == 1
     hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
@@ -69,9 +64,24 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
-% Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = 0;
-hyperParams.useThirdOrderComparison = 0;
+if tot < 2
+  hyperParams.useThirdOrder = tot;
+  hyperParams.useThirdOrderComparison = tot;
+elseif tot == 2
+  hyperParams.lstm = 1;
+  hyperParams.useTrees = 0;
+  hyperParams.eyeScale = 0;
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.parensInSequences = 0;
+elseif tot == 3
+  hyperParams.lstm = 0;
+  hyperParams.useTrees = 0;
+  hyperParams.eyeScale = 0;
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.parensInSequences = 0;
+end
 
 hyperParams.useSumming = summing;
 

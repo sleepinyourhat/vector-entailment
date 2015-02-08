@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, relu, dp)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, parens, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,9 +9,9 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-lr', num2str(lr),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-wsc', num2str(wordScale),...
+    '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-par', num2str(parens),...
     '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
-    '-dp', num2str(dp), '-relu', num2str(relu)];
+    '-dp', num2str(dp), '-tot', num2str(tot)];
 
 if datamult < 0
   % Use the firstMultiplier method
@@ -71,9 +71,24 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
-% Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = tot;
+if tot < 2
+  hyperParams.useThirdOrder = tot;
+  hyperParams.useThirdOrderComparison = tot;
+elseif tot == 2
+  hyperParams.lstm = 1;
+  hyperParams.useTrees = 0;
+  hyperParams.eyeScale = 0;
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.parensInSequences = 0;
+elseif tot == 3
+  hyperParams.lstm = 0;
+  hyperParams.useTrees = 0;
+  hyperParams.eyeScale = 0;
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.parensInSequences = 0;
+end
 
 hyperParams.useSumming = summing;
 
@@ -118,14 +133,14 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
     wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
-    hyperParams.trainingMultipliers = [(datamult * 1); (datamult * 1); 1];
+    hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); 1];
 
     hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
                      './sick_data/SICK_train_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
     hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed_exactAlign.txt', ...
                      './sick_data/SICK_trial_parsed.txt', ...
-                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600.tsv'};
+                     '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
     hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
