@@ -1,0 +1,126 @@
+%
+% File naaclhlt2015.tex
+%
+
+\documentclass[11pt,letterpaper]{article}
+\usepackage{naaclhlt2015}
+\usepackage{times}
+\usepackage{latexsym}
+\setlength\titlebox{6.5cm}    % Expanding the titlebox
+
+%%% Custom additions %%%
+% \usepackage{hyperref}
+\usepackage{url}
+\usepackage[leqno, fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+% \usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+
+
+\newcommand{\nateq}{\equiv}
+\newcommand{\natind}{\mathbin{\#}}
+%\newcommand{\natneg}{\raisebox{2px}{\tiny\thinspace$\wedge$\thinspace}}
+\newcommand{\natneg}{\mathbin{^{\wedge}}}
+\newcommand{\natfor}{\sqsubset}
+\newcommand{\natrev}{\sqsupset}
+\newcommand{\natalt}{\mathbin{|}}
+\newcommand{\natcov}{\mathbin{\smallsmile}}
+
+\newcommand{\plneg}{\mathop{\textit{not}}}
+\newcommand{\pland}{\mathbin{\textit{and}}}
+\newcommand{\plor}{\mathbin{\textit{or}}}
+
+% Strikeout
+\newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
+\begin{picture}(0,0)\put(0,1){\line(-1,0){\howlong\divide\unitlength}}\end{picture}}
+
+\newcommand{\True}{\texttt{T}}
+\newcommand{\False}{\texttt{F}}
+\usepackage{stmaryrd}
+\newcommand{\sem}[1]{\ensuremath{\llbracket#1\rrbracket}}
+
+\newcommand{\mynote}[1]{{\color{blue}#1}}
+
+\newcommand{\tbchecked}[1]{{\color{red}#1}}
+
+\usepackage{gb4e}
+
+\def\ii#1{\textit{#1}}
+\newcommand{\word}[1]{\emph{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Code to simulate natbib's citealt, which prints citations with
+%%%%% no parentheses:
+
+\makeatletter
+\def\citealt{\def\citename##1{{\frenchspacing##1} }\@internalcitec}
+\def\@citexc[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \def\@citea{}\@citealt{\@for\@citeb:=#2\do
+    {\@citea\def\@citea{;\penalty\@m\ }\@ifundefined
+       {b@\@citeb}{{\bf ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+{\csname b@\@citeb\endcsname}}}{#1}}
+\def\@internalcitec{\@ifnextchar [{\@tempswatrue\@citexc}{\@tempswafalse\@citexc[]}}
+\def\@citealt#1#2{{#1\if@tempswa, #2\fi}}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% %%%
+
+\title{Recursive Neural Networks Can Learn Logical Semantics}
+
+%\Thanks{}}
+
+\author{
+Samuel R.\ Bowman$^{\ast\dag}$ \\
+\texttt{sbowman@stanford.edu} \\[2ex]
+$^{\ast}$Stanford Linguistics \\
+\And
+Christopher Potts$^{\ast}$\\
+\texttt{cgpotts@stanford.edu} \\[2ex]
+$^{\dag}$Stanford NLP Group
+\And
+Christopher D.\ Manning$^{\ast\dag\ddag}$\\
+\texttt{manning@stanford.edu}\\[2ex]
+$^{\ddag}$Stanford Computer Science
+}
+
+% TODO: Add addresses to conform to conference standards.
+
+\date{}
+
+\makeatletter
+\newcommand{\@BIBLABEL}{\@emptybiblabel}
+\newcommand{\@emptybiblabel}[1]{}
+\makeatother
+\usepackage[breaklinks]{hyperref}
+
+\begin{document}
+\maketitle
+
+\input{abstract.tex}
+\input{newcorpus.tex}
+
+\subsubsection*{Acknowledgments}
+
+We thank ...
+
+Grant acknowledgments for money?
+
+%%%
+
+% \section*{Acknowledgments}
+
+% Do not number the acknowledgment section.
+
+\bibliographystyle{naaclhlt2015}
+\bibliography{MLSemantics} 
+
+\end{document}

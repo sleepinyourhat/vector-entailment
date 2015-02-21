@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, parens, dp)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, collo, parens, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,9 +9,8 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-lr', num2str(lr),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-par', num2str(parens),...
-    '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
-    '-dp', num2str(dp), '-tot', num2str(tot)];
+    '-m', num2str(datamult), '-par', num2str(parens),...
+    '-mb', num2str(mbs), '-dp', num2str(dp), '-tot', num2str(tot)];
 
 if datamult < 0
   % Use the firstMultiplier method
@@ -20,10 +19,8 @@ if datamult < 0
   hyperParams.firstCutoff = 2895;
 end
 
-if relu
-  hyperParams.classNL = @LReLU;
-  hyperParams.classNLDeriv = @LReLUDeriv;
-end
+hyperParams.classNL = @LReLU;
+hyperParams.classNLDeriv = @LReLUDeriv;
 
 hyperParams.dataPortion = dp;
 
@@ -33,12 +30,12 @@ hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
 if collo == 1
-    hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
 elseif collo == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
 elseif collo == 3
-    hyperParams.vocabPath = ['../data/glove.840B.' num2str(embDim) 'd.txt'];
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 else
     hyperParams.vocabPath = ['../data/collo.scaled.' num2str(embDim) 'd.txt'];    
 end
@@ -48,9 +45,6 @@ end
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
 hyperParams.embeddingTransformDepth = 1;
-
-% How much of a contribution should tensors give to outputs at initialization.
-hyperParams.tensorScale = tensorScale;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
@@ -79,14 +73,14 @@ elseif tot == 2
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.useThirdOrderComparison = 0;
   hyperParams.parensInSequences = 0;
 elseif tot == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.useThirdOrderComparison = 0;
   hyperParams.parensInSequences = 0;
 end
 

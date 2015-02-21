@@ -20,18 +20,15 @@ models is sizable, including extensions of the recursive models used here
 \cite{sochergrounded,kalchbrenner2014convolutional,irsoydeep}, recurrent
 models \cite{sutskever2014sequence}, and even learning-enabled variants 
 of more structured models like those of \newcite{grefenstette2013towards} or \newcite{rocktaschellow}.
-In addition,
-there remain subtle questions about how to fairly assess whether these
-models have truly generalized in the way we want them to. There is a
-constant tension between showing the models training data that gives
-them a chance to learn the target logical functions and revealing the
-answer to them in a way that leads to overfitting. The underlying
-logical theories provide only limited guidance on this point.
+In addition, interesting analytical questions remain about \ii{how} these models encode
+the underlying logics. Neither the underlying
+logical theories, nor any straightforward parameter inspection technique provides 
+much insight on this point, but we hope that further experiments may reveal 
+some structure in the representations.
 
 Our artificial data experiments have only scratched the surface 
 of the logical complexity of natural language; in future experiments, we hope to test sentences
-with embedded quantifiers, multiple interacting quantifiers, relative
-clauses, and other kinds of recursive structure. Our SICK experiments 
+with more complex types of structure, as well as run similar experiments on non-tree structured models, such as LSTMs. Our SICK experiments 
 similarly only begin to reveal the potential of these models to learn to 
 perform complex semantic inferences from corpora. Nonetheless, the
 rapid progress the field has made with these models in recent years

@@ -65,10 +65,10 @@ chosen as a test set, and that test set is further reduced to the 2960
 examples that can be provably derived from the training data.
 
 We trained versions of both the RNN model and the RNTN model on these
-data sets. In both cases, the models are implemented as
+data sets\footnote{Since this task relies entirely on the learning of the two entity vectors, no obvious comparable baseline presents itself.}. In both cases, the models are implemented as
 described in Section~\ref{methods}, but since the items being compared
 are single terms rather than full tree structures, the composition
-layer is not involved, and the two models differ only in which
+layer is not involved, and the two models are not recursive and differ only in which
 layer function is used for the comparison layer. We simply present
 the models with the (randomly initialized) embedding vectors for each
 of two terms, ensuring that the model has no information about the terms
@@ -124,11 +124,11 @@ being compared except for the relations between them that appear in training.
       Train & Test \\
       \midrule
 
-      $a \nateq b$              & $b \nateq b$ \\
-      $a \natfor e$              & $b \natfor e$ \\
-      $a \natneg g$              & \strikeout{$e \nateq f$} \\
-      $d \natfor h$              & \strikeout{$g \natrev d$} \\
-      $e \natalt g$            & $h \natrev d$ \\
+      $a \nateq b$              & $b \natneg g$ \\
+      $a \natrev e$              & $b \natrev e$ \\
+      $d \natrev h$              & \strikeout{$e \nateq f$} \\
+       $e \natalt g$              & \strikeout{$g \natfor d$} \\
+      $g \natneg a$           & $h \natfor d$ \\
 
       \bottomrule
     \end{tabular}

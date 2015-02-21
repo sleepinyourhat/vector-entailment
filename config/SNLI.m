@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, relu, dp)
+function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, collo, relu, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,8 +9,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-lr', num2str(lr),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-m', num2str(datamult), '-tot', num2str(tot), ...
-    '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
+    '-tot', num2str(tot), '-mb', num2str(mbs), ...
     '-dp', num2str(dp), '-relu', num2str(relu)];
 
 if relu
@@ -28,12 +27,12 @@ hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
 if collo == 1
-    hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
 elseif collo == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
 elseif collo == 3
-    hyperParams.vocabPath = ['../data/glove.840B.' num2str(embDim) 'd.txt'];
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 else
     hyperParams.vocabPath = ['../data/collo.scaled.' num2str(embDim) 'd.txt'];    
 end
@@ -97,29 +96,26 @@ options.updateFn = @AdaDeltaUpdate;
 
 options.lr = lr;
 
-if findstr(dataflag, 'sick-only')
-    wordMap = InitializeMaps('sick_data/combined_words.txt');
-    hyperParams.vocabName = 'sick_all'; 
+if findstr(dataflag, 'snli-temp-sick')
+    wordMap = InitializeMaps('../data/all_words.txt');
+    hyperParams.vocabName = 'snli_temp_all'; 
 
-    hyperParams.numRelations = 3;
-    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
-  relationMap = cell(1, 1);
-  relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.numRelations = [3 3];
 
-    hyperParams.trainFilenames = {};    
-    hyperParams.testFilenames = {};
-  else
-  wordMap = InitializeMaps('sick_data/combined_words.txt');
-  hyperParams.vocabName = 'sick_all'; 
+    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'},
+                             {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
+    relationMap = cell(2, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
-  hyperParams.numRelations = 3;
- 	hyperParams.relations = {{'<', '|', '#'}};
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.trainFilenames = {'../data/phase1_results_parsed_temptrain.txt', ...
+                                  './sick_data/SICK_train_parsed.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'../data/phase1_results_parsed_tempdev.txt', ...
+                                 './sick_data/SICK_trial_parsed.txt'};
 
-  hyperParams.trainFilenames = {};    
-  hyperParams.testFilenames = {};
-  hyperParams.splitFilenames = {'./SNLI/all-results-2014-2-1_b.txt'};
+    hyperParams.relationIndices = [1, 2; 1, 2; 1, 2];
+    hyperParams.testRelationIndices = [1, 2];
 end
 
 end

@@ -9,10 +9,16 @@ if isempty(strfind(filename, '/'))
     end
 end
 
+if hyperParams.useTrees
+    typeSig = '-trees';
+else
+    typeSig = ['-seqs-par' num2str(hyperParams.parensInSequences)];
+end
+    
 if fragment
     % Check whether we already loaded this file
     [pathname, filenamePart, ext] = fileparts(filename);
-    listing = dir([pathname, '/pp-', filenamePart, ext, '-final-', hyperParams.vocabName, '*']);
+    listing = dir([pathname, '/pp-', filenamePart, ext,'-final-', hyperParams.vocabName, typeSig, '*']);
     if length(listing) > 0
         Log(hyperParams.statlog, ['File ', filename, ' was already processed.']);
         return
@@ -20,12 +26,16 @@ if fragment
 else
     % Check whether we already loaded this file
     [pathname, filenamePart, ext] = fileparts(filename);
-    listing = dir([pathname, '/pp-', filenamePart, ext, '-full-', hyperParams.vocabName, '*']);
+    listing = dir([pathname, '/pp-', filenamePart, ext, '-full-', hyperParams.vocabName, typeSig, '*']);
     if length(listing) > 0
         Log(hyperParams.statlog, ['File ', filename, ' was already processed. Loading.']);
-        d = load(listing(1).name,'-mat');
-        data = d.data;
-        return
+        try
+            d = load([pathname, '/', listing(1).name],'-mat');
+            data = d.data;
+            return
+        catch
+            Log(hyperParams.statlog, 'Problem loading preprocessed data. Will reprocess raw file.');
+        end
     end
 end
 
@@ -69,21 +79,21 @@ for line = (lastSave + 1):maxLine
     if (mod(nextItemNo - 1, 10000) == 0 && nextItemNo > 0 && fragment)
         message = ['Lines loaded: ', num2str(nextItemNo), '/~', num2str(maxLine)];
         Log(hyperParams.statlog, message);
-        data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment);
+        data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment, typeSig);
         lastSave = nextItemNo - 1;
     end
 end
 
 if fragment
-    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-final'], hyperParams, fragment);
+    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-final'], hyperParams, fragment, typeSig);
 else
-    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-full'], hyperParams, fragment);
+    data = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, [filename, '-full'], hyperParams, fragment, typeSig);
 end
     
 
 end
 
-function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment)
+function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filename, hyperParams, fragment, typeSig)
     numElements = nextItemNo - (lastSave + 1);
 
     if hyperParams.useTrees
@@ -102,14 +112,15 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
         end
     end
 
-    % Turn on if further debugging is needed. Slow.
-    % for i = 1:length(data)
-    %     assert(~isempty(data(i).left.getText()), ['Did not finish processing.' num2str(i)]);
-    %     assert(~isempty(data(i).right.getText()), ['Did not finish processing.' num2str(i)]);       
-    % end
-
-    if fragment
-        [pathname, filenamePart, ext] = fileparts(filename);
-        save([pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, '-', num2str(nextItemNo), '.mat'], 'data');
+    [pathname, filenamePart, ext] = fileparts(filename);
+    nameToSave = [pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, typeSig, '-', num2str(nextItemNo), '.mat'];
+    listing = dir(nameToSave);
+    % Double check that a file hasn't been written while we were processing.
+    if isempty(listing)
+        try
+            save(nameToSave, 'data', '-v7.3');
+        catch
+            Log(hyperParams.statlog, 'Problem saving.');
+        end
     end
 end

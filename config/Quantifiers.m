@@ -9,16 +9,30 @@ hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', n
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
 
+% The raw range bound on word vectors.
+hyperParams.wordScale = 0.01;
+
+% Used to compute the bound on the range for RNTN parameter initialization.
+hyperParams.tensorScale = 1;
+
+% Use an older initialization scheme for comparability with older experiments.
+hyperParams.useCompatibilityInitialization = true;
+
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
 
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works for Tree, 1e-6 for Sequence?
 
+hyperParams.useEyes = 1;
 hyperParams.eyeScale = eyes;
 
 % Use NTN layers in place of NN layers.
-if tot < 2
+if tot == -1
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 0;
+	hyperParams.useSumming = 1;
+elseif tot < 2
 	hyperParams.useThirdOrder = tot;
 	hyperParams.useThirdOrderComparison = tot;
 elseif tot == 2
@@ -35,6 +49,7 @@ elseif tot == 3
 	hyperParams.useThirdOrderComparison = 1;
 	hyperParams.parensInSequences = 0;
 end
+	
 
 hyperParams.topDepth = top;
 

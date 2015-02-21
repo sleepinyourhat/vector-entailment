@@ -19,6 +19,9 @@ hyperParams.tensorScale = 0.9;
 % How much of the output of the matrix parameters (in the range 0-1) should be initialized with an identity matrix.
 hyperParams.eyeScale = 0.5;
 
+% Use an older initialization scheme for comparability with older experiments.
+hyperParams.useCompatibilityInitialization = true;
+
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
@@ -138,7 +141,9 @@ options.confusionFreq = 250;
 options.examplesFreq = 1000; 
 
 % How often (in steps) to save parameters to disk.
-options.checkpointFreq = 20000; 
+% Checkpoints saved at these intervals coexist with checkpoints created
+% automatically whenever a the best accuracy score is updated.
+options.checkpointFreq = 100000; 
 
 % The name assigned to the current call to TrainSGD. This can be used to
 % distinguish multiple phases of training in the same experiment.
