@@ -93,7 +93,7 @@ options.confusionFreq = 1000;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
-options.examplesFreq = 10000; 
+options.examplesFreq = 25000; 
 
 
 end

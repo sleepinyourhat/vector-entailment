@@ -1,27 +1,3 @@
-\begin{table}[htp]
-  \centering  \small
-  \setlength{\arraycolsep}{8pt}
-  \renewcommand{\arraystretch}{1.1}
-  \newcommand{\UNK}{\cdot}  
-  $\begin{array}[t]{c@{ \ }|*{7}{c}|}
-    %\hline
-    \multicolumn{1}{c}{}
-             & \nateq     & \natfor     & \natrev     & \natneg    & \natalt     & \natcov     & \multicolumn{1}{c}{\natind} \\
-    \cline{2-8}
-    \nateq  & \nateq &   \natfor &  \natrev &  \natneg &   \natalt &  \natcov &  \natind \\
-    \natfor & \natfor &  \natfor &  \UNK &  \natalt &   \natalt &  \UNK &  \UNK \\
-    \natrev & \natrev &  \UNK &  \natrev &  \natcov &   \UNK &  \natcov &  \UNK \\
-    \natneg & \natneg &  \natcov &  \natalt &  \nateq &    \natrev &  \natfor &  \natind \\
-    \natalt & \natalt &  \UNK &  \natalt &  \natfor &   \UNK &  \natfor &  \UNK \\
-    \natcov & \natcov &  \natcov &  \UNK &  \natrev &   \natrev &  \UNK &  \UNK \\
-    \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
-    \cline{2-8}
-  \end{array}$
-  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths. Cells containing a dot correspond to pairs
-of relations for which no valid inference can be drawn.}
-  \label{tab:jointable}
-\end{table}
-
 
 \section{Reasoning about semantic relations}\label{sec:join}
 
@@ -47,29 +23,48 @@ Table~\ref{tab:jointable}.
 % b$ and $b R' c$, including several less intuitive ones such as that if
 % $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
 
+\begin{table}[htp]
+  \centering  \small
+  \setlength{\arraycolsep}{8pt}
+  \renewcommand{\arraystretch}{1.1}
+  \newcommand{\UNK}{\cdot}  
+  $\begin{array}[t]{c@{ \ }|*{7}{c}|}
+    %\hline
+    \multicolumn{1}{c}{}
+             & \nateq     & \natfor     & \natrev     & \natneg    & \natalt     & \natcov     & \multicolumn{1}{c}{\natind} \\
+    \cline{2-8}
+    \nateq  & \nateq &   \natfor &  \natrev &  \natneg &   \natalt &  \natcov &  \natind \\
+    \natfor & \natfor &  \natfor &  \UNK &  \natalt &   \natalt &  \UNK &  \UNK \\
+    \natrev & \natrev &  \UNK &  \natrev &  \natcov &   \UNK &  \natcov &  \UNK \\
+    \natneg & \natneg &  \natcov &  \natalt &  \nateq &    \natrev &  \natfor &  \natind \\
+    \natalt & \natalt &  \UNK &  \natalt &  \natfor &   \UNK &  \natfor &  \UNK \\
+    \natcov & \natcov &  \natcov &  \UNK &  \natrev &   \natrev &  \UNK &  \UNK \\
+    \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
+    \cline{2-8}
+  \end{array}$
+  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths. Cells containing a dot correspond to pairs
+of relations for which no valid inference can be drawn.}
+  \label{tab:jointable}
+\end{table}
+
 \paragraph{Experiments}
-To test our models' ability to learn these inferential patterns, we
+To generate data for these inferential patterns, we
 create small boolean structures for our logic in which terms denote
 sets of entities from a small domain.  Figure~\ref{lattice-figure}
 depicts a structure of this form. The lattice gives the full model,
-for which all the statements below it are valid. We divide these
-statements evenly into training and test sets, and remove from the
+and we generate a relational statement for each pair of labels in the model. 
+We divide these statements evenly into training and test sets, and remove from the
 test set statements which cannot be proven from the training
 statements.
-% using the logic depicted in Figure~\ref{lattice-figure}.
-
 In each experimental run, we create 80 randomly generated sets drawing from
-a domain of seven elements. This yields a data set consisting of
-6400 statements about pairs of formulae. 3200 of these pairs are
-chosen as a test set, and that test set is further reduced to the 2960
-examples that can be provably derived from the training data.
+a domain of 7 elements, yielding a training set of 3200 relations and a test set of 
+2960 relations.
 
-We trained versions of both the RNN model and the RNTN model on these
-data sets\footnote{Since this task relies entirely on the learning of the two entity vectors, no obvious comparable baseline presents itself.}. In both cases, the models are implemented as
+We trained models with both the RNN and RNTN comparison functions on these
+data sets.\footnote{Since this task relies crucially on the learning of a pair of vectors, no strictly simpler model is likely viable as a baseline.} In both cases, the models are implemented as
 described in Section~\ref{methods}, but since the items being compared
 are single terms rather than full tree structures, the composition
-layer is not involved, and the two models are not recursive and differ only in which
-layer function is used for the comparison layer. We simply present
+layer is not used, and the two models are not recursive. We simply present
 the models with the (randomly initialized) embedding vectors for each
 of two terms, ensuring that the model has no information about the terms
 being compared except for the relations between them that appear in training.
@@ -160,13 +155,13 @@ being compared except for the relations between them that appear in training.
 
 \paragraph{Results} 
 Table \ref{joinresultstable} shows the results. 
-The RNTN is able to accurately encode the relations 
+The NTN is able to accurately encode the relations 
 between the terms in the geometric relations between their vectors, 
 and is able to then use that information to recover relations that 
-are not overtly included in the training data. The RNN also generalizes fairly well, 
+are not overtly included in the training data. The NN also generalizes fairly well, 
 but makes enough errors that it remains an open question whether 
 it is capable of learning representations with these properties. 
 We cannot rule out the possibility that different optimization techniques or
-further hyperparameter tuning could lead an RNN model to succeed here.
+further hyperparameter tuning could lead an NN model to succeed here.
 
 

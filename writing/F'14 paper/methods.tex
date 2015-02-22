@@ -23,8 +23,7 @@ derived, it serves as a fixed-dimensional input for some subsequent function.
 
 
 To apply these recursive models to our task, we propose the tree 
-pair model architecture depicted in Figure~\ref{sample-figure}, which is novel but
-closely modeled after past work on recursive NNs. 
+pair model architecture depicted in Figure~\ref{sample-figure}. 
 In it, the two phrases being compared are processed separately using a pair 
 of recursive networks that share a single set of parameters. 
 The resulting vectors are fed into a separate comparison
@@ -37,10 +36,11 @@ For a composition layer, we evaluate models with both the plain neural
 network layer function \eqref{rnn} and the more powerful RNTN layer function
 \eqref{rntn} proposed in \newcite{chen2013learning}. The nonlinearity $f(x) = \tanh(x)$ is applied to the output of the layer function.
 %
-\begin{gather} \label{rnn}
-\vec{y}_{\textit{RNN}} = f(\mathbf{M} [\vec{x}^{(l)}; \vec{x}^{(r)}] + \vec{b}\,) \\
-\label{rntn}
-\vec{y}_{\textit{RNTN}} = \vec{y}_{\textit{RNN}} + f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
+\begin{gather} 
+\label{rnn}
+\vec{y}_{\textit{TreeRNN}} = f(\mathbf{M} \colvec{2}{\vec{x}^{(l)}}{\vec{x}^{(r)}} + \vec{b}\,) \\
+\label{rntn} 
+\vec{y}_{\textit{TreeRNTN}} = \vec{y}_{\textit{TreeRNN}} + f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
 \end{gather} 
 %
 Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
@@ -76,11 +76,10 @@ Training times on CPUs vary from hours to days across experiments, and
 the hyperparameters of AdaDelta, the dimensions of the representations,
 and the initialization strategy are all tuned manually.
 Because the classes are not balanced in the artificial data experiments, we report performance
-using both accuracy and macroaveraged F1, since the latter emphasizes
- performance on infrequent classes. We compute macroaveraged F1 
+using both accuracy and macroaveraged F1.\footnote{We compute macroaveraged F1 
 as the harmonic mean of average precision and average recall, both computed
 for all classes for which there is test data, setting precision to 0 
-where it is not defined. On the artificial data experiments, we report mean
+where it is not defined.} On the artificial data experiments, we report mean
 results over five fold cross-validation. Variance across runs is typically no
 more than two percentage points.
 Source code and generated data will be released after the review period.

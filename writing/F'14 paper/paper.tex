@@ -20,6 +20,25 @@
 % \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{xcolor}
+\usepackage{color}
+
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{bmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{bmatrix}
+        \fi
+}
 
 
 \newcommand{\nateq}{\equiv}
@@ -101,8 +120,9 @@
 \makeatletter
 \newcommand{\@BIBLABEL}{\@emptybiblabel}
 \newcommand{\@emptybiblabel}[1]{}
+\definecolor{black}{rgb}{0,0,0}
 \makeatother
-\usepackage[breaklinks]{hyperref}
+\usepackage[breaklinks,colorlinks, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
 
 \begin{document}
 \maketitle

@@ -20,7 +20,7 @@ hyperParams.tensorScale = 0.9;
 hyperParams.eyeScale = 0.5;
 
 % Use an older initialization scheme for comparability with older experiments.
-hyperParams.useCompatibilityInitialization = true;
+hyperParams.useCompatibilityInitialization = false;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
