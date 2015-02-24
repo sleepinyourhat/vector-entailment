@@ -1,15 +1,21 @@
 
 \section{Reasoning about semantic relations}\label{sec:join}
 
-If a model is to learn the behavior of a relational logic like the one
-presented here from a finite amount of data, it must learn to deduce new
+ % TODO: Why is it okay to study non-recursive models here.
+ % TODO: Run a baseline for shits and giggles?
+ % TODO: Mention that we do an easier version of this implicitly elsewhere.
+
+If a model is to learn the behavior of a relational logic like ours
+from a finite amount of data, it must learn to deduce new
 relations from seen relations in a sound manner. The simplest such
 deductions involve atomic statements using the relations in
-Table~\ref{b-table}. For instance, given that $a \natrev b$ and $b
-\natrev c$, one can conclude that $a \natrev c$, by basic
+Table~\ref{b-table}. 
+For instance, from the relation $p_1 \natrev p_2$ between two propositions, 
+one can conclude that $p_2 \natfor p_1$ using the definitions of the relations directly. 
+If one is also given the relation $p_1 \natrev p_3$, one can conclude that $p_1 \natrev p_2$, by basic
 set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
-$a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  The
-full set of sound such inferences is summarized in
+$p_1 \natfor p_2$ and $p_2 \natneg p_3$, it follows that $p_1 \natalt p_3$.  The
+full set of sound such inferences on pairs of premise relations is depicted in
 Table~\ref{tab:jointable}.
 
 % about the relations themselves that do not depend on the
@@ -42,8 +48,8 @@ Table~\ref{tab:jointable}.
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
   \end{array}$
-  \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths. Cells containing a dot correspond to pairs
-of relations for which no valid inference can be drawn.}
+  \caption{Inference path from premises $p_1Rp_2$ (row) and $p_2Sp_3$ (column) to the relation that holds between $p_1$ and $p_3$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths. Cells containing a dot correspond to pairs
+of relations for which no valid inference can be drawn.} % TODO: Move harder example in to replace caption.
   \label{tab:jointable}
 \end{table}
 
@@ -59,8 +65,9 @@ statements.
 In each experimental run, we create 80 randomly generated sets drawing from
 a domain of 7 elements, yielding a training set of 3200 relations and a test set of 
 2960 relations.
+% TODO: Explain what the lattice shows.
 
-We trained models with both the RNN and RNTN comparison functions on these
+We trained models with both the NN and NTN comparison functions on these
 data sets.\footnote{Since this task relies crucially on the learning of a pair of vectors, no strictly simpler model is likely viable as a baseline.} In both cases, the models are implemented as
 described in Section~\ref{methods}, but since the items being compared
 are single terms rather than full tree structures, the composition
@@ -77,15 +84,15 @@ being compared except for the relations between them that appear in training.
     \newcommand{\labelednode}[4]{\put(#1,#2){\oval(1.5,1)}\put(#1,#2){\makebox(0,0){$\begin{array}{c}#3\\\{#4\}\end{array}$}}}
     \setlength{\unitlength}{1cm}\scalebox{0.8}{
     \begin{picture}(5,5.5)
-      \labelednode{2.50}{5}{}{1,2,3}
+      \labelednode{2.50}{5}{}{a,b,c}
       
       \put(0.75,4){\line(3,1){1.5}}
       \put(2.5,4){\line(0,1){0.5}}
       \put(4.25,4){\line(-3,1){1.5}}
       
-      \labelednode{0.75}{3.5}{a,b}{1,2}
-      \labelednode{2.50}{3.5}{c}{1,3}
-      \labelednode{4.25}{3.5}{d}{2,3}
+      \labelednode{0.75}{3.5}{p_1,p_2}{a,b}
+      \labelednode{2.50}{3.5}{p_3}{a,c}
+      \labelednode{4.25}{3.5}{p_4}{b,c}
       
       \put(0.75,2.5){\line(0,1){0.5}}
       \put(0.75,2.5){\line(3,1){1.5}}
@@ -97,9 +104,9 @@ being compared except for the relations between them that appear in training.
       \put(4.25,2.5){\line(-3,1){1.5}}
       
 
-      \labelednode{0.75}{2}{e,f}{1}
-      \labelednode{2.50}{2}{}{2}
-      \labelednode{4.25}{2}{g,h}{3}
+      \labelednode{0.75}{2}{p_5,p_6}{a}
+      \labelednode{2.50}{2}{}{b}
+      \labelednode{4.25}{2}{p_7,p_8}{c}
       
       \put(2.5,1){\line(-3,1){1.5}}
       \put(2.5,1){\line(0,1){0.5}}
@@ -118,12 +125,11 @@ being compared except for the relations between them that appear in training.
       \toprule
       Train & Test \\
       \midrule
-
-      $a \nateq b$              & $b \natneg g$ \\
-      $a \natrev e$              & $b \natrev e$ \\
-      $d \natrev h$              & \strikeout{$e \nateq f$} \\
-       $e \natalt g$              & \strikeout{$g \natfor d$} \\
-      $g \natneg a$           & $h \natfor d$ \\
+      $p_1 \nateq p_2$              & $p_2 \natneg p_7$ \\
+      $p_1 \natrev p_5$              & $p_2 \natrev p_5$ \\
+      $p_4 \natrev p_8$              & \strikeout{$p_5 \nateq p_6$} \\
+      $p_5 \natalt p_7$              & \strikeout{$p_7 \natfor p_4$} \\
+      $p_7 \natneg p_1$           & $p_8 \natfor p_4$ \\
 
       \bottomrule
     \end{tabular}
@@ -136,9 +142,6 @@ being compared except for the relations between them that appear in training.
   \label{lattice-figure}
 \end{figure} 
 
-% Note: None of these test examples is derivable from the shown training data, 
-% but we suggest that there is additional training data, so we can cross lines
-% out willy-nilly without fear.
 \begin{table}[tp]
   \centering \small
   \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
@@ -164,4 +167,6 @@ it is capable of learning representations with these properties.
 We cannot rule out the possibility that different optimization techniques or
 further hyperparameter tuning could lead an NN model to succeed here.
 
+In one run for example, both models successfully classified the test example $p_1 \natfor p_3$, potentially learning from the training examples $\{p_1 \natfor p_{51},~p_3 \natrev p_{51}\}$ or $\{p_1\natfor p_{65},~p_3 \natrev p_{65} \}$. On a somewhat similar example involving comparably frequent relations, the RNTN correctly labeled $p_6 \natrev p_{24}$, likely on the basis of the training examples $\{p_6 \natcov p_{28},~p_{28} \natneg p_{24}\}$, while the RNN incorrectly assigned it $\natind$.
 
+% From train\test_1

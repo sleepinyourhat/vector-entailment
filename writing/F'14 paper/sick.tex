@@ -1,6 +1,9 @@
 \section{The SICK textual entailment challenge}
 
-The tree pair model architecture that we use is novel, and though the underlying recursive approach has been validated elsewhere, there is no guarantee that this architecture is suitable for handling inference in the face of the noisy labels and diverse range of linguistic structures seen in typical natural language data, and our experiments on artificial data are not alone sufficient to address this issue. To investigate the ability of the model to learn on natural data, we train a version of our model on the SICK textual entailment challenge corpus \cite{marelli2014sick}. The corpus consists of about 10k natural language sentence pairs, labeled with \ii{entailment}, \ii{contradiction}, or \ii{neutral}. At only a few thousand distinct sentences (many of them variants on an even smaller set of template sentences), the corpus is not large enough to train a high quality learned model of general natural language, but it is the largest human-labeled entailment corpus that we are aware of.
+\mynote{NOTE: We might delete this section if we can't improve the numbers in time.}
+
+% TODO: Use ``model not guaranteed to do anything'' rhetoric earlier.
+The tree pair model architecture that we use is novel, and though the underlying recursive approach has been validated elsewhere, there is no guarantee that this architecture is suitable for handling inference in the face of the noisy labels and the diverse range of linguistic structures seen in typical natural language data, and our experiments on artificial data alone are not sufficient to address this issue. To investigate the ability of the model to learn on natural data, we train a version of our model on the SICK textual entailment challenge corpus \cite{marelli2014sick}. The corpus consists of about 10k natural language sentence pairs, labeled with \ii{entailment}, \ii{contradiction}, or \ii{neutral}. At only a few thousand distinct sentences (many of them variants on an even smaller set of template sentences), the corpus is not large enough to train a high quality learned model of general natural language, but it is the largest human-labeled entailment corpus that we are aware of.
 
 \begin{table*}[htp]
   \centering\small
@@ -24,19 +27,21 @@ We also supplemented the SICK training data\footnote{We tuned the model using pe
   \centering \small
   \begin{tabular}{ l r@{ \ } r@{ \ } r@{ \ } }
     \toprule
-    ~&\multicolumn{1}{c}{\ii{neut.} only} & \multicolumn{1}{c}{30d RNN}  & \multicolumn{1}{c}{50d RNTN}\\
+    ~&\multicolumn{1}{c}{25d SumNN} & \multicolumn{1}{c}{30d RNN}  & \multicolumn{1}{c}{50d RNTN}\\
     \midrule
-    SICK Train &  56.7 & 95.4 &  \textbf{97.8}  \\
-    DG (Train) &  50.0 & 67.0 & \textbf{74.0}  \\
-    SICK Test & 56.7 & 74.9 & \textbf{76.9}  \\
+    SICK Train &  TODO & 95.4 &  \textbf{97.8}  \\
+    DG (Train) &  TODO & 67.0 & \textbf{74.0}  \\
+    SICK Test & TODO & 74.9 & \textbf{76.9}  \\
     \bottomrule
   \end{tabular}
-  \caption{Performance on collapsed SICK data.}
+  \caption{Performance on collapsed SICK data. The class NEUTRAL appears in 56.7\% of SICK examples and 50\% of DG examples.}
   \label{sresultstable}
 \end{table} 
 
 The results are shown in Table \ref{sresultstable}. Despite the small amount of high quality training data available and the lack of resources for learning lexical relationships (especially exclusion, as in \ii{cat}--\ii{dog}), it is possible to train our model to perform competitively on textual entailment. Our RNTN did not reach the performance of the winning system (84.6\%), but it did exceed that of eight out of 18 submitted systems, including several which used sophisticated hand-engineered features and lexical resources specific to the version of the entailment task at hand. 
 
 % TODO: Update results
+
+% TODO: Better error analysis
 
 Table \ref{examplesofsickdata} shows a few typical examples of correct classifications. Our qualitative evaluation suggests that the model is able to successfully recognize negation and the insertion or deletion of words, as in the first two examples. The latter two show that the model can also identify the relationships between superficially different sentences, such as passive--active pairs and sentences with low lexical overlap.

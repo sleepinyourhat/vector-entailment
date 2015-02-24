@@ -40,6 +40,8 @@ if nargout > 1
     % multiple writes within the paralellized loop.
     logMessages = cell(N, 1);
 
+    lastnorm = -1;
+
     parfor i = 1:N
         % assert(~isempty(data(i).relation), 'Null relation.')
 
@@ -51,6 +53,10 @@ if nargout > 1
             accumulatedSeparateWordFeatureGradients = accumulatedSeparateWordFeatureGradients + localEmbGrad;
         end
         
+        if isfield(hyperParams, 'showGradMag') && hyperParams.showGradMag == 1 && i == N
+            lastnorm = norm(localGrad)
+        end
+
         localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
 
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
@@ -63,6 +69,10 @@ if nargout > 1
             confusions(i,:) = [localPred, data(i).relation(find(data(i).relation > 0))];
         end
         accumulatedSuccess = accumulatedSuccess + localCorrect;
+    end
+
+    if isfield(hyperParams, 'showGradMag') && hyperParams.showGradMag == 1
+        Log(hyperParams.examplelog, num2str(lastnorm));
     end
 
     % Flush the accumulated log messages from inside the loop
@@ -143,6 +153,8 @@ if computeGrad
     else
         embGrad = [];
     end
+
+
 
     assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 

@@ -1,35 +1,39 @@
 \section{Introduction}\label{sec:intro}
 
-% TODO: TreeRNN?
+% TODO: TreeRNN.
 % TODO: More language about the representations being the object of study.
 % TODO: Is there any way to squeeze a useful example into the first page?
-
+% TODO: Clarify early that we study vector pair classification. Maybe move up fig. 1?
+% TODO: Clarify that we aren't implementing NatLog rules.
+% TODO: ``Something that does that'' epigram in intro.
+% TODO: Mention tree pair archichture.
 
 Supervised recursive neural network models (RNNs; \citealt{goller1996learning}) for sentence meaning
 have been successful in an array of sophisticated language tasks,
 including sentiment analysis \cite{socher2011semi,irsoydeep},
 image description \cite{sochergrounded}, and paraphrase detection
 \cite{Socher-etal:2011:Paraphrase}. These results are encouraging for
-the ability of these models to learn compositional semantic grammars.
-However, it remains an open question whether they can achieve the
+the ability of these models to learn compositional semantic grammars, though many remain skeptical of the extent to which vector space representations can model complex compositional semantics, and it remains an open question whether learned can achieve the
 high-fidelity distributed representations of recent algebraic
-approaches \cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
+approaches to vector space modeling \cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
 and whether they can match the performance of grammars based in logical forms
-\cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}
-in their ability to model core semantic phenomena like quantification, entailment, and contradiction.
+in their ability to model core semantic phenomena like quantification, entailment, and contradiction \cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}.
 
+% TODO: Condense `skeptical' sentence
 
+Recent work on the algebraic approach of
+\newcite{ClarkCoeckeSadrzadeh2011} has yielded rich frameworks 
+for computing the meanings of complex fragments of natural
+language compositionally from vector or tensor representations, but 
+has not yet yielded effective methods for learning these representations
+entirely from data in a typical machine learning settings. 
 To date, experimental investigations of these concepts using
 distributed representations have been largely confined to short
 phrases \cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment}.
 However, for robust natural language understanding, it is essential to
 model these phenomena in their full generality on complex linguistic
-structures. Recent work on the algebraic approach of
-\newcite{ClarkCoeckeSadrzadeh2011} has yielded rich frameworks 
-for computing the meanings of complex fragments of natural
-language compositionally from vector or tensor representations, but 
-has not yet yielded effective methods for learning these representations
-entirely from data in a typical machine learning setting.
+structures. 
+% TODO: Note about how their reps are learned instead.
 
 Our research uses the task of \ii{natural language inference} 
 (also known as \ii{recognizing textual entailment};
@@ -40,13 +44,16 @@ theoretical work on this task (and some successful implemented models;
   logics}, which are formal systems that define rules of inference
 between natural language words, phrases, and sentences without the
 need of intermediate representations in an artificial logical
-language. We use the natural logic developed by
+language. We use the powerful
+ natural logic developed by
 \newcite{maccartney2009extended} as our formal model. This logic
 defines seven mutually-exclusive relations of synonymy, entailment, contradiction,
 and mutual consistency, as summarized in Table~\ref{b-table}, and it
 provides rules of semantic combination for projecting these relations
 from the lexicon up to complex phrases. The formal properties of this system are now well-understood
 \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
+
+% TODO: Cut the below para. Replace with a more high-level summary of how we are paralleling NatLog, and how compositionality fits with that (Q: Does it?).
 
 In our first set of experiments, we use this pre-specified logical
 grammar to generate controlled data sets encoding the semantic
@@ -63,7 +70,7 @@ experiment (\S\ref{sec:quantifiers}) covers relations between
 statements with quantification and negation like \ii{every reptile walks} and \ii{no turtle
  moves}. Though the performance of the plain RNN model 
  is somewhat poor in our first experiment, we find that the stronger RNTN model
-  generalizes well in every case, suggesting that it has learned to simulate our target logical concepts.
+  generalizes well in every case, suggesting that it has learned to simulate our target logical concepts. % TODO: Split into two sentences
 
 The experiments with simulated data provide a convincing demonstration
 of the ability of neural networks to learn to encode semantic
@@ -72,14 +79,15 @@ training sets. However, we are also interested in the more practical
 question of whether they can learn these representations from
 naturalistic text. To address this question, we apply our models to
 the SICK entailment challenge data. The small size of this corpus puts
-data-intensive neural models like ours at a disadvantage, but we are
+data-hungry NN models like ours at a disadvantage, but we are
 nonetheless able to achieve competitive performance on it,
-surpassing several models with significant hand-engineered task-specific features.
+surpassing several submitted models with significant hand-engineered task-specific features.
 This suggests that the representational abilities that we observe in the previous sections
 are not limited to carefully circumscribed tasks. We conclude that RNTN models
 are adequate for typical cases of natural logic inference, and that there is not yet
 any clear level of inferential complexity for which other approaches work and NN models fail.
 
+% TODO: Contributions para.
 
 \begin{table*}[tp]
   \centering\small
@@ -98,9 +106,8 @@ any clear level of inferential complexity for which other approaches work and NN
     independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
     \bottomrule
   \end{tabular}
-  \caption{\label{b-table}The seven natural logic relations of MacCartney and Manning \protect\shortcite{maccartney2009extended}. 
-    $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
-    and the relation $\natind$ applies where none of the other six do.} %, including when there 
+  \caption{\label{b-table}The seven natural logic relations of MacCartney and Manning \protect\shortcite{maccartney2009extended} are defined abstractly on pairs of sets drawing from the universe  $\mathcal{D}$, and can be applied to any pair of words, phrases, or sentences according to standard approaches to semantic interpretation. % TODO: Condense, leave in reference to denotation.
+The relation $\natind$ applies where none of the other six do.} %, including when there 
     %is insufficient knowledge to choose a label.}
  
 \end{table*}

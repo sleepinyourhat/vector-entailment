@@ -2,17 +2,14 @@
 
 We have seen that recursive models can learn an approximation of propositional
 logic.  However, natural languages can express functional meanings of
-considerably greater complexity than this.  As a step towards
-investigating whether our models can capture this complexity, we now
-directly measure the degree to which they are able to
+considerably greater complexity than this.  As a key test of whether our models 
+can capture this complexity, we now directly measure the degree to which they are able to
 develop suitable representations for the semantics of natural language
 quantifiers like \ii{most} and \ii{all} as they interact with negation. Quantification 
-and negation are far from
-the only place in natural language where complex functional meanings
-are found, but they are natural starting point, since they can be tested
-in sentences whose structures are otherwise quite simple, and since they have
+and negation are far from the only place in natural language where complex functional meanings
+are found, but they are natural focus, since they have
 formed a standard case study in prior formal work on natural
-language inference \cite{Icard:Moss:2013:LILT}.
+language inference \cite{Icard:Moss:2013:LILT}..
 
 \paragraph{Experiments}
 Our experimental data consist of pairs of sentences generated from a
@@ -67,22 +64,31 @@ then label \eqref{p3}.
   \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
 \end{gather}\vspace{-0.8cm}
 
+In addition to the two models under study, we also train a summing neural network as a baseline, 
+which is identical to the RNN, except that instead of learning a parametric composition function,
+it simply sums the word vectors in a sentence to compose them. This baseline model does not
+use word order information, though the highly consistent sentence structure in this experiment means
+that it can potentially distinguish any two valid sentences except in case the two differ only in the placement of the word \ii{not}, potentially introducing errors into the 58.8\% of examples that contain a sentence with a single
+instance of \ii{not}.
+
 \begin{table}[tp]
-  \centering \small
+  \centering
   \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
     \toprule
-    ~&\multicolumn{2}{c}{$\natind$ only} & \multicolumn{2}{c}{25d RNN}  & \multicolumn{2}{c}{25d RNTN}\\
+    ~ & \multicolumn{2}{c}{25d SumNN} & \multicolumn{2}{c}{25d RNN}  & \multicolumn{2}{c}{25d RNTN}\\
     \midrule
-    Train & 35.4 &(7.5) &	\textbf{100}&		\textbf{(100)}&	99.5&	(99.3)\\	
-    Test & 35.4 &(7.5) &	\textbf{99.4}&\textbf{(99.5)}& \textbf{99.4} & (99.2)\\
+    Train &	96...&	(95...)&	\textbf{100}&		\textbf{(100)}&	99.5&	(99.3)\\	
+    Test & 90...&	(80...)&	\textbf{99.4}&\textbf{(99.5)}& \textbf{99.4} & (99.2)\\
     \bottomrule
   \end{tabular}
-  \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1.}
+  \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1. The most frequent class, $\natind$, appears in 35.4\% of examples.}
   \label{qresultstable}
 \end{table} 
+% TODO: Fill in baseline results
+
 %
 % do not allow a blank line --- adds too much space
 %
-\paragraph{Results} The results, reported in Table~\ref{qresultstable}, show that both models are able to learn to generalize the underlying logic satisfactorily. We did not observe any consistent pattern in the few errors made by either model, and errors did not tend to be consistent across runs of the experiment, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
+\paragraph{Results} The results, reported in Table~\ref{qresultstable}, show that both recursive models are able to learn to generalize the underlying logic satisfactorily, and that the baseline model generalizes well but far from perfectly. We did not observe any consistent pattern in the few errors made by either model, and errors did not tend to be consistent across runs of the experiment, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
 
 % TODO: Baseline

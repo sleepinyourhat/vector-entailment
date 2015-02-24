@@ -1,13 +1,22 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, collo, parens, dp)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, showgradmag, bottomDropout, topDropout, datamult, collo, parens, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
 
+% The raw range bound on word vectors.
+hyperParams.wordScale = 0.01;
+
+% Used to compute the bound on the range for RNTN parameter initialization.
+hyperParams.tensorScale = 1;
+
+% Use an older initialization scheme for comparability with older experiments.
+hyperParams.useCompatibilityInitialization = true;
+
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
-hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
+hyperParams.name = [expName, 'COMPATINIT-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), '-lr', num2str(lr),...
+    '-pen', num2str(penult), '-sgm', num2str(showgradmag),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-par', num2str(parens),...
     '-mb', num2str(mbs), '-dp', num2str(dp), '-tot', num2str(tot), '-s', num2str(summing)];
@@ -65,6 +74,8 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
+hyperParams.useEyes = 1;
+
 if tot < 2
   hyperParams.useThirdOrder = tot;
   hyperParams.useThirdOrderComparison = tot;
@@ -96,9 +107,9 @@ options.miniBatchSize = mbs;
 
 options.updateFn = @AdaDeltaUpdate;
 
-options.lr = lr;
+hyperParams.showGradMag = showgradmag;
 
-if findstr(dataflag, 'sick-only')
+if findstr(dataflag, 'sick-only-dev')
     wordMap = InitializeMaps('sick_data/combined_words.txt');
     hyperParams.vocabName = 'sick_all'; 
 
@@ -113,6 +124,24 @@ if findstr(dataflag, 'sick-only')
     				 './sick_data/SICK_trial_parsed_noneg.txt', ...
     				 './sick_data/SICK_trial_parsed_18plusparens.txt', ...
     				 './sick_data/SICK_trial_parsed_lt18_parens.txt'};
+    hyperParams.splitFilenames = {};
+elseif findstr(dataflag, 'sick-only')
+    % The number of relations.
+    hyperParams.numRelations = [3];
+
+    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    wordMap = InitializeMaps('sick_data/combined_words.txt');
+    hyperParams.vocabName = 'sick_all';
+
+    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
+                     './sick_data/SICK_train_parsed.txt', ...
+                     './sick_data/SICK_trial_parsed_exactAlign.txt', ...
+                     './sick_data/SICK_trial_parsed.txt'};
+    hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
+                     './sick_data/SICK_test_annotated_rearranged_parsed.txt'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus-600k-ea-dev') 
     % The number of relations.

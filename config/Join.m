@@ -7,6 +7,28 @@ hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(pen
 				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda),...
 				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
 
+
+% The raw range bound on word vectors.
+hyperParams.wordScale = 0.01;
+
+% Used to compute the bound on the range for RNTN parameter initialization.
+hyperParams.tensorScale = 1;
+
+% Use an older initialization scheme for comparability with older experiments.
+hyperParams.useCompatibilityInitialization = true;
+
+hyperParams.useEyes = 1;
+
+if tot == -1
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 0;
+  hyperParams.useSumming = 1;
+else
+  % Use NTN layers in place of NN layers.
+  hyperParams.useThirdOrder = tot;
+  hyperParams.useThirdOrderComparison = tot;
+end
+
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
 
@@ -15,10 +37,6 @@ hyperParams.penultDim = penult;
 
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
-
-% Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = tot;
 
 hyperParams.topDepth = top;
 

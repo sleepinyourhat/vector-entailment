@@ -1,11 +1,12 @@
 \section{Recursive structure}\label{sec:recursion}
 
-Complex embedding is a prominent feature of natural languages. 
-The principle of compositionality explains how the meanings of 
-such structures are derived systematically from their parts,
- enabling people to use novel phrases and sentences.
-Theoretical accounts of natural language syntax and semantics
-in turn rely heavily on recursive structures. This section examines the 
+% TODO: Check on citation for clark/coecke/sadr 2011
+
+% Run baseline anyway?
+
+% TODO: Clean up next sent.
+Recursive compositional structure is a prominent feature of natural language. 
+This section examines the 
 question of whether our models are able to learn a 
 compositional semantics over such recursive structures.
 In our evaluations, we exploit the fact that our logical language
@@ -49,7 +50,7 @@ a valid theorem of the propositional logic.
       \toprule
       Formula     & Interpretation \\
       \midrule
-      $a$, $b$, $c$, $d$, $e$, $f$ & $\sem{x} \in \{\True, \False\}$ \\
+      $p_1$, $p_2$, $p_3$, $p_4$, $p_5$, $p_6$ & $\sem{x} \in \{\True, \False\}$ \\
       $\plneg \varphi$ & $\True$ iff $\sem{\varphi} = \False$ \\
       $(\varphi \pland \psi)$ & $\True$ iff $\False \notin \{\sem{\varphi}, \sem{\psi}\}$ \\
       $(\varphi \plor \psi)$  & $\True$ iff $\True \in \{\sem{\varphi}, \sem{\psi}\}$ \\
@@ -64,12 +65,12 @@ a valid theorem of the propositional logic.
     \centering\vspace{4mm}
     \begin{tabular}[t]{r c l}
       \toprule
-      $\plneg a$        & $\natneg$ & $a$ \\
-      $\plneg \plneg a$ & $\nateq$  & $a$ \\
-      $a$               & $\natfor$ & $(a \plor b)$ \\
-      $(a \plor (b \plor c))$               & $\natrev$ & $(b \pland  \plneg c)$ \\
+      $\plneg p_3$        & $\natneg$ & $p_3$ \\
+      $\plneg \plneg p_6$ & $\nateq$  & $p_6$ \\
+      $p_3$               & $\natfor$ & $(p_3 \plor p_2)$ \\
+      $(p_1 \plor (p_2 \plor p_4))$               & $\natrev$ & $(p_2 \pland  \plneg p_4)$ \\
       %$(a \natfor b)$   & $\nateq$  & $(b \natrev a)$ \\	
-      $\plneg\, (\plneg a \pland \plneg b)$ & $\nateq$ & $(a \plor b)$ \\ 
+      $\plneg\, (\plneg p_1 \pland \plneg p_2)$ & $\nateq$ & $(p_1 \plor p_2)$ \\ 
       \bottomrule
     \end{tabular}
     \caption{Examples of the type of statements used for training and testing. These are relations between
@@ -85,7 +86,8 @@ model somewhat similar to our RNTN can learn boolean logic,
 a logic where the atomic symbols are simply the
 values $\True$ and $\False$. While learning the operators of that logic is not trivial, the outputs of
 each operator can be represented accurately by a single bit.
-In the more demainding task presented here, the atomic symbols are variables over these values, and the sentence vectors must thus be able to distinguish up to $2^{64}$ distinct conditions on valuations. Relational expressions between these conditions are essentially theorems of propositional logic, and to succeed, the model must learn to approximate the behavior of a theorem prover.
+In the more demanding task presented here, the atomic symbols are variables over these values, and the sentence vectors must thus be able to distinguish up to $2^{64}$ distinct conditions on valuations. Relational expressions between these conditions are essentially theorems of propositional logic, and to succeed, the model must learn to approximate the behavior of a theorem prover.
+% TODO: Condense this para, and move bulk to footnote.
 
 In our experiments, we randomly generate unique pairs 
 of formulae and compute the relation that holds for each pair.
@@ -107,7 +109,7 @@ referring to more than four of the six propositional variables.
 
 In order to test the model's generalization to unseen structures, we discard
 training examples with more than 4 connectives, yielding 60k short training examples,
-and 21k training examples containing up to 12 connectives.
+and 21k test examples containing up to 12 connectives.
 We evaluated both the RNN and RNTN\footnote{We did not run any strictly simpler baselines for this experiment because it is demonstrably impossible to perform substantially above chance on longer expressions without word order information.} on the resulting data, initializing the model parameters randomly,
 including the vector representations of the six variables.
 
@@ -128,7 +130,7 @@ including the vector representations of the six variables.
 \end{figure*}
 
 
-\paragraph{Results} Figure~\ref{prop-results} shows test the relationship
+\paragraph{Results} Figure~\ref{prop-results} shows the relationship
 between test accuracy and statement length. We found that both 
 models were able to perform well on unseen small test examples, 
 with RNN accuracy above
@@ -142,6 +144,12 @@ logic. These approximations are accurate enough to yield
 correct answers when the composition layer is only applied a small
 number of times, but that the error in the approximation grows with
 increasing expression size, resulting in gradually dropping performance. 
+Though imperfect, model performance on the long examples is striking. 
+The RNTN classifies true examples of every class but $\nateq$ 
+(which occurs only once) correctly the majority of the time, where a 
+typical statement might be $( ( p_1  \pland ( p_2 \plor ( \plneg p_4 ) ) ) \plor p_3 ) \natcov ( \plneg ( ( \plneg ( ( \plneg ( p_4 \plor p_3 ) )  \plor ( ( \plneg p_3 ) \plor ( \plneg p_3 ) ) ) ) \pland ( \plneg ( ( \plneg ( ( \plneg p_3 ) \plor ( \plneg p_4 ) ) ) \plor ( \plneg p_2 ) ) ) ) )$.
+% TODO: Better present examples.
+
 It appears that the RNTN model overfit somewhat relative to the plain RNN,
 performing better on the training data and short examples, but worse on longer
 examples. Two factors are likely involved in this: even with the lower dimension,
@@ -151,6 +159,7 @@ generalizations that work on the training data but don't generalize well. In add
 the RNTN used here has slightly weaker L2 regularization than the 
 RNN ($\lambda_{\textit{RNN}} = 0.001$, $\lambda_{\textit{RNTN}} = 0.0003$). This
 yielded better average performance, but may have facilitated this effect.
+
 
 % \mynote{In an effort to better understand why model performance decays, 
 %we evaluated both models on pairs of long formulae involving
