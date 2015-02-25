@@ -1,6 +1,6 @@
 \footnotesize
 
-\newcommand{\labeledtreenode}[4][3.5]{\put(#2){\makebox(0,0){{\fcolorbox{black}{#4}{\makebox(#1,0.3){#3}}}}}}
+\newcommand{\labeledtreenode}[4][3.5]{\put(#2){\makebox(0,0){{\colorbox{#4}{\makebox(#1,0.3){#3}}}}}}
 
 \newcommand{\textlabel}[4][3.5]{\put(#2){\makebox(0,0){\makebox(#1,0.3){#3}}}}
 
@@ -62,10 +62,10 @@
 % \end{picture}
 
 \framebox{
-\setlength{\unitlength}{0.58cm}
+\setlength{\unitlength}{0.56cm}
 \begin{picture}(13,7.5)
   
-  \labeledtreenode[2.4]{7.75,7}{$P(\sqsubset) = 0.8$}{softmaxcolor}  
+  \labeledtreenode[2.75]{7.75,7}{$P(\sqsubset) = 0.8$}{softmaxcolor}  
   \put(7.75,5.7){\vector(0,1){1}}  
   \labeledtreenode[8.5]{7.75,5.4}{all reptiles walk \emph{vs.}~some turtles move}{comparisoncolor}
 

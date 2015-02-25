@@ -12,8 +12,9 @@ formed a standard case study in prior formal work on natural
 language inference \cite{Icard:Moss:2013:LILT}..
 
 \paragraph{Experiments}
-Our experimental data consist of pairs of sentences generated from a
-small artificial grammar. Each sentence contains a quantifier, a noun
+Our experimental data consist of pairs of sentences generated
+from a grammar for a simple English-like artificial language.
+Each sentence contains a quantifier, a noun
 which may be negated, and an intransitive verb which may be
 negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all},
 \ii{two}, and \ii{three}, and their negations \ii{no}, \ii{not-all},
@@ -22,12 +23,9 @@ include five nouns, four intransitive verbs, and the negation symbol
 \ii{not}. In order to be able to define relations between sentences
 with differing lexical items, we define the lexical relations between
 each noun--noun pair, each verb--verb pair, and each
-quantifier--quantifier pair. The grammar accepts aligned pairs of
-sentences of this form and calculates the natural logic relationship
+quantifier--quantifier pair. The grammar generates pairs of
+sentences of this form and calculates the relations holding
 between them.  Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
-  As in previous sections, the goal of
-learning is then to assign these relational labels accurately to
-unseen pairs of sentences.
 
 %nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
 %verbs = ['walk', 'move', 'swim', 'growl']
@@ -62,26 +60,30 @@ then label \eqref{p3}.
   \text{(all lizard) reptile} \natfor  \text{(some lizard) animal}\label{p2}
   \\
   \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
-\end{gather}\vspace{-0.8cm}
+\end{gather}
 
-In addition to the two models under study, we also train a summing neural network as a baseline, 
-which is identical to the RNN, except that instead of learning a parametric composition function,
-it simply sums the word vectors in a sentence to compose them. This baseline model does not
-use word order information, though the highly consistent sentence structure in this experiment means
-that it can potentially distinguish any two valid sentences except in case the two differ only in the placement of the word \ii{not}, potentially introducing errors into the 58.8\% of examples that contain a sentence with a single
+We use the same summing baseline as in the previous section.
+The highly consistent  sentence structure in this experiment means
+that that model can potentially distinguish two valid sentences unless they
+ differ only in the placement of the word \ii{not}, potentially introducing errors into 
+the 58.8\% of examples that contain a sentence with a single
 instance of \ii{not}.
 
 \begin{table}[tp]
-  \centering
-  \begin{tabular}{ l r@{ \ }r r@{ \ }r r@{ \ }r }
+  \centering\small
+    \begin{tabular}{ l r@{ \ }r r@{ \ }r }
+    
     \toprule
-    ~ & \multicolumn{2}{c}{25d SumNN} & \multicolumn{2}{c}{25d RNN}  & \multicolumn{2}{c}{25d RNTN}\\
+    ~ & \multicolumn{2}{c}{Train} & \multicolumn{2}{c}{Test} \\
     \midrule
-    Train &	96...&	(95...)&	\textbf{100}&		\textbf{(100)}&	99.5&	(99.3)\\	
-    Test & 90...&	(80...)&	\textbf{99.4}&\textbf{(99.5)}& \textbf{99.4} & (99.2)\\
+    $\natind$ only &	35.4 & (7.5)	& 35.4	& (7.5)\\
+    25d SumNN	&	96...&	(95...)&	90...&	(80...)\\	
+    25d TreeRNN	&	\textbf{100}&	\textbf{(100)}&	99.5&	(99.3)\\
+    25d TreeRNTN	&	\textbf{99.4}&\textbf{(99.5)}&	\textbf{99.4} & (99.2)\\
     \bottomrule
   \end{tabular}
-  \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1. The most frequent class, $\natind$, appears in 35.4\% of examples.}
+  
+  \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1.}
   \label{qresultstable}
 \end{table} 
 % TODO: Fill in baseline results
@@ -89,6 +91,6 @@ instance of \ii{not}.
 %
 % do not allow a blank line --- adds too much space
 %
-\paragraph{Results} The results, reported in Table~\ref{qresultstable}, show that both recursive models are able to learn to generalize the underlying logic satisfactorily, and that the baseline model generalizes well but far from perfectly. We did not observe any consistent pattern in the few errors made by either model, and errors did not tend to be consistent across runs of the experiment, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
+\paragraph{Results} The results, reported in Table~\ref{qresultstable}, show that both recursive models are able to learn to generalize the underlying logic satisfactorily, and that the baseline model generalizes well, but far from perfectly. We did not observe any consistent pattern in the few errors made by either model, and errors did not tend to be consistent across runs of the experiment, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
 
 % TODO: Baseline

@@ -1,25 +1,22 @@
-\section{The SICK textual entailment challenge}
+\section{The SICK textual entailment challenge}\label{sec:sick}
 
-\mynote{NOTE: We might delete this section if we can't improve the numbers in time.}
-
-% TODO: Use ``model not guaranteed to do anything'' rhetoric earlier.
 The tree pair model architecture that we use is novel, and though the underlying recursive approach has been validated elsewhere, there is no guarantee that this architecture is suitable for handling inference in the face of the noisy labels and the diverse range of linguistic structures seen in typical natural language data, and our experiments on artificial data alone are not sufficient to address this issue. To investigate the ability of the model to learn on natural data, we train a version of our model on the SICK textual entailment challenge corpus \cite{marelli2014sick}. The corpus consists of about 10k natural language sentence pairs, labeled with \ii{entailment}, \ii{contradiction}, or \ii{neutral}. At only a few thousand distinct sentences (many of them variants on an even smaller set of template sentences), the corpus is not large enough to train a high quality learned model of general natural language, but it is the largest human-labeled entailment corpus that we are aware of.
 
 \begin{table*}[htp]
   \centering\small
   \begin{tabular}{lcl}
     \toprule
-A woman is not boiling shrimps.& \ii{contradiction}&	A woman is boiling shrimps.\\
-A wild deer is jumping a fence. &\ii{entailment}	&A deer is jumping a fence.\\
-A potato is being sliced by a woman. &\ii{entailment}	&A woman is slicing a potato.\\
-The plane, which is south African, is flying in a blue sky.& \ii{entailment}&	An airplane is flying through the air.\\
+Analysis\\
+Analysis\\
+Analysis\\
+Analysis\\
     \bottomrule
   \end{tabular}
-  \caption{\label{examplesofsickdata}Examples of correct RNTN classifications on SICK.}
+  \caption{\label{examplesofsickdata}Examples of correct TreeRNTN classifications on SICK.}
 \end{table*} % TODO: Update. Find incorrect examples?
 
 Adapting to this task required us to make a few additions to the techniques discussed in \S\ref{methods}. In order to better handle rare words, we initialized our word embeddings using 200 dimensional vectors trained with 
-GloVe \cite{pennington2014glove} on data from Wikipedia. Since 200 dimensional vectors are too large to be practical in an RNTN on a small dataset, a new embedding transformation layer is needed. Before any embedding is used as an input to a recursive layer, it is passed through an additional $\tanh$ neural network layer with the same output dimension as the recursive layer. This new layer aggregates any usable information from the embedding vectors into a more compact working representation.
+GloVe \cite{pennington2014glove} on data from Wikipedia. Since 200 dimensional vectors are too large to be practical in an TreeRNTN on a small dataset, a new embedding transformation layer is needed. Before any embedding is used as an input to a recursive layer, it is passed through an additional $\tanh$ neural network layer with the same output dimension as the recursive layer. This new layer aggregates any usable information from the embedding vectors into a more compact working representation.
 
 We also supplemented the SICK training data\footnote{We tuned the model using performance on a held out development set, but report performance here for a version of the model trained on both the training and development data and tested on the SICK test set. We also report training accuracy on a small sample from each data source.} with 600k examples of entailment data from the Denotation Graph project (DG, \citealt{hodoshimage}, also used by the winning SICK submission), a corpus of noisy automatically labeled entailment examples over image captions, the same genre of text from which SICK was drawn. We trained a single model on data from both sources, but used a separate set of softmax parameters for classifying into the labels from each source. We parsed the data from both sources with the Stanford PCFG Parser v. 3.3.1 \cite{klein2003accurate}. We also found that we were able to train a working model much more quickly with an additional technique: we collapse subtrees that were identical across both sentences in a pair down to a single head word. The training and test data on which we report performance are collapsed in this way, and both collapsed and uncollapsed copies of the training data are used in training. Finally, in order to improve regularization on the noisier data, we used dropout \cite{srivastava2014dropout} at the input to the comparison layer (10\%) and at the output from the embedding transform layer (25\%). 
 
@@ -27,21 +24,31 @@ We also supplemented the SICK training data\footnote{We tuned the model using pe
   \centering \small
   \begin{tabular}{ l r@{ \ } r@{ \ } r@{ \ } }
     \toprule
-    ~&\multicolumn{1}{c}{25d SumNN} & \multicolumn{1}{c}{30d RNN}  & \multicolumn{1}{c}{50d RNTN}\\
+    ~&\multicolumn{1}{c}{SICK Train} & \multicolumn{1}{c}{DG Train}  & \multicolumn{1}{c}{SICK Test}\\
     \midrule
-    SICK Train &  TODO & 95.4 &  \textbf{97.8}  \\
-    DG (Train) &  TODO & 67.0 & \textbf{74.0}  \\
-    SICK Test & TODO & 74.9 & \textbf{76.9}  \\
+    NEUTRAL only &	56.7	&	50.0	  &	56.7\\
+    25d SumNN	&	TODO	&	TODO &	TODO	\\
+    30d TreeRNN	&	95.4		&	67.0	&	74.9		\\
+    50d TreeRNTN	&\textbf{97.8}	& \textbf{74.0}&\textbf{76.9}\\
     \bottomrule
   \end{tabular}
-  \caption{Performance on collapsed SICK data. The class NEUTRAL appears in 56.7\% of SICK examples and 50\% of DG examples.}
+  \caption{Classification accuracy for SICK.}
   \label{sresultstable}
 \end{table} 
 
-The results are shown in Table \ref{sresultstable}. Despite the small amount of high quality training data available and the lack of resources for learning lexical relationships (especially exclusion, as in \ii{cat}--\ii{dog}), it is possible to train our model to perform competitively on textual entailment. Our RNTN did not reach the performance of the winning system (84.6\%), but it did exceed that of eight out of 18 submitted systems, including several which used sophisticated hand-engineered features and lexical resources specific to the version of the entailment task at hand. 
+The results are shown in Table \ref{sresultstable}. Despite the small amount of high quality training data available and the lack of resources for learning lexical relationships (especially exclusion, as in \ii{cat}--\ii{dog}), it is possible to train our model to perform competitively on textual entailment. Our TreeRNTN did not reach the performance of the winning system (84.6\%), but it did exceed that of eight out of 18 submitted systems, including several which used sophisticated hand-engineered features and lexical resources specific to the version of the entailment task at hand. 
 
 % TODO: Update results
 
-% TODO: Better error analysis
+% TODO: Update analysis
 
 Table \ref{examplesofsickdata} shows a few typical examples of correct classifications. Our qualitative evaluation suggests that the model is able to successfully recognize negation and the insertion or deletion of words, as in the first two examples. The latter two show that the model can also identify the relationships between superficially different sentences, such as passive--active pairs and sentences with low lexical overlap.
+
+ANALYSIS\\
+ANALYSIS\\
+ANALYSIS\\
+ANALYSIS\\
+ANALYSIS\\
+ANALYSIS\\
+ANALYSIS\\
+ANALYSIS\\
