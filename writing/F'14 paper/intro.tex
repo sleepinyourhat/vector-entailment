@@ -1,22 +1,17 @@
 \section{Introduction}\label{sec:intro}
 
-% TODO: Is there any way to squeeze a useful example into the first page?
-% TODO: Can we fit a version of the ``find something that does that'' quote in intro somewhere?
-
-% TODO: This para might be a bit repetitive.
 Tree-structured recursive neural network models (TreeRNNs; \citealt{goller1996learning}) for sentence meaning
 have been successful in an array of sophisticated language tasks,
 including sentiment analysis \cite{socher2011semi,irsoydeep},
 image description \cite{sochergrounded}, and paraphrase detection
 \cite{Socher-etal:2011:Paraphrase}. These results are encouraging for
 the ability of these models to learn to produce and use strong 
-semantic representations for sentences,
-though many remain skeptical of the extent to which they can learn to represent
-the necessary complex compositional structures using fixed-size vectors. 
-In particular, it remains an open question whether learned models can achieve the
-high-fidelity distributed representations of recent algebraic
-approaches to vector space modeling \cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
-and whether they can match the performance of grammars based in logical forms
+semantic representations for sentences, but it remains an 
+open question whether any such fully learned model can achieve the kind of
+high-fidelity distributed representations proposed in recent algebraic
+work on vector space modeling 
+\cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
+and whether any such model can match the performance of grammars based in logical forms
 in their ability to model core semantic phenomena like quantification, entailment, and contradiction \cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}.
 
 Recent work on the algebraic approach of
@@ -80,12 +75,11 @@ the SICK entailment challenge data in \S\ref{sec:sick}. The small size of this c
 data-hungry NN models like ours at a disadvantage, but we are
 nonetheless able to achieve competitive performance on it,
 surpassing several submitted models with significant hand-engineered task-specific features.
+As with our simulated data, our concern is primarily with the quality of the learned representations and their ability to encode our target semantic relations. Thus, we are less focused on absolute performance than on patterns of accurate and inacccurate predictions, so even this small data set can provide powerful analytic insights into our core representational issues.
 This suggests that the representational abilities that we observe in the previous sections
 are not limited to carefully circumscribed tasks. We conclude that TreeRNTN models
 are adequate for typical cases of natural logic inference, and that there is not yet
 any clear level of inferential complexity for which other approaches work and NN models fail.
-
-% TODO: Contributions para.
 
 \begin{table*}[tp]
   \centering\small

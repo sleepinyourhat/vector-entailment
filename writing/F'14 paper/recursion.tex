@@ -1,11 +1,9 @@
 \section{Recursive structure}\label{sec:recursion}
-% TODO: Enter baseline results, use [[Tree]]RNN.
 
-% TODO: Clean up next sent.
 Recursive structure is a prominent feature of natural language. 
-This section examines the degree to which our models are able to learn a 
+This section examines the degree to which our models can learn a 
 compositional semantics over recursive structures.
-In our evaluations, we exploit the fact that our logical language
+In our evaluations, we exploit the fact that our target language
 is infinite by testing on strings that are longer and more complex
 than any seen in training.
 
@@ -23,20 +21,20 @@ than any seen in training.
 % are longer and more complex than any seen in testing.
 
 \paragraph{Experiments}
-As in \S\ref{sec:join}, we test this phenomenon on data generated from a logic,
+As in \S\ref{sec:join}, we generate artificial data from a formal system,
  but we now replace the unanalyzed symbols
 from that experiment with complex formulae. These formulae
-represent a truth-functionally complete classical propositional logic:
+represent a complete classical propositional logic:
 each atomic symbol is a variable over the domain \{$\True$, $\False$\}, and the only
 operators are truth-functional ones.  Table~\ref{tab:pl} defines this
-logic, and Table~\ref{tab:plexs} gives examples of the some of the shorter relational
-statements that we generate from it as train and test data. To compute these relations
+logic, and Table~\ref{tab:plexs} gives some short examples relational statements from our data.
+ To compute these relations
 between statements, we exhaustively enumerate the sets of assignments
 of truth values to propositional variables that would satisfy each of
 the statements, and then we convert the set-theoretic relation between
 those assignments into one of the seven relations in
 Table~\ref{b-table}. As a result, each relational statement represents
-a valid theorem of the propositional logic, and and to succeed, the models 
+a valid theorem of the propositional logic, and to succeed, the models 
 must learn to reproduce the behavior of a theorem prover.\footnote{
 Socher et al.~\shortcite{socher2012semantic} show that a matrix-vector TreeRNN
 model somewhat similar to our TreeRNTN can learn boolean logic, 
@@ -92,22 +90,6 @@ Table~\ref{b-table} are undefined. The resulting set of formula pairs is
 then partitioned into 13 bins according the number of logical operators in
 the longer of the two formulae. We then sample 20\% of each
 bin for a held-out test set.
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=5.75in]{decayfig.eps}
-%  \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
-  \caption{Model performance on propositional logic, by expression size.}
-%    The dashed line indicates that only expressions of size four or less appeared in the training data. \textbf{Bottom:} Semantically distinct formulae should have different
-%    representations. As measured by Euclidean distance, only the TreeRNTN
-%    achieves this for formulae containing more than a small number of
-%    connectives (\ii{and} in this example). The TreeRNN quickly collapses the representations,
-%    failing to capture the meaning contrasts.
-    
-  \label{prop-results} 
-  
-\end{figure*}
-
 If we do not implement any constraint that the two statements being
 compared are similar in any way, then the generated data are dominated
 by statements in which the two formulae refer to largely separate
@@ -118,49 +100,49 @@ propositional logic, we disallow individual pairs of statements from
 referring to more than four of the six propositional variables.
 
 In order to test the model's generalization to unseen structures, we discard
-training examples with more than 4 connectives, yielding 60k short training examples,
-and 21k test examples containing up to 12 connectives.
-We evaluated both the TreeRNN and TreeRNTN on the resulting data, initializing the model parameters randomly,
-including the vector representations of the six variables. 
-As a baseline, we also train a summing neural network
-which is largely identical to the TreeRNN, except that instead of learning a parametric composition function,
-it simply sums the term vectors in each expression to compose them. Unlike the two models under study,
-whose ability to accurately simulate the logic is an open question, this baseline does not use word order,
+training examples with more than 4 logical operators, yielding 60k short training examples,
+and 21k test examples containing up to 12 operators.
+In addition to the two tree models, we also train a summing NN baseline
+which is largely identical to the TreeRNN, except that instead of using a learned composition function,
+it simply sums the term vectors in each expression to compose them. Unlike the two tree models, this baseline does not use word order,
 and is as such guaranteed to ignore some information that it would need to succeed perfectly.
 
-% TODO: Insert baseline result.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=3.05in]{decayfig.pdf}
+%  \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
+  \caption{Results on recursive structure. The ``$\natind$ only'' line shows the frequency of the most frequent class, $\natind$, and the vertical dotted line marks the size of the longest training examples.}
+%    The dashed line indicates that only expressions of size four or less appeared in the training data. \textbf{Bottom:} Semantically distinct formulae should have different
+%    representations. As measured by Euclidean distance, only the TreeRNTN
+%    achieves this for formulae containing more than a small number of
+%    connectives (\ii{and} in this example). The TreeRNN quickly collapses the representations,
+%    failing to capture the meaning contrasts.
+    
+  \label{prop-results} 
+\end{figure}
+
+
 \paragraph{Results} Fig.~\ref{prop-results} shows the relationship
-between test accuracy and statement length. BASELINE BASELINE
- BASELINE BASELINE BASELINE BASELINE BASELINE BASELINE BASELINE   We found that both 
+between test accuracy and statement length. While the summing baseline model performed poorly across the board, we found that both recursive
 models were able to perform well on unseen small test examples, 
 with TreeRNN accuracy above
-98\% and TreeRNTN accuracy above 99\% on formulae below length five.
-Starting at size four, performance gradually falls with increasing
-size. Training accuracy was 99.4\% for the TreeRNN and 99.8\% for the TreeRNTN.
+98\% and TreeRNTN accuracy above 99\% on formulae below length five, indicating
+that they learned correct approximations of the underlying
+logic. Training accuracy was 66.6\% for the SumNN, 99.4\% for the TreeRNN, and 99.8\% for the TreeRNTN.
 
-The performance of these models on small unseen test examples
-indicates that they learned correct approximations of the underlying
-logic. These approximations are accurate enough to yield
-correct answers when the composition layer is only applied a small
-number of times, but that the error in the approximation grows with
-increasing expression size, resulting in gradually dropping performance. 
-
-
-It appears that the TreeRNTN model overfit somewhat relative to the plain TreeRNN,
-performing better on the training data and short examples, but worse on longer
-examples. Two factors are likely involved in this: even with the lower dimension,
+After the size four training cutoff, performance gradually decays with expression size for both tree models, suggesting that the learned approximations were accurate but lossy.
+Despite its stronger performance on short sentences, but the TreeRNTN's performance
+decayed more quickly than the TreeRNN's. 
+This suggests to us that it learned to interpret many specific fixed-size tree structures directly,
+allowing it to get away without learning strong generalizations about how to compose
+individual terms in a more general way.
+Two factors may have contributed to the learning of these narrower generalizations: 
+even with the lower dimension,
 the TreeRNTN composition function has about eight times as many parameters as the
-TreeRNN, and thus more capacity to find a solution involving a large number of narrow 
-generalizations that work on the training data but don't generalize well. In addition,
-the TreeRNTN used here has weaker L2 regularization than the 
-TreeRNN ($\lambda = 0.0003$ vs. $0.001$). This
-yielded better performance averaged across all bins, but may have facilitated this effect.
-
-Though imperfect, model performance on the most difficult set of expressions is nonetheless striking. 
-The weaker TreeRNTN classifies true examples of every class but $\nateq$ 
-(which is rare in long examples, and occurs only once here) correctly the majority of the time.
-% TODO: Better present examples.
-
+TreeRNN, and the TreeRNTN worked best with weaker L2 regularization than the 
+TreeRNN ($\lambda = 0.0003$ vs. $0.001$). Nonetheless, the performance of both 
+models on even the longest set of test sentences is good enough to indicate that
+ both can still perform at least least a rough approximation of the underlying theorem proving task.
 
 % \mynote{In an effort to better understand why model performance decays, 
 %we evaluated both models on pairs of long formulae involving

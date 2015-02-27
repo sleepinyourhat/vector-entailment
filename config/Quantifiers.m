@@ -18,6 +18,9 @@ hyperParams.tensorScale = 1;
 % Use an older initialization scheme for comparability with older experiments.
 hyperParams.useCompatibilityInitialization = true;
 
+hyperParams.useEyes = 1;
+
+
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
 

@@ -18,9 +18,7 @@
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
   \end{array}$
-  \caption{In \S\ref{sec:join}, we assess our models' ability to learn to do inference over pairs of relations using the rules represented here. As an example, given that $p_1 \natfor p_2$ and $p_2 \natneg p_3$, the entry in the $\natfor$ row and the $\natneg$ column lets us conclude that $p_1 \natalt p_3$.
-These rules are derived from the definitions of the relations in Table~\ref{b-table}.  Cells containing a dot correspond to pairs
-of relations for which no valid inference can be drawn.} 
+  \caption{In \S\ref{sec:join}, we assess our models' ability to learn to do inference over pairs of relations using the rules represented here, which are derived from the definitions of the relations in Table~\ref{b-table}.  As an example, given that $p_1 \natfor p_2$ and $p_2 \natneg p_3$, the entry in the $\natfor$ row and the $\natneg$ column lets us conclude that $p_1 \natalt p_3$. Cells containing a dot correspond to situations for which no valid inference can be drawn.} 
   \label{tab:jointable}
 \end{table}
 
@@ -55,9 +53,8 @@ This takes the form of a small boolean structure in which terms denote
 sets of entities from a small domain.  Fig.~\ref{lattice-figure}a
 depicts a structure of this form with three entities ($a$, $b$, and $c$) and eight terms ($p_{1\text{-}8}$). We then generate a 
 relational statement for each pair of terms in the model, as shown in Fig.~\ref{lattice-figure}b. 
-We divide these statements evenly into training and test sets, and remove from the
-test set statements which cannot be proven from the training
-statements.
+We divide these statements evenly into train and test sets, and delete the test set
+ examples which cannot be proven from the train examples, for which there is not enough information for even an ideal system to choose a correct label.
 In each experimental run, we create a model with 80 terms over a domain of 7 elements, yielding a training set of 3200 relations and a test set of 
 2960 relations.
 
@@ -154,9 +151,7 @@ being compared except for the relations between them that appear in training.
 \end{table}
 
 \paragraph{Results} 
-Table \ref{joinresultstable} shows the results. 
-The NTN is able to accurately encode the relations 
-between the terms in the geometric relations between their vectors, 
+The resuts (Table \ref{joinresultstable}) show that NTN is able to accurately encode the relations between the terms in the geometric relations between their vectors, 
 and is able to then use that information to recover relations that 
 are not overtly included in the training data. The NN also generalizes fairly well, 
 but makes enough errors that it remains an open question whether 

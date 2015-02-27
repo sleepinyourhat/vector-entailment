@@ -9,23 +9,24 @@ quantifiers like \ii{most} and \ii{all} as they interact with negation. Quantifi
 and negation are far from the only place in natural language where complex functional meanings
 are found, but they are natural focus, since they have
 formed a standard case study in prior formal work on natural
-language inference \cite{Icard:Moss:2013:LILT}..
+language inference \cite{Icard:Moss:2013:LILT}.
 
 \paragraph{Experiments}
-Our experimental data consist of pairs of sentences generated
+Our data consist of pairs of sentences generated
 from a grammar for a simple English-like artificial language.
 Each sentence contains a quantifier, a noun
 which may be negated, and an intransitive verb which may be
-negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all},
+negated. We use the quantifiers \ii{some}, \ii{most}, \ii{all},
 \ii{two}, and \ii{three}, and their negations \ii{no}, \ii{not-all},
-\ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}. We also
+\ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}, and also
 include five nouns, four intransitive verbs, and the negation symbol
 \ii{not}. In order to be able to define relations between sentences
-with differing lexical items, we define the lexical relations between
+with differing lexical items, we define the lexical relations for
 each noun--noun pair, each verb--verb pair, and each
-quantifier--quantifier pair. The grammar generates pairs of
-sentences of this form and calculates the relations holding
-between them.  Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
+quantifier--quantifier pair. The grammar then generates pairs of
+sentences and calculates the relations
+between them.  
+Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
 
 %nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
 %verbs = ['walk', 'move', 'swim', 'growl']
@@ -62,10 +63,10 @@ then label \eqref{p3}.
   \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
 \end{gather}
 
-We use the same summing baseline as in the previous section.
+We use the same summing baseline as in \S\ref{sec:recursion}.
 The highly consistent  sentence structure in this experiment means
 that that model can potentially distinguish two valid sentences unless they
- differ only in the placement of the word \ii{not}, potentially introducing errors into 
+ differ only in the placement of \ii{not}, potentially introducing errors on 
 the 58.8\% of examples that contain a sentence with a single
 instance of \ii{not}.
 
@@ -77,20 +78,18 @@ instance of \ii{not}.
     ~ & \multicolumn{2}{c}{Train} & \multicolumn{2}{c}{Test} \\
     \midrule
     $\natind$ only &	35.4 & (7.5)	& 35.4	& (7.5)\\
-    25d SumNN	&	96...&	(95...)&	90...&	(80...)\\	
-    25d TreeRNN	&	\textbf{100}&	\textbf{(100)}&	99.5&	(99.3)\\
-    25d TreeRNTN	&	\textbf{99.4}&\textbf{(99.5)}&	\textbf{99.4} & (99.2)\\
+    25d SumNN	&	97.0&	(97.2)&	89.6&	(91.1)\\	
+    25d TreeRNN	&	\textbf{100}&	\textbf{(100)}&	\textbf{99.4}&	\textbf{(99.5)}\\
+    25d TreeRNTN	&	99.4&(99.5)&	99.4 & (99.2)\\
     \bottomrule
   \end{tabular}
   
   \caption{Performance on the quantifier experiments, given as \% correct and macroaveraged F1.}
   \label{qresultstable}
 \end{table} 
-% TODO: Fill in baseline results
 
 %
 % do not allow a blank line --- adds too much space
 %
-\paragraph{Results} The results, reported in Table~\ref{qresultstable}, show that both recursive models are able to learn to generalize the underlying logic satisfactorily, and that the baseline model generalizes well, but far from perfectly. We did not observe any consistent pattern in the few errors made by either model, and errors did not tend to be consistent across runs of the experiment, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
+\paragraph{Results} The results (Table~\ref{qresultstable}) show that both tree models are able to learn to generalize the underlying logic almost perfectly. The baseline summing model can largely memorize the training data, but does not generalize well. We do not find any consistent pattern in the handful of errors made by either tree model, and no errors were consistent across model restarts, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
 
-% TODO: Baseline
