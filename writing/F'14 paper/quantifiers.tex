@@ -3,9 +3,9 @@
 We have seen that recursive models can learn an approximation of propositional
 logic.  However, natural languages can express functional meanings of
 considerably greater complexity than this.  As a key test of whether our models 
-can capture this complexity, we now directly measure the degree to which they are able to
+can capture this complexity, we now study the degree to which they are able to
 develop suitable representations for the semantics of natural language
-quantifiers like \ii{most} and \ii{all} as they interact with negation. Quantification 
+quantifiers like \ii{most} and \ii{all} as they interact with negation and lexical entailments. Quantification 
 and negation are far from the only place in natural language where complex functional meanings
 are found, but they are natural focus, since they have
 formed a standard case study in prior formal work on natural
@@ -60,15 +60,14 @@ then label \eqref{p3}.
   \\
   \text{(all lizard) reptile} \natfor  \text{(some lizard) animal}\label{p2}
   \\
-  \text{(most turtle) reptile} \natalt \text{(no turtle) animal}\label{p3}
+  \text{(most turtle) reptile} \natalt \text{(all turtle) (not animal)}\label{p3}
 \end{gather}
 
 We use the same summing baseline as in \S\ref{sec:recursion}.
-The highly consistent  sentence structure in this experiment means
-that that model can potentially distinguish two valid sentences unless they
- differ only in the placement of \ii{not}, potentially introducing errors on 
-the 58.8\% of examples that contain a sentence with a single
-instance of \ii{not}.
+The highly consistent  sentence structure in this experiment means that this model
+is not as disadvantaged by the lack of word order information as it is in the previous experiment, 
+but the variable placement of \ii{not}  nonetheless introduces potential uncertainty in the 58.8\% 
+of examples that contain a sentence with a single token of it.
 
 \begin{table}[tp]
   \centering\small
