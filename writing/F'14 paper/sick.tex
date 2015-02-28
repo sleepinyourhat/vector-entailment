@@ -17,17 +17,17 @@ We also supplemented the SICK training data\footnote{We tuned the model using pe
         ~&\ii{neutral}&	 30d  & 			30d & 50d\\
     ~&only &SumNN  &TrRNN &TrRNTN\\ 
      \midrule
-    DG Train	& 50.0 & 64.0 & 67.0 & \textbf{74.0} \\
-    SICK Train	& 56.7 & 95.2 & 95.4 & \textbf{97.8} \\
-    SICK Test	& 56.7 & 73.6 & 74.9 & \textbf{76.9} \\
+    DG Train	& 50.0 & 68.0 & 67.0 & \textbf{74.0} \\
+    SICK Train	& 56.7 & 96.6 & 95.4 & \textbf{97.8} \\
+    SICK Test	& 56.7 & 73.4 & 74.9 & \textbf{76.9} \\
     \midrule
-    \textsc{Passive} (4\%)	& 0 		& 80  		& 68		&\textbf{88}\\   
-    \textsc{Neg} (7\%)	& 0 		& 88	 		& \textbf{100} & \textbf{100}\\
-    \textsc{Subst} (24\%)	& 28 		& 60  		& 64 		&  \textbf{72}\\
-    \textsc{MultiEd} (39\%)	&  \textbf{68} & 66  		&66 		& 64 \\
-    \textsc{Diff} (26\%)	& \textbf{96} &  	82		&79		& \textbf{96}\\  
+    \textsc{Passive} (4\%)	& 0 		& 76  		& 68		&\textbf{88}\\   
+    \textsc{Neg} (7\%)		& 0 		& 96	 		& \textbf{100} & \textbf{100}\\
+    \textsc{Subst} (24\%)	& 28 		& \textbf{72}  		& 64 		&  \textbf{72}\\
+    \textsc{MultiEd} (39\%)	&  \textbf{68} & 61  		&66 		& 64 \\
+    \textsc{Diff} (26\%)		& \textbf{96} &  	68		&79		& \textbf{96}\\  
     \midrule
-    \textsc{Short} (47\%) & 50.0 & 73.9 & 75.9		& \textbf{77.3} \\    
+    \textsc{Short} (47\%) & 50.0 & 73.9 & 73.5		& \textbf{77.3} \\    
     \bottomrule
   \end{tabular}
   \caption{Classification accuracy, including a category breakdown for SICK test data. Categories are shown with their frequencies.}
@@ -54,6 +54,6 @@ We also supplemented the SICK training data\footnote{We tuned the model using pe
 
 To better understand our results, we manually annotated a fraction of the SICK test set, using mutually exclusive categories for passive/active alternation pairs (\textsc{Passive}), pairs differing only by the presence of negation (\textsc{Neg}), pairs differing by a single word or phrase substitution (\textsc{Subst}), pairs differing by multiple edits (\textsc{MultiEd}), and pairs with little or no content word overlap (\textsc{Diff}). Examples of each are in Table \ref{examplesofsickdata}. We annotated 100 random examples to judge the frequency of each category, and  continued selectively annotating until each category contained at least 25. We also use the category \textsc{Short} for pairs in which neither sentence contains more than ten words.
  
-The results (Table \ref{examplesofsickdata}) show that the TreeRNTN performs especially strongly in the two categories which pick out specific syntactic configurations, \textsc{Passive} and \textsc{Neg}, suggesting that that model has learned to encode the relevant structures well. It also beats both other models on \textsc{Subst}, which most closely parallels the lexical entailment inferences addressed in \S\ref{sec:quantifiers}. In addition none of the models perform better on the \textsc{Short} pairs than on the rest of the data, suggesting that the performance decay observed in \S\ref{sec:recursion} may not impact models trained on typical natural language text.
+The results (Table \ref{examplesofsickdata}) show that the TreeRNTN performs especially strongly in the two categories which pick out specific syntactic configurations, \textsc{Passive} and \textsc{Neg}, suggesting that that model has learned to encode the relevant structures well. It also performs fairly on \textsc{Subst}, which most closely parallels the lexical entailment inferences addressed in \S\ref{sec:quantifiers}. In addition, none of the models perform dramatically better on the \textsc{Short} pairs than on the rest of the data, suggesting that the performance decay observed in \S\ref{sec:recursion} may not impact models trained on typical natural language text.
 
 It is known that a model can perform well on SICK (like other natural language inference corpora) without taking advantage of compositional syntactic or semantic structure \cite{marelli2014semeval}, and our summing baseline model is powerful enough to do this. Our tree models nonetheless perform substantially better, and we remain confident that given sufficient data, it should be possible for the tree models, and not the summing model, to learn a truly high-quality solution.
