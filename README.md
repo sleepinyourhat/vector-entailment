@@ -1,7 +1,7 @@
 vector-entailment
 =================
 
-The code for the experiments reported on in Bowman, Potts and Manning (2014, 2015)
+This folder contains code for the experiments reported on in Bowman, Potts and Manning (2014, 2015).
 
 WARNING: I have made every effort to ensure that this code is as inefficient as possible
 and violates every convention of MATLAB style. If the code could be made worse on either 
