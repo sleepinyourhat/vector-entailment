@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, collo, tensorScale, wordScale, relu, epsi)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, datamult, rtemult, nlimult, vectorSource, tensorScale, wordScale, relu, epsi)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -8,7 +8,7 @@ function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-lr', num2str(lr),...
-    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
+    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(vectorSource),...
     '-m', num2str(datamult), '-tsc', num2str(tensorScale), '-wsc', num2str(wordScale),...
     '-mb', num2str(mbs), '-rte', num2str(rtemult), '-nli', num2str(nlimult),...
     '-eps', num2str(epsi), '-relu', num2str(relu)];
@@ -39,15 +39,16 @@ hyperParams.wordScale = wordScale; % 0.1?
 % Initialize the composition matrix with a fuzzy identity.
 hyperParams.useEyes = 1;
 
-if collo == 1
-    hyperParams.vocabPath = ['../data/glove.6B.' num2str(embDim) 'd.txt'];
-elseif collo == 2
+% PUT THE PATH TO YOUR COPY OF THE GLOVE VECTORS HERE:
+if vectorSource == 1
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
+elseif vectorSource == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
-elseif collo == 3
-    hyperParams.vocabPath = ['../data/glove.840B.' num2str(embDim) 'd.txt'];
+elseif vectorSource == 3
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 else
-    hyperParams.vocabPath = ['../data/collo.scaled.' num2str(embDim) 'd.txt'];    
+    hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/collo.scaled.' num2str(embDim) 'd.txt'];    
 end
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
@@ -134,7 +135,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 1, 2; 1, 1, 2, 0; 0, 0, 0];
+    hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
     hyperParams.testRelationIndices = [1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-ea') 
     % The number of relations.
