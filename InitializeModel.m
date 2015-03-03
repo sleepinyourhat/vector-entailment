@@ -54,7 +54,7 @@ if hyperParams.eyeScale > 0 && ~hyperParams.lstm
 end
 
 if hyperParams.useThirdOrder
-    scale = hyperParams.tensorScale / ( 6 * sqrt(DIM) );
+    scale = hyperParams.tensorScale / sqrt(DIM);
     compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* (2 * scale) - scale;
     compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
 else
@@ -67,11 +67,11 @@ else
   compositionBias = [];
 end
 
-scale = 1/sqrt(PENULT);
+scale = 1 / sqrt(PENULT);
 classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* (2 * scale) - scale;
 classifierExtraBias = zeros(PENULT, TOPD - 1);
 
-scale = 1/sqrt(EMBDIM);
+scale = 1 / sqrt(EMBDIM);
 embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* (2 * scale) - scale;
 embeddingTransformBias = zeros(DIM, NUMTRANS);
 

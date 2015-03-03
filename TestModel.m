@@ -19,7 +19,7 @@ for i = 1:length(testDatasets{1})
         targetConfusion = confusion;
     end
     if hyperParams.showConfusions && acc > 0
-        log_msg = sprintf('%s\n%s\n%s',['For test data: ', testDatasets{1}{i}, ': ', num2str(acc)], ...
+        log_msg = sprintf('%s\n%s\n%s',['For test data: ', testDatasets{1}{i}, ': ', num2str(acc), ' (', num2str(GetMacroF1(confusion)), ')'], ...
             evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
     end

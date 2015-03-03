@@ -17,7 +17,8 @@ classdef Sequence < handle
         mask = []; % Used in dropout
         activationCache = []; % Equivalent to activationsPreNL for RNNs and IFOGf for LSTMs.
         wordIndex = -1; % -1 => Not a lexical item node.
-        transformInnerActivations = []; % Stored activations for the embedding tranform layers.       
+        transformInnerActivations = []; % Stored activations for the embedding tranform layers.    
+        unknown = 0;   
     end
 
     methods(Static)
@@ -48,11 +49,10 @@ classdef Sequence < handle
                 s.wordIndex = wordMap('*NUM*'); 
                 s.unknown = true;              
             else
-                nextTry = strtok(s.text,':');
                 % Account for possible use of exactAlign
-                nextTry = strtok(t.text,':');
+                nextTry = strtok(s.text,':');
                 if wordMap.isKey(nextTry)
-                    t.wordIndex = wordMap(nextTry);
+                    s.wordIndex = wordMap(nextTry);
                 % Try splitting hyphenated words
                 elseif findstr('-', nextTry)
                     [first, remainder] = strtok(nextTry, '-');

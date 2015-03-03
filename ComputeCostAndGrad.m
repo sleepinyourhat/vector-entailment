@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, pred ] = ComputeCostAndGrad(theta, decoder, dataPoint, separateWordFeatures, hyperParams, computeGradient)
+function [ cost, grad, embGrad, pred ] = ComputeCostAndGrad(theta, thetaDecoder, dataPoint, separateWordFeatures, hyperParams, computeGradient)
 % Compute cost, gradient, and predicted label for one example.
 
 grad = [];
@@ -10,7 +10,7 @@ embGrad = [];
     classifierParameters, trainedWordFeatures, compositionMatrices,...
     compositionMatrix, compositionBias, classifierExtraMatrix, ...
     classifierExtraBias, embeddingTransformMatrix, embeddingTransformBias] ...
-    = stack2param(theta, decoder);
+    = stack2param(theta, thetaDecoder);
 
 if hyperParams.trainWords && ~hyperParams.fastEmbed
     wordFeatures = trainedWordFeatures;

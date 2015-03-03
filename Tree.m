@@ -91,7 +91,7 @@ classdef Tree < handle
                 % Try splitting hyphenated words
                 elseif findstr('-', nextTry)
                     [first, remainder] = strtok(nextTry, '-');
-                    converted = [first, ' ( - ', remainder(2:end), ' ) ']
+                    converted = [first, ' ( - ', remainder(2:end), ' ) '];
                     t = Tree.makeTree(converted, wordMap);
                 else
                     if wordMap.isKey('*UNK*')

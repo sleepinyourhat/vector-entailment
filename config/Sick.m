@@ -9,12 +9,9 @@ hyperParams.wordScale = 0.01;
 % Used to compute the bound on the range for RNTN parameter initialization.
 hyperParams.tensorScale = 1;
 
-% Use an older initialization scheme for comparability with older experiments.
-hyperParams.useCompatibilityInitialization = true;
-
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
-hyperParams.name = [expName, 'COMPATINIT-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
+hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-sgm', num2str(showgradmag),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
@@ -144,6 +141,20 @@ elseif findstr(dataflag, 'sick-only')
                      './sick_data/SICK_trial_parsed.txt'};
     hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
                      './sick_data/SICK_test_annotated_rearranged_parsed.txt'};
+    hyperParams.splitFilenames = {};
+elseif strcmp(dataflag, 'dg-only') 
+    % The number of relations.
+    hyperParams.numRelations = [2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    wordMap = InitializeMaps('sick_data/sick-snli_dev_words.txt');
+    hyperParams.vocabName = 'dg';
+
+    hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
+    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus-600k-ea-dev') 
     % The number of relations.
