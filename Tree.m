@@ -14,6 +14,7 @@ classdef Tree < handle
         featuresPreNL = [];
         wordIndex = -1; % -1 => Not a lexical item node.
         transformInnerActivations = []; % Stored activations for the embedding tranform layers.
+        unknown = 0;
         type = 0; % 0 - predicate or predicate + neg
                   % 1 - quantifier
                   % 2 - neg
@@ -80,19 +81,27 @@ classdef Tree < handle
                 t.wordIndex = wordMap(t.text);
             elseif all(ismember(t.text, '0123456789.-'))
                 disp(['Collapsing number ' t.text]);
-                t.wordIndex = wordMap('*NUM*');               
+                t.wordIndex = wordMap('*NUM*');      
+                t.unknown = true;         
             else
+                % Account for possible use of exactAlign
                 nextTry = strtok(t.text,':');
                 if wordMap.isKey(nextTry)
                     t.wordIndex = wordMap(nextTry);
+                % Try splitting hyphenated words
+                elseif findstr('-', nextTry)
+                    [first, remainder] = strtok(nextTry, '-');
+                    converted = [first, ' ( - ', remainder(2:end), ' ) ']
+                    t = Tree.makeTree(converted, wordMap);
                 else
-                    if rand > 0.99 % Downsample what gets logged.
-                        disp(['Failed to map word ' t.text]);
+                    if wordMap.isKey('*UNK*')
+                        t.wordIndex = wordMap('*UNK*');
+                        t.unknown = true;
+                    else
+                        assert(false, ['Failed to map word ' t.text]);
                     end
-                    t.wordIndex = wordMap('*UNK*');
                 end
             end
-            assert(t.wordIndex ~= -1, 'Bad leaf!')
         end
         
         function t = mergeTrees(l, r)
@@ -133,6 +142,9 @@ classdef Tree < handle
         function t = getText(obj)
             if isLeaf(obj)
                 t = obj.text;
+                if obj.unknown
+                    t = [t '*'];
+                end
             else
                 t = [obj.getLeftDaughter().getText(), ' ', obj.getRightDaughter().getText()];
             end

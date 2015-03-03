@@ -45,19 +45,29 @@ classdef Sequence < handle
                 s.wordIndex = wordMap(s.text);
             elseif all(ismember(s.text, '0123456789.-'))
                 disp(['Collapsing number ' s.text]);
-                s.wordIndex = wordMap('*NUM*');               
+                s.wordIndex = wordMap('*NUM*'); 
+                s.unknown = true;              
             else
                 nextTry = strtok(s.text,':');
+                % Account for possible use of exactAlign
+                nextTry = strtok(t.text,':');
                 if wordMap.isKey(nextTry)
-                    s.wordIndex = wordMap(nextTry);
+                    t.wordIndex = wordMap(nextTry);
+                % Try splitting hyphenated words
+                elseif findstr('-', nextTry)
+                    [first, remainder] = strtok(nextTry, '-');
+                    s = Sequence.makeNode(first, pred, wordMap);
+                    s = Sequence.makeNode('-', s, wordMap);
+                    s = Sequence.makeNode(remainder, s, wordMap);
                 else
-                    if rand > 0.99 % Downsample what gets logged.
-                        disp(['Failed to map word ' s.text]);
+                    if wordMap.isKey('*UNK*')
+                        s.wordIndex = wordMap('*UNK*');
+                        s.unknown = true;
+                    else
+                        assert(false, ['Failed to map word ' s.text]);
                     end
-                    s.wordIndex = wordMap('*UNK*');
                 end
             end
-            assert(s.wordIndex ~= -1, 'Bad leaf!')
         end
     end
 
@@ -86,6 +96,9 @@ classdef Sequence < handle
         function s = getText(obj)
             if isStart(obj)
                 s = obj.text;
+                if obj.unknown
+                    s = [s '*'];
+                end
             else
                 s = [obj.getPred().getText(), ' ', obj.text()];
             end

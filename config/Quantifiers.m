@@ -1,10 +1,10 @@
-function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, tot, eyes, tdrop, mbs)
+function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, tot, eyes, tdrop, clip)
 
 [hyperParams, options] = Defaults();
 
 hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-tot', num2str(tot), '-eyes', num2str(eyes), '-l', num2str(lambda),...
-				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
+				    '-dropout', num2str(tdrop), '-cl', num2str(clip)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
@@ -19,7 +19,6 @@ hyperParams.tensorScale = 1;
 hyperParams.useCompatibilityInitialization = true;
 
 hyperParams.useEyes = 1;
-
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -76,6 +75,6 @@ hyperParams.splitFilenames = {listingG.name};
 
 options.numPasses = 1000;
 
-options.miniBatchSize = mbs;
+options.clipGradients = clip;
 
 end

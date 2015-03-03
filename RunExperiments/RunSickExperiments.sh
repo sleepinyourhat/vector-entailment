@@ -98,6 +98,7 @@ export MATLABCMD="cd quant; lambda = 0.0005; dim = 30; ed = 200; td = 1; penult 
 export MATLABCMD="cd quant; lambda = 0.0005; dim = 30; ed = 200; td = 1; penult = 75; lr = 0; dropout = [0.75\, 0.9]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-600k-ea-dev'; name='sick-test-b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 0\, 1\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, collo\, 1\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 export MATLABCMD="cd quant; lambda = 0.0005; dim = 30; ed = 200; td = 1; penult = 75; lr = 0; dropout = [0.75\, 0.9]; rtemult = 0; nlimult = 0; mult = 8; collo = 1; tscale = 1; wscale = 0.01; mbs = 32; dataflag='sick-plus-600k-ea'; name='sick-test-b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 0\, 1\, mbs\, lr\, dropout(1)\, dropout(2)\, mult\, collo\, 1\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 
+export MATLABCMD="cd quant; lambda = 0.0005; dim = 30; ed = 200; td = 1; penult = 75; dropout = [0.75\, 0.9]; mult = 8; collo = 1; dataflag='sick-plus-600k-ea'; name='scr/sick-test-b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, 0\, dropout(1)\, dropout(2)\, mult\, collo\, 1\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 
 
 

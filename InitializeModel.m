@@ -54,7 +54,7 @@ if hyperParams.eyeScale > 0 && ~hyperParams.lstm
 end
 
 if hyperParams.useThirdOrder
-    scale = 2 * hyperParams.tensorScale / sqrt(DIM);
+    scale = hyperParams.tensorScale / ( 6 * sqrt(DIM) );
     compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* (2 * scale) - scale;
     compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
 else

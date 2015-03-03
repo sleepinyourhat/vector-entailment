@@ -121,6 +121,7 @@ options.updateFn = @AdaDeltaUpdate;
 % AdaDelta hyperparameters
 options.adaDeltaRho = 0.95;
 options.adaDeltaEps = 1e-7;
+options.clipGradients = true;
 
 % AdaGrad hyperparameters
 options.adaEps = 0.01;

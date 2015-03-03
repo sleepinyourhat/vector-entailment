@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, relu, maxNorm)
 % Configure the recursion experiments. 
 % NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
 
@@ -6,23 +6,11 @@ function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, 
 
 
 hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
-				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda), ...
-				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
+				    '-comp', num2str(composition), '-relu', num2str(relu), '-l', num2str(lambda), ...
+				    '-mx', num2str(maxNorm)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
-
-
-% The raw range bound on word vectors.
-hyperParams.wordScale = 0.01;
-
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = 1;
-
-% Use an older initialization scheme for comparability with older experiments.
-hyperParams.useCompatibilityInitialization = true;
-
-hyperParams.useEyes = 1;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
@@ -30,22 +18,21 @@ hyperParams.penultDim = penult;
 % Regularization coefficient.
 hyperParams.lambda = lambda;
 
-
-if tot == -1
+if composition == -1
   hyperParams.useThirdOrder = 0;
   hyperParams.useThirdOrderComparison = 0;
   hyperParams.useSumming = 1;
-elseif tot < 2
-	hyperParams.useThirdOrder = tot;
-	hyperParams.useThirdOrderComparison = tot;
-elseif tot == 2
+elseif composition < 2
+	hyperParams.useThirdOrder = composition;
+	hyperParams.useThirdOrderComparison = composition;
+elseif composition == 2
 	hyperParams.lstm = 1;
 	hyperParams.useTrees = 0;
 	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrder = 0;
 	hyperParams.useThirdOrderComparison = 0;
 	hyperParams.parensInSequences = 1;
-elseif tot == 3
+elseif composition == 3
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrder = 0;
@@ -53,10 +40,7 @@ elseif tot == 3
 	hyperParams.parensInSequences = 1;
 end
 
-% Add identity matrices where appropriate in initiazilation.
-hyperParams.eyeScale = hyperParams.eyeScale * (1 - hyperParams.lstm);
-
-hyperParams.topDropout = tdrop;
+hyperParams.topDropout = 1;
 
 hyperParams.topDepth = top;
 
@@ -71,6 +55,8 @@ end
 options.numPasses = 15000;
 
 options.miniBatchSize = mbs;
+
+options.maxGradientNorm = maxNorm;
 
 wordMap = InitializeMaps('/scr/sbowman/RC/longer2/wordlist.txt');
 

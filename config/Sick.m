@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, showgradmag, bottomDropout, topDropout, datamult, collo, parens, dp)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, mbs, showgradmag, bottomDropout, topDropout, datamult, collo, parens, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -19,7 +19,7 @@ hyperParams.name = [expName, 'COMPATINIT-', dataflag, '-l', num2str(lambda), '-d
     '-pen', num2str(penult), '-sgm', num2str(showgradmag),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-par', num2str(parens),...
-    '-mb', num2str(mbs), '-dp', num2str(dp), '-tot', num2str(tot), '-s', num2str(summing)];
+    '-mb', num2str(mbs), '-dp', num2str(dp), '-comp', num2str(composition)];
 
 if datamult < 0
   % Use the firstMultiplier method
@@ -76,17 +76,21 @@ hyperParams.topDropout = topDropout;
 
 hyperParams.useEyes = 1;
 
-if tot < 2
-  hyperParams.useThirdOrder = tot;
-  hyperParams.useThirdOrderComparison = tot;
-elseif tot == 2
+if composition < 0
+  hyperParams.useSumming = 1;
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 0;
+elseif composition < 2
+  hyperParams.useThirdOrder = composition;
+  hyperParams.useThirdOrderComparison = composition;
+elseif composition == 2
   hyperParams.lstm = 1;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrder = 0;
   hyperParams.useThirdOrderComparison = 0;
   hyperParams.parensInSequences = 0;
-elseif tot == 3
+elseif composition == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
@@ -94,8 +98,6 @@ elseif tot == 3
   hyperParams.useThirdOrderComparison = 0;
   hyperParams.parensInSequences = 0;
 end
-
-hyperParams.useSumming = summing;
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;

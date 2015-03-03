@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, tot, summing, mbs, lr, bottomDropout, topDropout, collo, relu, dp)
+function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, relu, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -7,9 +7,8 @@ function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), '-lr', num2str(lr),...
-    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-tot', num2str(tot), '-mb', num2str(mbs), ...
+    '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
+    '-comp', num2str(composition), ...
     '-dp', num2str(dp), '-relu', num2str(relu)];
 
 if relu
@@ -33,8 +32,6 @@ elseif collo == 2
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
 elseif collo == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
-else
-    hyperParams.vocabPath = ['../data/collo.scaled.' num2str(embDim) 'd.txt'];    
 end
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
@@ -63,26 +60,28 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
-if tot < 2
-  hyperParams.useThirdOrder = tot;
-  hyperParams.useThirdOrderComparison = tot;
-elseif tot == 2
+if composition < 0
+  hyperParams.useSumming = 1;
+  hyperParams.useThirdOrder = 0;
+  hyperParams.useThirdOrderComparison = 0;
+elseif composition < 2
+  hyperParams.useThirdOrder = composition;
+  hyperParams.useThirdOrderComparison = composition;
+elseif composition == 2
   hyperParams.lstm = 1;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.useThirdOrderComparison = 0;
   hyperParams.parensInSequences = 0;
-elseif tot == 3
+elseif composition == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 1;
+  hyperParams.useThirdOrderComparison = 0;
   hyperParams.parensInSequences = 0;
 end
-
-hyperParams.useSumming = summing;
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
@@ -90,17 +89,15 @@ hyperParams.trainWords = true;
 hyperParams.fragmentData = false;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = mbs;
+options.miniBatchSize = 32;
 
 options.updateFn = @AdaDeltaUpdate;
 
-options.lr = lr;
-
 if findstr(dataflag, 'snli-temp-sick')
-    wordMap = InitializeMaps('../data/all_words.txt');
-    hyperParams.vocabName = 'snli_temp_all'; 
+    wordMap = InitializeMaps('./sick_data/sick-snli_dev_words.txt');
+    hyperParams.vocabName = 'ssdev'; 
 
-    hyperParams.numRelations = [3 3];
+    hyperParams.numRelations = [3, 3];
 
     hyperParams.relations = {{'entailment', 'contradiction', 'neutral'},
                              {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
@@ -116,6 +113,7 @@ if findstr(dataflag, 'snli-temp-sick')
 
     hyperParams.relationIndices = [1, 2; 1, 2; 1, 2];
     hyperParams.testRelationIndices = [1, 2];
+    hyperParams.trainingMultipliers = [1; 6];
 end
 
 end

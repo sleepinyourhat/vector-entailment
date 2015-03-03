@@ -60,7 +60,7 @@ if nargout > 1
         localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
 
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
-            logMessages{i} = ['for: ', data(i).left.getText, ' ', data(i).right.getText, ...
+            logMessages{i} = ['for: ', data(i).left.getText(), ' ', data(i).right.getText(), ...
                   ' hypothesis:  ', num2str(localPred), ' cost: ', num2str(localCost)];
         end
 
