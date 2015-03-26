@@ -9,13 +9,13 @@ from collections import defaultdict
 # source file, and if they are included in the vectorwordlist,
 # or if they appear in training data more than THRESHOLD times.
 
-BASENAME = "sick-snli"
+BASENAME = "sick-snli0.95"
 TRAINING_FILES = ["SICK_train_parsed.txt",
-                  "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Phase 2 input/phase1_results_parsed_temptrain.txt"]
+                  "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Distributions/snli_0.95_parsed/snli_0.95_train_parsed.txt"]
 DEV_FILES = ["SICK_trial_parsed.txt",
-             "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Phase 2 input/phase1_results_parsed_tempdev.txt"]
+             "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Distributions/snli_0.95_parsed/snli_0.95_dev_parsed.txt"]
 TEST_FILES = ["SICK_test_annotated_rearranged_parsed.txt",
-              "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Phase 2 input/phase1_results_parsed_temptest.txt"]
+              "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Distributions/snli_0.95_parsed/snli_0.95_test_parsed.txt"]
 
 VECTOR_WORDLIST = "glove.6B.wordlist.txt"
 
@@ -43,7 +43,7 @@ def count_words(filenames):
 
 
 def create_wordlist(training_words, test_words, vector_words):
-    wordlist = ['-', '*UNK*', '*NUM*']
+    wordlist = ['-', '<unk>', '<num>']
     for word in set(list(training_words.keys()) + list(test_words.keys())):
         if word in vector_words:
             wordlist.append(word)
@@ -57,18 +57,10 @@ with open(VECTOR_WORDLIST) as f:
     vector_words = f.read().splitlines()
 
 training_words = count_words(TRAINING_FILES)
-dev_words = count_words(DEV_FILES)
-dev_train_words = count_words(DEV_FILES + TRAINING_FILES)
+dev_test_words = count_words(TEST_FILES + DEV_FILES)
 
-test_words = count_words(TEST_FILES)
+wordlist = create_wordlist(training_words, dev_test_words, vector_words)
 
-dev_wordlist = create_wordlist(training_words, dev_words, vector_words)
-test_wordlist = create_wordlist(dev_train_words, test_words, vector_words)
-
-with open(BASENAME + "_dev_words.txt", 'w') as f:
-    for item in sorted(dev_wordlist):
-        f.write("%s\n" % item)
-
-with open(BASENAME + "_test_words.txt", 'w') as f:
-    for item in sorted(test_wordlist):
+with open(BASENAME + "_words.txt", 'w') as f:
+    for item in sorted(wordlist):
         f.write("%s\n" % item)

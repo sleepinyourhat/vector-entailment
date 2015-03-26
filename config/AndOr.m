@@ -1,13 +1,12 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, relu, maxNorm)
+function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, mbs)
 % Configure the recursion experiments. 
 % NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
 
 [hyperParams, options] = Defaults();
 
 
-hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
-				    '-comp', num2str(composition), '-relu', num2str(relu), '-l', num2str(lambda), ...
-				    '-mx', num2str(maxNorm)];
+hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
+				    '-comp', num2str(composition), '-mbs', num2str(mbs), '-l', num2str(lambda)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
@@ -44,19 +43,12 @@ hyperParams.topDropout = 1;
 
 hyperParams.topDepth = top;
 
-% Split longer test sets for crossvalidation without training on them.
-hyperParams.specialAndOrMode = 1;
-
-if relu
-  hyperParams.classNL = @LReLU;
-  hyperParams.classNLDeriv = @LReLUDeriv;
-end
+hyperParams.classNL = @LReLU;
+hyperParams.classNLDeriv = @LReLUDeriv;
 
 options.numPasses = 15000;
 
 options.miniBatchSize = mbs;
-
-options.maxGradientNorm = maxNorm;
 
 wordMap = InitializeMaps('/scr/sbowman/RC/longer2/wordlist.txt');
 
@@ -74,8 +66,25 @@ if strcmp(dataflag, 'and-or')
     hyperParams.splitFilenames = {'/scr/sbowman/RC/train0', '/scr/sbowman/RC/train1', '/scr/sbowman/RC/train2', '/scr/sbowman/RC/train3', '/scr/sbowman/RC/train4', '/scr/sbowman/RC/test0', '/scr/sbowman/RC/test1', '/scr/sbowman/RC/test2', '/scr/sbowman/RC/test3', '/scr/sbowman/RC/test4', '/scr/sbowman/RC/test5', '/scr/sbowman/RC/test6'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep') 
+	% Split longer test sets for crossvalidation without training on them.
+	hyperParams.specialAndOrMode = 4;
+
     hyperParams.trainFilenames = {};
     hyperParams.splitFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/train4', '/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
+    hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'and-or-deep-3') 
+	% Split longer test sets for crossvalidation without training on them.
+	hyperParams.specialAndOrMode = 3;
+
+    hyperParams.trainFilenames = {};
+    hyperParams.splitFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
+    hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'and-or-deep-6') 
+	% Split longer test sets for crossvalidation without training on them.
+	hyperParams.specialAndOrMode = 6;
+
+    hyperParams.trainFilenames = {};
+    hyperParams.splitFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/train4', '/scr/sbowman/RC/longer2/train5', '/scr/sbowman/RC/longer2/train6', '/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep-static') 
     hyperParams.trainFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/train4'};

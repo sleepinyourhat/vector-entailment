@@ -1886,5 +1886,5 @@ you
 young
 zoo
 zucchini
-*UNK*
-*NUM*
+<unk>
+<num>

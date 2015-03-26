@@ -2993,5 +2993,5 @@ youngling
 youngling,
 zoo
 zucchini
-*UNK*
-*NUM*
+<unk>
+<num>

@@ -176,6 +176,14 @@ if nargout > 1 && (nargin < 6 || computeGradient)
           localEmbeddingTransformMatrixGradients, localEmbeddingTransformBiasGradients); 
       embGrad = [];
     end
+
+    % Clip the gradient.
+    if hyperParams.clipGradients
+        gradNorm = norm(grad);
+        if gradNorm > hyperParams.maxGradNorm
+            grad = grad ./ gradNorm;
+        end
+    end
 end
 
 % This doesn't appear to save any memory, but may be woth revisiting for large datasets.

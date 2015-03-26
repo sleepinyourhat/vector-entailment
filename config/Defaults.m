@@ -3,8 +3,9 @@ function [ hyperParams, options ] = Defaults()
 
 hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 
-% Use Tree to represent data if set. Else, use Sequence.
+% Use Tree or Pyramid to represent data if set. Else, use Sequence.
 hyperParams.useTrees = 1;
+hyperParams.usePyramids = 0;
 
 % If set, and if useTrees is false, use an LSTM RNN.
 hyperParams.lstm = 0;
@@ -19,8 +20,17 @@ hyperParams.tensorScale = 0.9;
 % How much of the output of the matrix parameters (in the range 0-1) should be initialized with an identity matrix.
 hyperParams.eyeScale = 0.5;
 
+% Which initialization scheme to use
+hyperParams.NNinitType = 1;
+hyperParams.NTNinitType = 1;
+hyperParams.LSTMinitType = 2;
+
 % Use an older initialization scheme for comparability with older experiments.
 hyperParams.useCompatibilityInitialization = false;
+
+% How far *in each direction* should the connection classifier in a pyramid model look, including
+% the immediate l and r inputs.
+hyperParams.pyramidConnectionContextWidth = 3;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -96,6 +106,9 @@ hyperParams.fastEmbed = false;
 
 hyperParams.clearActivations = false;
 
+hyperParams.clipGradients = true;
+hyperParams.maxGradNorm = 5;
+
 %%% minFunc options: %%%
 
 options.Method = 'lbfgs';
@@ -121,7 +134,6 @@ options.updateFn = @AdaDeltaUpdate;
 % AdaDelta hyperparameters
 options.adaDeltaRho = 0.95;
 options.adaDeltaEps = 1e-7;
-options.clipGradients = true;
 
 % AdaGrad hyperparameters
 options.adaEps = 0.01;

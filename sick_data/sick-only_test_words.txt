@@ -1,6 +1,6 @@
 's
-*NUM*
-*UNK*
+<num>
+<unk>
 ,
 -
 .

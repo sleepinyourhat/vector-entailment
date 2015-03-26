@@ -25,26 +25,20 @@ end
 classifierParameters = [zeros(sum(hyperParams.numRelations), 1), ...
                         rand(sum(hyperParams.numRelations), PENULT) .* 0.002 - 0.001];
 
-scale = 1 / sqrt(DIM);
-classifierMatrix = rand(PENULT, DIM * 2) .* (2 * scale) - scale;
-classifierBias = zeros(PENULT, 1);
+[classifierMatrix, classifierBias] = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 
 % Randomly initialize tensor parameters
 if hyperParams.useThirdOrderComparison
-    scale = 2 * hyperParams.tensorScale / sqrt(DIM);
-    classifierMatrices = rand(DIM, DIM, PENULT) .* (2 * scale) - scale;
+    classifierMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
     classifierMatrix = classifierMatrix .* (1 - hyperParams.tensorScale);
 else
-    classifierMatrices = rand(0, 0, PENULT);
+    classifierMatrices = zeros(0, 0, PENULT);
 end
 
 if hyperParams.lstm
-  scale = 1 / sqrt(DIM);
-  compositionMatrix = rand(DIM * 4, DIM * 2 + 1, NUMCOMP) .* (2 * scale) - scale;
-  compositionMatrix(:, 1) = 3 * scale;
+  [compositionMatrix, compositionBias] = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType);
 else
-  scale = 1 / sqrt(2 * DIM);
-  compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * scale) - scale;
+  [compositionMatrix, compositionBias] = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType);
 end
   
 if hyperParams.eyeScale > 0 && ~hyperParams.lstm
@@ -54,35 +48,26 @@ if hyperParams.eyeScale > 0 && ~hyperParams.lstm
 end
 
 if hyperParams.useThirdOrder
-    scale = hyperParams.tensorScale / sqrt(DIM);
-    compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* (2 * scale) - scale;
+  if hyperParams.tensorScale > 0
+    compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
     compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
+  else
+    compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
+  end
 else
     compositionMatrices = [];
 end
 
-if ~hyperParams.lstm
-  compositionBias = zeros(DIM, NUMCOMP);
-else
-  compositionBias = [];
-end
+[classifierExtraMatrix, classifierExtraBias ] = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);
 
-scale = 1 / sqrt(PENULT);
-classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* (2 * scale) - scale;
-classifierExtraBias = zeros(PENULT, TOPD - 1);
-
-scale = 1 / sqrt(EMBDIM);
-embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* (2 * scale) - scale;
-embeddingTransformBias = zeros(DIM, NUMTRANS);
-
-wordScale = 2/sqrt(EMBDIM);
+[embeddingTransformMatrix, embeddingTransformBias ] = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType);
 
 if hyperParams.loadWords
    Log(hyperParams.statlog, 'Loading the vocabulary.')
-   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, wordScale);
+   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
 else 
     % Randomly initialize the words
-    wordFeatures = rand(vocabLength, EMBDIM) .*   (2 * wordScale) - wordScale;
+    wordFeatures = normrnd(0, 1, vocabLength, EMBDIM);
     if ~hyperParams.trainWords
        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
    end

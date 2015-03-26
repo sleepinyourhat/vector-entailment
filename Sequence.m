@@ -5,8 +5,13 @@ classdef Sequence < handle
     % - The index with which the feature vector can be looked up - if leaf
     % - The text with which the sequence can be displayed.
     % - The features at the node.
-    
+
     % Sentences can generally be represented by the handle of the final node in the sentence.
+    
+    % NOTE: This model is designed to handle sequences of arbitrary length, and to follow the same
+    % object-oriented interface as the tree model in this package. If efficiency is essential,
+    % you can acchieve faster training using a model which uses fixed length sequences, like Thang
+    % Luong's MATLAB LSTM.
 
     properties (Hidden)
         pred = []; % the preceeding node or empty
@@ -46,7 +51,7 @@ classdef Sequence < handle
                 s.wordIndex = wordMap(s.text);
             elseif all(ismember(s.text, '0123456789.-'))
                 disp(['Collapsing number ' s.text]);
-                s.wordIndex = wordMap('*NUM*'); 
+                s.wordIndex = wordMap('<num>'); 
                 s.unknown = true;              
             else
                 % Account for possible use of exactAlign
@@ -60,8 +65,8 @@ classdef Sequence < handle
                     s = Sequence.makeNode('-', s, wordMap);
                     s = Sequence.makeNode(remainder, s, wordMap);
                 else
-                    if wordMap.isKey('*UNK*')
-                        s.wordIndex = wordMap('*UNK*');
+                    if wordMap.isKey('<unk>')
+                        s.wordIndex = wordMap('<unk>');
                         s.unknown = true;
                     else
                         assert(false, ['Failed to map word ' s.text]);

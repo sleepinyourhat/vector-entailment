@@ -3,8 +3,11 @@ function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, 
 
 [hyperParams, options] = Defaults();
 
-hyperParams.useTrees = trees;
+hyperParams.useTrees = 0;
+hyperParams.usePyramids = 0;
 hyperParams.lstm = lstm;
+
+hyperParams.LSTMinitType = 1;
 
 % Add identity matrices where appropriate in initiazilation.
 hyperParams.eyeScale = hyperParams.eyeScale * (1 - lstm);
@@ -14,8 +17,8 @@ hyperParams.parensInSequences = parens;
 hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 2;
-hyperParams.embeddingDim = 2;
+hyperParams.dim = 5;
+hyperParams.embeddingDim = 5;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = 2;
@@ -33,6 +36,10 @@ hyperParams.topDepth = topDepth;
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
 hyperParams.fastEmbed = fastemb;
+
+hyperParams.clipGradients = false;
+hyperParams.maxGradNorm = inf;
+
 
 % Regularization coefficient.
 hyperParams.lambda = 0;

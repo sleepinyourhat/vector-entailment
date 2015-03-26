@@ -2,8 +2,8 @@
 '
 'd
 's
-*NUM*
-*UNK*
+<num>
+<unk>
 *blank*
 ,
 -

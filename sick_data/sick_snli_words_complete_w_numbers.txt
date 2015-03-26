@@ -13,8 +13,8 @@ $
 're
 's
 've
-*NUM*
-*UNK*
+<num>
+<unk>
 ,
 -
 -lrb-

@@ -1,0 +1,53 @@
+function [matrix, bias] = InitializeNNLayer(indim, outdim, depth, initType)
+
+% Not currently set up for ReLU
+relu = 0;
+
+if initType == 0
+	if relu
+		scale = sqrt(2) / sqrt(outdim);
+	else
+		scale = 1 / sqrt(outdim);
+	end
+	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
+	bias = zeros(outdim, depth);
+elseif initType == 1
+	if relu
+		scale = 2 / sqrt(indim);
+	else
+		scale = 1 / sqrt(indim);
+	end
+	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
+	bias = zeros(outdim, depth);
+elseif initType == 2
+	scale = sqrt(6 / (outdim + indim));
+	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
+	bias = zeros(outdim, depth);
+elseif initType == 3
+	matrix = zeros(outdim, indim, depth);
+	for d = 1:depth
+		for ind = 1:outdim
+		  indices = randi([1, indim], 1, 15);
+		  matrix(ind, indices, d) = normrnd(0, 1, 1, length(indices)) * 0.25;
+		end
+	end
+	if indim == outdim && depth > 0
+		ev = eig(matrix(:, :, 1));
+		matrix = 1.2 .* matrix ./ ev(1, 1);
+	elseif indim == 2 * outdim && depth > 0
+		ev = eig(matrix(1:outdim, 1:outdim, 1));
+		matrix = 1.2 .* matrix ./ ev(1, 1);
+	end
+	bias = zeros(outdim, depth);
+elseif initType > 3
+	matrix = zeros(outdim, indim, depth);
+	for d = 1:depth
+		for ind = 1:outdim
+		  indices = randi([1, indim], 1, 15);
+		  matrix(ind, indices, d) = normrnd(0, 1, 1, length(indices)) .* (1 / initType);
+		end
+	end
+	bias = zeros(outdim, depth);
+end
+
+end

@@ -81,7 +81,7 @@ classdef Tree < handle
                 t.wordIndex = wordMap(t.text);
             elseif all(ismember(t.text, '0123456789.-'))
                 disp(['Collapsing number ' t.text]);
-                t.wordIndex = wordMap('*NUM*');      
+                t.wordIndex = wordMap('<num>');      
                 t.unknown = true;         
             else
                 % Account for possible use of exactAlign
@@ -94,8 +94,8 @@ classdef Tree < handle
                     converted = [first, ' ( - ', remainder(2:end), ' ) '];
                     t = Tree.makeTree(converted, wordMap);
                 else
-                    if wordMap.isKey('*UNK*')
-                        t.wordIndex = wordMap('*UNK*');
+                    if wordMap.isKey('<unk>')
+                        t.wordIndex = wordMap('<unk>');
                         t.unknown = true;
                     else
                         assert(false, ['Failed to map word ' t.text]);

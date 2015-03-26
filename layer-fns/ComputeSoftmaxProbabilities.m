@@ -14,10 +14,12 @@ function relationProbs = ComputeSoftmaxProbabilities(inVector, classifierParamet
 % on the test data.
 
 % Add intercept term
-input = [1; inVector];
+B = size(inVector, 2);
+
+input = [ones(1, B); inVector];
 
 unNormedRelationProbs = exp(classifierParameters(relationRange, :) * input);
-partition = sum(unNormedRelationProbs);
-relationProbs = unNormedRelationProbs / partition;
+partitions = sum(unNormedRelationProbs);
+relationProbs = bsxfun(@rdivide, unNormedRelationProbs, partitions);
 
 end

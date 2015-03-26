@@ -1,34 +1,20 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, mbs, showgradmag, bottomDropout, topDropout, datamult, collo, parens, dp)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, mbs, bottomDropout, topDropout, datamult, collo, parens, dp, init)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
-
-% The raw range bound on word vectors.
-hyperParams.wordScale = 0.01;
-
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = 1;
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), '-sgm', num2str(showgradmag),...
+    '-pen', num2str(penult), ...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-par', num2str(parens),...
-    '-mb', num2str(mbs), '-dp', num2str(dp), '-comp', num2str(composition)];
-
-if datamult < 0
-  % Use the firstMultiplier method
-  datamult = -1 * datamult;
-  hyperParams.firstMultiplier = 30;
-  hyperParams.firstCutoff = 2895;
-end
-
-hyperParams.classNL = @LReLU;
-hyperParams.classNLDeriv = @LReLUDeriv;
+    '-mb', num2str(mbs), '-dp', num2str(dp), '-comp', num2str(composition), '-init', num2str(init)];
 
 hyperParams.dataPortion = dp;
+
+
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
@@ -106,8 +92,6 @@ options.miniBatchSize = mbs;
 
 options.updateFn = @AdaDeltaUpdate;
 
-hyperParams.showGradMag = showgradmag;
-
 if findstr(dataflag, 'sick-only-dev')
     wordMap = InitializeMaps('sick_data/combined_words.txt');
     hyperParams.vocabName = 'sick_all'; 
@@ -150,11 +134,12 @@ elseif strcmp(dataflag, 'dg-only')
     relationMap = cell(1, 1);
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    wordMap = InitializeMaps('sick_data/sick-snli_dev_words.txt');
-    hyperParams.vocabName = 'dg';
+    wordMap = InitializeMaps('sick_data/sick-snli0.95_words.txt');
+    hyperParams.vocabName = 'ss095';
 
-    hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
-    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
+    hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
+    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first1k.tsv',
+                                 '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_last1k.tsv'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus-600k-ea-dev') 
     % The number of relations.
