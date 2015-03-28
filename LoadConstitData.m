@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
+function data = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
 % Load one file of sentence pair data.
 
 % Append a default prefix if we don't have a full path

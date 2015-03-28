@@ -1,4 +1,4 @@
-function [tensor] = InitializeNTNLayer(indim, outdim, initType)
+function tensor = InitializeNTNLayer(indim, outdim, initType)
 
 % Not currently set up for ReLU
 relu = 0

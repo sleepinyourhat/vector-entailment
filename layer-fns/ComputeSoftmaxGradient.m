@@ -1,13 +1,13 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [softmaxGradient, softmaxDelta] = ...
-    ComputeSoftmaxGradient (hyperParams, classifierParameters, ...
+    ComputeSoftmaxGradient (hyperParams, softmaxMatrix, ...
                             relationProbs, trueRelation, tensorOutput, relationRange)
 % Compute the gradient for the softmax layer parameters, and the deltas to
 % pass down.
 
 % Note: Relation range specifies which relations are under consideration. If 
 % relationRange covers the whole space of relations suported by the parameter
-% matrix (i.e., relationRange = 1:size(classifierParameters, 1)), then this computes
+% matrix (i.e., relationRange = 1:size(softmaxMatrix, 1)), then this computes
 % the gradient for a single normal softmax classifier. If this is not the case, then
 % columns of the matrix that aren't included in relationRange are ignored, and assumed
 % to not contribute to the output distribution.
@@ -16,10 +16,7 @@ function [softmaxGradient, softmaxDelta] = ...
 % which were labeled from label sets that don't correspond exactly to the label set used
 % on the test data.
 
-softmaxGradient = zeros(size(classifierParameters, 1), ...
-    hyperParams.penultDim + 1);
-
-partialSoftmaxGradient = zeros(length(relationRange), ...
+softmaxGradient = zeros(size(softmaxMatrix, 1), ...
     hyperParams.penultDim + 1);
 
 % Compute node softmax error
@@ -33,7 +30,7 @@ assert(sum(trueRelation > 0) == 1, ...
 targetRelationProbs = zeros(length(relationProbs), 1);
 targetRelationProbs(trueRelation(find(trueRelation > 0))) = 1;
 
-softmaxDeltaFirstHalf = classifierParameters(relationRange, :)' * ...
+softmaxDeltaFirstHalf = softmaxMatrix(relationRange, :)' * ...
                         (relationProbs - targetRelationProbs);
 
 % Compute the nonlinearity and append the intercept

@@ -1,4 +1,4 @@
-function [matrix, bias] = InitializeNNLayer(indim, outdim, depth, initType)
+function matrix = InitializeNNLayer(indim, outdim, depth, initType)
 
 % Not currently set up for ReLU
 relu = 0;
@@ -10,7 +10,6 @@ if initType == 0
 		scale = 1 / sqrt(outdim);
 	end
 	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
-	bias = zeros(outdim, depth);
 elseif initType == 1
 	if relu
 		scale = 2 / sqrt(indim);
@@ -18,11 +17,9 @@ elseif initType == 1
 		scale = 1 / sqrt(indim);
 	end
 	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
-	bias = zeros(outdim, depth);
 elseif initType == 2
 	scale = sqrt(6 / (outdim + indim));
 	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
-	bias = zeros(outdim, depth);
 elseif initType == 3
 	matrix = zeros(outdim, indim, depth);
 	for d = 1:depth
@@ -38,7 +35,6 @@ elseif initType == 3
 		ev = eig(matrix(1:outdim, 1:outdim, 1));
 		matrix = 1.2 .* matrix ./ ev(1, 1);
 	end
-	bias = zeros(outdim, depth);
 elseif initType > 3
 	matrix = zeros(outdim, indim, depth);
 	for d = 1:depth
@@ -47,7 +43,9 @@ elseif initType > 3
 		  matrix(ind, indices, d) = normrnd(0, 1, 1, length(indices)) .* (1 / initType);
 		end
 	end
-	bias = zeros(outdim, depth);
 end
+	
+% Add a bias column
+matrix = [ zeros(outdim, depth), matrix ];
 
 end

@@ -10,10 +10,9 @@ if nargout > 4
 end
 
 % Unpack theta
-[classifierMatrices, classifierMatrix, classifierBias, ...
-    classifierParameters, trainedWordFeatures, compositionMatrices,...
-    compositionMatrix, compositionBias, classifierExtraMatrix, ...
-    classifierExtraBias, embeddingTransformMatrix, embeddingTransformBias] ...
+[~, classifierMatrix, ...
+    softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
+    compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix] ...
     = stack2param(theta, decoder);
 
 if hyperParams.trainWords && ~hyperParams.fastEmbed
@@ -23,25 +22,42 @@ else
 end
 
 leftPyramidBatch = PyramidBatch.makePyramidBatch([data(:).left], wordFeatures, hyperParams);
-
 rightPyramidBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures, hyperParams);
 
-[ leftFeatures ] = leftPyramidBatch.runForward(hyperParams)
-[ rightFeatures ] = rightPyramidBatch.runForward(hyperParams)
+[ leftFeatures ] = leftPyramidBatch.runForward(connectionMatrix, compositionMatrix,hyperParams);
+[ rightFeatures ] = rightPyramidBatch.runForward(connectionMatrix, compositionMatrix, hyperParams);
 
-% Load the examples into the batch, including setting the bottom layer features
+% Set up and run top dropout
+if nargout > 1 || hyperParams.minFunc
+  bottomDropout = hyperParams.bottomDropout;
+  topDropout = hyperParams.topDropout;
+else
+  bottomDropout = 1;
+  topDropout = 1;
+end
+[ leftFeatures, leftMask ] = Dropout(leftFeatures, topDropout);
+[ rightFeatures, rightMask ] = Dropout(rightFeatures, topDropout);
 
-% Load word vectors into features
-% Run main loop:
-%% Make decision
-%% Compose
-%% Combine
+% Compute classification tensor layer (or plain RNN layer)
+if hyperParams.useThirdOrderComparison
+    [ mergeOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
+        rightFeatures, classifierMatrices, classifierMatrix, hyperParams.classNL);
+else
+    [ mergeOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
+        classifierMatrix, hyperParams.classNL);
+end
 
-% Gradient!
+% TODO: Add post-merge layers back in
 
+relationProbs = ComputeSoftmaxProbabilities(mergeOutput, softmaxMatrix);
+
+% Compute cost
+cost = BatchObjective([data(:).relation], relationProbs, hyperParams);
+
+%%%% Gradient %%%%
 
 % Compute mean cost
-normalizedCost = (1/length(data) * accumulatedCost);
+normalizedCost = cost / length(data);
 
 % Apply regularization to the cost (does not include fastEmbed embeddings).
 if hyperParams.norm == 2
@@ -61,8 +77,97 @@ else
 end
 
 if computeGrad
-    % Compile the gradient
-    grad = (1/length(data) * accumulatedGrad);
+    % TODO: Add back extra post-merge layer support here.
+    [localSoftmaxGradient, softmaxDelta] = ...
+        ComputeBatchSoftmaxClassificationGradient(hyperParams, softmaxMatrix, ...
+                               relationProbs, [data(:).relation], mergeOutput);
+    localSoftmaxGradient = sum(localSoftmaxGradient, 3);
+    
+    if hyperParams.useThirdOrderComparison
+        % Compute gradients for classification tensor layer
+        [localClassificationMatricesGradients, ...
+            localClassificationMatrixGradients, ...
+            classifierDeltaLeft, ...
+            classifierDeltaRight] = ...
+          ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
+              classifierMatrices, classifierMatrix, ...
+              softmaxDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+    else
+         % Compute gradients for classification first layer
+         localClassificationMatricesGradients = zeros(0, 0, 0);  
+         [localClassificationMatrixGradients, ...
+            classifierDeltaLeft, ...
+            classifierDeltaRight] = ...
+          ComputeRNNLayerGradients(leftFeatures, rightFeatures, ...
+              classifierMatrix, ...
+              softmaxDelta, hyperParams.classNLDeriv, innerOutput);
+    end
+
+    localClassificationMatrixGradients
+
+    classifierDeltaLeft = classifierDeltaLeft .* leftMask;
+    classifierDeltaRight = classifierDeltaRight .* rightMask;
+
+    [ localWordFeatureGradients, ...
+      localConnectionMatrixGradients, ...
+      localCompositionMatrixGradients, ...
+      localEmbeddingTransformMatrixGradients ] = ...
+       leftPyramidBatch.getGradient(classifierDeltaLeft, [], wordFeatures, ...
+                            connectionMatrix, compositionMatrix, ...
+                            embeddingTransformMatrix, ...
+                            hyperParams.compNLDeriv, hyperParams);
+
+    [ rightWordGradients, ...
+      rightConnectionMatrixGradients, ...
+      rightCompositionMatrixGradients, ...
+      rightEmbeddingTransformMatrixGradients ] = ...
+       rightPyramidBatch.getGradient(classifierDeltaRight, [], wordFeatures, ...
+                            connectionMatrix, compositionMatrix, ...
+                            embeddingTransformMatrix, hyperParams.compNLDeriv, hyperParams);
+
+    if hyperParams.trainWords
+      localWordFeatureGradients = localWordFeatureGradients ...
+          + rightWordGradients;
+    end
+    localConnectionMatrixGradients = localConnectionMatrixGradients...
+        + rightConnectionMatrixGradients;
+    localCompositionMatrixGradients = localCompositionMatrixGradients...
+        + rightCompositionMatrixGradients;
+    localEmbeddingTransformMatrixGradients = localEmbeddingTransformMatrixGradients...
+        + rightEmbeddingTransformMatrixGradients;
+    
+    % Pack up gradients
+    if hyperParams.fastEmbed
+      grad = param2stack(localClassificationMatricesGradients, ...
+          localClassificationMatrixGradients, ...
+          localSoftmaxGradient, ...
+          [], localConnectionMatrixGradients, ...
+          localCompositionMatrixGradients, ...
+          [], ...
+          localEmbeddingTransformMatrixGradients);
+      embGrad = localWordFeatureGradients;
+    else
+      [grad, dec] = param2stack(localClassificationMatricesGradients, ...
+          localClassificationMatrixGradients, localSoftmaxGradient, ...
+          localWordFeatureGradients, localConnectionMatrixGradients, ...
+          localCompositionMatrixGradients, ...
+          [], ...
+          localEmbeddingTransformMatrixGradients); 
+      embGrad = [];
+    end
+
+
+    % Clip the gradient.
+    % TODO: Must separate gradients back out into batches to make this doable here?
+    % if hyperParams.clipGradients
+    %     gradNorm = norm(grad);
+    %     if gradNorm > hyperParams.maxGradNorm
+    %         grad = grad ./ gradNorm;
+    %     end
+    % end
+
+    % Normalize the gradient
+    grad = grad / length(data);
 
     % Apply regularization to the gradient
     if hyperParams.norm == 2

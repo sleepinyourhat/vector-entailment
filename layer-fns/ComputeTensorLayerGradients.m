@@ -1,13 +1,13 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [matricesGradients, matrixGradients, biasGradients, ...
+function [matricesGradients, matrixGradients, ...
           deltaLeft, deltaRight] = ...
-      ComputeTensorLayerGradients(a, b, matrices, matrix, bias, delta, ...
+      ComputeTensorLayerGradients(a, b, matrices, matrix, delta, ...
                                   nonlinearityDeriv, tensorInnerOutput)
 % Compute the gradients and deltas for an RNTN layer for a given example.
 
 % Compute the layer output if it isn't provided.
 if nargin < 8
-    tensorInnerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix, bias);
+    tensorInnerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix);
 end
 
 tensorDeriv = nonlinearityDeriv(tensorInnerOutput);
@@ -28,10 +28,7 @@ for i = 1:outDim
 end
     
 % Calculate matrix gradients for tensor layer
-matrixGradients = (delta * [a; b]');
-
-% Calculate vector gradients for tensor layer
-biasGradients = delta;
+matrixGradients = (delta * [ones(1, size(a, 2)); a; b]');
 
 % Compute the deltas.
 innerTensorLayerMatrixA = zeros(inDim, outDim);
@@ -41,10 +38,10 @@ for i = 1:outDim
     innerTensorLayerMatrixB(:, i) = matrices(:,:,i) * b;
 end
 
-thirdTerm = innerTensorLayerMatrixB + matrix(:, 1:inDim)';
+thirdTerm = innerTensorLayerMatrixB + matrix(:, 2:inDim + 1)';
 deltaLeft = (thirdTerm * delta);
 
-thirdTerm = innerTensorLayerMatrixA + matrix(:, inDim+1:2*inDim)';    
+thirdTerm = innerTensorLayerMatrixA + matrix(:, inDim + 2:2 * inDim + 1)';    
 deltaRight = (thirdTerm * delta);
 
 end
