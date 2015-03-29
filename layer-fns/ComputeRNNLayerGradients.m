@@ -3,8 +3,10 @@ function [matrixGradients, deltaLeft, deltaRight] = ...
       ComputeRNNLayerGradients(a, b, matrix, delta, ...
                                   nonlinearityDeriv, innerOutput)
 
+in = [ones(1, size(a, 2)); a; b];
+
 if nargin < 7
-    innerOutput = matrix * [ones(1, size(a, 2)); a; b];
+    innerOutput = matrix * in;
 end
 
 % Compute the gradients and deltas for an RNN layer for a given example
@@ -12,7 +14,11 @@ NLDeriv = nonlinearityDeriv(innerOutput);
 delta = NLDeriv .* delta;
 
 % Compute the matrix gradients
-matrixGradients = (delta * [ones(1, size(a, 2)); a; b]');
+% TODO: Vectorize! (Tricky so far...)
+matrixGradients = zeros(size(matrix, 1), size(matrix, 2), size(a, 2));
+for b = 1:size(a, 2)
+	matrixGradients(:, :, b) = delta(:, b) * in(:, b)';
+end
 
 if nargout > 2
 	% Calculate deltas to pass down
@@ -22,5 +28,7 @@ if nargout > 2
 end
 
 % TODO: Is summing happening here?
+
+
 
 end

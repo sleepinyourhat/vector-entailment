@@ -26,14 +26,14 @@ end
 softmaxMatrix = [zeros(sum(hyperParams.numRelations), 1), ...
                         rand(sum(hyperParams.numRelations), PENULT) .* 0.002 - 0.001];
 
-classifierMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
+mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 
 % Randomly initialize tensor parameters
 if hyperParams.useThirdOrderComparison
-    classifierMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
-    classifierMatrix = classifierMatrix .* (1 - hyperParams.tensorScale);
+    mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
+    mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
 else
-    classifierMatrices = zeros(0, 0, PENULT);
+    mergeMatrices = zeros(0, 0, PENULT);
 end
 
 if hyperParams.lstm
@@ -97,7 +97,7 @@ else
 end
 
 % Pack up the parameters.
-[theta, thetaDecoder] = param2stack(classifierMatrices, classifierMatrix, ...
+[theta, thetaDecoder] = param2stack(mergeMatrices, mergeMatrix, ...
     softmaxMatrix, wordFeatures, compositionMatrices, ...
     compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix);
 

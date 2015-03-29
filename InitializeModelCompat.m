@@ -26,11 +26,11 @@ softmaxMatrix = [zeros(sum(hyperParams.numRelations), 1), ...
 
 % Randomly initialize tensor parameters
 if hyperParams.useThirdOrderComparison
-    classifierMatrices = rand(DIM, DIM, PENULT) .* (2 * TSCALE) - TSCALE;
+    mergeMatrices = rand(DIM, DIM, PENULT) .* (2 * TSCALE) - TSCALE;
 else
-    classifierMatrices = rand(0, 0, PENULT);
+    mergeMatrices = rand(0, 0, PENULT);
 end
-classifierMatrix = rand(PENULT, DIM * 2) .* (2 * SCALE) - SCALE;
+mergeMatrix = rand(PENULT, DIM * 2) .* (2 * SCALE) - SCALE;
 classifierBias = zeros(PENULT, 1);
 
 if hyperParams.useThirdOrder
@@ -75,7 +75,7 @@ else
 end
 
 % Pack up the parameters.
-[theta, thetaDecoder] = param2stack(classifierMatrices, classifierMatrix, ...
+[theta, thetaDecoder] = param2stack(mergeMatrices, mergeMatrix, ...
     classifierBias, softmaxMatrix, wordFeatures, compositionMatrices, ...
     compositionMatrix, compositionBias, classifierExtraMatrix, ...
     classifierExtraBias, embeddingTransformMatrix, embeddingTransformBias);

@@ -1,63 +1,57 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ cost, grad, embGrad, acc, confusion ] = ComputeFullPyramidBatchCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
-% Compute cost, gradient, accuracy, and confusions over a set of examples for some parameters.
+% Compute cost, gradient, accuracy, and confusions over a batch of examples for some parameters.
+% This is a well-behaved costGradFn, and can be @-passed to optimizers, including minFunc and TrainSGD.
 
-B = length(data);
-D = hyperParams.dim;
+% TODO: Make compatible with sequences.
 
-if nargout > 4
-    confusions = zeros(N, 2);
-end
+B = length(data);  % Batch size.
+D = hyperParams.dim;  % Sentence embedding dimension.
 
 % Unpack theta
-[~, classifierMatrix, ...
+[~, mergeMatrix, ...
     softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
     compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix] ...
     = stack2param(theta, decoder);
-
 if hyperParams.trainWords && ~hyperParams.fastEmbed
     wordFeatures = trainedWordFeatures;
 else
     wordFeatures = separateWordFeatures;
 end
 
+% Create and batch objects and run them forward.
 leftPyramidBatch = PyramidBatch.makePyramidBatch([data(:).left], wordFeatures, hyperParams);
 rightPyramidBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures, hyperParams);
+[ leftFeatures, leftConnectionCosts ] = leftPyramidBatch.runForward(connectionMatrix, compositionMatrix,hyperParams);
+[ rightFeatures, rightConnectionCosts ] = rightPyramidBatch.runForward(connectionMatrix, compositionMatrix, hyperParams);
 
-[ leftFeatures ] = leftPyramidBatch.runForward(connectionMatrix, compositionMatrix,hyperParams);
-[ rightFeatures ] = rightPyramidBatch.runForward(connectionMatrix, compositionMatrix, hyperParams);
-
-% Set up and run top dropout
+% Set up and run top dropout.
 if nargout > 1 || hyperParams.minFunc
-  bottomDropout = hyperParams.bottomDropout;
-  topDropout = hyperParams.topDropout;
+    bottomDropout = hyperParams.bottomDropout;
+    topDropout = hyperParams.topDropout;
 else
-  bottomDropout = 1;
-  topDropout = 1;
+    bottomDropout = 1;
+    topDropout = 1;
 end
 [ leftFeatures, leftMask ] = Dropout(leftFeatures, topDropout);
 [ rightFeatures, rightMask ] = Dropout(rightFeatures, topDropout);
 
-% Compute classification tensor layer (or plain RNN layer)
+% Compute classification tensor layer (or plain RNN layer).
 if hyperParams.useThirdOrderComparison
+    assert(false, 'Batched NTN not yet tested.');
     [ mergeOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
-        rightFeatures, classifierMatrices, classifierMatrix, hyperParams.classNL);
+        rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
     [ mergeOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
-        classifierMatrix, hyperParams.classNL);
+        mergeMatrix, hyperParams.classNL);
 end
 
 % TODO: Add post-merge layers back in
 
-relationProbs = ComputeSoftmaxProbabilities(mergeOutput, softmaxMatrix);
+[ relationProbs, topCosts ] = ComputeBatchSoftmaxProbabilities(mergeOutput, softmaxMatrix, [data(:).relation]);
 
-% Compute cost
-cost = BatchObjective([data(:).relation], relationProbs, hyperParams);
-
-%%%% Gradient %%%%
-
-% Compute mean cost
-normalizedCost = cost / length(data);
+% Sum the log losses from the three sources over all of the batch elements and normalize.
+normalizedCost = sum([topCosts; leftConnectionCosts; rightConnectionCosts]) / length(data);
 
 % Apply regularization to the cost (does not include fastEmbed embeddings).
 if hyperParams.norm == 2
@@ -69,59 +63,83 @@ else
 end
 combinedCost = normalizedCost + regCost;
 
-% minFunc needs a single scalar cost, not the triple that is reported here.
+% minFunc needs a single scalar cost, not the triple that is computed here.
 if ~hyperParams.minFunc
     cost = [combinedCost normalizedCost regCost]; 
 else
     cost = combinedCost;
 end
 
+% Compute and report statistics.
+accumulatedSuccess = 0;
+preds = max(relationProbs);
+for b = 1:B
+    localCorrect = preds(b) == data(b).relation(find(data(b).relation > 0));
+    accumulatedSuccess = accumulatedSuccess + localCorrect;
+
+    if (~localCorrect) && (nargout > 2) && hyperParams.showExamples
+        Log(hyperParams.examplelog, ['for: ', data(b).left.getText(), ' ', data(b).right.getText(), ...
+              ' hyp:  ', num2str(preds(b)), ' w/ p=', num2str(relationProbs(preds(b), b))]);
+    end
+
+    if nargout > 4
+        confusion(preds(b), data(b).relation(find(data(b).relation > 0))) = ...
+          confusion(preds(b), data(b).relation(find(data(b).relation > 0))) + 1;
+    end
+end
+acc = (accumulatedSuccess / B);
+
+% Compute the gradients.
 if computeGrad
     % TODO: Add back extra post-merge layer support here.
-    [localSoftmaxGradient, softmaxDelta] = ...
-        ComputeBatchSoftmaxClassificationGradient(hyperParams, softmaxMatrix, ...
-                               relationProbs, [data(:).relation], mergeOutput);
+    [ localSoftmaxGradient, softmaxDelta ] = ...
+        ComputeBatchSoftmaxClassificationGradient(...
+          softmaxMatrix, relationProbs, [data(:).relation], mergeOutput);
     localSoftmaxGradient = sum(localSoftmaxGradient, 3);
     
     if hyperParams.useThirdOrderComparison
-        % Compute gradients for classification tensor layer
-        [localClassificationMatricesGradients, ...
-            localClassificationMatrixGradients, ...
-            classifierDeltaLeft, ...
-            classifierDeltaRight] = ...
+        % Compute gradients for the merge tensor layer
+
+        assert(false, 'Batched NTN not yet tested.');
+        [localMergeMatricesGradients, ...
+            localMergeMatrixGradients, ...
+            MergeDeltaLeft, ...
+            MergeDeltaRight] = ...
           ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
-              classifierMatrices, classifierMatrix, ...
+              mergeMatrices, mergeMatrix, ...
               softmaxDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+          localMergeMatricesGradients = sum(localMergeMatrixGradients, 4);
+          localMergeMatrixGradients = sum(localMergeMatrixGradients, 3);
     else
-         % Compute gradients for classification first layer
-         localClassificationMatricesGradients = zeros(0, 0, 0);  
-         [localClassificationMatrixGradients, ...
-            classifierDeltaLeft, ...
-            classifierDeltaRight] = ...
+         % Compute gradients for the merge NN layer
+         localMergeMatricesGradients = [];  
+         [localMergeMatrixGradients, ...
+            MergeDeltaLeft, ...
+            MergeDeltaRight] = ...
           ComputeRNNLayerGradients(leftFeatures, rightFeatures, ...
-              classifierMatrix, ...
+              mergeMatrix, ...
               softmaxDelta, hyperParams.classNLDeriv, innerOutput);
+
+          % Accumulate across batches.
+          localMergeMatrixGradients = sum(localMergeMatrixGradients, 3);
     end
 
-    localClassificationMatrixGradients
-
-    classifierDeltaLeft = classifierDeltaLeft .* leftMask;
-    classifierDeltaRight = classifierDeltaRight .* rightMask;
+    MergeDeltaLeft = MergeDeltaLeft .* leftMask;
+    MergeDeltaRight = MergeDeltaRight .* rightMask;
 
     [ localWordFeatureGradients, ...
       localConnectionMatrixGradients, ...
       localCompositionMatrixGradients, ...
       localEmbeddingTransformMatrixGradients ] = ...
-       leftPyramidBatch.getGradient(classifierDeltaLeft, [], wordFeatures, ...
+       leftPyramidBatch.getGradient(MergeDeltaLeft, [], wordFeatures, ...
                             connectionMatrix, compositionMatrix, ...
-                            embeddingTransformMatrix, ...
-                            hyperParams.compNLDeriv, hyperParams);
+                            embeddingTransformMatrix, hyperParams.compNLDeriv, hyperParams);
 
     [ rightWordGradients, ...
       rightConnectionMatrixGradients, ...
       rightCompositionMatrixGradients, ...
       rightEmbeddingTransformMatrixGradients ] = ...
-       rightPyramidBatch.getGradient(classifierDeltaRight, [], wordFeatures, ...
+       rightPyramidBatch.getGradient(MergeDeltaRight, [], wordFeatures, ...
                             connectionMatrix, compositionMatrix, ...
                             embeddingTransformMatrix, hyperParams.compNLDeriv, hyperParams);
 
@@ -138,8 +156,8 @@ if computeGrad
     
     % Pack up gradients
     if hyperParams.fastEmbed
-      grad = param2stack(localClassificationMatricesGradients, ...
-          localClassificationMatrixGradients, ...
+      grad = param2stack(localMergeMatricesGradients, ...
+          localMergeMatrixGradients, ...
           localSoftmaxGradient, ...
           [], localConnectionMatrixGradients, ...
           localCompositionMatrixGradients, ...
@@ -147,15 +165,14 @@ if computeGrad
           localEmbeddingTransformMatrixGradients);
       embGrad = localWordFeatureGradients;
     else
-      [grad, dec] = param2stack(localClassificationMatricesGradients, ...
-          localClassificationMatrixGradients, localSoftmaxGradient, ...
+      [grad, dec] = param2stack(localMergeMatricesGradients, ...
+          localMergeMatrixGradients, localSoftmaxGradient, ...
           localWordFeatureGradients, localConnectionMatrixGradients, ...
           localCompositionMatrixGradients, ...
           [], ...
           localEmbeddingTransformMatrixGradients); 
       embGrad = [];
     end
-
 
     % Clip the gradient.
     % TODO: Must separate gradients back out into batches to make this doable here?
@@ -200,14 +217,8 @@ if computeGrad
         embGrad = [];
     end
 
-
-
     assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
-end
-
-if nargout > 3
-    acc = (accumulatedSuccess / N);
 end
 
 end

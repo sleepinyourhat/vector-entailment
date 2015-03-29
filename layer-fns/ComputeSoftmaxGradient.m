@@ -5,6 +5,8 @@ function [softmaxGradient, softmaxDelta] = ...
 % Compute the gradient for the softmax layer parameters, and the deltas to
 % pass down.
 
+% TODO: Merge with ComputeBatchSoftmaxClassificationGradient.
+
 % Note: Relation range specifies which relations are under consideration. If 
 % relationRange covers the whole space of relations suported by the parameter
 % matrix (i.e., relationRange = 1:size(softmaxMatrix, 1)), then this computes
@@ -30,19 +32,14 @@ assert(sum(trueRelation > 0) == 1, ...
 targetRelationProbs = zeros(length(relationProbs), 1);
 targetRelationProbs(trueRelation(find(trueRelation > 0))) = 1;
 
-softmaxDeltaFirstHalf = softmaxMatrix(relationRange, :)' * ...
+softmaxDelta = softmaxMatrix(relationRange, :)' * ...
                         (relationProbs - targetRelationProbs);
-
-% Compute the nonlinearity and append the intercept
-softmaxDeltaSecondHalf = hyperParams.classNLDeriv([1; tensorOutput]);
-softmaxDelta = (softmaxDeltaFirstHalf .* softmaxDeltaSecondHalf);
 
 for parametersIndex = relationRange
 	relationNumber = parametersIndex - relationRange(1) + 1;
     softmaxGradient(parametersIndex, :) = -([1; tensorOutput] .* ...
         (targetRelationProbs(relationNumber) - relationProbs(relationNumber)))';
 end
-
 softmaxDelta = softmaxDelta(2:hyperParams.penultDim+1);
 
 end

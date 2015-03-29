@@ -28,8 +28,9 @@ hyperParams.LSTMinitType = 2;
 % Use an older initialization scheme for comparability with older experiments.
 hyperParams.useCompatibilityInitialization = false;
 
-% How far *in each direction* should the connection classifier in a pyramid model look, including
-% the immediate l and r inputs.
+% How far *in each direction* should the connection classifier in a Pyramid model look.
+% Setting this to 1 means to only use the immediate left and right composition inputs with no
+% additional context.
 hyperParams.pyramidConnectionContextWidth = 3;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
