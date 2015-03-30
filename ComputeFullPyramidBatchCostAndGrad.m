@@ -51,7 +51,10 @@ end
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
 normalizedCost = sum([topCosts; leftConnectionCosts; rightConnectionCosts]) / length(data);
-
+topC = sum(topCosts)
+leftCC = sum(leftConnectionCosts)
+rightCC = sum(rightConnectionCosts)
+ 
 % Apply regularization to the cost (does not include fastEmbed embeddings).
 if hyperParams.norm == 2
     % Apply L2 regularization
@@ -101,7 +104,7 @@ end
 if computeGrad
     % TODO: Add back extra post-merge layer support here.
     [ localSoftmaxGradient, softmaxDelta ] = ...
-        ComputeBatchSoftmaxClassificationGradient(...
+        ComputeSoftmaxClassificationGradients(...
           softmaxMatrix, relationProbs, [data(:).relation], mergeOutput);
     localSoftmaxGradient = sum(localSoftmaxGradient, 3);
 

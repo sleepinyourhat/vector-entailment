@@ -58,8 +58,8 @@ classdef PyramidBatch < handle
                     % We assume there is no embedding transform layer, so just use the word features. (TODO)
                     pb.features(pb.N, pb.colRng(w), b) = wordFeatures(pyramids(b).wordIndices(w), :)';
                 end
-                %pb.connectionLabels(pb.N - pyramids(b).wordCount + 1:pb.N - 1, 1:pyramids(b).wordCount - 1, b) = ...
-                %    pyramids(b).connectionLabels;
+                pb.connectionLabels(pb.N - pyramids(b).wordCount + 1:pb.N - 1, 1:pyramids(b).wordCount - 1, b) = ...
+                    pyramids(b).connectionLabels;
                 pb.activeNode(pb.N - pyramids(b).wordCount + 1:pb.N, 1:pyramids(b).wordCount, b) = ...
                     pyramids(b).activeNode;
             end
@@ -80,7 +80,7 @@ classdef PyramidBatch < handle
                     % Compute the distribution over connections
                     connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, row, col);
                     [ pb.connections(row, col, :, :), localConnectionCosts ] = ...
-                        ComputeBatchSoftmaxProbabilities(connectionClassifierInputs, connectionMatrix, pb.connectionLabels(row, col, :));
+                        ComputeSoftmaxLayer(connectionClassifierInputs, connectionMatrix, 1:pb.NUMACTIONS, pb.connectionLabels(row, col, :));
                     connectionCosts = connectionCosts + localConnectionCosts;
 
                     % Build the composed representation
@@ -209,13 +209,13 @@ classdef PyramidBatch < handle
                     % Compute gradients from the connection classifier wrt. the incoming deltas from above and to the right.
                     connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, row, col);
                     [ localConnectionMatrixGradients, connectionDeltas ] = ...
-                        ComputeBareSoftmaxGradient(connectionMatrix, permute(pb.connections(row, col, :, :), [3, 4, 1, 2]), ...
+                        ComputeBareSoftmaxGradients(connectionMatrix, permute(pb.connections(row, col, :, :), [3, 4, 1, 2]), ...
                             deltasToConnections, connectionClassifierInputs);
                     connectionMatrixGradients = connectionMatrixGradients + sum(localConnectionMatrixGradients, 3);
 
                     % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
                     [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
-                        ComputeBatchSoftmaxClassificationGradient(connectionMatrix, permute(pb.connections(row, col, :, :), [3, 4, 1, 2]), ...
+                        ComputeSoftmaxClassificationGradients(connectionMatrix, permute(pb.connections(row, col, :, :), [3, 4, 1, 2]), ...
                             pb.connectionLabels(row, col, :), connectionClassifierInputs);
                     connectionMatrixGradients = connectionMatrixGradients + sum(localConnectionMatrixGradients, 3);
                     connectionDeltas = connectionDeltas + localConnectionDeltas;
