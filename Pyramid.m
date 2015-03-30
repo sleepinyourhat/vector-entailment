@@ -102,5 +102,6 @@ classdef Pyramid < handle
             t = obj.text;
         end
         
+        % TODO: Connection visualization tools.
     end
 end
