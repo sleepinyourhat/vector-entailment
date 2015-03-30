@@ -1,8 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ relationProbs, loss ] = ComputeSoftmaxProbabilities(in, matrix, relationRange, trueRelation)
+function [ probs, loss ] = ComputeSoftmaxLayer(in, matrix, relationRange, labels)
 % Run the softmax classifier layer forward, and compute log loss if possible. 
-
-% TODO: Make batch compatible and merge with ComputeBatchSoftmaxProbabilities.
 
 % Note: Relation range specifies which relations are under consideration. If 
 % relationRange covers the whole space of relations suported by the parameter
@@ -22,18 +20,16 @@ end
 % Add intercept term
 inPadded = [ones(1, size(in, 2)); in];
 
-unNormedRelationProbs = exp(matrix(relationRange, :) * inPadded);
-partitions = sum(unNormedRelationProbs);
-relationProbs = bsxfun(@rdivide, unNormedRelationProbs, partitions);
+unNormedProbs = exp(matrix(relationRange, :) * inPadded);
+partitions = sum(unNormedProbs);
+probs = bsxfun(@rdivide, unNormedProbs, partitions);
 
-% If a correct class is provided, compute the log loss.
+% If a correct class vector is provided, compute the objective function value.
 if nargin > 3
-	assert(sum(trueRelation > 0) == 1)
-	for relationIndex = 1:length(trueRelation)
-		if trueRelation(relationIndex) ~= 0
-			loss = -log(relationProbs(trueRelation(relationIndex)));
-		end
-	end
+	% Pad with ones to allow for zeros in labels, which won't contribute to cost.
+	evalprobs = [ones(1, size(probs, 2)); probs];
+	labels = labels + 1;
+	loss = -log(evalprobs(sub2ind(size(evalprobs), labels(:), (1:length(labels))')));
 else
 	loss = 0;
 end

@@ -77,11 +77,11 @@ hyperParams.testFraction = 0.2;
 hyperParams.maxTrainingEvalSampleSize = 1000;
 
 % Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = true;
-hyperParams.useThirdOrderComparison = true;
+hyperParams.useThirdOrderComposition = true;
+hyperParams.useThirdOrderMerge = true;
 
 % Use a simple summing layer in place of the composition (R)NN layer.
-% useThirdOrder should be false if this is used.
+% useThirdOrderComposition should be false if this is used.
 hyperParams.useSumming = false;
 
 % If set, train using minFunc. Only partially supported. See GradCheck for an example.

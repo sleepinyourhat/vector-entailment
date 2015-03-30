@@ -9,7 +9,7 @@ B = length(data);  % Batch size.
 D = hyperParams.dim;  % Sentence embedding dimension.
 
 % Unpack theta
-[~, mergeMatrix, ...
+[ mergeMatrices, mergeMatrix, ...
     softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
     compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix] ...
     = stack2param(theta, decoder);
@@ -37,8 +37,7 @@ end
 [ rightFeatures, rightMask ] = Dropout(rightFeatures, topDropout);
 
 % Compute classification tensor layer (or plain RNN layer).
-if hyperParams.useThirdOrderComparison
-    assert(false, 'Batched NTN not yet tested.');
+if hyperParams.useThirdOrderMerge
     [ mergeOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
         rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
@@ -48,7 +47,7 @@ end
 
 % TODO: Add post-merge layers back in
 
-[ relationProbs, topCosts ] = ComputeBatchSoftmaxProbabilities(mergeOutput, softmaxMatrix, [data(:).relation]);
+[ relationProbs, topCosts ] = ComputeSoftmaxLayer(mergeOutput, softmaxMatrix, 1:size(softmaxMatrix, 1), [data(:).relation]);
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
 normalizedCost = sum([topCosts; leftConnectionCosts; rightConnectionCosts]) / length(data);
@@ -105,19 +104,17 @@ if computeGrad
         ComputeBatchSoftmaxClassificationGradient(...
           softmaxMatrix, relationProbs, [data(:).relation], mergeOutput);
     localSoftmaxGradient = sum(localSoftmaxGradient, 3);
-    
-    if hyperParams.useThirdOrderComparison
-        % Compute gradients for the merge tensor layer
 
-        assert(false, 'Batched NTN not yet tested.');
-        [localMergeMatricesGradients, ...
+    if hyperParams.useThirdOrderMerge
+        % Compute gradients for the merge tensor layer
+        [ localMergeMatricesGradients, ...
             localMergeMatrixGradients, ...
             MergeDeltaLeft, ...
-            MergeDeltaRight] = ...
+            MergeDeltaRight ] = ...
           ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
               mergeMatrices, mergeMatrix, ...
               softmaxDelta, hyperParams.classNLDeriv, tensorInnerOutput);
-          localMergeMatricesGradients = sum(localMergeMatrixGradients, 4);
+          localMergeMatricesGradients = sum(localMergeMatricesGradients, 4);
           localMergeMatrixGradients = sum(localMergeMatrixGradients, 3);
     else
          % Compute gradients for the merge NN layer

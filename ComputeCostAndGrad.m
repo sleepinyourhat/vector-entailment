@@ -59,7 +59,7 @@ rightFeatures = right.getFeatures();
 [rightFeatures, rightMask] = Dropout(rightFeatures, topDropout);
 
 % Compute classification tensor layer (or plain RNN layer)
-if hyperParams.useThirdOrderComparison
+if hyperParams.useThirdOrderMerge
     [classTensorOutput, tensorInnerOutput] = ComputeTensorLayer(leftFeatures, ...
         rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
@@ -75,23 +75,24 @@ for layer = 1:(hyperParams.topDepth - 1)
     extraInnerOutputs(:,layer) = classifierExtraMatrix(:,:,layer) * [1, extraInputs(:,layer)];
     extraInputs(:,layer + 1) = hyperParams.classNL(extraInnerOutputs(:,layer));
 end
-[ relationProbs, cost ] = ComputeSoftmaxProbabilities( ...
-                    extraInputs(:,hyperParams.topDepth), softmaxMatrix, relationRange, trueRelation);
+
+[ relationProbs, cost ] = ComputeSoftmaxLayer( ...
+                    extraInputs(:,hyperParams.topDepth), softmaxMatrix, relationRange, max(trueRelation));
 
 % Produce gradient
 if nargout > 1 && (nargin < 6 || computeGradient)
     
     [ localSoftmaxGradient, softmaxDelta ] = ...
-        ComputeSoftmaxGradient(hyperParams, softmaxMatrix, ...
-                                relationProbs, trueRelation,...
-                                extraInputs(:,hyperParams.topDepth), relationRange);
+        ComputeSoftmaxClassificationGradients( ...
+          softmaxMatrix, relationProbs, max(trueRelation), ...
+          extraInputs(:,hyperParams.topDepth), relationRange);
     
     % Compute gradients for extra top layers
     [ localExtraMatrixGradients, extraDelta ] = ...
           ComputeExtraClassifierGradients(classifierExtraMatrix,...
               softmaxDelta, extraInputs, extraInnerOutputs, hyperParams.classNLDeriv);
 
-    if hyperParams.useThirdOrderComparison
+    if hyperParams.useThirdOrderMerge
         % Compute gradients for classification tensor layer
         [ localMergeMatricesGradients, localMergeMatrixGradients, ...
             MergeDeltaLeft, MergeDeltaRight ] = ...

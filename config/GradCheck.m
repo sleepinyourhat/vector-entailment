@@ -4,31 +4,38 @@ function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, 
 [hyperParams, options] = Defaults();
 
 if composition == -1
-	hyperParams.useThirdOrder = 0;
-	hyperParams.useThirdOrderComparison = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 0;
 	hyperParams.useSumming = 1;
 elseif composition < 2
-	hyperParams.useThirdOrder = composition;
-	hyperParams.useThirdOrderComparison = composition;
+	hyperParams.useThirdOrderComposition = composition;
+	hyperParams.useThirdOrderMerge = composition;
 elseif composition == 2
 	hyperParams.lstm = 1;
 	hyperParams.useTrees = 0;
 	hyperParams.eyeScale = 0;
-	hyperParams.useThirdOrder = 0;
-	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
 	hyperParams.parensInSequences = 0;
 elseif composition == 3
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrder = 0;
-	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
 	hyperParams.parensInSequences = 0;
 elseif composition == 4
 	hyperParams.usePyramids = 1;
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrder = 0;
-	hyperParams.useThirdOrderComparison = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.parensInSequences = 0;
+elseif composition == 5
+	hyperParams.usePyramids = 1;
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
 	hyperParams.parensInSequences = 0;
 end
 
@@ -44,7 +51,7 @@ hyperParams.dim = 3;
 hyperParams.embeddingDim = 3;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 2;
+hyperParams.penultDim = 3;
 
 hyperParams.testFraction = 0.33;
 

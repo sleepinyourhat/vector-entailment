@@ -2,7 +2,7 @@
 function [ theta, thetaDecoder, separateWordFeatures ] = InitializeModel(wordMap, hyperParams)
 % Initialize the learned parameters of the model. 
 
-assert(~(hyperParams.lstm && hyperParams.useThirdOrder))
+assert(~(hyperParams.lstm && hyperParams.useThirdOrderComposition))
 assert(~(hyperParams.lstm && hyperParams.eyeScale))
 assert(~(hyperParams.lstm && hyperParams.useTrees))
 
@@ -29,7 +29,7 @@ softmaxMatrix = [zeros(sum(hyperParams.numRelations), 1), ...
 mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 
 % Randomly initialize tensor parameters
-if hyperParams.useThirdOrderComparison
+if hyperParams.useThirdOrderMerge
     mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
     mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
 else
@@ -48,7 +48,7 @@ if hyperParams.eyeScale > 0 && ~hyperParams.lstm
   end
 end
 
-if hyperParams.useThirdOrder && ~hyperParams.usePyramids
+if hyperParams.useThirdOrderComposition && ~hyperParams.usePyramids
   if hyperParams.tensorScale > 0
     compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
     compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);

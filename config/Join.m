@@ -20,13 +20,13 @@ hyperParams.useCompatibilityInitialization = true;
 hyperParams.useEyes = 1;
 
 if tot == -1
-  hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;
 else
   % Use NTN layers in place of NN layers.
-  hyperParams.useThirdOrder = tot;
-  hyperParams.useThirdOrderComparison = tot;
+  hyperParams.useThirdOrderComposition = tot;
+  hyperParams.useThirdOrderMerge = tot;
 end
 
 hyperParams.dim = dim;
