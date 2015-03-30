@@ -40,7 +40,7 @@ classdef PyramidBatch < handle
 
             % Find the length of the longest sequence. We use this to set the size of the main feature matrix,
             % to this value has a large impact on the run time of the batch.
-            pb.N = max(pyramids.wordCount);
+            pb.N = max([pyramids(:).wordCount]);
 
             pb.wordIndices = zeros(pb.N, pb.B);
             pb.wordCounts = [pyramids(:).wordCount];

@@ -34,12 +34,12 @@ targetRelationProbs(trueRelation(find(trueRelation > 0))) = 1;
 
 softmaxDelta = softmaxMatrix(relationRange, :)' * ...
                         (relationProbs - targetRelationProbs);
+softmaxDelta = softmaxDelta(2:hyperParams.penultDim+1);
 
 for parametersIndex = relationRange
 	relationNumber = parametersIndex - relationRange(1) + 1;
     softmaxGradient(parametersIndex, :) = -([1; tensorOutput] .* ...
         (targetRelationProbs(relationNumber) - relationProbs(relationNumber)))';
 end
-softmaxDelta = softmaxDelta(2:hyperParams.penultDim+1);
 
 end

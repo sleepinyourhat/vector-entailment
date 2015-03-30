@@ -72,7 +72,8 @@ end
 
 % Compute and report statistics.
 accumulatedSuccess = 0;
-preds = max(relationProbs);
+[ ~, preds ] = max(relationProbs);
+confusion = zeros(hyperParams.numRelations);
 for b = 1:B
     localCorrect = preds(b) == data(b).relation(find(data(b).relation > 0));
     accumulatedSuccess = accumulatedSuccess + localCorrect;
@@ -88,6 +89,14 @@ for b = 1:B
     end
 end
 acc = (accumulatedSuccess / B);
+
+if (nargin < 6 || computeGrad) && nargout > 1
+    computeGrad = 1;
+else
+    computeGrad = 0;
+    grad = [];
+    embGrad = [];
+end
 
 % Compute the gradients.
 if computeGrad
@@ -220,5 +229,6 @@ if computeGrad
     assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
 end
+
 
 end

@@ -1,6 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [matricesGradients, matrixGradients, ...
-          deltaLeft, deltaRight] = ...
+function [ matricesGradients, matrixGradients, ...
+           deltaLeft, deltaRight ] = ...
       ComputeTensorLayerGradients(a, b, matrices, matrix, delta, ...
                                   nonlinearityDeriv, tensorInnerOutput)
 % Compute the gradients and deltas for an RNTN layer for a given example.
@@ -14,8 +14,8 @@ tensorDeriv = nonlinearityDeriv(tensorInnerOutput);
 
 delta = delta .* tensorDeriv;
 
-[outDim, inDim] = size(matrix);
-inDim = inDim / 2;
+[ outDim, inDim ] = size(matrix);
+inDim = (inDim - 1) / 2;
 
 matricesGradients = zeros(inDim , inDim, outDim);
 matrixGradients = zeros(outDim, 2 * inDim);
@@ -38,10 +38,10 @@ for i = 1:outDim
     innerTensorLayerMatrixB(:, i) = matrices(:,:,i) * b;
 end
 
-thirdTerm = innerTensorLayerMatrixB + matrix(:, 2:inDim + 1)';
-deltaLeft = (thirdTerm * delta);
+leftBackpropMatrix = innerTensorLayerMatrixB + matrix(:, 2:inDim + 1)';
+deltaLeft = (leftBackpropMatrix * delta);
 
-thirdTerm = innerTensorLayerMatrixA + matrix(:, inDim + 2:2 * inDim + 1)';    
-deltaRight = (thirdTerm * delta);
+rightBackpropMatrix = innerTensorLayerMatrixA + matrix(:, inDim + 2:2 * inDim + 1)';    
+deltaRight = (rightBackpropMatrix * delta);
 
 end

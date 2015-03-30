@@ -1,13 +1,36 @@
-function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb)
+function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, summing, trainwords, fastemb)
 % Set up a gradient check for the main learned parameters.
 
 [hyperParams, options] = Defaults();
 
-hyperParams.useTrees = 0;
-hyperParams.usePyramids = 1;
-hyperParams.lstm = 0;
-
-hyperParams.LSTMinitType = 1;
+if composition == -1
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 0;
+	hyperParams.useSumming = 1;
+elseif composition < 2
+	hyperParams.useThirdOrder = composition;
+	hyperParams.useThirdOrderComparison = composition;
+elseif composition == 2
+	hyperParams.lstm = 1;
+	hyperParams.useTrees = 0;
+	hyperParams.eyeScale = 0;
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.parensInSequences = 0;
+elseif composition == 3
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 1;
+	hyperParams.parensInSequences = 0;
+elseif composition == 4
+	hyperParams.usePyramids = 1;
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 0;
+	hyperParams.parensInSequences = 0;
+end
 
 % Add identity matrices where appropriate in initiazilation.
 hyperParams.eyeScale = hyperParams.eyeScale;
@@ -17,8 +40,8 @@ hyperParams.parensInSequences = 0;
 hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 2;
-hyperParams.embeddingDim = 2;
+hyperParams.dim = 3;
+hyperParams.embeddingDim = 3;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = 2;
@@ -47,10 +70,6 @@ hyperParams.lambda = 0;
 hyperParams.bottomDropout = -1;
 hyperParams.topDropout = -1;
 
-% Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = tot;
-
 % Use a simple summing layer function for composition.
 hyperParams.useSumming = summing;
 
@@ -77,7 +96,7 @@ options.numPasses = 1;
 
 options.lr = 0.1;
 
-wordMap = InitializeMaps('./grammars/wordlist.tsv'); 
+wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers';
 
 hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
@@ -85,7 +104,7 @@ hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-hyperParams.splitFilenames = {'./grammars/test_file.tsv'};
+hyperParams.splitFilenames = {'./quantifiers/test_file.tsv'};
 hyperParams.trainFilenames = {};
 hyperParams.testFilenames = {};
 

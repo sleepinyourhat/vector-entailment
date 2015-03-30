@@ -38,17 +38,20 @@ elseif composition == 3
 	hyperParams.useThirdOrder = 0;
 	hyperParams.useThirdOrderComparison = 1;
 	hyperParams.parensInSequences = 0;
+elseif composition == 4
+	hyperParams.usePyramids = 1;
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrder = 0;
+	hyperParams.useThirdOrderComparison = 0;
+	hyperParams.parensInSequences = 0;
 end
-	
 
 hyperParams.topDepth = top;
 
 hyperParams.topDropout = tdrop;
 
-hyperParams.classNL = @LReLU;
-hyperParams.classNLDeriv = @LReLUDeriv;
-
-wordMap = InitializeMaps('./grammars/wordlist.tsv'); 
+wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers'
 
 hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
@@ -56,10 +59,10 @@ hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-listingG = dir('grammars/data/quant_*');
+listingG = dir('./quantifiers/data/quant_*');
 hyperParams.trainFilenames = {};
 hyperParams.testFilenames = {};
-hyperParams.splitFilenames = {listingG.name};
+hyperParams.splitFilenames = strcat('./quantifiers/data/', {listingG.name});
 
 options.numPasses = 1000;
 

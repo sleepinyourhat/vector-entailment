@@ -34,6 +34,7 @@ classdef Pyramid < handle
             p.text = iText;
 
             % Load the words and the tree structure.
+            % TODO: Set up an option to treat parentheses as words as well as as connection supervision.
             depth = p.wordCount;
             mergeCount = 0;
             wordIndex = 0;  % The number of words that have been loaded.

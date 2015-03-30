@@ -1,7 +1,7 @@
 function tensor = InitializeNTNLayer(indim, outdim, initType)
 
 % Not currently set up for ReLU
-relu = 0
+relu = 0;
 
 if initType == 0
 	if relu

@@ -16,7 +16,7 @@ trueRelations = trueRelations(:);
 dataPointHasLabel = trueRelations(:) ~= 0;
 fullRange = 1:length(trueRelations);
 filteredRange = fullRange(dataPointHasLabel);
-targetRelationProbs = zeros(length(relationProbs), B);
+targetRelationProbs = zeros(size(relationProbs, 1), size(relationProbs, 2));
 targetRelationProbs(sub2ind(size(relationProbs), trueRelations(dataPointHasLabel), filteredRange')) = 1;
 
 deltaDown = matrix' * (relationProbs - targetRelationProbs);

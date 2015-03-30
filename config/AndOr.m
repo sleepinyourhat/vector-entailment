@@ -50,7 +50,7 @@ options.numPasses = 15000;
 
 options.miniBatchSize = mbs;
 
-wordMap = InitializeMaps('/scr/sbowman/RC/longer2/wordlist.txt');
+wordMap = InitializeMaps('/scr/sbowman/propositional-logic/longer2/wordlist.txt');
 
 % The name assigned to the current vocabulary. Used in deciding whether to load a 
 % preparsed MAT form of an examples file.
@@ -63,33 +63,33 @@ relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.r
 
 if strcmp(dataflag, 'and-or') 
     hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'/scr/sbowman/RC/train0', '/scr/sbowman/RC/train1', '/scr/sbowman/RC/train2', '/scr/sbowman/RC/train3', '/scr/sbowman/RC/train4', '/scr/sbowman/RC/test0', '/scr/sbowman/RC/test1', '/scr/sbowman/RC/test2', '/scr/sbowman/RC/test3', '/scr/sbowman/RC/test4', '/scr/sbowman/RC/test5', '/scr/sbowman/RC/test6'};
+    hyperParams.splitFilenames = {'/scr/sbowman/propositional-logic/train0', '/scr/sbowman/propositional-logic/train1', '/scr/sbowman/propositional-logic/train2', '/scr/sbowman/propositional-logic/train3', '/scr/sbowman/propositional-logic/train4', '/scr/sbowman/propositional-logic/test0', '/scr/sbowman/propositional-logic/test1', '/scr/sbowman/propositional-logic/test2', '/scr/sbowman/propositional-logic/test3', '/scr/sbowman/propositional-logic/test4', '/scr/sbowman/propositional-logic/test5', '/scr/sbowman/propositional-logic/test6'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep') 
 	% Split longer test sets for crossvalidation without training on them.
 	hyperParams.specialAndOrMode = 4;
 
     hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/train4', '/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
+    hyperParams.splitFilenames = {'/scr/sbowman/propositional-logic/longer2/train0', '/scr/sbowman/propositional-logic/longer2/train1', '/scr/sbowman/propositional-logic/longer2/train2', '/scr/sbowman/propositional-logic/longer2/train3', '/scr/sbowman/propositional-logic/longer2/train4', '/scr/sbowman/propositional-logic/longer2/test1', '/scr/sbowman/propositional-logic/longer2/test2', '/scr/sbowman/propositional-logic/longer2/test3', '/scr/sbowman/propositional-logic/longer2/test4', '/scr/sbowman/propositional-logic/longer2/test5', '/scr/sbowman/propositional-logic/longer2/test6', '/scr/sbowman/propositional-logic/longer2/test7', '/scr/sbowman/propositional-logic/longer2/test8', '/scr/sbowman/propositional-logic/longer2/test9', '/scr/sbowman/propositional-logic/longer2/test10', '/scr/sbowman/propositional-logic/longer2/test11', '/scr/sbowman/propositional-logic/longer2/test12'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep-3') 
 	% Split longer test sets for crossvalidation without training on them.
 	hyperParams.specialAndOrMode = 3;
 
     hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
+    hyperParams.splitFilenames = {'/scr/sbowman/propositional-logic/longer2/train0', '/scr/sbowman/propositional-logic/longer2/train1', '/scr/sbowman/propositional-logic/longer2/train2', '/scr/sbowman/propositional-logic/longer2/train3', '/scr/sbowman/propositional-logic/longer2/test1', '/scr/sbowman/propositional-logic/longer2/test2', '/scr/sbowman/propositional-logic/longer2/test3', '/scr/sbowman/propositional-logic/longer2/test4', '/scr/sbowman/propositional-logic/longer2/test5', '/scr/sbowman/propositional-logic/longer2/test6', '/scr/sbowman/propositional-logic/longer2/test7', '/scr/sbowman/propositional-logic/longer2/test8', '/scr/sbowman/propositional-logic/longer2/test9', '/scr/sbowman/propositional-logic/longer2/test10', '/scr/sbowman/propositional-logic/longer2/test11', '/scr/sbowman/propositional-logic/longer2/test12'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep-6') 
 	% Split longer test sets for crossvalidation without training on them.
 	hyperParams.specialAndOrMode = 6;
 
     hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/train4', '/scr/sbowman/RC/longer2/train5', '/scr/sbowman/RC/longer2/train6', '/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
+    hyperParams.splitFilenames = {'/scr/sbowman/propositional-logic/longer2/train0', '/scr/sbowman/propositional-logic/longer2/train1', '/scr/sbowman/propositional-logic/longer2/train2', '/scr/sbowman/propositional-logic/longer2/train3', '/scr/sbowman/propositional-logic/longer2/train4', '/scr/sbowman/propositional-logic/longer2/train5', '/scr/sbowman/propositional-logic/longer2/train6', '/scr/sbowman/propositional-logic/longer2/test1', '/scr/sbowman/propositional-logic/longer2/test2', '/scr/sbowman/propositional-logic/longer2/test3', '/scr/sbowman/propositional-logic/longer2/test4', '/scr/sbowman/propositional-logic/longer2/test5', '/scr/sbowman/propositional-logic/longer2/test6', '/scr/sbowman/propositional-logic/longer2/test7', '/scr/sbowman/propositional-logic/longer2/test8', '/scr/sbowman/propositional-logic/longer2/test9', '/scr/sbowman/propositional-logic/longer2/test10', '/scr/sbowman/propositional-logic/longer2/test11', '/scr/sbowman/propositional-logic/longer2/test12'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep-static') 
-    hyperParams.trainFilenames = {'/scr/sbowman/RC/longer2/train0', '/scr/sbowman/RC/longer2/train1', '/scr/sbowman/RC/longer2/train2', '/scr/sbowman/RC/longer2/train3', '/scr/sbowman/RC/longer2/train4'};
+    hyperParams.trainFilenames = {'/scr/sbowman/propositional-logic/longer2/train0', '/scr/sbowman/propositional-logic/longer2/train1', '/scr/sbowman/propositional-logic/longer2/train2', '/scr/sbowman/propositional-logic/longer2/train3', '/scr/sbowman/propositional-logic/longer2/train4'};
     hyperParams.splitFilenames = {};
-    hyperParams.testFilenames = {'/scr/sbowman/RC/longer2/test1', '/scr/sbowman/RC/longer2/test2', '/scr/sbowman/RC/longer2/test3', '/scr/sbowman/RC/longer2/test4', '/scr/sbowman/RC/longer2/test5', '/scr/sbowman/RC/longer2/test6', '/scr/sbowman/RC/longer2/test7', '/scr/sbowman/RC/longer2/test8', '/scr/sbowman/RC/longer2/test9', '/scr/sbowman/RC/longer2/test10', '/scr/sbowman/RC/longer2/test11', '/scr/sbowman/RC/longer2/test12'};
+    hyperParams.testFilenames = {'/scr/sbowman/propositional-logic/longer2/test1', '/scr/sbowman/propositional-logic/longer2/test2', '/scr/sbowman/propositional-logic/longer2/test3', '/scr/sbowman/propositional-logic/longer2/test4', '/scr/sbowman/propositional-logic/longer2/test5', '/scr/sbowman/propositional-logic/longer2/test6', '/scr/sbowman/propositional-logic/longer2/test7', '/scr/sbowman/propositional-logic/longer2/test8', '/scr/sbowman/propositional-logic/longer2/test9', '/scr/sbowman/propositional-logic/longer2/test10', '/scr/sbowman/propositional-logic/longer2/test11', '/scr/sbowman/propositional-logic/longer2/test12'};
 end
 
 

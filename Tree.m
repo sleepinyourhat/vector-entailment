@@ -38,7 +38,6 @@ classdef Tree < handle
 
         function t = makeTree(iText, wordMap)
             assert(~isempty(iText), 'Bad tree input text.');
-            % tyingMap = GetTyingMap(wordMap); % DEPRECATED
             
             C = textscan(iText, '%s', 'delimiter', ' ');
             C = C{1};
@@ -222,7 +221,7 @@ classdef Tree < handle
             
             DIM = length(delta);
             EMBDIM = size(embeddingTransformMatrix, 2);
-            NUMTRANS = size(embeddingTransformMatrix, 3);
+            NUMTRANS = size(embeddingTransformMatrix, 3) .* (length(embeddingTransformMatrix) > 0);
 
             if size(compMatrix, 3) == 1 % Using tied composition parameters
                 NUMCOMP = 1;
@@ -241,8 +240,8 @@ classdef Tree < handle
                 upwardCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
             end
 
-            upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM, NUMCOMP);
-            upwardEmbeddingTransformMatrixGradients = zeros(DIM, EMBDIM, NUMTRANS);
+            upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM + 1, NUMCOMP);
+            upwardEmbeddingTransformMatrixGradients = zeros(DIM, EMBDIM + 1, NUMTRANS);
 
             if (~isempty(obj.daughters))
                 if size(compMatrix, 3) == 1 % Check if using tied composition parameters
@@ -331,7 +330,7 @@ classdef Tree < handle
 
                 if NUMTRANS > 0
                     delta = delta .* obj.mask; % Take dropout into account
-                    [upwardEmbeddingTransformMatrixGradients, delta] = ...
+                    [ upwardEmbeddingTransformMatrixGradients, delta ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               delta, wordFeatures(obj.wordIndex, :)', ...
                               obj.transformInnerActivations, compNLDeriv);

@@ -68,7 +68,7 @@ end
 if TOPD > 1
   classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);
 else
-  classifierExtraMatrix = [];
+  classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);;
 end
   
 if NUMTRANS > 1
@@ -97,7 +97,7 @@ else
 end
 
 % Pack up the parameters.
-[theta, thetaDecoder] = param2stack(mergeMatrices, mergeMatrix, ...
+[ theta, thetaDecoder ] = param2stack(mergeMatrices, mergeMatrix, ...
     softmaxMatrix, wordFeatures, compositionMatrices, ...
     compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix);
 

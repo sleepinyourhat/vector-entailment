@@ -1,10 +1,14 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [matrixStackGradients, ...
-          biasStackGradients, deltaDown] = ...
-          ComputeExtraClassifierGradients(matrixStack, ...
-              deltaDown, inputs, innerOutputs, classNLDeriv)
+function [ matrixStackGradients, deltaDown ] = ...
+          ComputeExtraClassifierGradients(...
+          	matrixStack, deltaDown, inputs, innerOutputs, classNLDeriv)
 % Compute gradients for the middle NN layers of the classifier. This will 
 % only do non-trivial work if STACKSIZE is greater than 0.
+
+if length(innerOutputs) == 0 || length(matrixStack) == 0
+	matrixStackGradients = [];
+	return
+end
 
 INDIM = size(matrixStack, 2);
 OUTDIM = size(matrixStack, 1);
@@ -18,7 +22,7 @@ biasStackGradients = zeros(OUTDIM, STACKSIZE);
 % won't work.
 assert(INDIM == OUTDIM || STACKSIZE < 2, 'Inconsistent dimensions.');
 
-for layer = (STACKSIZE):-1:1
+for layer = STACKSIZE:-1:1
     NLDeriv = classNLDeriv(innerOutputs(:, layer));
 
     deltaDown = NLDeriv .* deltaDown;

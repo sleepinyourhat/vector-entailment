@@ -2,13 +2,6 @@
 function data = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
 % Load one file of sentence pair data.
 
-% Append a default prefix if we don't have a full path
-if isempty(strfind(filename, '/'))
-    if strfind(filename, 'quant_')
-        filename = ['grammars/data/', filename];
-    end
-end
-
 if hyperParams.useTrees
     typeSig = '-trees';
 elseif hyperParams.usePyramids

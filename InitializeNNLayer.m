@@ -46,6 +46,8 @@ elseif initType > 3
 end
 	
 % Add a bias column
-matrix = [ zeros(outdim, depth), matrix ];
+if depth > 0
+	matrix = [ zeros(outdim, depth), matrix ];
+end
 
 end
