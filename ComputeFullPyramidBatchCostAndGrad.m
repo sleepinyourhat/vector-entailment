@@ -50,10 +50,9 @@ end
 [ relationProbs, topCosts ] = ComputeSoftmaxLayer(mergeOutput, softmaxMatrix, 1:size(softmaxMatrix, 1), [data(:).relation]);
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
+% TODO: Is it worth scaling the two different types of cost?
 normalizedCost = sum([topCosts; leftConnectionCosts; rightConnectionCosts]) / length(data);
-topC = sum(topCosts)
-leftCC = sum(leftConnectionCosts)
-rightCC = sum(rightConnectionCosts)
+
  
 % Apply regularization to the cost (does not include fastEmbed embeddings).
 if hyperParams.norm == 2

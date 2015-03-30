@@ -43,7 +43,15 @@ elseif composition == 4
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 0;
 	hyperParams.parensInSequences = 0;
+elseif composition == 5
+	hyperParams.usePyramids = 1;
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.parensInSequences = 0;
 end
+
 
 hyperParams.topDepth = top;
 
