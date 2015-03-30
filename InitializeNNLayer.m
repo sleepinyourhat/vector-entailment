@@ -47,7 +47,7 @@ end
 	
 % Add a bias column
 if depth > 0
-	matrix = [ zeros(outdim, depth), matrix ];
+	matrix = [ zeros(outdim, 1, depth), matrix ];
 end
 
 end

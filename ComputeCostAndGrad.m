@@ -90,7 +90,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
     % Compute gradients for extra top layers
     [ localExtraMatrixGradients, extraDelta ] = ...
           ComputeExtraClassifierGradients(classifierExtraMatrix,...
-              softmaxDelta, extraInputs, extraInnerOutputs, hyperParams.classNLDeriv);
+          softmaxDelta, extraInputs, extraInnerOutputs, hyperParams.classNLDeriv);
 
     if hyperParams.useThirdOrderMerge
         % Compute gradients for classification tensor layer
