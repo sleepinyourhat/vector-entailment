@@ -68,6 +68,13 @@ export MATLABCMD="cd quant; lambda = 0.0001; dim = 15; td = 2; penult = 75; drop
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 2; penult = 75; dropout = 1; tot = 2; name='newinit'; relu = 1; TrainModel(''\, 3\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 1);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 2; penult = 75; dropout = 1; tot = 2; name='newinit'; relu = 1; TrainModel(''\, 3\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 2);" ; qsub -v MATLABCMD quant/run.sh
 
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 2; name='pyrcomp'; relu = -1; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 2; name='pyrcomp'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 2; name='pyrcomp'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 2; name='pyrcomp'; relu = 2; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 2; name='pyrcomp'; relu = 3; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 2; name='pyrcomp'; relu = 4; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
 
-echo "cd quant; lambda = 0.0001; dim = 15; td = 2; penult = 75; dropout = 1; tot = 1; name='newinit'; relu = 1; TrainModel('', 3, @Quantifiers, name, dim, penult, td, lambda, tot, relu, dropout, 32);" | /afs/cs/software/bin/matlab_r2012b -nodisplay
 
+lambda = 0.0001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 4; name='newinit'; relu = 0; 
+TrainModel('', 1, @Quantifiers, name, dim, penult, td, lambda, tot, relu, dropout, 32);

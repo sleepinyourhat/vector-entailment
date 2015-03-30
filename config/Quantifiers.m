@@ -1,15 +1,13 @@
-function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, composition, eyes, tdrop, clip)
+function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, composition, eyes, tdrop)
 
 [hyperParams, options] = Defaults();
 
 hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-composition', num2str(composition), '-eyes', num2str(eyes), '-l', num2str(lambda),...
-				    '-dropout', num2str(tdrop), '-cl', num2str(clip)];
+				    '-dropout', num2str(tdrop)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
-
-hyperParams.LSTMinitType = clip;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
