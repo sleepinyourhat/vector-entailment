@@ -66,7 +66,7 @@ for i = 1:length(hyperParams.splitFilenames)
     testPortion = dataset(startOfTestPortion:endOfTestPortion);
     testDatasets = [testDatasets, {testPortion}];
     
-    if ~(isfield(hyperParams, 'specialAndOrMode') && i > 9)
+    if ~(isfield(hyperParams, 'specialAndOrMode') && i > ((2 * hyperParams.specialAndOrMode) + 1))
         firstTrainPortion = dataset(1:(startOfTestPortion - 1));
         secondTrainPortion = dataset(endOfTestPortion + 1:length(dataset));
         trainPortion = [firstTrainPortion; secondTrainPortion];

@@ -1,34 +1,20 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, mbs, showgradmag, bottomDropout, topDropout, datamult, collo, parens, dp)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, mbs, bottomDropout, topDropout, datamult, collo, parens, dp, init)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
-
-% The raw range bound on word vectors.
-hyperParams.wordScale = 0.01;
-
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = 1;
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), '-sgm', num2str(showgradmag),...
+    '-pen', num2str(penult), ...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-m', num2str(datamult), '-par', num2str(parens),...
-    '-mb', num2str(mbs), '-dp', num2str(dp), '-comp', num2str(composition)];
-
-if datamult < 0
-  % Use the firstMultiplier method
-  datamult = -1 * datamult;
-  hyperParams.firstMultiplier = 30;
-  hyperParams.firstCutoff = 2895;
-end
-
-hyperParams.classNL = @LReLU;
-hyperParams.classNLDeriv = @LReLUDeriv;
+    '-mb', num2str(mbs), '-dp', num2str(dp), '-comp', num2str(composition), '-init', num2str(init)];
 
 hyperParams.dataPortion = dp;
+
+
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
@@ -75,24 +61,24 @@ hyperParams.useEyes = 1;
 
 if composition < 0
   hyperParams.useSumming = 1;
-  hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 0;
 elseif composition < 2
-  hyperParams.useThirdOrder = composition;
-  hyperParams.useThirdOrderComparison = composition;
+  hyperParams.useThirdOrderComposition = composition;
+  hyperParams.useThirdOrderMerge = composition;
 elseif composition == 2
   hyperParams.lstm = 1;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
-  hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 0;
   hyperParams.parensInSequences = 0;
 elseif composition == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
-  hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 0;
   hyperParams.parensInSequences = 0;
 end
 
@@ -106,10 +92,8 @@ options.miniBatchSize = mbs;
 
 options.updateFn = @AdaDeltaUpdate;
 
-hyperParams.showGradMag = showgradmag;
-
 if findstr(dataflag, 'sick-only-dev')
-    wordMap = InitializeMaps('sick_data/combined_words.txt');
+    wordMap = InitializeMaps('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all'; 
 
     hyperParams.numRelations = 3;
@@ -117,12 +101,12 @@ if findstr(dataflag, 'sick-only-dev')
 	relationMap = cell(1, 1);
 	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt'};    
-    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
-    				 './sick_data/SICK_trial_parsed_justneg.txt', ...
-    				 './sick_data/SICK_trial_parsed_noneg.txt', ...
-    				 './sick_data/SICK_trial_parsed_18plusparens.txt', ...
-    				 './sick_data/SICK_trial_parsed_lt18_parens.txt'};
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed.txt'};    
+    hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt', ...
+    				 './sick-data/SICK_trial_parsed_justneg.txt', ...
+    				 './sick-data/SICK_trial_parsed_noneg.txt', ...
+    				 './sick-data/SICK_trial_parsed_18plusparens.txt', ...
+    				 './sick-data/SICK_trial_parsed_lt18_parens.txt'};
     hyperParams.splitFilenames = {};
 elseif findstr(dataflag, 'sick-only')
     % The number of relations.
@@ -132,15 +116,15 @@ elseif findstr(dataflag, 'sick-only')
     relationMap = cell(1, 1);
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    wordMap = InitializeMaps('sick_data/combined_words.txt');
+    wordMap = InitializeMaps('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all';
 
-    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
-                     './sick_data/SICK_train_parsed.txt', ...
-                     './sick_data/SICK_trial_parsed_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed.txt'};
-    hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
-                     './sick_data/SICK_test_annotated_rearranged_parsed.txt'};
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed_exactAlign.txt', ...
+                     './sick-data/SICK_train_parsed.txt', ...
+                     './sick-data/SICK_trial_parsed_exactAlign.txt', ...
+                     './sick-data/SICK_trial_parsed.txt'};
+    hyperParams.testFilenames = {'./sick-data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
+                     './sick-data/SICK_test_annotated_rearranged_parsed.txt'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'dg-only') 
     % The number of relations.
@@ -150,11 +134,12 @@ elseif strcmp(dataflag, 'dg-only')
     relationMap = cell(1, 1);
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    wordMap = InitializeMaps('sick_data/sick-snli_dev_words.txt');
-    hyperParams.vocabName = 'dg';
+    wordMap = InitializeMaps('sick-data/sick-snli0.95_words.txt');
+    hyperParams.vocabName = 'ss095';
 
-    hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
-    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
+    hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
+    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first1k.tsv',
+                                 '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_last1k.tsv'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus-600k-ea-dev') 
     % The number of relations.
@@ -166,16 +151,16 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
-    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); 1];
 
-    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
-                     './sick_data/SICK_train_parsed.txt', ...
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed_exactAlign.txt', ...
+                     './sick-data/SICK_train_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
-    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed.txt', ...
+    hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed_exactAlign.txt', ...
+                     './sick-data/SICK_trial_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
@@ -191,14 +176,14 @@ elseif strcmp(dataflag, 'sick-plus-600k-dev')
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
-    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [(datamult * 12); 1];
 
-    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed.txt', ...
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
-    hyperParams.testFilenames = {'./sick_data/SICK_trial_parsed.txt', ...
+    hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
@@ -214,19 +199,19 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea')
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
-    wordMap = InitializeMaps('sick_data/all_sick_plus_t4.txt');
+    wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); (datamult * 6); (datamult * 6); 1];
 
-    hyperParams.trainFilenames = {'./sick_data/SICK_train_parsed_exactAlign.txt', ...
-                     './sick_data/SICK_train_parsed.txt', ...
-                     './sick_data/SICK_trial_parsed_exactAlign.txt', ...
-                     './sick_data/SICK_trial_parsed.txt', ...
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed_exactAlign.txt', ...
+                     './sick-data/SICK_train_parsed.txt', ...
+                     './sick-data/SICK_trial_parsed_exactAlign.txt', ...
+                     './sick-data/SICK_trial_parsed.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
-    hyperParams.testFilenames = {'./sick_data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
-                     './sick_data/SICK_test_annotated_rearranged_parsed.txt', ...
-                     './sick_data/SICK_trial_parsed_exactAlign.txt', ...
+    hyperParams.testFilenames = {'./sick-data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
+                     './sick-data/SICK_test_annotated_rearranged_parsed.txt', ...
+                     './sick-data/SICK_trial_parsed_exactAlign.txt', ...
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
@@ -240,12 +225,12 @@ elseif strcmp(dataflag, 'imageflickrshort')
 	relationMap = cell(1, 1);
 	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    wordMap = InitializeMaps('sick_data/flickr_words_t4.txt');
+    wordMap = InitializeMaps('sick-data/flickr_words_t4.txt');
     hyperParams.vocabName = 'spt4-2cl';
 
     hyperParams.splitFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/clean_parsed_entailment_pairs_first500.tsv', ...
-    				 './sick_data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
+    				 './sick-data/clean_parsed_entailment_pairs_second10k_first500.tsv'};
     hyperParams.trainFilenames = {};
 end
 

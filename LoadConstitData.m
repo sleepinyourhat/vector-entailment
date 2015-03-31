@@ -1,16 +1,11 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ data ] = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
+function data = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
 % Load one file of sentence pair data.
-
-% Append a default prefix if we don't have a full path
-if isempty(strfind(filename, '/'))
-    if strfind(filename, 'quant_')
-        filename = ['grammars/data/', filename];
-    end
-end
 
 if hyperParams.useTrees
     typeSig = '-trees';
+elseif hyperParams.usePyramids
+    typeSig = '-pyrs';
 else
     typeSig = ['-seqs-par' num2str(hyperParams.parensInSequences)];
 end
@@ -60,8 +55,8 @@ for line = (lastSave + 1):maxLine
         splitLine = textscan(C{1}{line}, '%s', 'delimiter', '\t');
         splitLine = splitLine{1};
         
-        if (sum(splitLine{1} == '%') == 0) && (size(splitLine, 1) >= 3)
-            % Skip commented lines
+        % Skip commented and unlabeled lines
+        if (splitLine{1}(1) ~= '%') && (splitLine{1}(1) ~= '-') && (size(splitLine, 1) >= 3)
             if nargin > 5
                 rawData(nextItemNo - lastSave).relation = zeros(length(hyperParams.numRelations), 1);
                 rawData(nextItemNo - lastSave).relation(relationIndex) = ...
@@ -72,8 +67,8 @@ for line = (lastSave + 1):maxLine
             rawData(nextItemNo - lastSave).leftText = splitLine{2};
             rawData(nextItemNo - lastSave).rightText = splitLine{3};
             nextItemNo = nextItemNo + 1;
-        else
-            disp('Skipped line.');
+        elseif splitLine{1}(1) ~= '-'
+            disp(['Skipped line: ' C{1}{line}]);
         end
     end
     if (mod(nextItemNo - 1, 10000) == 0 && nextItemNo > 0 && fragment)
@@ -101,6 +96,13 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
         parfor dataInd = 1:numElements
             data(dataInd).left = Tree.makeTree(rawData(dataInd).leftText, wordMap);
             data(dataInd).right = Tree.makeTree(rawData(dataInd).rightText, wordMap);
+            data(dataInd).relation = rawData(dataInd).relation;
+        end
+    elseif hyperParams.usePyramids
+        data = repmat(struct('relation', 0, 'left', Pyramid(), 'right', Pyramid()), numElements, 1);
+        parfor dataInd = 1:numElements
+            data(dataInd).left = Pyramid.makePyramid(rawData(dataInd).leftText, wordMap);
+            data(dataInd).right = Pyramid.makePyramid(rawData(dataInd).rightText, wordMap);
             data(dataInd).relation = rawData(dataInd).relation;
         end
     else

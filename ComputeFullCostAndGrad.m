@@ -2,11 +2,11 @@
 function [ cost, grad, embGrad, acc, confusion ] = ComputeFullCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
 % Compute cost, gradient, accuracy, and confusions over a set of examples for some parameters.
 
-N = length(data);
+B = length(data);
 
 argout = nargout;
 if nargout > 4
-    confusions = zeros(N, 2);
+    confusions = zeros(B, 2);
 end
 
 accumulatedCost = 0;
@@ -38,63 +38,53 @@ if nargout > 1
 
     % Accumulate log messages in memory, to avoid file corruption from
     % multiple writes within the paralellized loop.
-    logMessages = cell(N, 1);
+    logMessages = cell(B, 1);
 
-    lastnorm = -1;
-
-    parfor i = 1:N
-        % assert(~isempty(data(i).relation), 'Null relation.')
+    parfor b = 1:B
+        % assert(~isempty(data(b).relation), 'Null relation.')
 
         [localCost, localGrad, localEmbGrad, localPred] = ...
-            ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams, computeGrad);
+            ComputeCostAndGrad(theta, decoder, data(b), separateWordFeatures, hyperParams, computeGrad);
         accumulatedCost = accumulatedCost + localCost;
         accumulatedGrad = accumulatedGrad + localGrad;
         if hyperParams.fastEmbed
             accumulatedSeparateWordFeatureGradients = accumulatedSeparateWordFeatureGradients + localEmbGrad;
         end
-        
-        if isfield(hyperParams, 'showGradMag') && hyperParams.showGradMag == 1 && i == N
-            lastnorm = norm(localGrad)
-        end
 
-        localCorrect = localPred == data(i).relation(find(data(i).relation > 0));
+        localCorrect = localPred == data(b).relation(find(data(b).relation > 0));
 
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
-            logMessages{i} = ['for: ', data(i).left.getText(), ' ', data(i).right.getText(), ...
+            logMessages{b} = ['for: ', data(b).left.getText(), ' ', data(b).right.getText(), ...
                   ' hypothesis:  ', num2str(localPred), ' cost: ', num2str(localCost)];
         end
 
         % Record statistics
         if argout > 4
-            confusions(i,:) = [localPred, data(i).relation(find(data(i).relation > 0))];
+            confusions(b,:) = [localPred, data(b).relation(find(data(b).relation > 0))];
         end
         accumulatedSuccess = accumulatedSuccess + localCorrect;
     end
 
-    if isfield(hyperParams, 'showGradMag') && hyperParams.showGradMag == 1
-        Log(hyperParams.examplelog, num2str(lastnorm));
-    end
-
     % Flush the accumulated log messages from inside the loop
-    for i = 1:N
-        if ~isempty(logMessages{i})
-            Log(hyperParams.examplelog, logMessages{i});
+    for b = 1:B
+        if ~isempty(logMessages{b})
+            Log(hyperParams.examplelog, logMessages{b});
         end
     end
     
     % Create the confusion matrix
     if nargout > 4
         confusion = zeros(hyperParams.numRelations(find(data(1).relation)));
-        for i = 1:N
-            confusion(confusions(i,1), confusions(i,2)) = ...
-                confusion(confusions(i,1), confusions(i,2)) + 1;
+        for b = 1:B
+            confusion(confusions(b,1), confusions(b,2)) = ...
+                confusion(confusions(b,1), confusions(b,2)) + 1;
         end
     end
 else
     % Just compute the cost, parallelizing as above
-    parfor i = 1:N
+    parfor b = 1:B
         localCost = ...
-            ComputeCostAndGrad(theta, decoder, data(i), separateWordFeatures, hyperParams);
+            ComputeCostAndGrad(theta, decoder, data(b), separateWordFeatures, hyperParams, 0);
         accumulatedCost = accumulatedCost + localCost;
     end
 end
@@ -161,7 +151,7 @@ if computeGrad
 end
 
 if nargout > 3
-    acc = (accumulatedSuccess / N);
+    acc = (accumulatedSuccess / B);
 end
 
 end

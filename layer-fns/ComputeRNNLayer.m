@@ -1,9 +1,8 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [activations, activationsPreNL] = ComputeRNNLayer(a, b, matrix, bias, NL)
+function [ activations, activationsPreNL ] = ComputeRNNLayer(l, r, matrix, NL)
 % Run an RNN layer as in forward propagation.
 
-activationsPreNL = matrix * [a; b] + bias;
-
+activationsPreNL = matrix * [ones(1, size(l, 2)); l; r];
 activations = NL(activationsPreNL);
 
 end

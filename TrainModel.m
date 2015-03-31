@@ -19,17 +19,19 @@ addpath('config/')
 % Look for the NN internals in this directory.
 addpath('layer-fns/')
 
-% Set up paralellization
-c = parcluster();
-t = tempname();
-mkdir(t);
-c.JobStorageLocation = t;
-if exist('parpool')
-  % >= 2013b
-  parpool(c);
-else
-  % < 2013b
-  matlabpool(c, c.NumWorkers);
+if matlabpool('size') == 0
+    % Set up paralellization
+    c = parcluster();
+    t = tempname();
+    mkdir(t);
+    c.JobStorageLocation = t;
+    if exist('parpool')
+      % >= 2013b
+      parpool(c);
+    else
+      % < 2013b
+      matlabpool(c, c.NumWorkers);
+    end
 end
 
 [ hyperParams, options, wordMap, relationMap ] = ConfigFn(varargin{:});
@@ -119,6 +121,12 @@ end
 
 Log(hyperParams.statlog, 'Training')
 
+if ~hyperParams.usePyramids
+    optFn = @ComputeFullCostAndGrad;
+else
+    optFn = @ComputeFullPyramidBatchCostAndGrad;
+end
+
 if hyperParams.minFunc
     % Set up minFunc
     addpath('minFunc/minFunc/')
@@ -127,10 +135,10 @@ if hyperParams.minFunc
     addpath('minFunc/autoDif/')
 
     % Warning: L-BFGS won't save state across restarts
-    modelState.theta = minFunc(@ComputeFullCostAndGrad, modelState.theta, options, ...
+    modelState.theta = minFunc(optFn, modelState.theta, options, ...
         modelState.thetaDecoder, trainDataset, modelState.separateWordFeatures, hyperParams, 1);
 else
-    modelState.theta = TrainSGD(@ComputeFullCostAndGrad, modelState, options, ...
+    modelState.theta = TrainSGD(optFn, modelState, options, ...
         trainDataset, hyperParams, testDatasets);
 end
     

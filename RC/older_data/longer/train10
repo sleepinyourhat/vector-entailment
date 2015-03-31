@@ -1,7 +1,0 @@
-#	( ( not pumpkin ) ( and ( ollie ( and ( not marcel ) ) ) ) )	( not ( ( not ( ( not marcel ) ( and ( not ollie ) ) ) ) ( and ( not ( ( not mertz ) ( or ( not ollie ) ) ) ) ) ) )
-v	( not ( ( ( not ollie ) ( or abby ) ) ( and ( not ( pumpkin ( or oona ) ) ) ) ) )	( not ( ( not ( ( not abby ) ( or ( not ollie ) ) ) ) ( and ( not ( ( not abby ) ( or ( not pumpkin ) ) ) ) ) ) )
-|	pumpkin	( not ( ( not ( ( not mertz ) ( and ( not pumpkin ) ) ) ) ( or ( not ( ( not oona ) ( and ( not mertz ) ) ) ) ) ) )
-v	( not ( ( not ( ( not ollie ) ( or ( not pumpkin ) ) ) ) ( and ( not ( ( not oona ) ( and ( not abby ) ) ) ) ) ) )	( not ( ( not ( oona ( or pumpkin ) ) ) ( and ( ( not abby ) ( or oona ) ) ) ) )
-<	( not ( ( pumpkin ( or mertz ) ) ( or ( not ( oona ( and ( not abby ) ) ) ) ) ) )	( not ( ( not ( ( not mertz ) ( and ( not pumpkin ) ) ) ) ( or ( not ( ( not mertz ) ( or ( not pumpkin ) ) ) ) ) ) )
-#	( not ( ( not ( ( not pumpkin ) ( and ( not oona ) ) ) ) ( and ( not ( ( not pumpkin ) ( and ( not oona ) ) ) ) ) ) )	( ( ( not ollie ) ( and ( not oona ) ) ) ( and ( not ( oona ( or ( not marcel ) ) ) ) ) )
-#	( ( not ( pumpkin ( or ollie ) ) ) ( or ( not ( ( not oona ) ( or ( not ollie ) ) ) ) ) )	( not ( ( not ( ( not pumpkin ) ( or ( not pumpkin ) ) ) ) ( and ( not ( ( not oona ) ( or ( not oona ) ) ) ) ) ) )

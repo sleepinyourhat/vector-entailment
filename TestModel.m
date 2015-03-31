@@ -10,8 +10,15 @@ function [combinedAcc, combinedMf1, aggConfusion] = TestModel(CostGradFunc, thet
 % TODO: Currently, I only aggregate average test statistics across test datasets that use the no. 1 set 
 % of relations.
 
-aggConfusion = zeros(hyperParams.numRelations(1));
-targetConfusion = zeros(hyperParams.numRelations(1));
+if isfield(hyperParams, 'testRelationIndices')
+    targetRelationSet = hyperParams.testRelationIndices(1);
+else
+    targetRelationSet = 1;
+
+end
+
+aggConfusion = zeros(hyperParams.numRelations(targetRelationSet));
+targetConfusion = zeros(hyperParams.numRelations(targetRelationSet));    
 
 for i = 1:length(testDatasets{1})
     [~, ~, ~, acc, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
@@ -23,14 +30,14 @@ for i = 1:length(testDatasets{1})
             evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
     end
-    if (~isfield(hyperParams, 'testRelationIndices') || hyperParams.testRelationIndices(i) == 1)
+    if (~isfield(hyperParams, 'testRelationIndices') || hyperParams.testRelationIndices(i) == targetRelationSet)
         aggConfusion = aggConfusion + confusion;
     end
 end
 
 % Compute Accor rate from aggregate confusion matrix
-targetAcc = sum(sum(eye(hyperParams.numRelations(1)) .* targetConfusion)) / sum(sum(targetConfusion));    
-aggAcc = sum(sum(eye(hyperParams.numRelations(1)) .* aggConfusion)) / sum(sum(aggConfusion));    
+targetAcc = sum(sum(eye(hyperParams.numRelations(targetRelationSet)) .* targetConfusion)) / sum(sum(targetConfusion));    
+aggAcc = sum(sum(eye(hyperParams.numRelations(targetRelationSet)) .* aggConfusion)) / sum(sum(aggConfusion));    
 
 combinedMf1 = [GetMacroF1(targetConfusion), GetMacroF1(aggConfusion)];
 
