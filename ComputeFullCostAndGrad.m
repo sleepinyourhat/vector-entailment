@@ -84,7 +84,7 @@ else
     % Just compute the cost, parallelizing as above
     parfor b = 1:B
         localCost = ...
-            ComputeCostAndGrad(theta, decoder, data(b), separateWordFeatures, hyperParams);
+            ComputeCostAndGrad(theta, decoder, data(b), separateWordFeatures, hyperParams, 0);
         accumulatedCost = accumulatedCost + localCost;
     end
 end

@@ -40,7 +40,7 @@ for batchNo = 0:(numBatches - 1)
     batchInd = randomOrder(beginMiniBatch:endMiniBatch);
     batch = trainingData(batchInd);
 
-    [ cost, grad, embGrad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.separateWordFeatures, hyperParams);
+    [ cost, grad, embGrad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.separateWordFeatures, hyperParams, true);
 
     modelState = options.updateFn(modelState, options, grad, embGrad);
 

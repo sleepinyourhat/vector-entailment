@@ -26,15 +26,8 @@ rightPyramidBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures,
 [ rightFeatures, rightConnectionCosts ] = rightPyramidBatch.runForward(connectionMatrix, compositionMatrix, hyperParams);
 
 % Set up and run top dropout.
-if nargout > 1 || hyperParams.minFunc
-    bottomDropout = hyperParams.bottomDropout;
-    topDropout = hyperParams.topDropout;
-else
-    bottomDropout = 1;
-    topDropout = 1;
-end
-[ leftFeatures, leftMask ] = Dropout(leftFeatures, topDropout);
-[ rightFeatures, rightMask ] = Dropout(rightFeatures, topDropout);
+[ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGrad);
+[ rightFeatures, rightMask ] = Dropout(rightFeatures, hyperParams.topDropout, computeGrad);
 
 % Compute classification tensor layer (or plain RNN layer).
 if hyperParams.useThirdOrderMerge
@@ -61,7 +54,6 @@ end
 % TODO: Is it worth scaling the two different types of cost?
 normalizedCost = sum([topCosts; leftConnectionCosts; rightConnectionCosts]) / length(data);
 
- 
 % Apply regularization to the cost (does not include fastEmbed embeddings).
 if hyperParams.norm == 2
     % Apply L2 regularization

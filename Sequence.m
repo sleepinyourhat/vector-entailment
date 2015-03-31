@@ -134,7 +134,7 @@ classdef Sequence < handle
         end
 
         function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, embeddingTransformMatrix, compNL, dropout)
+                                compMatrix, embeddingTransformMatrix, compNL, trainingMode)
             % Recomputes features using fresh parameters.
 
             LSTM = size(compMatrix, 1) > size(compMatrix, 2);
@@ -150,14 +150,14 @@ classdef Sequence < handle
 
                 activations = compNL(obj.transformInnerActivations);
 
-                [obj.inputActivations, obj.mask] = Dropout(activations, dropout);
+                [obj.inputActivations, obj.mask] = Dropout(activations, hyperParams.bottomDropout, trainingMode);
             end
 
             % Compute a feature vector for the predecessor node.
             if ~isempty(obj.pred)
                 obj.pred.updateFeatures(...
                     wordFeatures, compMatrices, compMatrix, embeddingTransformMatrix, ...
-                    compNL, dropout);
+                    compNL, trainingMode);
                 
                 predActivations = obj.pred.activations;
 

@@ -38,32 +38,24 @@ trueRelation = dataPoint.relation;
 
 relationRange = ComputeRelationRange(hyperParams, trueRelation);
 
-if nargout > 1 || hyperParams.minFunc
-  bottomDropout = hyperParams.bottomDropout;
-  topDropout = hyperParams.topDropout;
-else
-  bottomDropout = 1;
-  topDropout = 1;
-end
-
 % Run the trees/sequences forward
 left.updateFeatures(wordFeatures, compositionMatrices, ...
-        compositionMatrix, embeddingTransformMatrix, hyperParams.compNL, bottomDropout);
+        compositionMatrix, embeddingTransformMatrix, hyperParams.compNL, computeGradient);
 right.updateFeatures(wordFeatures, compositionMatrices, ...
-        compositionMatrix, embeddingTransformMatrix, hyperParams.compNL, bottomDropout);
+        compositionMatrix, embeddingTransformMatrix, hyperParams.compNL, computeGradient);
 
 leftFeatures = left.getFeatures();
 rightFeatures = right.getFeatures();
 
-[leftFeatures, leftMask] = Dropout(leftFeatures, topDropout);
-[rightFeatures, rightMask] = Dropout(rightFeatures, topDropout);
+[ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGradient);
+[ rightFeatures, rightMask ] = Dropout(rightFeatures, hyperParams.topDropout, computeGradient);
 
 % Compute classification tensor layer (or plain RNN layer)
 if hyperParams.useThirdOrderMerge
-    [classTensorOutput, tensorInnerOutput] = ComputeTensorLayer(leftFeatures, ...
+    [ classTensorOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
         rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
-    [classTensorOutput, innerOutput] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
+    [ classTensorOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
         mergeMatrix, hyperParams.classNL);
 end
        
@@ -72,6 +64,7 @@ extraInputs = zeros(hyperParams.penultDim, hyperParams.topDepth);
 extraInnerOutputs = zeros(hyperParams.penultDim, hyperParams.topDepth - 1);
 extraInputs(:,1) = classTensorOutput;
 for layer = 1:(hyperParams.topDepth - 1) 
+    % TODO: This throws errors with large stacks... investigate.
     extraInnerOutputs(:,layer) = classifierExtraMatrix(:,:,layer) * [1, extraInputs(:,layer)];
     extraInputs(:,layer + 1) = hyperParams.classNL(extraInnerOutputs(:,layer));
 end

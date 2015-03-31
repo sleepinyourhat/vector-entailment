@@ -163,14 +163,14 @@ classdef Tree < handle
         end
         
         function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, embeddingTransformMatrix, compNL, dropout)
+                                compMatrix, embeddingTransformMatrix, compNL, trainingMode)
             % Recomputes features using fresh parameters.
 
             if (~isempty(obj.daughters))
                 for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
                         wordFeatures, compMatrices, compMatrix, embeddingTransformMatrix, ...
-                        compNL, dropout);
+                        compNL, trainingMode);
                 end
                 
                 lFeatures = obj.daughters(1).features;
@@ -204,7 +204,7 @@ classdef Tree < handle
 
                     activations = compNL(obj.transformInnerActivations);
 
-                    [obj.features, obj.mask] = Dropout(activations, dropout);
+                    [obj.features, obj.mask] = Dropout(activations, hyperParams.bottomDropout, trainingMode);
 
                 end
             end
