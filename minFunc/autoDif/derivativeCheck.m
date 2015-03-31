@@ -34,10 +34,33 @@ else
 	fprintf('Max difference between user and numerical gradient: %e\n',max(abs(g-g2)));
 	if max(abs(g-g2)) > 1e-9
 		format long
-		fprintf('User NumDif diff ratio:\n');
+		fprintf('User NumDif diff:\n');
 		dif = abs(g-g2);
 		[g g2 dif]
-		(abs(g - g2) ./ (abs(g) + abs(g2) + eps)) .* (abs(g) + abs(g2) > 1e-7)
+
+		fprintf('User gradients:\n');
+
+		[ mergeMatrices , mergeMatrix, ...
+	    	softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
+	    	compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix ] ...
+	    	= stack2param(g, varargin{1});
+
+	    mergeMatrices, mergeMatrix, ...
+	    softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
+	    compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix
+
+	    fprintf('User gradient error (diff/abs+abs method, zeroing out tiny gradients):\n');
+	    ratio = (abs(g - g2) ./ (abs(g) + abs(g2) + eps)) .* (abs(g) + abs(g2) > 1e-7);
+
+		[ mergeMatrices , mergeMatrix, ...
+	    	softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
+	    	compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix ] ...
+	    	= stack2param(ratio, varargin{1});
+
+	    mergeMatrices, mergeMatrix, ...
+	    softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
+	    compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix
+
 		diff = dif;
 		pause
 	end

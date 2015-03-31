@@ -3,8 +3,9 @@ function [ hyperParams, options ] = Defaults()
 
 hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 
-% Use Tree to represent data if set. Else, use Sequence.
+% Use Tree or Pyramid to represent data if set. Else, use Sequence.
 hyperParams.useTrees = 1;
+hyperParams.usePyramids = 0;
 
 % If set, and if useTrees is false, use an LSTM RNN.
 hyperParams.lstm = 0;
@@ -19,13 +20,24 @@ hyperParams.tensorScale = 0.9;
 % How much of the output of the matrix parameters (in the range 0-1) should be initialized with an identity matrix.
 hyperParams.eyeScale = 0.5;
 
+% Which initialization scheme to use
+hyperParams.NNinitType = 1;
+hyperParams.NTNinitType = 1;
+hyperParams.LSTMinitType = 2;
+
 % Use an older initialization scheme for comparability with older experiments.
 hyperParams.useCompatibilityInitialization = false;
 
-% The number of embedding transform layers. topDepth > 0 means NN layers will be
+% How far *in each direction* should the connection classifier in a Pyramid model look.
+% Setting this to 1 means to only use the immediate left and right composition inputs with no
+% additional context.
+hyperParams.pyramidConnectionContextWidth = 3;
+
+% The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
+% the rest of the constituents do. Currently, 0 and 1 are the only supported values,
+% though it may be worth adding support for multiple layers later.
 hyperParams.embeddingTransformDepth = 0;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
@@ -66,11 +78,11 @@ hyperParams.testFraction = 0.2;
 hyperParams.maxTrainingEvalSampleSize = 1000;
 
 % Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = true;
-hyperParams.useThirdOrderComparison = true;
+hyperParams.useThirdOrderComposition = true;
+hyperParams.useThirdOrderMerge = true;
 
 % Use a simple summing layer in place of the composition (R)NN layer.
-% useThirdOrder should be false if this is used.
+% useThirdOrderComposition should be false if this is used.
 hyperParams.useSumming = false;
 
 % If set, train using minFunc. Only partially supported. See GradCheck for an example.
@@ -95,6 +107,9 @@ hyperParams.fragmentData = false;
 hyperParams.fastEmbed = false;
 
 hyperParams.clearActivations = false;
+
+hyperParams.clipGradients = true;
+hyperParams.maxGradNorm = 5;
 
 %%% minFunc options: %%%
 
@@ -121,7 +136,6 @@ options.updateFn = @AdaDeltaUpdate;
 % AdaDelta hyperparameters
 options.adaDeltaRho = 0.95;
 options.adaDeltaEps = 1e-7;
-options.clipGradients = true;
 
 % AdaGrad hyperparameters
 options.adaEps = 0.01;

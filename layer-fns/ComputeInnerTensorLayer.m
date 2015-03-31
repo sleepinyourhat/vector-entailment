@@ -1,23 +1,18 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function innerTensorLayerOutput = ComputeInnerTensorLayer(a, b, matrices, matrix, bias)
-% Run an RNTN layer as in forward propagation, not including the
-% nonlinearity.
+function innerTensorLayerOutput = ComputeInnerTensorLayer(l, r, matrices, matrix)
+% Run an NTN layer as in forward propagation, not including the nonlinearity.
 
-[outDim, inDim] = size(matrix);
-% inDim = inDim / 2;
-
-innerTensorLayerOutput = zeros(outDim,1);
+outDim = size(matrix, 1);
+B = size(l, 2);
 
 % Apply third-order tensor
-% NOTE: Sadly, there doesn't seem to be a good MATLAB primitive for this
+% NOTE: Sadly, there doesn't seem to be a good MATLAB primitive for this.
+innerTensorLayerOutput = zeros(outDim, B);
 for outi = 1:outDim
-    innerTensorLayerOutput(outi) = a' * matrices(:,:,outi) * b;
+    innerTensorLayerOutput(outi, :) = dot((matrices(:, :, outi) * r), l);
 end
 
-% Apply matrix
-innerTensorLayerOutput = innerTensorLayerOutput + matrix * [a; b];
-
-% Apply bias
-innerTensorLayerOutput = innerTensorLayerOutput + bias;
+% Apply matrix.
+innerTensorLayerOutput = innerTensorLayerOutput + matrix * [ones(1, B); l; r];
 
 end

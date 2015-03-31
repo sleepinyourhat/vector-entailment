@@ -454,15 +454,14 @@ out to be more powerful that rigidly defined proof systems.
 {
   \setlength{\tabcolsep}{15pt}
   \renewcommand{\arraystretch}{1.1}
-  \begin{tabular}{r r@{ }r r@{ }r r@{ }r r@{ }r r@{ }r} 
+  \begin{tabular}{rrrrrrr} 
     \toprule
-     Portion of & \multicolumn{4}{c}{NN} & \multicolumn{4}{c}{NTN} & \multicolumn{2}{c}{Baseline}\\
-     training data  & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} & \multicolumn{2}{c}{w/ GloVe} & \multicolumn{2}{c}{w/o GloVe} \\
+     Portion of & \multicolumn{2}{c}{25d NN} & \multicolumn{2}{c}{25d NTN} & \multicolumn{1}{c}{$\natfor$ only}\\
+     training data  & \multicolumn{1}{c}{w/ GloVe} & \multicolumn{1}{c}{w/o GloVe} & \multicolumn{1}{c}{w/ GloVe} & \multicolumn{1}{c}{w/o GloVe} \\
     \midrule
-     100\%   & 99.73 &(0.04) & 99.37$^\dagger$ &(0.14)    & 99.61 &(0.02) & \textbf{99.95}\nodagger &(0.03) & 37.05 &(--)\\
-     33\%    & 95.96 &(0.20) & 95.30\nodagger &(0.12)                & 95.83 &(0.35)          & 95.45$^\dagger$ &(0.31) & 37.05 &(--)\\
-     11\%    & 91.11 &(0.24) & 90.81$^\dagger$ &(0.20)    & 91.27 &(0.27)          & 90.90$^\dagger$ &(0.13) & 37.05 &(--)\\
-     % 2\%    & 86.0 &(100.0) & ... &(100.0)   & 86.2 &(100.0)           & 76.4 &(87.3) & 37.9 &(--)\\ % Accidental run with slightly different train/test split.
+     100\%   & 99.73 & 99.37   & 99.61  & \textbf{99.95}  & 37.05 \\
+     33\%    & 95.96 & 95.30    & 95.83  & 95.45  & 37.05 		\\
+     11\%    & 91.11 & 90.81   & 91.27  & 90.90  & 37.05 		\\
     \bottomrule
   \end{tabular}}
  \caption{Mean test \% accuracy scores (with standard error) on the WordNet data over five-fold crossvalidation. The baseline figure is the frequency of the most frequent class, \ii{hypernym}.\label{wn-table}} 

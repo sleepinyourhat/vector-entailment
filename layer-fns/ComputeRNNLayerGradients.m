@@ -1,31 +1,30 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [matrixGradients, biasGradients, ...
-          deltaLeft, deltaRight] = ...
-      ComputeRNNLayerGradients(a, b, matrix, bias, delta, ...
+function [matrixGradients, deltaLeft, deltaRight] = ...
+      ComputeRNNLayerGradients(l, r, matrix, delta, ...
                                   nonlinearityDeriv, innerOutput)
+% Compute the gradients and deltas for an RNN layer for a given batch.
+
+in = [ones(1, size(l, 2)); l; r];
 
 if nargin < 7
-    innerOutput = matrix * [a; b] + bias;
-	% Slow diagnostic assert:
-	% assert(min(innerOutput == matrix * [a;b] + bias), '!');
+    innerOutput = matrix * in;
 end
 
-% Compute the gradients and deltas for an RNN layer for a given example
 NLDeriv = nonlinearityDeriv(innerOutput);
-
 delta = NLDeriv .* delta;
 
-% Calculate bias gradients
-biasGradients = delta;
-
 % Compute the matrix gradients
-matrixGradients = (delta * [a;b]');
+% TODO: Vectorize! (Tricky so far...)
+matrixGradients = zeros(size(matrix, 1), size(matrix, 2), size(l, 2));
+for b = 1:size(l, 2)
+	matrixGradients(:, :, b) = delta(:, b) * in(:, b)';
+end
 
 if nargout > 2
 	% Calculate deltas to pass down
-	deltaDown = (matrix' * delta);
-	deltaLeft = deltaDown(1:length(a));
-	deltaRight = deltaDown(length(a)+1:length(deltaDown));
+	deltaDown = matrix(:, 2:end)' * delta;
+	deltaLeft = deltaDown(1:size(l, 1), :);
+	deltaRight = deltaDown(size(l, 1) + 1:size(deltaDown, 1), :);
 end
 
 end

@@ -2,7 +2,7 @@
 function [ theta, thetaDecoder, separateWordFeatures ] = InitializeModel(wordMap, hyperParams)
 % Initialize the learned parameters of the model. 
 
-assert(~(hyperParams.lstm && hyperParams.useThirdOrder))
+assert(~(hyperParams.lstm && hyperParams.useThirdOrderComposition))
 assert(~(hyperParams.lstm && hyperParams.eyeScale))
 assert(~(hyperParams.lstm && hyperParams.useTrees))
 
@@ -12,6 +12,7 @@ EMBDIM = hyperParams.embeddingDim;
 PENULT = hyperParams.penultDim;
 TOPD = hyperParams.topDepth;
 NUMTRANS = hyperParams.embeddingTransformDepth;
+
 if hyperParams.useSumming
     NUMCOMP = 0;
 elseif ~hyperParams.untied
@@ -22,67 +23,62 @@ else
 end
 
 % Randomly initialize softmax layer
-classifierParameters = [zeros(sum(hyperParams.numRelations), 1), ...
-                        rand(sum(hyperParams.numRelations), PENULT) .* 0.002 - 0.001];
+softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numRelations), 1, hyperParams.NNinitType);
 
-scale = 1 / sqrt(DIM);
-classifierMatrix = rand(PENULT, DIM * 2) .* (2 * scale) - scale;
-classifierBias = zeros(PENULT, 1);
+mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 
 % Randomly initialize tensor parameters
-if hyperParams.useThirdOrderComparison
-    scale = 2 * hyperParams.tensorScale / sqrt(DIM);
-    classifierMatrices = rand(DIM, DIM, PENULT) .* (2 * scale) - scale;
-    classifierMatrix = classifierMatrix .* (1 - hyperParams.tensorScale);
+if hyperParams.useThirdOrderMerge
+    mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
+    mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
 else
-    classifierMatrices = rand(0, 0, PENULT);
+    mergeMatrices = zeros(0, 0, PENULT);
 end
 
 if hyperParams.lstm
-  scale = 1 / sqrt(DIM);
-  compositionMatrix = rand(DIM * 4, DIM * 2 + 1, NUMCOMP) .* (2 * scale) - scale;
-  compositionMatrix(:, 1) = 3 * scale;
+  compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType);
 else
-  scale = 1 / sqrt(2 * DIM);
-  compositionMatrix = rand(DIM, DIM * 2, NUMCOMP) .* (2 * scale) - scale;
+  compositionMatrix = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType);
 end
   
 if hyperParams.eyeScale > 0 && ~hyperParams.lstm
   for i = 1:NUMCOMP
-    compositionMatrix(:, :, i) = compositionMatrix(:, :, i) .* (1 - hyperParams.eyeScale) + [eye(DIM) eye(DIM)] .* hyperParams.eyeScale;
+    compositionMatrix(:, end - (2 * DIM) + 1:end, i) = compositionMatrix(:, end - (2 * DIM) + 1:end, i) .* (1 - hyperParams.eyeScale) + [eye(DIM) eye(DIM)] .* hyperParams.eyeScale;
   end
 end
 
-if hyperParams.useThirdOrder
-    scale = hyperParams.tensorScale / sqrt(DIM);
-    compositionMatrices = rand(DIM, DIM, DIM, NUMCOMP) .* (2 * scale) - scale;
+if hyperParams.useThirdOrderComposition && ~hyperParams.usePyramids
+  if hyperParams.tensorScale > 0
+    compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
     compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
+  else
+    compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
+  end
+elseif hyperParams.usePyramids
+  % To keep stacking and unstacking simple, we overload this parameter name for the 
+  % connection chosing layer in the pyramid model.
+  NUMACTIONS = 3;
+  compositionMatrices = InitializeNNLayer((2 * hyperParams.pyramidConnectionContextWidth) * DIM + NUMACTIONS, NUMACTIONS, 1, hyperParams.NNinitType);
 else
-    compositionMatrices = [];
+  compositionMatrices = [];
 end
 
-if ~hyperParams.lstm
-  compositionBias = zeros(DIM, NUMCOMP);
+classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);
+
+  
+if NUMTRANS > 0
+  assert(NUMTRANS == 1, 'Currently, we do not support more than one embedding transform layer.');
+  embeddingTransformMatrix = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType);
 else
-  compositionBias = [];
+  embeddingTransformMatrix = [];
 end
-
-scale = 1 / sqrt(PENULT);
-classifierExtraMatrix = rand(PENULT, PENULT, TOPD - 1) .* (2 * scale) - scale;
-classifierExtraBias = zeros(PENULT, TOPD - 1);
-
-scale = 1 / sqrt(EMBDIM);
-embeddingTransformMatrix = rand(DIM, EMBDIM, NUMTRANS) .* (2 * scale) - scale;
-embeddingTransformBias = zeros(DIM, NUMTRANS);
-
-wordScale = 2/sqrt(EMBDIM);
-
+  
 if hyperParams.loadWords
    Log(hyperParams.statlog, 'Loading the vocabulary.')
-   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, wordScale);
+   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
 else 
     % Randomly initialize the words
-    wordFeatures = rand(vocabLength, EMBDIM) .*   (2 * wordScale) - wordScale;
+    wordFeatures = normrnd(0, 1, vocabLength, EMBDIM);
     if ~hyperParams.trainWords
        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
    end
@@ -97,10 +93,9 @@ else
 end
 
 % Pack up the parameters.
-[theta, thetaDecoder] = param2stack(classifierMatrices, classifierMatrix, ...
-    classifierBias, classifierParameters, wordFeatures, compositionMatrices, ...
-    compositionMatrix, compositionBias, classifierExtraMatrix, ...
-    classifierExtraBias, embeddingTransformMatrix, embeddingTransformBias);
+[ theta, thetaDecoder ] = param2stack(mergeMatrices, mergeMatrix, ...
+    softmaxMatrix, wordFeatures, compositionMatrices, ...
+    compositionMatrix, classifierExtraMatrix, embeddingTransformMatrix);
 
 end
 

@@ -1,24 +1,57 @@
-function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, tot, summing, trainwords, fastemb, trees, lstm, parens)
+function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, summing, trainwords, fastemb)
 % Set up a gradient check for the main learned parameters.
 
 [hyperParams, options] = Defaults();
 
-hyperParams.useTrees = trees;
-hyperParams.lstm = lstm;
+if composition == -1
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.useSumming = 1;
+elseif composition < 2
+	hyperParams.useThirdOrderComposition = composition;
+	hyperParams.useThirdOrderMerge = composition;
+elseif composition == 2
+	hyperParams.lstm = 1;
+	hyperParams.useTrees = 0;
+	hyperParams.eyeScale = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.parensInSequences = 0;
+elseif composition == 3
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.parensInSequences = 0;
+elseif composition == 4
+	hyperParams.usePyramids = 1;
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.parensInSequences = 0;
+elseif composition == 5
+	hyperParams.usePyramids = 1;
+	hyperParams.lstm = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.parensInSequences = 0;
+end
 
 % Add identity matrices where appropriate in initiazilation.
-hyperParams.eyeScale = hyperParams.eyeScale * (1 - lstm);
+hyperParams.eyeScale = hyperParams.eyeScale;
 
-hyperParams.parensInSequences = parens;
+hyperParams.parensInSequences = 0;
 
 hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 2;
-hyperParams.embeddingDim = 2;
+hyperParams.dim = 3;
+hyperParams.embeddingDim = 3;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 2;
+hyperParams.penultDim = 3;
 
 hyperParams.testFraction = 0.33;
 
@@ -34,16 +67,15 @@ hyperParams.topDepth = topDepth;
 % to the parameters that are in use at each step.
 hyperParams.fastEmbed = fastemb;
 
+hyperParams.clipGradients = false;
+hyperParams.maxGradNorm = inf;
+
 % Regularization coefficient.
 hyperParams.lambda = 0;
 
 % Hack: -1 means to always drop out the same one unit.
 hyperParams.bottomDropout = -1;
 hyperParams.topDropout = -1;
-
-% Use NTN layers in place of NN layers.
-hyperParams.useThirdOrder = tot;
-hyperParams.useThirdOrderComparison = tot;
 
 % Use a simple summing layer function for composition.
 hyperParams.useSumming = summing;
@@ -71,7 +103,7 @@ options.numPasses = 1;
 
 options.lr = 0.1;
 
-wordMap = InitializeMaps('./grammars/wordlist.tsv'); 
+wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers';
 
 hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
@@ -79,7 +111,7 @@ hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-hyperParams.splitFilenames = {'./grammars/test_file.tsv'};
+hyperParams.splitFilenames = {'./quantifiers/test_file.tsv'};
 hyperParams.trainFilenames = {};
 hyperParams.testFilenames = {};
 

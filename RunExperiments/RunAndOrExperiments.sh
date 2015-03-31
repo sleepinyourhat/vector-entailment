@@ -69,4 +69,56 @@ jude44.stanford.edu - 879583.scail.stanford.edu - cd quant; dataflag = 'and-or-d
 jude40.stanford.edu - 879586.scail.stanford.edu - cd quant; dataflag = 'and-or-deep-static'; lambda = 0.0000005; dim = 30; td = 1; penult = 90; dropout = 1; tot = 2; name='dimtest3'; relu = 1; TrainModel('', 1, @AndOr, name, dataflag, dim, penult, td, lambda, tot, relu, dropout, 16);
 jude42.stanford.edu - 879584.scail.stanford.edu - cd quant; dataflag = 'and-or-deep-static'; lambda = 0.000005; dim = 30; td = 1; penult = 90; dropout = 1; tot = 2; name='dimtest3'; relu = 1; TrainModel('', 1, @AndOr, name, dataflag, dim, penult, td, lambda, tot, relu, dropout, 4);
 
+# LSTM comparison
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-static'; lambda = 0.0003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-static'; lambda = 0.0003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+				
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 0.1);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 10);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 0.1);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 10);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 50; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 2; penult = 40; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0000003; dim = 50; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 30; td = 2; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0000003; dim = 30; td = 1; penult = 160; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+# e-5 best, d30 prob best (??), top2 best
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 50; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 2; penult = 40; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0000003; dim = 50; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 30; td = 2; penult = 90; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0000003; dim = 30; td = 1; penult = 160; tot = 2; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+# e-5 best, d50 prob best, top2 maybe not best
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 40; td = 1; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 2; penult = 60; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 40; td = 2; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 30; td = 2; penult = 90; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 40; td = 2; penult = 120; tot = 1; name='/scr/sbowman/comptest'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16\, 5);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 50; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest2'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 40; td = 2; penult = 120; tot = 2; name='/scr/sbowman/comptest2'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 2; penult = 90; tot = 2; name='/scr/sbowman/comptest2'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.000003; dim = 60; td = 2; penult = 120; tot = 2; name='/scr/sbowman/comptest2'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.00003; dim = 50; td = 1; penult = 90; tot = 2; name='/scr/sbowman/comptest2'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 16);" ; qsub -v MATLABCMD quant/run.sh -l nodes=1:ppn=8
+
+# d50 good, pen90 good
+# top2 eh
+# l-05 good
+
+# Curric?
+																																								name, dataflag, dim, penult, top, lambda, composition, reluAndOr(name, dataflag, dim, penult, top, lambda, composition, mbs)

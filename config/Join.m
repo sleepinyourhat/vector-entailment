@@ -20,13 +20,13 @@ hyperParams.useCompatibilityInitialization = true;
 hyperParams.useEyes = 1;
 
 if tot == -1
-  hyperParams.useThirdOrder = 0;
-  hyperParams.useThirdOrderComparison = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;
 else
   % Use NTN layers in place of NN layers.
-  hyperParams.useThirdOrder = tot;
-  hyperParams.useThirdOrderComparison = tot;
+  hyperParams.useThirdOrderComposition = tot;
+  hyperParams.useThirdOrderMerge = tot;
 end
 
 hyperParams.dim = dim;
@@ -61,42 +61,42 @@ if findstr(dataflag, 'fold1')
     hyperParams.trainFilenames = {'./join-table/data/train_1.tsv'};
     hyperParams.testFilenames = {'./join-table/data/test_1.tsv', ...
                      './join-table/data/underivable_1.tsv'};
-    wordMap = LoadTrainingData('./join-table/data/train_1.tsv')
+    wordMap = LoadWordPairData('./join-table/data/train_1.tsv')
 elseif findstr(dataflag, 'fold2')
     % Choose which files to load in each category.
     hyperParams.splitFilenames = {};
     hyperParams.trainFilenames = {'./join-table/data/train_2.tsv'};
     hyperParams.testFilenames = {'./join-table/data/test_2.tsv', ...
                      './join-table/data/underivable_2.tsv'};
-    wordMap = LoadTrainingData('./join-table/data/train_2.tsv')
+    wordMap = LoadWordPairData('./join-table/data/train_2.tsv')
 elseif findstr(dataflag, 'fold3')
     % Choose which files to load in each category.
     hyperParams.splitFilenames = {};
     hyperParams.trainFilenames = {'./join-table/data/train_3.tsv'};
     hyperParams.testFilenames = {'./join-table/data/test_3.tsv', ...
                      './join-table/data/underivable_3.tsv'};
-    wordMap = LoadTrainingData('./join-table/data/train_3.tsv')
+    wordMap = LoadWordPairData('./join-table/data/train_3.tsv')
 elseif findstr(dataflag, 'fold4')
     % Choose which files to load in each category.
     hyperParams.splitFilenames = {};
     hyperParams.trainFilenames = {'./join-table/data/train_4.tsv'};
     hyperParams.testFilenames = {'./join-table/data/test_4.tsv', ...
                      './join-table/data/underivable_4.tsv'};
-    wordMap = LoadTrainingData('./join-table/data/train_4.tsv')
+    wordMap = LoadWordPairData('./join-table/data/train_4.tsv')
 elseif findstr(dataflag, 'fold5')
     % Choose which files to load in each category.
     hyperParams.splitFilenames = {};
     hyperParams.trainFilenames = {'./join-table/data/train_5.tsv'};
     hyperParams.testFilenames = {'./join-table/data/test_5.tsv', ...
                      './join-table/data/underivable_5.tsv'};
-    wordMap = LoadTrainingData('./join-table/data/train_5.tsv');
+    wordMap = LoadWordPairData('./join-table/data/train_5.tsv');
 else
     % Choose which files to load in each category.
     hyperParams.splitFilenames = {};
     hyperParams.trainFilenames = {'./join-table/data/6x80_train.tsv'};
     hyperParams.testFilenames = {'./join-table/data/6x80_test.tsv', ...
                      './join-table/data/6x80_test_underivable.tsv'};
-    wordMap = LoadTrainingData('./join-table/data/6x80_train.tsv');
+    wordMap = LoadWordPairData('./join-table/data/6x80_train.tsv');
 end
 
 options.numPasses = 2600;
