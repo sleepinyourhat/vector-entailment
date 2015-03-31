@@ -71,5 +71,7 @@ hyperParams.testFilenames = {};
 hyperParams.splitFilenames = strcat('./quantifiers/data/', {listingG.name});
 
 options.numPasses = 1000;
+options.confusionFreq = 25000;
+options.examplesFreq = 25000; 
 
 end

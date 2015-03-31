@@ -66,7 +66,8 @@ end
 classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);
 
   
-if NUMTRANS > 1
+if NUMTRANS > 0
+  assert(NUMTRANS == 1, 'Currently, we do not support more than one embedding transform layer.');
   embeddingTransformMatrix = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType);
 else
   embeddingTransformMatrix = [];

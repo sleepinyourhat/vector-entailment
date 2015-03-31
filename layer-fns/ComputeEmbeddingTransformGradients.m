@@ -1,21 +1,23 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ matrixGradients, delta ] = ...
-          ComputeExtraClassifierGradients(matrix, ...
-              delta, inputs, innerOutputs, classNLDeriv)
+function [ matrixGradients, deltaDown ] = ...
+          ComputeEmbeddingTransformGradients(matrix, delta, in, innerOutput, nonlinearityDeriv)
 
-INDIM = size(matrix, 2);
-OUTDIM = size(matrix, 1);
+inPadded = [ones(1, size(in, 2)); in];
 
-matrixGradients = zeros(OUTDIM, INDIM + 1);
+if nargin < 7
+    innerOutput = matrix * inPadded;
+end
 
-NLDeriv = classNLDeriv(innerOutputs);
+NLDeriv = nonlinearityDeriv(innerOutput);
+delta = NLDeriv .* delta;
 
-delta = delta .* NLDeriv;
+% Compute the matrix gradients
+% TODO: Vectorize! (Tricky so far...)
+matrixGradients = zeros(size(matrix, 1), size(matrix, 2), size(in, 2));
+for b = 1:size(in, 2)
+	matrixGradients(:, :, b) = delta(:, b) * inPadded(:, b)';
+end
 
-% Calculate matrix gradients
-matrixGradients = delta * [ones(size(a, 2)); inputs]';
-
-% Calculate deltas to pass down
-delta = (matrix(:, 2:end)' * delta);
+deltaDown = matrix(:, 2:end)' * delta;
 
 end

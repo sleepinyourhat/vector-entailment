@@ -33,10 +33,11 @@ hyperParams.useCompatibilityInitialization = false;
 % additional context.
 hyperParams.pyramidConnectionContextWidth = 3;
 
-% The number of embedding transform layers. topDepth > 0 means NN layers will be
+% The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
+% the rest of the constituents do. Currently, 0 and 1 are the only supported values,
+% though it may be worth adding support for multiple layers later.
 hyperParams.embeddingTransformDepth = 0;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
