@@ -161,16 +161,16 @@ classdef Tree < handle
         function i = getWordIndex(obj)
             i = obj.wordIndex;
         end
-        
-        function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, embeddingTransformMatrix, compNL, trainingMode)
+
+       function updateFeatures(obj, wordFeatures, compMatrices, ...
+                                compMatrix, embeddingTransformMatrix, compNL, trainingMode, hyperParams)
             % Recomputes features using fresh parameters.
 
             if (~isempty(obj.daughters))
                 for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
                         wordFeatures, compMatrices, compMatrix, embeddingTransformMatrix, ...
-                        compNL, trainingMode);
+                        compNL, trainingMode, hyperParams);
                 end
                 
                 lFeatures = obj.daughters(1).features;
@@ -217,10 +217,9 @@ classdef Tree < handle
             getGradient(obj, delta, ~, wordFeatures, compMatrices, ...
                         compMatrix, embeddingTransformMatrix, ...
                         compNLDeriv, hyperParams)
-            % Note: Delta should be a column vector.
             
             DIM = length(delta);
-            EMBDIM = size(embeddingTransformMatrix, 2);
+            EMBDIM = size(embeddingTransformMatrix, 2) - 1;
             NUMTRANS = size(embeddingTransformMatrix, 3) .* (length(embeddingTransformMatrix) > 0);
 
             if size(compMatrix, 3) == 1 % Using tied composition parameters

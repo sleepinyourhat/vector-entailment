@@ -80,11 +80,7 @@ classdef Pyramid < handle
                 if wordMap.isKey(nextTry)
                     % Account for possible use of exactAlign.
                     id = wordMap(nextTry);
-                elseif findstr('-', nextTry)
-                    % Try splitting hyphenated words if they aren't in the dictionary whole.
-                    [first, remainder] = strtok(nextTry, '-');
-                    converted = [first, ' ( - ', remainder(2:end), ' ) '];
-                    t = Tree.makeTree(converted, wordMap);
+                    % TODO: Try splitting hyphenated words if they aren't in the dictionary whole.
                 else
                     if wordMap.isKey('<unk>')
                         id = wordMap('<unk>');

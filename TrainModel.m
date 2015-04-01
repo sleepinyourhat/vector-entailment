@@ -35,6 +35,7 @@ if matlabpool('size') == 0
 end
 
 [ hyperParams, options, wordMap, relationMap ] = ConfigFn(varargin{:});
+hyperParams.relationRanges = ComputeRelationRanges(relationMap);
 
 % If the fold number is grater than one, the train/test split on split data will 
 % be offset accordingly.

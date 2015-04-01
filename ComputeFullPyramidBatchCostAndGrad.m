@@ -50,7 +50,7 @@ for layer = 1:(hyperParams.topDepth - 1)
 end
 
 [ relationProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
-              softmaxMatrix, 1:size(softmaxMatrix, 1), [data(:).relation]);
+              softmaxMatrix, hyperParams, [data(:).relation]');
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
 % TODO: Is it worth scaling the two different types of cost?
@@ -68,7 +68,7 @@ combinedCost = normalizedCost + regCost;
 
 % minFunc needs a single scalar cost, not the triple that is computed here.
 if ~hyperParams.minFunc
-    cost = [combinedCost normalizedCost regCost]; 
+    cost = [combinedCost normalizedCost regCost];
 else
     cost = combinedCost;
 end
@@ -78,12 +78,12 @@ accumulatedSuccess = 0;
 [ ~, preds ] = max(relationProbs);
 confusion = zeros(hyperParams.numRelations);
 for b = 1:B
-    localCorrect = preds(b) == data(b).relation(find(data(b).relation > 0));
+    localCorrect = preds(b) == data(b).relation(1);
     accumulatedSuccess = accumulatedSuccess + localCorrect;
 
     if (~localCorrect) && (nargout > 2) && hyperParams.showExamples
         Log(hyperParams.examplelog, ['for: ', data(b).left.getText(), ' ', data(b).right.getText(), ...
-              ' hyp:  ', num2str(preds(b)), ' w/ p=', num2str(relationProbs(preds(b), b))]);
+              ' hyp:  ', num2str(preds(b))]);
     end
 
     if nargout > 4
@@ -105,7 +105,7 @@ end
 if computeGrad
     [ localSoftmaxGradient, softmaxDelta ] = ...
         ComputeSoftmaxClassificationGradients(...
-          softmaxMatrix, relationProbs, [data(:).relation], extraClassifierLayerInputs(:, :, hyperParams.topDepth));
+          softmaxMatrix, relationProbs, [data(:).relation]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams);
     localSoftmaxGradient = sum(localSoftmaxGradient, 3);
 
     [ localExtraMatrixGradients, extraDelta ] = ...
@@ -206,7 +206,7 @@ if computeGrad
 
     if hyperParams.fastEmbed
         % Compile the embedding gradient
-        embGrad = accumulatedSeparateWordFeatureGradients * 1/length(data);
+        embGrad = localWordFeatureGradients * 1/length(data);
 
         for wordInd = find(embGrad(:,1))'   % TODO: Parallelize
             % Apply regularization to the gradient

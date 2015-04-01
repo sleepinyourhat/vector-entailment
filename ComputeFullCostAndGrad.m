@@ -51,7 +51,7 @@ if nargout > 1
             accumulatedSeparateWordFeatureGradients = accumulatedSeparateWordFeatureGradients + localEmbGrad;
         end
 
-        localCorrect = localPred == data(b).relation(find(data(b).relation > 0));
+        localCorrect = localPred == data(b).relation(1);
 
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
             logMessages{b} = ['for: ', data(b).left.getText(), ' ', data(b).right.getText(), ...
