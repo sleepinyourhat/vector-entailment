@@ -54,10 +54,10 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
-if composition < 0
-  hyperParams.useSumming = 1;
+if composition == -1
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
+  hyperParams.useSumming = 1;
 elseif composition < 2
   hyperParams.useThirdOrderComposition = composition;
   hyperParams.useThirdOrderMerge = composition;
@@ -66,19 +66,34 @@ elseif composition == 2
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 0;
+  hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 elseif composition == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
-  hyperParams.eyeScale = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 1;
+  hyperParams.parensInSequences = 0;
+elseif composition == 4
+  hyperParams.usePyramids = 1;
+  hyperParams.lstm = 0;
+  hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.parensInSequences = 0;
+elseif composition == 5
+  hyperParams.usePyramids = 1;
+  hyperParams.lstm = 0;
+  hyperParams.useTrees = 0;
+  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderMerge = 1;
+  hyperParams.parensInSequences = 0;
 end
 
-hyperParams.loadWords = true;
+hyperParams.loadWords = false;
 hyperParams.trainWords = true;
+' NOT LOADING WORDS '
+hyperParams.ignorePreprocessedFiles = true;
 
 hyperParams.fragmentData = false;
 
@@ -88,7 +103,7 @@ options.miniBatchSize = 32;
 options.updateFn = @AdaDeltaUpdate;
 
 if findstr(dataflag, 'snli095-sick')
-    wordMap = InitializeMaps('./sick_data/sick-snli0.95_words.txt');
+    wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
     hyperParams.numRelations = [3, 3];
@@ -100,10 +115,10 @@ if findstr(dataflag, 'snli095-sick')
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
     hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed.txt', ...
-                                  './sick_data/SICK_train_parsed.txt'};    
+                                  './sick-data/SICK_train_parsed.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt', ...
-                                 './sick_data/SICK_trial_parsed.txt'};
+                                 './sick-data/SICK_trial_parsed.txt'};
 
     hyperParams.relationIndices = [1, 2; 1, 2; 0, 0];
     hyperParams.testRelationIndices = [1, 2];
@@ -119,7 +134,7 @@ elseif findstr(dataflag, 'dg-pre')
     relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
     relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
 
-    wordMap = InitializeMaps('sick_data/sick-snli0.95_words.txt');
+    wordMap = InitializeMaps('sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095';
 
     hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
@@ -129,4 +144,8 @@ elseif findstr(dataflag, 'dg-pre')
 
     hyperParams.relationIndices = [3, 0; 3, 3; 0, 0];
     hyperParams.testRelationIndices = [3, 3];
+end
+
+hyperParams.relationRanges = ComputeRelationRanges(relationMap);
+
 end

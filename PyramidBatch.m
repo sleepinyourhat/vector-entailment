@@ -66,7 +66,9 @@ classdef PyramidBatch < handle
                 pb.wordIndices(1:pb.wordCounts(b), b) = pyramids(b).wordIndices;
                 for w = 1:pyramids(b).wordCount
                     % Populate the bottom row with word features.
-                    pb.features(pb.R, pb.colRng(w), b) = wordFeatures(pyramids(b).wordIndices(w), :)';
+
+                    % TODO: Create a separate ED x N object for inputs to transform layer, not bottom row.
+                    pb.features(pb.R, pb.colRng(w), b) = wordFeatures(pyramids(b).wordIndices(w), :);
                 end
                 pb.connectionLabels(pb.N - pyramids(b).wordCount + 1:pb.N - 1, 1:pyramids(b).wordCount - 1, b) = ...
                     pyramids(b).connectionLabels;
@@ -99,7 +101,8 @@ classdef PyramidBatch < handle
                     % Compute the distribution over connections
                     connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, row, col);
                     [ pb.connections(row, col, :, :), localConnectionCosts ] = ...
-                        ComputeSoftmaxLayer(connectionClassifierInputs, connectionMatrix, 1:pb.NUMACTIONS, pb.connectionLabels(row, col, :));
+                        ComputeSoftmaxLayer(connectionClassifierInputs, connectionMatrix, hyperParams, ...
+                            permute(pb.connectionLabels(row, col, :), [3, 1, 2]));
                     pb.connections(row, col, :, :) = bsxfun(@times, pb.connections(row, col, :, :), ...
                                                             permute(pb.activeNode(row, col, :), [1, 2, 4, 3]));
                     localConnectionCosts = bsxfun(@times, localConnectionCosts, ...
@@ -127,9 +130,10 @@ classdef PyramidBatch < handle
                 topFeatures(:, b) = pb.features(pb.N - pb.wordCounts(b) + 1, 1:pb.D, b);
             end
 
-            if ~trainingMode
-                pb.connections(:,:,:,1)
-                pb.pyramids{1}.getText()
+            if ~trainingMode   
+                % Temporary display method.
+                % pb.connections(:,:,:,1)
+                % pb.pyramids{1}.getText()
             end
         end
 
@@ -246,7 +250,7 @@ classdef PyramidBatch < handle
                     % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
                     [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
                         ComputeSoftmaxClassificationGradients(connectionMatrix, permute(pb.connections(row, col, :, :), [3, 4, 1, 2]), ...
-                            pb.connectionLabels(row, col, :), connectionClassifierInputs);
+                            permute(pb.connectionLabels(row, col, :), [3, 1, 2]), connectionClassifierInputs, hyperParams);
                     connectionMatrixGradients = connectionMatrixGradients + sum(localConnectionMatrixGradients, 3);
                     connectionDeltas = connectionDeltas + localConnectionDeltas;
 

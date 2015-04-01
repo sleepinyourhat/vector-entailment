@@ -10,8 +10,8 @@ count, please contact me (sbowman@stanford.edu) and I will remedy the error.
 MORE WARNING: Trees are represented as new-style objects, so you will need a fairly recent
 copy of MATLAB. R2012b works.
 
-To get started, have a look at the job launch commands in RunF14Experiments and the
-config files in config/.
+To get started, have a look at the job launch commands in RunExperiments (ideally from a release, 
+since this changes all the time) and the config files in config/.
 
 If you don't want to run jobs using PBS (or can't), you can replace the escaped commas (\,)
 with plain commas in the commands in RunF14Experiments and pipe the commands into MATLAB, as here:

@@ -134,7 +134,7 @@ classdef Sequence < handle
         end
 
         function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, embeddingTransformMatrix, compNL, trainingMode)
+                                compMatrix, embeddingTransformMatrix, compNL, trainingMode, hyperParams)
             % Recomputes features using fresh parameters.
 
             LSTM = size(compMatrix, 1) > size(compMatrix, 2);
@@ -157,7 +157,7 @@ classdef Sequence < handle
             if ~isempty(obj.pred)
                 obj.pred.updateFeatures(...
                     wordFeatures, compMatrices, compMatrix, embeddingTransformMatrix, ...
-                    compNL, trainingMode);
+                    compNL, trainingMode, hyperParams);
                 
                 predActivations = obj.pred.activations;
 
@@ -210,7 +210,7 @@ classdef Sequence < handle
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
 
             forwardCompositionMatricesGradients = [];            
-            forwardEmbeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM, NUMTRANS);
+            forwardEmbeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM + 1, NUMTRANS);
 
             if LSTM
                 if ~isempty(obj.pred)
