@@ -142,11 +142,11 @@ classdef Sequence < handle
             % Compute a feature vector for the input at this node.
             if length(embeddingTransformMatrix) == 0
                 % We have no transform layer, so just use the word features.
-                obj.inputActivations = wordFeatures(obj.wordIndex, :)';
+                obj.inputActivations = wordFeatures(:, obj.wordIndex);
             else
                 % Run the transform layer.
                 obj.transformInnerActivations = embeddingTransformMatrix ...
-                                                * [1, wordFeatures(obj.wordIndex, :)]';
+                                                * [1; wordFeatures(:, obj.wordIndex)];
 
                 activations = compNL(obj.transformInnerActivations);
 
@@ -194,7 +194,7 @@ classdef Sequence < handle
             
             LSTM = size(compMatrix, 1) > size(compMatrix, 2);
             HIDDENDIM = length(deltaH);
-            EMBDIM = size(wordFeatures, 2);
+            EMBDIM = size(wordFeatures, 1);
 
             if ~isempty(embeddingTransformMatrix)
                 INPUTDIM = size(embeddingTransformMatrix, 1);
@@ -279,7 +279,7 @@ classdef Sequence < handle
                     compDeltaInput = compDeltaInput .* obj.mask; % Take dropout into account
                     [tempEmbeddingTransformMatrixGradients, compDeltaInput] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              compDeltaInput, wordFeatures(obj.wordIndex, :)', ...
+                              compDeltaInput, wordFeatures(:, obj.wordIndex), ...
                               obj.transformInnerActivations, compNLDeriv);
                     forwardEmbeddingTransformMatrixGradients = ...
                         forwardEmbeddingTransformMatrixGradients + ...
@@ -287,15 +287,15 @@ classdef Sequence < handle
                 end
 
                 % Compute the word feature gradients
-                forwardWordGradients(obj.getWordIndex, :) = ...
-                    forwardWordGradients(obj.getWordIndex, :) + compDeltaInput';
+                forwardWordGradients(:, obj.wordIndex) = ...
+                    forwardWordGradients(:, obj.wordIndex) + compDeltaInput;
             elseif NUMTRANS > 0
                 % Compute gradients for embedding transform layers only
                 compDeltaInput = compDeltaInput .* obj.mask; % Take dropout into account
 
                 [tempEmbeddingTransformMatrixGradients, ~] = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                          compDeltaInput, wordFeatures(obj.wordIndex, :)', ...
+                          compDeltaInput, wordFeatures(:, obj.wordIndex), ...
                           obj.transformInnerActivations, compNLDeriv);
                 forwardEmbeddingTransformMatrixGradients = ...
                     forwardEmbeddingTransformMatrixGradients + ...

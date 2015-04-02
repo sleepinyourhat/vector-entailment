@@ -6,16 +6,21 @@ function [matrixGradients, deltaLeft, deltaRight] = ...
 
 in = [ones(1, size(l, 2)); l; r];
 
+% TODO: Make this happen less often.
 if nargin < 7
     innerOutput = matrix * in;
 end
 
+% TODO: Efficient NLDeriv
 NLDeriv = nonlinearityDeriv(innerOutput);
 delta = NLDeriv .* delta;
 
 % Compute the matrix gradients
 % TODO: Vectorize! (Tricky so far...)
+
+% TODO: Preallocate and pass in?
 matrixGradients = zeros(size(matrix, 1), size(matrix, 2), size(l, 2));
+% VECTORIZE! Or parfor?
 for b = 1:size(l, 2)
 	matrixGradients(:, :, b) = delta(:, b) * in(:, b)';
 end

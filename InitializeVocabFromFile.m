@@ -16,7 +16,7 @@ fullVocab = dlmread(loc, ' ', 0, 1);
 
 fullWordmap = containers.Map(words,2:length(words) + 1);
 
-vocab = normrnd(0, 1, size(wordlist, 2), size(fullVocab, 2));
+vocab = normrnd(0, 1, size(fullVocab, 2), size(wordlist, 2));
 
 % Rescale the loaded vectors into the same neighborhood as the random ones.
 loadScale = 1 / std(fullVocab(:));
@@ -35,7 +35,7 @@ for wordlistIndex = 1:length(wordlist)
     end
     if loadedIndex > 0
         % Copy in the loaded vector
-        vocab(wordMap(wordlist{wordlistIndex}), :) = fullVocab(loadedIndex, :) .* loadScale;
+        vocab(:, wordMap(wordlist{wordlistIndex})) = fullVocab(loadedIndex, :)' .* loadScale;
     end % Else: We keep the randomly initialized entry
 end
 

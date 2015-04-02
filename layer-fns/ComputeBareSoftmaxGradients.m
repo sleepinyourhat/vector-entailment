@@ -1,6 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ matrixGradients, deltasDown ] = ...
-    ComputeSoftmaxGradients(matrix, probs, deltas, in)
+    ComputeBareSoftmaxGradients(matrix, probs, deltas, in)
 % Compute the gradient for the softmax layer parameters using incoming
 % deltas rather than log loss and a class label vector.
 
@@ -8,13 +8,11 @@ function [ matrixGradients, deltasDown ] = ...
 % as in the other two Softmax functions.
 
 B = size(in, 2);
-inDim = size(in, 1);
 outDim = size(probs, 1);
 inPadded = [ones(1, B); in];
 
 % TODO: Save these between forward and backward passes
 z = matrix * inPadded;
-unnormedProbs = exp(z);
 
 % Compute dProb / dZ
 % TODO: Vectorize more?

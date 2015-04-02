@@ -68,7 +68,7 @@ classdef PyramidBatch < handle
                     % Populate the bottom row with word features.
 
                     % TODO: Create a separate ED x N object for inputs to transform layer, not bottom row.
-                    pb.features(pb.R, pb.colRng(w), b) = wordFeatures(pyramids(b).wordIndices(w), :);
+                    pb.features(pb.R, pb.colRng(w), b) = wordFeatures(:, pyramids(b).wordIndices(w));
                 end
                 pb.connectionLabels(pb.N - pyramids(b).wordCount + 1:pb.N - 1, 1:pyramids(b).wordCount - 1, b) = ...
                     pyramids(b).connectionLabels;
@@ -83,7 +83,7 @@ classdef PyramidBatch < handle
             % TODO: Work out efficient assignment of rows/columns for main feature array.
 
             % Run the optional embedding transformation layer forward.
-            if length(embeddingTransformMatrix) > 0
+            if ~isempty(embeddingTransformMatrix)
                 for col = 1:pb.N
                     transformInputs = [ ones(1, pb.B); permute(pb.features(pb.R, pb.colRng(col), :), [2, 3, 1]) ];
                     pb.transformInnerActivations(pb.colRng(col), :) = ...
@@ -93,8 +93,6 @@ classdef PyramidBatch < handle
                 end
             end
 
-            % TODO: Storing this variable btw forward and backward runs would take up loads of space, but could save time. Investigate.
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
             connectionCosts = zeros(pb.B, 1);
             for row = pb.N - 1:-1:1
                 for col = 1:row
@@ -148,6 +146,7 @@ classdef PyramidBatch < handle
             for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
                 if (sourcePos > 0) && (sourcePos <= row + 1)
+                    % TODO: Make sure the multiplication is necessary.
                     connectionClassifierInputs(pb.colRng(pos), :) = ...
                         bsxfun(@times, pb.features(row + 1, pb.colRng(sourcePos), :), ...
                                pb.activeNode(row, col, :) .* pb.activeNode(row + 1, sourcePos, :));
@@ -161,6 +160,7 @@ classdef PyramidBatch < handle
         end
 
         function [ range ] = colRng(pb, startCol, endCol)
+            % TODO: Precompute?
             % Computes the indices for the activations in feature matrix corresponding to columns start:end
             if nargin < 3
                 % If no end is supplied, return the feature range for the single column startCol
@@ -183,14 +183,13 @@ classdef PyramidBatch < handle
             % but this could impose some time/complexity costs. Investigate.
             deltas = zeros(pb.R, pb.N * pb.D, pb.B);
 
-            % Populate the delta matrix with the incoming deltas.
+            % Populate the delta matrix with the incoming deltas (reasonably fast).
             for b = 1:pb.B
                 deltas(pb.N - pb.wordCounts(b) + 1, pb.colRng(1), b) = incomingDeltas(:, b);
             end
 
             % Initialize some variables that will be used inside the loop.
             deltasToConnections = zeros(pb.NUMACTIONS, pb.B);
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
             % Iterate over the structure in reverse
             for row = 1:pb.N - 1
@@ -277,7 +276,7 @@ classdef PyramidBatch < handle
             end
 
             % Run the embedding transform layers backwards.
-            if length(embeddingTransformMatrix) > 0
+            if ~isempty(embeddingTransformMatrix)
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));
                 for col = 1:pb.N
                     transformDeltas = permute(deltas(pb.N, pb.colRng(col), :), [2, 3, 1]) .* pb.masks(pb.colRng(col), :); % Take dropout into account
@@ -298,9 +297,9 @@ classdef PyramidBatch < handle
             if hyperParams.trainWords
                 for b = 1:pb.B
                     for col = 1:pb.wordCounts(b)
-                        wordGradients(pb.wordIndices(col, b), :) = ...
-                            wordGradients(pb.wordIndices(col, b), :) + ...
-                            deltas(pb.R, pb.colRng(col), b);
+                        wordGradients(:, pb.wordIndices(col, b)) = ...
+                            wordGradients(:, pb.wordIndices(col, b)) + ...
+                            deltas(pb.R, pb.colRng(col), b)';
                     end
                 end
             end
