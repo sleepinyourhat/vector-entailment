@@ -113,7 +113,6 @@ if computeGrad
     [ localExtraMatrixGradients, extraDelta ] = ...
       ComputeExtraClassifierGradients(classifierExtraMatrix,...
           softmaxDelta, extraClassifierLayerInputs, extraClassifierLayerInnerOutputs, hyperParams.classNLDeriv);
-    localExtraMatrixGradients = sum(localExtraMatrixGradients, 4);
 
     if hyperParams.useThirdOrderMerge
         % Compute gradients for the merge tensor layer
@@ -124,7 +123,6 @@ if computeGrad
               mergeMatrices, mergeMatrix, ...
               extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
           localMergeMatricesGradients = sum(localMergeMatricesGradients, 4);
-          localMergeMatrixGradients = sum(localMergeMatrixGradients, 3);
     else
          % Compute gradients for the merge NN layer
          localMergeMatricesGradients = [];  
@@ -134,7 +132,6 @@ if computeGrad
               mergeMatrix, extraDelta, hyperParams.classNLDeriv, innerOutput);
 
           % Accumulate across batches.
-          localMergeMatrixGradients = sum(localMergeMatrixGradients, 3);
     end
 
     MergeDeltaLeft = MergeDeltaLeft .* leftMask;

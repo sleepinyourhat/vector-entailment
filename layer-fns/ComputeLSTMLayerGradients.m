@@ -33,7 +33,7 @@ dIFOGf(Ir) = IFOGf(Gr) .* dC';
 dIFOGf(Gr) = IFOGf(Ir) .* dC';
 
 % Backprop through nonlinearities
-dIFOG(Gr) = (1 - (IFOGf(Gr) .^ 2)) .* dIFOGf(Gr);		% Why not TanhDeriv?
+dIFOG(Gr) = (1 - (IFOGf(Gr) .^ 2)) .* dIFOGf(Gr);
 y = IFOGf([Ir Fr Or]);
 dIFOG([Ir Fr Or]) = (y .* (1.0 - y)) .* dIFOGf([Ir Fr Or]);
 

@@ -41,7 +41,6 @@ if (nargin > 3) && (size(labels, 2) == 2)
 	end
 else
 	% Single class set case.
-
 	unNormedProbs = exp(matrix * inPadded);
 	partitions = sum(unNormedProbs);
 	probs = bsxfun(@rdivide, unNormedProbs, partitions);

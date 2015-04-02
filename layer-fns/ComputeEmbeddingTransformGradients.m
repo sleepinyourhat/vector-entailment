@@ -10,14 +10,7 @@ end
 
 NLDeriv = nonlinearityDeriv(innerOutput);
 delta = NLDeriv .* delta;
-
-% Compute the matrix gradients
-% TODO: Vectorize! (Tricky so far...)
-matrixGradients = zeros(size(matrix, 1), size(matrix, 2), size(in, 2));
-for b = 1:size(in, 2)
-	matrixGradients(:, :, b) = delta(:, b) * inPadded(:, b)';
-end
-
+matrixGradients = delta * inPadded';
 deltaDown = matrix(:, 2:end)' * delta;
 
 end
