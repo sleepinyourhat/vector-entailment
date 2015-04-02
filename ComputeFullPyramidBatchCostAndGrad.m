@@ -218,8 +218,8 @@ if computeGrad
                 embGrad(:, wordInd) = embGrad(:, wordInd) + ...
                     hyperParams.lambda * sign(separateWordFeatures(:, wordInd));
             end
-            assert(sum(isnan(embGrad(wordInd, :))) == 0, 'NaNs in computed embedding gradient.');
-            assert(sum(isinf(embGrad(wordInd, :))) == 0, 'Infs in computed embedding gradient.');
+            % assert(sum(isnan(embGrad(:, wordInd))) == 0, 'NaNs in computed embedding gradient.');
+            % assert(sum(isinf(embGrad(:, wordInd))) == 0, 'Infs in computed embedding gradient.');
         end
     else
         embGrad = [];
