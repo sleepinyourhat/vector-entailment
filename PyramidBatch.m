@@ -31,7 +31,6 @@ classdef PyramidBatch < handle
         numNodes = []; % The number of active nodes for each pyramid.
 
         % TODO: Clip deltas as they are created.
-        % TODO: Remove colRng, and just index by column.
     end
    
     methods(Static)
@@ -81,7 +80,8 @@ classdef PyramidBatch < handle
 
     methods
         function [ topFeatures, connectionCosts ] = runForward(pb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
-            % TODO: Work out efficient assignment of rows/columns for main feature array.
+
+            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
@@ -98,7 +98,7 @@ classdef PyramidBatch < handle
             for row = pb.N - 1:-1:1
                 for col = 1:row
                     % Compute the distribution over connections
-                    connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, col, row);
+                    connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, col, row, connectionClassifierInputs);
                     [ pb.connections(:, :, col, row), localConnectionCosts ] = ...
                         ComputeSoftmaxLayer(connectionClassifierInputs, connectionMatrix, hyperParams, ...
                             pb.connectionLabels(:, col, row));
@@ -140,11 +140,11 @@ classdef PyramidBatch < handle
             connectionCosts = connectionCosts ./ pb.numNodes;
         end
 
-        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)
+        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row, connectionClassifierInputs)
             % TODO: Have this rewrite the variable in place?
 
+
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
             for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
@@ -153,12 +153,16 @@ classdef PyramidBatch < handle
                     connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = ...
                         bsxfun(@times, pb.features(:, :, sourcePos, row + 1), ...
                                permute(pb.activeNode(:, col, row) .* pb.activeNode(:, sourcePos, row + 1), [2, 1, 3]));
+                else
+                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = 0;
                 end
                 % Else: Leave in the zeros. Maybe fix replace with edge-of-sentence token? (TODO)
             end
             if col > 1
                 connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = ...
                     pb.connections(:, :, col - 1, row);
+            else
+                connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = 0;
             end
         end
 
@@ -166,6 +170,8 @@ classdef PyramidBatch < handle
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
             getGradient(pb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
             % Run backwards.
+
+            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
             connectionMatrixGradients = zeros(size(connectionMatrix, 1), size(connectionMatrix, 2));
@@ -232,7 +238,7 @@ classdef PyramidBatch < handle
                                                  pb.compositionActivations(:, :, col, row), 1);
                     
                     % Compute gradients from the connection classifier wrt. the incoming deltas from above and to the right.
-                    connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, col, row);
+                    connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, col, row, connectionClassifierInputs);
                     [ localConnectionMatrixGradients, connectionDeltas ] = ...
                         ComputeBareSoftmaxGradients(connectionMatrix, pb.connections(:, :, col, row), ...
                             deltasToConnections, connectionClassifierInputs);
