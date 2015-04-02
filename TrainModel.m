@@ -19,7 +19,7 @@ addpath('config/')
 % Look for the NN internals in this directory.
 addpath('layer-fns/')
 
-if matlabpool('size') == 0
+if isempty(gcp('nocreate'))
     % Set up paralellization
     c = parcluster();
     t = tempname();

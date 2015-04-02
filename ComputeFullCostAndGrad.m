@@ -126,25 +126,23 @@ if computeGrad
         % Compile the embedding gradient
         embGrad = accumulatedSeparateWordFeatureGradients * 1/length(data);
 
-        for wordInd = find(embGrad(:,1))'   % TODO: Parallelize
+        for wordInd = find(embGrad(1,:))'   % TODO: Parallelize
             % Apply regularization to the gradient
             if hyperParams.norm == 2
                 % Apply L2 regularization to the gradient
-                embGrad(wordInd, :) = embGrad(wordInd, :) + ...
-                    hyperParams.lambda * separateWordFeatures(wordInd, :);
+                embGrad(:, wordInd) = embGrad(:, wordInd) + ...
+                    hyperParams.lambda * separateWordFeatures(:, wordInd);
             else
                 % Apply L1 regularization to the gradient
-                embGrad(wordInd, :) = embGrad(wordInd, :) + ...
-                    hyperParams.lambda * sign(separateWordFeatures(wordInd, :));
+                embGrad(:, wordInd) = embGrad(:, wordInd) + ...
+                    hyperParams.lambda * sign(separateWordFeatures(:, wordInd));
             end
-            assert(sum(isnan(embGrad(wordInd, :))) == 0, 'NaNs in computed embedding gradient.');
-            assert(sum(isinf(embGrad(wordInd, :))) == 0, 'Infs in computed embedding gradient.');
+            % assert(sum(isnan(embGrad(:, wordInd))) == 0, 'NaNs in computed embedding gradient.');
+            % assert(sum(isinf(embGrad(:, wordInd))) == 0, 'Infs in computed embedding gradient.');
         end
     else
         embGrad = [];
     end
-
-
 
     assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 

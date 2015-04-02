@@ -17,7 +17,9 @@ hyperParams.dataPortion = dp;
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
-hyperParams.dim = dim;
+hyperParams.dim = embDim;
+'TYING DIMS'
+
 hyperParams.embeddingDim = embDim;
 
 if collo == 1
@@ -90,9 +92,8 @@ elseif composition == 5
   hyperParams.parensInSequences = 0;
 end
 
-hyperParams.loadWords = false;
+hyperParams.loadWords = true;
 hyperParams.trainWords = true;
-' NOT LOADING WORDS '
 hyperParams.ignorePreprocessedFiles = true;
 
 hyperParams.fragmentData = false;
@@ -145,7 +146,5 @@ elseif findstr(dataflag, 'dg-pre')
     hyperParams.relationIndices = [3, 0; 3, 3; 0, 0];
     hyperParams.testRelationIndices = [3, 3];
 end
-
-hyperParams.relationRanges = ComputeRelationRanges(relationMap);
 
 end

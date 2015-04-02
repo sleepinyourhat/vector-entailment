@@ -78,7 +78,7 @@ if hyperParams.loadWords
    wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
 else 
     % Randomly initialize the words
-    wordFeatures = normrnd(0, 1, vocabLength, EMBDIM);
+    wordFeatures = normrnd(0, 1, EMBDIM, vocabLength);
     if ~hyperParams.trainWords
        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
    end

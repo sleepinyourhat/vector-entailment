@@ -5,6 +5,8 @@ function [ cost, grad, embGrad, acc, confusion ] = ComputeFullPyramidBatchCostAn
 
 % TODO: Make compatible with sequences.
 
+% NOTE: This is reasonably well optimized. The time complexity here lies entirely within PyramidBatch right now.
+
 B = length(data);  % Batch size.
 D = hyperParams.dim;  % Sentence embedding dimension.
 
@@ -208,16 +210,16 @@ if computeGrad
         % Compile the embedding gradient
         embGrad = localWordFeatureGradients * 1/length(data);
 
-        for wordInd = find(embGrad(:,1))'   % TODO: Parallelize
+        for wordInd = find(embGrad(1,:))'   % TODO: Parallelize
             % Apply regularization to the gradient
             if hyperParams.norm == 2
                 % Apply L2 regularization to the gradient
-                embGrad(wordInd, :) = embGrad(wordInd, :) + ...
-                    hyperParams.lambda * separateWordFeatures(wordInd, :);
+                embGrad(:, wordInd) = embGrad(:, wordInd) + ...
+                    hyperParams.lambda * separateWordFeatures(:, wordInd);
             else
                 % Apply L1 regularization to the gradient
-                embGrad(wordInd, :) = embGrad(wordInd, :) + ...
-                    hyperParams.lambda * sign(separateWordFeatures(wordInd, :));
+                embGrad(:, wordInd) = embGrad(:, wordInd) + ...
+                    hyperParams.lambda * sign(separateWordFeatures(:, wordInd));
             end
             assert(sum(isnan(embGrad(wordInd, :))) == 0, 'NaNs in computed embedding gradient.');
             assert(sum(isinf(embGrad(wordInd, :))) == 0, 'Infs in computed embedding gradient.');

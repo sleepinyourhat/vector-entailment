@@ -196,11 +196,11 @@ classdef Tree < handle
             else
                 if length(embeddingTransformMatrix) == 0
                     % We have no transform layer, so just use the word features.
-                    obj.features = wordFeatures(obj.wordIndex, :)'; 
+                    obj.features = wordFeatures(:, obj.wordIndex); 
                 else
                     % Run the transfrom layer.
                     obj.transformInnerActivations = embeddingTransformMatrix ...
-                                                    * [1, wordFeatures(obj.wordIndex, :)]';
+                                                    * [1; wordFeatures(:, obj.wordIndex)];
 
                     activations = compNL(obj.transformInnerActivations);
 
@@ -336,15 +336,15 @@ classdef Tree < handle
                 end
 
                 % Compute the word feature gradients
-                upwardWordGradients(obj.getWordIndex, :) = ...
-                    upwardWordGradients(obj.getWordIndex, :) + delta';
+                upwardWordGradients(:, obj.wordIndex) = ...
+                    upwardWordGradients(:, obj.wordIndex) + delta;
             elseif NUMTRANS > 0
                 % Compute gradients for embedding transform layers
                 delta = delta .* obj.mask; % Take dropout into account
 
                 upwardEmbeddingTransformMatrixGradients = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                          delta, wordFeatures(obj.wordIndex, :)', ...
+                          delta, wordFeatures(:, obj.wordIndex), ...
                           obj.transformInnerActivations, compNLDeriv);
             end            
         end
