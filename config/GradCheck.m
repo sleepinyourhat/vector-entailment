@@ -47,8 +47,8 @@ hyperParams.parensInSequences = 0;
 hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 3;
-hyperParams.embeddingDim = 3;
+hyperParams.dim = 4;
+hyperParams.embeddingDim = 4;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = 3;

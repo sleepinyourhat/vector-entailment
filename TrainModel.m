@@ -109,7 +109,7 @@ end
 hyperParams = FlushLogs(hyperParams);
 
 % Load training/test data
-[trainDataset, testDatasets, hyperParams.trainingLengths] = ...
+[ trainDataset, testDatasets, hyperParams.trainingLengths ] = ...
     LoadConstitDatasets(wordMap, relationMap, hyperParams);
 
 % Trim out individual examples if needed (only from the first source)
