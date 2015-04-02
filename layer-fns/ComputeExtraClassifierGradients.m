@@ -13,7 +13,7 @@ end
 [ outDim, ~, stackSize ] = size(matrixStack);
 [ inDim, B, ~ ] = size(inputs);
 
-matrixStackGradients = zeros(outDim, inDim + 1, stackSize, B);
+matrixStackGradients = zeros(outDim, inDim + 1, stackSize);
 biasStackGradients = zeros(outDim, stackSize, B);
 
 % We only support different input and output dimensionalities 
@@ -27,9 +27,7 @@ for layer = stackSize:-1:1
     deltaDown = NLDeriv .* deltaDown;
 
     % Calculate matrix gradients
-    for b = 1:B
-	    matrixStackGradients(:, :, layer, b) = deltaDown(:, b) * [1; inputs(:, b, layer)]';
-	end
+    matrixStackGradients(:, :, layer) = deltaDown * [ones(1, B); inputs(:, :, layer)]';
 
     % Calculate deltas to pass down
     deltaDown = matrixStack(:, 2:end, layer)' * deltaDown;

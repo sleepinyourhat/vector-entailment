@@ -29,9 +29,9 @@ classdef PyramidBatch < handle
         connectionLabels = [];  % The optional correct connection type (in {1, 2, 3}) for each position in the pyramid.
         activeNode = [];  % Triangular boolean matrix for each batch entry indicating whether each position 
                           % is within the pyramid structure for that entry.
+        numNodes = []; % The number of active nodes for each pyramid.
 
-        % TODO: Profile these functions and optimize where needed.
-        % TODO: Move all summing over batch entries into the parent costgradfn to enable gradient clipping.
+        % TODO: Clip deltas as they are created.
     end
    
     methods(Static)
@@ -59,6 +59,7 @@ classdef PyramidBatch < handle
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
             pb.activeNode = zeros(pb.B, pb.N, pb.N);
+            pb.numNodes = (pb.wordCounts' - 1) .^ 2;
 
             % Copy data in from the individual batch entries.
             for b = 1:pb.B
@@ -134,9 +135,10 @@ classdef PyramidBatch < handle
                 % pb.connections(:,:,:,1)
                 % pb.pyramids{1}.getText()
             end
+
+            % Rescale the connection costs by the number of times supervision was applied.
+            connectionCosts = connectionCosts ./ pb.numNodes;
         end
-
-
 
         function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, row, col)
             % TODO: Have this rewrite the variable in place?
@@ -220,7 +222,7 @@ classdef PyramidBatch < handle
                                                  pb.compositionInnerActivations(pb.colRng(col), :, row));
 
                     % Add the composition gradients and deltas into the accumulators.
-                    compositionMatrixGradients = compositionMatrixGradients + sum(localCompositionMatrixGradients, 3);
+                    compositionMatrixGradients = compositionMatrixGradients + localCompositionMatrixGradients;
                     deltas(pb.colRng(col), :, row + 1) = ...
                         deltas(pb.colRng(col), :, row + 1) + compositionDeltaLeft;
                     deltas(pb.colRng(col + 1), :, row + 1) = ...
@@ -244,13 +246,15 @@ classdef PyramidBatch < handle
                     [ localConnectionMatrixGradients, connectionDeltas ] = ...
                         ComputeBareSoftmaxGradients(connectionMatrix, pb.connections(:, :, row, col), ...
                             deltasToConnections, connectionClassifierInputs);
-                    connectionMatrixGradients = connectionMatrixGradients + sum(localConnectionMatrixGradients, 3);
+                    connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
 
                     % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
                     [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
                         ComputeSoftmaxClassificationGradients(connectionMatrix, pb.connections(:, :, row, col), ...
-                            pb.connectionLabels(:, row, col), connectionClassifierInputs, hyperParams);
-                    connectionMatrixGradients = connectionMatrixGradients + sum(localConnectionMatrixGradients, 3);
+                            pb.connectionLabels(:, row, col), connectionClassifierInputs, hyperParams, pb.numNodes);
+                    connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
+
+                    % Rescale by the number of times supervision is being applied.
                     connectionDeltas = connectionDeltas + localConnectionDeltas;
 
                     % Distribute the deltas from the softmax function back into its inputs.
@@ -280,11 +284,11 @@ classdef PyramidBatch < handle
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));
                 for col = 1:pb.N
                     transformDeltas = deltas(pb.colRng(col), :, pb.N) .* pb.masks(pb.colRng(col), :); % Take dropout into account
-                    [ localEmbeddingTransformMatrixGradients, deltas(pb.R, pb.colRng(col), :) ] = ...
+                    [ localEmbeddingTransformMatrixGradients, deltas(pb.colRng(col), :, pb.R) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               transformDeltas, pb.features(pb.colRng(col), :, pb.R), ...
                               pb.transformInnerActivations(pb.colRng(col), :), @TanhDeriv);
-                    embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + sum(localEmbeddingTransformMatrixGradients, 3);
+                    embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
             else
                 embeddingTransformMatrixGradients = [];

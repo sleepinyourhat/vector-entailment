@@ -18,7 +18,6 @@ NLDeriv = nonlinearityDeriv(tensorInnerOutput);
 delta = delta .* NLDeriv;
 
 matricesGradients = zeros(inDim, inDim, outDim, B);
-matrixGradients = zeros(outDim, 2 * inDim + 1, B);
 
 % Calculate third order tensor gradients.
 % Sadly, there doesn't seem to be an efficient vectorized option here.
@@ -34,9 +33,7 @@ end
 
 matricesGradients = bsxfun(@times, permute(delta, [3, 4, 1, 2]), permute(inputProduct, [1, 2, 4, 3]));
 
-for b = 1:B
-	matrixGradients(:, :, b) = delta(:, b) * [1; l(:, b); r(:, b)]';
-end
+matrixGradients = delta * [ones(1, B); l; r]';
 
 % Compute the deltas.
 innerTensorLayerMatrixL = zeros(inDim, outDim, B);

@@ -24,6 +24,7 @@ for ii = 1:outDim
 end
 
 % Transpose and multiply.
+% TODO: Vectorize
 deltaZ = zeros(outDim, B);
 for b = 1:B
     deltaZ(:, b) = zGradients(:, :, b)' * deltas(:, b);
@@ -31,9 +32,7 @@ end
 deltasDown = (matrix(:, 2:end)' * deltaZ);
 
 % Compute the matrix gradients
-matrixGradients = zeros(size(matrix, 1), size(matrix, 2), B);
-for b = 1:B
-    matrixGradients(:, :, b) = (deltaZ(:, b) * inPadded(:,b)');
-end
+matrixGradients = deltaZ * inPadded';
+
 
 end
