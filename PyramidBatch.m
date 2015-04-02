@@ -14,8 +14,7 @@ classdef PyramidBatch < handle
         wordIndices = [];  % The index into the embedding matrix for each word in the sequence.
         wordCounts = [];  % The number of words in each sequence.
         features = [];  % All computed activation vectors, with the words at the bottom row.
-                        % All feature vectors on each row are concatenated, and can be separated
-                        % with the help of colRng(). For speed, indexing is by (column, row, batch-entry)
+                        % For speed, indexing is by (dim, batch-entry, column, row)
         transformInnerActivations = [];  % Same structure as the bottom row of features, but contains the
                                          % the pre-nonlinearity activations from the embedding transform layer
                                          % if one is present.
@@ -32,6 +31,7 @@ classdef PyramidBatch < handle
         numNodes = []; % The number of active nodes for each pyramid.
 
         % TODO: Clip deltas as they are created.
+        % TODO: Remove colRng, and just index by column.
     end
    
     methods(Static)
@@ -51,11 +51,11 @@ classdef PyramidBatch < handle
 
             pb.wordIndices = zeros(pb.N, pb.B);
             pb.wordCounts = [pyramids(:).wordCount];
-            pb.features = zeros(pb.N * pb.D, pb.B, pb.R);
-            pb.transformInnerActivations = zeros(hyperParams.embeddingTransformDepth * pb.N * pb.D, pb.B);
-            pb.masks = zeros(hyperParams.embeddingTransformDepth * pb.N * pb.D, pb.B);
-            pb.compositionInnerActivations = zeros((pb.N - 1) * pb.D, pb.B, pb.N - 1);
-            pb.compositionActivations = zeros((pb.N - 1) * pb.D, pb.B, pb.N - 1);
+            pb.features = zeros(pb.D, pb.B, pb.N, pb.R);
+            pb.transformInnerActivations = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
+            pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
+            pb.compositionInnerActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
+            pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
             pb.activeNode = zeros(pb.B, pb.N, pb.N);
@@ -69,7 +69,7 @@ classdef PyramidBatch < handle
                     % Populate the bottom row with word features.
 
                     % TODO: Create a separate ED x N object for inputs to transform layer, not bottom row.
-                    pb.features(pb.colRng(w), b, pb.R) = wordFeatures(:, pyramids(b).wordIndices(w))';
+                    pb.features(:, b, w, pb.R) = wordFeatures(:, pyramids(b).wordIndices(w))';
                 end
                 pb.connectionLabels(b, pb.N - pyramids(b).wordCount + 1:pb.N - 1, 1:pyramids(b).wordCount - 1) = ...
                     pyramids(b).connectionLabels;
@@ -86,11 +86,11 @@ classdef PyramidBatch < handle
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:pb.N
-                    transformInputs = [ ones(1, pb.B); pb.features(pb.colRng(col), :, pb.R) ];
-                    pb.transformInnerActivations(pb.colRng(col), :) = ...
+                    transformInputs = [ ones(1, pb.B); pb.features(:, :, col, pb.R) ];
+                    pb.transformInnerActivations(:, :, col) = ...
                         embeddingTransformMatrix * transformInputs;
-                    [ pb.features(pb.colRng(col), :, pb.N), pb.masks(pb.colRng(col), :) ] = ...
-                        Dropout(tanh(pb.transformInnerActivations(pb.colRng(col), :)), hyperParams.bottomDropout, trainingMode);
+                    [ pb.features(:, :, col, pb.N), pb.masks(:, :, col) ] = ...
+                        Dropout(tanh(pb.transformInnerActivations(:, :, col)), hyperParams.bottomDropout, trainingMode);
                 end
             end
 
@@ -110,16 +110,16 @@ classdef PyramidBatch < handle
                     connectionCosts = connectionCosts + localConnectionCosts;
 
                     % Build the composed representation
-                    compositionInputs = [ones(1, pb.B); pb.features(pb.colRng(col, col + 1), :, row + 1)];
-                    pb.compositionInnerActivations(pb.colRng(col), :, row) = compositionMatrix * compositionInputs;
-                    pb.compositionActivations(pb.colRng(col), :, row) = tanh(pb.compositionInnerActivations(pb.colRng(col), :, row));
+                    compositionInputs = [ones(1, pb.B); pb.features(:, :, col, row + 1); pb.features(:, :, col + 1, row + 1)];
+                    pb.compositionInnerActivations(:, :, col, row) = compositionMatrix * compositionInputs;
+                    pb.compositionActivations(:, :, col, row) = tanh(pb.compositionInnerActivations(:, :, col, row));
                     % Multiply the three inputs by the three connection weights.
-                    pb.features(pb.colRng(col), :, row) = ...
-                        bsxfun(@times, pb.features(pb.colRng(col), :, row + 1), ...
+                    pb.features(:, :, col, row) = ...
+                        bsxfun(@times, pb.features(:, :, col, row + 1), ...
                                        pb.connections(1, :, row, col)) + ...
-                        bsxfun(@times, pb.features(pb.colRng(col + 1), :, row + 1), ...
+                        bsxfun(@times, pb.features(:, :, col + 1, row + 1), ...
                                        pb.connections(2, :, row, col)) + ...
-                        bsxfun(@times, pb.compositionActivations(pb.colRng(col), :, row), ...
+                        bsxfun(@times, pb.compositionActivations(:, :, col, row), ...
                                        pb.connections(3, :, row, col));
                 end
             end
@@ -127,7 +127,7 @@ classdef PyramidBatch < handle
             % Collect features from the tops of each tree, not the top of the feature matrix.
             topFeatures = zeros(pb.D, pb.B);
             for b = 1:pb.B
-                topFeatures(:, b) = pb.features(1:pb.D, b, pb.N - pb.wordCounts(b) + 1);
+                topFeatures(:, b) = pb.features(:, b, 1, pb.N - pb.wordCounts(b) + 1);
             end
 
             if ~trainingMode   
@@ -150,8 +150,8 @@ classdef PyramidBatch < handle
                 sourcePos = contextPositions(pos) + col;
                 if (sourcePos > 0) && (sourcePos <= row + 1)
                     % TODO: Make sure the multiplication is necessary.
-                    connectionClassifierInputs(pb.colRng(pos), :) = ...
-                        bsxfun(@times, pb.features(pb.colRng(sourcePos), :, row + 1), ...
+                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = ...
+                        bsxfun(@times, pb.features(:, :, sourcePos, row + 1), ...
                                permute(pb.activeNode(:, row, col) .* pb.activeNode(:, row + 1, sourcePos), [2, 1, 3]));
                 end
                 % Else: Leave in the zeros. Maybe fix replace with edge-of-sentence token? (TODO)
@@ -160,16 +160,6 @@ classdef PyramidBatch < handle
                 connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = ...
                     pb.connections(:, :, row, col - 1);
             end
-        end
-
-        function [ range ] = colRng(pb, startCol, endCol)
-            % TODO: Precompute? 
-            % Computes the indices for the activations in feature matrix corresponding to columns start:end
-            if nargin < 3
-                % If no end is supplied, return the feature range for the single column startCol
-                endCol = startCol;
-            end
-            range = (startCol - 1) * pb.D + 1:endCol * pb.D;
         end
 
         function [ wordGradients, connectionMatrixGradients, ...
@@ -184,11 +174,11 @@ classdef PyramidBatch < handle
 
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
-            deltas = zeros(pb.N * pb.D, pb.B, pb.R);
+            deltas = zeros(pb.D, pb.B, pb.N, pb.R);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
             for b = 1:pb.B
-                deltas(pb.colRng(1), b, pb.N - pb.wordCounts(b) + 1) = incomingDeltas(:, b);
+                deltas(:, b, 1, pb.N - pb.wordCounts(b) + 1) = incomingDeltas(:, b);
             end
 
             % Initialize some variables that will be used inside the loop.
@@ -202,44 +192,44 @@ classdef PyramidBatch < handle
                     % Multiply in the three connection weights by the three inputs to the current features, 
                     % and add these to the existing deltas, which can either come from the inbound deltas (from the top-level classifier)
                     % or from a wide-window connection classifier.
-                    deltas(pb.colRng(col), :, row + 1) = ...
-                        deltas(pb.colRng(col), :, row + 1) + ...
-                        bsxfun(@times, deltas(pb.colRng(col), :, row), ...
+                    deltas(:, :, col, row + 1) = ...
+                        deltas(:, :, col, row + 1) + ...
+                        bsxfun(@times, deltas(:, :, col, row), ...
                                pb.connections(1, :, row, col));
-                    deltas(pb.colRng(col + 1), :, row + 1) = ...
-                        deltas(pb.colRng(col + 1), :, row + 1) + ...
-                        bsxfun(@times, deltas(pb.colRng(col), :, row), ...
+                    deltas(:, :, col + 1, row + 1) = ...
+                        deltas(:, :, col + 1, row + 1) + ...
+                        bsxfun(@times, deltas(:, :, col, row), ...
                                pb.connections(2, :, row, col));
                     compositionDeltas = ...
-                        bsxfun(@times, deltas(pb.colRng(col), :, row), ...
+                        bsxfun(@times, deltas(:, :, col, row), ...
                                pb.connections(3, :, row, col));                 
 
                     % Backprop through the composition function.
                     [ localCompositionMatrixGradients, compositionDeltaLeft, compositionDeltaRight ] = ...
-                        ComputeRNNLayerGradients(pb.features(pb.colRng(col), :, row + 1), ...
-                                                 pb.features(pb.colRng(col + 1), :, row + 1), ...
+                        ComputeRNNLayerGradients(pb.features(:, :, col, row + 1), ...
+                                                 pb.features(:, :, col + 1, row + 1), ...
                                                  compositionMatrix, compositionDeltas, @TanhDeriv, ...
-                                                 pb.compositionInnerActivations(pb.colRng(col), :, row));
+                                                 pb.compositionInnerActivations(:, :, col, row));
 
                     % Add the composition gradients and deltas into the accumulators.
                     compositionMatrixGradients = compositionMatrixGradients + localCompositionMatrixGradients;
-                    deltas(pb.colRng(col), :, row + 1) = ...
-                        deltas(pb.colRng(col), :, row + 1) + compositionDeltaLeft;
-                    deltas(pb.colRng(col + 1), :, row + 1) = ...
-                        deltas(pb.colRng(col + 1), :, row + 1) + compositionDeltaRight;
+                    deltas(:, :, col, row + 1) = ...
+                        deltas(:, :, col, row + 1) + compositionDeltaLeft;
+                    deltas(:, :, col + 1, row + 1) = ...
+                        deltas(:, :, col + 1, row + 1) + compositionDeltaRight;
 
                     %% Handle connection function gradients %%
 
                     % Multiply the deltas by the three inputs to the current features to compute deltas for the connections.
                     deltasToConnections(1, :) = deltasToConnections(1, :) + ...
-                                                sum(deltas(pb.colRng(col), :, row) .* ...
-                                                 pb.features(pb.colRng(col), :, row + 1), 1);
+                                                sum(deltas(:, :, col, row) .* ...
+                                                 pb.features(:, :, col, row + 1), 1);
                     deltasToConnections(2, :) = deltasToConnections(2, :) + ...
-                                                 sum(deltas(pb.colRng(col), :, row) .* ...
-                                                 pb.features(pb.colRng(col + 1), :, row + 1), 1);
+                                                 sum(deltas(:, :, col, row) .* ...
+                                                 pb.features(:, :, col + 1, row + 1), 1);
                     deltasToConnections(3, :) = deltasToConnections(3, :) + ...
-                                                 sum(deltas(pb.colRng(col), :, row) .* ...
-                                                 pb.compositionActivations(pb.colRng(col), :, row), 1);
+                                                 sum(deltas(:, :, col, row) .* ...
+                                                 pb.compositionActivations(:, :, col, row), 1);
                     
                     % Compute gradients from the connection classifier wrt. the incoming deltas from above and to the right.
                     connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, row, col);
@@ -263,10 +253,11 @@ classdef PyramidBatch < handle
                         if sourcePos > 0 && sourcePos <= row + 1
                             % Multiply in the activeNode units for both the source and destination for the deltas
                             % to avoid propagating through nonexistent connections.
-                            deltas(pb.colRng(sourcePos), :, row + 1) = ...
-                                deltas(pb.colRng(sourcePos), :, row + 1) + ...
-                                bsxfun(@times, connectionDeltas(pb.colRng(pos), :), ...
-                                               permute(pb.activeNode(:, row, col) .* pb.activeNode(:, row + 1, sourcePos), [2, 1, 3]));
+
+                            deltas(:, :, sourcePos, row + 1) = ...
+                                deltas(:, :, sourcePos, row + 1) + ...
+                                bsxfun(@times, connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :), ...
+                                               permute(pb.activeNode(:, row + 1, sourcePos), [2, 1, 3]));
                         end
                         if col > 1
                             deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - pb.NUMACTIONS:end, :), ...
@@ -276,18 +267,25 @@ classdef PyramidBatch < handle
                         end
                             
                     end
+
+                    %        deltas(:, sourcePos, :, row + 1) = ...
+                    %            deltas(:, sourcePos, :, row + 1) + ...
+                    %            bsxfun(@times, connectionDeltas(:, pos, :), ...
+                    %                           permute(pb.activeNode(:, row + 1, sourcePos), [2, 1, 3]));
+
                 end
+
             end
 
             % Run the embedding transform layers backwards.
             if ~isempty(embeddingTransformMatrix)
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));
                 for col = 1:pb.N
-                    transformDeltas = deltas(pb.colRng(col), :, pb.N) .* pb.masks(pb.colRng(col), :); % Take dropout into account
-                    [ localEmbeddingTransformMatrixGradients, deltas(pb.colRng(col), :, pb.R) ] = ...
+                    transformDeltas = deltas(:, :, col, pb.N) .* pb.masks(:, :, col); % Take dropout into account
+                    [ localEmbeddingTransformMatrixGradients, deltas(:, :, col, pb.R) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              transformDeltas, pb.features(pb.colRng(col), :, pb.R), ...
-                              pb.transformInnerActivations(pb.colRng(col), :), @TanhDeriv);
+                              transformDeltas, pb.features(:, :, col, pb.R), ...
+                              pb.transformInnerActivations(:, :, col), @TanhDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
             else
@@ -303,7 +301,7 @@ classdef PyramidBatch < handle
                     for col = 1:pb.wordCounts(b)
                         wordGradients(:, pb.wordIndices(col, b)) = ...
                             wordGradients(:, pb.wordIndices(col, b)) + ...
-                            deltas(pb.colRng(col), b, pb.R);
+                            deltas(:, b, col, pb.R);
                     end
                 end
             end
