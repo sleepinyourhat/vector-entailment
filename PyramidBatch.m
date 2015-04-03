@@ -15,6 +15,7 @@ classdef PyramidBatch < handle
         wordCounts = [];  % The number of words in each sequence.
         features = [];  % All computed activation vectors, with the words at the bottom row.
                         % For speed, indexing is by (dim, batch-entry, column, row)
+        rawEmbeddings = [];  % Word embeddings. Used only in conjunction with an embedding transform layer.
         transformInnerActivations = [];  % Same structure as the bottom row of features, but contains the
                                          % the pre-nonlinearity activations from the embedding transform layer
                                          % if one is present.
@@ -44,13 +45,13 @@ classdef PyramidBatch < handle
             % Find the length of the longest sequence. We use this to set the size of the main feature matrix,
             % to this value has a large impact on the run time of the batch.
             pb.N = max([pyramids(:).wordCount]);
-            pb.R = pb.N + hyperParams.embeddingTransformDepth;  % The number of rows in features and delta;
 
             pb.pyramids = cell(pb.B, 1);
 
             pb.wordIndices = zeros(pb.N, pb.B);
             pb.wordCounts = [pyramids(:).wordCount];
-            pb.features = zeros(pb.D, pb.B, pb.N, pb.R);
+            pb.features = zeros(pb.D, pb.B, pb.N, pb.N);
+            pb.rawEmbeddings = zeros(hyperParams.embeddingDim, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.transformInnerActivations = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.compositionInnerActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
@@ -67,8 +68,11 @@ classdef PyramidBatch < handle
                 for w = 1:pyramids(b).wordCount
                     % Populate the bottom row with word features.
 
-                    % TODO: Create a separate ED x N object for inputs to transform layer, not bottom row.
-                    pb.features(:, b, w, pb.R) = wordFeatures(:, pyramids(b).wordIndices(w))';
+                    if hyperParams.embeddingTransformDepth > 0
+                        pb.rawEmbeddings(:, b, w) = wordFeatures(:, pyramids(b).wordIndices(w));
+                    else
+                        pb.features(:, b, w, pb.N) = wordFeatures(:, pyramids(b).wordIndices(w));
+                    end
                 end
                 pb.connectionLabels(b, 1:pyramids(b).wordCount - 1, pb.N - pyramids(b).wordCount + 1:pb.N - 1) = ...
                     pyramids(b).connectionLabels';
@@ -86,12 +90,17 @@ classdef PyramidBatch < handle
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:pb.N
-                    transformInputs = [ ones(1, pb.B); pb.features(:, :, col, pb.R) ];
+                    transformInputs = [ ones(1, pb.B); pb.rawEmbeddings(:, :, col) ];
                     pb.transformInnerActivations(:, :, col) = ...
                         embeddingTransformMatrix * transformInputs;
                     [ pb.features(:, :, col, pb.N), pb.masks(:, :, col) ] = ...
                         Dropout(tanh(pb.transformInnerActivations(:, :, col)), hyperParams.bottomDropout, trainingMode);
                 end
+
+                % Remove features for inactive nodes.
+                pb.features(:, :, :, pb.N) = ...
+                    bsxfun(@times, pb.features(:, :, :, pb.N) , ...
+                           permute(pb.activeNode(:, :, pb.N), [3, 1, 2]));
             end
 
             connectionCosts = zeros(pb.B, 1);
@@ -103,9 +112,7 @@ classdef PyramidBatch < handle
                         ComputeSoftmaxLayer(connectionClassifierInputs, connectionMatrix, hyperParams, ...
                             pb.connectionLabels(:, col, row));
                     pb.connections(:, :, col, row) = bsxfun(@times, pb.connections(:, :, col, row), ...
-                                                            permute(pb.activeNode(:, col, row), [2, 1, 3, 4])); % ?
-                    localConnectionCosts = bsxfun(@times, localConnectionCosts, ...
-                                                          pb.activeNode(:, col, row));
+                                                            permute(pb.activeNode(:, col, row), [2, 1, 3, 4]));
 
                     connectionCosts = connectionCosts + localConnectionCosts;
 
@@ -122,6 +129,11 @@ classdef PyramidBatch < handle
                         bsxfun(@times, pb.compositionActivations(:, :, col, row), ...
                                        pb.connections(3, :, col, row));
                 end
+
+                % Delete deltas for inactive nodes.
+                features(:, :, :, row) = ...
+                    bsxfun(@times, pb.features(:, :, :, row) , ...
+                           permute(pb.activeNode(:, :, row), [3, 1, 2]));
             end
 
             % Collect features from the tops of each tree, not the top of the feature matrix.
@@ -141,18 +153,12 @@ classdef PyramidBatch < handle
         end
 
         function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row, connectionClassifierInputs)
-            % TODO: Have this rewrite the variable in place?
-
-
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
 
             for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
                 if (sourcePos > 0) && (sourcePos <= row + 1)
-                    % TODO: Make sure the multiplication is necessary.
-                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = ...
-                        bsxfun(@times, pb.features(:, :, sourcePos, row + 1), ...
-                               permute(pb.activeNode(:, col, row) .* pb.activeNode(:, sourcePos, row + 1), [2, 1, 3]));
+                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = pb.features(:, :, sourcePos, row + 1);
                 else
                     connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = 0;
                 end
@@ -180,7 +186,7 @@ classdef PyramidBatch < handle
 
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
-            deltas = zeros(pb.D, pb.B, pb.N, pb.R);
+            deltas = zeros(pb.D, pb.B, pb.N, pb.N);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
             for b = 1:pb.B
@@ -257,13 +263,9 @@ classdef PyramidBatch < handle
                     for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
                         sourcePos = contextPositions(pos) + col;
                         if sourcePos > 0 && sourcePos <= row + 1
-                            % Multiply in the activeNode units for both the source and destination for the deltas
-                            % to avoid propagating through nonexistent connections.
-
                             deltas(:, :, sourcePos, row + 1) = ...
                                 deltas(:, :, sourcePos, row + 1) + ...
-                                bsxfun(@times, connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :), ...
-                                               permute(pb.activeNode(:, sourcePos, row + 1), [2, 1, 3]));
+                                connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :);
                         end
                         if col > 1
                             deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - pb.NUMACTIONS:end, :), ...
@@ -273,24 +275,23 @@ classdef PyramidBatch < handle
                         end
                             
                     end
-
-                    %        deltas(:, sourcePos, :, row + 1) = ...
-                    %            deltas(:, sourcePos, :, row + 1) + ...
-                    %            bsxfun(@times, connectionDeltas(:, pos, :), ...
-                    %                           permute(pb.activeNode(:, row + 1, sourcePos), [2, 1, 3]));
-
                 end
 
+                % Delete deltas for inactive nodes.
+                deltas(:, :, :, row + 1) = ...
+                       bsxfun(@times, deltas(:, :, :, row + 1) , ...
+                           permute(pb.activeNode(:, :, row + 1), [3, 1, 2]));
             end
 
             % Run the embedding transform layers backwards.
-            if ~isempty(embeddingTransformMatrix)
-                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));
+            if hyperParams.embeddingTransformDepth > 0
+                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
+                rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
                 for col = 1:pb.N
                     transformDeltas = deltas(:, :, col, pb.N) .* pb.masks(:, :, col); % Take dropout into account
-                    [ localEmbeddingTransformMatrixGradients, deltas(:, :, col, pb.R) ] = ...
+                    [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              transformDeltas, pb.features(:, :, col, pb.R), ...
+                              transformDeltas, pb.rawEmbeddings(:, :, col), ...
                               pb.transformInnerActivations(:, :, col), @TanhDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
@@ -305,9 +306,15 @@ classdef PyramidBatch < handle
             if hyperParams.trainWords
                 for b = 1:pb.B
                     for col = 1:pb.wordCounts(b)
-                        wordGradients(:, pb.wordIndices(col, b)) = ...
-                            wordGradients(:, pb.wordIndices(col, b)) + ...
-                            deltas(:, b, col, pb.R);
+                        if hyperParams.embeddingTransformDepth > 0
+                            wordGradients(:, pb.wordIndices(col, b)) = ...
+                                wordGradients(:, pb.wordIndices(col, b)) + ...
+                                rawEmbeddingDeltas(:, b, col);
+                        else
+                            wordGradients(:, pb.wordIndices(col, b)) = ...
+                                wordGradients(:, pb.wordIndices(col, b)) + ...
+                                deltas(:, b, col, pb.N);
+                        end
                     end
                 end
             end
