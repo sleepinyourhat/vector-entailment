@@ -24,6 +24,7 @@ classdef PyramidBatch < handle
                                            % activations from the composition function, and has no bottom (word) layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
+        connectionClassifierInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
         connections = [];  % The length-3 vectors of weights for the three connection types at each position in the pyramid.
                            % Has no bottom (word) layer.
         connectionLabels = [];  % The optional correct connection type (in {1, 2, 3}) for each position in the pyramid.
@@ -56,6 +57,7 @@ classdef PyramidBatch < handle
             pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.compositionInnerActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
             pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
+            pb.connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
             pb.activeNode = zeros(pb.B, pb.N, pb.N);
@@ -84,9 +86,6 @@ classdef PyramidBatch < handle
 
     methods
         function [ topFeatures, connectionCosts ] = runForward(pb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
-
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
-
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:pb.N
@@ -107,9 +106,9 @@ classdef PyramidBatch < handle
             for row = pb.N - 1:-1:1
                 for col = 1:row
                     % Compute the distribution over connections
-                    connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, col, row, connectionClassifierInputs);
+                    pb.connectionClassifierInputs(:, :, col, row) = pb.collectConnectionClassifierInputs(hyperParams, col, row);
                     [ pb.connections(:, :, col, row), localConnectionCosts ] = ...
-                        ComputeSoftmaxLayer(connectionClassifierInputs, connectionMatrix, hyperParams, ...
+                        ComputeSoftmaxLayer(pb.connectionClassifierInputs(:, :, col, row), connectionMatrix, hyperParams, ...
                             pb.connectionLabels(:, col, row));
                     pb.connections(:, :, col, row) = bsxfun(@times, pb.connections(:, :, col, row), ...
                                                             permute(pb.activeNode(:, col, row), [2, 1, 3, 4]));
@@ -152,8 +151,9 @@ classdef PyramidBatch < handle
             connectionCosts = connectionCosts ./ pb.numNodes;
         end
 
-        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row, connectionClassifierInputs)
+        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
+            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
             for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
@@ -176,8 +176,6 @@ classdef PyramidBatch < handle
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
             getGradient(pb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
             % Run backwards.
-
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
             connectionMatrixGradients = zeros(size(connectionMatrix, 1), size(connectionMatrix, 2));
@@ -244,16 +242,15 @@ classdef PyramidBatch < handle
                                                  pb.compositionActivations(:, :, col, row), 1);
                     
                     % Compute gradients from the connection classifier wrt. the incoming deltas from above and to the right.
-                    connectionClassifierInputs = pb.collectConnectionClassifierInputs(hyperParams, col, row, connectionClassifierInputs);
                     [ localConnectionMatrixGradients, connectionDeltas ] = ...
                         ComputeBareSoftmaxGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            deltasToConnections, connectionClassifierInputs);
+                            deltasToConnections, pb.connectionClassifierInputs(:, :, col, row));
                     connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
 
                     % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
                     [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
                         ComputeSoftmaxClassificationGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            pb.connectionLabels(:, col, row), connectionClassifierInputs, hyperParams, pb.numNodes);
+                            pb.connectionLabels(:, col, row), pb.connectionClassifierInputs(:, :, col, row), hyperParams, pb.numNodes);
                     connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
 
                     % Rescale by the number of times supervision is being applied.
