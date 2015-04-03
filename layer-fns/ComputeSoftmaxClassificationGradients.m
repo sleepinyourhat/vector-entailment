@@ -45,6 +45,6 @@ else
 end
 
 % Zero out deltas for unlabeled examples, and remove bias deltas.
-deltaDown = bsxfun(@times, deltaDown(2:end, :), dataPointHasLabel');
+deltaDown = deltaDown(2:end, :);
 
 end
