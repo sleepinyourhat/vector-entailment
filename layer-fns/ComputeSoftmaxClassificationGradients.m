@@ -44,7 +44,8 @@ else
 	deltaDown = matrix' * delta;
 end
 
-% Zero out deltas for unlabeled examples, and remove bias deltas.
+
+% Remove bias deltas.
 deltaDown = deltaDown(2:end, :);
 
 end

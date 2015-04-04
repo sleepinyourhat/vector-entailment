@@ -15,11 +15,8 @@ hyperParams.parensInSequences = 0;
 
 hyperParams.dataPortion = dp;
 
-% The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
-% the GloVe vectors.
-hyperParams.dim = embDim;
-'TYING DIMS'
 
+hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
 if collo == 1
@@ -50,6 +47,9 @@ hyperParams.penultDim = penult;
 
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
+
+% How many examples to run before taking a parameter update step on the accumulated gradients.
+options.miniBatchSize = 32;
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
@@ -83,6 +83,7 @@ elseif composition == 4
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.parensInSequences = 0;
+  options.miniBatchSize = 128;
 elseif composition == 5
   hyperParams.usePyramids = 1;
   hyperParams.lstm = 0;
@@ -90,16 +91,15 @@ elseif composition == 5
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
+  options.miniBatchSize = 128;
 end
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
-hyperParams.ignorePreprocessedFiles = true;
+% hyperParams.ignorePreprocessedFiles = true;
 
 hyperParams.fragmentData = false;
 
-% How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = 32;
 
 options.updateFn = @AdaDeltaUpdate;
 

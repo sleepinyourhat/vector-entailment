@@ -60,7 +60,7 @@ if nargout > 1
 
         % Record statistics
         if argout > 4
-            confusions(b,:) = [localPred, data(b).relation(find(data(b).relation > 0))];
+            confusions(b,:) = [ localPred, data(b).relation(1) ];
         end
         accumulatedSuccess = accumulatedSuccess + localCorrect;
     end
@@ -74,7 +74,7 @@ if nargout > 1
     
     % Create the confusion matrix
     if nargout > 4
-        confusion = zeros(hyperParams.numRelations(find(data(1).relation)));
+        confusion = zeros(hyperParams.numRelations(data(1).relation(2)));
         for b = 1:B
             confusion(confusions(b,1), confusions(b,2)) = ...
                 confusion(confusions(b,1), confusions(b,2)) + 1;
@@ -144,7 +144,19 @@ if computeGrad
         embGrad = [];
     end
 
-    assert(sum(isnan(grad)) == 0, 'NaNs in computed gradient.');
+    if sum(isnan(grad)) > 0
+        [ mergeMatrices, mergeMatrix ...
+            softmaxMatrix, trainedWordFeatures, compositionMatrices,...
+            compositionMatrix, classifierExtraMatrix, ...
+            embeddingTransformMatrix ] ...
+            = stack2param(grad, decoder);
+        mergeMatrices, mergeMatrix, ...
+            softmaxMatrix, trainedWordFeatures, compositionMatrices,...
+            compositionMatrix, classifierExtraMatrix, ...
+            embeddingTransformMatrix
+        assert(false, 'NANs in computed gradient.')
+    end
+
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
 end
 
