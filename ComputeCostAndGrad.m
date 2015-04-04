@@ -50,21 +50,20 @@ rightFeatures = right.getFeatures();
 
 % Compute classification tensor layer (or plain RNN layer)
 if hyperParams.useThirdOrderMerge
-    [ classTensorOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
+    [ mergeOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
         rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
-    [ classTensorOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
+    [ mergeOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
         mergeMatrix, hyperParams.classNL);
 end
        
 % Run layers forward
-extraInputs = zeros(hyperParams.penultDim, hyperParams.topDepth);
-extraInnerOutputs = zeros(hyperParams.penultDim, hyperParams.topDepth - 1);
-extraInputs(:,1) = classTensorOutput;
+extraInputs = zeros(hyperParams.penultDim, 1, hyperParams.topDepth);
+extraInnerOutputs = zeros(hyperParams.penultDim, 1, hyperParams.topDepth - 1);
+extraInputs(:, 1, 1) = mergeOutput;
 for layer = 1:(hyperParams.topDepth - 1) 
-    % TODO: This throws errors with large stacks... investigate.
-    extraInnerOutputs(:,layer) = classifierExtraMatrix(:,:,layer) * [1, extraInputs(:,layer)];
-    extraInputs(:,layer + 1) = hyperParams.classNL(extraInnerOutputs(:,layer));
+    extraInnerOutputs(:, 1, layer) = classifierExtraMatrix(:, :, layer) * [1; extraInputs(:, 1, layer)];
+    extraInputs(:, 1, layer + 1) = hyperParams.classNL(extraInnerOutputs(:, 1, layer));
 end
 
 [ relationProbs, cost ] = ComputeSoftmaxLayer( ...
@@ -81,7 +80,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
     % Compute gradients for extra top layers
     [ localExtraMatrixGradients, extraDelta ] = ...
           ComputeExtraClassifierGradients(classifierExtraMatrix,...
-          softmaxDelta, extraInputs, extraInnerOutputs, hyperParams.classNLDeriv);
+            softmaxDelta, extraInputs, extraInnerOutputs, hyperParams.classNLDeriv);
 
     if hyperParams.useThirdOrderMerge
         % Compute gradients for classification tensor layer

@@ -1,0 +1,185 @@
+\section{Jointly learning parsing and semantic composition}
+
+% TODO: Graph figure
+
+
+
+\begin{figure}[tp]
+  \centering\small
+  \begin{tikzpicture}
+    \def\dx{18pt}
+    \def\dy{30pt}
+    \newcounter{i}
+    \tikzstyle{highlight}=[fill=dandelion!15]
+    \tikzstyle{comment}=[fill=blue!15]
+    
+    \stepcounter{i}\node  (\arabic{i}) at (0*\dx,6*\dy) {$\vec{y}^{(1, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-1*\dx,5*\dy) {$\vec{y}^{(2, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (1*\dx,5*\dy) {$\vec{y}^{(2, 2)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-2*\dx,4*\dy) {$\vec{y}^{(3, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (0*\dx,4*\dy) {$\vec{y}^{(3, 2)}$};
+    \stepcounter{i}\node[highlight]  (\arabic{i}) at (2*\dx,4*\dy) {$\vec{y}^{(3, 3)}$};
+    \stepcounter{i}\node[highlight]  (\arabic{i}) at (-3*\dx,3*\dy) {$\vec{y}^{(4, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-1*\dx,3*\dy) {$\vec{y}^{(4, 2)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (1*\dx,3*\dy) {$\vec{y}^{(4, 3)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (3*\dx,3*\dy) {$\vec{y}^{(4, 4)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-4*\dx,2*\dy) {$\vec{y}^{(5, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-2*\dx,2*\dy) {$\vec{y}^{(5, 2)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (0*\dx,2*\dy) {$\vec{y}^{(5, 3)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (2*\dx,2*\dy) {$\vec{y}^{(5, 4)}$};
+    \stepcounter{i}\node[highlight]  (\arabic{i}) at (4*\dx,2*\dy) {$\vec{y}^{(5, 5)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-5*\dx,1*\dy) {My};
+    \stepcounter{i}\node  (\arabic{i}) at (-3*\dx,1*\dy) {hovercraft};
+    \stepcounter{i}\node  (\arabic{i}) at (-1*\dx,1*\dy) {is};
+    \stepcounter{i}\node  (\arabic{i}) at (1*\dx,1*\dy) {full};
+    \stepcounter{i}\node  (\arabic{i}) at (3*\dx,1*\dy) {of};
+    \stepcounter{i}\node  (\arabic{i}) at (5*\dx,1*\dy) {eels};
+   
+    \stepcounter{i}\node[comment]  (\arabic{i}) at (4*\dx,4*\dy) {\textsc{compose}};
+    \stepcounter{i}\node[comment]  (\arabic{i}) at (-5*\dx,3*\dy) {\textsc{copy-L}};
+    \stepcounter{i}\node[comment]  (\arabic{i}) at (6*\dx,2*\dy) {\textsc{copy-R}};
+   
+    \tikzstyle{extra} = [->, draw=black, line width=.75pt]
+    \tikzstyle{valid} = [->, draw=red, line width=1.25pt]
+
+          \draw [valid] (2) -- (1);
+          \draw [valid] (3) -- (1);
+          
+          \draw [valid] (4) -- (2);
+          \draw [extra] (5) -- (2);
+          \draw [valid] (5) -- (3);
+          \draw [valid] (6) -- (3);
+          
+          \draw [valid] (7) -- (4);
+          \draw [extra] (8) -- (4);
+          \draw [valid] (8) -- (5);
+          \draw [extra] (9) -- (5);
+          \draw [valid] (9) -- (6);
+          \draw [valid] (10) -- (6);
+          
+          \draw [valid] (11) -- (7);
+          \draw [extra] (12) -- (7);
+          \draw [valid] (12) -- (8);
+          \draw [extra] (13) -- (8);
+          \draw [valid] (13) -- (9);
+          \draw [extra] (14) -- (9);
+          \draw [valid] (14) -- (10);
+          \draw [valid] (15) -- (10);
+          
+          \draw [valid] (16) -- (11);
+          \draw [valid] (17) -- (11);
+          \draw [extra] (17) -- (12);
+          \draw [valid] (18) -- (12);
+          \draw [extra] (18) -- (13);
+          \draw [valid] (19) -- (13);
+          \draw [extra] (19) -- (14);
+          \draw [valid] (20) -- (14);
+          \draw [extra] (20) -- (15);
+          \draw [valid] (21) -- (15);
+  \end{tikzpicture}
+
+        \caption{The model structure used to compare \ii{turtle} and
+          \ii{animal}.  Learned term representations are fed through
+          either an NN or NTN comparison layer and then to a softmax
+        classifier over the seven relations in Table~\ref{b-table}.}
+  \label{sample-figure2}
+\end{figure}
+
+\begin{figure}[tp]
+  \centering
+    \footnotesize
+
+	\newcommand{\labeledtreenode}[4][3]{\put(#2){\makebox(0,0){{\fcolorbox{black}{#4}{\makebox(#1,0.3){#3}}}}}}
+
+	\newcommand{\textlabel}[4][3.5]{\put(#2){\makebox(0,0){{\makebox(#1,0.3){#3}}}}}
+
+	\definecolor{lexcolor}{HTML}{F5F7C4}
+	\definecolor{compositioncolor}{HTML}{BBEBFF}
+	\definecolor{comparisoncolor}{HTML}{FFC895}
+	\definecolor{softmaxcolor}{HTML}{A5FF8A}
+
+	\setlength{\unitlength}{0.61cm}
+
+	%\resizebox{3in}{!}{
+	\begin{picture}(13.15, 5.5)
+	  
+	  \labeledtreenode[2.4]{6.5,5}{$P(\sqsubset) = 0.8$}{softmaxcolor}  
+	  \put(6.5,3.7){\vector(0,1){1}}  
+	  \labeledtreenode[5]{6.5,3.4}{turtle \emph{vs.}~animal}{comparisoncolor}
+
+
+	  \textlabel{2.75,5}{Softmax classifier}{black}
+	  \textlabel{2.0,3.4}{\parbox{2cm}{Comparison N(T)N layer}}{black}
+	      
+	  \textlabel{6.5,2.1}{Optional embedding}{black}
+	  \textlabel{6.5,1.5}{transformation NN layers}{black}
+
+	  \textlabel{6.5,0.5}{Learned term vectors}{black}
+	  
+	  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	  \put(1.5,0.75){\vector(0,1){0.85}}
+	  \labeledtreenode{1.5,0.5}{turtle}{lexcolor}
+
+	  \put(1.5,2.25){\vector(4,1){3.25}}
+	  \labeledtreenode{1.5,1.9}{turtle}{compositioncolor}
+	  
+	  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	  \put(11.5,0.75){\vector(0,1){0.85}}
+	  \labeledtreenode{11.5,0.5}{animal}{lexcolor}
+
+	  \put(11.5,2.25){\vector(-4,1){3.25}}
+	  \labeledtreenode{11.5,1.9}{animal}{compositioncolor}
+	  
+	\end{picture}
+	%}
+        \caption{The model structure used to compare \ii{turtle} and
+          \ii{animal}.  Learned term representations are fed through
+          either an NN or NTN comparison layer and then to a softmax
+        classifier over the seven relations in Table~\ref{b-table}.}
+  \label{sample-figure}
+\end{figure}
+
+To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two steps. In the first step, a classifier produces a distribution $\vec{o}$ over the operations \{\textsc{copy-left, copy-right, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
+
+To compute the distribution $\vec{o{}}$
+
+
+
+
+Choose an operation
+
+row i
+col j
+amount of context C
+
+To compute the vector representation for a sentence
+
+\begin{equation} 
+\label{TreeRNN}
+\vec{o}^{(i,j)} = \text{softmax}(\mathbf{M_o} \colvec{7}
+	{\vec{y}^{(i + 1, j - C + 1)}}
+	{...}
+	{\vec{y}^{(i + 1, j)}}
+	{\vec{y}^{(i + 1, j + 1)}}
+	{...}
+	{\vec{y}^{(i + 1, j + C)}}
+	{\vec{o}^{(i, j - 1)}}
+	 + \vec{b}_o\,) \\
+\end{equation}
+	 
+	 
+\begin{equation}
+\vec{y}^{(i,j)} = 
+o^{(i, j)}_{1} \circ \vec{y^{(i + 1, j)}} +\\
+o^{(i, j)}_{2} \circ \vec{y^{(i + 1, j + 1)}} +\\
+o^{(i, j)}_{3} \circ \tanh(\mathbf{M_y} \colvec{2}{\vec{y}^{(i + 1, j)}}{\vec{y}^{(i + 1, j + 1)}} + \vec{b}_y)
+\end{equation} 
+
+For true relation $\rho$, and true operations $\omega^{(i,j)}$ for one example
+
+\begin{equation}
+loss = \lambda\theta^2-\ln(r_\rho) - \frac{1}{(N - 1)^2} \sum_{i = 1}^{N - 1} \sum_{j = 1}^{N - 1} \ln(o_{\omega^{(i,j)}})
+\end{equation} 
+

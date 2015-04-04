@@ -21,7 +21,6 @@ biasStackGradients = zeros(outDim, stackSize, B);
 % won't work.
 assert(inDim == outDim || stackSize < 2, 'Inconsistent dimensions.');
 
-
 for layer = stackSize:-1:1
     NLDeriv = classNLDeriv(innerOutputs(:, :, layer));
     deltaDown = NLDeriv .* deltaDown;
@@ -32,5 +31,5 @@ for layer = stackSize:-1:1
     % Calculate deltas to pass down
     deltaDown = matrixStack(:, 2:end, layer)' * deltaDown;
 end
-    
+
 end

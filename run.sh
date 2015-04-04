@@ -21,4 +21,4 @@ cd $PBS_O_WORKDIR
 echo `hostname`: $MATLABCMD 
 echo `hostname` - $PBS_JOBID - $MATLABCMD >> ~/machine_assignments.txt
 
-echo $MATLABCMD | /afs/cs/software/bin/matlab_r2012b -nodisplay
+echo $MATLABCMD | /afs/cs/software/bin/matlab_r2014b -nodisplay

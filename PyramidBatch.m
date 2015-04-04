@@ -61,7 +61,7 @@ classdef PyramidBatch < handle
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
             pb.activeNode = zeros(pb.B, pb.N, pb.N);
-            pb.numNodes = (pb.wordCounts' - 1) .^ 2;
+            pb.numNodes = min(pb.wordCounts' - 1, 1) .^ 2;
 
             % Copy data in from the individual batch entries.
             for b = 1:pb.B
@@ -73,6 +73,7 @@ classdef PyramidBatch < handle
                     if hyperParams.embeddingTransformDepth > 0
                         pb.rawEmbeddings(:, b, w) = wordFeatures(:, pyramids(b).wordIndices(w));
                     else
+                        
                         pb.features(:, b, w, pb.N) = wordFeatures(:, pyramids(b).wordIndices(w));
                     end
                 end
