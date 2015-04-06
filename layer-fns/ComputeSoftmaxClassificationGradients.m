@@ -33,6 +33,12 @@ if size(labels, 2) == 2
 		end
 		deltaDown(:, b) = matrix(relationRange, :)' * delta;
 	end
+
+	assert(sum(isinf(deltaDown(:))) == 0, ['Infs in classification delta.']); 
+	assert(sum(isnan(deltaDown(:))) == 0, ['NANs in classification delta.']); 
+
+	assert(sum(isinf(matrixGradients(:))) == 0, ['Infs in classification grad.']); 
+	assert(sum(isnan(matrixGradients(:))) == 0, ['NANs in classification grad.']); 
 else
 	delta = probs - targetprobs;
 	if nargin > 5
@@ -42,10 +48,16 @@ else
 
 	matrixGradients = delta * inPadded';
 	deltaDown = matrix' * delta;
-end
 
+	assert(sum(isinf(deltaDown(:))) == 0, ['Infs in classification delta.']); 
+	assert(sum(isnan(deltaDown(:))) == 0, ['NANs in classification delta.']); %%
+
+	assert(sum(isinf(matrixGradients(:))) == 0, ['Infs in classification grad.']); 
+	assert(sum(isnan(matrixGradients(:))) == 0, ['NANs in classification grad.']); 
+end
 
 % Remove bias deltas.
 deltaDown = deltaDown(2:end, :);
+
 
 end
