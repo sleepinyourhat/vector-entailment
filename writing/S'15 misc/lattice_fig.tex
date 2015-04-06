@@ -1,0 +1,71 @@
+ \begin{tikzpicture}
+    \def\dx{18pt}
+    \def\dy{30pt}
+    \newcounter{i}
+    \tikzstyle{highlight}=[fill=black!10]
+    \tikzstyle{comment}=[color=blue!80!black]
+    
+    \stepcounter{i}\node  (\arabic{i}) at (0*\dx,6*\dy) {$\vec{y}^{(1, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-1*\dx,5*\dy) {$\vec{y}^{(2, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (1*\dx,5*\dy) {$\vec{y}^{(2, 2)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-2*\dx,4*\dy) {$\vec{y}^{(3, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (0*\dx,4*\dy) {$\vec{y}^{(3, 2)}$};
+    \stepcounter{i}\node[highlight]  (\arabic{i}) at (2*\dx,4*\dy) {$\vec{y}^{(3, 3)}$};
+    \stepcounter{i}\node[highlight]  (\arabic{i}) at (-3*\dx,3*\dy) {$\vec{y}^{(4, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-1*\dx,3*\dy) {$\vec{y}^{(4, 2)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (1*\dx,3*\dy) {$\vec{y}^{(4, 3)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (3*\dx,3*\dy) {$\vec{y}^{(4, 4)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-4*\dx,2*\dy) {$\vec{y}^{(5, 1)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-2*\dx,2*\dy) {$\vec{y}^{(5, 2)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (0*\dx,2*\dy) {$\vec{y}^{(5, 3)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (2*\dx,2*\dy) {$\vec{y}^{(5, 4)}$};
+    \stepcounter{i}\node[highlight]  (\arabic{i}) at (4*\dx,2*\dy) {$\vec{y}^{(5, 5)}$};
+    \stepcounter{i}\node  (\arabic{i}) at (-5*\dx,1*\dy) {My};
+    \stepcounter{i}\node  (\arabic{i}) at (-3*\dx,1*\dy) {hovercraft};
+    \stepcounter{i}\node  (\arabic{i}) at (-1*\dx,1*\dy) {is};
+    \stepcounter{i}\node  (\arabic{i}) at (1*\dx,1*\dy) {full};
+    \stepcounter{i}\node  (\arabic{i}) at (3*\dx,1*\dy) {of};
+    \stepcounter{i}\node  (\arabic{i}) at (5*\dx,1*\dy) {eels};
+   
+    \stepcounter{i}\node[comment]  (\arabic{i}) at (4*\dx,4*\dy) {\textsc{compose}};
+    \stepcounter{i}\node[comment]  (\arabic{i}) at (-5*\dx,3*\dy) {\textsc{copy-L}};
+    \stepcounter{i}\node[comment]  (\arabic{i}) at (6*\dx,2*\dy) {\textsc{copy-R}};
+   
+    \tikzstyle{extra} = [->, draw=black!50, line width=1pt]
+    \tikzstyle{valid} = [->, draw=red, line width=1.4pt]
+
+          \draw [valid] (2) -- (1);
+          \draw [valid] (3) -- (1);
+          
+          \draw [valid] (4) -- (2);
+          \draw [extra] (5) -- (2);
+          \draw [valid] (5) -- (3);
+          \draw [valid] (6) -- (3);
+          
+          \draw [valid] (7) -- (4);
+          \draw [extra] (8) -- (4);
+          \draw [valid] (8) -- (5);
+          \draw [extra] (9) -- (5);
+          \draw [valid] (9) -- (6);
+          \draw [valid] (10) -- (6);
+          
+          \draw [valid] (11) -- (7);
+          \draw [extra] (12) -- (7);
+          \draw [valid] (12) -- (8);
+          \draw [extra] (13) -- (8);
+          \draw [valid] (13) -- (9);
+          \draw [extra] (14) -- (9);
+          \draw [valid] (14) -- (10);
+          \draw [valid] (15) -- (10);
+          
+          \draw [valid] (16) -- (11);
+          \draw [valid] (17) -- (11);
+          \draw [extra] (17) -- (12);
+          \draw [valid] (18) -- (12);
+          \draw [extra] (18) -- (13);
+          \draw [valid] (19) -- (13);
+          \draw [extra] (19) -- (14);
+          \draw [valid] (20) -- (14);
+          \draw [extra] (20) -- (15);
+          \draw [valid] (21) -- (15);
+  \end{tikzpicture}

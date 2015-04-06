@@ -117,16 +117,16 @@ if ~multipleClassSets
 	hyperParams.testFilenames = {};
 else
 	hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'},
-							 {'#', '=', '>', '<', '|', '^', 'v'}};
-	hyperParams.numRelations = [7, 7];
-	hyperParams.relationIndices = [0, 0; 0, 0; 1, 1];
-    hyperParams.testRelationIndices = [1, 1];
+							 {'a', 'b', 'c', '#', '=', '>', '<', '|', '^', 'v'}};
+	hyperParams.numRelations = [7, 10];
+	hyperParams.relationIndices = [0, 0; 0, 0; 1, 2];
+    hyperParams.testRelationIndices = [1, 2];
 
 	relationMap = cell(2, 1);
 	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 	relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
 
-	hyperParams.splitFilenames = {'./quantifiers/test_file.tsv', './quantifiers/test_file.tsv'};
+	hyperParams.splitFilenames = {'./quantifiers/test_file.tsv', './quantifiers/test_file_2.tsv'};
 	hyperParams.trainFilenames = {};
 	hyperParams.testFilenames = {};
 end

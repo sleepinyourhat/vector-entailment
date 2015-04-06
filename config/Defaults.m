@@ -31,7 +31,7 @@ hyperParams.useCompatibilityInitialization = false;
 % How far *in each direction* should the connection classifier in a Pyramid model look.
 % Setting this to 1 means to only use the immediate left and right composition inputs with no
 % additional context.
-hyperParams.pyramidConnectionContextWidth = 3;
+hyperParams.pyramidConnectionContextWidth = 4;
 
 % The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -111,8 +111,14 @@ hyperParams.fastEmbed = false;
 
 hyperParams.clearActivations = false;
 
+% Applies to ComputeCostAndGrad
 hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
+
+% Deltas in PyramidBatch above this *squared* l2 norm will be rescaled down.
+hyperParams.maxDeltaNorm = 1e-1;
+
+hyperParams.connectionCostScale = 0.0005;
 
 %%% minFunc options: %%%
 

@@ -61,7 +61,7 @@ classdef PyramidBatch < handle
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
             pb.activeNode = zeros(pb.B, pb.N, pb.N);
-            pb.numNodes = min(pb.wordCounts' - 1, 1) .^ 2;
+            pb.numNodes = max(pb.wordCounts' - 1, 1) .^ 2;
 
             % Copy data in from the individual batch entries.
             for b = 1:pb.B
@@ -149,7 +149,9 @@ classdef PyramidBatch < handle
             end
 
             % Rescale the connection costs by the number of times supervision was applied.
-            connectionCosts = connectionCosts ./ pb.numNodes;
+            connectionCosts = (connectionCosts ./ pb.numNodes) .* hyperParams.connectionCostScale;
+
+            % TODO: Optionally log connection accuracy.
         end
 
         function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)
@@ -251,7 +253,8 @@ classdef PyramidBatch < handle
                     % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
                     [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
                         ComputeSoftmaxClassificationGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            pb.connectionLabels(:, col, row), pb.connectionClassifierInputs(:, :, col, row), hyperParams, pb.numNodes);
+                            pb.connectionLabels(:, col, row), pb.connectionClassifierInputs(:, :, col, row), hyperParams, ...
+                            pb.numNodes ./ hyperParams.connectionCostScale);
                     connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
 
                     % Rescale by the number of times supervision is being applied.
@@ -264,6 +267,10 @@ classdef PyramidBatch < handle
                             deltas(:, :, sourcePos, row + 1) = ...
                                 deltas(:, :, sourcePos, row + 1) + ...
                                 connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :);
+
+                            multpliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, sourcePos, row + 1).^2)), ones(1, pb.B));
+                            deltas(:, :, sourcePos, row + 1) = bsxfun(@times, deltas(:, :, sourcePos, row + 1), multpliers);
+
                         end
                         if col > 1
                             deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - pb.NUMACTIONS:end, :), ...

@@ -9,12 +9,11 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), ...
-    '-dp', num2str(dp), '-m', num2str(mult)];
+    '-mdn', num2str(dp), '-consc', num2str(mult)];
 
 hyperParams.parensInSequences = 0;
 
-hyperParams.dataPortion = dp;
-
+hyperParams.dataPortion = 1;
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
@@ -51,6 +50,10 @@ hyperParams.lambda = lambda; % 0.002 works?;
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = 32;
 
+hyperParams.maxDeltaNorm = dp;
+hyperParams.connectionCostScale = mult;
+
+
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
 hyperParams.bottomDropout = bottomDropout;
@@ -83,7 +86,6 @@ elseif composition == 4
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.parensInSequences = 0;
-  options.miniBatchSize = 128;
 elseif composition == 5
   hyperParams.usePyramids = 1;
   hyperParams.lstm = 0;
@@ -91,12 +93,10 @@ elseif composition == 5
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
-  options.miniBatchSize = 128;
 end
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
-% hyperParams.ignorePreprocessedFiles = true;
 
 hyperParams.fragmentData = false;
 
@@ -118,12 +118,31 @@ if findstr(dataflag, 'snli095-sick')
     hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed.txt', ...
                                   './sick-data/SICK_train_parsed.txt'};    
     hyperParams.splitFilenames = {};    
-    hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt', ...
-                                 './sick-data/SICK_trial_parsed.txt'};
+    hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt', ...
+                                 '../data/snli_0.95_dev_parsed.txt'};
 
-    hyperParams.relationIndices = [1, 2; 1, 2; 0, 0];
-    hyperParams.testRelationIndices = [1, 2];
+    hyperParams.relationIndices = [1, 2; 2, 1; 0, 0];
+    hyperParams.testRelationIndices = [2, 1];
     hyperParams.trainingMultipliers = [1; mult];
+
+elseif findstr(dataflag, 'snli095-only')
+    wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
+    hyperParams.vocabName = 'ss095'; 
+
+    hyperParams.numRelations = 3;
+
+    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt'};
+
+    hyperParams.relationIndices = [1; 1; 1];
+    hyperParams.testRelationIndices = [1];
+    hyperParams.trainingMultipliers = [1];
+
 elseif findstr(dataflag, 'dg-pre')
     hyperParams.numRelations = [3, 3, 2];
 

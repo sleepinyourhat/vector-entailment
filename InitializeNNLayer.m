@@ -35,7 +35,11 @@ elseif initType == 3
 		ev = eig(matrix(1:outdim, 1:outdim, 1));
 		matrix = 1.2 .* matrix ./ ev(1, 1);
 	end
-elseif initType > 3
+elseif initType == 4
+	% Softmax-specific mode. I haven't yet found any good strategies for this.
+	scale = 0.1 / sqrt(indim);
+	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;	
+elseif initType > 4
 	matrix = zeros(outdim, indim, depth);
 	for d = 1:depth
 		for ind = 1:outdim
