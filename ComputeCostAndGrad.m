@@ -21,7 +21,7 @@ end
 DIM = hyperParams.dim;
 EMBDIM = hyperParams.embeddingDim;
 
-% Set the number of composition functions
+% Set the number of mposition functions
 if hyperParams.useSumming
     NUMCOMP = 0;
 elseif ~hyperParams.untied
@@ -50,10 +50,10 @@ rightFeatures = right.getFeatures();
 
 % Compute classification tensor layer (or plain RNN layer)
 if hyperParams.useThirdOrderMerge
-    [ mergeOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
+    mergeOutput = ComputeTensorLayer(leftFeatures, ...
         rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
-    [ mergeOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
+    mergeOutput = ComputeRNNLayer(leftFeatures, rightFeatures, ...
         mergeMatrix, hyperParams.classNL);
 end
        
@@ -88,7 +88,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
             MergeDeltaLeft, MergeDeltaRight ] = ...
             ComputeTensorLayerGradients(leftFeatures, rightFeatures, ...
               mergeMatrices, mergeMatrix, ...
-              extraDelta, hyperParams.classNLDeriv, tensorInnerOutput);
+              extraDelta, hyperParams.classNLDeriv, mergeOutput);
     else
          % Compute gradients for classification first layer
          localMergeMatricesGradients = zeros(0, 0, 0);  
@@ -96,7 +96,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
             MergeDeltaRight ] = ...
           ComputeRNNLayerGradients(leftFeatures, rightFeatures, ...
               mergeMatrix, ...
-              extraDelta, hyperParams.classNLDeriv, innerOutput);
+              extraDelta, hyperParams.classNLDeriv, mergeOutput);
     end
 
     MergeDeltaLeft = MergeDeltaLeft .* leftMask;

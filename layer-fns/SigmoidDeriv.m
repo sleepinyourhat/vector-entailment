@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function outVec = SigmoidDeriv (inVec)
+function deriv = SigmoidDeriv (in, out)
 % Compute the gradient of the sigmoid (now actually tanh) nonlinearity
 
 assert(0, 'Not used.')

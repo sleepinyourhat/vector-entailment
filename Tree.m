@@ -11,7 +11,6 @@ classdef Tree < handle
         text = 'NO_TEXT';
         features = []; % DIM x 1 vector
         mask = []; % Used in dropout
-        featuresPreNL = [];
         wordIndex = -1; % -1 => Not a lexical item node.
         transformInnerActivations = []; % Stored activations for the embedding tranform layers.
         unknown = 0;
@@ -25,7 +24,6 @@ classdef Tree < handle
         function t = printAllProperties(obj)
             disp(obj.text)
             disp(obj.features)
-            disp(obj.featuresPreNL)
             disp(obj.wordIndex)
             disp(obj.transformInnerActivations)
             disp(obj.type)
@@ -184,11 +182,11 @@ classdef Tree < handle
                 end
                
                 if length(compMatrices) ~= 0
-                    [obj.features, obj.featuresPreNL] = ComputeTensorLayer(...
+                    obj.features = ComputeTensorLayer(...
                         lFeatures, rFeatures, compMatrices(:,:,:,typeInd),...
                         compMatrix(:,:,typeInd), compNL);
                 elseif length(compMatrix) ~= 0
-                    [obj.features, obj.featuresPreNL] = ComputeRNNLayer(lFeatures, rFeatures,...
+                    obj.features = ComputeRNNLayer(lFeatures, rFeatures,...
                         compMatrix(:,:,typeInd), compNL);
                 else
                     obj.features = ComputeSummingLayer(lFeatures, rFeatures);
@@ -259,7 +257,7 @@ classdef Tree < handle
                     ComputeTensorLayerGradients(lFeatures, rFeatures, ...
                           compMatrices(:,:,:,typeInd), ...
                           compMatrix(:,:,typeInd), delta, ...
-                          compNLDeriv, obj.featuresPreNL);
+                          compNLDeriv, obj.features);
 
                     upwardCompositionMatricesGradients(:,:,:,typeInd) = ...
                         tempCompositionMatricesGradients;
@@ -270,7 +268,7 @@ classdef Tree < handle
                         compDeltaRight] = ...
                     ComputeRNNLayerGradients(lFeatures, rFeatures, ...
                           compMatrix(:,:,typeInd), delta, ...
-                          compNLDeriv, obj.featuresPreNL);
+                          compNLDeriv, obj.features);
 
                     upwardCompositionMatrixGradients(:,:,typeInd) = ...
                         tempCompositionMatrixGradients;

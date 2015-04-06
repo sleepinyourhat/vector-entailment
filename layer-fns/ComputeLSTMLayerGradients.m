@@ -21,7 +21,7 @@ Gr = 3 * DIM + 1:4 * DIM;
 
 dIFOGf = zeros(size(IFOGf, 1), size(IFOGf, 2));
 
-tanhC = TanhActivation(c);
+tanhC = tanh(c);
 dIFOGf(Or) = (tanhC .* delta_h)';
 dC = delta_c + (1 - tanhC .^ 2) .* (IFOGf(Or)' .* delta_h);
 

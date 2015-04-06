@@ -19,11 +19,11 @@ Gr = 3 * DIM + 1:4 * DIM;
 % Nonlinearities
 IFOGf([Ir Fr Or]) = Sigmoid(IFOG([Ir Fr Or]));
 
-IFOGf(Gr) = TanhActivation(IFOG(Gr));
+IFOGf(Gr) = tanh(IFOG(Gr));
 
 % Cell activation
 c = IFOGf(Ir)' .* IFOGf(Gr)' + IFOGf(Fr)' .* c_prev;
 
-h = IFOGf(Or)' .* TanhActivation(c);
+h = IFOGf(Or)' .* tanh(c);
 
 end

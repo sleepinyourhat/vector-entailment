@@ -9,7 +9,6 @@ classdef PyramidBatch < handle
         B = -1;  % Batch size.
         D = -1;  % Number of dimensions in the feature vector at each position.
         N = -1;  % The length of the longest sequence that can be handled within this pyramid.
-        R = -1;  % The number of rows in features and deltas.
         pyramids = [];  % The pyramid objects in the batch.
         wordIndices = [];  % The index into the embedding matrix for each word in the sequence.
         wordCounts = [];  % The number of words in each sequence.
@@ -20,8 +19,6 @@ classdef PyramidBatch < handle
                                          % the pre-nonlinearity activations from the embedding transform layer
                                          % if one is present.
         masks = [];  % Same structure as transformInnerActivations, but contains dropout masks for the embedding transform layer.
-        compositionInnerActivations = [];  % Same structure as features, but contains the pre-nonlinearity
-                                           % activations from the composition function, and has no bottom (word) layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
         connectionClassifierInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
@@ -55,7 +52,6 @@ classdef PyramidBatch < handle
             pb.rawEmbeddings = zeros(hyperParams.embeddingDim, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.transformInnerActivations = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.compositionInnerActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
             pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
@@ -118,8 +114,7 @@ classdef PyramidBatch < handle
 
                     % Build the composed representation
                     compositionInputs = [ones(1, pb.B); pb.features(:, :, col, row + 1); pb.features(:, :, col + 1, row + 1)];
-                    pb.compositionInnerActivations(:, :, col, row) = compositionMatrix * compositionInputs;
-                    pb.compositionActivations(:, :, col, row) = tanh(pb.compositionInnerActivations(:, :, col, row));
+                    pb.compositionActivations(:, :, col, row) = tanh(compositionMatrix * compositionInputs);
                     % Multiply the three inputs by the three connection weights.
                     pb.features(:, :, col, row) = ...
                         bsxfun(@times, pb.features(:, :, col, row + 1), ...
@@ -222,7 +217,7 @@ classdef PyramidBatch < handle
                         ComputeRNNLayerGradients(pb.features(:, :, col, row + 1), ...
                                                  pb.features(:, :, col + 1, row + 1), ...
                                                  compositionMatrix, compositionDeltas, @TanhDeriv, ...
-                                                 pb.compositionInnerActivations(:, :, col, row));
+                                                 pb.compositionActivations(:, :, col, row));
 
                     % Add the composition gradients and deltas into the accumulators.
                     compositionMatrixGradients = compositionMatrixGradients + localCompositionMatrixGradients;
@@ -267,10 +262,6 @@ classdef PyramidBatch < handle
                             deltas(:, :, sourcePos, row + 1) = ...
                                 deltas(:, :, sourcePos, row + 1) + ...
                                 connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :);
-
-                            multpliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, sourcePos, row + 1).^2)), ones(1, pb.B));
-                            deltas(:, :, sourcePos, row + 1) = bsxfun(@times, deltas(:, :, sourcePos, row + 1), multpliers);
-
                         end
                         if col > 1
                             deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - pb.NUMACTIONS:end, :), ...
@@ -286,11 +277,17 @@ classdef PyramidBatch < handle
                 deltas(:, :, :, row + 1) = ...
                        bsxfun(@times, deltas(:, :, :, row + 1) , ...
                            permute(pb.activeNode(:, :, row + 1), [3, 1, 2]));
+
+                % Scale down the deltas.
+                if hyperParams.maxDeltaNorm > 0
+                    multipliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, :, row + 1).^2)), ones(1, pb.B, pb.N));
+                    deltas(:, :, :, row + 1) = bsxfun(@times, deltas(:, :, :, row + 1), multipliers);
+                end
             end
 
             % Run the embedding transform layers backwards.
             if hyperParams.embeddingTransformDepth > 0
-                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
+                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    
                 rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
                 for col = 1:pb.N
                     transformDeltas = deltas(:, :, col, pb.N) .* pb.masks(:, :, col); % Take dropout into account
