@@ -1,0 +1,59 @@
+\section{Jointly learning parsing and semantic composition}
+
+% TODO: Graph figure
+
+
+
+\begin{figure}[tp]
+  \centering\small
+ 	\input{lattice_fig.tex}
+
+        \caption{The model structure used to compare \ii{turtle} and
+          \ii{animal}.  Learned term representations are fed through
+          either an NN or NTN comparison layer and then to a softmax
+        classifier over the seven relations in Table~\ref{b-table}.}
+  \label{sample-figure2}
+\end{figure}
+
+To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two steps. In the first step, a classifier produces a distribution $\vec{o}$ over the operations \{\textsc{copy-left, copy-right, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
+
+To compute the distribution over operations at one node, $\vec{o}^{(i, j)}$, 
+
+
+
+
+Choose an operation
+
+row i
+col j
+amount of context C
+
+To compute the vector representation for a sentence
+
+\begin{equation} 
+\label{TreeRNN}
+\vec{o}^{(i,j)} = \text{softmax}(\mathbf{M_o} \colvec{7}
+	{\vec{y}^{(i + 1, j - C + 1)}}
+	{...}
+	{\vec{y}^{(i + 1, j)}}
+	{\vec{y}^{(i + 1, j + 1)}}
+	{...}
+	{\vec{y}^{(i + 1, j + C)}}
+	{\vec{o}^{(i, j - 1)}}
+	 + \vec{b}_o\,) \\
+\end{equation}
+	 
+	 
+\begin{equation}
+\vec{y}^{(i,j)} = 
+o^{(i, j)}_{1} \circ \vec{y^{(i + 1, j)}} +\\
+o^{(i, j)}_{2} \circ \vec{y^{(i + 1, j + 1)}} +\\
+o^{(i, j)}_{3} \circ \tanh(\mathbf{M_y} \colvec{2}{\vec{y}^{(i + 1, j)}}{\vec{y}^{(i + 1, j + 1)}} + \vec{b}_y)
+\end{equation} 
+
+For true relation $\rho$, and true operations $\omega^{(i,j)}$ for one example
+
+\begin{equation}
+loss = \lambda\theta^2-\ln(r_\rho) - \frac{1}{(N - 1)^2} \sum_{i = 1}^{N - 1} \sum_{j = 1}^{N - 1} \ln(o_{\omega^{(i,j)}})
+\end{equation} 
+

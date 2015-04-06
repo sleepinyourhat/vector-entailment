@@ -1,7 +1,11 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function outVec = LReLUDeriv (inVec)
+function deriv = LReLUDeriv (in, out)
 % Compute the gradient of the LReLU nonlinearity
 
-outVec = (inVec>=0) + ((inVec<0) * 0.01);
+if nargin > 1
+	deriv = (out >= 0) + ((out < 0) * 0.01);
+else
+	deriv = (in >= 0) + ((in < 0) * 0.01);
+end
 
 end

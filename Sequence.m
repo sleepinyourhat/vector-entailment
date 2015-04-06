@@ -8,10 +8,13 @@ classdef Sequence < handle
 
     % Sentences can generally be represented by the handle of the final node in the sentence.
     
-    % NOTE: This model is designed to handle sequences of arbitrary length, and to follow the same
-    % object-oriented interface as the tree model in this package. If efficiency is essential,
-    % you can acchieve faster training using a model which uses fixed length sequences, like Thang
-    % Luong's MATLAB LSTM.
+    % NOTE: There are two ways to train or evaluate a model using Sequence objects. One is to
+    % use the runForward and getGradients functions in this object. The other is to create 
+    % SequenceBatch objects from a set of Sequence objects and call the functions there.
+    % The functions in this file are designed to handle sequences of arbitrary length, and to 
+    % follow the same object-oriented interface as the tree model in this package. The 
+    % SequenceBatch alternative is likely much faster, if harder to read and edit.
+
 
     properties (Hidden)
         pred = []; % the preceeding node or empty
@@ -178,7 +181,7 @@ classdef Sequence < handle
                 [ obj.activations, obj.cActivations, obj.activationCache ] = ...
                     ComputeLSTMLayer(compMatrix, predActivations, predC, obj.inputActivations);
             else
-                [ obj.activations, obj.activationCache ] = ComputeRNNLayer(predActivations, obj.inputActivations,...
+                obj.activations = ComputeRNNLayer(predActivations, obj.inputActivations,...
                     compMatrix, compNL);
             end
         end
@@ -246,7 +249,7 @@ classdef Sequence < handle
                     compDeltaInput ] = ...
                 ComputeRNNLayerGradients(predActivations, obj.inputActivations, ...
                       compMatrix, deltaH, ...
-                      compNLDeriv, obj.activationCache);
+                      compNLDeriv, obj.activations);
                 compDeltaPredC = [];
             end
                 
