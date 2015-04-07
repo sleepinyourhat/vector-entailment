@@ -35,10 +35,10 @@ rightPyramidBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures,
 
 % Compute classification tensor layer (or plain RNN layer).
 if hyperParams.useThirdOrderMerge
-    [ mergeOutput, tensorInnerOutput ] = ComputeTensorLayer(leftFeatures, ...
+    mergeOutput = ComputeTensorLayer(leftFeatures, ...
         rightFeatures, mergeMatrices, mergeMatrix, hyperParams.classNL);
 else
-    [ mergeOutput, innerOutput ] = ComputeRNNLayer(leftFeatures, rightFeatures, ...
+    mergeOutput = ComputeRNNLayer(leftFeatures, rightFeatures, ...
         mergeMatrix, hyperParams.classNL);
 end
 
@@ -112,7 +112,7 @@ if computeGrad
 
     [ localExtraMatrixGradients, extraDelta ] = ...
       ComputeExtraClassifierGradients(classifierExtraMatrix,...
-          softmaxDelta, extraClassifierLayerInputs, extraClassifierLayerInnerOutputs, hyperParams.classNLDeriv);
+          softmaxDelta, extraClassifierLayerInputs, hyperParams.classNLDeriv);
 
     if hyperParams.useThirdOrderMerge
         % Compute gradients for the merge tensor layer

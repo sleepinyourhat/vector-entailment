@@ -25,7 +25,6 @@ classdef Sequence < handle
         mask = []; % Used in dropout
         activationCache = []; % Equivalent to activationsPreNL for RNNs and IFOGf for LSTMs.
         wordIndex = -1; % -1 => Not a lexical item node.
-        transformInnerActivations = []; % Stored activations for the embedding tranform layers.    
         unknown = 0;   
     end
 
@@ -90,7 +89,6 @@ classdef Sequence < handle
             disp(obj.activations)
             disp(obj.activationCache)
             disp(obj.wordIndex)
-            disp(obj.transformInnerActivations)
         end
 
         function resp = isStart(obj)
@@ -133,7 +131,6 @@ classdef Sequence < handle
             obj.inputActivations = []; % DIM x 1 vector - the word vector (after transformation if applicable)
             obj.mask = []; % Used in dropout
             obj.activationCache = []; % Equivalent to activationsPreNL for RNNs and IFOGf for LSTMs.
-            obj.transformInnerActivations = []; % Stored activations for the embedding tranform layers.       
         end
 
         function updateFeatures(obj, wordFeatures, compMatrices, ...
@@ -148,12 +145,12 @@ classdef Sequence < handle
                 obj.inputActivations = wordFeatures(:, obj.wordIndex);
             else
                 % Run the transform layer.
-                obj.transformInnerActivations = embeddingTransformMatrix ...
+                transformInnerActivations = embeddingTransformMatrix ...
                                                 * [1; wordFeatures(:, obj.wordIndex)];
 
-                activations = compNL(obj.transformInnerActivations);
+                transformActivations = compNL(transformInnerActivations);
 
-                [obj.inputActivations, obj.mask] = Dropout(activations, hyperParams.bottomDropout, trainingMode);
+                [obj.inputActivations, obj.mask] = Dropout(transformActivations, hyperParams.bottomDropout, trainingMode);
             end
 
             % Compute a feature vector for the predecessor node.
@@ -283,7 +280,7 @@ classdef Sequence < handle
                     [tempEmbeddingTransformMatrixGradients, compDeltaInput] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               compDeltaInput, wordFeatures(:, obj.wordIndex), ...
-                              obj.transformInnerActivations, compNLDeriv);
+                              obj.inputActivations, compNLDeriv);
                     forwardEmbeddingTransformMatrixGradients = ...
                         forwardEmbeddingTransformMatrixGradients + ...
                         tempEmbeddingTransformMatrixGradients;
@@ -299,7 +296,7 @@ classdef Sequence < handle
                 [tempEmbeddingTransformMatrixGradients, ~] = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           compDeltaInput, wordFeatures(:, obj.wordIndex), ...
-                          obj.transformInnerActivations, compNLDeriv);
+                          obj.inputActivations, compNLDeriv);
                 forwardEmbeddingTransformMatrixGradients = ...
                     forwardEmbeddingTransformMatrixGradients + ...
                     tempEmbeddingTransformMatrixGradients;

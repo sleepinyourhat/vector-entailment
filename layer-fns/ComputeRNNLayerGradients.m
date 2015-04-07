@@ -5,7 +5,6 @@ function [matrixGradients, deltaLeft, deltaRight] = ...
 
 in = [ones(1, size(l, 2)); l; r];
 
-% TODO: Make this happen less often.
 if nargin < 6
     innerOutput = matrix * in;
     NLDeriv = nonlinearityDeriv(innerOutput);

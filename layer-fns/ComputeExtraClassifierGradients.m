@@ -1,11 +1,11 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ matrixStackGradients, deltaDown ] = ...
           ComputeExtraClassifierGradients(...
-          	matrixStack, deltaDown, inputs, innerOutputs, classNLDeriv)
+          	matrixStack, deltaDown, inputs, classNLDeriv)
 % Compute gradients for the middle NN layers of the classifier. This will 
 % only do non-trivial work if stackSize is greater than 0.
 
-if length(innerOutputs) == 0 || length(matrixStack) == 0
+if length(matrixStack) == 0
 	matrixStackGradients = [];
 	return
 end
@@ -22,7 +22,7 @@ biasStackGradients = zeros(outDim, stackSize, B);
 assert(inDim == outDim || stackSize < 2, 'Inconsistent dimensions.');
 
 for layer = stackSize:-1:1
-    NLDeriv = classNLDeriv(innerOutputs(:, :, layer));
+    NLDeriv = classNLDeriv([], inputs(:, :, layer + 1));
     deltaDown = NLDeriv .* deltaDown;
 
     % Calculate matrix gradients
