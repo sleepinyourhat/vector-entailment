@@ -12,7 +12,6 @@ classdef Tree < handle
         features = []; % DIM x 1 vector
         mask = []; % Used in dropout
         wordIndex = -1; % -1 => Not a lexical item node.
-        transformInnerActivations = []; % Stored activations for the embedding tranform layers.
         unknown = 0;
         type = 0; % 0 - predicate or predicate + neg
                   % 1 - quantifier
@@ -25,7 +24,6 @@ classdef Tree < handle
             disp(obj.text)
             disp(obj.features)
             disp(obj.wordIndex)
-            disp(obj.transformInnerActivations)
             disp(obj.type)
             disp('(')
             for daughterInd = 1:length(obj.daguhters)
@@ -197,13 +195,10 @@ classdef Tree < handle
                     obj.features = wordFeatures(:, obj.wordIndex); 
                 else
                     % Run the transfrom layer.
-                    obj.transformInnerActivations = embeddingTransformMatrix ...
+                    transformInnerActivations = embeddingTransformMatrix ...
                                                     * [1; wordFeatures(:, obj.wordIndex)];
-
-                    activations = compNL(obj.transformInnerActivations);
-
-                    [obj.features, obj.mask] = Dropout(activations, hyperParams.bottomDropout, trainingMode);
-
+                    transformActivations = compNL(transformInnerActivations);
+                    [ obj.features, obj.mask ] = Dropout(transformActivations, hyperParams.bottomDropout, trainingMode);
                 end
             end
         end
@@ -299,6 +294,8 @@ classdef Tree < handle
                 upwardEmbeddingTransformMatrixGradients = ...
                     upwardEmbeddingTransformMatrixGradients + ...
                     incomingEmbeddingTransformMatrixGradients;
+
+
                 
                 % Take gradients from the right child
                 [ incomingWordGradients, ...
@@ -329,8 +326,8 @@ classdef Tree < handle
                     delta = delta .* obj.mask; % Take dropout into account
                     [ upwardEmbeddingTransformMatrixGradients, delta ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              delta, wordFeatures(obj.wordIndex, :)', ...
-                              obj.transformInnerActivations, compNLDeriv);
+                              delta, wordFeatures(:, obj.wordIndex), ...
+                              obj.features, compNLDeriv);
                 end
 
                 % Compute the word feature gradients
@@ -343,7 +340,7 @@ classdef Tree < handle
                 upwardEmbeddingTransformMatrixGradients = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           delta, wordFeatures(:, obj.wordIndex), ...
-                          obj.transformInnerActivations, compNLDeriv);
+                          obj.features, compNLDeriv);
             end            
         end
     end
