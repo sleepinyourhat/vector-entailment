@@ -11,158 +11,127 @@ classdef SequenceBatch < handle
         features = [];  % All computed activation vectors, with the words at the bottom row.
                         % For speed, indexing is by (dim, batch-entry, column, row)
         rawEmbeddings = [];  % Word embeddings. Used only in conjunction with an embedding transform layer.
-        transformInnerActivations = [];  % Same structure as the bottom row of features, but contains the
+        inputActivations = [];  % Same structure as the bottom row of features, but contains the
                                          % the pre-nonlinearity activations from the embedding transform layer
                                          % if one is present.
         masks = [];  % Same structure as transformInnerActivations, but contains dropout masks for the embedding transform layer.
-        compositionInnerActivations = [];  % Same structure as features, but contains the pre-nonlinearity
-                                           % activations from the composition function, and has no bottom (word) layer.
         cFeatures = [];  % Same structure as features, but contains the cell activations.
     end
    
     methods(Static)
-        function pb = makeSequenceBatch(sequneces, wordFeatures, hyperParams)
+        function sb = makeSequenceBatch(sequneces, wordFeatures, hyperParams)
             % Constructor: create and populate the batch data structures using a specific batch of data.
 
-            pb = SequenceBatch();
-            pb.B = length(sequences);
-            pb.D = hyperParams.dim;
+            sb = SequenceBatch();
+            sb.B = length(sequences);
+            sb.D = hyperParams.dim;
 
             % Find the length of the longest sequence. We use this to set the size of the main feature matrix,
             % to this value has a large impact on the run time of the batch.
-            pb.N = max([sequences(:).wordCount]);
+            sb.N = max([sequences(:).wordCount]);
 
-            pb.sequences = cell(pb.B, 1);
+            sb.sequences = cell(sb.B, 1);
 
-            pb.wordIndices = zeros(pb.N, pb.B);
-            pb.wordCounts = [pyramids(:).wordCount];
-            pb.features = zeros(pb.D, pb.B, pb.N);
-            pb.rawEmbeddings = zeros(hyperParams.embeddingDim, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.transformInnerActivations = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.compositionInnerActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
-            pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
-            pb.connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
-            pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
-            pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
-            pb.activeNode = zeros(pb.B, pb.N, pb.N);
-            pb.numNodes = max(pb.wordCounts' - 1, 1) .^ 2;
+            sb.wordIndices = zeros(sb.N, sb.B);
+            sb.wordCounts = [pyramids(:).wordCount];
+            sb.inputFeatures = zeros(sb.D, sb.B, sb.N);
+            sb.features = zeros(sb.D, sb.B, sb.N);
+            sb.cFeatures = zeros(sb.D, sb.B, sb.N);
+            sb.rawEmbeddings = zeros(hyperParams.embeddingDim, sb.B, hyperParams.embeddingTransformDepth * sb.N);
+            sb.masks = zeros(sb.D, sb.B, hyperParams.embeddingTransformDepth * sb.N);
 
             % Copy data in from the individual batch entries.
-            for b = 1:pb.B
-                pb.pyramids{b} = pyramids(b);
-                pb.wordIndices(1:pb.wordCounts(b), b) = pyramids(b).wordIndices;
-                for w = 1:pyramids(b).wordCount
+            for b = 1:sb.B
+                sb.sequneces{b} = sequences(b);
+                sb.wordIndices(sb.N - sb.wordCounts(b) + 1:end, b) = sequences(b).wordIndices;
+                for w = sb.N - sb.wordCounts(b) + 1:end
                     % Populate the bottom row with word features.
 
                     if hyperParams.embeddingTransformDepth > 0
-                        pb.rawEmbeddings(:, b, w) = wordFeatures(:, pyramids(b).wordIndices(w));
+                        sb.rawEmbeddings(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));
                     else
                         
-                        pb.features(:, b, w, pb.N) = wordFeatures(:, pyramids(b).wordIndices(w));
+                        sb.inputFeatures(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));
                     end
                 end
-                pb.connectionLabels(b, 1:pyramids(b).wordCount - 1, pb.N - pyramids(b).wordCount + 1:pb.N - 1) = ...
-                    pyramids(b).connectionLabels';
-                pb.activeNode(b, 1:pyramids(b).wordCount, pb.N - pyramids(b).wordCount + 1:pb.N) = ...
-                    pyramids(b).activeNode';
             end
         end
     end
 
     methods
-        function [ topFeatures, connectionCosts ] = runForward(pb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
+        function [ topFeatures, connectionCosts ] = runForward(sb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
             % Run the optional embedding transformation layer forward.
-            if ~isempty(embeddingTransformMatrix)
-                for col = 1:pb.N
-                    transformInputs = [ ones(1, pb.B); pb.rawEmbeddings(:, :, col) ];
-                    pb.transformInnerActivations(:, :, col) = ...
+            % Recomputes features using fresh parameters.
+
+            LSTM = size(compositionMatrix, 1) > size(compositionMatrix, 2);
+
+            for w = 1:pb.N
+                % Compute a feature vector for the input at this node.
+                if length(embeddingTransformMatrix) > 0
+                    % Run the transform layer.
+                    transformInnerActivations(:, :, col) = ...
                         embeddingTransformMatrix * transformInputs;
-                    [ pb.features(:, :, col, pb.N), pb.masks(:, :, col) ] = ...
+                    [ sb.features(:, :, col, pb.N), pb.masks(:, :, col) ] = ...
                         Dropout(tanh(pb.transformInnerActivations(:, :, col)), hyperParams.bottomDropout, trainingMode);
+
+                    [obj.inputActivations, obj.mask] = Dropout(transformActivations, hyperParams.bottomDropout, trainingMode);
                 end
 
-                % Remove features for inactive nodes.
-                pb.features(:, :, :, pb.N) = ...
-                    bsxfun(@times, pb.features(:, :, :, pb.N) , ...
-                           permute(pb.activeNode(:, :, pb.N), [3, 1, 2]));
-            end
+                % Compute a feature vector for the predecessor node.
+                if ~isempty(obj.pred)
+                    obj.pred.updateFeatures(...
+                        wordFeatures, compMatrices, compMatrix, embeddingTransformMatrix, ...
+                        compNL, trainingMode, hyperParams);
+                    
+                    predActivations = obj.pred.activations;
 
-            connectionCosts = zeros(pb.B, 1);
-            for row = pb.N - 1:-1:1
-                for col = 1:row
-                    % Compute the distribution over connections
-                    pb.connectionClassifierInputs(:, :, col, row) = pb.collectConnectionClassifierInputs(hyperParams, col, row);
-                    [ pb.connections(:, :, col, row), localConnectionCosts ] = ...
-                        ComputeSoftmaxLayer(pb.connectionClassifierInputs(:, :, col, row), connectionMatrix, hyperParams, ...
-                            pb.connectionLabels(:, col, row));
-                    pb.connections(:, :, col, row) = bsxfun(@times, pb.connections(:, :, col, row), ...
-                                                            permute(pb.activeNode(:, col, row), [2, 1, 3, 4]));
+                    if LSTM
+                        predC = obj.pred.cActivations;
+                    end
+                else
+                    if LSTM
+                        predC = zeros(size(compMatrix, 1) / 4, 1);
+                        predActivations = zeros(size(compMatrix, 1) / 4, 1);
+                    else
+                        predActivations = zeros(size(compMatrix, 1), 1);
+                    end
+                end    
 
-                    connectionCosts = connectionCosts + localConnectionCosts;
-
-                    % Build the composed representation
-                    compositionInputs = [ones(1, pb.B); pb.features(:, :, col, row + 1); pb.features(:, :, col + 1, row + 1)];
-                    pb.compositionInnerActivations(:, :, col, row) = compositionMatrix * compositionInputs;
-                    pb.compositionActivations(:, :, col, row) = tanh(pb.compositionInnerActivations(:, :, col, row));
-                    % Multiply the three inputs by the three connection weights.
-                    pb.features(:, :, col, row) = ...
-                        bsxfun(@times, pb.features(:, :, col, row + 1), ...
-                                       pb.connections(1, :, col, row)) + ...
-                        bsxfun(@times, pb.features(:, :, col + 1, row + 1), ...
-                                       pb.connections(2, :, col, row)) + ...
-                        bsxfun(@times, pb.compositionActivations(:, :, col, row), ...
-                                       pb.connections(3, :, col, row));
+                % Update the hidden features.
+                if LSTM
+                    [ obj.activations, obj.cActivations, obj.activationCache ] = ...
+                        ComputeLSTMLayer(compMatrix, predActivations, predC, obj.inputActivations);
+                else
+                    obj.activations = ComputeRNNLayer(predActivations, obj.inputActivations,...
+                        compMatrix, compNL);
                 end
-
-                % Delete deltas for inactive nodes.
-                features(:, :, :, row) = ...
-                    bsxfun(@times, pb.features(:, :, :, row) , ...
-                           permute(pb.activeNode(:, :, row), [3, 1, 2]));
             end
-
-            % Collect features from the tops of each tree, not the top of the feature matrix.
-            topFeatures = zeros(pb.D, pb.B);
-            for b = 1:pb.B
-                topFeatures(:, b) = pb.features(:, b, 1, pb.N - pb.wordCounts(b) + 1);
-            end
-
-            if ~trainingMode   
-                % Temporary display method.
-                % pb.connections(:,:,:,1)
-                % pb.pyramids{1}.getText()
-            end
-
-            % Rescale the connection costs by the number of times supervision was applied.
-            connectionCosts = (connectionCosts ./ pb.numNodes) .* hyperParams.connectionCostScale;
-
-            % TODO: Optionally log connection accuracy.
         end
 
-        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)
+        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(sb, hyperParams, col, row)
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
+            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * sb.D + sb.NUMACTIONS, sb.B);
 
             for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
                 if (sourcePos > 0) && (sourcePos <= row + 1)
-                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = pb.features(:, :, sourcePos, row + 1);
+                    connectionClassifierInputs((pos - 1) * sb.D + 1:pos * sb.D, :) = sb.features(:, :, sourcePos, row + 1);
                 else
-                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = 0;
+                    connectionClassifierInputs((pos - 1) * sb.D + 1:pos * sb.D, :) = 0;
                 end
                 % Else: Leave in the zeros. Maybe fix replace with edge-of-sentence token? (TODO)
             end
             if col > 1
-                connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = ...
-                    pb.connections(:, :, col - 1, row);
+                connectionClassifierInputs(end - sb.NUMACTIONS + 1:end, :) = ...
+                    sb.connections(:, :, col - 1, row);
             else
-                connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = 0;
+                connectionClassifierInputs(end - sb.NUMACTIONS + 1:end, :) = 0;
             end
         end
 
         function [ wordGradients, connectionMatrixGradients, ...
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
-            getGradient(pb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
+            getGradient(sb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
             % Run backwards.
 
             contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
@@ -172,18 +141,18 @@ classdef SequenceBatch < handle
 
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
-            deltas = zeros(pb.D, pb.B, pb.N, pb.N);
+            deltas = zeros(sb.D, sb.B, sb.N, sb.N);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
-            for b = 1:pb.B
-                deltas(:, b, 1, pb.N - pb.wordCounts(b) + 1) = incomingDeltas(:, b);
+            for b = 1:sb.B
+                deltas(:, b, 1, sb.N - sb.wordCounts(b) + 1) = incomingDeltas(:, b);
             end
 
             % Initialize some variables that will be used inside the loop.
-            deltasToConnections = zeros(pb.NUMACTIONS, pb.B);
+            deltasToConnections = zeros(sb.NUMACTIONS, sb.B);
 
             % Iterate over the structure in reverse
-            for row = 1:pb.N - 1
+            for row = 1:sb.N - 1
                 for col = row:-1:1
                     %% Handle composition function gradients %%
 
@@ -193,21 +162,21 @@ classdef SequenceBatch < handle
                     deltas(:, :, col, row + 1) = ...
                         deltas(:, :, col, row + 1) + ...
                         bsxfun(@times, deltas(:, :, col, row), ...
-                               pb.connections(1, :, col, row));
+                               sb.connections(1, :, col, row));
                     deltas(:, :, col + 1, row + 1) = ...
                         deltas(:, :, col + 1, row + 1) + ...
                         bsxfun(@times, deltas(:, :, col, row), ...
-                               pb.connections(2, :, col, row));
+                               sb.connections(2, :, col, row));
                     compositionDeltas = ...
                         bsxfun(@times, deltas(:, :, col, row), ...
-                               pb.connections(3, :, col, row));                 
+                               sb.connections(3, :, col, row));                 
 
                     % Backprop through the composition function.
                     [ localCompositionMatrixGradients, compositionDeltaLeft, compositionDeltaRight ] = ...
-                        ComputeRNNLayerGradients(pb.features(:, :, col, row + 1), ...
-                                                 pb.features(:, :, col + 1, row + 1), ...
+                        ComputeRNNLayerGradients(sb.features(:, :, col, row + 1), ...
+                                                 sb.features(:, :, col + 1, row + 1), ...
                                                  compositionMatrix, compositionDeltas, @TanhDeriv, ...
-                                                 pb.compositionInnerActivations(:, :, col, row));
+                                                 sb.compositionInnerActivations(:, :, col, row));
 
                     % Add the composition gradients and deltas into the accumulators.
                     compositionMatrixGradients = compositionMatrixGradients + localCompositionMatrixGradients;
@@ -221,25 +190,25 @@ classdef SequenceBatch < handle
                     % Multiply the deltas by the three inputs to the current features to compute deltas for the connections.
                     deltasToConnections(1, :) = deltasToConnections(1, :) + ...
                                                 sum(deltas(:, :, col, row) .* ...
-                                                 pb.features(:, :, col, row + 1), 1);
+                                                 sb.features(:, :, col, row + 1), 1);
                     deltasToConnections(2, :) = deltasToConnections(2, :) + ...
                                                  sum(deltas(:, :, col, row) .* ...
-                                                 pb.features(:, :, col + 1, row + 1), 1);
+                                                 sb.features(:, :, col + 1, row + 1), 1);
                     deltasToConnections(3, :) = deltasToConnections(3, :) + ...
                                                  sum(deltas(:, :, col, row) .* ...
-                                                 pb.compositionActivations(:, :, col, row), 1);
+                                                 sb.compositionActivations(:, :, col, row), 1);
                     
                     % Compute gradients from the connection classifier wrt. the incoming deltas from above and to the right.
                     [ localConnectionMatrixGradients, connectionDeltas ] = ...
-                        ComputeBareSoftmaxGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            deltasToConnections, pb.connectionClassifierInputs(:, :, col, row));
+                        ComputeBareSoftmaxGradients(connectionMatrix, sb.connections(:, :, col, row), ...
+                            deltasToConnections, sb.connectionClassifierInputs(:, :, col, row));
                     connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
 
                     % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
                     [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
-                        ComputeSoftmaxClassificationGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            pb.connectionLabels(:, col, row), pb.connectionClassifierInputs(:, :, col, row), hyperParams, ...
-                            pb.numNodes ./ hyperParams.connectionCostScale);
+                        ComputeSoftmaxClassificationGradients(connectionMatrix, sb.connections(:, :, col, row), ...
+                            sb.connectionLabels(:, col, row), sb.connectionClassifierInputs(:, :, col, row), hyperParams, ...
+                            sb.numNodes ./ hyperParams.connectionCostScale);
                     connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
 
                     % Rescale by the number of times supervision is being applied.
@@ -251,17 +220,17 @@ classdef SequenceBatch < handle
                         if sourcePos > 0 && sourcePos <= row + 1
                             deltas(:, :, sourcePos, row + 1) = ...
                                 deltas(:, :, sourcePos, row + 1) + ...
-                                connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :);
+                                connectionDeltas((pos - 1) * sb.D + 1:pos * sb.D, :);
 
-                            multpliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, sourcePos, row + 1).^2)), ones(1, pb.B));
+                            multpliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, sourcePos, row + 1).^2)), ones(1, sb.B));
                             deltas(:, :, sourcePos, row + 1) = bsxfun(@times, deltas(:, :, sourcePos, row + 1), multpliers);
 
                         end
                         if col > 1
-                            deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - pb.NUMACTIONS:end, :), ...
-                                                         permute(pb.activeNode(:, col, row), [2, 1, 3]));
+                            deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - sb.NUMACTIONS:end, :), ...
+                                                         permute(sb.activeNode(:, col, row), [2, 1, 3]));
                         else
-                            deltasToConnections = zeros(pb.NUMACTIONS, pb.B);
+                            deltasToConnections = zeros(sb.NUMACTIONS, sb.B);
                         end
                             
                     end
@@ -270,19 +239,19 @@ classdef SequenceBatch < handle
                 % Delete deltas for inactive nodes.
                 deltas(:, :, :, row + 1) = ...
                        bsxfun(@times, deltas(:, :, :, row + 1) , ...
-                           permute(pb.activeNode(:, :, row + 1), [3, 1, 2]));
+                           permute(sb.activeNode(:, :, row + 1), [3, 1, 2]));
             end
 
             % Run the embedding transform layers backwards.
             if hyperParams.embeddingTransformDepth > 0
-                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
-                rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
-                for col = 1:pb.N
-                    transformDeltas = deltas(:, :, col, pb.N) .* pb.masks(:, :, col); % Take dropout into account
+                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, sb.B, sb.N);
+                rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, sb.B, sb.N);
+                for col = 1:sb.N
+                    transformDeltas = deltas(:, :, col, sb.N) .* sb.masks(:, :, col); % Take dropout into account
                     [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              transformDeltas, pb.rawEmbeddings(:, :, col), ...
-                              pb.transformInnerActivations(:, :, col), @TanhDeriv);
+                              transformDeltas, sb.rawEmbeddings(:, :, col), ...
+                              sb.transformInnerActivations(:, :, col), @TanhDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
             else
@@ -292,18 +261,18 @@ classdef SequenceBatch < handle
             % Push deltas from the bottom row into the word gradients.
             % TODO: We don't need to require wordFeatures as an input, only used here.
             wordGradients = sparse([], [], [], ...
-                size(wordFeatures, 1), size(wordFeatures, 2), pb.N * pb.B);
+                size(wordFeatures, 1), size(wordFeatures, 2), sb.N * sb.B);
             if hyperParams.trainWords
-                for b = 1:pb.B
-                    for col = 1:pb.wordCounts(b)
+                for b = 1:sb.B
+                    for col = 1:sb.wordCounts(b)
                         if hyperParams.embeddingTransformDepth > 0
-                            wordGradients(:, pb.wordIndices(col, b)) = ...
-                                wordGradients(:, pb.wordIndices(col, b)) + ...
+                            wordGradients(:, sb.wordIndices(col, b)) = ...
+                                wordGradients(:, sb.wordIndices(col, b)) + ...
                                 rawEmbeddingDeltas(:, b, col);
                         else
-                            wordGradients(:, pb.wordIndices(col, b)) = ...
-                                wordGradients(:, pb.wordIndices(col, b)) + ...
-                                deltas(:, b, col, pb.N);
+                            wordGradients(:, sb.wordIndices(col, b)) = ...
+                                wordGradients(:, sb.wordIndices(col, b)) + ...
+                                deltas(:, b, col, sb.N);
                         end
                     end
                 end
