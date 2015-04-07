@@ -15,10 +15,7 @@ classdef PyramidBatch < handle
         features = [];  % All computed activation vectors, with the words at the bottom row.
                         % For speed, indexing is by (dim, batch-entry, column, row)
         rawEmbeddings = [];  % Word embeddings. Used only in conjunction with an embedding transform layer.
-        transformInnerActivations = [];  % Same structure as the bottom row of features, but contains the
-                                         % the pre-nonlinearity activations from the embedding transform layer
-                                         % if one is present.
-        masks = [];  % Same structure as transformInnerActivations, but contains dropout masks for the embedding transform layer.
+        masks = [];  % Same structure as the bottom row of features, but contains dropout masks for the embedding transform layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
         connectionClassifierInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
@@ -50,7 +47,6 @@ classdef PyramidBatch < handle
             pb.wordCounts = [pyramids(:).wordCount];
             pb.features = zeros(pb.D, pb.B, pb.N, pb.N);
             pb.rawEmbeddings = zeros(hyperParams.embeddingDim, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.transformInnerActivations = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
@@ -87,10 +83,8 @@ classdef PyramidBatch < handle
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:pb.N
                     transformInputs = [ ones(1, pb.B); pb.rawEmbeddings(:, :, col) ];
-                    pb.transformInnerActivations(:, :, col) = ...
-                        embeddingTransformMatrix * transformInputs;
                     [ pb.features(:, :, col, pb.N), pb.masks(:, :, col) ] = ...
-                        Dropout(tanh(pb.transformInnerActivations(:, :, col)), hyperParams.bottomDropout, trainingMode);
+                        Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);
                 end
 
                 % Remove features for inactive nodes.
@@ -294,7 +288,7 @@ classdef PyramidBatch < handle
                     [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               transformDeltas, pb.rawEmbeddings(:, :, col), ...
-                              pb.transformInnerActivations(:, :, col), @TanhDeriv);
+                              pb.features(:, :, col, pb.N), @TanhDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
             else
