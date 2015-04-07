@@ -74,7 +74,7 @@ hyperParams.dataPortion = 1.0;
 hyperParams.testFraction = 0.2;
 
 % Don't try to load preprocessed mat files if set. Handy for debugging.
-hyperParams.ignorePreprocessedFiles = false;
+hyperParams.ignorePreprocessedFiles = true;
 
 % When evaluating random samples from a training data set, don't evaluate
 % more than this many in each session.
@@ -111,7 +111,8 @@ hyperParams.fastEmbed = false;
 
 hyperParams.clearActivations = false;
 
-% Applies to ComputeCostAndGrad
+% Applies to ComputeCostAndGrad.
+% Gradients above this l2 norm will be rescaled down.
 hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
 
@@ -138,27 +139,33 @@ options.miniBatchSize = 32;
 
 % Learning parameters
 
-% Choose AdaGrad or AdaDelta to compute parameter updates. 
-% AdaDelta tends to find better solutions.
-options.updateFn = @AdaDeltaUpdate;
+% What to use to compute parameter updates. 
+options.updateFn = @RMSPropUpdate;
 
-% AdaDelta hyperparameters
+% AdaDelta hyperparameters.
 options.adaDeltaRho = 0.95;
 options.adaDeltaEps = 1e-7;
 
-% AdaGrad hyperparameters
+% AdaGrad hyperparameters.
 options.adaEps = 0.01;
-options.lr = 0.05;
+
+% RMSProp hyperpamaters.
+options.RMSPropDecay = 0.95;
+options.RMSPropEps = 1e-3;
+options.momentum = 0.9;
+
+% Shared between RMSProp and AdaGrad.
+options.lr = 0.0001;
 
 % How often (in steps) to report cost.
-options.costFreq = 250;
+options.costFreq = 125;
 
 % How often (in steps) to run on test data.
-options.testFreq = 250;
+options.testFreq = 125;
 
-% How often to report confusion matrices. 
+% How often to report confusion matrices and connection accuracies. 
 % Should be a multiple of testFreq.
-options.confusionFreq = 250;
+options.detailedStatFreq = 125;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.
