@@ -94,7 +94,7 @@ end
 
 
 % How often (in steps) to report cost.
-options.costFreq = 1000;
+options.detailedStatFreq = 1000;
 
 % How often (in steps) to run on test data.
 options.testFreq = 1000;

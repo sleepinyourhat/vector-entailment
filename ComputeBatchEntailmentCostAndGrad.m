@@ -1,14 +1,11 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, acc, confusion ] = ComputeFullPyramidBatchCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
+function [ cost, grad, embGrad, acc, confusion, connectionAcc ] = ComputeBatchEntailmentCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
 % Compute cost, gradient, accuracy, and confusions over a batch of examples for some parameters.
 % This is a well-behaved costGradFn, and can be @-passed to optimizers, including minFunc and TrainSGD.
 
-% TODO: Make compatible with sequences.
-
-% NOTE: This is reasonably well optimized. The time complexity here lies entirely within PyramidBatch right now.
+% NOTE: This is reasonably well optimized. The time complexity here lies almost entirely within the batch objects in normal cases.
 
 B = length(data);  % Batch size.
-D = hyperParams.dim;  % Sentence embedding dimension.
 
 % Unpack theta
 [ mergeMatrices, mergeMatrix, ...
@@ -22,12 +19,21 @@ else
 end
 
 % Create and batch objects and run them forward.
-leftPyramidBatch = PyramidBatch.makePyramidBatch([data(:).left], wordFeatures, hyperParams);
-rightPyramidBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures, hyperParams);
-[ leftFeatures, leftConnectionCosts ] = ...
-    leftPyramidBatch.runForward(embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, computeGrad);
-[ rightFeatures, rightConnectionCosts ] = ...
-    rightPyramidBatch.runForward(embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, computeGrad);
+if hyperParams.usePyramids
+    leftBatch = PyramidBatch.makePyramidBatch([data(:).left], wordFeatures, hyperParams);
+    rightBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures, hyperParams);
+else
+    leftBatch = SequenceBatch.makeSequenceBatch([data(:).left], wordFeatures, hyperParams);
+    rightBatch = SequenceBatch.makeSequenceBatch([data(:).right], wordFeatures, hyperParams);
+end
+
+[ leftFeatures, leftConnectionCosts, leftConnectionAcc ] = ...
+    leftBatch.runForward(embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, computeGrad);
+[ rightFeatures, rightConnectionCosts, rightConnectionAcc ] = ...
+    rightBatch.runForward(embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, computeGrad);
+
+% TODO: Weighted average.
+connectionAcc = [leftConnectionAcc, rightConnectionAcc];
 
 % Set up and run top dropout.
 [ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGrad);
@@ -89,8 +95,8 @@ for b = 1:B
     end
 
     if nargout > 4
-        confusion(preds(b), data(b).relation(find(data(b).relation > 0))) = ...
-          confusion(preds(b), data(b).relation(find(data(b).relation > 0))) + 1;
+        confusion(preds(b), data(b).relation(1)) = ...
+          confusion(preds(b), data(b).relation(1)) + 1;
     end
 end
 acc = (accumulatedSuccess / B);
@@ -141,14 +147,14 @@ if computeGrad
       localConnectionMatrixGradients, ...
       localCompositionMatrixGradients, ...
       localEmbeddingTransformMatrixGradients ] = ...
-       leftPyramidBatch.getGradient(MergeDeltaLeft, wordFeatures, embeddingTransformMatrix, ...
+       leftBatch.getGradient(MergeDeltaLeft, wordFeatures, embeddingTransformMatrix, ...
                             connectionMatrix, compositionMatrix, hyperParams);
 
     [ rightWordGradients, ...
       rightConnectionMatrixGradients, ...
       rightCompositionMatrixGradients, ...
       rightEmbeddingTransformMatrixGradients ] = ...
-       rightPyramidBatch.getGradient(MergeDeltaRight, wordFeatures, embeddingTransformMatrix, ...
+       rightBatch.getGradient(MergeDeltaRight, wordFeatures, embeddingTransformMatrix, ...
                             connectionMatrix, compositionMatrix, hyperParams);
 
     if hyperParams.trainWords
@@ -171,25 +177,14 @@ if computeGrad
             localCompositionMatrixGradients, ...
             localExtraMatrixGradients, ...
             localEmbeddingTransformMatrixGradients);
-        embGrad = localWordFeatureGradients;
     else
-        [grad, dec] = param2stack(localMergeMatricesGradients, ...
+        grad = param2stack(localMergeMatricesGradients, ...
             localMergeMatrixGradients, localSoftmaxGradient, ...
             localWordFeatureGradients, localConnectionMatrixGradients, ...
             localCompositionMatrixGradients, ...
             localExtraMatrixGradients, ...
             localEmbeddingTransformMatrixGradients); 
-        embGrad = [];
     end
-
-    % Clip the gradient.
-    % TODO: Must separate gradients back out into batches to make this doable here?
-    % if hyperParams.clipGradients
-    %     gradNorm = norm(grad);
-    %     if gradNorm > hyperParams.maxGradNorm
-    %         grad = grad ./ gradNorm;
-    %     end
-    % end
 
     % Normalize the gradient
     grad = grad / length(data);
@@ -224,7 +219,6 @@ if computeGrad
     else
         embGrad = [];
     end
-
 
     if sum(isnan(grad)) > 0
         [ mergeMatrices, mergeMatrix ...

@@ -9,11 +9,11 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), ...
-    '-mdn', num2str(dp), '-consc', num2str(mult)];
+    '-mdn', num2str(dp), '-dp', num2str(mult)];
 
 hyperParams.parensInSequences = 0;
 
-hyperParams.dataPortion = 1;
+hyperParams.dataPortion = mult;
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
@@ -50,9 +50,9 @@ hyperParams.lambda = lambda; % 0.002 works?;
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = 32;
 
-hyperParams.maxDeltaNorm = dp;
-hyperParams.connectionCostScale = mult;
-
+% TODO:
+% hyperParams.maxDeltaNorm = dp;
+% hyperParams.connectionCostScale = mult;
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
@@ -70,7 +70,7 @@ elseif composition == 2
   hyperParams.lstm = 1;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
-  hyperParams.useThirdOrderComposition = 0;
+  hyperParams.useThirdOrderComposition = 1;
   hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 elseif composition == 3

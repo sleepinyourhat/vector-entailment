@@ -1,7 +1,7 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function modelState = RMSPropUpdate(modelState, options, grad, embGrad)
 
-% Based on the Lua implementation in Kai Sheng Tai's torch-ntm
+% Based on the Lua implementation in Kai Sheng Tai's torch-ntm:
 % https://github.com/kaishengtai/torch-ntm/blob/master/rmsprop.lua
 
 if modelState.step == 0
@@ -31,7 +31,7 @@ modelState.theta = modelState.theta + modelState.update;
 assert(sum(isnan(modelState.theta)) == 0, 'NaNs in theta.');
 assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.');
 
-% Do an AdaGrad-scaled parameter update to the separate word features
+% Do a scaled parameter update to the separate word features.
 if length(embGrad) > 0
     modelState.embGradAccum = modelState.embGradAccum .* options.RMSPropDecay + ...
                            embGrad .* (1 - options.RMSPropDecay);

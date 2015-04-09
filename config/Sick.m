@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, mbs, bottomDropout, topDropout, datamult, collo, parens, dp, init)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, decay, mm, lr)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -6,30 +6,42 @@ function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
-    '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), ...
-    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-m', num2str(datamult), '-par', num2str(parens),...
-    '-mb', num2str(mbs), '-dp', num2str(dp), '-comp', num2str(composition), '-init', num2str(init)];
-
-hyperParams.dataPortion = dp;
+    '-ed', num2str(embDim), '-td', num2str(topDepth), '-pen', num2str(penult), ...
+    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-ws', num2str(wordsource),...
+    '-par', num2str(parens), '-comp', num2str(composition), ...
+    '-decay', num2str(decay), '-mm', num2str(mm), '-lr', num2str(lr)];
 
 
+%%
+
+% RMSProp hyperpamaters.
+options.RMSPropDecay = decay;
+options.RMSPropEps = 1e-3;
+options.momentum = mm;
+options.lr = lr;
+hyperParams.ignorePreprocessedFiles = true;
+' IGNORING '
+
+if lr == 0
+  options.updateFn = @AdaDeltaUpdate;
+end
+
+%%
 
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-if collo == 1
+if wordsource == 1
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
-elseif collo == 2
+elseif wordsource == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
-    assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
-elseif collo == 3
+    assert(embDim == 50, 'The wordsourcebert and Weston-sourced vectors only come in dim 50.'); 
+elseif wordsource == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 else
-    hyperParams.vocabPath = ['../data/collo.scaled.' num2str(embDim) 'd.txt'];    
+    hyperParams.vocabPath = ['../data/wordsource.scaled.' num2str(embDim) 'd.txt'];    
 end
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
@@ -101,7 +113,10 @@ hyperParams.trainWords = true;
 hyperParams.fragmentData = false;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = mbs;
+options.miniBatchSize = 32;
+
+% Amount to upsample SICK data.
+datamult = 8;
 
 options.updateFn = @AdaDeltaUpdate;
 

@@ -41,6 +41,8 @@ fclose(fid);
 % Parse the file
 nextItemNo = 1;
 maxLine = length(C{1});
+maxLine = min(maxLine, 500);
+'trim'
 
 % Initialize the data array
 rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), maxLine, 1);

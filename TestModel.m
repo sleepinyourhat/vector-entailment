@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [combinedAcc, combinedMf1, aggConfusion] = TestModel(CostGradFunc, theta, thetaDecoder, testDatasets, separateWordFeatures, hyperParams)
+function [combinedAcc, combinedMf1, aggConfusion, combinedConAcc] = TestModel(CostGradFunc, theta, thetaDecoder, testDatasets, separateWordFeatures, hyperParams)
 % Test on a collection of test sets.
 
 % NOTE: Currently results are reported in three accuracy figures and three MacroAvgF1 figures:
@@ -19,13 +19,21 @@ end
 
 aggConfusion = zeros(hyperParams.numRelations(targetRelationSet));
 targetConfusion = zeros(hyperParams.numRelations(targetRelationSet));    
+sumConAcc = zeros(1, 2);
 
 for i = 1:length(testDatasets{1})
-    [~, ~, ~, acc, confusion] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
+    if length(testDatasets{2}{i}) == 0
+        continue
+    end
+
+    [~, ~, ~, acc, confusion, conAcc] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
+    if conAcc ~= -1
+        sumConAcc = sumConAcc + conAcc;
+    end
     if i == 1
         targetConfusion = confusion;
     end
-    if hyperParams.showConfusions && acc > 0
+    if hyperParams.showDetailedStats && acc > 0
         log_msg = sprintf('%s\n%s\n%s',['For test data: ', testDatasets{1}{i}, ': ', num2str(acc), ' (', num2str(GetMacroF1(confusion)), ')'], ...
             evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
@@ -42,5 +50,7 @@ aggAcc = sum(sum(eye(hyperParams.numRelations(targetRelationSet)) .* aggConfusio
 combinedMf1 = [GetMacroF1(targetConfusion), GetMacroF1(aggConfusion)];
 
 combinedAcc = [targetAcc, aggAcc];
+
+combinedConAcc = sumConAcc ./ length(testDatasets{1});
 
 end

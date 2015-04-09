@@ -15,7 +15,6 @@ hyperParams.penultDim = penult;
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works for Tree, 1e-6 for Sequence?
 
-% Use NTN layers in place of NN layers.
 if composition == -1
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 0;
@@ -71,7 +70,7 @@ hyperParams.testFilenames = {};
 hyperParams.splitFilenames = strcat('./quantifiers/data/', {listingG.name});
 
 options.numPasses = 1000;
-options.confusionFreq = 25000;
+options.detailedStatFreq = 25000;
 options.examplesFreq = 25000; 
 
 end

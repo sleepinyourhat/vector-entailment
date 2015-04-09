@@ -8,17 +8,6 @@ hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(pen
 				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
 
 
-% The raw range bound on word vectors.
-hyperParams.wordScale = 0.01;
-
-% Used to compute the bound on the range for RNTN parameter initialization.
-hyperParams.tensorScale = 1;
-
-% Use an older initialization scheme for comparability with older experiments.
-hyperParams.useCompatibilityInitialization = true;
-
-hyperParams.useEyes = 1;
-
 if tot == -1
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
@@ -41,11 +30,6 @@ hyperParams.lambda = lambda; % 0.002 works?;
 hyperParams.topDepth = top;
 
 hyperParams.topDropout = tdrop;
-
-if relu
-  hyperParams.classNL = @LReLU;
-  hyperParams.classNLDeriv = @LReLUDeriv;
-end
 
 hyperParams.vocabName = dataflag;
 

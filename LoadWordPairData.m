@@ -6,7 +6,7 @@ function [ wordMap, relationMap, relations, data ] = ...
 % For some experiments, this is only used to initialize the words and
 % relations, and the data itself is not used.
 
-'USING LWPD!'
+Log(hyperParams.statlog, 'Warning: Using LoadWordPairData!');
 
 % Load the file
 fid = fopen(filename);

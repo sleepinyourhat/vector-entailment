@@ -15,6 +15,7 @@ if mod(modelState.step, options.testFreq) == 0
     % Test on training data.
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
     acc = -1;
+    conAcc = -1;
     macro = -1;
     if ~hyperParams.fragmentData
         if length(trainingData) > hyperParams.maxTrainingEvalSampleSize
@@ -22,6 +23,12 @@ if mod(modelState.step, options.testFreq) == 0
             trainingSample = trainingData(randomOrder(1:hyperParams.maxTrainingEvalSampleSize));
         else
             trainingSample = trainingData;
+        end
+
+        if mod(modelState.step, options.detailedStatFreq) == 0 && modelState.step > 0
+            hyperParams.showDetailedStats = true;
+        else
+            hyperParams.showDetailedStats = false;
         end
 
         if mod(modelState.step, options.examplesFreq) == 0 && modelState.step > 0
@@ -32,19 +39,19 @@ if mod(modelState.step, options.testFreq) == 0
         end
 
         if length(hyperParams.numRelations) == 1
-            [cost, ~, ~, acc, conf] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
+            [cost, ~, ~, acc, conf, conAcc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
             macro = GetMacroF1(conf);
         else
             [cost, ~, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
-        end            
+        end
     end
 
     % Test on test data.
     if nargin > 5
-        if mod(modelState.step, options.confusionFreq) == 0 && modelState.step > 0
-            hyperParams.showConfusions = true;
+        if mod(modelState.step, options.detailedStatFreq) == 0 && modelState.step > 0
+            hyperParams.showDetailedStats = true;
         else
-            hyperParams.showConfusions = false;
+            hyperParams.showDetailedStats = false;
         end
 
         if mod(modelState.step, options.examplesFreq) == 0 && modelState.step > 0
@@ -53,10 +60,10 @@ if mod(modelState.step, options.testFreq) == 0
             hyperParams.showExamples = false;
         end
 
-        if (mod(modelState.step, options.examplesFreq) == 0 || mod(modelState.step, options.confusionFreq) == 0) && modelState.step > 0
+        if (mod(modelState.step, options.examplesFreq) == 0 || mod(modelState.step, options.detailedStatFreq) == 0) && modelState.step > 0
             Log(hyperParams.examplelog, 'Test data:');
         end
-        [testAcc, testMf1] = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
+        [testAcc, testMf1, ~, testConAcc] = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
         modelState.bestTestAcc = max(testAcc, modelState.bestTestAcc);
         hyperParams.showExamples = false;
         if (testAcc(1) == modelState.bestTestAcc(1)) && (modelState.step > 0)
@@ -77,6 +84,11 @@ if mod(modelState.step, options.testFreq) == 0
     else
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
             ' acc: ', num2str(acc)]);
+    end
+
+    if conAcc(1) ~= -1
+        Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
+            ' train connection acc: ', num2str(conAcc), ' test connection acc: ',  num2str(testConAcc)]);
     end
 
     FlushLogs(hyperParams);
