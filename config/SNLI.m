@@ -70,7 +70,7 @@ elseif composition == 2
   hyperParams.lstm = 1;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
-  hyperParams.useThirdOrderComposition = 1;
+  hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 elseif composition == 3

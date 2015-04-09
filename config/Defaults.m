@@ -74,7 +74,7 @@ hyperParams.dataPortion = 1.0;
 hyperParams.testFraction = 0.2;
 
 % Don't try to load preprocessed mat files if set. Handy for debugging.
-hyperParams.ignorePreprocessedFiles = true;
+hyperParams.ignorePreprocessedFiles = false;
 
 % When evaluating random samples from a training data set, don't evaluate
 % more than this many in each session.
