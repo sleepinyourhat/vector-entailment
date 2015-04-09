@@ -16,7 +16,7 @@ classdef Sequence < handle
     % SequenceBatch alternative is likely much faster, if harder to read and edit.
 
 
-    properties (Hidden)
+    properties
         pred = []; % the preceeding node or empty
         text = 'NO_TEXT';
         activations = []; % DIM x 1 vector
@@ -24,6 +24,8 @@ classdef Sequence < handle
         inputActivations = []; % DIM x 1 vector - the word vector (after transformation if applicable)
         mask = []; % Used in dropout
         activationCache = []; % Equivalent to activationsPreNL for RNNs and IFOGf for LSTMs.
+        wordIndices = []; % The fill list of word indices, stored only at the last node.
+        wordCount = -1; % The total number of words, stored only at the last node.
         wordIndex = -1; % -1 => Not a lexical item node.
         unknown = 0;   
     end
@@ -35,13 +37,19 @@ classdef Sequence < handle
             C = textscan(iText, '%s', 'delimiter', ' ');
             C = C{1};
             s = [];
-            
+            wordIndices = zeros(length(C), 1);
+            numWords = 0;
+
             for i = 1:length(C)
                 if useParens || ~(strcmp(C{i}, '(') || strcmp(C{i}, ')'))
                     % Turn words into nodes
                     s = Sequence.makeNode(C{i}, s, wordMap);
+                    numWords = numWords + 1;
+                    wordIndices(numWords) = s.wordIndex;
                 end
             end
+            s.wordCount = numWords;
+            s.wordIndices = wordIndices(1:numWords);
         end
         
         function s = makeNode(iText, pred, wordMap)
@@ -125,6 +133,10 @@ classdef Sequence < handle
             i = obj.wordIndex;
         end
         
+        function i = getWordList(obj)
+            i = obj.wordIndex;
+        end
+
         function clearActivations(obj)
             obj.activations = []; % DIM x 1 vector
             obj.cActivations = []; % DIM x 1 vector - LSTM use only
@@ -189,9 +201,7 @@ classdef Sequence < handle
                    forwardEmbeddingTransformMatrixGradients ] = ...
             getGradient(obj, deltaH, deltaC, wordFeatures, compMatrices, ...
                         compMatrix, embeddingTransformMatrix, ...
-                        compNLDeriv, hyperParams)
-            % Note: Delta should be a column vector.
-            
+                        compNLDeriv, hyperParams)            
             LSTM = size(compMatrix, 1) > size(compMatrix, 2);
             HIDDENDIM = length(deltaH);
             EMBDIM = size(wordFeatures, 1);

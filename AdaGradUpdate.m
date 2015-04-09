@@ -3,7 +3,7 @@ function modelState = AdaGradUpdate(modelState, options, grad, embGrad)
 if modelState.step == 0
     modelState.sumSqGrad = zeros(size(modelState.theta));
     if length(embGrad) > 0
-        % Set up a separate SubSqGrad tracker for the embeddings.
+        % Set up a separate SumSqGrad tracker for the embeddings.
         modelState.sumSqEmbGrad = zeros(size(modelState.separateWordFeatures));
     end
 end

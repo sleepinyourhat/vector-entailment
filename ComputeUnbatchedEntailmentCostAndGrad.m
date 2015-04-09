@@ -1,6 +1,8 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, acc, confusion ] = ComputeFullCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
+function [ cost, grad, embGrad, acc, confusion, connectionAcc ] = ComputeUnbatchedEntailmentCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
 % Compute cost, gradient, accuracy, and confusions over a set of examples for some parameters.
+% This computes these for each example separately and then pools them, making it suitable
+% for tree models, for which it is not practical to process batches of examples together.
 
 B = length(data);
 
@@ -162,6 +164,7 @@ end
 
 if nargout > 3
     acc = (accumulatedSuccess / B);
+    connectionAcc = -1;
 end
 
 end

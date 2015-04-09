@@ -32,7 +32,10 @@ classdef PyramidBatch < handle
     methods(Static)
         function pb = makePyramidBatch(pyramids, wordFeatures, hyperParams)
             % Constructor: create and populate the batch data structures using a specific batch of data.
-
+            % NOTE: This class is designed for use in a typical SGD setting (as in TrainSGD here) where batches are created, used once
+            % and then destroyed. As such, this constructor bakes certain learned model parameters into the batch
+            % object, and this any object created this way will become stale after one gradient step.
+            
             pb = PyramidBatch();
             pb.B = length(pyramids);
             pb.D = hyperParams.dim;
@@ -78,7 +81,8 @@ classdef PyramidBatch < handle
     end
 
     methods
-        function [ topFeatures, connectionCosts ] = runForward(pb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
+        function [ topFeatures, connectionCosts, connectionAccuracy ] = ...
+            runForward(pb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:pb.N
@@ -93,11 +97,18 @@ classdef PyramidBatch < handle
                            permute(pb.activeNode(:, :, pb.N), [3, 1, 2]));
             end
 
+            % Prepare to compute connection accuracy.
+            if hyperParams.showDetailedStats
+                correctConnectionLabels = 0;
+                totalConnectionLabels = sum(pb.numNodes, 1);
+            end
+
             connectionCosts = zeros(pb.B, 1);
             for row = pb.N - 1:-1:1
                 for col = 1:row
                     % Compute the distribution over connections
                     pb.connectionClassifierInputs(:, :, col, row) = pb.collectConnectionClassifierInputs(hyperParams, col, row);
+
                     [ pb.connections(:, :, col, row), localConnectionCosts ] = ...
                         ComputeSoftmaxLayer(pb.connectionClassifierInputs(:, :, col, row), connectionMatrix, hyperParams, ...
                             pb.connectionLabels(:, col, row));
@@ -105,6 +116,11 @@ classdef PyramidBatch < handle
                                                             permute(pb.activeNode(:, col, row), [2, 1, 3, 4]));
 
                     connectionCosts = connectionCosts + localConnectionCosts;
+
+                    if hyperParams.showDetailedStats
+                        [ ~, preds ] = max(pb.connections(:, :, col, row), [], 1);
+                        correctConnectionLabels = correctConnectionLabels + sum(preds' == pb.connectionLabels(:, col, row));
+                    end
 
                     % Build the composed representation
                     compositionInputs = [ones(1, pb.B); pb.features(:, :, col, row + 1); pb.features(:, :, col + 1, row + 1)];
@@ -140,7 +156,12 @@ classdef PyramidBatch < handle
             % Rescale the connection costs by the number of times supervision was applied.
             connectionCosts = (connectionCosts ./ pb.numNodes) .* hyperParams.connectionCostScale;
 
-            % TODO: Optionally log connection accuracy.
+
+            if hyperParams.showDetailedStats
+                connectionAccuracy = correctConnectionLabels / totalConnectionLabels;
+            else
+                connectionAccuracy = -1;
+            end
         end
 
         function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)

@@ -1,18 +1,16 @@
 function modelState = AdaDeltaUpdate(modelState, options, grad, embGrad)
 
-COUNTING_SPAN = 1000;
-
 if modelState.step == 0
     modelState.sumSqGrad = zeros(size(modelState.theta));
     modelState.sumSqDelta = zeros(size(modelState.theta));
     if length(embGrad) > 0
-        % Set up a separate SubSqGrad tracker for the embeddings.
+        % Set up a separate SumSqGrad tracker for the embeddings.
         modelState.sumSqEmbGrad = zeros(size(modelState.separateWordFeatures));
         modelState.sumSqEmbDelta = zeros(size(modelState.separateWordFeatures));
     end
 end
 
-% Do an AdaGrad-scaled parameter update
+% Do an AdaDelta-scaled parameter update
 modelState.sumSqGrad = modelState.sumSqGrad * options.adaDeltaRho + (grad.^2) * (1 - options.adaDeltaRho);
 
 rmsLastDelta = sqrt(modelState.sumSqDelta + options.adaDeltaEps);
@@ -26,7 +24,7 @@ modelState.theta = modelState.theta + delta;
 assert(sum(isnan(modelState.theta)) == 0, 'NaNs in theta.');
 assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.');
 
-% Do an AdaGrad-scaled parameter update to the separate word features
+% Do an AdaDelta-scaled parameter update to the separate word features
 if length(embGrad) > 0
     modelState.sumSqEmbGrad = modelState.sumSqEmbGrad * options.adaDeltaRho + (embGrad.^2) * (1 - options.adaDeltaRho);
 

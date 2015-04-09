@@ -1,6 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ matricesGradients, matrixGradients, ...
-           deltaLeft, deltaRight ] = ...
+function [ matricesGradients, matrixGradients, deltaLeft, deltaRight ] = ...
       ComputeTensorLayerGradients(l, r, matrices, matrix, delta, ...
                                   nonlinearityDeriv, output)
 % Compute the gradients and deltas for an RNTN layer for a given batch of examples.
@@ -31,21 +30,21 @@ matricesGradients = bsxfun(@times, permute(delta, [3, 4, 1, 2]), permute(inputPr
 matrixGradients = delta * [ones(1, B); l; r]';
 
 % Compute the deltas.
-innerTensorLayerMatrixL = zeros(inDim, outDim, B);
-innerTensorLayerMatrixR = zeros(inDim, outDim, B);
-for i = 1:outDim
-	  innerTensorLayerMatrixL(:, i, 1) = l(:,1)' * matrices(:,:,i);
-    innerTensorLayerMatrixR(:, i, 1) = matrices(:,:,i) * r(:,1);
-end
-
-leftBackpropMatrix = bsxfun(@plus, innerTensorLayerMatrixR, matrix(:, 2:inDim + 1)');
-rightBackpropMatrix = bsxfun(@plus, innerTensorLayerMatrixL, matrix(:, inDim + 2:2 * inDim + 1)');    
-
+innerTensorLayerMatrixL = zeros(inDim, outDim);
+innerTensorLayerMatrixR = zeros(inDim, outDim);
 deltaLeft = zeros(inDim, b);
 deltaRight = zeros(inDim, b);
 for b = 1:B
-	  deltaLeft(:, b) = (leftBackpropMatrix(:, :, b) * delta(:, b));
-	  deltaRight(:, b) = (rightBackpropMatrix(:, :, b) * delta(:, b));
+    for i = 1:outDim
+    	  innerTensorLayerMatrixL(:, i) = l(:, b)' * matrices(:, :, i);
+        innerTensorLayerMatrixR(:, i) = matrices(:, :, i) * r(:, b);
+    end
+
+    % TODO: Need bsxfun?
+    leftBackpropMatrix = bsxfun(@plus, innerTensorLayerMatrixR(:, :), matrix(:, 2:inDim + 1)');
+    rightBackpropMatrix = bsxfun(@plus, innerTensorLayerMatrixL(:, :), matrix(:, inDim + 2:2 * inDim + 1)'); 
+    deltaLeft(:, b) = leftBackpropMatrix * delta(:, b);
+    deltaRight(:, b) = rightBackpropMatrix * delta(:, b); 
 end
 
 end

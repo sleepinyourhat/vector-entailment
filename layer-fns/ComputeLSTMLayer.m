@@ -1,29 +1,28 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ h, c, IFOGf ] = ComputeLSTMLayer(WLSTM, h_prev, c_prev, x)
-% Compute the LSTM activation.
+% Compute the LSTM activation for a batch of inputs.
 
 % Based on an implementation by A. Karpathy here:
 % https://github.com/karpathy/neuraltalk/blob/master/imagernn/lstm_generator.py
 
-DIM = length(h_prev);
+[ D, B ] = size(x);
+h = zeros(D, B);
+c = zeros(D, B);
 
-in = [1; x; h_prev];
+Ir = 0 * D + 1:1 * D;
+Fr = 1 * D + 1:2 * D;
+Or = 2 * D + 1:3 * D;
+Gr = 3 * D + 1:4 * D;
 
+in = [ones(1, B); x; h_prev];
 IFOG = (WLSTM * in);
 
-Ir = 0 * DIM + 1:1 * DIM;
-Fr = 1 * DIM + 1:2 * DIM;
-Or = 2 * DIM + 1:3 * DIM;
-Gr = 3 * DIM + 1:4 * DIM;
-
 % Nonlinearities
-IFOGf([Ir Fr Or]) = Sigmoid(IFOG([Ir Fr Or]));
+IFOGf = zeros(4 * D, B);
+IFOGf([Ir Fr Or], :) = Sigmoid(IFOG([Ir Fr Or], :));
+IFOGf(Gr, :) = tanh(IFOG(Gr, :));
 
-IFOGf(Gr) = tanh(IFOG(Gr));
-
-% Cell activation
-c = IFOGf(Ir)' .* IFOGf(Gr)' + IFOGf(Fr)' .* c_prev;
-
-h = IFOGf(Or)' .* tanh(c);
+c = IFOGf(Ir, :) .* IFOGf(Gr, :) + IFOGf(Fr, :) .* c_prev;
+h = IFOGf(Or, :) .* tanh(c);
 
 end

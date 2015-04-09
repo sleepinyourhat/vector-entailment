@@ -122,10 +122,10 @@ end
 
 Log(hyperParams.statlog, 'Training')
 
-if ~hyperParams.usePyramids
-    optFn = @ComputeFullCostAndGrad;
+if hyperParams.useTrees || hyperParams.usePyramids
+    optFn = @ComputeUnbatchedEntailmentCostAndGrad;
 else
-    optFn = @ComputeFullPyramidBatchCostAndGrad;
+    optFn = @ComputeBatchEntailmentCostAndGrad;
 end
 
 if hyperParams.minFunc

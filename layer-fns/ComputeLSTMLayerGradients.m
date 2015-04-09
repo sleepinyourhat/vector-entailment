@@ -5,43 +5,39 @@ function [ dWLSTM, delta_x_down, delta_h_back, delta_c_back ] = ComputeLSTMLayer
 % Based on an implementation by A. Karpathy here:
 % https://github.com/karpathy/neuraltalk/blob/master/imagernn/lstm_generator.py
 
-DIM = length(c_prev);
-N = length(x);
+[ D, B ] = size(x);
 
-assert(~isempty(IFOGf));
-assert(~isempty(c));
-assert(~isempty(c_prev));
-assert(~isempty(delta_h));
-assert(~isempty(delta_c));
-
-Ir = 0 * DIM + 1:1 * DIM;
-Fr = 1 * DIM + 1:2 * DIM;
-Or = 2 * DIM + 1:3 * DIM;
-Gr = 3 * DIM + 1:4 * DIM;
-
-dIFOGf = zeros(size(IFOGf, 1), size(IFOGf, 2));
+Ir = 0 * D + 1:1 * D;
+Fr = 1 * D + 1:2 * D;
+Or = 2 * D + 1:3 * D;
+Gr = 3 * D + 1:4 * D;
 
 tanhC = tanh(c);
-dIFOGf(Or) = (tanhC .* delta_h)';
-dC = delta_c + (1 - tanhC .^ 2) .* (IFOGf(Or)' .* delta_h);
+dIFOGf = zeros(size(IFOGf, 1), B);
+dIFOGf(Or, :) = (tanhC .* delta_h);
+
+dC = delta_c + (1 - tanhC .^ 2) .* IFOGf(Or, :) .* delta_h;
 
 if nargout > 2 % If we aren't the first node
-	dIFOGf(Fr) = c_prev .* dC;
-	delta_c_back = IFOGf(Fr)' .* dC;
+	dIFOGf(Fr, :) = c_prev .* dC;
+	delta_c_back = IFOGf(Fr, :) .* dC;
 end
-dIFOGf(Ir) = IFOGf(Gr) .* dC';
-dIFOGf(Gr) = IFOGf(Ir) .* dC';
+
+dIFOGf(Ir, :) = IFOGf(Gr, :) .* dC;
+dIFOGf(Gr, :) = IFOGf(Ir, :) .* dC;
 
 % Backprop through nonlinearities
-dIFOG(Gr) = (1 - (IFOGf(Gr) .^ 2)) .* dIFOGf(Gr);
-y = IFOGf([Ir Fr Or]);
-dIFOG([Ir Fr Or]) = (y .* (1.0 - y)) .* dIFOGf([Ir Fr Or]);
+dIFOG = zeros(size(IFOGf, 1), B);
+dIFOG(Gr, :) = (1 - (IFOGf(Gr, :) .^ 2)) .* dIFOGf(Gr, :);
+y = IFOGf([Ir Fr Or], :);
+dIFOG([Ir Fr Or], :) = (y .* (1.0 - y)) .* dIFOGf([Ir Fr Or], :);
 
-dWLSTM = ([1; x; h_prev] * dIFOG)';
-dHin = WLSTM' * dIFOG';
-delta_x_down = dHin(2:DIM + 1);
+% Compute main gradients and deltas.
+dWLSTM = dIFOG * [ones(1, B); x; h_prev]';
+dHin = WLSTM' * dIFOG;
+delta_x_down = dHin(2:D + 1, :);
 if nargout > 2
-	delta_h_back = dHin(DIM + 2:2 .* DIM + 1);
+	delta_h_back = dHin(D + 2:2 * D + 1, :);
 end
 
 end
