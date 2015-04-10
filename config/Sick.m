@@ -19,8 +19,6 @@ options.RMSPropDecay = decay;
 options.RMSPropEps = 1e-3;
 options.momentum = mm;
 options.lr = lr;
-hyperParams.ignorePreprocessedFiles = true;
-' IGNORING '
 
 if lr == 0
   options.updateFn = @AdaDeltaUpdate;
@@ -118,13 +116,11 @@ options.miniBatchSize = 32;
 % Amount to upsample SICK data.
 datamult = 8;
 
-options.updateFn = @AdaDeltaUpdate;
-
 if findstr(dataflag, 'sick-only-dev')
     wordMap = InitializeMaps('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all'; 
 
-    hyperParams.numRelations = 3;
+    hyperParams.numRelations = [3];
    	hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
 	relationMap = cell(1, 1);
 	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
@@ -171,7 +167,7 @@ elseif strcmp(dataflag, 'dg-only')
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus-600k-ea-dev') 
     % The number of relations.
-    hyperParams.numRelations = [3 2];
+    hyperParams.numRelations = [3, 2];
 
     hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
@@ -196,7 +192,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
     hyperParams.testRelationIndices = [1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-dev') 
     % The number of relations.
-    hyperParams.numRelations = [3 2];
+    hyperParams.numRelations = [3, 2];
 
     hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
@@ -219,7 +215,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-dev')
     hyperParams.testRelationIndices = [1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-ea') 
     % The number of relations.
-    hyperParams.numRelations = [3 2];
+    hyperParams.numRelations = [3, 2];
 
     hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
@@ -247,7 +243,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea')
     hyperParams.testRelationIndices = [1, 1, 1, 2];
 elseif strcmp(dataflag, 'imageflickrshort')
     % The number of relations.
-    hyperParams.numRelations = 2; 
+    hyperParams.numRelations = [2]; 
 
     hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
 	relationMap = cell(1, 1);

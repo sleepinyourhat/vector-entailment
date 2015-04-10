@@ -28,60 +28,65 @@ softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numRelations), 1, 1);
 mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 
 % Randomly initialize tensor parameters
-if hyperParams.useThirdOrderMerge
-    mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
-    mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
+if ~hyperParams.sentimentMode
+    if hyperParams.useThirdOrderMerge
+        mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
+        mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
+    else
+        mergeMatrices = zeros(0, 0, PENULT);
+    end
 else
-    mergeMatrices = zeros(0, 0, PENULT);
+    mergeMatrices = [];
+    mergeMatrix = [];
 end
 
 if hyperParams.lstm
-  compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType);
+    compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType);
 else
-  compositionMatrix = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType);
+    compositionMatrix = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType);
 end
   
 if hyperParams.eyeScale > 0 && ~hyperParams.lstm
-  for i = 1:NUMCOMP
-    compositionMatrix(:, end - (2 * DIM) + 1:end, i) = compositionMatrix(:, end - (2 * DIM) + 1:end, i) .* (1 - hyperParams.eyeScale) + [eye(DIM) eye(DIM)] .* hyperParams.eyeScale;
-  end
+    for i = 1:NUMCOMP
+        compositionMatrix(:, end - (2 * DIM) + 1:end, i) = compositionMatrix(:, end - (2 * DIM) + 1:end, i) .* (1 - hyperParams.eyeScale) + [eye(DIM) eye(DIM)] .* hyperParams.eyeScale;
+    end
 end
 
 if hyperParams.useThirdOrderComposition && ~hyperParams.usePyramids
-  if hyperParams.tensorScale > 0
-    compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
-    compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
-  else
-    compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
-  end
+    if hyperParams.tensorScale > 0
+        compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
+        compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
+    else
+        compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
+    end
 elseif hyperParams.usePyramids
   % To keep stacking and unstacking simple, we overload this parameter name for the 
   % connection chosing layer in the pyramid model.
-  NUMACTIONS = 3;
-  compositionMatrices = InitializeNNLayer((2 * hyperParams.pyramidConnectionContextWidth) * DIM + NUMACTIONS, NUMACTIONS, 1, hyperParams.NNinitType);
+    NUMACTIONS = 3;
+    compositionMatrices = InitializeNNLayer((2 * hyperParams.pyramidConnectionContextWidth) * DIM + NUMACTIONS, NUMACTIONS, 1, hyperParams.NNinitType);
 else
-  compositionMatrices = [];
+    compositionMatrices = [];
 end
 
 classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);
 
   
 if NUMTRANS > 0
-  assert(NUMTRANS == 1, 'Currently, we do not support more than one embedding transform layer.');
-  embeddingTransformMatrix = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType);
+    assert(NUMTRANS == 1, 'Currently, we do not support more than one embedding transform layer.');
+    embeddingTransformMatrix = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType);
 else
-  embeddingTransformMatrix = [];
+    embeddingTransformMatrix = [];
 end
   
 if hyperParams.loadWords
-   Log(hyperParams.statlog, 'Loading the vocabulary.')
-   wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
+    Log(hyperParams.statlog, 'Loading the vocabulary.')
+    wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
 else 
     % Randomly initialize the words
     wordFeatures = normrnd(0, 1, EMBDIM, vocabLength);
     if ~hyperParams.trainWords
-       Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
-   end
+        Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
+    end
 end
 
 if ~hyperParams.trainWords || hyperParams.fastEmbed

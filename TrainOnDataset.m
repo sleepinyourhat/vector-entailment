@@ -1,6 +1,8 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ modelState ] = TrainOnDataset(CostGradFunc, trainingData, testDatasets, modelState, hyperParams, options, filename)
+% Run one SGD pass through an in-memory dataset.
 
+% Shuffle the data, using multiple copies of some examples if requested.
 if isfield(hyperParams, 'firstMultiplier')
     modifiedOrder = hyperParams.firstCutoff + 1:length(trainingData);
     for i = 1:hyperParams.firstMultiplier
@@ -24,7 +26,7 @@ else
     randomOrder = randperm(length(trainingData));
 end
 
-N = length(randomOrder);
+N = length(randomOrder); % Number of examples in full dataset.
 numBatches = ceil(N/options.miniBatchSize);
 
 for batchNo = 0:(numBatches - 1)
@@ -32,7 +34,7 @@ for batchNo = 0:(numBatches - 1)
     endMiniBatch = (batchNo + 1) * options.miniBatchSize;
 
     % Don't bother with the last few examples if they don't make up a full minibatch. 
-    % They'll be reshuffled in the next pass.
+    % They'll be reshuffled in the next epoch.
     if endMiniBatch > N
         return
     end
