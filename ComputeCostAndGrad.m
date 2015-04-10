@@ -160,12 +160,6 @@ if nargout > 1 && (nargin < 6 || computeGradient)
     end
 end
 
-% This doesn't appear to save any memory, but may be woth revisiting for large datasets.
-% if hyperParams.clearActivations
-%     left.clearActivations()
-%     right.clearActivations()
-% end
-
 % Compute prediction. Note: This will be in integer, indexing into whichever class set was used
 % for this example.
 if nargout > 3

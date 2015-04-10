@@ -100,9 +100,6 @@ hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
-
-options.updateFn = @AdaDeltaUpdate;
-
 if findstr(dataflag, 'snli095-sick')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
@@ -129,7 +126,7 @@ elseif findstr(dataflag, 'snli095-only')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
-    hyperParams.numRelations = 3;
+    hyperParams.numRelations = [3];
 
     hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
     relationMap = cell(1, 1);
@@ -142,7 +139,6 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.relationIndices = [1; 1; 1];
     hyperParams.testRelationIndices = [1];
     hyperParams.trainingMultipliers = [1];
-
 elseif findstr(dataflag, 'dg-pre')
     hyperParams.numRelations = [3, 3, 2];
 

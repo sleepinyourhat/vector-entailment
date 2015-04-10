@@ -10,17 +10,16 @@ from collections import defaultdict
 # or if they appear in training data more than THRESHOLD times.
 
 BASENAME = "sick-snli0.95"
-TRAINING_FILES = ["SICK_train_parsed.txt",
-                  "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Distributions/snli_0.95_parsed/snli_0.95_train_parsed.txt"]
-DEV_FILES = ["SICK_trial_parsed.txt",
-             "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Distributions/snli_0.95_parsed/snli_0.95_dev_parsed.txt"]
-TEST_FILES = ["SICK_test_annotated_rearranged_parsed.txt",
-              "/Users/Bowman/Drive/Stanford NLP Group/RTE/flickr30k/Distributions/snli_0.95_parsed/snli_0.95_test_parsed.txt"]
+TRAINING_FILES = ["sst-data/train.txt"]
+DEV_FILES = ["sst-data/dev.txt"]
+TEST_FILES = ["sst-data/test.txt"]
 
-VECTOR_WORDLIST = "glove.6B.wordlist.txt"
+VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 
-EXCLUSIONS = set(['(', ')', '', ' ', '\n', '\r'])
+EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
+
+ENTAILMENT_MODE = False
 
 
 def count_words(filenames):
@@ -29,8 +28,11 @@ def count_words(filenames):
     for filename in filenames:
         with open(filename) as f:
             for line in f:
-                tabsplit = line.split('\t')
-                adjusted_line = tabsplit[1] + ' ' + tabsplit[2]
+                if ENTAILMENT_MODE:
+                    tabsplit = line.split('\t')
+                    adjusted_line = tabsplit[1] + ' ' + tabsplit[2]
+                else:
+                    adjusted_line = line
                 for word in adjusted_line.split(' '):
                     if word not in EXCLUSIONS and '\n' not in word:
                         counter[word.lower()] += 1

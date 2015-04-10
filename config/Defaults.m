@@ -88,6 +88,9 @@ hyperParams.useThirdOrderMerge = true;
 % useThirdOrderComposition should be false if this is used.
 hyperParams.useSumming = false;
 
+% Use sentiment-specific CostGradFn.
+hyperParams.sentimentMode = false;
+
 % If set, train using minFunc. Only partially supported. See GradCheck for an example.
 hyperParams.minFunc = false;
 
@@ -111,15 +114,15 @@ hyperParams.fastEmbed = false;
 
 hyperParams.clearActivations = false;
 
-% Applies to ComputeCostAndGrad.
-% Gradients above this l2 norm will be rescaled down.
+% Applies to the unbatched ComputeCostAndGrad only.
+% Full gradient vectors above this l2 norm will be rescaled down.
 hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
 
-% Deltas in PyramidBatch above this *squared* l2 norm will be rescaled down.
+% In batch learning, deltas above this *squared* l2 norm will be rescaled down.
 hyperParams.maxDeltaNorm = 1e-1;
 
-hyperParams.connectionCostScale = 0.0005;
+hyperParams.connectionCostScale = 1;
 
 %%% minFunc options: %%%
 

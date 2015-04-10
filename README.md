@@ -27,9 +27,9 @@ http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html
 The Denotation Graph data (used in this repo, but not distributed with it) is from here:
 http://shannon.cs.illinois.edu/DenotationGraph/
 
-sick_data/wcmac_data.txt was collected as part of Bill MacCartney's 2009 Stanford dissertation.
+sick-data/wcmac_data.txt was collected as part of Bill MacCartney's 2009 Stanford dissertation.
 
-The google-10000-english vocabulary is from the release compiled here:
-https://github.com/first20hours/google-10000-english
+sst-data/ contais data from the Stanford Sentiment Treebank. More information can be found in the
+README.txt file there.
 
-Author: Samuel Bowman, sbowman@stanford.edu
+Maintainer and lead author: Samuel Bowman, sbowman@stanford.edu

@@ -4,7 +4,6 @@ function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, 
 
 [hyperParams, options] = Defaults();
 
-
 hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-comp', num2str(composition), '-mbs', num2str(mbs), '-l', num2str(lambda)];
 
@@ -42,9 +41,6 @@ end
 hyperParams.topDropout = 1;
 
 hyperParams.topDepth = top;
-
-hyperParams.classNL = @LReLU;
-hyperParams.classNLDeriv = @LReLUDeriv;
 
 options.numPasses = 15000;
 

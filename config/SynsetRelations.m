@@ -4,8 +4,7 @@ function [ hyperParams, options, wordMap, relationMap ] = SynsetRelations(name, 
 
 hyperParams.name = name;
 
-% The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
-% the GloVe vectors.
+% The dimensionality of the word/phrase vectors.
 hyperParams.dim = 25;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be

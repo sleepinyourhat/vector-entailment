@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function data = LoadConstitData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
+function data = LoadEntailmentData(filename, wordMap, relationMap, hyperParams, fragment, relationIndex)
 % Load one file of sentence pair data.
 
 if hyperParams.useTrees
@@ -41,8 +41,6 @@ fclose(fid);
 % Parse the file
 nextItemNo = 1;
 maxLine = length(C{1});
-maxLine = min(maxLine, 500);
-'trim'
 
 % Initialize the data array
 rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), maxLine, 1);

@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadConstitDatasets (wordMap, relationMap, hyperParams)
+function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadAllDatasets(wordMap, relationMap, hyperParams)
 % Load and combine all of the training and test data.
 % This is slow. And can probably be easily improved if it matters.
 
@@ -9,6 +9,12 @@ function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadConstitDatase
 
 % relationIndices: An optional matrix with three rows, one each for 
 % train/test/split, indicating which set of relations the dataset uses.
+
+if hyperParams.sentimentMode
+    loadFileFn = @LoadSentimentData;
+else
+    loadFileFn = @LoadEntailmentData;
+end
 
 if hyperParams.fragmentData
     trainDataset = hyperParams.trainFilenames;
@@ -27,12 +33,12 @@ for i = 1:length(hyperParams.trainFilenames)
     end
 
     if ~hyperParams.fragmentData
-        dataset = LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, ...
+        dataset = loadFileFn(hyperParams.trainFilenames{i}, wordMap, relationMap, ...
                                   hyperParams, false, relationIndex);
         trainDataset = [trainDataset; dataset];
         trainingLengths = [trainingLengths; length(dataset)];
     else
-        LoadConstitData(hyperParams.trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
+        loadFileFn(hyperParams.trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
     end
         
 end
@@ -45,7 +51,7 @@ for i = 1:length(hyperParams.testFilenames)
     end
 
     Log(hyperParams.statlog, ['Loading test dataset ', hyperParams.testFilenames{i}]);
-    dataset = LoadConstitData(hyperParams.testFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    dataset = loadFileFn(hyperParams.testFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
     testDatasets = [testDatasets, {dataset}];
 end
 
@@ -57,7 +63,7 @@ for i = 1:length(hyperParams.splitFilenames)
     end
 
     Log(hyperParams.statlog, ['Loading split dataset ', hyperParams.splitFilenames{i}]);
-    dataset = LoadConstitData(hyperParams.splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    dataset = loadFileFn(hyperParams.splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
 
     lengthOfTestPortion = ceil(length(dataset) * hyperParams.testFraction);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;

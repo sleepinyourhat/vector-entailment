@@ -7,7 +7,6 @@ hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(pen
 				    '-tot', num2str(tot), '-relu', num2str(relu), '-l', num2str(lambda),...
 				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
 
-
 if tot == -1
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;

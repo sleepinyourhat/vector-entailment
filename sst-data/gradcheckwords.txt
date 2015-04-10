@@ -1,0 +1,5 @@
+very
+bad
+good
+just
+<unk>

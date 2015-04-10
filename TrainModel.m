@@ -1,13 +1,14 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
 % The main training and testing script.
+
 % Arguments:
 %% pretrainingFilename: Pass in the filename to a checkpoint file to start training
 %%%% from that checkpoint. If this argument is blank but a checkpoint with the exact same
 %%%% experiment name is found, that checkpoint will be loaded. To start a fresh experiment,
 %%%% use a fresh experiment name (set in the config file).
-%% fold: Used for five fold cross-validation. Settings other than 1 will cause f# to be
-%%%% appended to the experiment name.
+%% fold: Used for five fold cross-validation on some data sources. Settings other than 1 will 
+%%%% cause -f# to be appended to the experiment name.
 %% ConfigFn: A function handle to an experiment configuration function that sets up 
 %%%% hyperParams, options, wordMap, and relationMap. See examples in the config/ directory.
 %% varargin: All remaining arguments will be passed through to the config function.
@@ -19,8 +20,8 @@ addpath('config/')
 % Look for the NN internals in this directory.
 addpath('layer-fns/')
 
+% Set up paralellization
 if isempty(gcp('nocreate'))
-    % Set up paralellization
     c = parcluster();
     t = tempname();
     mkdir(t);
@@ -44,11 +45,11 @@ hyperParams.foldNumber = fold;
 % The name assigned to the current full run. Used in checkpoint naming, and must
 % match the directory created above.
 if fold > 1
-    hyperParams.name = [hyperParams.name, 'f', num2str(fold)];
+    hyperParams.name = [hyperParams.name, '-f', num2str(fold)];
 end
 options.name = hyperParams.name;
 
-% Set up an experimental directory.
+% Set up an experiment directory.
 mkdir(hyperParams.name); 
 
 hyperParams.statlog = fopen([hyperParams.name '/stat_log'], 'a');
@@ -56,10 +57,10 @@ hyperParams.examplelog = fopen([hyperParams.name '/example_log'], 'a');
 
 % Ignore: modified every few iters.
 hyperParams.showExamples = false; 
-hyperParams.showConfusions = false;
+hyperParams.showDetailedStats = false;
 
-Log(hyperParams.statlog, ['Model config: ' evalc('disp(hyperParams)')])
-Log(hyperParams.statlog, ['Model training options: ' evalc('disp(options)')])
+Log(hyperParams.statlog, ['hyperParams: \n' evalc('disp(hyperParams)')])
+Log(hyperParams.statlog, ['options: \n' evalc('disp(options)')])
 hyperParams = FlushLogs(hyperParams);
 
 % TODO: Ressurect this feature or delete it.
@@ -72,7 +73,7 @@ if hyperParams.datasetsPortion < 1
         (1:round(hyperParams.datasetsPortion * length(hyperParams.splitFilenames))));
 end
 
-% Load saved parameters if available
+% Look for previously saved checkpoint files.
 savedParams = '';
 if ~isempty(pretrainingFilename)
     savedParams = pretrainingFilename;
@@ -88,6 +89,8 @@ else
         end
     end
 end
+
+% Load the checkpoint if present.
 if ~isempty(savedParams)
     Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
     a = load(savedParams);
@@ -110,7 +113,7 @@ hyperParams = FlushLogs(hyperParams);
 
 % Load training/test data
 [ trainDataset, testDatasets, hyperParams.trainingLengths ] = ...
-    LoadConstitDatasets(wordMap, relationMap, hyperParams);
+    LoadAllDatasets(wordMap, relationMap, hyperParams);
 
 % Trim out individual examples if needed (only from the first source)
 if hyperParams.dataPortion < 1
@@ -122,20 +125,30 @@ end
 
 Log(hyperParams.statlog, 'Training')
 
-if hyperParams.useTrees || hyperParams.usePyramids
-    optFn = @ComputeUnbatchedEntailmentCostAndGrad;
+% Choose a function of the data to optimize.
+if ~hyperParams.sentimentMode
+    % Entailment
+    if ~hyperParams.useTrees
+        optFn = @ComputeBatchEntailmentCostAndGrad;
+    else     
+        optFn = @ComputeUnbatchedEntailmentCostAndGrad;
+    end
 else
-    optFn = @ComputeBatchEntailmentCostAndGrad;
+    % Sentiment
+    assert(~hyperParams.useTrees, 'Sentiment is not yet compatible with unbatched computation (i.e., trees).');
+    optFn = @ComputeBatchSentimentCostAndGrad;
 end
 
+% Launch the optimizer!
 if hyperParams.minFunc
+    % Use minFunc -- only suitable for gradient checking and small toy problems.
+
     % Set up minFunc
     addpath('minFunc/minFunc/')
     addpath('minFunc/minFunc/compiled/')
     addpath('minFunc/minFunc/mex/')
     addpath('minFunc/autoDif/')
 
-    % Warning: L-BFGS won't save state across restarts
     modelState.theta = minFunc(optFn, modelState.theta, options, ...
         modelState.thetaDecoder, trainDataset, modelState.separateWordFeatures, hyperParams, 1);
 else
