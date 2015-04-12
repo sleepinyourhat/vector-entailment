@@ -35,7 +35,6 @@ classdef PyramidBatch < handle
             % NOTE: This class is designed for use in a typical SGD setting (as in TrainSGD here) where batches are created, used once
             % and then destroyed. As such, this constructor bakes certain learned model parameters into the batch
             % object, and this any object created this way will become stale after one gradient step.
-            
             pb = PyramidBatch();
             pb.B = length(pyramids);
             pb.D = hyperParams.dim;
@@ -68,7 +67,6 @@ classdef PyramidBatch < handle
                     if hyperParams.embeddingTransformDepth > 0
                         pb.rawEmbeddings(:, b, w) = wordFeatures(:, pyramids(b).wordIndices(w));
                     else
-                        
                         pb.features(:, b, w, pb.N) = wordFeatures(:, pyramids(b).wordIndices(w));
                     end
                 end

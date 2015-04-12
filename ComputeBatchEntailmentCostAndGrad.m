@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, acc, confusion, connectionAcc ] = ComputeBatchEntailmentCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
+function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchEntailmentCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
 % Compute cost, gradient, accuracy, and confusions over a batch of examples for some parameters.
 % This is a well-behaved costGradFn, and can be @-passed to optimizers, including minFunc and TrainSGD.
 
@@ -94,7 +94,7 @@ for b = 1:B
               ' hyp:  ', num2str(preds(b))]);
     end
 
-    if nargout > 4
+    if nargout > 5
         confusion(preds(b), data(b).relation(1)) = ...
           confusion(preds(b), data(b).relation(1)) + 1;
     end

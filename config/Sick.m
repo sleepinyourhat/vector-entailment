@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, decay, mm, lr)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, conCost)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,20 +9,13 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth), '-pen', num2str(penult), ...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-ws', num2str(wordsource),...
     '-par', num2str(parens), '-comp', num2str(composition), ...
-    '-decay', num2str(decay), '-mm', num2str(mm), '-lr', num2str(lr)];
+    '-cc', num2str(conCost)];
 
 
 %%
 
-% RMSProp hyperpamaters.
-options.RMSPropDecay = decay;
-options.RMSPropEps = 1e-3;
-options.momentum = mm;
-options.lr = lr;
+hyperParams.connectionCostScale = conCost;
 
-if lr == 0
-  options.updateFn = @AdaDeltaUpdate;
-end
 
 %%
 

@@ -28,10 +28,8 @@ for wordlistIndex = 1:length(wordlist)
         loadedIndex = fullWordmap(strrep(wordlist{wordlistIndex}, '_', '-'));
     elseif strcmp(wordlist{wordlistIndex}, 'n''t') && isempty(loc)
         loadedIndex = fullWordmap('not');
-        disp('Mapped not.');
     else
         loadedIndex = 0;
-        disp(['Word could not be loaded: ', wordlist{wordlistIndex}]);
     end
     if loadedIndex > 0
         % Copy in the loaded vector

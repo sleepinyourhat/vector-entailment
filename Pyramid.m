@@ -22,11 +22,22 @@ classdef Pyramid < handle
             terms = textscan(iText, '%s', 'delimiter', ' ');
 
             % Parsed sequence case.
-            assert(length(terms) == 1 || strcmp(terms{1}{1}, '(') && strcmp(terms{1}{end}, ')'), ...
+            assert(length(terms) == 1 || strncmpi(terms{1}{1}, '(', 1) && strncmpi(terms{1}{end}, ')', 1), ...
                    'Input strings must be parsed, and must include the outermost parens.');
-            p.wordCount = (length(terms{1}) + 2) / 3;  % Works for all binary parse trees.
+
+            if length(terms{1}{1}) == 1
+                % Normal parse tree mode
+                p.wordCount = (length(terms{1}) + 2) / 3;  % Works for all binary parse trees.
+            elseif length(terms{1}{2}) == 2
+                % SST mode
+                p.wordCount = (length(terms{1}) + 2) / 5;  % Works for all binary parse trees.
+            else
+                assert(false, 'Bad first element in parse string.');
+            end
+                
 
             % TODO: Handle unparsed sequences.
+            % TODO: Debug for SST.
 
             p.wordIndices = zeros(p.wordCount, 1);
             p.connectionLabels = zeros(p.wordCount - 1, p.wordCount - 1);
@@ -39,11 +50,12 @@ classdef Pyramid < handle
             mergeCount = 0;
             wordIndex = 0;  % The number of words that have been loaded.
             for t = 1:length(terms{1})
-                if strcmp(terms{1}{t}, ')')  % Mark the merge in the tree structure.
+                % Mark the merge in the tree structure if this is a binary constituent.
+                if strncmpi(terms{1}{t}, ')', 1) && ~strncmpi(terms{1}{t - 2}, '(', 1)
                     p.connectionLabels(depth - 1, wordIndex - 1 - mergeCount) = 3;
                     depth = depth - 1;
                     mergeCount = mergeCount + 1;
-                elseif ~strcmp(terms{1}{t}, '(')
+                elseif ~strncmpi(terms{1}{t}, '(', 1) && ~strncmpi(terms{1}{t}, ')', 1)
                     % We have an actual word. Get its embedding index. (Beware: the word "index" is overloaded.)
                     wordIndex = wordIndex + 1;
                     p.wordIndices(wordIndex) = Pyramid.wordLookup(terms{1}{t}, wordMap);
@@ -73,7 +85,6 @@ classdef Pyramid < handle
             if wordMap.isKey(iText)
                 id = wordMap(iText);
             elseif all(ismember(iText, '0123456789.-'))
-                disp(['Collapsing number ' iText]);
                 id = wordMap('<num>');      
             else
                 nextTry = strtok(iText, ':');

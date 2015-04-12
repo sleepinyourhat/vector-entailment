@@ -41,7 +41,7 @@ classdef Sequence < handle
             numWords = 0;
 
             for i = 1:length(C)
-                if useParens || ~(strcmp(C{i}, '(') || strcmp(C{i}, ')'))
+                if useParens || ~(strcmp(C{i}(1), '(') || strcmp(C{i}(1), ')'))
                     % Turn words into nodes
                     s = Sequence.makeNode(C{i}, s, wordMap);
                     numWords = numWords + 1;
@@ -60,7 +60,6 @@ classdef Sequence < handle
             if wordMap.isKey(s.text)
                 s.wordIndex = wordMap(s.text);
             elseif all(ismember(s.text, '0123456789.-'))
-                disp(['Collapsing number ' s.text]);
                 s.wordIndex = wordMap('<num>'); 
                 s.unknown = true;              
             else

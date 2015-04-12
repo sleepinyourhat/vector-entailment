@@ -26,7 +26,7 @@ for i = 1:length(testDatasets{1})
         continue
     end
 
-    [~, ~, ~, acc, confusion, conAcc] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
+    [ ~, ~, ~, acc, conAcc, confusion ] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
     if conAcc ~= -1
         sumConAcc = sumConAcc + conAcc;
     end

@@ -42,11 +42,11 @@ classdef Tree < handle
             stackTop = 0;
             
             for i = 1:length(C)
-                if ~strcmp(C{i}, '(') && ~strcmp(C{i}, ')')
+                if ~strcmp(C{i}(1), '(') && ~strcmp(C{i}(1), ')')
                     % Turn words into leaf nodes
                     stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap);
                     stackTop = stackTop + 1;
-                elseif strcmp(C{i}, ')')
+                elseif strcmp(C{i}(1), ')')
                     % Merge at the ends of constituents
                     r = stack{stackTop};
                     l = stack{stackTop - 1};

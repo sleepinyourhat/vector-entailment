@@ -39,10 +39,10 @@ if mod(modelState.step, options.testFreq) == 0
         end
 
         if length(hyperParams.numRelations) == 1
-            [cost, ~, ~, acc, conf, conAcc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
+            [cost, ~, ~, acc, conAcc, conf] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
             macro = GetMacroF1(conf);
         else
-            [cost, ~, ~, acc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
+            [cost, ~, ~, acc, conAcc] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
         end
     end
 
