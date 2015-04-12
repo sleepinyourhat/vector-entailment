@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ cost, grad, embGrad, acc, confusion, connectionAcc ] = ComputeUnbatchedEntailmentCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
+function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeUnbatchedEntailmentCostAndGrad(theta, decoder, data, separateWordFeatures, hyperParams, computeGrad)
 % Compute cost, gradient, accuracy, and confusions over a set of examples for some parameters.
 % This computes these for each example separately and then pools them, making it suitable
 % for tree models, for which it is not practical to process batches of examples together.
@@ -7,7 +7,7 @@ function [ cost, grad, embGrad, acc, confusion, connectionAcc ] = ComputeUnbatch
 B = length(data);
 
 argout = nargout;
-if nargout > 4
+if nargout > 5
     confusions = zeros(B, 2);
 end
 
@@ -61,7 +61,7 @@ if nargout > 1
         end
 
         % Record statistics
-        if argout > 4
+        if argout > 5
             confusions(b,:) = [ localPred, data(b).relation(1) ];
         end
         accumulatedSuccess = accumulatedSuccess + localCorrect;
@@ -75,7 +75,7 @@ if nargout > 1
     end
     
     % Create the confusion matrix
-    if nargout > 4
+    if nargout > 5
         confusion = zeros(hyperParams.numRelations(data(1).relation(2)));
         for b = 1:B
             confusion(confusions(b,1), confusions(b,2)) = ...

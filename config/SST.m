@@ -29,11 +29,15 @@ elseif collo == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 end
 
+hyperParams.ignorePreprocessedFiles = true;
+% TEMP! 
+'IGNORING'
+
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
-hyperParams.embeddingTransformDepth = 0;
+hyperParams.embeddingTransformDepth = 1;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.

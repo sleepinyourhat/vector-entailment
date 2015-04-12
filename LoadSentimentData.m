@@ -41,8 +41,8 @@ fclose(fid);
 % Parse the file
 nextItemNo = 1;
 maxLine = length(C{1});
-maxLine = min(maxLine, 500);
-'trim'
+% maxLine = min(maxLine, 500);
+% 'trim'
 
 % Initialize the data array
 rawData = repmat(struct('topLabel', 0, 'sentenceText', ''), maxLine, 1);
