@@ -70,6 +70,7 @@ classdef SequenceBatch < handle
             % Recomputes features using fresh parameters.
 
             LSTM = size(compositionMatrix, 1) > size(compositionMatrix, 2);
+            SUM =  isempty(compositionMatrix);
 
             for w = 1:sb.N
                 if ~isempty(embeddingTransformMatrix)
@@ -98,7 +99,9 @@ classdef SequenceBatch < handle
                 if LSTM
                     [ sb.features(:, :, w), sb.cFeatures(:, :, w), sb.activationCache(:, :, w) ] = ...
                         ComputeLSTMLayer(compositionMatrix, predActivations, predC, sb.inputFeatures(:, :, w));
-                else
+                elseif SUM
+                    sb.features(:, :, w) = predActivations + sb.inputFeatures(:, :, w);
+                else  % RNN
                     sb.features(:, :, w) = ComputeRNNLayer(predActivations, sb.inputFeatures(:, :, w), ...
                         compositionMatrix, @tanh);
                 end
@@ -115,6 +118,8 @@ classdef SequenceBatch < handle
             % Run backwards.
 
             LSTM = size(compositionMatrix, 1) > size(compositionMatrix, 2);
+            SUM = isempty(compositionMatrix);
+
             HIDDENDIM = size(deltaH, 1);
             EMBDIM = size(wordFeatures, 1);
             if isempty(embeddingTransformMatrix)
@@ -124,7 +129,7 @@ classdef SequenceBatch < handle
             end
 
             connectionMatrixGradients = []; 
-            compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2));           
+            compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2), size(compositionMatrix, 3));           
             embeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM + 1, NUMTRANS);
             wordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), sb.N * sb.B);
@@ -159,7 +164,10 @@ classdef SequenceBatch < handle
                             = ComputeLSTMLayerGradients(sb.inputFeatures(:, :, w), compositionMatrix, sb.activationCache(:, :, w), ...
                                 predC, predActivations, sb.cFeatures(:, :, w), deltaH, deltaC);      
                     end
-                else
+                elseif SUM
+                    compDeltaInput = deltaH;
+                    localCompositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2), size(compositionMatrix, 3));
+                else  % RNN
                     [ localCompositionMatrixGradients, deltaH, compDeltaInput ] = ...
                     ComputeRNNLayerGradients(predActivations, sb.inputFeatures(:, :, w), ...
                           compositionMatrix, deltaH, @TanhDeriv, sb.features(:, :, w));

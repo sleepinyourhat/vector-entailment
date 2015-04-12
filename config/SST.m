@@ -62,6 +62,7 @@ hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
 if composition == -1
+  hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;

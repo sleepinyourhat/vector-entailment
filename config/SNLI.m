@@ -60,6 +60,7 @@ hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
 if composition == -1
+  hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;
@@ -139,6 +140,7 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.relationIndices = [1; 1; 1];
     hyperParams.testRelationIndices = [1];
     hyperParams.trainingMultipliers = [1];
+
 elseif findstr(dataflag, 'dg-pre')
     hyperParams.numRelations = [3, 3, 2];
 
