@@ -16,6 +16,7 @@ hyperParams.penultDim = penult;
 hyperParams.lambda = lambda; % 0.002 works for Tree, 1e-6 for Sequence?
 
 if composition == -1
+	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 0;
 	hyperParams.useSumming = 1;

@@ -17,6 +17,7 @@ hyperParams.penultDim = penult;
 hyperParams.lambda = lambda;
 
 if composition == -1
+  hyperParams.useTrees = 0;
   hyperParams.useThirdOrder = 0;
   hyperParams.useThirdOrderComparison = 0;
   hyperParams.useSumming = 1;
@@ -53,7 +54,7 @@ wordMap = InitializeMaps('/scr/sbowman/propositional-logic/longer2/wordlist.txt'
 hyperParams.vocabName = 'RC'; 
 
 hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-hyperParams.numRelations = 7;
+hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 

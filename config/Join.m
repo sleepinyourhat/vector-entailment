@@ -8,6 +8,7 @@ hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(pen
 				    '-dropout', num2str(tdrop), '-mb', num2str(mbs)];
 
 if tot == -1
+  hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;

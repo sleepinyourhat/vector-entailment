@@ -1,9 +1,10 @@
-function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, summing, trainwords, fastemb, multipleClassSets, sentiment)
+function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
 [hyperParams, options] = Defaults();
 
 if composition == -1
+	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 0;
 	hyperParams.useSumming = 1;
@@ -53,6 +54,8 @@ hyperParams.penultDim = 3;
 
 hyperParams.testFraction = 0.33;
 
+hyperParams.parensInSequences = false;
+
 % Test text file loading, rather than importing preprocessed data.
 hyperParams.ignorePreprocessedFiles = true;
 
@@ -79,9 +82,6 @@ hyperParams.lambda = 0;
 % Hack: -1 => always drop out the same one unit.
 hyperParams.bottomDropout = -1;
 hyperParams.topDropout = -1;
-
-% Use a simple summing layer function for composition (implemented in Tree).
-hyperParams.useSumming = summing;
 
 hyperParams.loadWords = false;
 hyperParams.trainWords = trainwords;
