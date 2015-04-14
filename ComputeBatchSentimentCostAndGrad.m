@@ -66,6 +66,7 @@ end
 % Compute and report statistics.
 accumulatedSuccess = 0;
 [ ~, preds ] = max(topLabelProbs);
+
 confusion = zeros(hyperParams.numRelations);
 for b = 1:B
     localCorrect = preds(b) == data(b).topLabel(1);

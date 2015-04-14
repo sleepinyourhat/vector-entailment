@@ -41,8 +41,6 @@ fclose(fid);
 % Parse the file
 nextItemNo = 1;
 maxLine = length(C{1});
-% maxLine = min(maxLine, 500);
-% 'trim'
 
 % Initialize the data array
 rawData = repmat(struct('topLabel', 0, 'sentenceText', ''), maxLine, 1);
@@ -102,15 +100,17 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
         end
     end
 
-    [pathname, filenamePart, ext] = fileparts(filename);
-    nameToSave = [pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, typeSig, '-', num2str(nextItemNo), '.mat'];
-    listing = dir(nameToSave);
-    % Double check that a file hasn't been written while we were processing.
-    if isempty(listing)
-        try
-            save(nameToSave, 'data', '-v7.3');
-        catch
-            Log(hyperParams.statlog, 'Problem saving.');
+    if ~hyperParams.ignorePreprocessedFiles
+        [pathname, filenamePart, ext] = fileparts(filename);
+        nameToSave = [pathname, '/pp-', filenamePart, ext, '-', hyperParams.vocabName, typeSig, '-', num2str(nextItemNo), '.mat'];
+        listing = dir(nameToSave);
+        % Double check that a file hasn't been written while we were processing.
+        if isempty(listing)
+            try
+                save(nameToSave, 'data', '-v7.3');
+            catch
+                Log(hyperParams.statlog, 'Problem saving.');
+            end
         end
     end
 end

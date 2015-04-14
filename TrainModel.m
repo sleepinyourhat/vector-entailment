@@ -13,7 +13,6 @@ function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
 %%%% hyperParams, options, wordMap, and relationMap. See examples in the config/ directory.
 %% varargin: All remaining arguments will be passed through to the config function.
 
-
 % Look for experiment configuration scripts in the config/ directory.
 addpath('config/')
 
@@ -152,8 +151,7 @@ if hyperParams.minFunc
     modelState.theta = minFunc(optFn, modelState.theta, options, ...
         modelState.thetaDecoder, trainDataset, modelState.separateWordFeatures, hyperParams, 1);
 else
-    modelState.theta = TrainSGD(optFn, modelState, options, ...
-        trainDataset, hyperParams, testDatasets);
+    modelState.theta = TrainSGD(optFn, modelState, options, trainDataset, hyperParams, testDatasets);
 end
     
 end
