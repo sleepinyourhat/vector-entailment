@@ -13,7 +13,7 @@ Or = 2 * D + 1:3 * D;
 Gr = 3 * D + 1:4 * D;
 
 tanhC = tanh(c);
-dIFOGf = zeros(size(IFOGf, 1), B);
+dIFOGf = IFOGf .* 0;  % Inherits gpu/cpu status from IFOGf
 dIFOGf(Or, :) = (tanhC .* delta_h);
 
 dC = delta_c + (1 - tanhC .^ 2) .* IFOGf(Or, :) .* delta_h;
@@ -27,7 +27,7 @@ dIFOGf(Ir, :) = IFOGf(Gr, :) .* dC;
 dIFOGf(Gr, :) = IFOGf(Ir, :) .* dC;
 
 % Backprop through nonlinearities
-dIFOG = zeros(size(IFOGf, 1), B);
+dIFOG = IFOGf .* 0;  % Inherits gpu/cpu status from IFOGf
 dIFOG(Gr, :) = (1 - (IFOGf(Gr, :) .^ 2)) .* dIFOGf(Gr, :);
 y = IFOGf([Ir Fr Or], :);
 dIFOG([Ir Fr Or], :) = (y .* (1.0 - y)) .* dIFOGf([Ir Fr Or], :);

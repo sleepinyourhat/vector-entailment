@@ -1,6 +1,8 @@
 function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
+% TrainModel('', 1, @GradCheck, 1, 2, 2, 1, 0, 0, 1);
+
 [hyperParams, options] = Defaults();
 
 if composition == -1

@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, mult)
+function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,11 +9,11 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), ...
-    '-mdn', num2str(dp), '-dp', num2str(mult)];
+    '-dp', num2str(dp)];
 
 hyperParams.parensInSequences = 0;
 
-hyperParams.dataPortion = mult;
+hyperParams.dataPortion = dp;
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
@@ -136,6 +136,24 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt'};
+
+    hyperParams.relationIndices = [1; 1; 1];
+    hyperParams.testRelationIndices = [1];
+    hyperParams.trainingMultipliers = [1];
+
+elseif findstr(dataflag, 'snli095HOL-only')
+    wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
+    hyperParams.vocabName = 'ss095'; 
+
+    hyperParams.numRelations = [3];
+
+    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed_HOL.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed_HOL.txt'};
 
     hyperParams.relationIndices = [1; 1; 1];
     hyperParams.testRelationIndices = [1];

@@ -9,6 +9,8 @@ from collections import defaultdict
 # source file, and if they are included in the vectorwordlist,
 # or if they appear in training data more than THRESHOLD times.
 
+# TODO: Ensure that there are no duplicates.
+
 BASENAME = "sick-snli0.95"
 TRAINING_FILES = ["sst-data/train.txt"]
 DEV_FILES = ["sst-data/dev.txt"]

@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, mult)
+function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -8,14 +8,11 @@ function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag,
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-comp', num2str(composition), ...
-    '-mdn', num2str(dp), '-dp', num2str(mult)];
+    '-comp', num2str(composition)];
 
 hyperParams.sentimentMode = 1;
 
 hyperParams.parensInSequences = 0;
-
-hyperParams.dataPortion = mult;
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
@@ -28,10 +25,6 @@ elseif collo == 2
 elseif collo == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 end
-
-hyperParams.ignorePreprocessedFiles = true;
-% TEMP! 
-'IGNORING'
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -68,37 +61,25 @@ hyperParams.topDropout = topDropout;
 if composition == -1
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;
 elseif composition < 2
   hyperParams.useThirdOrderComposition = composition;
-  hyperParams.useThirdOrderMerge = composition;
 elseif composition == 2
   hyperParams.lstm = 1;
   hyperParams.useTrees = 0;
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 elseif composition == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 elseif composition == 4
   hyperParams.usePyramids = 1;
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 0;
-  hyperParams.parensInSequences = 0;
-elseif composition == 5
-  hyperParams.usePyramids = 1;
-  hyperParams.lstm = 0;
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 end
 
@@ -107,18 +88,36 @@ hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
-% TODO: Wordlist
-wordMap = InitializeMaps('./sst-data/sst-words.txt');
-hyperParams.vocabName = 'sst'; 
+if findstr(dataflag, 'sst-expanded')
+    wordMap = InitializeMaps('./sst-data/sst-words.txt');
+    hyperParams.vocabName = 'sst'; 
 
-hyperParams.numRelations = [5];
+    hyperParams.numRelations = [5];
 
-hyperParams.relations = {{'0', '1', '2', '3', '4'}};
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.relations = {{'0', '1', '2', '3', '4'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-hyperParams.trainFilenames = {'./sst-data/train.txt'};    
-hyperParams.splitFilenames = {};    
-hyperParams.testFilenames = {'./sst-data/test.txt'};
+    hyperParams.trainFilenames = {'./sst-data/train_expanded.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'./sst-data/dev.txt', './sst-data/train_sample.txt'};
+
+    % Loading this data is fast, and the preprocessed file winds up huge.
+    hyperParams.ignorePreprocessedFiles = true;
+elseif findstr(dataflag, 'sst')
+    wordMap = InitializeMaps('./sst-data/sst-words.txt');
+    hyperParams.vocabName = 'sst'; 
+
+    hyperParams.numRelations = [5];
+
+    hyperParams.relations = {{'0', '1', '2', '3', '4'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    hyperParams.trainFilenames = {'./sst-data/train.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'./sst-data/dev.txt'};
+end
+
 
 end

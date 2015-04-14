@@ -15,12 +15,11 @@ Or = 2 * D + 1:3 * D;
 Gr = 3 * D + 1:4 * D;
 
 in = [ones(1, B); x; h_prev];
-IFOG = (WLSTM * in);
+
+IFOG = WLSTM * in;
 
 % Nonlinearities
-IFOGf = zeros(4 * D, B);
-IFOGf([Ir Fr Or], :) = Sigmoid(IFOG([Ir Fr Or], :));
-IFOGf(Gr, :) = tanh(IFOG(Gr, :));
+IFOGf = [Sigmoid(IFOG([Ir Fr Or], :)); tanh(IFOG(Gr, :))];
 
 c = IFOGf(Ir, :) .* IFOGf(Gr, :) + IFOGf(Fr, :) .* c_prev;
 h = IFOGf(Or, :) .* tanh(c);

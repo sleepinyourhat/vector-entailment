@@ -7,6 +7,8 @@ hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 hyperParams.useTrees = 1;
 hyperParams.usePyramids = 0;
 
+hyperParams.gpu = 0;
+
 % If set, and if useTrees is false, use an LSTM RNN.
 hyperParams.lstm = 0;
 
