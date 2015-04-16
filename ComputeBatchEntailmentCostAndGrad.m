@@ -19,9 +19,9 @@ else
 end
 
 % Create and batch objects and run them forward.
-if hyperParams.usePyramids
-    leftBatch = PyramidBatch.makePyramidBatch([data(:).left], wordFeatures, hyperParams);
-    rightBatch = PyramidBatch.makePyramidBatch([data(:).right], wordFeatures, hyperParams);
+if hyperParams.useLattices
+    leftBatch = LatticeBatch.makeLatticeBatch([data(:).left], wordFeatures, hyperParams);
+    rightBatch = LatticeBatch.makeLatticeBatch([data(:).right], wordFeatures, hyperParams);
 else
     leftBatch = SequenceBatch.makeSequenceBatch([data(:).left], wordFeatures, hyperParams);
     rightBatch = SequenceBatch.makeSequenceBatch([data(:).right], wordFeatures, hyperParams);

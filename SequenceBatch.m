@@ -74,7 +74,7 @@ classdef SequenceBatch < handle
 
             for w = 1:sb.N
                 if ~isempty(embeddingTransformMatrix)
-                    % TODO: Adapt this zero-bias idea to PyramidBatch.
+                    % TODO: Adapt this zero-bias idea to LatticeBatch.
                     transformInputs = [ [w >= sb.N - sb.wordCounts + 1]'; sb.rawEmbeddings(:, :, w)];
                     [ sb.inputFeatures(:, :, w), sb.masks(:, :, w) ] = ...
                         Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);

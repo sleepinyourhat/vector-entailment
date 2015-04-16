@@ -4,8 +4,8 @@ function data = LoadSentimentData(filename, wordMap, topLabelMap, hyperParams, f
 
 if hyperParams.useTrees
     typeSig = '-trees';
-elseif hyperParams.usePyramids
-    typeSig = '-pyrs';
+elseif hyperParams.useLattices
+    typeSig = '-lats';
 else
     typeSig = ['-seqs-par' num2str(hyperParams.parensInSequences)];
 end
@@ -86,10 +86,10 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
             data(dataInd).sentence = Tree.makeTree(rawData(dataInd).sentenceText, wordMap);
             data(dataInd).topLabel = rawData(dataInd).topLabel;
         end
-    elseif hyperParams.usePyramids
-        data = repmat(struct('topLabel', 0, 'sentence', Pyramid()), numElements, 1);
+    elseif hyperParams.useLattices
+        data = repmat(struct('topLabel', 0, 'sentence', Lattice()), numElements, 1);
         parfor dataInd = 1:numElements
-            data(dataInd).sentence = Pyramid.makePyramid(rawData(dataInd).sentenceText, wordMap);
+            data(dataInd).sentence = Lattice.makeLattice(rawData(dataInd).sentenceText, wordMap);
             data(dataInd).topLabel = rawData(dataInd).topLabel;
         end
     else

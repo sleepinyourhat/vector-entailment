@@ -1,6 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-classdef Pyramid < handle
-    % The object for loading and storing Pyramids. NN computations are performed using PyramidBatch.
+classdef Lattice < handle
+    % The object for loading and storing Lattices. NN computations are performed using LatticeBatch.
     
     properties
         wordIndices = [];  % The embedding matrix index for each word 
@@ -10,14 +10,14 @@ classdef Pyramid < handle
                                  % 2 := Copy right child.
                                  % 3 := Compose left and right children.
         activeNode = [] % Lower triangular matrix of ones indicating which positions are part of the
-                        % triangular pyramid structure and which are just meaningless positions left 
+                        % triangular lattice structure and which are just meaningless positions left 
                         % in to create a square matrix.
         text = 'NO TEXT'; % The sentence string.
     end
     
     methods(Static)
-        function p = makePyramid(iText, wordMap)
-            p = Pyramid();
+        function p = makeLattice(iText, wordMap)
+            p = Lattice();
 
             terms = textscan(iText, '%s', 'delimiter', ' ');
 
@@ -28,11 +28,11 @@ classdef Pyramid < handle
             if length(terms{1}{1}) == 1
                 % Normal parse tree mode
                 p.wordCount = (length(terms{1}) + 2) / 3;  % Works for all binary parse trees.
-            elseif length(terms{1}{2}) == 2
+            elseif length(terms{1}{1}) == 2
                 % SST mode
                 p.wordCount = (length(terms{1}) + 2) / 5;  % Works for all binary parse trees.
             else
-                assert(false, 'Bad first element in parse string.');
+                assert(false, ['Bad first element in parse string:' iText]);
             end
                 
 
@@ -58,7 +58,7 @@ classdef Pyramid < handle
                 elseif ~strncmpi(terms{1}{t}, '(', 1) && ~strncmpi(terms{1}{t}, ')', 1)
                     % We have an actual word. Get its embedding index. (Beware: the word "index" is overloaded.)
                     wordIndex = wordIndex + 1;
-                    p.wordIndices(wordIndex) = Pyramid.wordLookup(terms{1}{t}, wordMap);
+                    p.wordIndices(wordIndex) = Lattice.wordLookup(terms{1}{t}, wordMap);
                 end
             end
 
