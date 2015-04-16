@@ -52,18 +52,18 @@ if hyperParams.eyeScale > 0 && ~hyperParams.lstm
     end
 end
 
-if hyperParams.useThirdOrderComposition && ~hyperParams.usePyramids
+if hyperParams.useThirdOrderComposition && ~hyperParams.useLattices
     if hyperParams.tensorScale > 0
         compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
         compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
     else
         compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
     end
-elseif hyperParams.usePyramids
+elseif hyperParams.useLattices
   % To keep stacking and unstacking simple, we overload this parameter name for the 
-  % connection chosing layer in the pyramid model.
+  % connection chosing layer in the lattice model.
     NUMACTIONS = 3;
-    compositionMatrices = InitializeNNLayer((2 * hyperParams.pyramidConnectionContextWidth) * DIM + NUMACTIONS, NUMACTIONS, 1, hyperParams.NNinitType);
+    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth) * DIM + NUMACTIONS, NUMACTIONS, 1, hyperParams.NNinitType);
 else
     compositionMatrices = [];
 end

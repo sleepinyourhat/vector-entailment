@@ -4,8 +4,8 @@ function data = LoadEntailmentData(filename, wordMap, relationMap, hyperParams, 
 
 if hyperParams.useTrees
     typeSig = '-trees';
-elseif hyperParams.usePyramids
-    typeSig = '-pyrs';
+elseif hyperParams.useLattices
+    typeSig = '-lats';
 else
     typeSig = ['-seqs-par' num2str(hyperParams.parensInSequences)];
 end
@@ -90,11 +90,11 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
             data(dataInd).right = Tree.makeTree(rawData(dataInd).rightText, wordMap);
             data(dataInd).relation = rawData(dataInd).relation;
         end
-    elseif hyperParams.usePyramids
-        data = repmat(struct('relation', 0, 'left', Pyramid(), 'right', Pyramid()), numElements, 1);
+    elseif hyperParams.useLattices
+        data = repmat(struct('relation', 0, 'left', Lattice(), 'right', Lattice()), numElements, 1);
         parfor dataInd = 1:numElements
-            data(dataInd).left = Pyramid.makePyramid(rawData(dataInd).leftText, wordMap);
-            data(dataInd).right = Pyramid.makePyramid(rawData(dataInd).rightText, wordMap);
+            data(dataInd).left = Lattice.makeLattice(rawData(dataInd).leftText, wordMap);
+            data(dataInd).right = Lattice.makeLattice(rawData(dataInd).rightText, wordMap);
             data(dataInd).relation = rawData(dataInd).relation;
         end
     else

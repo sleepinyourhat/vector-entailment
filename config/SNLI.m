@@ -81,14 +81,14 @@ elseif composition == 3
   hyperParams.useThirdOrderMerge = 1;
   hyperParams.parensInSequences = 0;
 elseif composition == 4
-  hyperParams.usePyramids = 1;
+  hyperParams.useLattices = 1;
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.parensInSequences = 0;
 elseif composition == 5
-  hyperParams.usePyramids = 1;
+  hyperParams.useLattices = 1;
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
@@ -141,7 +141,7 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.testRelationIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
-elseif findstr(dataflag, 'snli095HOL-only')
+elseif findstr(dataflag, 'snli095short-only')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
@@ -151,9 +151,9 @@ elseif findstr(dataflag, 'snli095HOL-only')
     relationMap = cell(1, 1);
     relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed_HOL.txt'};    
+    hyperParams.trainFilenames = {'../data/snli_0.95_train_words_parsed_short.txt'};    
     hyperParams.splitFilenames = {};    
-    hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed_HOL.txt'};
+    hyperParams.testFilenames = {'../data/snli_0.95_dev_words_parsed_short.txt'};
 
     hyperParams.relationIndices = [1; 1; 1];
     hyperParams.testRelationIndices = [1];

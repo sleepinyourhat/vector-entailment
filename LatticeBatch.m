@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-classdef PyramidBatch < handle
+classdef LatticeBatch < handle
    
     properties
         NUMACTIONS = 3;  % The number of connection types.
@@ -8,8 +8,8 @@ classdef PyramidBatch < handle
                          % 3 := Compose left and right children.
         B = -1;  % Batch size.
         D = -1;  % Number of dimensions in the feature vector at each position.
-        N = -1;  % The length of the longest sequence that can be handled within this pyramid.
-        pyramids = [];  % The pyramid objects in the batch.
+        N = -1;  % The length of the longest sequence that can be handled within this lattice.
+        lattices = [];  % The lattice objects in the batch.
         wordIndices = [];  % The index into the embedding matrix for each word in the sequence.
         wordCounts = [];  % The number of words in each sequence.
         features = [];  % All computed activation vectors, with the words at the bottom row.
@@ -19,39 +19,39 @@ classdef PyramidBatch < handle
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
         connectionClassifierInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
-        connections = [];  % The length-3 vectors of weights for the three connection types at each position in the pyramid.
+        connections = [];  % The length-3 vectors of weights for the three connection types at each position in the lattice.
                            % Has no bottom (word) layer.
-        connectionLabels = [];  % The optional correct connection type (in {1, 2, 3}) for each position in the pyramid.
+        connectionLabels = [];  % The optional correct connection type (in {1, 2, 3}) for each position in the lattice.
         activeNode = [];  % Triangular boolean matrix for each batch entry indicating whether each position 
-                          % is within the pyramid structure for that entry.
-        numNodes = []; % The number of active nodes for each pyramid.
+                          % is within the lattice structure for that entry.
+        numNodes = []; % The number of active nodes for each lattice.
 
         % TODO: Clip deltas as they are created.
     end
    
     methods(Static)
-        function pb = makePyramidBatch(pyramids, wordFeatures, hyperParams)
+        function pb = makeLatticeBatch(lattices, wordFeatures, hyperParams)
             % Constructor: create and populate the batch data structures using a specific batch of data.
             % NOTE: This class is designed for use in a typical SGD setting (as in TrainSGD here) where batches are created, used once
             % and then destroyed. As such, this constructor bakes certain learned model parameters into the batch
             % object, and this any object created this way will become stale after one gradient step.
-            pb = PyramidBatch();
-            pb.B = length(pyramids);
+            pb = LatticeBatch();
+            pb.B = length(lattices);
             pb.D = hyperParams.dim;
 
             % Find the length of the longest sequence. We use this to set the size of the main feature matrix,
             % to this value has a large impact on the run time of the batch.
-            pb.N = max([pyramids(:).wordCount]);
+            pb.N = max([lattices(:).wordCount]);
 
-            pb.pyramids = cell(pb.B, 1);
+            pb.lattices = cell(pb.B, 1);
 
             pb.wordIndices = zeros(pb.N, pb.B);
-            pb.wordCounts = [pyramids(:).wordCount];
+            pb.wordCounts = [lattices(:).wordCount];
             pb.features = zeros(pb.D, pb.B, pb.N, pb.N);
             pb.rawEmbeddings = zeros(hyperParams.embeddingDim, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
             pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
-            pb.connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
+            pb.connectionClassifierInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
             pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
             pb.activeNode = zeros(pb.B, pb.N, pb.N);
@@ -59,21 +59,21 @@ classdef PyramidBatch < handle
 
             % Copy data in from the individual batch entries.
             for b = 1:pb.B
-                pb.pyramids{b} = pyramids(b);
-                pb.wordIndices(1:pb.wordCounts(b), b) = pyramids(b).wordIndices;
-                for w = 1:pyramids(b).wordCount
+                pb.lattices{b} = lattices(b);
+                pb.wordIndices(1:pb.wordCounts(b), b) = lattices(b).wordIndices;
+                for w = 1:lattices(b).wordCount
                     % Populate the bottom row with word features.
 
                     if hyperParams.embeddingTransformDepth > 0
-                        pb.rawEmbeddings(:, b, w) = wordFeatures(:, pyramids(b).wordIndices(w));
+                        pb.rawEmbeddings(:, b, w) = wordFeatures(:, lattices(b).wordIndices(w));
                     else
-                        pb.features(:, b, w, pb.N) = wordFeatures(:, pyramids(b).wordIndices(w));
+                        pb.features(:, b, w, pb.N) = wordFeatures(:, lattices(b).wordIndices(w));
                     end
                 end
-                pb.connectionLabels(b, 1:pyramids(b).wordCount - 1, pb.N - pyramids(b).wordCount + 1:pb.N - 1) = ...
-                    pyramids(b).connectionLabels';
-                pb.activeNode(b, 1:pyramids(b).wordCount, pb.N - pyramids(b).wordCount + 1:pb.N) = ...
-                    pyramids(b).activeNode';
+                pb.connectionLabels(b, 1:lattices(b).wordCount - 1, pb.N - lattices(b).wordCount + 1:pb.N - 1) = ...
+                    lattices(b).connectionLabels';
+                pb.activeNode(b, 1:lattices(b).wordCount, pb.N - lattices(b).wordCount + 1:pb.N) = ...
+                    lattices(b).activeNode';
             end
         end
     end
@@ -148,7 +148,7 @@ classdef PyramidBatch < handle
             if ~trainingMode   
                 % Temporary display method.
                 % pb.connections(:,:,:,1)
-                % pb.pyramids{1}.getText()
+                % pb.lattices{1}.getText()
             end
 
             % Rescale the connection costs by the number of times supervision was applied.
@@ -163,10 +163,10 @@ classdef PyramidBatch < handle
         end
 
         function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)
-            contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
-            connectionClassifierInputs = zeros((2 * hyperParams.pyramidConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
+            contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
+            connectionClassifierInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
 
-            for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
+            for pos = 1:2 * hyperParams.latticeConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
                 if (sourcePos > 0) && (sourcePos <= row + 1)
                     connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = pb.features(:, :, sourcePos, row + 1);
@@ -188,7 +188,7 @@ classdef PyramidBatch < handle
             getGradient(pb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
             % Run backwards.
 
-            contextPositions = -hyperParams.pyramidConnectionContextWidth + 1:hyperParams.pyramidConnectionContextWidth;
+            contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
             connectionMatrixGradients = zeros(size(connectionMatrix, 1), size(connectionMatrix, 2));
             compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2));
             % Initialize delta matrix with the incoming deltas in the right places.
@@ -269,7 +269,7 @@ classdef PyramidBatch < handle
                     connectionDeltas = connectionDeltas + localConnectionDeltas;
 
                     % Distribute the deltas from the softmax function back into its inputs.
-                    for pos = 1:2 * hyperParams.pyramidConnectionContextWidth
+                    for pos = 1:2 * hyperParams.latticeConnectionContextWidth
                         sourcePos = contextPositions(pos) + col;
                         if sourcePos > 0 && sourcePos <= row + 1
                             deltas(:, :, sourcePos, row + 1) = ...

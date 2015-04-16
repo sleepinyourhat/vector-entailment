@@ -76,7 +76,7 @@ elseif composition == 3
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.parensInSequences = 0;
 elseif composition == 4
-  hyperParams.usePyramids = 1;
+  hyperParams.useLattices = 1;
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
@@ -88,7 +88,7 @@ hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
-if findstr(dataflag, 'sst-expanded')
+if strcmp(dataflag, 'sst-expanded')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
 
@@ -104,7 +104,7 @@ if findstr(dataflag, 'sst-expanded')
 
     % Loading this data is fast, and the preprocessed file winds up huge.
     hyperParams.ignorePreprocessedFiles = true;
-elseif findstr(dataflag, 'sst')
+elseif strcmp(dataflag, 'sst')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
 
