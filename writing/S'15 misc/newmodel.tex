@@ -21,7 +21,7 @@
 To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two steps. In the first step, we produce a distribution $\vec{o}$ over the operations \{\textsc{copy-L, copy-R, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
 
 At each row $i$, we begin by computing a scalar score $s$ for each node $(i, j)$ representing how appropriate it would be to compose the two child nodes $(i+1, j)$ and $(i+1, j+1)$ at $(i, j)$. This decision is made primarily on the basis of the two child nodes, and a $C$-word window of context around them that is meant to allow the model to do a limited amount of ambiguity resolution. When the context window extends off the edge of the lattice in either direction, a single learned padding vector is used. % TODO
-Including $j$ as an additional feature here is intended to allow the model to learn to use linear order in making its scoring decisions, allowing it to prefer to compose pairs of constituens that are closer to the left edge of the tree when all else is equal, and encouraging the model to conform to our left-first rule.
+Including $\frac{j}{i}$ as an additional feature here is intended to allow the model to learn to use linear order in making its scoring decisions, allowing it to prefer to compose pairs of constituens that are closer to the left edge of the tree when all else is equal, and encouraging the model to conform to our left-first rule.
 
 \begin{equation}
 \label{scoringeqn}
@@ -32,7 +32,7 @@ s^{(i,j)} = \vec{v}_s \colvec{7}
 	{\vec{y}^{(i + 1, j + 1)}}
 	{...}
 	{\vec{y}^{(i + 1, j + C)}}
-	{j}
+	{\frac{j}{i}}
 	 + b_s \\
 \end{equation}
 %
