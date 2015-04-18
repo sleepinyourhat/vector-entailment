@@ -18,61 +18,59 @@ classdef LatticeBatch < handle
         masks = [];  % Same structure as the bottom row of features, but contains dropout masks for the embedding transform layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
-        connectionClassifierInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
+        scorerInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
+        scores = [];  % The inputs to the connection softmax at each row.
         connections = [];  % The length-3 vectors of weights for the three connection types at each position in the lattice.
                            % Has no bottom (word) layer.
         connectionLabels = [];  % The optional correct connection type (in {1, 2, 3}) for each position in the lattice.
         activeNode = [];  % Triangular boolean matrix for each batch entry indicating whether each position 
                           % is within the lattice structure for that entry.
-        numNodes = []; % The number of active nodes for each lattice.
-
-        % TODO: Clip deltas as they are created.
     end
    
     methods(Static)
-        function pb = makeLatticeBatch(lattices, wordFeatures, hyperParams)
+        function lb = makeLatticeBatch(lattices, wordFeatures, hyperParams)
             % Constructor: create and populate the batch data structures using a specific batch of data.
             % NOTE: This class is designed for use in a typical SGD setting (as in TrainSGD here) where batches are created, used once
             % and then destroyed. As such, this constructor bakes certain learned model parameters into the batch
             % object, and this any object created this way will become stale after one gradient step.
-            pb = LatticeBatch();
-            pb.B = length(lattices);
-            pb.D = hyperParams.dim;
+            lb = LatticeBatch();
+            lb.B = length(lattices);
+            lb.D = hyperParams.dim;
 
             % Find the length of the longest sequence. We use this to set the size of the main feature matrix,
             % to this value has a large impact on the run time of the batch.
-            pb.N = max([lattices(:).wordCount]);
+            lb.N = max([lattices(:).wordCount]);
 
-            pb.lattices = cell(pb.B, 1);
+            lb.lattices = cell(lb.B, 1);
 
-            pb.wordIndices = zeros(pb.N, pb.B);
-            pb.wordCounts = [lattices(:).wordCount];
-            pb.features = zeros(pb.D, pb.B, pb.N, pb.N);
-            pb.rawEmbeddings = zeros(hyperParams.embeddingDim, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.masks = zeros(pb.D, pb.B, hyperParams.embeddingTransformDepth * pb.N);
-            pb.compositionActivations = zeros(pb.D, pb.B, pb.N - 1, pb.N - 1);
-            pb.connectionClassifierInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
-            pb.connections = zeros(pb.NUMACTIONS, pb.B, pb.N - 1, pb.N - 1);
-            pb.connectionLabels = zeros(pb.B, pb.N - 1, pb.N - 1);
-            pb.activeNode = zeros(pb.B, pb.N, pb.N);
-            pb.numNodes = max(pb.wordCounts' - 1, 1) .^ 2;
+            lb.wordIndices = zeros(lb.N, lb.B);
+            lb.wordCounts = [lattices(:).wordCount];
+            lb.features = zeros(lb.D, lb.B, lb.N, lb.N);
+            lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
+            lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
+            lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1);
+            lb.scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 1, lb.B, lb.N - 1, lb.N - 1);
+            lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
+            lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
+            lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
+            lb.activeNode = zeros(lb.B, lb.N, lb.N);
 
             % Copy data in from the individual batch entries.
-            for b = 1:pb.B
-                pb.lattices{b} = lattices(b);
-                pb.wordIndices(1:pb.wordCounts(b), b) = lattices(b).wordIndices;
+            for b = 1:lb.B
+                lb.lattices{b} = lattices(b);
+                lb.wordIndices(1:lb.wordCounts(b), b) = lattices(b).wordIndices;
                 for w = 1:lattices(b).wordCount
                     % Populate the bottom row with word features.
 
                     if hyperParams.embeddingTransformDepth > 0
-                        pb.rawEmbeddings(:, b, w) = wordFeatures(:, lattices(b).wordIndices(w));
+                        lb.rawEmbeddings(:, b, w) = wordFeatures(:, lattices(b).wordIndices(w));
                     else
-                        pb.features(:, b, w, pb.N) = wordFeatures(:, lattices(b).wordIndices(w));
+                        lb.features(:, b, w, lb.N) = wordFeatures(:, lattices(b).wordIndices(w));
                     end
                 end
-                pb.connectionLabels(b, 1:lattices(b).wordCount - 1, pb.N - lattices(b).wordCount + 1:pb.N - 1) = ...
+                lb.connectionLabels(b, lb.N - lattices(b).wordCount + 1:lb.N - 1) = ...
                     lattices(b).connectionLabels';
-                pb.activeNode(b, 1:lattices(b).wordCount, pb.N - lattices(b).wordCount + 1:pb.N) = ...
+                lb.activeNode(b, 1:lattices(b).wordCount, lb.N - lattices(b).wordCount + 1:lb.N) = ...
                     lattices(b).activeNode';
             end
         end
@@ -80,112 +78,130 @@ classdef LatticeBatch < handle
 
     methods
         function [ topFeatures, connectionCosts, connectionAccuracy ] = ...
-            runForward(pb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
+            runForward(lb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
+
+
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
-                for col = 1:pb.N
-                    transformInputs = [ ones(1, pb.B); pb.rawEmbeddings(:, :, col) ];
-                    [ pb.features(:, :, col, pb.N), pb.masks(:, :, col) ] = ...
+                for col = 1:lb.N
+                    transformInputs = [ ones(1, lb.B); lb.rawEmbeddings(:, :, col) ];
+                    [ lb.features(:, :, col, lb.N), lb.masks(:, :, col) ] = ...
                         Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);
                 end
 
                 % Remove features for inactive nodes.
-                pb.features(:, :, :, pb.N) = ...
-                    bsxfun(@times, pb.features(:, :, :, pb.N) , ...
-                           permute(pb.activeNode(:, :, pb.N), [3, 1, 2]));
+                % lb.features(:, :, :, lb.N) = ...
+                %     bsxfun(@times, lb.features(:, :, :, lb.N) , ...
+                %            permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
             end
 
             % Prepare to compute connection accuracy.
             if hyperParams.showDetailedStats
                 correctConnectionLabels = 0;
-                totalConnectionLabels = sum(pb.numNodes, 1);
+                totalConnectionLabels = sum(lb.wordCounts - 2);
             end
 
-            connectionCosts = zeros(pb.B, 1);
-            for row = pb.N - 1:-1:1
-                for col = 1:row
-                    % Compute the distribution over connections
-                    pb.connectionClassifierInputs(:, :, col, row) = pb.collectConnectionClassifierInputs(hyperParams, col, row);
+            connectionCosts = zeros(lb.B, 1);
+            for row = lb.N - 1:-1:1
+                % TODO: Parfor? Vectorize?
 
-                    [ pb.connections(:, :, col, row), localConnectionCosts ] = ...
-                        ComputeSoftmaxLayer(pb.connectionClassifierInputs(:, :, col, row), connectionMatrix, hyperParams, ...
-                            pb.connectionLabels(:, col, row));
-                    pb.connections(:, :, col, row) = bsxfun(@times, pb.connections(:, :, col, row), ...
-                                                            permute(pb.activeNode(:, col, row), [2, 1, 3, 4]));
+                % Score each possible merge
+                if row > 1  % Choosing the best of one score is meaningless
+                    for col = 1:row
+                        % Score each node in the row.
+                        lb.scorerInputs(:, :, col, row) = lb.collectScorerInputs(hyperParams, col, row);
+                        lb.scores(col, :, row) = connectionMatrix * lb.scorerInputs(:, :, col, row);
+                    end
+                    % lb.scores(:, :, row) = bsxfun(@times, lb.scores(:, :, row), lb.activeNode(:, 1:lb.N - 1, row)');
 
+                    % Softmax the scores.
+                    [ merges, localConnectionCosts ] = ...
+                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), lb.activeNode(:, 1:row, row)');
                     connectionCosts = connectionCosts + localConnectionCosts;
 
-                    if hyperParams.showDetailedStats
-                        [ ~, preds ] = max(pb.connections(:, :, col, row), [], 1);
-                        correctConnectionLabels = correctConnectionLabels + sum(preds' == pb.connectionLabels(:, col, row));
-                    end
+                    % Zero out 0/0 NaN probabilities.
+                    merges(:, lb.wordCounts <= 2) = 0;                                        
+                    lb.connections(3, :, 1:row, row) = merges';
 
-                    % Build the composed representation
-                    compositionInputs = [ones(1, pb.B); pb.features(:, :, col, row + 1); pb.features(:, :, col + 1, row + 1)];
-                    pb.compositionActivations(:, :, col, row) = tanh(compositionMatrix * compositionInputs);
-                    % Multiply the three inputs by the three connection weights.
-                    pb.features(:, :, col, row) = ...
-                        bsxfun(@times, pb.features(:, :, col, row + 1), ...
-                                       pb.connections(1, :, col, row)) + ...
-                        bsxfun(@times, pb.features(:, :, col + 1, row + 1), ...
-                                       pb.connections(2, :, col, row)) + ...
-                        bsxfun(@times, pb.compositionActivations(:, :, col, row), ...
-                                       pb.connections(3, :, col, row));
+                    if hyperParams.showDetailedStats
+                        [ ~, preds ] = max(lb.connections(3, :, :, row), [], 3);
+                        correctConnectionLabels = correctConnectionLabels + sum(preds' == lb.connectionLabels(:, row));
+                    end
+                else
+                    lb.connections(3, :, 1, row) = 1;
                 end
 
-                % Delete deltas for inactive nodes.
-                features(:, :, :, row) = ...
-                    bsxfun(@times, pb.features(:, :, :, row) , ...
-                           permute(pb.activeNode(:, :, row), [3, 1, 2]));
+                % TODO: Parfor?
+                for col = 1:row
+                    % Compute the rest of the connection weights.
+                    lb.connections(1, :, col, row) = sum(lb.connections(3, :, col + 1:row, row), 3);
+                    lb.connections(2, :, col, row) = sum(lb.connections(3, :, 1:col - 1, row), 3);
+
+                    % Build the composed representation
+                    compositionInputs = [ones(1, lb.B); lb.features(:, :, col, row + 1); lb.features(:, :, col + 1, row + 1)];
+                    lb.compositionActivations(:, :, col, row) = tanh(compositionMatrix * compositionInputs);
+                    % Multiply the three inputs by the three connection weights.
+                    lb.features(:, :, col, row) = ...
+                        bsxfun(@times, lb.features(:, :, col, row + 1), ...
+                                       lb.connections(1, :, col, row)) + ...
+                        bsxfun(@times, lb.features(:, :, col + 1, row + 1), ...
+                                       lb.connections(2, :, col, row)) + ...
+                        bsxfun(@times, lb.compositionActivations(:, :, col, row), ...
+                                       lb.connections(3, :, col, row));
+                end
+
+                % Remove features for inactive nodes.
+                % TODO: Is this still necessary?
+                %lb.features(:, :, :, row) = ...
+                %    bsxfun(@times, lb.features(:, :, :, row) , ...
+                %           permute(lb.activeNode(:, :, row), [3, 1, 2]));
             end
+
+            permute(lb.connections(3, :, :, :), [4, 3, 2, 1]);
 
             % Collect features from the tops of each tree, not the top of the feature matrix.
-            topFeatures = zeros(pb.D, pb.B);
-            for b = 1:pb.B
-                topFeatures(:, b) = pb.features(:, b, 1, pb.N - pb.wordCounts(b) + 1);
-            end
-
-            if ~trainingMode   
-                % Temporary display method.
-                % pb.connections(:,:,:,1)
-                % pb.lattices{1}.getText()
+            topFeatures = zeros(lb.D, lb.B);
+            for b = 1:lb.B
+                topFeatures(:, b) = lb.features(:, b, 1, lb.N - lb.wordCounts(b) + 1);
             end
 
             % Rescale the connection costs by the number of times supervision was applied.
-            connectionCosts = (connectionCosts ./ pb.numNodes) .* hyperParams.connectionCostScale;
+            connectionCosts(lb.wordCounts' > 2) = (connectionCosts(lb.wordCounts' > 2) ./ (lb.wordCounts(lb.wordCounts' > 2)' - 2)) .* hyperParams.connectionCostScale;
+            connectionCosts(lb.wordCounts' <= 2) = 0;
 
+            if ~trainingMode   
+                % Temporary display method.
+                % lb.connections(:,:,:,1)
+                % lb.lattices{1}.getText()
+            end
 
             if hyperParams.showDetailedStats
                 connectionAccuracy = correctConnectionLabels / totalConnectionLabels;
             else
                 connectionAccuracy = -1;
             end
+
         end
 
-        function [ connectionClassifierInputs ] = collectConnectionClassifierInputs(pb, hyperParams, col, row)
+        function [ scorerInputs ] = collectScorerInputs(lb, hyperParams, col, row)
             contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
-            connectionClassifierInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * pb.D + pb.NUMACTIONS, pb.B);
+            scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 1, lb.B);
 
             for pos = 1:2 * hyperParams.latticeConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
                 if (sourcePos > 0) && (sourcePos <= row + 1)
-                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = pb.features(:, :, sourcePos, row + 1);
+                    scorerInputs((pos - 1) * lb.D + 1:pos * lb.D, :) = lb.features(:, :, sourcePos, row + 1);
                 else
-                    connectionClassifierInputs((pos - 1) * pb.D + 1:pos * pb.D, :) = 0;
+                    scorerInputs((pos - 1) * lb.D + 1:pos * lb.D, :) = 0;
                 end
-                % Else: Leave in the zeros. Maybe fix replace with edge-of-sentence token? (TODO)
+                % Else: Leave in the zeros. Maybe replace with edge-of-sentence token? (TODO)
             end
-            if col > 1
-                connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = ...
-                    pb.connections(:, :, col - 1, row);
-            else
-                connectionClassifierInputs(end - pb.NUMACTIONS + 1:end, :) = 0;
-            end
+            scorerInputs(end, :) = col / row;
         end
 
         function [ wordGradients, connectionMatrixGradients, ...
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
-            getGradient(pb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
+            getGradient(lb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
             % Run backwards.
 
             contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
@@ -195,19 +211,21 @@ classdef LatticeBatch < handle
 
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
-            deltas = zeros(pb.D, pb.B, pb.N, pb.N);
+            deltas = zeros(lb.D, lb.B, lb.N, lb.N);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
-            for b = 1:pb.B
-                deltas(:, b, 1, pb.N - pb.wordCounts(b) + 1) = incomingDeltas(:, b);
+            for b = 1:lb.B
+                deltas(:, b, 1, lb.N - lb.wordCounts(b) + 1) = incomingDeltas(:, b);
             end
 
-            % Initialize some variables that will be used inside the loop.
-            deltasToConnections = zeros(pb.NUMACTIONS, pb.B);
-
             % Iterate over the structure in reverse
-            for row = 1:pb.N - 1
-                for col = row:-1:1
+            for row = 1:lb.N - 1
+                % Get the score deltas from the softmax.
+               
+                % Push these deltas into the softmax that predicts where to merge.
+                deltasToMerges = zeros(row, lb.B);
+
+                for col = 1:row
                     %% Handle composition function gradients %%
 
                     % Multiply in the three connection weights by the three inputs to the current features, 
@@ -216,21 +234,21 @@ classdef LatticeBatch < handle
                     deltas(:, :, col, row + 1) = ...
                         deltas(:, :, col, row + 1) + ...
                         bsxfun(@times, deltas(:, :, col, row), ...
-                               pb.connections(1, :, col, row));
+                               lb.connections(1, :, col, row));
                     deltas(:, :, col + 1, row + 1) = ...
                         deltas(:, :, col + 1, row + 1) + ...
                         bsxfun(@times, deltas(:, :, col, row), ...
-                               pb.connections(2, :, col, row));
+                               lb.connections(2, :, col, row));
                     compositionDeltas = ...
                         bsxfun(@times, deltas(:, :, col, row), ...
-                               pb.connections(3, :, col, row));                 
+                               lb.connections(3, :, col, row));                 
 
                     % Backprop through the composition function.
                     [ localCompositionMatrixGradients, compositionDeltaLeft, compositionDeltaRight ] = ...
-                        ComputeRNNLayerGradients(pb.features(:, :, col, row + 1), ...
-                                                 pb.features(:, :, col + 1, row + 1), ...
+                        ComputeRNNLayerGradients(lb.features(:, :, col, row + 1), ...
+                                                 lb.features(:, :, col + 1, row + 1), ...
                                                  compositionMatrix, compositionDeltas, @TanhDeriv, ...
-                                                 pb.compositionActivations(:, :, col, row));
+                                                 lb.compositionActivations(:, :, col, row));
 
                     % Add the composition gradients and deltas into the accumulators.
                     compositionMatrixGradients = compositionMatrixGradients + localCompositionMatrixGradients;
@@ -241,59 +259,66 @@ classdef LatticeBatch < handle
 
                     %% Handle connection function gradients %%
 
-                    % Multiply the deltas by the three inputs to the current features to compute deltas for the connections.
-                    deltasToConnections(1, :) = deltasToConnections(1, :) + ...
-                                                sum(deltas(:, :, col, row) .* ...
-                                                 pb.features(:, :, col, row + 1), 1);
-                    deltasToConnections(2, :) = deltasToConnections(2, :) + ...
-                                                 sum(deltas(:, :, col, row) .* ...
-                                                 pb.features(:, :, col + 1, row + 1), 1);
-                    deltasToConnections(3, :) = deltasToConnections(3, :) + ...
-                                                 sum(deltas(:, :, col, row) .* ...
-                                                 pb.compositionActivations(:, :, col, row), 1);
-                    
-                    % Compute gradients from the connection classifier wrt. the incoming deltas from above and to the right.
-                    [ localConnectionMatrixGradients, connectionDeltas ] = ...
-                        ComputeBareSoftmaxGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            deltasToConnections, pb.connectionClassifierInputs(:, :, col, row));
-                    connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
+                    if row > 1
+                        % Multiply the deltas by the three inputs to the current features to compute deltas for the connections.
+                        deltasToMerges(col + 1:row, :) = bsxfun(@plus, deltasToMerges(col + 1:row, :), ...
+                                                          sum(deltas(:, :, col, row) .* ...
+                                                              lb.features(:, :, col, row + 1), 1));
 
-                    % Compute gradients from the connection classifier wrt. the independent connection supervision signal.
-                    [ localConnectionMatrixGradients, localConnectionDeltas ] = ...
-                        ComputeSoftmaxClassificationGradients(connectionMatrix, pb.connections(:, :, col, row), ...
-                            pb.connectionLabels(:, col, row), pb.connectionClassifierInputs(:, :, col, row), hyperParams, ...
-                            pb.numNodes ./ hyperParams.connectionCostScale);
-                    connectionMatrixGradients = connectionMatrixGradients + localConnectionMatrixGradients;
+                        deltasToMerges(1:col - 1, :) =  bsxfun(@plus, deltasToMerges(1:col - 1, :), ...
+                                                        sum(deltas(:, :, col, row) .* ...
+                                                            lb.features(:, :, col + 1, row + 1), 1));
 
-                    % Rescale by the number of times supervision is being applied.
-                    connectionDeltas = connectionDeltas + localConnectionDeltas;
+                        deltasToMerges(col, :) = bsxfun(@plus, deltasToMerges(col, :), ... 
+                                                    sum(deltas(:, :, col, row) .* ...
+                                                     lb.compositionActivations(:, :, col, row), 1));
+                    end
+                end
 
-                    % Distribute the deltas from the softmax function back into its inputs.
-                    for pos = 1:2 * hyperParams.latticeConnectionContextWidth
-                        sourcePos = contextPositions(pos) + col;
-                        if sourcePos > 0 && sourcePos <= row + 1
-                            deltas(:, :, sourcePos, row + 1) = ...
-                                deltas(:, :, sourcePos, row + 1) + ...
-                                connectionDeltas((pos - 1) * pb.D + 1:pos * pb.D, :);
+                if row > 1
+                    % deltasToMerges(:, :) = bsxfun(@times, deltasToMerges(:, :), lb.activeNode(:, 1:lb.N - 1, row)');
+
+                    merges = permute(lb.connections(3, :, 1:row, row), [3, 2, 1, 4]);
+
+                    % Compute gradients for the scores wrt. the incoming deltas from above and to the right.
+                    [ ~, incomingDeltasToScores ] = ...
+                        ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row));
+
+                    % Compute gradients for the scores wrt. the independent connection supervision signal.
+                    [ ~, labelDeltasToScores ] = ...
+                            ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
+                                lb.scores(1:row, :, row), hyperParams, (lb.wordCounts - 2)' ./ hyperParams.connectionCostScale);
+
+                    deltasToScores = labelDeltasToScores + incomingDeltasToScores;
+
+                    % Overwrite 0/0 = inf deltas in short sentences.
+                    deltasToScores(:, lb.wordCounts <= 2) = 0;
+
+                    for col = 1:row
+                        % Pass the deltas through the scoring function.
+                        deltasToContext = connectionMatrix' * deltasToScores(col, :);
+                        connectionMatrixGradients = connectionMatrixGradients + (deltasToScores(col, :) * lb.scorerInputs(:, :, col, row)');
+
+                        % Distribute the deltas from the softmax function back into its inputs.
+                        for pos = 1:2 * hyperParams.latticeConnectionContextWidth
+                            sourcePos = contextPositions(pos) + col;
+                            if sourcePos > 0 && sourcePos <= row + 1
+                                deltas(:, :, sourcePos, row + 1) = ...
+                                    deltas(:, :, sourcePos, row + 1) + ...
+                                    deltasToContext((pos - 1) * lb.D + 1:pos * lb.D, :);
+                            end 
                         end
-                        if col > 1
-                            deltasToConnections = bsxfun(@times, connectionDeltas(end + 1 - pb.NUMACTIONS:end, :), ...
-                                                         permute(pb.activeNode(:, col, row), [2, 1, 3]));
-                        else
-                            deltasToConnections = zeros(pb.NUMACTIONS, pb.B);
-                        end
-                            
                     end
                 end
 
                 % Delete deltas for inactive nodes.
-                deltas(:, :, :, row + 1) = ...
-                       bsxfun(@times, deltas(:, :, :, row + 1) , ...
-                           permute(pb.activeNode(:, :, row + 1), [3, 1, 2]));
+                % deltas(:, :, :, row + 1) = ...
+                %        bsxfun(@times, deltas(:, :, :, row + 1) , ...
+                %            permute(lb.activeNode(:, :, row + 1), [3, 1, 2]));
 
                 % Scale down the deltas.
                 if hyperParams.maxDeltaNorm > 0
-                    multipliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, :, row + 1).^2)), ones(1, pb.B, pb.N));
+                    multipliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, :, row + 1).^2)), ones(1, lb.B, lb.N));
                     deltas(:, :, :, row + 1) = bsxfun(@times, deltas(:, :, :, row + 1), multipliers);
                 end
             end
@@ -301,13 +326,13 @@ classdef LatticeBatch < handle
             % Run the embedding transform layers backwards.
             if hyperParams.embeddingTransformDepth > 0
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    
-                rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, pb.B, pb.N);
-                for col = 1:pb.N
-                    transformDeltas = deltas(:, :, col, pb.N) .* pb.masks(:, :, col); % Take dropout into account
+                rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, lb.B, lb.N);
+                for col = 1:lb.N
+                    transformDeltas = deltas(:, :, col, lb.N) .* lb.masks(:, :, col); % Take dropout into account
                     [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              transformDeltas, pb.rawEmbeddings(:, :, col), ...
-                              pb.features(:, :, col, pb.N), @TanhDeriv);
+                              transformDeltas, lb.rawEmbeddings(:, :, col), ...
+                              lb.features(:, :, col, lb.N), @TanhDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
             else
@@ -317,18 +342,18 @@ classdef LatticeBatch < handle
             % Push deltas from the bottom row into the word gradients.
             % TODO: We don't need to require wordFeatures as an input, only used here.
             wordGradients = sparse([], [], [], ...
-                size(wordFeatures, 1), size(wordFeatures, 2), pb.N * pb.B);
+                size(wordFeatures, 1), size(wordFeatures, 2), lb.N * lb.B);
             if hyperParams.trainWords
-                for b = 1:pb.B
-                    for col = 1:pb.wordCounts(b)
+                for b = 1:lb.B
+                    for col = 1:lb.wordCounts(b)
                         if hyperParams.embeddingTransformDepth > 0
-                            wordGradients(:, pb.wordIndices(col, b)) = ...
-                                wordGradients(:, pb.wordIndices(col, b)) + ...
+                            wordGradients(:, lb.wordIndices(col, b)) = ...
+                                wordGradients(:, lb.wordIndices(col, b)) + ...
                                 rawEmbeddingDeltas(:, b, col);
                         else
-                            wordGradients(:, pb.wordIndices(col, b)) = ...
-                                wordGradients(:, pb.wordIndices(col, b)) + ...
-                                deltas(:, b, col, pb.N);
+                            wordGradients(:, lb.wordIndices(col, b)) = ...
+                                wordGradients(:, lb.wordIndices(col, b)) + ...
+                                deltas(:, b, col, lb.N);
                         end
                     end
                 end

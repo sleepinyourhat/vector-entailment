@@ -12,7 +12,11 @@ outDim = size(probs, 1);
 inPadded = [ones(1, B); in];
 
 % TODO: Save these between forward and backward passes
-z = matrix * inPadded;
+if ~isempty(matrix)
+	z = matrix * inPadded;
+else
+	z = in;
+end
 
 % Compute dProb / dZ
 % TODO: Vectorize more?
@@ -29,17 +33,20 @@ for ii = 1:outDim
     end
 end
 
-
 % Transpose and multiply.
-% TODO: Vectorize
 deltaZ = zeros(outDim, B);
 for b = 1:B
     deltaZ(:, b) = zGradients(:, :, b)' * deltas(:, b);
 end
-deltasDown = (matrix(:, 2:end)' * deltaZ);
 
-% Compute the matrix gradients
-matrixGradients = deltaZ * inPadded';
+if ~isempty(matrix)
+	deltasDown = (matrix(:, 2:end)' * deltaZ);
 
+	% Compute the matrix gradients
+	matrixGradients = deltaZ * inPadded';
+else
+	deltasDown = deltaZ;
+	matrixGradients = [];
+end
 
 end

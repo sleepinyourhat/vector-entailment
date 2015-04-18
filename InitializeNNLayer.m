@@ -50,7 +50,7 @@ elseif initType > 4
 end
 	
 % Add a bias column
-if depth > 0
+if depth > 0 && outdim > 1
 	matrix = [ zeros(outdim, 1, depth), matrix ];
 end
 

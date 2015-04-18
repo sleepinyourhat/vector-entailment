@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ probs, loss ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels)
+function [ probs, loss ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, active)
 % Run the softmax classifier layer forward, and compute log loss if possible. 
 
 % Note: Relation range specifies which relations are under consideration. If 
@@ -16,21 +16,41 @@ function [ probs, loss ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels)
 % labels should be a B x 1 matrix of labels if only one class set is used, or a B x 2 matrix
 % with the second column containing class set indices if multiple are used.
 
+% If the matrix is empty, we assume that the input vector already contains the appropriate features.
+
+% active should be a boolean matrix of the same size as in, idicating wheather to use that node
+% in computing the denominator. 
+
 % TODO: Support unlabeled data with multiple class sets.
 
 B = size(in, 2);
-inPadded = [ones(1, B); in];
 
-if (nargin > 3) && (size(labels, 2) == 2)
+if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 	% Multiple class set case.
 	% TODO: Vectorize and/or shuttle easy cases to other version.
 
+	if ~isempty(matrix)
+		inPadded = [ones(1, B); in];
+		D = size(matrix, 1);
+	else
+		D = size(in, 1);
+	end
+
 	loss = zeros(B, 1);
-	probs = zeros(size(matrix, 1), B); % This will be padded with zeros at the end if a shorter class set is used.
+	probs = zeros(D, B); % This will be padded with zeros at the end if a shorter class set is used.
 
 	for b = 1:B
 		relationRange = hyperParams.relationRanges{labels(b, 2)};
-		unNormedProbs = exp(matrix(relationRange, :) * inPadded(:, b));
+		if ~isempty(matrix)
+			unNormedProbs = exp(matrix(relationRange, :) * inPadded(:, b));
+		else
+			unNormedProbs = exp(in);
+		end
+
+		if nargin > 4
+			unNormedProbs = unNormedProbs .* active;
+		end
+
 		partition = sum(unNormedProbs);
 		probs(1:length(relationRange), b) = unNormedProbs / partition;
 
@@ -41,13 +61,24 @@ if (nargin > 3) && (size(labels, 2) == 2)
 	end
 else
 	% Single class set case.
-	unNormedProbs = exp(matrix * inPadded);
+	if ~isempty(matrix)
+		inPadded = [ones(1, B); in];
+		unNormedProbs = exp(matrix * inPadded) .* active;
+	else
+		unNormedProbs = exp(in) .* active;
+	end
+
+
+	if nargin > 4
+		unNormedProbs = unNormedProbs .* active;
+	end
+	
 	partitions = sum(unNormedProbs);
 	probs = bsxfun(@rdivide, unNormedProbs, partitions);
 end
 
 % If a correct class vector is provided, compute the objective function value.
-if nargin > 3
+if nargin > 3 && ~isempty(labels)
 	% Pad with ones to allow for zeros in labels, which won't contribute to cost.
 	evalprobs = [ones(1, size(probs, 2)); probs];
 	labels = labels + 1;

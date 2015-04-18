@@ -28,24 +28,35 @@ if size(labels, 2) == 2
 			delta = delta ./ numInstances(b);
 		end
 
-		if dataPointHasLabel(b)
-			matrixGradients(relationRange, :, b) = delta * inPadded(:, b)';
+		if ~isempty(matrix)
+			if dataPointHasLabel(b)
+				matrixGradients(relationRange, :, b) = delta * inPadded(:, b)';
+			end
+			deltaDown(:, b) = matrix(relationRange, :)' * delta;
+		else
+			deltaDown(:, b) = delta;
 		end
-		deltaDown(:, b) = matrix(relationRange, :)' * delta;
 	end
 else
-	delta = probs - targetprobs;
+	delta = bsxfun(@times, (probs - targetprobs), dataPointHasLabel');
+
 	if nargin > 5
 		% Scale down the deltas by numInstances (optional)
+		% TODO: Merge with product above.
 		delta = bsxfun(@rdivide, delta, permute(numInstances, [2, 1]));
 	end
 
-	matrixGradients = delta * inPadded';
-	deltaDown = matrix' * delta;
+	if ~isempty(matrix)
+		matrixGradients = delta * inPadded';
+		deltaDown = matrix' * delta;
+	else
+		deltaDown = delta;
+	end
 end
 
-% Remove bias deltas.
-deltaDown = deltaDown(2:end, :);
-
+if ~isempty(matrix)
+	% Remove bias deltas.
+	deltaDown = deltaDown(2:end, :);
+end
 
 end
