@@ -1,3 +1,5 @@
+|	 ( ( all warthogs ) walk )	 ( ( some warthogs ) ( not ( not walk ) ) )
 =	 ( ( all warthogs ) walk )	 ( ( all warthogs ) walk )
 <	 ( ( all warthogs ) walk )	 ( ( all warthogs ) ( not move ) )
 |	 ( ( all warthogs ) walk )	 ( ( some warthogs ) ( not move ) )
+|	 ( ( all warthogs ) walk )	 ( ( some warthogs ) ( not ( not move ) ) )

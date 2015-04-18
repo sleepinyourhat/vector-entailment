@@ -237,5 +237,4 @@ if computeGrad
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
 end
 
-
 end

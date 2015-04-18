@@ -27,12 +27,6 @@ for ii = 1:outDim
     end
 end
 
-for ii = 1:outDim
-    for jj = 1:outDim
-        zGradients(ii, jj, :) = probs(ii, :) .* ((ones(1, B) * (ii == jj)) - probs(jj, :));
-    end
-end
-
 % Transpose and multiply.
 deltaZ = zeros(outDim, B);
 for b = 1:B

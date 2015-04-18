@@ -49,7 +49,7 @@ classdef LatticeBatch < handle
             lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1);
-            lb.scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 1, lb.B, lb.N - 1, lb.N - 1);
+            lb.scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 2, lb.B, lb.N - 1, lb.N - 1);
             lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
             lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
             lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
@@ -103,24 +103,23 @@ classdef LatticeBatch < handle
 
             connectionCosts = zeros(lb.B, 1);
             for row = lb.N - 1:-1:1
-                % TODO: Parfor? Vectorize?
 
-                % Score each possible merge
-                if row > 1  % Choosing the best of one score is meaningless
+                % Decide where to compose.
+                if row > 1  % Choosing the best of one is meaningless
                     for col = 1:row
                         % Score each node in the row.
                         lb.scorerInputs(:, :, col, row) = lb.collectScorerInputs(hyperParams, col, row);
                         lb.scores(col, :, row) = connectionMatrix * lb.scorerInputs(:, :, col, row);
                     end
-                    % lb.scores(:, :, row) = bsxfun(@times, lb.scores(:, :, row), lb.activeNode(:, 1:lb.N - 1, row)');
 
                     % Softmax the scores.
                     [ merges, localConnectionCosts ] = ...
                         ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), lb.activeNode(:, 1:row, row)');
                     connectionCosts = connectionCosts + localConnectionCosts;
 
-                    % Zero out 0/0 NaN probabilities.
-                    merges(:, lb.wordCounts <= 2) = 0;                                        
+                    % Zero out 0/0s from inactive nodes.
+                    merges(isnan(merges)) = 0; 
+
                     lb.connections(3, :, 1:row, row) = merges';
 
                     if hyperParams.showDetailedStats
@@ -140,7 +139,9 @@ classdef LatticeBatch < handle
                     % Build the composed representation
                     compositionInputs = [ones(1, lb.B); lb.features(:, :, col, row + 1); lb.features(:, :, col + 1, row + 1)];
                     lb.compositionActivations(:, :, col, row) = tanh(compositionMatrix * compositionInputs);
+
                     % Multiply the three inputs by the three connection weights.
+                    % NOTE: This is a major bottleneck. Keep an eye out for possible speedups.
                     lb.features(:, :, col, row) = ...
                         bsxfun(@times, lb.features(:, :, col, row + 1), ...
                                        lb.connections(1, :, col, row)) + ...
@@ -149,15 +150,7 @@ classdef LatticeBatch < handle
                         bsxfun(@times, lb.compositionActivations(:, :, col, row), ...
                                        lb.connections(3, :, col, row));
                 end
-
-                % Remove features for inactive nodes.
-                % TODO: Is this still necessary?
-                %lb.features(:, :, :, row) = ...
-                %    bsxfun(@times, lb.features(:, :, :, row) , ...
-                %           permute(lb.activeNode(:, :, row), [3, 1, 2]));
             end
-
-            permute(lb.connections(3, :, :, :), [4, 3, 2, 1]);
 
             % Collect features from the tops of each tree, not the top of the feature matrix.
             topFeatures = zeros(lb.D, lb.B);
@@ -166,8 +159,10 @@ classdef LatticeBatch < handle
             end
 
             % Rescale the connection costs by the number of times supervision was applied.
-            connectionCosts(lb.wordCounts' > 2) = (connectionCosts(lb.wordCounts' > 2) ./ (lb.wordCounts(lb.wordCounts' > 2)' - 2)) .* hyperParams.connectionCostScale;
-            connectionCosts(lb.wordCounts' <= 2) = 0;
+            connectionCosts = (connectionCosts ./ (lb.wordCounts' - 2)) .* hyperParams.connectionCostScale;
+
+            % Zero out 0/0s from inactive nodes.
+            connectionCosts(isnan(connectionCosts)) = 0;
 
             if ~trainingMode   
                 % Temporary display method.
@@ -180,12 +175,13 @@ classdef LatticeBatch < handle
             else
                 connectionAccuracy = -1;
             end
-
         end
 
         function [ scorerInputs ] = collectScorerInputs(lb, hyperParams, col, row)
+            % TODO: Can we replace this by doing a kind of convolution over the features in place?
+
             contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
-            scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 1, lb.B);
+            scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 2, lb.B);
 
             for pos = 1:2 * hyperParams.latticeConnectionContextWidth
                 sourcePos = contextPositions(pos) + col;
@@ -196,7 +192,8 @@ classdef LatticeBatch < handle
                 end
                 % Else: Leave in the zeros. Maybe replace with edge-of-sentence token? (TODO)
             end
-            scorerInputs(end, :) = col / row;
+            scorerInputs(end - 1, :) = col / row;
+            scorerInputs(end, :) = col;
         end
 
         function [ wordGradients, connectionMatrixGradients, ...
@@ -291,8 +288,8 @@ classdef LatticeBatch < handle
 
                     deltasToScores = labelDeltasToScores + incomingDeltasToScores;
 
-                    % Overwrite 0/0 = inf deltas in short sentences.
-                    deltasToScores(:, lb.wordCounts <= 2) = 0;
+                    % Overwrite 0/0 deltas from inactive nodes.
+                    deltasToScores(isnan(deltasToScores)) = 0;
 
                     for col = 1:row
                         % Pass the deltas through the scoring function.
@@ -310,11 +307,6 @@ classdef LatticeBatch < handle
                         end
                     end
                 end
-
-                % Delete deltas for inactive nodes.
-                % deltas(:, :, :, row + 1) = ...
-                %        bsxfun(@times, deltas(:, :, :, row + 1) , ...
-                %            permute(lb.activeNode(:, :, row + 1), [3, 1, 2]));
 
                 % Scale down the deltas.
                 if hyperParams.maxDeltaNorm > 0
