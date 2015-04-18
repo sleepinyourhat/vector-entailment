@@ -1,14 +1,12 @@
 \section{Jointly learning syntactic parsing and semantic composition}
 
+
 \subsection{Why joint learning?}
 
-% tree and sequences have both been competitive, tree structures useful in some domains, but in many cases they are superceded by strong sequence models.
+Sentence embedding methods like LSTMs and tree-structured RNNs have have rapidly become a standard tool in natural language processing tasks involving sentence meaning (TODO: Cite). These methods are generally built up out of standard neural network components, making it possible to learn them with minimal domain knowledge. They are also generally compositional, in that they build up their representations incrementally in a way that involves creating explicit representations for pieces of sentences. There is not yet any single model that is known to produce high-quality representations across domains, and one of the major open issues in the development of these models is the degree to which syntactic tree structures provide them with usable information that could not be efficiently extracted without them.
 
-% our hypothesis: (i) natural language has compositional structure that can be exploited by representation learning models (ii) there is no guarantee that standard syntactic formalisms are especially well suited for this purpose
+Our hypothesis on this issue is in two parts. (i) As is near-universally accepted in the language sciences, central components of natural language meaning are constructed compositionally according to regular tree structures in which each node in the tree structure for a sentence has an interpretable meaning derivable from the meanings of its children. Representation learning systems can learn more effectively by taking advantage of this fact. (ii) The syntactic structures used by typical software parsers do not reliably match the true tree structures underlying the construction of meaning for several reasons, even when those parsers are functioning correctly. In light of these two points, we propose a class of models which simultaneously learn to parse natural language sentences and to create compositional semantic representations using those parse structures, and can do this using supervision from both a downstream semantic task like sentiment classification and, when appropriate a syntactic parser. Such a model then serve both as a parser which is tuned so as to be optimally supportive of the construction of sentence meaning, as a function to construct representations of sentence meaning.
 
-% new model, jointly learn syn and sem
-
-\subsection{Model definition}
 
 \begin{figure}[tp]
   \centering\small
@@ -17,6 +15,31 @@
         \caption{The connection structure of a LatticeNN. The correct binary parse tree for the example sentence, projected onto a lattice with the left-first rule, is shown in the bolded arrows.}
   \label{lattice-fig1}
 \end{figure}
+
+
+If our hypothesis is correct, and our models succeed at their goals, two important objectives will be served. The first is an engineering objective: our sentence embedding model will exploit compositional structure in the most effective way possible, producing better sentence representations that would have been possible otherwise. The second is a scientific objective: by learning a syntax optimal for semantic composition, we have a new source of information about humans might take advantage of syntactic structure in understanding natural language. This research is becoming possible only now, as it depends on both the tools (both software and hardware) for effectively training large neural networks that are only now becoming available, as well as on the availability of large volumes of natural language sentences annotated with explicit information about sentence meaning that are only now being collected.
+
+\paragraph{What's wrong with existing parsers?} One source of error is obvious: the parsers that are typically used to generate constituency or dependency structures for sentences are built around statistical machine learning systems trained on data that reflects only a fraction of the massive diversity of natural language, and a certain amount of error from both underfitting and overfitting is essentially unavoidable in this context. This is not, at least primarily, the kind of error that we aim to avoid. Our interest is in two other sources of error: cases of \textbf{syntax-semantics mismatch} where even the correct syntactic parse under the relevant formalism does not express the way in which meanings are constructed, and cases of \textbf{syntactic ambiguity} where there are multiple syntactically correct tree structures, and where choosing only one of them would mask a genuine ambiguity in meaning.
+
+% TODO: Example constructions for each!
+
+\subsection{Parsing in lattices} 
+
+In this section, we propose a simple framework for syntactic parsing that lends itself joint learning. It is centered around a triangular lattice structure of the kind shown in Fig.~\ref{lattice-fig1}. In the lattice, every node in the bottom row contains a vector representation for a single word, the top node contains a vector representation of the whole sentence (of the same dimension), and every intermediate node contains a vector representation of some subset of the sentence.
+
+\begin{figure}[tp]
+  \centering\small
+ 	\input{lattice_fig_bad.tex}
+
+        \caption{The correct binary parse tree for the example sentence, projected onto a lattice \textit{without} the left-first rule.}
+  \label{lattice-fig1}
+\end{figure}
+
+
+
+\subsection{Model definition}
+
+
 
 To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two steps. In the first step, we produce a distribution $\vec{o}$ over the operations \{\textsc{copy-L, copy-R, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
 
@@ -89,3 +112,5 @@ Parameter gradients can then be computed using standard backpropagation through 
 Batching
 
 % Possible supervision backoff proposal
+
+\subsection{Related work}
