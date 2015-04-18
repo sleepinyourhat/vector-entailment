@@ -5,10 +5,9 @@ classdef Lattice < handle
     properties
         wordIndices = [];  % The embedding matrix index for each word 
         wordCount = -1;  % The number of words in the sequence.
-        connectionLabels = []  % optional matrix of correct connection types at each position
-                                 % 1 := Copy left child.
-                                 % 2 := Copy right child.
-                                 % 3 := Compose left and right children.
+        connectionLabels = []  % optional N-1 x 1 vector indicating, for each row,
+                               % which node at that row shuold do composition.
+        legConnectionLabels = [];
         activeNode = [] % Lower triangular matrix of ones indicating which positions are part of the
                         % triangular lattice structure and which are just meaningless positions left 
                         % in to create a square matrix.
@@ -16,8 +15,8 @@ classdef Lattice < handle
     end
     
     methods(Static)
-        function p = makeLattice(iText, wordMap)
-            p = Lattice();
+        function l = makeLattice(iText, wordMap)
+            l = Lattice();
 
             terms = textscan(iText, '%s', 'delimiter', ' ');
 
@@ -27,55 +26,38 @@ classdef Lattice < handle
 
             if length(terms{1}{1}) == 1
                 % Normal parse tree mode
-                p.wordCount = (length(terms{1}) + 2) / 3;  % Works for all binary parse trees.
+                l.wordCount = (length(terms{1}) + 2) / 3;  % Works for all binary parse trees.
             elseif length(terms{1}{1}) == 2
                 % SST mode
-                p.wordCount = (length(terms{1}) + 2) / 5;  % Works for all binary parse trees.
+                l.wordCount = (length(terms{1}) + 2) / 5;  % Works for all binary parse trees.
+            elseif length(terms) == 1
+                l.wordCount = 1;
             else
                 assert(false, ['Bad first element in parse string:' iText]);
             end
                 
-
             % TODO: Handle unparsed sequences.
-            % TODO: Debug for SST.
 
-            p.wordIndices = zeros(p.wordCount, 1);
-            p.connectionLabels = zeros(p.wordCount - 1, p.wordCount - 1);
-            p.activeNode = zeros(p.wordCount, p.wordCount);
-            p.text = iText;
+            l.wordIndices = zeros(l.wordCount, 1);
+            l.connectionLabels = zeros(l.wordCount - 1, 1);
+            l.activeNode = tril(ones(l.wordCount), 0);
+            l.text = iText;
 
             % Load the words and the tree structure.
             % TODO: Set up an option to treat parentheses as words as well as as connection supervision.
-            depth = p.wordCount;
+            depth = l.wordCount;
             mergeCount = 0;
             wordIndex = 0;  % The number of words that have been loaded.
             for t = 1:length(terms{1})
                 % Mark the merge in the tree structure if this is a binary constituent.
                 if strncmpi(terms{1}{t}, ')', 1) && ~strncmpi(terms{1}{t - 2}, '(', 1)
-                    p.connectionLabels(depth - 1, wordIndex - 1 - mergeCount) = 3;
+                    l.connectionLabels(depth - 1) = wordIndex - 1 - mergeCount;
                     depth = depth - 1;
                     mergeCount = mergeCount + 1;
                 elseif ~strncmpi(terms{1}{t}, '(', 1) && ~strncmpi(terms{1}{t}, ')', 1)
                     % We have an actual word. Get its embedding index. (Beware: the word "index" is overloaded.)
                     wordIndex = wordIndex + 1;
-                    p.wordIndices(wordIndex) = Lattice.wordLookup(terms{1}{t}, wordMap);
-                end
-            end
-
-            % Fill all of the connection labels.
-            for depth = 1:p.wordCount
-                seen = 0;
-                for index = 1:depth
-                    if depth < p.wordCount
-                        if p.connectionLabels(depth, index) == 3
-                            seen = 1;
-                        elseif seen == 0
-                            p.connectionLabels(depth, index) = 1;
-                        else
-                            p.connectionLabels(depth, index) = 2;
-                        end
-                    end
-                    p.activeNode(depth, index) = 1;
+                    l.wordIndices(wordIndex) = Lattice.wordLookup(terms{1}{t}, wordMap);
                 end
             end
         end

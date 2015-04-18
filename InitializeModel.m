@@ -62,8 +62,7 @@ if hyperParams.useThirdOrderComposition && ~hyperParams.useLattices
 elseif hyperParams.useLattices
   % To keep stacking and unstacking simple, we overload this parameter name for the 
   % connection chosing layer in the lattice model.
-    NUMACTIONS = 3;
-    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth) * DIM + NUMACTIONS, NUMACTIONS, 1, hyperParams.NNinitType);
+    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth) * DIM + 1, 1, 1, hyperParams.NNinitType);
 else
     compositionMatrices = [];
 end
