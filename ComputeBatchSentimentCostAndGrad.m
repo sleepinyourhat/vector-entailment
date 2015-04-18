@@ -5,6 +5,8 @@ function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchSe
 
 % NOTE: This is reasonably well optimized. The time complexity here lies almost entirely within the batch objects in normal cases.
 
+tic
+
 B = length(data);  % Batch size.
 
 % Unpack theta
@@ -176,5 +178,6 @@ if computeGrad
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
 end
 
+toc
 
 end
