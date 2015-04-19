@@ -83,8 +83,7 @@ elseif composition == 4
   hyperParams.parensInSequences = 0;
 end
 
-hyperParams.loadWords = false;
-'NOWORDS'
+hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;

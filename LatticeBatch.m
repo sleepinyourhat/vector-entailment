@@ -18,7 +18,6 @@ classdef LatticeBatch < handle
         masks = [];  % Same structure as the bottom row of features, but contains dropout masks for the embedding transform layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
-        scorerInputs = [];  % Inputs to the connection classifier, not computed separately, but stored to minimize runtime.
         scores = [];  % The inputs to the connection softmax at each row.
         connections = [];  % The length-3 vectors of weights for the three connection types at each position in the lattice.
                            % Has no bottom (word) layer.
@@ -49,7 +48,6 @@ classdef LatticeBatch < handle
             lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1);
-            lb.scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 2, lb.B, lb.N - 1, lb.N - 1);
             lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
             lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
             lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
@@ -80,7 +78,6 @@ classdef LatticeBatch < handle
         function [ topFeatures, connectionCosts, connectionAccuracy ] = ...
             runForward(lb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
 
-
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:lb.N
@@ -90,9 +87,9 @@ classdef LatticeBatch < handle
                 end
 
                 % Remove features for inactive nodes.
-                % lb.features(:, :, :, lb.N) = ...
-                %     bsxfun(@times, lb.features(:, :, :, lb.N) , ...
-                %            permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
+                lb.features(:, :, :, lb.N) = ...
+                    bsxfun(@times, lb.features(:, :, :, lb.N) , ...
+                           permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
             end
 
             % Prepare to compute connection accuracy.
@@ -102,14 +99,23 @@ classdef LatticeBatch < handle
             end
 
             connectionCosts = zeros(lb.B, 1);
+            contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
             for row = lb.N - 1:-1:1
 
                 % Decide where to compose.
-                if row > 1  % Choosing the best of one is meaningless
+                if row > 1  % Choosing the best of one is meaningless.
+                    % Precompute a padded version of the features.
+                    paddedRow = padarray(lb.features(:, :, :, row + 1), [1, 0, hyperParams.latticeConnectionContextWidth - 1]);
+
+                    % We only need to pad at the bottom, to handle the column index features.
+                    paddedRow = paddedRow(2:end, :, :);
+
                     for col = 1:row
                         % Score each node in the row.
-                        lb.scorerInputs(:, :, col, row) = lb.collectScorerInputs(hyperParams, col, row);
-                        lb.scores(col, :, row) = connectionMatrix * lb.scorerInputs(:, :, col, row);
+                        scorerInputs = paddedRow(:, :, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1);
+                        scorerInputs(end, :, 1) = col;
+                        scorerInputs(end, :, 2) = (1.0 .* col) / row;
+                        lb.scores(col, :, row) = sum(sum(bsxfun(@times, permute(connectionMatrix, [1, 3, 2]), scorerInputs), 1), 3);
                     end
 
                     % Softmax the scores.
@@ -291,10 +297,19 @@ classdef LatticeBatch < handle
                     % Overwrite 0/0 deltas from inactive nodes.
                     deltasToScores(isnan(deltasToScores)) = 0;
 
+                    % Precompute a padded version of the features.
+                    paddedRow = padarray(lb.features(:, :, :, row + 1), [1, 0, hyperParams.latticeConnectionContextWidth - 1]);
+
+                    % We only need to pad at the bottom, to handle the column index features.
+                    paddedRow = paddedRow(2:end, :, :);
+
                     for col = 1:row
-                        % Pass the deltas through the scoring function.
-                        deltasToContext = connectionMatrix' * deltasToScores(col, :);
-                        connectionMatrixGradients = connectionMatrixGradients + (deltasToScores(col, :) * lb.scorerInputs(:, :, col, row)');
+                        scorerInputs = paddedRow(:, :, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1);
+                        scorerInputs(end, :, 1) = col;
+                        scorerInputs(end, :, 2) = (1.0 .* col) / row;
+                        deltasToContext = bsxfun(@times, permute(connectionMatrix, [1, 3, 2]), deltasToScores(col, :));
+                        connectionMatrixGradients = connectionMatrixGradients + ...
+                                permute(sum(bsxfun(@times, scorerInputs, deltasToScores(col, :)), 2), [1, 3, 2]);
 
                         % Distribute the deltas from the softmax function back into its inputs.
                         for pos = 1:2 * hyperParams.latticeConnectionContextWidth
@@ -302,7 +317,7 @@ classdef LatticeBatch < handle
                             if sourcePos > 0 && sourcePos <= row + 1
                                 deltas(:, :, sourcePos, row + 1) = ...
                                     deltas(:, :, sourcePos, row + 1) + ...
-                                    deltasToContext((pos - 1) * lb.D + 1:pos * lb.D, :);
+                                    deltasToContext(1:end - 1, :, pos);
                             end 
                         end
                     end
