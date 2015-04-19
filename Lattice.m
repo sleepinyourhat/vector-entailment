@@ -22,20 +22,22 @@ classdef Lattice < handle
 
             % Parsed sequence case.
             assert(length(terms) == 1 || strncmpi(terms{1}{1}, '(', 1) && strncmpi(terms{1}{end}, ')', 1), ...
-                   'Input strings must be parsed, and must include the outermost parens.');
+                   ['Input strings must be parsed, and must include the outermost parens: ', iText]);
 
             if length(terms{1}{1}) == 1
                 % Normal parse tree mode
                 l.wordCount = (length(terms{1}) + 2) / 3;  % Works for all binary parse trees.
-            elseif length(terms{1}{1}) == 2
+            elseif length(terms{1}{1}) == 2 && strncmpi(terms{1}{1}, '(', 1)
                 % SST mode
-                l.wordCount = (length(terms{1}) + 2) / 5;  % Works for all binary parse trees.
+                l.wordCount = (length(terms{1}) + 2) / 5;  % Works for all binary parse trees with unary word wrappers.
             elseif length(terms) == 1
                 l.wordCount = 1;
             else
-                assert(false, ['Bad first element in parse string:' iText]);
+                assert(false, ['Bad first element in parse string: ' iText]);
             end
                 
+            assert(~mod(l.wordCount, 1), ['Parse failure: ' iText])
+
             % TODO: Handle unparsed sequences.
 
             l.wordIndices = zeros(l.wordCount, 1);
