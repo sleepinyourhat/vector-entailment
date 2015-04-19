@@ -1,4 +1,4 @@
-function matrix = InitializeNNLayer(indim, outdim, depth, initType)
+function matrix = InitializeNNLayer(indim, outdim, depth, initType, useBias)
 
 % Not currently set up for ReLU
 relu = 0;
@@ -50,7 +50,7 @@ elseif initType > 4
 end
 	
 % Add a bias column
-if depth > 0 && outdim > 1
+if depth > 0 && (nargin < 5 || useBias)
 	matrix = [ zeros(outdim, 1, depth), matrix ];
 end
 

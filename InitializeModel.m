@@ -60,9 +60,11 @@ if hyperParams.useThirdOrderComposition && ~hyperParams.useLattices
         compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
     end
 elseif hyperParams.useLattices
-  % To keep stacking and unstacking simple, we overload this parameter name for the 
-  % connection chosing layer in the lattice model.
-    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth) * DIM + 2, 1, 1, hyperParams.NNinitType);
+    % To keep stacking and unstacking simple, we overload this parameter name for the 
+    % connection chosing layer in the lattice model.
+
+    % This is not a proper NN layer - just a filter that will be .*'d with a clump of features and summed.
+    compositionMatrices = InitializeNNLayer(2 * hyperParams.latticeConnectionContextWidth, DIM + 1, 1, hyperParams.NNinitType, 0);
 else
     compositionMatrices = [];
 end
