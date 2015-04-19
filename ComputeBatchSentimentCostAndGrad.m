@@ -5,9 +5,15 @@ function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchSe
 
 % NOTE: This is reasonably well optimized. The time complexity here lies almost entirely within the batch objects in normal cases.
 
-tic
-
 B = length(data);  % Batch size.
+
+if (nargin < 6 || computeGrad) && nargout > 1
+    computeGrad = 1;
+else
+    computeGrad = 0;
+    grad = [];
+    embGrad = [];
+end
 
 % Unpack theta
 [ ~, ~, ...
@@ -85,14 +91,6 @@ for b = 1:B
     end
 end
 acc = (accumulatedSuccess / B);
-
-if (nargin < 6 || computeGrad) && nargout > 1
-    computeGrad = 1;
-else
-    computeGrad = 0;
-    grad = [];
-    embGrad = [];
-end
 
 % Compute the gradients.
 if computeGrad
@@ -177,7 +175,5 @@ if computeGrad
 
     assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
 end
-
-toc
 
 end

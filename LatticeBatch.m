@@ -315,6 +315,12 @@ classdef LatticeBatch < handle
             if hyperParams.embeddingTransformDepth > 0
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    
                 rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, lb.B, lb.N);
+
+                % Remove deltas for inactive nodes.
+                deltas(:, :, :, lb.N) = ...
+                    bsxfun(@times, deltas(:, :, :, lb.N) , ...
+                           permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
+
                 for col = 1:lb.N
                     transformDeltas = deltas(:, :, col, lb.N) .* lb.masks(:, :, col); % Take dropout into account
                     [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...

@@ -125,7 +125,7 @@ hyperParams.maxGradNorm = 5;
 % In batch learning, deltas above this *squared* l2 norm will be rescaled down.
 hyperParams.maxDeltaNorm = 1e-1;
 
-hyperParams.connectionCostScale = 1;
+hyperParams.connectionCostScale = 0.1;
 
 %%% minFunc options: %%%
 

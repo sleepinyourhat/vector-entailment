@@ -9,13 +9,12 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth), '-pen', num2str(penult), ...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-ws', num2str(wordsource),...
     '-par', num2str(parens), '-comp', num2str(composition), ...
-    '-cc', num2str(conCost)];
+    '-ccon', num2str(conCost)];
 
 
 %%
 
-hyperParams.connectionCostScale = conCost;
-
+hyperParams.latticeConnectionContextWidth = conCost;
 
 %%
 

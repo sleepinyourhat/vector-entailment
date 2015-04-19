@@ -7,6 +7,15 @@ function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchEn
 
 B = length(data);  % Batch size.
 
+
+if (nargin < 6 || computeGrad) && nargout > 1
+    computeGrad = 1;
+else
+    computeGrad = 0;
+    grad = [];
+    embGrad = [];
+end
+
 % Unpack theta
 [ mergeMatrices, mergeMatrix, ...
     softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
@@ -101,14 +110,6 @@ for b = 1:B
 end
 
 acc = (accumulatedSuccess / B);
-
-if (nargin < 6 || computeGrad) && nargout > 1
-    computeGrad = 1;
-else
-    computeGrad = 0;
-    grad = [];
-    embGrad = [];
-end
 
 % Compute the gradients.
 if computeGrad
