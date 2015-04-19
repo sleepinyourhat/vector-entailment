@@ -130,8 +130,8 @@ export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult
 
 
 
-cd quant; lambda = 0.000001; dim = 45; ed = 50; td = 2; penult = 75; dropout = [0.5, 0.5]; tot = 2; collo = 2; dataflag='snli095-only'; name='/scr/sbowman/snli095-prof'; 
-TrainModel('', 1, @SNLI, name, dataflag, ed, dim, td, penult, lambda, tot, dropout(1), dropout(2), collo, 1, 1)
+cd quant; lambda = 0.000001; dim = 45; ed = 50; td = 2; penult = 75; dropout = [0.5, 0.5]; tot = 4; collo = 2; dataflag='snli095-only'; name='/scr/sbowman/snli095-prof-b'; 
+TrainModel('', 1, @SNLI, name, dataflag, ed, dim, td, penult, lambda, tot, dropout(1), dropout(2), collo, 1)
 
 
 
