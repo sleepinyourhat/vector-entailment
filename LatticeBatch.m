@@ -183,25 +183,6 @@ classdef LatticeBatch < handle
             end
         end
 
-        function [ scorerInputs ] = collectScorerInputs(lb, hyperParams, col, row)
-            % TODO: Can we replace this by doing a kind of convolution over the features in place?
-
-            contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
-            scorerInputs = zeros((2 * hyperParams.latticeConnectionContextWidth) * lb.D + 2, lb.B);
-
-            for pos = 1:2 * hyperParams.latticeConnectionContextWidth
-                sourcePos = contextPositions(pos) + col;
-                if (sourcePos > 0) && (sourcePos <= row + 1)
-                    scorerInputs((pos - 1) * lb.D + 1:pos * lb.D, :) = lb.features(:, :, sourcePos, row + 1);
-                else
-                    scorerInputs((pos - 1) * lb.D + 1:pos * lb.D, :) = 0;
-                end
-                % Else: Leave in the zeros. Maybe replace with edge-of-sentence token? (TODO)
-            end
-            scorerInputs(end - 1, :) = col / row;
-            scorerInputs(end, :) = col;
-        end
-
         function [ wordGradients, connectionMatrixGradients, ...
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
             getGradient(lb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
