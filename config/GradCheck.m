@@ -78,6 +78,12 @@ hyperParams.clipGradients = false;
 hyperParams.maxGradNorm = inf;
 hyperParams.maxDeltaNorm = inf;
 
+
+% If set, weight the supervision higher in the lattice by the product of the probabilities 
+% of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
+% This is defined in a way that is guaranteed to cause the gradient check to fail.
+hyperParams.latticeLocalCurriculum = false;
+
 % Turn off regularization to more clearly show patterns in the main gradinets.
 hyperParams.lambda = 0;
 

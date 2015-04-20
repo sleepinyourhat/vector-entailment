@@ -24,6 +24,7 @@ classdef LatticeBatch < handle
         connectionLabels = [];  % The optional correct connection type (in {1, 2, 3}) for each position in the lattice.
         activeNode = [];  % Triangular boolean matrix for each batch entry indicating whether each position 
                           % is within the lattice structure for that entry.
+        supervisionWeights = [];  % Multiplicative weighting factors to apply to the cost/gradient for connections.
     end
    
     methods(Static)
@@ -52,6 +53,8 @@ classdef LatticeBatch < handle
             lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
             lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
             lb.activeNode = zeros(lb.B, lb.N, lb.N);
+            lb.supervisionWeights = ones(lb.B, lb.N);
+
 
             % Copy data in from the individual batch entries.
             for b = 1:lb.B
@@ -95,7 +98,7 @@ classdef LatticeBatch < handle
             % Prepare to compute connection accuracy.
             if hyperParams.showDetailedStats
                 correctConnectionLabels = 0;
-                totalConnectionLabels = sum(lb.wordCounts - 2);
+                totalConnectionLabels = sum(max(0, lb.wordCounts - 2));
             end
 
             connectionCosts = zeros(lb.B, 1);
@@ -119,18 +122,23 @@ classdef LatticeBatch < handle
                     end
 
                     % Softmax the scores.
-                    [ merges, localConnectionCosts ] = ...
+                    [ merges, localConnectionCosts, probCorrect ] = ...
                         ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), lb.activeNode(:, 1:row, row)');
-                    connectionCosts = connectionCosts + localConnectionCosts;
 
                     % Zero out 0/0s from inactive nodes.
                     merges(isnan(merges)) = 0; 
-
                     lb.connections(3, :, 1:row, row) = merges';
+
+                    if hyperParams.latticeLocalCurriculum
+                        connectionCosts = connectionCosts .* lb.supervisionWeights(:, row);
+                        lb.supervisionWeights(:, row - 1) = probCorrect .* lb.supervisionWeights(:, row);
+                    end
+
+                    connectionCosts = connectionCosts + localConnectionCosts;
 
                     if hyperParams.showDetailedStats
                         [ ~, preds ] = max(lb.connections(3, :, :, row), [], 3);
-                        correctConnectionLabels = correctConnectionLabels + sum(preds' == lb.connectionLabels(:, row));
+                        correctConnectionLabels = correctConnectionLabels + sum((preds' == lb.connectionLabels(:, row)) .* lb.activations(:, 2, row));
                     end
                 else
                     lb.connections(3, :, 1, row) = 1;
@@ -271,7 +279,7 @@ classdef LatticeBatch < handle
                     % Compute gradients for the scores wrt. the independent connection supervision signal.
                     [ ~, labelDeltasToScores ] = ...
                             ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
-                                lb.scores(1:row, :, row), hyperParams, (lb.wordCounts - 2)' ./ hyperParams.connectionCostScale);
+                                lb.scores(1:row, :, row), hyperParams, (lb.wordCounts - 2)' ./ (hyperParams.connectionCostScale .* lb.supervisionWeights(:, row)));
 
                     deltasToScores = labelDeltasToScores + incomingDeltasToScores;
 

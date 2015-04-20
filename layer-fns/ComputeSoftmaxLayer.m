@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ probs, loss ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, active)
+function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, active)
 % Run the softmax classifier layer forward, and compute log loss if possible. 
 
 % Note: Relation range specifies which relations are under consideration. If 
@@ -72,7 +72,7 @@ else
 	if nargin > 4
 		unNormedProbs = unNormedProbs .* active;
 	end
-	
+
 	partitions = sum(unNormedProbs);
 	probs = bsxfun(@rdivide, unNormedProbs, partitions);
 end
@@ -82,9 +82,11 @@ if nargin > 3 && ~isempty(labels)
 	% Pad with ones to allow for zeros in labels, which won't contribute to cost.
 	evalprobs = [ones(1, size(probs, 2)); probs];
 	labels = labels + 1;
-	loss = -log(evalprobs(sub2ind(size(evalprobs), labels(:, 1), (1:size(labels, 1))')));
-else
-	loss = 0;
+	probCorrect = evalprobs(sub2ind(size(evalprobs), labels(:, 1), (1:size(labels, 1))'));
+	loss = -log(probCorrect);
+elseif nargout > 1
+	probCorrect = ones(B, 1);
+	loss = -log(probCorrect);
 end
 
 end

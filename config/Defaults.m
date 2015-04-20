@@ -33,7 +33,11 @@ hyperParams.useCompatibilityInitialization = false;
 % How far *in each direction* should the connection classifier in a Lattice model look.
 % Setting this to 1 means to only use the immediate left and right composition inputs with no
 % additional context.
-hyperParams.latticeConnectionContextWidth = 4;
+hyperParams.latticeConnectionContextWidth = 5;
+
+% If set, weight the supervision higher in the lattice by the product of the probabilities 
+% of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
+hyperParams.latticeLocalCurriculum = false;
 
 % The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when
