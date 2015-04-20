@@ -7,7 +7,6 @@ function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchEn
 
 B = length(data);  % Batch size.
 
-
 if (nargin < 6 || computeGrad) && nargout > 1
     computeGrad = 1;
 else
