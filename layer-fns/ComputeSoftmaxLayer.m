@@ -85,7 +85,7 @@ if nargin > 3 && ~isempty(labels)
 	probCorrect = evalprobs(sub2ind(size(evalprobs), labels(:, 1), (1:size(labels, 1))'));
 	loss = -log(probCorrect);
 elseif nargout > 1
-	probCorrect = ones(B, 1);
+	probCorrect = ones(1, B);
 	loss = -log(probCorrect);
 end
 
