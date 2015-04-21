@@ -35,9 +35,11 @@ hyperParams.useCompatibilityInitialization = false;
 % additional context.
 hyperParams.latticeConnectionContextWidth = 5;
 
+hyperParams.latticeConnectionHiddenDim = 6;
+
 % If set, weight the supervision higher in the lattice by the product of the probabilities 
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
-hyperParams.latticeLocalCurriculum = false;
+hyperParams.latticeLocalCurriculum = true;
 
 % The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when

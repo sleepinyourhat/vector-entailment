@@ -65,7 +65,7 @@ classdef SequenceBatch < handle
     end
 
     methods
-        function [ endFeatures, connectionCosts, connectionAcc ] = runForward(sb, embeddingTransformMatrix, ~, compositionMatrix, hyperParams, trainingMode)
+        function [ endFeatures, connectionCosts, connectionAcc ] = runForward(sb, embeddingTransformMatrix, ~, ~, compositionMatrix, hyperParams, trainingMode)
             % Run the optional embedding transformation layer forward.
             % Recomputes features using fresh parameters.
 
@@ -112,9 +112,9 @@ classdef SequenceBatch < handle
             endFeatures = sb.features(:, :, sb.N);
         end
 
-        function [ wordGradients, connectionMatrixGradients, ...
+        function [ wordGradients, connectionMatrixGradients, scoringVectorGradients, ...
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
-            getGradient(sb, deltaH, wordFeatures, embeddingTransformMatrix, ~, compositionMatrix, hyperParams)
+            getGradient(sb, deltaH, wordFeatures, embeddingTransformMatrix, ~, ~, compositionMatrix, hyperParams)
             % Run backwards.
 
             LSTM = size(compositionMatrix, 1) > size(compositionMatrix, 2);
@@ -129,6 +129,7 @@ classdef SequenceBatch < handle
             end
 
             connectionMatrixGradients = []; 
+            scoringVectorGradients = [];
             compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2), size(compositionMatrix, 3));           
             embeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM + 1, NUMTRANS);
             wordGradients = sparse([], [], [], ...
