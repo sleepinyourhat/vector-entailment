@@ -79,7 +79,7 @@ classdef LatticeBatch < handle
 
     methods
         function [ topFeatures, connectionCosts, connectionAccuracy ] = ...
-            runForward(lb, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams, trainingMode)
+            runForward(lb, embeddingTransformMatrix, connectionMatrix, scoringVector, compositionMatrix, hyperParams, trainingMode)
 
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
@@ -115,10 +115,15 @@ classdef LatticeBatch < handle
 
                     for col = 1:row
                         % Score each node in the row.
+                        % Dimensions: D+1, B, 2*contextWidth
                         scorerInputs = paddedRow(:, :, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1);
                         scorerInputs(end, :, 1) = col;
                         scorerInputs(end, :, 2) = (1.0 .* col) / row;
-                        lb.scores(col, :, row) = sum(sum(bsxfun(@times, permute(connectionMatrix, [1, 3, 2]), scorerInputs), 1), 3);
+                        scorerInputs(end, :, 3) = 1;
+
+                        % Dimensions: hiddenD, B
+                        connectionHiddenLayer = tanh(permute(sum(sum(bsxfun(@times, permute(connectionMatrix, [1, 4, 2, 3]), scorerInputs), 1), 3), [4, 2, 3, 1]));
+                        lb.scores(col, :, row) = scoringVector * [ones(1, lb.B); connectionHiddenLayer];
                     end
 
                     % Softmax the scores.
@@ -138,13 +143,12 @@ classdef LatticeBatch < handle
 
                     if hyperParams.showDetailedStats
                         [ ~, preds ] = max(lb.connections(3, :, :, row), [], 3);
-                        correctConnectionLabels = correctConnectionLabels + sum((preds' == lb.connectionLabels(:, row)) .* lb.activations(:, 2, row));
+                        correctConnectionLabels = correctConnectionLabels + sum((preds' == lb.connectionLabels(:, row)) .* lb.activeNode(:, 2, row));
                     end
                 else
                     lb.connections(3, :, 1, row) = 1;
                 end
 
-                % TODO: Parfor?
                 for col = 1:row
                     % Compute the rest of the connection weights.
                     lb.connections(1, :, col, row) = sum(lb.connections(3, :, col + 1:row, row), 3);
@@ -191,13 +195,14 @@ classdef LatticeBatch < handle
             end
         end
 
-        function [ wordGradients, connectionMatrixGradients, ...
+        function [ wordGradients, connectionMatrixGradients, scoringVectorGradients, ...
                    compositionMatrixGradients, embeddingTransformMatrixGradients ] = ...
-            getGradient(lb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, compositionMatrix, hyperParams)
+            getGradient(lb, incomingDeltas, wordFeatures, embeddingTransformMatrix, connectionMatrix, scoringVector, compositionMatrix, hyperParams)
             % Run backwards.
 
             contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
-            connectionMatrixGradients = zeros(size(connectionMatrix, 1), size(connectionMatrix, 2));
+            connectionMatrixGradients = zeros(size(connectionMatrix, 1), size(connectionMatrix, 2), size(connectionMatrix, 3));
+            scoringVectorGradients = zeros(size(scoringVector, 1), size(scoringVector, 2));
             compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2));
             % Initialize delta matrix with the incoming deltas in the right places.
 
@@ -296,9 +301,28 @@ classdef LatticeBatch < handle
                         scorerInputs = paddedRow(:, :, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1);
                         scorerInputs(end, :, 1) = col;
                         scorerInputs(end, :, 2) = (1.0 .* col) / row;
-                        deltasToContext = bsxfun(@times, permute(connectionMatrix, [1, 3, 2]), deltasToScores(col, :));
+                        scorerInputs(end, :, 3) = 1;
+
+                        % TODO: Save
+
+                        % Dimensions: hiddenD, B
+                        connectionHiddenLayer = tanh(permute(sum(sum(bsxfun(@times, permute(connectionMatrix, [1, 4, 2, 3]), scorerInputs), 1), 3), [4, 2, 3, 1]));
+                        
+                        % Dimensions: hiddenD, B
+                        scorerInput = [ones(1, lb.B); connectionHiddenLayer];
+
+                        % Dimensions: hiddenD + 1, B
+                        connectionHiddenDeltas = scoringVector' * deltasToScores(col, :);
+
+                        % Dimensions: hiddenD, B
+                        connectionHiddenDeltas = connectionHiddenDeltas(2:end, :);
+                        connectionHiddenDeltas = connectionHiddenDeltas .* TanhDeriv([], connectionHiddenLayer);
+
+                        scoringVectorGradients = scoringVectorGradients + deltasToScores(col, :) * scorerInput';
+                        deltasToContext = permute(sum(bsxfun(@times, connectionMatrix, permute(connectionHiddenDeltas, [3, 4, 1, 2])), 3), [1, 4, 2, 3]);
+
                         connectionMatrixGradients = connectionMatrixGradients + ...
-                                permute(sum(bsxfun(@times, scorerInputs, deltasToScores(col, :)), 2), [1, 3, 2]);
+                                permute(sum(bsxfun(@times, scorerInputs, permute(connectionHiddenDeltas, [4, 2, 3, 1])), 2), [1, 3, 4, 2]);
 
                         % Distribute the deltas from the softmax function back into its inputs.
                         for pos = 1:2 * hyperParams.latticeConnectionContextWidth
