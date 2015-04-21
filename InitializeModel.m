@@ -65,7 +65,7 @@ elseif hyperParams.useLattices
     % connection chosing layer in the lattice model.
 
     % This is not a proper NN layer - just a filter that will be .*'d with a clump of features and summed.
-    compositionMatrices = InitializeNNLayer(2 * hyperParams.latticeConnectionContextWidth, DIM + 1, hyperParams.latticeConnectionHiddenDim, hyperParams.NNinitType, 0);
+    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth * DIM) + 3, hyperParams.latticeConnectionHiddenDim, 1, hyperParams.NNinitType, 0);
     scoringVector = InitializeNNLayer(hyperParams.latticeConnectionHiddenDim, 1, 1, hyperParams.NNinitType);
 else
     compositionMatrices = [];
