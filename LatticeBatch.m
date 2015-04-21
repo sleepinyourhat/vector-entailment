@@ -18,6 +18,7 @@ classdef LatticeBatch < handle
         masks = [];  % Same structure as the bottom row of features, but contains dropout masks for the embedding transform layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
+        scorerHiddenLayer = [];  % The activations inside the scorer before the linear combination.
         scores = [];  % The inputs to the connection softmax at each row.
         connections = [];  % The length-3 vectors of weights for the three connection types at each position in the lattice.
                            % Has no bottom (word) layer.
@@ -49,6 +50,7 @@ classdef LatticeBatch < handle
             lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1);
+            lb.scorerHiddenLayer = zeros(hyperParams.latticeConnectionHiddenDim, lb.B, lb.N, lb.N);
             lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
             lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
             lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
@@ -108,22 +110,21 @@ classdef LatticeBatch < handle
                 % Decide where to compose.
                 if row > 1  % Choosing the best of one is meaningless.
                     % Precompute a padded version of the features.
-                    paddedRow = padarray(lb.features(:, :, :, row + 1), [1, 0, hyperParams.latticeConnectionContextWidth - 1]);
-
-                    % We only need to pad at the bottom, to handle the column index features.
-                    paddedRow = paddedRow(2:end, :, :);
+                    % Dimensions: D, col, B, row
+                    paddedRow = permute(padarray(lb.features(:, :, :, row + 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4]);
 
                     for col = 1:row
-                        % Score each node in the row.
-                        % Dimensions: D+1, B, 2*contextWidth
-                        scorerInputs = paddedRow(:, :, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1);
-                        scorerInputs(end, :, 1) = col;
-                        scorerInputs(end, :, 2) = (1.0 .* col) / row;
-                        scorerInputs(end, :, 3) = 1;
+                        % Score each node in the row with a two-layer network with a single output unit.
+
+                        scorerHiddenInputs = [ones(3, lb.B); ...
+                            reshape(paddedRow(:, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1, :), ...
+                            [2 * lb.D * hyperParams.latticeConnectionContextWidth, lb.B])];
+                        scorerHiddenInputs(2, :) = col;
+                        scorerHiddenInputs(3, :) = (1.0 .* col) / row;
 
                         % Dimensions: hiddenD, B
-                        connectionHiddenLayer = tanh(permute(sum(sum(bsxfun(@times, permute(connectionMatrix, [1, 4, 2, 3]), scorerInputs), 1), 3), [4, 2, 3, 1]));
-                        lb.scores(col, :, row) = scoringVector * [ones(1, lb.B); connectionHiddenLayer];
+                        lb.scorerHiddenLayer(:, :, col, row) = tanh(connectionMatrix * scorerHiddenInputs);
+                        lb.scores(col, :, row) = scoringVector * [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
                     end
 
                     % Softmax the scores.
@@ -292,37 +293,27 @@ classdef LatticeBatch < handle
                     deltasToScores(isnan(deltasToScores)) = 0;
 
                     % Precompute a padded version of the features.
-                    paddedRow = padarray(lb.features(:, :, :, row + 1), [1, 0, hyperParams.latticeConnectionContextWidth - 1]);
-
-                    % We only need to pad at the bottom, to handle the column index features.
-                    paddedRow = paddedRow(2:end, :, :);
+                    paddedRow = permute(padarray(lb.features(:, :, :, row + 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4]);
 
                     for col = 1:row
-                        scorerInputs = paddedRow(:, :, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1);
-                        scorerInputs(end, :, 1) = col;
-                        scorerInputs(end, :, 2) = (1.0 .* col) / row;
-                        scorerInputs(end, :, 3) = 1;
-
-                        % TODO: Save
-
-                        % Dimensions: hiddenD, B
-                        connectionHiddenLayer = tanh(permute(sum(sum(bsxfun(@times, permute(connectionMatrix, [1, 4, 2, 3]), scorerInputs), 1), 3), [4, 2, 3, 1]));
+                        scorerHiddenInputs = [ones(3, lb.B); ...
+                            reshape(paddedRow(:, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1, :), ...
+                            [2 * lb.D * hyperParams.latticeConnectionContextWidth, lb.B])];
+                        scorerHiddenInputs(2, :) = col;
+                        scorerHiddenInputs(3, :) = (1.0 .* col) / row;
                         
                         % Dimensions: hiddenD, B
-                        scorerInput = [ones(1, lb.B); connectionHiddenLayer];
+                        scorerInput = [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
 
-                        % Dimensions: hiddenD + 1, B
-                        connectionHiddenDeltas = scoringVector' * deltasToScores(col, :);
-
-                        % Dimensions: hiddenD, B
-                        connectionHiddenDeltas = connectionHiddenDeltas(2:end, :);
-                        connectionHiddenDeltas = connectionHiddenDeltas .* TanhDeriv([], connectionHiddenLayer);
+                        scorerHiddenDeltas = scoringVector' * deltasToScores(col, :);
+                        scorerHiddenDeltas = scorerHiddenDeltas(2:end, :) .* TanhDeriv([], lb.scorerHiddenLayer(:, :, col, row));
 
                         scoringVectorGradients = scoringVectorGradients + deltasToScores(col, :) * scorerInput';
-                        deltasToContext = permute(sum(bsxfun(@times, connectionMatrix, permute(connectionHiddenDeltas, [3, 4, 1, 2])), 3), [1, 4, 2, 3]);
+
+                        deltasToContext = permute(reshape(connectionMatrix(:, 4:end)' * scorerHiddenDeltas, [lb.D, 2 * hyperParams.latticeConnectionContextWidth, lb.B]), [1, 3, 2]); 
 
                         connectionMatrixGradients = connectionMatrixGradients + ...
-                                permute(sum(bsxfun(@times, scorerInputs, permute(connectionHiddenDeltas, [4, 2, 3, 1])), 2), [1, 3, 4, 2]);
+                                scorerHiddenDeltas * scorerHiddenInputs';
 
                         % Distribute the deltas from the softmax function back into its inputs.
                         for pos = 1:2 * hyperParams.latticeConnectionContextWidth
@@ -330,7 +321,7 @@ classdef LatticeBatch < handle
                             if sourcePos > 0 && sourcePos <= row + 1
                                 deltas(:, :, sourcePos, row + 1) = ...
                                     deltas(:, :, sourcePos, row + 1) + ...
-                                    deltasToContext(1:end - 1, :, pos);
+                                    deltasToContext(:, :, pos);
                             end 
                         end
                     end

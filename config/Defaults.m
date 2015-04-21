@@ -33,9 +33,9 @@ hyperParams.useCompatibilityInitialization = false;
 % How far *in each direction* should the connection classifier in a Lattice model look.
 % Setting this to 1 means to only use the immediate left and right composition inputs with no
 % additional context.
-hyperParams.latticeConnectionContextWidth = 5;
+hyperParams.latticeConnectionContextWidth = 4;
 
-hyperParams.latticeConnectionHiddenDim = 6;
+hyperParams.latticeConnectionHiddenDim = 15;
 
 % If set, weight the supervision higher in the lattice by the product of the probabilities 
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
