@@ -55,7 +55,7 @@ for line = (lastSave + 1):maxLine
         splitLine = splitLine{1};
         
         % Skip commented and unlabeled lines
-        if (splitLine{1}(1) ~= '%') && (splitLine{1}(1) ~= '-') && (size(splitLine, 1) >= 3)
+        if (splitLine{1}(1) ~= '%') && (splitLine{1}(1) ~= '-') && (size(splitLine, 1) >= 3) && relationMap{relationIndex}.isKey(splitLine{1})
             rawData(nextItemNo - lastSave).relation = [ relationMap{relationIndex}(splitLine{1}); relationIndex ];
             rawData(nextItemNo - lastSave).leftText = splitLine{2};
             rawData(nextItemNo - lastSave).rightText = splitLine{3};

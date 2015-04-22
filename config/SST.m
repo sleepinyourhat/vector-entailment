@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo)
+function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, conD, curr, mdn, ccs)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -8,9 +8,19 @@ function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag,
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-comp', num2str(composition)];
+    '-comp', num2str(composition), '-conD', num2str(conD), '-curr', num2str(curr), ...
+    '-mdn', num2str(mdn), '-ccs', num2str(ccs), ];
 
 hyperParams.sentimentMode = 1;
+
+%%
+
+hyperParams.latticeConnectionHiddenDim = conD;
+hyperParams.latticeLocalCurriculum = curr;
+hyperParams.maxDeltaNorm = mdn;
+hyperParams.connectionCostScale = ccs;
+
+%%
 
 hyperParams.parensInSequences = 0;
 
@@ -48,10 +58,6 @@ hyperParams.lambda = lambda; % 0.002 works?;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = 32;
-
-% TODO:
-% hyperParams.maxDeltaNorm = dp;
-% hyperParams.connectionCostScale = mult;
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.

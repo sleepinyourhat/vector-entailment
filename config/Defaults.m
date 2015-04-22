@@ -129,7 +129,7 @@ hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
 
 % In batch learning, deltas above this *squared* l2 norm will be rescaled down.
-hyperParams.maxDeltaNorm = 1e-1;
+hyperParams.maxDeltaNorm = 100;
 
 hyperParams.connectionCostScale = 0.1;
 

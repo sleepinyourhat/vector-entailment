@@ -41,7 +41,7 @@ classdef Sequence < handle
             numWords = 0;
 
             for i = 1:length(C)
-                if useParens || ~(strcmp(C{i}(1), '(') || strcmp(C{i}(1), ')'))
+                if useParens || length(C{i}) == 0 || ~(strcmp(C{i}(1), '(') || strcmp(C{i}(1), ')'))
                     % Turn words into nodes
                     s = Sequence.makeNode(C{i}, s, wordMap);
                     numWords = numWords + 1;

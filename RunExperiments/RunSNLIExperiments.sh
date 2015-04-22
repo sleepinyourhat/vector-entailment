@@ -123,14 +123,14 @@ export MATLABCMD="cd quant; lambda = 0.0001; dim = 200; ed = 200; td = 1; penult
 
 export MATLABCMD="cd quant; lambda = 0.000001; dim = 200; ed = 200; td = 1; penult = 75; dropout = [1\, 1]; tot = -1; collo = 1; dataflag='snli095-only'; name='/scr/sbowman/snli095-s8'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 1e-4\, 1);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 200; ed = 200; td = 1; penult = 75; dropout = [1\, 1]; tot = -1; collo = 1; dataflag='snli095-only'; name='/scr/sbowman/snli095-s8'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 1e-4\, 1);" ; qsub -v MATLABCMD quant/run.sh
+z
+export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult = 25; dropout = [0.5\, 0.5]; tot = 2; collo = 1; dataflag='snli096-only'; name='/scr/sbowman/snli096'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0.11);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult = 25; dropout = [0.5\, 0.5]; tot = 2; collo = 1; dataflag='snli096-only'; name='/scr/sbowman/snli096'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0.33);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult = 25; dropout = [0.5\, 0.5]; tot = 2; collo = 1; dataflag='snli096-only'; name='/scr/sbowman/snli096'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 1);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult = 25; dropout = [0.5\, 0.5]; tot = 2; collo = 1; dataflag='snli095short-only'; name='/scr/sbowman/snli095-s5'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0.11);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
-export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult = 25; dropout = [0.5\, 0.5]; tot = 2; collo = 1; dataflag='snli095short-only'; name='/scr/sbowman/snli095-s5'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0.33);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
-export MATLABCMD="cd quant; lambda = 0.00001; dim = 40; ed = 200; td = 3; penult = 25; dropout = [0.5\, 0.5]; tot = 2; collo = 1; dataflag='snli095short-only'; name='/scr/sbowman/snli095-s5'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 
-
-
-cd quant; lambda = 0.000001; dim = 45; ed = 50; td = 2; penult = 75; dropout = [0.5, 0.5]; tot = 4; collo = 2; dataflag='snli095-only'; name='/scr/sbowman/snli095-prof-b'; 
+cd quant; 
+lambda = 0.000001; dim = 45; ed = 50; td = 2; penult = 75; dropout = [0.5, 0.5]; tot = 4; collo = 2; dataflag='snli095short-only'; name='/scr/sbowman/snli095-prof-b'; 
 TrainModel('', 1, @SNLI, name, dataflag, ed, dim, td, penult, lambda, tot, dropout(1), dropout(2), collo, 1)
 
 
