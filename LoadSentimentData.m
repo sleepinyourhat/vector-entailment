@@ -54,7 +54,7 @@ for line = (lastSave + 1):maxLine
     if ~isempty(C{1}{line}) 
 
         % Skip commented and unlabeled lines
-        if (C{1}{line}(1) == '(')
+        if (C{1}{line}(1) == '(') && topLabelMap{topLabelSetIndex}.isKey(C{1}{line}(2))
             rawData(nextItemNo - lastSave).topLabel = [ topLabelMap{topLabelSetIndex}(C{1}{line}(2)); topLabelSetIndex ];
             rawData(nextItemNo - lastSave).sentenceText = C{1}{line};
             nextItemNo = nextItemNo + 1;

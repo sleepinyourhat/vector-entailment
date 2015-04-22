@@ -141,6 +141,24 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.testRelationIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
+elseif findstr(dataflag, 'snli096-only')
+    wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
+    hyperParams.vocabName = 'ss095'; 
+
+    hyperParams.numRelations = [3];
+
+    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    hyperParams.trainFilenames = {'../data/snli_0.96_train.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt'};
+
+    hyperParams.relationIndices = [1; 1; 1];
+    hyperParams.testRelationIndices = [1];
+    hyperParams.trainingMultipliers = [1];
+
 elseif findstr(dataflag, 'snli095short-only')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
