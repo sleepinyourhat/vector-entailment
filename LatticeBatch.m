@@ -129,10 +129,9 @@ classdef LatticeBatch < handle
 
                     % Softmax the scores.
                     [ merges, localConnectionCosts, probCorrect ] = ...
-                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), lb.activeNode(:, 1:row, row)');
+                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
 
                     % Zero out 0/0s from inactive nodes.
-                    merges(isnan(merges)) = 0; 
                     lb.connections(3, :, 1:row, row) = merges';
 
                     if hyperParams.latticeLocalCurriculum
@@ -176,12 +175,6 @@ classdef LatticeBatch < handle
             for b = 1:lb.B
                 topFeatures(:, b) = lb.features(:, b, 1, lb.N - lb.wordCounts(b) + 1);
             end
-
-            % Rescale the connection costs by the number of times supervision was applied.
-            connectionCosts = (connectionCosts ./ (lb.wordCounts' - 2)) .* hyperParams.connectionCostScale;
-
-            % Zero out 0/0s from inactive nodes.
-            connectionCosts(isnan(connectionCosts)) = 0;
 
             if ~trainingMode   
                 % Temporary display method.
@@ -285,7 +278,7 @@ classdef LatticeBatch < handle
                     % Compute gradients for the scores wrt. the independent connection supervision signal.
                     [ ~, labelDeltasToScores ] = ...
                             ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
-                                lb.scores(1:row, :, row), hyperParams, (lb.wordCounts - 2)' ./ (hyperParams.connectionCostScale .* lb.supervisionWeights(:, row)));
+                                lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
 
                     deltasToScores = labelDeltasToScores + incomingDeltasToScores;
 

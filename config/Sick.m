@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, conCost)
+function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, conDim)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,12 +9,17 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth), '-pen', num2str(penult), ...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-ws', num2str(wordsource),...
     '-par', num2str(parens), '-comp', num2str(composition), ...
-    '-ccon', num2str(conCost)];
+    '-cdim', num2str(conDim)];
 
 
 %%
 
-hyperParams.latticeConnectionContextWidth = conCost;
+hyperParams.latticeConnectionHiddenDim = conDim;
+
+if conDim == 0
+    hyperParams.latticeConnectionHiddenDim = 10;
+    hyperParams.latticeLocalCurriculum = false;
+end
 
 %%
 

@@ -133,6 +133,13 @@ hyperParams.maxDeltaNorm = 100;
 
 hyperParams.connectionCostScale = 0.1;
 
+% One scalar for each label. Multiply the cost and gradient of examples with this label by this factor.
+% Currently doesn't support multiple label sets, but this could be fairly easily fixed.
+hyperParams.relationCostMultipliers = [];
+
+% Load at most this many lines of any one file. Useful in debugging.
+hyperParams.lineLimit = inf;
+
 %%% minFunc options: %%%
 
 options.Method = 'lbfgs';

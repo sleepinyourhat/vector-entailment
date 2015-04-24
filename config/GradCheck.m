@@ -1,7 +1,7 @@
 function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
-% TrainModel('', 1, @GradCheck, 1, 2, 4, 1, 0, 0, 1);
+% TrainModel('', 1, @GradCheck, 1, 2, 2, 1, 0, 0, 1);
 
 [hyperParams, options] = Defaults();
 
@@ -115,6 +115,7 @@ if sentiment
 	hyperParams.vocabName = 'sst-gc'; 
 
 	hyperParams.numRelations = [5];
+	hyperParams.relationCostMultipliers = [1 0.0001 3 0.25 1];
 
 	hyperParams.relations = {{'0', '1', '2', '3', '4'}};
 	relationMap = cell(1, 1);
@@ -126,6 +127,7 @@ if sentiment
 else
 	if ~multipleClassSets
 		hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
+		hyperParams.relationCostMultipliers = [1 0.0001 3 0.25 1 0.5 0.5];
 		hyperParams.numRelations = [7];
 		relationMap = cell(1, 1);
 		relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));

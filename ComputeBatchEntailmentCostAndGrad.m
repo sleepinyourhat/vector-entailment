@@ -65,8 +65,15 @@ for layer = 1:(hyperParams.topDepth - 1)
     extraClassifierLayerInputs(:, :, layer + 1) = hyperParams.classNL(extraClassifierLayerInnerOutputs(:, :, layer));
 end
 
-[ relationProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
-              softmaxMatrix, hyperParams, [data(:).relation]');
+if ~isempty(hyperParams.relationCostMultipliers)
+    multipliers = hyperParams.relationCostMultipliers([data(:).relation])';
+    multipliers = multipliers(:, 1);
+    [ relationProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
+                  softmaxMatrix, hyperParams, [data(:).relation]', multipliers);
+else
+    [ relationProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
+                  softmaxMatrix, hyperParams, [data(:).relation]');
+end
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
 % TODO: Is it worth scaling the two different types of cost?
@@ -112,9 +119,16 @@ acc = (accumulatedSuccess / B);
 
 % Compute the gradients.
 if computeGrad
-    [ localSoftmaxGradient, softmaxDelta ] = ...
+    if ~isempty(hyperParams.relationCostMultipliers)
+        [ localSoftmaxGradient, softmaxDelta ] = ...
+        ComputeSoftmaxClassificationGradients(...
+          softmaxMatrix, relationProbs, [data(:).relation]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams, ...
+           multipliers);
+    else
+        [ localSoftmaxGradient, softmaxDelta ] = ...
         ComputeSoftmaxClassificationGradients(...
           softmaxMatrix, relationProbs, [data(:).relation]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams);
+    end
     localSoftmaxGradient = sum(localSoftmaxGradient, 3);
 
     [ localExtraMatrixGradients, extraDelta ] = ...

@@ -89,7 +89,9 @@ elseif composition == 4
   hyperParams.parensInSequences = 0;
 end
 
-hyperParams.loadWords = true;
+hyperParams.loadWords = false;
+
+'NOWORDS'
 hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
@@ -110,6 +112,10 @@ if strcmp(dataflag, 'sst-expanded')
 
     % Loading this data is fast, and the preprocessed file winds up huge.
     hyperParams.ignorePreprocessedFiles = true;
+
+    hyperParams.lineLimit = 100;
+    'LINE LIMIT ON'
+    hyperParams.relationCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
 elseif strcmp(dataflag, 'sst')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 

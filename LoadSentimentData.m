@@ -40,7 +40,7 @@ fclose(fid);
 
 % Parse the file
 nextItemNo = 1;
-maxLine = length(C{1});
+maxLine = min(length(C{1}), hyperParams.lineLimit);
 % maxLine = min(35, maxLine);
 
 % Initialize the data array
