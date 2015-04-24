@@ -40,7 +40,7 @@ fclose(fid);
 
 % Parse the file
 nextItemNo = 1;
-maxLine = length(C{1});
+maxLine = min(length(C{1}), hyperParams.lineLimit);
 
 % Initialize the data array
 rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), maxLine, 1);

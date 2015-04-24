@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, active)
+function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, multipliers, active)
 % Run the softmax classifier layer forward, and compute log loss if possible. 
 
 % Note: Relation range specifies which relations are under consideration. If 
@@ -47,7 +47,7 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 			unNormedProbs = exp(in);
 		end
 
-		if nargin > 4
+		if nargin > 5
 			unNormedProbs = unNormedProbs .* active;
 		end
 
@@ -63,13 +63,13 @@ else
 	% Single class set case.
 	if ~isempty(matrix)
 		inPadded = [ones(1, B); in];
-		unNormedProbs = exp(matrix * inPadded) .* active;
+		unNormedProbs = exp(matrix * inPadded);
 	else
-		unNormedProbs = exp(in) .* active;
+		unNormedProbs = exp(in);
 	end
 
 
-	if nargin > 4
+	if nargin > 5
 		unNormedProbs = unNormedProbs .* active;
 	end
 
@@ -87,6 +87,12 @@ if nargin > 3 && ~isempty(labels)
 elseif nargout > 1
 	probCorrect = ones(1, B);
 	loss = -log(probCorrect);
+end
+
+if nargin > 4
+	loss = loss .* multipliers;
+	loss(isnan(loss)) = 0;
+    probs(isnan(probs)) = 0;
 end
 
 end

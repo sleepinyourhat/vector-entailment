@@ -31,27 +31,25 @@ elseif composition == 2
   hyperParams.eyeScale = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 1;
-  hyperParams.parensInSequences = 0;
+  hyperParams.parensInSequences = 1;
 elseif composition == 3
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 1;
-  hyperParams.parensInSequences = 0;
+  hyperParams.parensInSequences = 1;
 elseif composition == 4
   hyperParams.useLattices = 1;
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 0;
-  hyperParams.parensInSequences = 0;
 elseif composition == 5
   hyperParams.useLattices = 1;
   hyperParams.lstm = 0;
   hyperParams.useTrees = 0;
   hyperParams.useThirdOrderComposition = 0;
   hyperParams.useThirdOrderMerge = 1;
-  hyperParams.parensInSequences = 0;
 end
 
 
@@ -107,20 +105,9 @@ elseif strcmp(dataflag, 'and-or-deep-static')
     hyperParams.testFilenames = {'./propositionallogic/longer2/test1', './propositionallogic/longer2/test2', './propositionallogic/longer2/test3', './propositionallogic/longer2/test4', './propositionallogic/longer2/test5', './propositionallogic/longer2/test6', './propositionallogic/longer2/test7', './propositionallogic/longer2/test8', './propositionallogic/longer2/test9', './propositionallogic/longer2/test10', './propositionallogic/longer2/test11', './propositionallogic/longer2/test12'};
 end
 
-
-% How often (in steps) to report cost.
 options.detailedStatFreq = 1000;
-
-% How often (in steps) to run on test data.
+options.costFreq = 1000;
 options.testFreq = 1000;
-
-% How often to report confusion matrices. 
-% Should be a multiple of testFreq.
-options.confusionFreq = 1000;
-
-% How often to display which items are misclassified.
-% Should be a multiple of testFreq.
 options.examplesFreq = 25000; 
-
 
 end
