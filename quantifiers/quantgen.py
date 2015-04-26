@@ -26,6 +26,8 @@ MATLAB_OUTPUT = True
 
 DISTINGUISH_UNIONS_FROM_INDY = True
 
+FILENAME_STEM = "dev_"
+
 if not DISTINGUISH_UNIONS_FROM_INDY:
     UNK = INDY
 
@@ -279,30 +281,30 @@ if __name__ == '__main__':
 
     if MATLAB_OUTPUT:
 
-        # Open a file for each pair of quantifiers
-        files = {}
+        training_file = open(FILENAME_STEM + "train.txt", 'w')
+        test_file = open(FILENAME_STEM + "test.txt", 'w')
+
         counters = {}
-        for i in range(10):
-            for j in range(i, 10):
-                left_det = dets[i]
-                right_det = dets[j]
-                filename = 'data/quant_' + left_det + '_' + right_det
-                files[(left_det, right_det)] = open(filename, 'w')
-                counters[(left_det, right_det)] = Counter()
+        data = all_sentences()
+
+        sentences = set()
+        for counter, d in enumerate(data):
+            sentences.add(tuple(d['premise']))
+            sentences.add(tuple(d['hypothesis']))
+
+        sentence_list = list(sentences)
+        random.shuffle(sentence_list)
+
+        test_examples = sentence_list[1:int(.33 * len(sentence_list))]
+
         for counter, d in enumerate(all_sentences()):
-            left_det = d['premise'][0]
-            right_det = d['hypothesis'][0]
-            if (left_det, right_det) in files:
-                files[(left_det, right_det)].write(matlab_string(d) + "\n")
-                counters[(left_det, right_det)][d['relation']] += 1
-            else:
-                files[(right_det, left_det)].write(matlab_string(d) + "\n")
-                counters[(right_det, left_det)][d['relation']] += 1
-        # Close the files
-        for key in files:
-            files[key].close
-            # For relation count statistics:
-            # print len(counters[key]), key, counters[key]
+            if tuple(d['premise']) in test_examples and tuple(d['hypothesis']) in test_examples:
+                test_file.write(matlab_string(d) + "\n")
+            elif not (tuple(d['premise']) in test_examples or tuple(d['hypothesis']) in test_examples):
+                training_file.write(matlab_string(d) + "\n")
+
+        training_file.close()
+        test_file.close()
 
     else:
         for counter, d in enumerate(all_sentences()):

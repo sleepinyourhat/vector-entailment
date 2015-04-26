@@ -1,9 +1,9 @@
-function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, composition, eyes, tdrop)
+function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dim, penult, top, lambda, composition, tdrop)
 
 [hyperParams, options] = Defaults();
 
 hyperParams.name = [name, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
-				    '-composition', num2str(composition), '-eyes', num2str(eyes), '-l', num2str(lambda),...
+				    '-composition', num2str(composition), '-l', num2str(lambda),...
 				    '-dropout', num2str(tdrop)];
 
 hyperParams.dim = dim;
@@ -65,10 +65,9 @@ hyperParams.numRelations = [7];
 relationMap = cell(1, 1);
 relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-listingG = dir('./quantifiers/data/quant_*');
-hyperParams.trainFilenames = {};
-hyperParams.testFilenames = {};
-hyperParams.splitFilenames = strcat('./quantifiers/data/', {listingG.name});
+hyperParams.trainFilenames = {'./quantifiers/data/dev_train.txt'};
+hyperParams.testFilenames = {'./quantifiers/data/dev_test.txt'};
+hyperParams.splitFilenames = {};
 
 options.numPasses = 1000;
 options.examplesFreq = 25000; 

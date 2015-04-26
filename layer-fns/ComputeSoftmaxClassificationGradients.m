@@ -39,7 +39,7 @@ if size(labels, 2) == 2
 	end
 else
 	if nargin > 5
-		% Scale the delatas by the multipliers (optional)
+		% Scale the delatas by the multipliers (optional)		
 		delta = bsxfun(@times, (probs - targetprobs), dataPointHasLabel' .* multipliers');
 	else
 		delta = bsxfun(@times, (probs - targetprobs), dataPointHasLabel');
