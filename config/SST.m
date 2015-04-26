@@ -22,8 +22,6 @@ hyperParams.connectionCostScale = ccs;
 
 %%
 
-hyperParams.parensInSequences = 0;
-
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 

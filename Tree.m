@@ -42,7 +42,7 @@ classdef Tree < handle
             stackTop = 0;
             
             for i = 1:length(C)
-                if ~strcmp(C{i}(1), '(') && ~strcmp(C{i}(1), ')')
+                if ~strncmpi(C{i}(1), '(', 1) && ~strcmp(C{i}(1), ')')
                     % Turn words into leaf nodes
                     stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap);
                     stackTop = stackTop + 1;

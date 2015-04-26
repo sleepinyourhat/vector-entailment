@@ -6,7 +6,6 @@ function [ theta ] = TrainSGD(CostGradFunc, modelState, options, trainingData, .
 
 if modelState.step == 0
     Log(hyperParams.examplelog, 'Initializing SGD.')
-    modelState.prevCost = intmax;
     modelState.bestTestAcc = [0 0];
     modelState.lr = options.lr;
     modelState.pass = 0;
@@ -16,14 +15,6 @@ end
 while modelState.pass < options.numPasses
     modelState = TestAndLog(CostGradFunc, modelState, options, trainingData, ...
         hyperParams, testDatasets);
-
-    % Check the stopping criterion.
-    %if abs(modelState.prevCost - cost(1)) < 10e-7
-    %    Log(hyperParams.statlog, 'Stopped improving.');
-    %    break;
-    %end
-
-    %modelState.prevCost = cost(1);
 
     if hyperParams.fragmentData
         modelState = TrainOnFragmentedData(CostGradFunc, trainingData, testDatasets, modelState, hyperParams, options);
