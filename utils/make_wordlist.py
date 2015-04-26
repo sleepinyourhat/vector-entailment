@@ -11,10 +11,10 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "sick-snli0.95"
-TRAINING_FILES = ["sst-data/train.txt"]
-DEV_FILES = ["sst-data/dev.txt"]
-TEST_FILES = ["sst-data/test.txt"]
+BASENAME = "subj"
+TRAINING_FILES = ["../data/subj_parsed.txt"]
+DEV_FILES = []
+TEST_FILES = []
 
 VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 

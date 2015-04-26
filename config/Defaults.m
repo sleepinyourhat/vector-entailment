@@ -97,8 +97,12 @@ hyperParams.useThirdOrderMerge = true;
 % useThirdOrderComposition should be false if this is used.
 hyperParams.useSumming = false;
 
-% Use sentiment-specific CostGradFn.
-hyperParams.sentimentMode = false;
+% Use classification-specific CostGradFn.
+hyperParams.sentenceClassificationMode = false;
+
+% Use SST-specific loading methods.
+hyperParams.SSTMode = false;
+
 
 % If set, train using minFunc. Only partially supported. See GradCheck for an example.
 hyperParams.minFunc = false;
@@ -129,7 +133,7 @@ hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
 
 % In batch learning, deltas above this *squared* l2 norm will be rescaled down.
-hyperParams.maxDeltaNorm = 100;
+hyperParams.maxDeltaNorm = inf;
 
 hyperParams.connectionCostScale = 0.1;
 

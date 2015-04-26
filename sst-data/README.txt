@@ -41,3 +41,22 @@ Each row in the latter represents a snippet as shown on RT, whereas the former i
 
 For comparing research and training models, please use the provided train/dev/test splits.
 
+== Label frequencies ==
+dev.txt:					
+0	1	2	3	4	SUM
+139	289	229	279	165	1101
+0.1262488647	0.2624886467	0.2079927339	0.2534059946	0.1498637602	1
+					
+train_expanded.txt:					
+0	1	2	3	4	SUM
+8245	34362	219788	44194	11993	318582
+0.02588030711	0.1078592011	0.6898945954	0.1387209572	0.03764493914	1
+					
+multipliers to normalize train_expanded:	
+0	1	2	3	4				
+4.878182632	2.433623131	0.3014847996	1.826731877	3.980980277	
+
+
+
+
+

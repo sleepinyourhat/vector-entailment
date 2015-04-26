@@ -10,8 +10,10 @@ function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadAllDatasets(w
 % relationIndices: An optional matrix with three rows, one each for 
 % train/test/split, indicating which set of relations the dataset uses.
 
-if hyperParams.sentimentMode
+if hyperParams.SSTMode
     loadFileFn = @LoadSentimentData;
+elseif hyperParams.sentenceClassificationMode
+    loadFileFn = @LoadSentenceClassificationData;
 else
     loadFileFn = @LoadEntailmentData;
 end

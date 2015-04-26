@@ -110,7 +110,7 @@ wordMap = InitializeMaps('./quantifiers/wordlist.tsv');
 hyperParams.vocabName = 'quantifiers';
 
 if sentiment 
-	hyperParams.sentimentMode = 1;
+	hyperParams.sentenceClassificationMode = 1;
 	wordMap = InitializeMaps('./sst-data/gradcheckwords.txt');
 	hyperParams.vocabName = 'sst-gc'; 
 

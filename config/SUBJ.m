@@ -12,7 +12,6 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-adaDelta', num2str(adad), '-ccs', num2str(ccs) ];
 
 hyperParams.sentenceClassificationMode = 1;
-hyperParams.SSTMode = 1;
 
 %%
 
@@ -98,37 +97,17 @@ hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
-if strcmp(dataflag, 'sst-expanded')
-    wordMap = InitializeMaps('./sst-data/sst-words.txt');
-    hyperParams.vocabName = 'sst'; 
+wordMap = InitializeMaps('../data/subj_words.txt');
+hyperParams.vocabName = 'subj'; 
 
-    hyperParams.numRelations = [5];
+hyperParams.numRelations = [ 2 ];
 
-    hyperParams.relations = {{'0', '1', '2', '3', '4'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+hyperParams.relations = {{'subjective', 'objective'}};
+relationMap = cell(1, 1);
+relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
 
-    hyperParams.trainFilenames = {'./sst-data/train_expanded.txt'};    
-    hyperParams.splitFilenames = {};    
-    hyperParams.testFilenames = {'./sst-data/dev.txt', './sst-data/train_sample.txt'};
-
-    % Loading this data is fast, and the preprocessed file winds up huge.
-    hyperParams.ignorePreprocessedFiles = true;
-    hyperParams.relationCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
-elseif strcmp(dataflag, 'sst')
-    wordMap = InitializeMaps('./sst-data/sst-words.txt');
-    hyperParams.vocabName = 'sst'; 
-
-    hyperParams.numRelations = [5];
-
-    hyperParams.relations = {{'0', '1', '2', '3', '4'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-
-    hyperParams.trainFilenames = {'./sst-data/train.txt'};    
-    hyperParams.splitFilenames = {};    
-    hyperParams.testFilenames = {'./sst-data/dev.txt'};
-end
-
+hyperParams.trainFilenames = {};    
+hyperParams.splitFilenames = {'../data/subj_parsed.txt'};    
+hyperParams.testFilenames = {};
 
 end

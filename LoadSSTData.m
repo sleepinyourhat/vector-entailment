@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function data = LoadSentimentData(filename, wordMap, topLabelMap, hyperParams, fragment, topLabelSetIndex)
+function data = LoadSSTData(filename, wordMap, topLabelMap, hyperParams, fragment, topLabelSetIndex)
 % Load one file of sentence pair data.
 
 if hyperParams.useTrees
