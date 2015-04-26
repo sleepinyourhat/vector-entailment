@@ -75,8 +75,8 @@ export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; drop
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 3; name='latcomp'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 4; name='latcomp'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 0; name='latcomp-b'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, dropout);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; td = 1; penult = 75; dropout = 1; tot = 1; name='latcomp-b'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 20; td = 1; penult = 75; dropout = 1; tot = 0; name='latcomp-b'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, dropout);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 20; td = 1; penult = 75; dropout = 1; tot = 1; name='latcomp-b'; relu = 0; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, dropout);" ; qsub -v MATLABCMD quant/run.sh
 
 lambda = 0.0001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='newinit'; 
 TrainModel('', 1, @Quantifiers, name, dim, penult, td, lambda, tot, dropout);

@@ -125,7 +125,7 @@ end
 Log(hyperParams.statlog, 'Training')
 
 % Choose a function of the data to optimize.
-if ~hyperParams.sentimentMode
+if ~hyperParams.sentenceClassificationMode
     % Entailment
     if ~hyperParams.useTrees
         optFn = @ComputeBatchEntailmentCostAndGrad;

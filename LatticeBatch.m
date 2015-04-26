@@ -128,8 +128,13 @@ classdef LatticeBatch < handle
                     end
 
                     % Softmax the scores.
-                    [ merges, localConnectionCosts, probCorrect ] = ...
-                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
+                    if hyperParams.latticeEven
+                        [ merges, localConnectionCosts, probCorrect ] = ...
+                            ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
+                    else
+                        [ merges, localConnectionCosts, probCorrect ] = ...
+                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale, lb.activeNode(:, 1:row, row)');
+                    end
 
                     % Zero out 0/0s from inactive nodes.
                     lb.connections(3, :, 1:row, row) = merges';
@@ -176,11 +181,9 @@ classdef LatticeBatch < handle
                 topFeatures(:, b) = lb.features(:, b, 1, lb.N - lb.wordCounts(b) + 1);
             end
 
-            if ~trainingMode   
-                % Temporary display method.
-                % lb.connections(:,:,:,1)
-                % lb.lattices{1}.getText()
-            end
+            % Temporary display method.
+            % lb.lattices{1}.getText()
+            % permute(lb.connections(3,1,:,:), [4, 3, 1, 2])
 
             if hyperParams.showDetailedStats
                 connectionAccuracy = correctConnectionLabels / totalConnectionLabels;
@@ -276,9 +279,19 @@ classdef LatticeBatch < handle
                         ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row));
 
                     % Compute gradients for the scores wrt. the independent connection supervision signal.
-                    [ ~, labelDeltasToScores ] = ...
-                            ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
-                                lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
+                    if hyperParams.latticeEven
+
+                        [ ~, labelDeltasToScores ] = ...
+                                ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
+                                    lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
+
+                    else
+ 
+                        [ ~, labelDeltasToScores ] = ...
+                                ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
+                                    lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row));
+                           
+                    end
 
                     deltasToScores = labelDeltasToScores + incomingDeltasToScores;
 

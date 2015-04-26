@@ -28,7 +28,7 @@ softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numRelations), 1, 1);
 mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 
 % Randomly initialize tensor parameters
-if ~hyperParams.sentimentMode
+if ~hyperParams.sentenceClassificationMode
     if hyperParams.useThirdOrderMerge
         mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
         mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
