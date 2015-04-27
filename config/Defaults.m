@@ -9,7 +9,8 @@ hyperParams.useLattices = 0;
 
 hyperParams.gpu = 0;
 
-% If set, and if useTrees is false, use an LSTM RNN.
+% If set, and if useTrees and useLattice are false, use an LSTM RNN.
+% If set, and if useLattice is true, use a LatticeLSTM.
 hyperParams.lstm = 0;
 
 % The dimensionality of the word/phrase vectors.
@@ -35,7 +36,7 @@ hyperParams.useCompatibilityInitialization = false;
 % additional context.
 hyperParams.latticeConnectionContextWidth = 4;
 
-hyperParams.latticeConnectionHiddenDim = 15;
+hyperParams.latticeConnectionHiddenDim = 8;
 
 % If set, weight the supervision higher in the lattice by the product of the probabilities 
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.

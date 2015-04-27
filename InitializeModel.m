@@ -2,9 +2,9 @@
 function [ theta, thetaDecoder, separateWordFeatures ] = InitializeModel(wordMap, hyperParams)
 % Initialize the learned parameters of the model. 
 
-assert(~(hyperParams.lstm && hyperParams.useThirdOrderComposition))
-assert(~(hyperParams.lstm && hyperParams.eyeScale))
-assert(~(hyperParams.lstm && hyperParams.useTrees))
+assert(~(hyperParams.lstm && hyperParams.useTrees), 'TreeLSTMs are not implemented, only LatticeLSTMs.')
+assert(~(hyperParams.lstm && hyperParams.useThirdOrderComposition), 'RNTN and LSTM units are mutually exclusive.')
+assert(~(hyperParams.lstm && hyperParams.eyeScale), 'Eye initialization cannot be used with LSTM units.')
 
 vocabLength = size(wordMap, 1);
 DIM = hyperParams.dim;
@@ -41,7 +41,7 @@ else
 end
 
 if hyperParams.lstm
-    compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType);
+    compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType, hyperParams.useLattices);
 else
     compositionMatrix = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType);
 end

@@ -41,14 +41,14 @@ In this section, we propose a simple framework for syntactic parsing that lends 
 
 
 
-To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two steps. In the first step, we produce a distribution $\vec{o}$ over the operations \{\textsc{copy-L, copy-R, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
+To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two stages. In the first step, we produce a distribution $\vec{o}$ over the operations \{\textsc{copy-L, copy-R, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
 
-At each row $i$, we begin by computing a scalar score $s$ for each node $(i, j)$ representing how appropriate it would be to compose the two child nodes $(i+1, j)$ and $(i+1, j+1)$ at $(i, j)$. This decision is made primarily on the basis of the two child nodes, and a $C$-word window of context around them that is meant to allow the model to do a limited amount of ambiguity resolution. When the context window extends off the edge of the lattice in either direction, a single learned padding vector is used. % TODO
-Including $\frac{j}{i}$ as an additional feature here is intended to allow the model to learn to use linear order in making its scoring decisions, allowing it to prefer to compose pairs of constituens that are closer to the left edge of the tree when all else is equal, and encouraging the model to conform to our left-first rule.
+At each row $i$, we begin by computing a scoring feature vector $\vec{s}$ for each node $(i, j)$ which is meant to contain features that allow the model to judge how appropriate it would be to compose the two child nodes $(i+1, j)$ and $(i+1, j+1)$ at $(i, j)$. This decision is made primarily on the basis of the two child nodes, and a $C$-word window of context around them that is meant to allow the model to do a limited amount of ambiguity resolution. When the context window extends off the edge of the lattice in either direction, a single learned padding vector is used. % TODO
+Including $\frac{j}{i}$ and $j$ as additional features here is intended to allow the model to learn to use linear order in making its scoring decisions, allowing it to prefer to compose pairs of constituens that are closer to the left edge of the tree when all else is equal, and encouraging the model to conform to our left-first rule.
 
 \begin{equation}
 \label{scoringeqn}
-s^{(i,j)} = \vec{v}_s \colvec{7}
+\vec{s}^{(i,j)} = \tanh(\mathbf{M}_s \colvec{8}
 	{\vec{y}^{(i + 1, j - C + 1)}}
 	{...}
 	{\vec{y}^{(i + 1, j)}}
@@ -56,17 +56,18 @@ s^{(i,j)} = \vec{v}_s \colvec{7}
 	{...}
 	{\vec{y}^{(i + 1, j + C)}}
 	{\frac{j}{i}}
-	 + b_s \\
+	{j}
+	  + \vec{b_s}) \\
 \end{equation}
 %
-Since we wish for the model to compose only one pair of child nodes at each row $i$, we apply a softmax function to the full vector of scores computed at each row, and use the resulting values (which sum to one) to decide which nodes to compose.
+To convert these feature vectors to single scores, we take their inner product with a parameter vector $\vec{v}^T_s$. Since we wish for the model to compose only one pair of child nodes at each row $i$, we apply a softmax function to the full vector of scores computed at each row, and use the resulting values (which sum to one) to decide which nodes to compose.
 %
 \begin{equation} 
 o^{(i,\,...)}_{\textsc{compose}} = \text{softmax}(\colvec{4}
-	{s^{(i, 1)}}
-	{s^{(i, 2)}}
+	{\vec{v}^T_s \vec{s}^{(i, 1)} }
+	{\vec{v}^T_s \vec{s}^{(i, 2)}}
 	{...}
-	{s^{(i, i)}}	
+	{\vec{v}^T_s \vec{s}^{(i, i)}}	
 	) \\
 \end{equation}
 %
@@ -85,12 +86,14 @@ The use of the sum for the two \textsc{copy} weights reflects the intuition that
 
 Finally, using these three computed weights, we compute the activations for the current node, using a standard RNN activation function for the \textsc{compose} operation:
 % 
+\begin{equation}
+\vec{h}^{(i, j)} = \tanh(\mathbf{M_y} \colvec{2}{\vec{y}^{(i + 1, j)}}{\vec{y}^{(i + 1, j + 1)}} + \vec{b}_y)
+\end{equation}
 
 \begin{eqnarray}
-&& \vec{y}^{(i,j)} =\\
-&&\nonumber  o^{(i, j)}_{\textsc{copy-L}} \circ \vec{y}^{(i + 1, j)} +\\
+\vec{y}^{(i,j)} & = & o^{(i, j)}_{\textsc{copy-L}} \circ \vec{y}^{(i + 1, j)} +\\
 &&\nonumber o^{(i, j)}_{\textsc{copy-R}} \circ \vec{y}^{(i + 1, j + 1)} +\\
-&&\nonumber o^{(i, j)}_{\textsc{compose}} \circ \tanh(\mathbf{M_y} \colvec{2}{\vec{y}^{(i + 1, j)}}{\vec{y}^{(i + 1, j + 1)}} + \vec{b}_y)
+&&\nonumber o^{(i, j)}_{\textsc{compose}} \circ \vec{h}^{(i, j)}
 \end{eqnarray}
 %
 Once all of the activations in the lattice have been computed, the top activation $\vec{y}^{(1,1)}$ can be treated as the embedding vector for the full sentence. For the sentiment classification task we study here, we pass it into a softmax classifier layer to predcit the probability of each sentiment label:
@@ -110,6 +113,24 @@ loss & = & \lambda\theta^2 - \ln(l_\rho) -\\
 Parameter gradients can then be computed using standard backpropagation through structure \cite{goller1996learning}. Notably, when the composition location labels $\vec{\kappa}$, are used, the corresponding error signal at each row is used not only to train the scoring parameters $\vec{v}_s$, but also propagates error through the input vector used in eq. \ref{scoringeqn} and into the rest of the model.
 
 Batching
+
+\subsection{LSTM composition}
+
+The LSTM variant of our model uses a TreeLSTM composition function. We largely model this function after the model of \newcite{tai2015improved}, however this model requires a clear distinction between raw inputs ($x_j$) and child hidden states ($h_{j1}$, $h_{j2}$). Since our model's intermediate representations $\vec{y}^{i,j}$ are linear combinations of composition function outputs and raw features, this distinction is not available. We follow \newcite{le2015compositional}'s TreeLSTM formulation in eliminating the input terms from the LSTM equations and treating inputs and child features identically (as in a standard tree-structured network), yielding the following:
+
+% TODO: Set up the alignments here properly.
+\begin{gather} 
+\vec{i}^{(i,j)} = \text{sigmoid}(\mathbf{M_i}\colvec{2}{\vec{y}^{(i+1,j)}}{\vec{y}^{(i+1,j+1)}} + \vec{b_i}) \\
+\vec{f}^{(i,j)}_l = \text{sigmoid}(\mathbf{M_{fl}}\colvec{2}{\vec{y}^{(i+1,j)}}{\vec{y}^{(i+1,j+1)}} + \vec{b_{fl}}) \\
+\vec{f}^{(i,j)}_r = \text{sigmoid}(\mathbf{M_{fr}}\colvec{2}{\vec{y}^{(i+1,j)}}{\vec{y}^{(i+1,j+1)}} + \vec{b_{fr}}) \\
+\vec{o}^{(i,j)} = \text{sigmoid}(\mathbf{M_o}\colvec{2}{\vec{y}^{(i+1,j)}}{\vec{y}^{(i+1,j+1)}} + \vec{b_o}) \\
+\vec{g}^{(i,j)} = \text{tanh}(\mathbf{M_g}\colvec{2}{\vec{y}^{(i+1,j)}}{\vec{y}^{(i+1,j+1)}} + \vec{b_g})\\
+\vec{c}^{(i,j)} = \vec{f}^{(i,j)}_l \circ \vec{c}^{(i+1,j)} + \vec{f}^{(i,j)}_r \circ \vec{c}^{(i+1,j+1)}+\\
+\nonumber ~~~~~~~~~~~~~ \vec{i}^{(i,j)} \circ \vec{g}^{(i,j)}\\
+\vec{h}^{(i,j)} = \vec{c}^{(i,j)} \circ \vec{o}^{(i,j)}
+\end{gather}
+
+The output $\vec{h}^{(i,j)}$ is then incorporated into $\vec{y}^{(i,j)}$ according to the operation weights, as in the basic model.
 
 % Possible supervision backoff proposal
 
