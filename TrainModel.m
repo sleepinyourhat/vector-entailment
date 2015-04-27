@@ -25,12 +25,13 @@ if isempty(gcp('nocreate'))
     t = tempname();
     mkdir(t);
     c.JobStorageLocation = t;
+    c.NumWorkers = 4;
     if exist('parpool')
       % >= 2013b
-      parpool(c);
+      parpool(c, 4);
     else
       % < 2013b
-      matlabpool(c, c.NumWorkers);
+      matlabpool(c, 4);
     end
 end
 

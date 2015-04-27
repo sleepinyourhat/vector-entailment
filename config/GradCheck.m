@@ -1,7 +1,7 @@
 function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
-% TrainModel('', 1, @GradCheck, 1, 2, 2, 1, 0, 0, 1);
+% TrainModel('', 1, @GradCheck, 1, 2, 6, 1, 0, 0, 1);
 
 [hyperParams, options] = Defaults();
 
@@ -37,6 +37,21 @@ elseif composition == 5
 	hyperParams.useLattices = 1;
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.parensInSequences = 0;
+elseif composition == 6
+	hyperParams.useLattices = 1;
+	hyperParams.lstm = 1;
+	hyperParams.eyeScale = 0;
+	hyperParams.useTrees = 0;
+	hyperParams.useThirdOrderComposition = 0;
+	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.parensInSequences = 0;
+elseif composition == 7
+	hyperParams.lstm = 1;
+	hyperParams.useTrees = 1;
+	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
 	hyperParams.parensInSequences = 0;
@@ -109,8 +124,12 @@ options.DerivativeCheck = 'on';
 wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers';
 
+hyperParams.latticeEven = 1;
+'Temp latticeeven'
+
 if sentiment 
 	hyperParams.sentenceClassificationMode = 1;
+	hyperParams.SSTMode = 1;
 	wordMap = InitializeMaps('./sst-data/gradcheckwords.txt');
 	hyperParams.vocabName = 'sst-gc'; 
 

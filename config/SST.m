@@ -118,7 +118,7 @@ if strcmp(dataflag, 'sst-expanded')
     hyperParams.relationCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
 
     if penult == 0
-        hyperParams.relationCostMultipliers = (hyperParams.relationCostMultipliers + [1 1 1 1 1]) ./ 2
+        hyperParams.relationCostMultipliers = (hyperParams.relationCostMultipliers + 2 .* [1 1 1 1 1]) ./ 3
     end
 
 elseif strcmp(dataflag, 'sst')
