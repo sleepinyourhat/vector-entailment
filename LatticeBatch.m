@@ -18,6 +18,7 @@ classdef LatticeBatch < handle
         masks = [];  % Same structure as the bottom row of features, but contains dropout masks for the embedding transform layer.
         compositionActivations = [];  % Same structure as features, but contains the
                                       % activations from the composition function, and has no bottom (word) layer.
+        LSTM_IFOGf = []  % Intermediate representations used only with LSTM activations.
         scorerHiddenLayer = [];  % The activations inside the scorer before the linear combination.
         scores = [];  % The inputs to the connection softmax at each row.
         connections = [];  % The length-3 vectors of weights for the three connection types at each position in the lattice.
@@ -53,6 +54,7 @@ classdef LatticeBatch < handle
             lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm + 1);
+            lb.LSTM_IFOGf = zeros(lb.D * 5, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm);
             lb.scorerHiddenLayer = zeros(hyperParams.latticeConnectionHiddenDim, lb.B, lb.N, lb.N);
             lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
             lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
@@ -79,6 +81,8 @@ classdef LatticeBatch < handle
                 lb.activeNode(b, 1:lattices(b).wordCount, lb.N - lattices(b).wordCount + 1:lb.N) = ...
                     lattices(b).activeNode';
             end
+
+            assert(~hyperParams.lstm || sum(sum(sum(sum(lb.features(:,:,:,:,2))))) == 0);
         end
     end
 
@@ -95,8 +99,8 @@ classdef LatticeBatch < handle
                 end
 
                 % Remove features for inactive nodes.
-                lb.features(:, :, :, lb.N, 1) = ...
-                    bsxfun(@times, lb.features(:, :, :, lb.N, 1) , ...
+                lb.features(:, :, :, lb.N, :) = ...
+                    bsxfun(@times, lb.features(:, :, :, lb.N, :) , ...
                            permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
             end
 
@@ -114,7 +118,7 @@ classdef LatticeBatch < handle
                 if row > 1  % Choosing the best of one is meaningless.
                     % Precompute a padded version of the features.
                     % Dimensions: D, col, B, row
-                    paddedRow = permute(padarray(lb.features(:, :, :, row + 1, 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4]);
+                    paddedRow = permute(padarray(lb.features(:, :, :, row + 1, 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4, 5]);
 
                     for col = 1:row
                         % Score each node in the row with a two-layer network with a single output unit.
@@ -139,7 +143,6 @@ classdef LatticeBatch < handle
                         ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale, lb.activeNode(:, 1:row, row)');
                     end
 
-                    % Zero out 0/0s from inactive nodes.
                     lb.connections(3, :, 1:row, row) = merges';
 
                     if hyperParams.latticeLocalCurriculum
@@ -164,7 +167,8 @@ classdef LatticeBatch < handle
 
                     % Build the composed representation
                     if hyperParams.lstm
-                        [ lb.compositionActivations(:, :, col, row, 1), lb.compositionActivations(:, :, col, row, 2) ] = ...
+                        [ lb.compositionActivations(:, :, col, row, 1), lb.compositionActivations(:, :, col, row, 2), ...
+                            lb.LSTM_IFOGf(:, :, col, row) ] = ...
                             ComputeTreeLSTMLayer(compositionMatrix, lb.features(:, :, col, row + 1, 1), lb.features(:, :, col + 1, row + 1, 1), ...
                                              lb.features(:, :, col, row + 1, 2), lb.features(:, :, col + 1, row + 1, 2));
                     else
@@ -182,6 +186,11 @@ classdef LatticeBatch < handle
                         bsxfun(@times, lb.compositionActivations(:, :, col, row, :), ...
                                        lb.connections(3, :, col, row));
                 end
+
+                % Remove features for inactive nodes.
+                lb.features(:, :, :, row, :) = ...
+                    bsxfun(@times, lb.features(:, :, :, row, :) , ...
+                           permute(lb.activeNode(:, :, row), [3, 1, 2, 4, 5]));
             end
 
             % Collect features from the tops of each tree, not the top of the feature matrix.
@@ -228,6 +237,11 @@ classdef LatticeBatch < handle
                 % Push these deltas into the softmax that predicts where to merge.
                 deltasToMerges = zeros(row, lb.B);
 
+                % Remove deltas for inactive nodes.
+                deltas(:, :, :, row, :) = ...
+                    bsxfun(@times, deltas(:, :, :, row, :) , ...
+                           permute(lb.activeNode(:, :, row), [3, 1, 2, 4, 5]));
+
                 for col = 1:row
                     %% Handle composition function gradients %%
 
@@ -249,7 +263,7 @@ classdef LatticeBatch < handle
                     % Backprop through the composition function.
                     if hyperParams.lstm
                         [ localCompositionMatrixGradients, delta_h_l, delta_h_r, delta_c_l, delta_c_r ] = ...
-                            ComputeTreeLSTMLayerGradients(compositionMatrix, [], ...
+                            ComputeTreeLSTMLayerGradients(compositionMatrix, lb.LSTM_IFOGf(:, :, col, row), ...
                                 lb.features(:, :, col, row + 1, 1), lb.features(:, :, col + 1, row + 1, 1), ...
                                 lb.features(:, :, col, row + 1, 2), lb.features(:, :, col + 1, row + 1, 2), ...
                                 lb.features(:, :, col, row, 2), ...
@@ -284,15 +298,15 @@ classdef LatticeBatch < handle
                         % Multiply the deltas by the three inputs to the current features to compute deltas for the connections.
                         deltasToMerges(col + 1:row, :) = bsxfun(@plus, deltasToMerges(col + 1:row, :), ...
                                                           sum(sum(deltas(:, :, col, row, :) .* ...
-                                                              lb.features(:, :, col, row + 1, :), 1), 5));
+                                                              lb.features(:, :, col, row + 1, :), 5), 1));
 
                         deltasToMerges(1:col - 1, :) =  bsxfun(@plus, deltasToMerges(1:col - 1, :), ...
                                                         sum(sum(deltas(:, :, col, row, :) .* ...
-                                                            lb.features(:, :, col + 1, row + 1, :), 1), 5));
+                                                            lb.features(:, :, col + 1, row + 1, :), 5), 1));
 
                         deltasToMerges(col, :) = bsxfun(@plus, deltasToMerges(col, :), ... 
                                                     sum(sum(deltas(:, :, col, row, :) .* ...
-                                                     lb.compositionActivations(:, :, col, row, :, 1), 1), 5));
+                                                     lb.compositionActivations(:, :, col, row, :), 5), 1));
                     end
                 end
 
@@ -369,7 +383,7 @@ classdef LatticeBatch < handle
             if hyperParams.embeddingTransformDepth > 0
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    
                 rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, lb.B, lb.N);
-
+                
                 % Remove deltas for inactive nodes.
                 deltas(:, :, :, lb.N, :) = ...
                     bsxfun(@times, deltas(:, :, :, lb.N, :) , ...

@@ -28,9 +28,6 @@ hyperParams.NNinitType = 1;
 hyperParams.NTNinitType = 1;
 hyperParams.LSTMinitType = 2;
 
-% Use an older initialization scheme for comparability with older experiments.
-hyperParams.useCompatibilityInitialization = false;
-
 % How far *in each direction* should the connection classifier in a Lattice model look.
 % Setting this to 1 means to only use the immediate left and right composition inputs with no
 % additional context.
@@ -164,7 +161,7 @@ options.miniBatchSize = 32;
 % Learning parameters
 
 % What to use to compute parameter updates. 
-options.updateFn = @RMSPropUpdate;
+options.updateFn = @AdaDeltaUpdate;
 
 % AdaDelta hyperparameters.
 options.adaDeltaRho = 0.95;
