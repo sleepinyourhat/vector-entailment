@@ -26,6 +26,9 @@ classdef LatticeBatch < handle
         activeNode = [];  % Triangular boolean matrix for each batch entry indicating whether each position 
                           % is within the lattice structure for that entry.
         supervisionWeights = [];  % Multiplicative weighting factors to apply to the cost/gradient for connections.
+
+        % If LSTM composition is used, an additional dimension is used to distinguish hidden state (1) and cell state (2).
+        % TODO: Store IFOG for LSTM.
     end
    
     methods(Static)
@@ -46,10 +49,10 @@ classdef LatticeBatch < handle
 
             lb.wordIndices = zeros(lb.N, lb.B);
             lb.wordCounts = [lattices(:).wordCount];
-            lb.features = zeros(lb.D, lb.B, lb.N, lb.N);
+            lb.features = zeros(lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1);
             lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
             lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
-            lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1);
+            lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm + 1);
             lb.scorerHiddenLayer = zeros(hyperParams.latticeConnectionHiddenDim, lb.B, lb.N, lb.N);
             lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
             lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
@@ -160,8 +163,14 @@ classdef LatticeBatch < handle
                     lb.connections(2, :, col, row) = sum(lb.connections(3, :, 1:col - 1, row), 3);
 
                     % Build the composed representation
-                    compositionInputs = [ones(1, lb.B); lb.features(:, :, col, row + 1); lb.features(:, :, col + 1, row + 1)];
-                    lb.compositionActivations(:, :, col, row) = tanh(compositionMatrix * compositionInputs);
+                    if hyperParams.lstm
+                        [ lb.compositionActivations(:, :, col, row, 1), lb.compositionActivations(:, :, col, row, 2) ] = ...
+                            ComputeLSTMLayer(compositionMatrix, lb.features(:, :, col, row + 1, 1), lb.features(:, :, col + 1, row + 1, 1), ...
+                                             lb.features(:, :, col, row + 1, 2), lb.features(:, :, col + 1, row + 1, 2));
+                    else
+                        compositionInputs = [ones(1, lb.B); lb.features(:, :, col, row + 1); lb.features(:, :, col + 1, row + 1)];
+                        lb.compositionActivations(:, :, col, row) = tanh(compositionMatrix * compositionInputs);
+                    end
 
                     % Multiply the three inputs by the three connection weights.
                     % NOTE: This is a major bottleneck. Keep an eye out for possible speedups.
@@ -205,7 +214,7 @@ classdef LatticeBatch < handle
 
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
-            deltas = zeros(lb.D, lb.B, lb.N, lb.N);
+            deltas = zeros(lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
             for b = 1:lb.B
@@ -238,18 +247,36 @@ classdef LatticeBatch < handle
                                lb.connections(3, :, col, row));                 
 
                     % Backprop through the composition function.
-                    [ localCompositionMatrixGradients, compositionDeltaLeft, compositionDeltaRight ] = ...
-                        ComputeRNNLayerGradients(lb.features(:, :, col, row + 1), ...
-                                                 lb.features(:, :, col + 1, row + 1), ...
-                                                 compositionMatrix, compositionDeltas, @TanhDeriv, ...
-                                                 lb.compositionActivations(:, :, col, row));
+                    if hyperParams.lstm
+                        [ localCompositionMatrixGradients, delta_h_l, delta_h_r, delta_c_l, delta_c_r ] = ...
+                            ComputeTreeLSTMLayerGradients(compositionMatrix, [], ...
+                                lb.features(:, :, col, row + 1, 1), lb.features(:, :, col + 1, row + 1, 1), ...
+                                lb.features(:, :, col, row + 1, 2), lb.features(:, :, col + 1, row + 1, 2), ...
+                                lb.features(:, :, col, row, 2), ...
+                                compositionDeltas(:, :, 1), compositionDeltas(:, :, 2));
+                        deltas(:, :, col, row + 1, 1) = ...
+                            deltas(:, :, col, row + 1, 1) + delta_h_l;
+                        deltas(:, :, col + 1, row + 1, 1) = ...
+                            deltas(:, :, col + 1, row + 1, 1) + delta_h_r;
+                        deltas(:, :, col, row + 1, 2) = ...
+                            deltas(:, :, col, row + 1, 2) + delta_c_l;
+                        deltas(:, :, col + 1, row + 1, 2) = ...
+                            deltas(:, :, col + 1, row + 1, 2) + delta_c_r;
+                    else    
+                        [ localCompositionMatrixGradients, compositionDeltaLeft, compositionDeltaRight ] = ...
+                            ComputeRNNLayerGradients(lb.features(:, :, col, row + 1), ...
+                                                     lb.features(:, :, col + 1, row + 1), ...
+                                                     compositionMatrix, compositionDeltas, @TanhDeriv, ...
+                                                     lb.compositionActivations(:, :, col, row));
+                        deltas(:, :, col, row + 1) = ...
+                            deltas(:, :, col, row + 1) + compositionDeltaLeft;
+                        deltas(:, :, col + 1, row + 1) = ...
+                            deltas(:, :, col + 1, row + 1) + compositionDeltaRight;
+                    end
 
                     % Add the composition gradients and deltas into the accumulators.
                     compositionMatrixGradients = compositionMatrixGradients + localCompositionMatrixGradients;
-                    deltas(:, :, col, row + 1) = ...
-                        deltas(:, :, col, row + 1) + compositionDeltaLeft;
-                    deltas(:, :, col + 1, row + 1) = ...
-                        deltas(:, :, col + 1, row + 1) + compositionDeltaRight;
+
 
                     %% Handle connection function gradients %%
 

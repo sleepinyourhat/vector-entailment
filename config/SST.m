@@ -5,7 +5,7 @@ function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag,
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
-hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
+hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-p', num2str(penult), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), '-lattEv', num2str(latte), '-curr', num2str(curr), ...
@@ -114,7 +114,13 @@ if strcmp(dataflag, 'sst-expanded')
 
     % Loading this data is fast, and the preprocessed file winds up huge.
     hyperParams.ignorePreprocessedFiles = true;
+
     hyperParams.relationCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
+
+    if penult == 0
+        hyperParams.relationCostMultipliers = (hyperParams.relationCostMultipliers + [1 1 1 1 1]) ./ 2
+    end
+
 elseif strcmp(dataflag, 'sst')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
