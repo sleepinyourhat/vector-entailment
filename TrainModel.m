@@ -98,13 +98,8 @@ if ~isempty(savedParams)
 else
     modelState.step = 0;
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    if hyperParams.useCompatibilityInitialization
-        [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
-           InitializeModelCompat(wordMap, hyperParams);
-    else
-       [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
-           InitializeModel(wordMap, hyperParams);
-    end
+    [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
+       InitializeModel(wordMap, hyperParams);
 end
 
            

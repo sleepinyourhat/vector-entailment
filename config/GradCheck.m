@@ -1,7 +1,9 @@
 function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
-% TrainModel('', 1, @GradCheck, 1, 2, 6, 1, 0, 0, 1);
+% TrainModel('', 1, @GradCheck, 1, 2, 7, 1, 0, 0, 1);
+% NOTE: The LatticeLSTM doesn't do especially well on gradient checks at random initialization
+% but basically passes if tested on the model state after a few steps... keep an eye on this.
 
 [hyperParams, options] = Defaults();
 
@@ -93,7 +95,6 @@ hyperParams.clipGradients = false;
 hyperParams.maxGradNorm = inf;
 hyperParams.maxDeltaNorm = inf;
 
-
 % If set, weight the supervision higher in the lattice by the product of the probabilities 
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
 % This is defined in a way that is guaranteed to cause the gradient check to fail.
@@ -110,15 +111,6 @@ hyperParams.loadWords = false;
 hyperParams.trainWords = trainwords;
 
 hyperParams.minFunc = true;
-
-%%% minFunc options:
-global options
-options.Method = 'lbfgs';
-options.MaxFunEvals = 1000;
-options.Display = 'full';
-options.numDiff = 0;
-options.LS_init = '2';
-options.PlotFcns = [];
 options.DerivativeCheck = 'on';
 
 wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
