@@ -40,13 +40,13 @@ classdef Tree < handle
             
             stack = cell(length(C));
             stackTop = 0;
-            
+
             for i = 1:length(C)
-                if ~strncmpi(C{i}(1), '(', 1) && ~strcmp(C{i}(1), ')')
+                if ~strncmpi(C{i}, '(', 1) && ~strcmp(C{i}, ')')
                     % Turn words into leaf nodes
                     stack{stackTop + 1} = Tree.makeLeaf(C{i}, wordMap);
                     stackTop = stackTop + 1;
-                elseif strcmp(C{i}(1), ')')
+                elseif strcmp(C{i}, ')') && (i < 3 || ~strncmpi(C{i - 2}, '(', 1))  % Merge if the constituent isn't unary.
                     % Merge at the ends of constituents
                     r = stack{stackTop};
                     l = stack{stackTop - 1};
@@ -147,7 +147,7 @@ classdef Tree < handle
         
         function f = getFeatures(obj)
             % Returns the saved features for the tree.
-            f = obj.features;
+            f = obj.features(:, 1);
         end
         
         function type = getType(obj)
@@ -158,35 +158,40 @@ classdef Tree < handle
             i = obj.wordIndex;
         end
 
-       function updateFeatures(obj, wordFeatures, compMatrices, ...
-                                compMatrix, embeddingTransformMatrix, compNL, trainingMode, hyperParams)
+       function updateFeatures(obj, wordFeatures, compositionMatrices, ...
+                                compositionMatrix, embeddingTransformMatrix, compNL, trainingMode, hyperParams)
             % Recomputes features using fresh parameters.
 
             if (~isempty(obj.daughters))
                 for daughterIndex = 1:length(obj.daughters)
                     obj.daughters(daughterIndex).updateFeatures(...
-                        wordFeatures, compMatrices, compMatrix, embeddingTransformMatrix, ...
+                        wordFeatures, compositionMatrices, compositionMatrix, embeddingTransformMatrix, ...
                         compNL, trainingMode, hyperParams);
                 end
                 
                 lFeatures = obj.daughters(1).features;
                 rFeatures = obj.daughters(2).features;
                 
-                if size(compMatrix, 3) <= 1 % if not untied
+                if size(compositionMatrix, 3) <= 1 % if not untied
                     typeInd = 1;
                 else
                     'Tying may not be supported...'
                     typeInd = obj.daughters(1).getType();
                 end
                
-                if length(compMatrices) ~= 0
+                if hyperParams.useThirdOrderComposition  % TreeRNTN
                     obj.features = ComputeTensorLayer(...
-                        lFeatures, rFeatures, compMatrices(:,:,:,typeInd),...
-                        compMatrix(:,:,typeInd), compNL);
-                elseif length(compMatrix) ~= 0
+                        lFeatures, rFeatures, compositionMatrices(:,:,:,typeInd),...
+                        compositionMatrix(:,:,typeInd), compNL);
+                elseif hyperParams.lstm  % TreeLSTM
+                    [ features, cFeatures ] = ...
+                            ComputeTreeLSTMLayer(compositionMatrix, lFeatures(:,1), rFeatures(:,1), ...
+                                                 lFeatures(:,2), rFeatures(:,2));
+                    obj.features = [features, cFeatures];
+                elseif ~hyperParams.useSumming  % TreeRNN
                     obj.features = ComputeRNNLayer(lFeatures, rFeatures,...
-                        compMatrix(:,:,typeInd), compNL);
-                else
+                        compositionMatrix(:,:,typeInd), compNL);
+                else  % SumNN
                     obj.features = ComputeSummingLayer(lFeatures, rFeatures);
                 end
             else
@@ -200,6 +205,11 @@ classdef Tree < handle
                     transformActivations = compNL(transformInnerActivations);
                     [ obj.features, obj.mask ] = Dropout(transformActivations, hyperParams.bottomDropout, trainingMode);
                 end
+
+                if hyperParams.lstm
+                    % Create blank c features
+                    obj.features = [ obj.features, zeros(size(obj.features, 1), 1) ];
+                end
             end
         end
         
@@ -207,17 +217,17 @@ classdef Tree < handle
                    upwardCompositionMatricesGradients, ...
                    upwardCompositionMatrixGradients, ...
                    upwardEmbeddingTransformMatrixGradients ] = ...
-            getGradient(obj, delta, ~, wordFeatures, compMatrices, ...
-                        compMatrix, embeddingTransformMatrix, ...
+            getGradient(obj, delta, ~, wordFeatures, compositionMatrices, ...
+                        compositionMatrix, embeddingTransformMatrix, ...
                         compNLDeriv, hyperParams)
             
             DIM = length(delta);
             EMBDIM = size(embeddingTransformMatrix, 2) - 1;
             NUMTRANS = size(embeddingTransformMatrix, 3) .* (length(embeddingTransformMatrix) > 0);
 
-            if size(compMatrix, 3) == 1 % Using tied composition parameters
+            if size(compositionMatrix, 3) == 1 % Using tied composition parameters
                 NUMCOMP = 1;
-            elseif size(compMatrix, 3) == 0 % Using summing
+            elseif size(compositionMatrix, 3) == 0 % Using summing
                 NUMCOMP = 0;
             else % Untied RNN
                 NUMCOMP = 3; % TODO: Hardcoded for now, here and elsewhere.
@@ -226,48 +236,64 @@ classdef Tree < handle
             upwardWordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
             
-            if size(compMatrices, 1) == 0
+            if size(compositionMatrices, 1) == 0
                 upwardCompositionMatricesGradients = [];
             else
-                upwardCompositionMatricesGradients = zeros(DIM, DIM, DIM, NUMCOMP);
+                upwardCompositionMatricesGradients = zeros(size(compositionMatrices));
             end
 
-            upwardCompositionMatrixGradients = zeros(DIM, 2 * DIM + 1, NUMCOMP);
-            upwardEmbeddingTransformMatrixGradients = zeros(DIM, EMBDIM + 1, NUMTRANS);
+            upwardCompositionMatrixGradients = zeros(size(compositionMatrix));
+            upwardEmbeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix));
 
             if (~isempty(obj.daughters))
-                if size(compMatrix, 3) == 1 % Check if using tied composition parameters
+                if size(compositionMatrix, 3) == 1 % Check if using tied composition parameters
                     typeInd = 1;
                 else
                     typeInd = obj.daughters(1).getType();
                 end
+
+                if hyperParams.lstm && (size(delta, 2) == 1)
+                    % Add a black c delta
+                    delta = [delta, zeros(DIM, 1)];
+                end
                 
-                lFeatures = obj.daughters(1).features();
-                rFeatures = obj.daughters(2).features();
+                lFeatures = obj.daughters(1).features;
+                rFeatures = obj.daughters(2).features;
                 
-                if length(compMatrices) ~= 0 % RNTN
+                if hyperParams.useThirdOrderComposition  % TreeRNTN
                     [tempCompositionMatricesGradients, ...
                         tempCompositionMatrixGradients, ...
                         compDeltaLeft, compDeltaRight] = ...
                     ComputeTensorLayerGradients(lFeatures, rFeatures, ...
-                          compMatrices(:,:,:,typeInd), ...
-                          compMatrix(:,:,typeInd), delta, ...
+                          compositionMatrices(:,:,:,typeInd), ...
+                          compositionMatrix(:,:,typeInd), delta, ...
                           compNLDeriv, obj.features);
 
                     upwardCompositionMatricesGradients(:,:,:,typeInd) = ...
                         tempCompositionMatricesGradients;
                     upwardCompositionMatrixGradients(:,:,typeInd) = ...
                         tempCompositionMatrixGradients;
-                elseif length(compMatrix) ~= 0 % RNN
+                elseif hyperParams.lstm  % TreeLSTM
+                    [ tempCompositionMatrixGradients, delta_h_l, delta_h_r, delta_c_l, delta_c_r ] = ...
+                        ComputeTreeLSTMLayerGradients(compositionMatrix, [], ...
+                            lFeatures(:,1), rFeatures(:,1), ...
+                            lFeatures(:,2), rFeatures(:,2), ...
+                            obj.features(:, 2), ...
+                            delta(:, 1), delta(:, 2));
+                    compDeltaLeft = [delta_h_l, delta_c_l];
+                    compDeltaRight = [delta_h_r, delta_c_r];
+                    upwardCompositionMatrixGradients(:,:,typeInd) = ...
+                        tempCompositionMatrixGradients;
+                elseif ~hyperParams.useSumming  % TreeRNN
                     [tempCompositionMatrixGradients, compDeltaLeft, ...
                         compDeltaRight] = ...
                     ComputeRNNLayerGradients(lFeatures, rFeatures, ...
-                          compMatrix(:,:,typeInd), delta, ...
+                          compositionMatrix(:,:,typeInd), delta, ...
                           compNLDeriv, obj.features);
 
                     upwardCompositionMatrixGradients(:,:,typeInd) = ...
                         tempCompositionMatrixGradients;
-                else % Summing network
+                else  % SumNN
                     [compDeltaLeft, compDeltaRight] = ...
                       ComputeSummingLayerGradients(delta);                 
                 end
@@ -279,7 +305,7 @@ classdef Tree < handle
                   incomingEmbeddingTransformMatrixGradients ] = ...
                   obj.getLeftDaughter.getGradient( ...
                                 compDeltaLeft, [], wordFeatures, ...
-                                compMatrices, compMatrix, embeddingTransformMatrix, ...
+                                compositionMatrices, compositionMatrix, embeddingTransformMatrix, ...
                                 compNLDeriv, hyperParams);
                 if hyperParams.trainWords
                     upwardWordGradients = upwardWordGradients + ...
@@ -304,7 +330,7 @@ classdef Tree < handle
                   incomingEmbeddingTransformMatrixGradients ] = ...
                   obj.getRightDaughter.getGradient( ...
                                 compDeltaRight, [], wordFeatures, ...
-                                compMatrices, compMatrix, embeddingTransformMatrix, ...
+                                compositionMatrices, compositionMatrix, embeddingTransformMatrix, ...
                                 compNLDeriv, hyperParams);
                 if hyperParams.trainWords
                     upwardWordGradients = upwardWordGradients + ...
@@ -321,13 +347,14 @@ classdef Tree < handle
                     incomingEmbeddingTransformMatrixGradients;
             elseif hyperParams.trainWords
                 % Compute gradients for embedding transform layers
+                delta = delta(:, 1);  % Ignore c deltas if present.
 
                 if NUMTRANS > 0
                     delta = delta .* obj.mask; % Take dropout into account
                     [ upwardEmbeddingTransformMatrixGradients, delta ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               delta, wordFeatures(:, obj.wordIndex), ...
-                              obj.features, compNLDeriv);
+                              obj.features(:, 1), compNLDeriv);
                 end
 
                 % Compute the word feature gradients
@@ -335,12 +362,14 @@ classdef Tree < handle
                     upwardWordGradients(:, obj.wordIndex) + delta;
             elseif NUMTRANS > 0
                 % Compute gradients for embedding transform layers
+                delta = delta(:, 1);  % Ignore c deltas if present.
+
                 delta = delta .* obj.mask; % Take dropout into account
 
                 upwardEmbeddingTransformMatrixGradients = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           delta, wordFeatures(:, obj.wordIndex), ...
-                          obj.features, compNLDeriv);
+                          obj.features(:, 1), compNLDeriv);
             end            
         end
     end

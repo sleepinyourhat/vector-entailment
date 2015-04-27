@@ -51,7 +51,6 @@ dIFOG([Ir Flr Frr Or], :) = (y .* (1.0 - y)) .* dIFOGf([Ir Flr Frr Or], :);
 % Compute main gradients and deltas.
 dWLSTM = dIFOG * in';
 dHin = WLSTM' * dIFOG;
-delta_x_down = dHin(2:D + 1, :);
 
 % Compute h deltas.
 delta_h_l = dHin(2:D + 1, :);
