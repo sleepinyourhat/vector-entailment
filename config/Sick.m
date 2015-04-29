@@ -12,17 +12,6 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-cdim', num2str(conDim)];
 
 
-%%
-
-hyperParams.latticeConnectionHiddenDim = conDim;
-
-if conDim == 0
-    hyperParams.latticeConnectionHiddenDim = 10;
-    hyperParams.latticeLocalCurriculum = false;
-end
-
-%%
-
 % The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
 % the GloVe vectors.
 hyperParams.dim = dim;
@@ -66,42 +55,7 @@ hyperParams.topDropout = topDropout;
 
 hyperParams.useEyes = 1;
 
-if composition == -1
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 0;
-  hyperParams.useSumming = 1;
-elseif composition < 2
-  hyperParams.useThirdOrderComposition = composition;
-  hyperParams.useThirdOrderMerge = composition;
-elseif composition == 2
-  hyperParams.lstm = 1;
-  hyperParams.useTrees = 0;
-  hyperParams.eyeScale = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 1;
-  hyperParams.parensInSequences = 0;
-elseif composition == 3
-  hyperParams.lstm = 0;
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 1;
-  hyperParams.parensInSequences = 0;
-elseif composition == 4
-  hyperParams.useLattices = 1;
-  hyperParams.lstm = 0;
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 0;
-  hyperParams.parensInSequences = 0;
-elseif composition == 5
-  hyperParams.useLattices = 1;
-  hyperParams.lstm = 0;
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useThirdOrderMerge = 1;
-  hyperParams.parensInSequences = 0;
-end
+hyperParams = CompositionSetup(hyperParams, composition);
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
@@ -158,6 +112,21 @@ elseif strcmp(dataflag, 'dg-only')
 
     wordMap = InitializeMaps('sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095';
+
+    hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
+    hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first1k.tsv',
+                                 '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_last1k.tsv'};
+    hyperParams.splitFilenames = {};
+elseif strcmp(dataflag, 'dg-only-sst') 
+    % The number of relations.
+    hyperParams.numRelations = [2];
+
+    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
+    relationMap = cell(1, 1);
+    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+
+    wordMap = InitializeMaps('sst-data/sst-words.txt');
+    hyperParams.vocabName = 'sst';
 
     hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
     hyperParams.testFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first1k.tsv',

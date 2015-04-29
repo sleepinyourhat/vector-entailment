@@ -9,5 +9,5 @@ or
 not
 (
 )
-*START*
-*END*
+<s>
+</s>

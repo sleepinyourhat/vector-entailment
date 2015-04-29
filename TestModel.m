@@ -19,7 +19,7 @@ end
 
 aggConfusion = zeros(hyperParams.numRelations(targetRelationSet));
 targetConfusion = zeros(hyperParams.numRelations(targetRelationSet));    
-sumConAcc = zeros(1, 2);
+aggConAcc = [];
 
 for i = 1:length(testDatasets{1})
     if length(testDatasets{2}{i}) == 0
@@ -27,8 +27,8 @@ for i = 1:length(testDatasets{1})
     end
 
     [ ~, ~, ~, acc, conAcc, confusion ] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
-    if conAcc ~= -1
-        sumConAcc = sumConAcc + conAcc;
+    if conAcc(1) ~= -1
+        aggConAcc = [aggConAcc; conAcc(2:end)];
     end
     if i == 1
         targetConfusion = confusion;
@@ -51,6 +51,6 @@ combinedMf1 = [GetMacroF1(targetConfusion), GetMacroF1(aggConfusion)];
 
 combinedAcc = [targetAcc, aggAcc];
 
-combinedConAcc = sumConAcc ./ length(testDatasets{1});
+combinedConAcc = [mean(aggConAcc(isfinite(aggConAcc))); aggConAcc];
 
 end

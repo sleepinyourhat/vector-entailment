@@ -16,15 +16,14 @@ hyperParams.SSTMode = 1;
 
 %%
 
-hyperParams.latticeEven = latte;
-
 hyperParams.latticeLocalCurriculum = curr;
 
-if adad
-    options.updateFn = @AdaDeltaUpdate;
-end
-
 hyperParams.connectionCostScale = ccs;
+
+if adad < 1
+    options.updateFn = @AdaDeltaUpdate;
+    options.lr = adad;
+end
 
 %%
 
@@ -68,35 +67,20 @@ options.miniBatchSize = 32;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
-if composition == -1
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.useSumming = 1;
-elseif composition < 2
-  hyperParams.useThirdOrderComposition = composition;
-elseif composition == 2
-  hyperParams.lstm = 1;
-  hyperParams.useTrees = 0;
-  hyperParams.eyeScale = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.parensInSequences = 0;
-elseif composition == 3
-  hyperParams.lstm = 0;
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.parensInSequences = 0;
-elseif composition == 4
-  hyperParams.useLattices = 1;
-  hyperParams.lstm = 0;
-  hyperParams.useTrees = 0;
-  hyperParams.useThirdOrderComposition = 0;
-  hyperParams.parensInSequences = 0;
-end
+hyperParams = CompositionSetup(hyperParams, composition);
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
-hyperParams.fragmentData = false;
+% How often (in steps) to report cost.
+options.costFreq = 250;
+
+% How often (in steps) to run on test data.
+options.testFreq = 250;
+
+% How often to report confusion matrices and connection accuracies. 
+% Should be a multiple of testFreq.
+options.detailedStatFreq = 250;
 
 if strcmp(dataflag, 'sst-expanded')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
@@ -118,7 +102,7 @@ if strcmp(dataflag, 'sst-expanded')
     hyperParams.relationCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
 
     if penult == 0
-        hyperParams.relationCostMultipliers = (hyperParams.relationCostMultipliers + 2 .* [1 1 1 1 1]) ./ 3
+        hyperParams.relationCostMultipliers = (hyperParams.relationCostMultipliers + [1 1 1 1 1]) ./ 2
     end
 
 elseif strcmp(dataflag, 'sst')
@@ -135,6 +119,5 @@ elseif strcmp(dataflag, 'sst')
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'./sst-data/dev.txt'};
 end
-
 
 end

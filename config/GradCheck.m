@@ -7,60 +7,7 @@ function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, 
 
 [hyperParams, options] = Defaults();
 
-if composition == -1
-	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 0;
-	hyperParams.useSumming = 1;
-elseif composition < 2
-	hyperParams.useThirdOrderComposition = composition;
-	hyperParams.useThirdOrderMerge = composition;
-elseif composition == 2
-	hyperParams.lstm = 1;
-	hyperParams.useTrees = 0;
-	hyperParams.eyeScale = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
-elseif composition == 3
-	hyperParams.lstm = 0;
-	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
-elseif composition == 4
-	hyperParams.useLattices = 1;
-	hyperParams.lstm = 0;
-	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
-elseif composition == 5
-	hyperParams.useLattices = 1;
-	hyperParams.lstm = 0;
-	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
-elseif composition == 6
-	hyperParams.useLattices = 1;
-	hyperParams.lstm = 1;
-	hyperParams.eyeScale = 0;
-	hyperParams.useTrees = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
-elseif composition == 7
-	hyperParams.lstm = 1;
-	hyperParams.useTrees = 1;
-	hyperParams.eyeScale = 0;
-	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
-end
-
-% Add identity matrices where appropriate in initiazilation.
-hyperParams.eyeScale = hyperParams.eyeScale;
+hyperParams = CompositionSetup(hyperParams, composition);
 
 hyperParams.name = 'gradcheck';
 
@@ -115,9 +62,6 @@ options.DerivativeCheck = 'on';
 
 wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers';
-
-hyperParams.latticeEven = 1;
-'Temp latticeeven'
 
 if sentiment 
 	hyperParams.sentenceClassificationMode = 1;

@@ -88,7 +88,9 @@ if mod(modelState.step, options.testFreq) == 0
 
     if conAcc(1) ~= -1
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
-            ' train connection acc: ', num2str(conAcc), ' test connection acc: ',  num2str(testConAcc)]);
+            ' train connection acc: ', num2str(conAcc(1)), ' test connection acc: ',  num2str(testConAcc(1))]);
+        Log(hyperParams.examplelog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
+            ' train connection acc: ', num2str(conAcc'), ' test connection acc: ',  num2str(testConAcc')]);
     end
 
     FlushLogs(hyperParams);

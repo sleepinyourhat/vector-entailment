@@ -189,6 +189,7 @@ export MATLABCMD="cd quant; conCost = 5; lambda = 0.0005; dim = 30; ed = 200; td
 export MATLABCMD="cd quant; conCost = 10; lambda = 0.0005; dim = 30; ed = 200; td = 2; penult = 75; comp = 5; dropout = [0.75\, 0.75]; collo = 1; dataflag='sick-plus-600k-ea-dev'; name='/scr/sbowman/updaterule4b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, comp\, dropout(1)\, dropout(2)\, collo\, 1\, conCost);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 export MATLABCMD="cd quant; conCost = 20; lambda = 0.0005; dim = 30; ed = 200; td = 2; penult = 75; comp = 5; dropout = [0.75\, 0.75]; collo = 1; dataflag='sick-plus-600k-ea-dev'; name='/scr/sbowman/updaterule4b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, comp\, dropout(1)\, dropout(2)\, collo\, 1\, conCost);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 
+export MATLABCMD="cd quant; conCost = 5; lambda = 0.0005; dim = 30; ed = 200; td = 2; penult = 75; comp = 5; dropout = [0.75\, 0.75]; collo = 1; dataflag='dg-only-sst'; name='/scr/sbowman/updaterule4b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, comp\, dropout(1)\, dropout(2)\, collo\, 1\, conCost);" ; qsub -v MATLABCMD quant/run.sh -q john -l nodes=1:ppn=12
 
 
 # LSTM init: 90: 2, 3, 1, 50: 2, 3, 1, 30: 1,3,2

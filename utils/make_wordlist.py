@@ -47,7 +47,7 @@ def count_words(filenames):
 
 
 def create_wordlist(training_words, test_words, vector_words):
-    wordlist = ['-', '<unk>', '<num>']
+    wordlist = ['-', '<unk>', '<num>', '<s>', '</s>']
     for word in set(list(training_words.keys()) + list(test_words.keys())):
         if word in vector_words:
             wordlist.append(word)
