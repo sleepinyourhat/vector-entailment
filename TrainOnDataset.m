@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ modelState ] = TrainOnDataset(CostGradFunc, trainingData, testDatasets, modelState, hyperParams, options, filename)
+function [ modelState ] = TrainOnDataset(CostGradFunc, trainingData, testDatasets, modelState, hyperParams, options, ~)
 % Run one SGD pass through an in-memory dataset.
 
 % Shuffle the data, using multiple copies of some examples if requested.

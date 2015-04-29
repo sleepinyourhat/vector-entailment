@@ -28,6 +28,11 @@ classdef LatticeBatch < handle
                           % is within the lattice structure for that entry.
         supervisionWeights = [];  % Multiplicative weighting factors to apply to the cost/gradient for connections.
 
+        rawLeftEdgeEmbedding = [];   % The untransformed versions of the extra word embeddings that are fed to the 
+        rawRightEdgeEmbedding = [];  % scorer at the edges of each sentence.
+        leftEdgeEmbedding = [];   % The transformed verisions of the above.
+        rightEdgeEmbedding = [];
+
         % If LSTM composition is used, an additional dimension is used to distinguish hidden state (1) and cell state (2).
         % TODO: Store IFOG for LSTM.
     end
@@ -52,7 +57,7 @@ classdef LatticeBatch < handle
             lb.wordCounts = [lattices(:).wordCount];
             lb.features = zeros(lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1);
             lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
-            lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * lb.N);
+            lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * (lb.N + 2));
             lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm + 1);
             lb.LSTM_IFOGf = zeros(lb.D * 5, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm);
             lb.scorerHiddenLayer = zeros(hyperParams.latticeConnectionHiddenDim, lb.B, lb.N, lb.N);
@@ -61,7 +66,10 @@ classdef LatticeBatch < handle
             lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
             lb.activeNode = zeros(lb.B, lb.N, lb.N);
             lb.supervisionWeights = ones(lb.B, lb.N);
-
+            lb.rawLeftEdgeEmbedding = wordFeatures(:, hyperParams.sentenceStartWordIndex);
+            lb.rawRightEdgeEmbedding = wordFeatures(:, hyperParams.sentenceEndWordIndex);
+            lb.leftEdgeEmbedding = zeros(lb.D, 1);
+            lb.rightEdgeEmbedding = zeros(lb.D, 1);
 
             % Copy data in from the individual batch entries.
             for b = 1:lb.B
@@ -102,12 +110,20 @@ classdef LatticeBatch < handle
                 lb.features(:, :, :, lb.N, :) = ...
                     bsxfun(@times, lb.features(:, :, :, lb.N, :) , ...
                            permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
+
+                [ lb.leftEdgeEmbedding, lb.masks(:, 1, lb.N + 1) ] = ...
+                    Dropout(tanh(embeddingTransformMatrix * [1; lb.rawLeftEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
+                [ lb.rightEdgeEmbedding, lb.masks(:, 1, lb.N + 2) ] = ...
+                    Dropout(tanh(embeddingTransformMatrix * [1; lb.rawRightEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
+            else
+                lb.leftEdgeEmbedding = lb.rawLeftEdgeEmbedding;
+                lb.rightEdgeEmbedding = lb.rawRightEdgeEmbedding;
             end
 
             % Prepare to compute connection accuracy.
             if hyperParams.showDetailedStats
-                correctConnectionLabels = 0;
-                totalConnectionLabels = sum(max(0, lb.wordCounts - 2));
+                correctConnectionLabels = zeros(lb.B, 1);
+                totalConnectionLabels = max(0, lb.wordCounts' - 2);
             end
 
             connectionCosts = zeros(lb.B, 1);
@@ -120,6 +136,13 @@ classdef LatticeBatch < handle
                     % Dimensions: D, col, B, row
                     paddedRow = permute(padarray(lb.features(:, :, :, row + 1, 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4, 5]);
 
+                    % Apply <s>/</s>
+                    paddedRow(:, hyperParams.latticeConnectionContextWidth - 1, :) = ...
+                        repmat(lb.leftEdgeEmbedding, [1, 1, lb.B]);
+                    paddedRow(:, sub2ind([lb.N + (2 * (hyperParams.latticeConnectionContextWidth - 1)), lb.B], ...
+                        max(1, hyperParams.latticeConnectionContextWidth + lb.wordCounts + row + 1 - lb.N), 1:lb.B)) = ...
+                        repmat(lb.rightEdgeEmbedding, [1, 1, lb.B]);
+
                     for col = 1:row
                         % Score each node in the row with a two-layer network with a single output unit.
 
@@ -129,19 +152,14 @@ classdef LatticeBatch < handle
                         scorerHiddenInputs(2, :) = col;
                         scorerHiddenInputs(3, :) = (1.0 .* col) / row;
 
-                        % Dimensions: hiddenD, B
+                        % Dimensions: hiddenD x B
                         lb.scorerHiddenLayer(:, :, col, row) = tanh(connectionMatrix * scorerHiddenInputs);
                         lb.scores(col, :, row) = scoringVector * [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
                     end
 
                     % Softmax the scores.
-                    if hyperParams.latticeEven
-                        [ merges, localConnectionCosts, probCorrect ] = ...
-                            ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
-                    else
-                        [ merges, localConnectionCosts, probCorrect ] = ...
-                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale, lb.activeNode(:, 1:row, row)');
-                    end
+                    [ merges, localConnectionCosts, probCorrect ] = ...
+                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
 
                     lb.connections(3, :, 1:row, row) = merges';
 
@@ -154,7 +172,7 @@ classdef LatticeBatch < handle
 
                     if hyperParams.showDetailedStats
                         [ ~, preds ] = max(lb.connections(3, :, :, row), [], 3);
-                        correctConnectionLabels = correctConnectionLabels + sum((preds' == lb.connectionLabels(:, row)) .* lb.activeNode(:, 2, row));
+                        correctConnectionLabels = correctConnectionLabels + (preds' == lb.connectionLabels(:, row) .* lb.activeNode(:, 2, row));
                     end
                 else
                     lb.connections(3, :, 1, row) = 1;
@@ -204,7 +222,8 @@ classdef LatticeBatch < handle
             % permute(lb.connections(3,1,:,:), [4, 3, 1, 2])
 
             if hyperParams.showDetailedStats
-                connectionAccuracy = correctConnectionLabels / totalConnectionLabels;
+                connectionAccuracies = correctConnectionLabels ./ totalConnectionLabels;
+                connectionAccuracy = [ mean(connectionAccuracies(isfinite(connectionAccuracies))); connectionAccuracies ];
             else
                 connectionAccuracy = -1;
             end
@@ -224,6 +243,8 @@ classdef LatticeBatch < handle
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
             deltas = zeros(lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1);
+            leftEdgeEmbeddingDeltas = zeros(lb.D, 1);
+            rightEdgeEmbeddingDeltas = zeros(lb.D, 1);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
             for b = 1:lb.B
@@ -318,19 +339,9 @@ classdef LatticeBatch < handle
                         ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row));
 
                     % Compute gradients for the scores wrt. the independent connection supervision signal.
-                    if hyperParams.latticeEven
-
-                        [ ~, labelDeltasToScores ] = ...
-                                ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
-                                    lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
-
-                    else
- 
-                        [ ~, labelDeltasToScores ] = ...
-                                ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
-                                    lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row));
-                           
-                    end
+                    [ ~, labelDeltasToScores ] = ...
+                            ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
+                                lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
 
                     deltasToScores = labelDeltasToScores + incomingDeltasToScores;
 
@@ -339,6 +350,13 @@ classdef LatticeBatch < handle
 
                     % Precompute a padded version of the features.
                     paddedRow = permute(padarray(lb.features(:, :, :, row + 1, 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4]);
+
+                    % Apply <s>/</s>
+                    paddedRow(:, hyperParams.latticeConnectionContextWidth - 1, :) = ...
+                        repmat(lb.leftEdgeEmbedding, [1, 1, lb.B]);
+                    paddedRow(:, sub2ind([lb.N + (2 * (hyperParams.latticeConnectionContextWidth - 1)), lb.B], ...
+                        max(1, hyperParams.latticeConnectionContextWidth + lb.wordCounts + row + 1 - lb.N), 1:lb.B)) = ...
+                        repmat(lb.rightEdgeEmbedding, [1, 1, lb.B]);
 
                     for col = 1:row
                         scorerHiddenInputs = [ones(3, lb.B); ...
@@ -361,14 +379,29 @@ classdef LatticeBatch < handle
                                 scorerHiddenDeltas * scorerHiddenInputs';
 
                         % Distribute the deltas from the softmax function back into its inputs.
-                        for pos = 1:2 * hyperParams.latticeConnectionContextWidth
-                            sourcePos = contextPositions(pos) + col;
-                            if sourcePos > 0 && sourcePos <= row + 1
-                                deltas(:, :, sourcePos, row + 1, 1) = ...
-                                    deltas(:, :, sourcePos, row + 1, 1) + ...
-                                    deltasToContext(:, :, pos);
-                            end 
+                        sourcePositions = contextPositions(1:2 * hyperParams.latticeConnectionContextWidth) + col;
+                        positions = [1:2 * hyperParams.latticeConnectionContextWidth; ...
+                                     sourcePositions];
+                        leftEdgePosition = find(positions(2, :) == 0);
+                        positions = positions(:, positions(2, :) > 0 & positions(2, :) <= row + 1);
+                        deltas(:, :, positions(2, :), row + 1, 1) = deltas(:, :, positions(2, :), row + 1, 1) + ...
+                            deltasToContext(:, :, positions(1, :));
+
+                        if ~isempty(leftEdgePosition)
+                            % Handle the left padding embedding in the 0th column.
+                            leftEdgeEmbeddingDeltas = leftEdgeEmbeddingDeltas ...
+                                + sum(deltasToContext(:, :, leftEdgePosition), 2);
                         end
+
+                        % Handle the right padding embedding, which can appear in any column.
+                        % Surprisingly, this mess of arithmetic seems to work:
+                        rightEdgePos = lb.wordCounts + row - lb.N - col + hyperParams.latticeConnectionContextWidth + 2;
+                        rightEdgeIndices = [1:lb.B; rightEdgePos];
+                        rightEdgeIndices = rightEdgeIndices(:, (rightEdgeIndices(2, :) > 0) ...
+                            & (rightEdgeIndices(2, :) <= (2 * hyperParams.latticeConnectionContextWidth)));
+                        rightEdgeEmbeddingDeltas = rightEdgeEmbeddingDeltas + sum(deltasToContext(:, ...
+                            sub2ind([lb.B, 2 * hyperParams.latticeConnectionContextWidth], ...
+                                    rightEdgeIndices(1, :), rightEdgeIndices(2, :))), 2);
                     end
                 end
 
@@ -397,14 +430,33 @@ classdef LatticeBatch < handle
                               lb.features(:, :, col, lb.N, 1), @TanhDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
+
+                % Handle padding embeddings.
+                transformDeltas = leftEdgeEmbeddingDeltas .* lb.masks(:, 1, lb.N + 1);  % Take dropout into account
+                [ localEmbeddingTransformMatrixGradients, leftEdgeEmbeddingDeltas ] = ...
+                      ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
+                          transformDeltas, lb.rawLeftEdgeEmbedding, ...
+                          lb.leftEdgeEmbedding, @TanhDeriv);
+                embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
+
+                transformDeltas = rightEdgeEmbeddingDeltas .* lb.masks(:, 1, lb.N + 2);  % Take dropout into account
+                [ localEmbeddingTransformMatrixGradients, rightEdgeEmbeddingDeltas ] = ...
+                      ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
+                          transformDeltas, lb.rawRightEdgeEmbedding, ...
+                          lb.rightEdgeEmbedding, @TanhDeriv);
+                embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
             else
                 embeddingTransformMatrixGradients = [];
             end
 
             % Push deltas from the bottom row into the word gradients.
-            % TODO: We don't need to require wordFeatures as an input, only used here.
             wordGradients = sparse([], [], [], ...
                 size(wordFeatures, 1), size(wordFeatures, 2), lb.N * lb.B);
+
+            % These have already been pooled across examples, so add them in directly.
+            wordGradients(:, hyperParams.sentenceStartWordIndex) = leftEdgeEmbeddingDeltas;
+            wordGradients(:, hyperParams.sentenceEndWordIndex) = rightEdgeEmbeddingDeltas;
+
             if hyperParams.trainWords
                 for b = 1:lb.B
                     for col = 1:lb.wordCounts(b)

@@ -3,3 +3,5 @@ bad
 good
 just
 <unk>
+<s>
+</s>

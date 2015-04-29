@@ -37,7 +37,7 @@ hyperParams.latticeConnectionHiddenDim = 8;
 
 % If set, weight the supervision higher in the lattice by the product of the probabilities 
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
-hyperParams.latticeLocalCurriculum = true;
+hyperParams.latticeLocalCurriculum = false;
 
 % The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -133,7 +133,7 @@ hyperParams.maxGradNorm = 5;
 % In batch learning, deltas above this *squared* l2 norm will be rescaled down.
 hyperParams.maxDeltaNorm = inf;
 
-hyperParams.connectionCostScale = 0.1;
+hyperParams.connectionCostScale = 1;
 
 % One scalar for each label. Multiply the cost and gradient of examples with this label by this factor.
 % Currently doesn't support multiple label sets, but this could be fairly easily fixed.
@@ -156,7 +156,7 @@ options.PlotFcns = [];
 %%% TrainSGD learning options. %%%
 
 options.numPasses = 1000;
-options.miniBatchSize = 32;
+options.miniBatchSize = 64;
 
 % Learning parameters
 

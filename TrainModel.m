@@ -102,7 +102,12 @@ else
        InitializeModel(wordMap, hyperParams);
 end
 
-           
+% Set up the special word indices for the lattice model
+if hyperParams.useLattices
+    % These tokens should not occur in running text, but are instead meant to indicade edges for the lattice scorer.
+    hyperParams.sentenceStartWordIndex = wordMap('<s>');
+    hyperParams.sentenceEndWordIndex = wordMap('</s>');
+end
 
 hyperParams = FlushLogs(hyperParams);
 

@@ -45,8 +45,7 @@ Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
-In each run, we sample 20\% of the 60k generated pairs to test on and 
-train on the remainder. In this setting, each model must learn a
+In each run, we partition the full set of possible sentences under the grammar into training and test sentences, and label all of the pairs from within each set to generate a training set of 27k pairs and a test set of 7k pairs. Because the model doesn't see the test sentences at training time, it cannot directly use the kind of reasoning described in \S\ref{sec:join}, each model must learn a
 complete reasoning system for the limited language and logic presented
 in the training data, and must be able
 to recognize all of the lexical relations between the nouns, verbs,
