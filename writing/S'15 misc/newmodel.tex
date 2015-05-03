@@ -39,8 +39,6 @@ In this section, we propose a simple framework for syntactic parsing that lends 
 
 \subsection{Model definition}
 
-
-
 To compute the vector representation for a sentence, we populate the bottom row of the structure $\vec{y}^{(N,1...N)}$ with the embedddings of each of the words. We then compute the representations of each row starting at the second row from the bottom ($N - 1$), and moving from left to right. Computing one feature vector requires two stages. In the first step, we produce a distribution $\vec{o}$ over the operations \{\textsc{copy-L, copy-R, compose}\}, and in the second step, that distribution is used to compute a feature vector $\vec{y}$.
 
 At each row $i$, we begin by computing a scoring feature vector $\vec{s}$ for each node $(i, j)$ which is meant to contain features that allow the model to judge how appropriate it would be to compose the two child nodes $(i+1, j)$ and $(i+1, j+1)$ at $(i, j)$. This decision is made primarily on the basis of the two child nodes, and a $C$-word window of context around them that is meant to allow the model to do a limited amount of ambiguity resolution. When the context window extends off the edge of the lattice in either direction, a single learned padding vector is used. % TODO
@@ -102,17 +100,25 @@ Once all of the activations in the lattice have been computed, the top activatio
 \vec{l} = \text{softmax}(\mathbf{M_l}\,\vec{y}^{(1, 1)} + \vec{b}_l)
 \end{equation}
 %
-The loss for the example is then defined as the sum of three parts, a log likelihood term for the predicted sentiment class label, a sum of log likelihood terms for the correct composition location decisions (scaled by the number of ``middle'' layers in the lattice for which a composition location choice must be made), and an L2 regularization term. For sentiment relation label $\rho$, composition loctation label vector $\vec{\kappa}$, concatenated parameter vector $\theta$, and regularization strength hyperparameter $\lambda$ the loss is:
+The loss for the example is then defined as the sum of three parts, a log likelihood term for the predicted sentiment class label, a sum of log likelihood terms for the correct composition location decisions (scaled by the number of ``middle'' layers in the lattice for which a composition location choice must be made), and an L2 regularization term. For sentiment label $\rho$, composition loctation label vector $\vec{\kappa}$, concatenated parameter vector $\theta$, and regularization strength hyperparameter $\lambda$ the loss is:
 %
 
 \begin{eqnarray}
 loss & = & \lambda\theta^2 - \ln(l_\rho) -\\
-\nonumber&&\frac{1}{N - 1} \sum_{i = 1}^{N - 2} \ln(o^{(i,\kappa^{(i)})}_{\textsc{compose}})
+\nlonumber&&\frac{1}{N - 1} \sum_{i = 1}^{N - 2} \ln(o^{(i,\kappa^{(i)})}_{\textsc{compose}})
 \end{eqnarray}
 %
 Parameter gradients can then be computed using standard backpropagation through structure \cite{goller1996learning}. Notably, when the composition location labels $\vec{\kappa}$, are used, the corresponding error signal at each row is used not only to train the scoring parameters $\vec{v}_s$, but also propagates error through the input vector used in eq. \ref{scoringeqn} and into the rest of the model.
 
 Batching
+
+\subsection{Using pretrained word embeddings}
+
+In order to be able to take advantage of the information contained in high-dimensional pretrained word embeddings (we use the 200d vectors distributed with Glove) without the significant expense of large intermediate node representations, we use a projection neural network layer to map the pretrained embeddings  Like in (CITE: Irsoy, Cardie) this has the effect of allowing the intermediate node representations to live in a differently structured vector space from the words. This is defined as follows, where $N$ is the row index of the bottom row (equivalent to the length of the sentence), $\mathbf{M}_t$ and $\vec{b_t}$ are the parameters of the embedding transformation layer, $\mathbf{E}$ is the matrix of pretrained embeddings, $\delta$ is a one-hot vector with a 1 at index $w$, and $w$ is the index into that matrix for the word at position $j$:
+
+\begin{equation}
+\vec{y}^{(N,j)} = \tanh(\mathbf{M_t} \mathbf{E} \delta_{w} + \vec{b_t})
+\end{equation}
 
 \subsection{LSTM composition}
 
@@ -133,5 +139,7 @@ The LSTM variant of our model uses a TreeLSTM composition function. We largely m
 The output $\vec{h}^{(i,j)}$ is then incorporated into $\vec{y}^{(i,j)}$ according to the operation weights, as in the basic model.
 
 % Possible supervision backoff proposal
+
+
 
 \subsection{Related work}
