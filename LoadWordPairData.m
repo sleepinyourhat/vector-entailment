@@ -1,10 +1,10 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ wordMap, relationMap, relations, data ] = ...
+function [ wordMap, labelMap, labels, data ] = ...
     LoadWordPairData(filename, hyperParams)
 % Load simple *word-word* pair data for pretraining and to generate a word map.
 
 % For some experiments, this is only used to initialize the words and
-% relations, and the data itself is not used.
+% labels, and the data itself is not used.
 
 Log(hyperParams.statlog, 'Warning: Using LoadWordPairData!');
 
@@ -14,14 +14,14 @@ C = textscan(fid,'%s','delimiter',sprintf('\n'));
 fclose(fid);
 
 % Initialize the data array
-rawData = repmat(struct('relation', 0, 'leftText', '', 'rightText', ''), ...
+rawData = repmat(struct('label', 0, 'leftText', '', 'rightText', ''), ...
     length(C{1}), 1);
 wordList = cell(length(C{1}), 1);
 
-% Establish (manually specified) relations
-relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(relations{1}, 1:length(relations{1}));
+% Establish (manually specified) labels
+labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
+labelMap = cell(1, 1);
+labelMap{1} = containers.Map(labels{1}, 1:length(labels{1}));
 
 % Parse the file
 itemNo = 1;
@@ -35,7 +35,7 @@ for line = 1:maxLine;
         
         if ~(length(splitLine{1}) ~= 1 || splitLine{1} == '%')
             % Skip lines that are blank or have a multicharacter first chunk
-            rawData(itemNo).relation = relationMap{1}(splitLine{1});
+            rawData(itemNo).label = labelMap{1}(splitLine{1});
             rawData(itemNo).leftText = splitLine{2};
             rawData(itemNo).rightText = splitLine{3};
 
@@ -67,14 +67,14 @@ wordMap = containers.Map(vocabulary,1:length(vocabulary));
 % here's a shortcut to avoid some work in those cases
 if nargout > 3
     % Build the dataset
-    data = repmat(struct('relation', 0, 'leftTree', Tree(), 'rightTree', Tree()), ...
+    data = repmat(struct('label', 0, 'leftTree', Tree(), 'rightTree', Tree()), ...
         length(rawData), 1);
 
     % Build Trees
     for dataInd = 1:length(rawData)
         data(dataInd).leftTree = Tree.makeTree(rawData(dataInd).leftText, wordMap);
         data(dataInd).rightTree = Tree.makeTree(rawData(dataInd).rightText, wordMap);
-        data(dataInd).relation = rawData(dataInd).relation;
+        data(dataInd).label = rawData(dataInd).label;
     end
 end
 

@@ -2,11 +2,11 @@
 function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, multipliers, active)
 % Run the softmax classifier layer forward, and compute log loss if possible. 
 
-% Note: Relation range specifies which relations are under consideration. If 
-% relationRange covers the whole space of relations suported by the parameter
-% matrix (i.e., relationRange = 1:size(matrix, 1)), then this computes
+% Note: Label range specifies which labels are under consideration. If 
+% labelRange covers the whole space of labels suported by the parameter
+% matrix (i.e., labelRange = 1:size(matrix, 1)), then this computes
 % the distribution for a single normal softmax classifier. If this is not the case, then
-% columns of the matrix that aren't included in relationRange are ignored, and assumed
+% columns of the matrix that aren't included in labelRange are ignored, and assumed
 % to not contribute to the output distribution or the partition function.
 
 % This configuration is used to allow for one trained network to be trained using examples
@@ -40,9 +40,9 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 	probs = zeros(D, B); % This will be padded with zeros at the end if a shorter class set is used.
 
 	for b = 1:B
-		relationRange = hyperParams.relationRanges{labels(b, 2)};
+		labelRange = hyperParams.labelRanges{labels(b, 2)};
 		if ~isempty(matrix)
-			unNormedProbs = exp(matrix(relationRange, :) * inPadded(:, b));
+			unNormedProbs = exp(matrix(labelRange, :) * inPadded(:, b));
 		else
 			unNormedProbs = exp(in);
 		end
@@ -52,7 +52,7 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 		end
 
 		partition = sum(unNormedProbs);
-		probs(1:length(relationRange), b) = unNormedProbs / partition;
+		probs(1:length(labelRange), b) = unNormedProbs / partition;
 
 		% Pad with ones to allow for zeros in labels, which won't contribute to cost.
 		if labels(b, 1) > 0

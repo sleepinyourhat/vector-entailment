@@ -22,7 +22,7 @@ else
 end
 
 % Randomly initialize softmax layer
-softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numRelations), 1, 1);
+softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numLabels), 1, 1);
 
 mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
 

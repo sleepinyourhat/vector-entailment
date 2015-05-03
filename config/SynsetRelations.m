@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SynsetRelations(name, transDepth, penult, lambda, tot, mbs, lr, trainwords, fastemb)
+function [ hyperParams, options, wordMap, labelMap ] = SynsetLabels(name, transDepth, penult, lambda, tot, mbs, lr, trainwords, fastemb)
 
 [hyperParams, options] = Defaults();
 
@@ -35,17 +35,17 @@ options.miniBatchSize = mbs;
 
 options.lr = lr;
 
-hyperParams.numRelations = [3]; 
+hyperParams.numLabels = [3]; 
 
-wordMap = InitializeMaps('synset-relations/longer_wordlist.txt');
+wordMap = InitializeMaps('synset-labels/longer_wordlist.txt');
 hyperParams.vocabName = 'synset'; 
 
-hyperParams.relations = {{'hypernym', 'hyponym', 'coordinate'}};
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+hyperParams.labels = {{'hypernym', 'hyponym', 'coordinate'}};
+labelMap = cell(1, 1);
+labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 hyperParams.trainFilenames = {};
 hyperParams.testFilenames = {};
-hyperParams.splitFilenames = {'./synset-relations/longer_shuffled_synset_relations.tsv'};
+hyperParams.splitFilenames = {'./synset-labels/longer_shuffled_synset_labels.tsv'};
 
 end

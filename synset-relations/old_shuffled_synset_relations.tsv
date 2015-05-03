@@ -191,7 +191,7 @@ coordinate	trek	trip
 coordinate	leader	applicant
 coordinate	atmosphere	silence
 coordinate	amendment	amendment
-hyponym	relation	connection
+hyponym	label	connection
 hypernym	pickup	truck
 hypernym	racing	sport
 coordinate	mileage	remove
@@ -224,7 +224,7 @@ coordinate	bad	ultimate
 hypernym	independence	freedom
 coordinate	powder	glass
 coordinate	oasis	oasis
-coordinate	relationship	relationship
+coordinate	labelship	labelship
 hyponym	advice	recommendation
 coordinate	aspect	external
 coordinate	open	open
@@ -258,7 +258,7 @@ hyponym	person	killer
 coordinate	three	one
 coordinate	destiny	miracle
 hypernym	calculator	expert
-coordinate	connection	relationship
+coordinate	connection	labelship
 coordinate	game	leadership
 coordinate	desert	field
 coordinate	cock	cock
@@ -623,7 +623,7 @@ coordinate	scientist	insured
 hypernym	rates	tax
 hyponym	position	polls
 coordinate	amateur	victorian
-coordinate	relationship	connection
+coordinate	labelship	connection
 hypernym	ordinary	judge
 hypernym	wallpaper	paper
 coordinate	applicant	friend
@@ -1016,7 +1016,7 @@ hypernym	registrar	employee
 coordinate	white	peer
 hyponym	anniversary	birthday
 hypernym	floating	swimming
-hypernym	part	relation
+hypernym	part	label
 hypernym	out	failure
 coordinate	secondary	secondary
 coordinate	trainer	superior
@@ -1180,7 +1180,7 @@ hypernym	trust	property
 hypernym	shame	feeling
 coordinate	slave	amateur
 coordinate	victory	victory
-hypernym	ownership	relation
+hypernym	ownership	label
 hyponym	present	now
 coordinate	spectrum	table
 coordinate	disposal	effectiveness
@@ -1324,7 +1324,7 @@ hypernym	population	people
 hypernym	filling	material
 coordinate	center	center
 hyponym	fear	horror
-hypernym	connection	relation
+hypernym	connection	label
 hyponym	event	happening
 coordinate	heater	filter
 coordinate	consideration	reasoning
@@ -1422,7 +1422,7 @@ hyponym	civilization	islam
 hypernym	search	activity
 coordinate	engineer	blogger
 hyponym	adult	liberal
-coordinate	relationship	foundation
+coordinate	labelship	foundation
 coordinate	memory	image
 coordinate	bathroom	bathroom
 coordinate	native	married
@@ -1745,7 +1745,7 @@ coordinate	poll	poll
 coordinate	custom	custom
 coordinate	comparison	comparison
 coordinate	gateway	portal
-coordinate	foundation	relationship
+coordinate	foundation	labelship
 coordinate	traveler	warrior
 coordinate	procedure	market
 coordinate	heavy	mime
@@ -2424,7 +2424,7 @@ coordinate	native	engineer
 coordinate	desert	desert
 hypernym	diamond	jewel
 coordinate	punch	punch
-hyponym	relation	foundation
+hyponym	label	foundation
 coordinate	insured	peer
 hyponym	data	metadata
 hyponym	happening	discharge
@@ -2497,7 +2497,7 @@ hypernym	catering	occupation
 hypernym	technology	application
 hyponym	equipment	apparatus
 hypernym	adult	person
-hypernym	relationship	relation
+hypernym	labelship	label
 coordinate	litigation	lawsuit
 coordinate	norwegian	czech
 hypernym	batch	collection
@@ -2723,7 +2723,7 @@ hyponym	clothing	footwear
 hyponym	stream	river
 hypernym	paper	material
 hypernym	ad	promotion
-hypernym	foundation	relation
+hypernym	foundation	label
 coordinate	neighbor	scientist
 hyponym	council	soviet
 hypernym	gen	information
@@ -3366,7 +3366,7 @@ hypernym	opinion	belief
 hypernym	fund	money
 coordinate	firm	manufacturer
 hyponym	performance	premiere
-hyponym	relation	relationship
+hyponym	label	labelship
 coordinate	child	child
 coordinate	citizen	citizen
 hyponym	detail	respect

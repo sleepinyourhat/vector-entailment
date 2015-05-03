@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, mbs)
+function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, mbs)
 % Configure the recursion experiments. 
 % NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
 
@@ -32,10 +32,10 @@ wordMap = InitializeMaps('./propositionallogic/longer2/wordlist.txt');
 % preparsed MAT form of an examples file.
 hyperParams.vocabName = 'RC'; 
 
-hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-hyperParams.numRelations = [7];
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
+hyperParams.numLabels = [7];
+labelMap = cell(1, 1);
+labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 hyperParams.ignorePreprocessedFiles = true;
 

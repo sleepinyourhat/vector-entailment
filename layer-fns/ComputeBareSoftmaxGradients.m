@@ -4,7 +4,7 @@ function [ matrixGradients, deltasDown ] = ...
 % Compute the gradient for the softmax layer parameters using incoming
 % deltas rather than log loss and a class label vector.
 
-% TODO: (eventually maybe) add support for multiple relation classes, 
+% TODO: (eventually maybe) add support for multiple label classes, 
 % as in the other two Softmax functions.
 
 B = size(in, 2);

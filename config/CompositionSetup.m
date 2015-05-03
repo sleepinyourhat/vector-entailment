@@ -16,27 +16,23 @@ elseif composition == 2
 	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
 elseif composition == 3
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
 elseif composition == 4
 	hyperParams.useLattices = 1;
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
 elseif composition == 5
 	hyperParams.useLattices = 1;
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
 elseif composition == 6
 	hyperParams.useLattices = 1;
 	hyperParams.lstm = 1;
@@ -44,14 +40,12 @@ elseif composition == 6
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
 elseif composition == 7
 	hyperParams.lstm = 1;
 	hyperParams.useTrees = 1;
 	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 1;
-	hyperParams.parensInSequences = 0;
 end
 
 

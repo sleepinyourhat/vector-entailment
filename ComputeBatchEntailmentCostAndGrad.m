@@ -41,7 +41,7 @@ end
     rightBatch.runForward(embeddingTransformMatrix, connectionMatrix, scoringVector, compositionMatrix, hyperParams, computeGrad);
 
 % TODO: Weighted average.
-connectionAcc = [leftConnectionAcc, rightConnectionAcc];
+connectionAcc = [leftConnectionAcc; rightConnectionAcc];
 
 % Set up and run top dropout.
 [ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGrad);
@@ -65,14 +65,14 @@ for layer = 1:(hyperParams.topDepth - 1)
     extraClassifierLayerInputs(:, :, layer + 1) = hyperParams.classNL(extraClassifierLayerInnerOutputs(:, :, layer));
 end
 
-if ~isempty(hyperParams.relationCostMultipliers)
-    multipliers = hyperParams.relationCostMultipliers([data(:).relation])';
+if ~isempty(hyperParams.labelCostMultipliers)
+    multipliers = hyperParams.labelCostMultipliers([data(:).label])';
     multipliers = multipliers(:, 1);
-    [ relationProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
-                  softmaxMatrix, hyperParams, [data(:).relation]', multipliers);
+    [ labelProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
+                  softmaxMatrix, hyperParams, [data(:).label]', multipliers);
 else
-    [ relationProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
-                  softmaxMatrix, hyperParams, [data(:).relation]');
+    [ labelProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
+                  softmaxMatrix, hyperParams, [data(:).label]');
 end
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
@@ -98,10 +98,10 @@ end
 
 % Compute and report statistics.
 accumulatedSuccess = 0;
-[ ~, preds ] = max(relationProbs);
-confusion = zeros(hyperParams.numRelations(data(1).relation(2)));
+[ ~, preds ] = max(labelProbs);
+confusion = zeros(hyperParams.numLabels(data(1).label(2)));
 for b = 1:B
-    localCorrect = preds(b) == data(b).relation(1);
+    localCorrect = preds(b) == data(b).label(1);
     accumulatedSuccess = accumulatedSuccess + localCorrect;
 
     if (~localCorrect) && (nargout > 2) && hyperParams.showExamples
@@ -110,8 +110,8 @@ for b = 1:B
     end
 
     if nargout > 5
-        confusion(preds(b), data(b).relation(1)) = ...
-          confusion(preds(b), data(b).relation(1)) + 1;
+        confusion(preds(b), data(b).label(1)) = ...
+          confusion(preds(b), data(b).label(1)) + 1;
     end
 end
 
@@ -119,15 +119,15 @@ acc = (accumulatedSuccess / B);
 
 % Compute the gradients.
 if computeGrad
-    if ~isempty(hyperParams.relationCostMultipliers)
+    if ~isempty(hyperParams.labelCostMultipliers)
         [ localSoftmaxGradient, softmaxDelta ] = ...
         ComputeSoftmaxClassificationGradients(...
-          softmaxMatrix, relationProbs, [data(:).relation]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams, ...
+          softmaxMatrix, labelProbs, [data(:).label]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams, ...
            multipliers);
     else
         [ localSoftmaxGradient, softmaxDelta ] = ...
         ComputeSoftmaxClassificationGradients(...
-          softmaxMatrix, relationProbs, [data(:).relation]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams);
+          softmaxMatrix, labelProbs, [data(:).label]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams);
     end
     localSoftmaxGradient = sum(localSoftmaxGradient, 3);
 

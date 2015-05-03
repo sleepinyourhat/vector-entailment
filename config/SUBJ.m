@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, adad, ccs)
+function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, adad, ccs)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -69,7 +69,7 @@ hyperParams.topDropout = topDropout;
 
 hyperParams = CompositionSetup(hyperParams, composition);
 
-hyperParams.loadWords = true;
+hyperParams.loadWords = false;
 hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
@@ -77,11 +77,11 @@ hyperParams.fragmentData = false;
 wordMap = InitializeMaps('../data/subj_words.txt');
 hyperParams.vocabName = 'subj'; 
 
-hyperParams.numRelations = [ 2 ];
+hyperParams.numLabels = [ 2 ];
 
-hyperParams.relations = {{'subjective', 'objective'}};
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+hyperParams.labels = {{'subjective', 'objective'}};
+labelMap = cell(1, 1);
+labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 hyperParams.trainFilenames = {};    
 hyperParams.splitFilenames = {'../data/subj_parsed.txt'};    

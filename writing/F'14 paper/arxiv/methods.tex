@@ -25,9 +25,9 @@ In it, the two phrases being compared are processed separately using a pair
 of tree-structured networks that share a single set of parameters. 
 The resulting vectors are fed into a separate comparison
 layer that is meant to generate a feature vector capturing the
-relation between the two phrases. The output of this layer is then
+label between the two phrases. The output of this layer is then
 given to a softmax classifier, which produces a
-distribution over the seven relations represented in Table~\ref{b-table}.
+distribution over the seven labels represented in Table~\ref{b-table}.
 
 For the sentence embedding portions of the network, we evaluate both TreeRNN models with
  the standard NN layer function \eqref{TreeRNN} and those with the more powerful neural tensor 

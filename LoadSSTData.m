@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function data = LoadSSTData(filename, wordMap, topLabelMap, hyperParams, fragment, topLabelSetIndex)
+function data = LoadSSTData(filename, wordMap, labelMap, hyperParams, fragment, labelSetIndex)
 % Load one file of sentence pair data.
 
 if hyperParams.useTrees
@@ -44,7 +44,7 @@ maxLine = min(length(C{1}), hyperParams.lineLimit);
 % maxLine = min(35, maxLine);
 
 % Initialize the data array
-rawData = repmat(struct('topLabel', 0, 'sentenceText', ''), maxLine, 1);
+rawData = repmat(struct('label', 0, 'sentenceText', ''), maxLine, 1);
 
 % Which nextItemNo was the last to be included in the last MAT file.
 lastSave = 0;
@@ -54,8 +54,8 @@ for line = (lastSave + 1):maxLine
     if ~isempty(C{1}{line}) 
 
         % Skip commented and unlabeled lines
-        if (C{1}{line}(1) == '(') && topLabelMap{topLabelSetIndex}.isKey(C{1}{line}(2))
-            rawData(nextItemNo - lastSave).topLabel = [ topLabelMap{topLabelSetIndex}(C{1}{line}(2)); topLabelSetIndex ];
+        if (C{1}{line}(1) == '(') && labelMap{labelSetIndex}.isKey(C{1}{line}(2))
+            rawData(nextItemNo - lastSave).label = [ labelMap{labelSetIndex}(C{1}{line}(2)); labelSetIndex ];
             rawData(nextItemNo - lastSave).sentenceText = C{1}{line};
             nextItemNo = nextItemNo + 1;
         else
@@ -82,22 +82,22 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
     numElements = nextItemNo - (lastSave + 1);
 
     if hyperParams.useTrees
-        data = repmat(struct('topLabel', 0, 'sentence', Tree()), numElements, 1);
+        data = repmat(struct('label', 0, 'sentence', Tree()), numElements, 1);
         parfor dataInd = 1:numElements
             data(dataInd).sentence = Tree.makeTree(rawData(dataInd).sentenceText, wordMap);
-            data(dataInd).topLabel = rawData(dataInd).topLabel;
+            data(dataInd).label = rawData(dataInd).label;
         end
     elseif hyperParams.useLattices
-        data = repmat(struct('topLabel', 0, 'sentence', Lattice()), numElements, 1);
+        data = repmat(struct('label', 0, 'sentence', Lattice()), numElements, 1);
         parfor dataInd = 1:numElements
             data(dataInd).sentence = Lattice.makeLattice(rawData(dataInd).sentenceText, wordMap);
-            data(dataInd).topLabel = rawData(dataInd).topLabel;
+            data(dataInd).label = rawData(dataInd).label;
         end
     else
-        data = repmat(struct('topLabel', 0, 'sentence', Sequence()), numElements, 1);
+        data = repmat(struct('label', 0, 'sentence', Sequence()), numElements, 1);
         parfor dataInd = 1:numElements
             data(dataInd).sentence = Sequence.makeSequence(rawData(dataInd).sentenceText, wordMap, hyperParams.parensInSequences);
-            data(dataInd).topLabel = rawData(dataInd).topLabel;
+            data(dataInd).label = rawData(dataInd).label;
         end
     end
 

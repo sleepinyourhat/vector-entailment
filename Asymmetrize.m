@@ -5,7 +5,7 @@ function [ cutDataset ] = Asymmetrize(dataset)
 % examples where a ~= b.
 
 % Preallocate based on a hacky optimistic approximation of the size.
-cutDataset = repmat(struct('relation', 0, 'leftTree', Tree(), 'rightTree', Tree()), ...
+cutDataset = repmat(struct('label', 0, 'leftTree', Tree(), 'rightTree', Tree()), ...
     length(dataset) * .6, 1);
 
 j = 1;

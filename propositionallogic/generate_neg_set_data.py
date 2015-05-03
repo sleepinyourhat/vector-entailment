@@ -36,7 +36,7 @@ def get_satisfying_worlds_for_tree(tree, candidate_worlds):
         return set(result)
 
 
-def compute_relation(left, right, universe):
+def compute_label(left, right, universe):
     ne_intersection = left.intersection(right)
     ne_just_left = left.difference(right)
     ne_just_right = right.difference(left)
@@ -138,7 +138,7 @@ while total < 500000:
         continue
     if sat2 == worlds or len(sat2) == 0:
         continue
-    rel = compute_relation(sat1, sat2, worlds)
+    rel = compute_label(sat1, sat2, worlds)
 
     if rel != "?":
         stats[rel] += 1

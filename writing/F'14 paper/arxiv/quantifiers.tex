@@ -20,11 +20,11 @@ negated. We use the quantifiers \ii{some}, \ii{most}, \ii{all},
 \ii{two}, and \ii{three}, and their negations \ii{no}, \ii{not-all},
 \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}, and also
 include five nouns, four intransitive verbs, and the negation symbol
-\ii{not}. In order to be able to define relations between sentences
-with differing lexical items, we define the lexical relations for
+\ii{not}. In order to be able to define labels between sentences
+with differing lexical items, we define the lexical labels for
 each noun--noun pair, each verb--verb pair, and each
 quantifier--quantifier pair. The grammar then generates pairs of
-sentences and calculates the relations
+sentences and calculates the labels
 between them.  
 Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
 
@@ -49,7 +49,7 @@ In each run, we sample 20\% of the 60k generated pairs to test on and
 train on the remainder. In this setting, each model must learn a
 complete reasoning system for the limited language and logic presented
 in the training data, and must be able
-to recognize all of the lexical relations between the nouns, verbs,
+to recognize all of the lexical labels between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
 pairs like \eqref{p1} and \eqref{p2} in training and be required to 
 then label \eqref{p3}.

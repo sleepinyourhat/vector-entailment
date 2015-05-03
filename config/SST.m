@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, adad, ccs)
+function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, adad, ccs)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -15,13 +15,34 @@ hyperParams.sentenceClassificationMode = 1;
 hyperParams.SSTMode = 1;
 
 %%
+if latte == 1
+    hyperParams.compNL = @LReLU;
+    hyperParams.compNLDeriv = @LReLUDeriv; 
+    hyperParams.classNL = @LReLU;
+    hyperParams.classNLDeriv = @LReLUDeriv;
+elseif latte == 2
+    hyperParams.compNL = @tanh;
+    hyperParams.compNLDeriv = @TanhDeriv; 
+    hyperParams.classNL = @LReLU;
+    hyperParams.classNLDeriv = @LReLUDeriv;
+elseif latte == 3
+    hyperParams.compNL = @LReLU;
+    hyperParams.compNLDeriv = @LReLUDeriv; 
+    hyperParams.classNL = @tanh;
+    hyperParams.classNLDeriv = @TanhDeriv;
+elseif latte == 4
+    hyperParams.compNL = @tanh;
+    hyperParams.compNLDeriv = @TanhDeriv; 
+    hyperParams.classNL = @tanh;
+    hyperParams.classNLDeriv = @TanhDeriv;
+end
 
 hyperParams.latticeLocalCurriculum = curr;
 
 hyperParams.connectionCostScale = ccs;
 
 if adad < 1
-    options.updateFn = @AdaDeltaUpdate;
+    options.updateFn = @RMSPropUpdate;
     options.lr = adad;
 end
 
@@ -86,11 +107,11 @@ if strcmp(dataflag, 'sst-expanded')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
 
-    hyperParams.numRelations = [5];
+    hyperParams.numLabels = [5];
 
-    hyperParams.relations = {{'0', '1', '2', '3', '4'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'0', '1', '2', '3', '4'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     hyperParams.trainFilenames = {'./sst-data/train_expanded.txt'};    
     hyperParams.splitFilenames = {};    
@@ -99,21 +120,17 @@ if strcmp(dataflag, 'sst-expanded')
     % Loading this data is fast, and the preprocessed file winds up huge.
     hyperParams.ignorePreprocessedFiles = true;
 
-    hyperParams.relationCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
-
-    if penult == 0
-        hyperParams.relationCostMultipliers = (hyperParams.relationCostMultipliers + [1 1 1 1 1]) ./ 2
-    end
+    hyperParams.labelCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
 
 elseif strcmp(dataflag, 'sst')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
 
-    hyperParams.numRelations = [5];
+    hyperParams.numLabels = [5];
 
-    hyperParams.relations = {{'0', '1', '2', '3', '4'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'0', '1', '2', '3', '4'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     hyperParams.trainFilenames = {'./sst-data/train.txt'};    
     hyperParams.splitFilenames = {};    
