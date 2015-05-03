@@ -11,7 +11,7 @@ function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadAllDatasets(w
 % train/test/split, indicating which set of labels the dataset uses.
 
 if hyperParams.SSTMode
-    loadFileFn = @LoadSentimentData;
+    loadFileFn = @LoadSSTData;
 elseif hyperParams.sentenceClassificationMode
     loadFileFn = @LoadSentenceClassificationData;
 else

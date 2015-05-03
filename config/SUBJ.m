@@ -69,7 +69,7 @@ hyperParams.topDropout = topDropout;
 
 hyperParams = CompositionSetup(hyperParams, composition);
 
-hyperParams.loadWords = false;
+hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;

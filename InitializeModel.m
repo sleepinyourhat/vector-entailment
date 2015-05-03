@@ -100,10 +100,13 @@ else
     separateWordFeatures = [];
 end
 
+
 % Pack up the parameters.
 [ theta, thetaDecoder ] = param2stack(mergeMatrices, mergeMatrix, ...
     softmaxMatrix, wordFeatures, compositionMatrices, ...
     compositionMatrix, scoringVector, classifierExtraMatrix, embeddingTransformMatrix);
 
+theta = theta + 0.001; 
+'TEMP'
 end
 

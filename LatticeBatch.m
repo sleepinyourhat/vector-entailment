@@ -223,9 +223,9 @@ classdef LatticeBatch < handle
 
             if hyperParams.showDetailedStats
                 connectionAccuracies = correctConnectionLabels ./ totalConnectionLabels;
-                connectionAccuracy = [ mean(connectionAccuracies(isfinite(connectionAccuracies))); connectionAccuracies ];
+                connectionAccuracy = [mean(connectionAccuracies(isfinite(connectionAccuracies))); std(connectionAccuracies(isfinite(connectionAccuracies)))];
             else
-                connectionAccuracy = -1;
+                connectionAccuracy = [-1; -1];
             end
         end
 

@@ -15,7 +15,7 @@ if mod(modelState.step, options.testFreq) == 0
     % Test on training data.
     cost = mean(modelState.lastHundredCosts(1:min(modelState.step, 100)));
     acc = -1;
-    conAcc = -1;
+    conAcc = [ -1; -1 ];
     macro = -1;
     if ~hyperParams.fragmentData
         if length(trainingData) > hyperParams.maxTrainingEvalSampleSize
@@ -87,13 +87,9 @@ if mod(modelState.step, options.testFreq) == 0
     end
 
     if conAcc(1) ~= -1
-        size(num2str(conAcc'))
-        size(num2str(testConAcc'))
-
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
-            ' train connection acc: ', num2str(conAcc(1)), ' test connection acc: ',  num2str(testConAcc(1))]);
-        Log(hyperParams.examplelog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
-            ' train connection acc: ', num2str(conAcc'), ' test connection acc: ',  num2str(testConAcc')]);
+            ' train connection acc: ', num2str(conAcc(1, :)), ' std ', num2str(conAcc(2, :)), ...
+            ' test connection acc: ',  num2str(testConAcc(1, :)), ' std ', num2str(testConAcc(2, :))]);
     end
 
     FlushLogs(hyperParams);

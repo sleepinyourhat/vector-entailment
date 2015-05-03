@@ -16,18 +16,18 @@ hyperParams.SSTMode = 1;
 
 %%
 if latte == 1
-    hyperParams.compNL = @LReLU;
-    hyperParams.compNLDeriv = @LReLUDeriv; 
-    hyperParams.classNL = @LReLU;
-    hyperParams.classNLDeriv = @LReLUDeriv;
+    hyperParams.compNL = @ReLU;
+    hyperParams.compNLDeriv = @ReLUDeriv; 
+    hyperParams.classNL = @ReLU;
+    hyperParams.classNLDeriv = @ReLUDeriv;
 elseif latte == 2
     hyperParams.compNL = @tanh;
     hyperParams.compNLDeriv = @TanhDeriv; 
-    hyperParams.classNL = @LReLU;
-    hyperParams.classNLDeriv = @LReLUDeriv;
+    hyperParams.classNL = @ReLU;
+    hyperParams.classNLDeriv = @ReLUDeriv;
 elseif latte == 3
-    hyperParams.compNL = @LReLU;
-    hyperParams.compNLDeriv = @LReLUDeriv; 
+    hyperParams.compNL = @ReLU;
+    hyperParams.compNLDeriv = @ReLUDeriv; 
     hyperParams.classNL = @tanh;
     hyperParams.classNLDeriv = @TanhDeriv;
 elseif latte == 4
@@ -40,11 +40,6 @@ end
 hyperParams.latticeLocalCurriculum = curr;
 
 hyperParams.connectionCostScale = ccs;
-
-if adad < 1
-    options.updateFn = @RMSPropUpdate;
-    options.lr = adad;
-end
 
 %%
 
@@ -98,6 +93,9 @@ options.costFreq = 250;
 
 % How often (in steps) to run on test data.
 options.testFreq = 250;
+
+options.updateFn = @RMSPropUpdate;
+options.lr = 0.0001;
 
 % How often to report confusion matrices and connection accuracies. 
 % Should be a multiple of testFreq.

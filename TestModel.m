@@ -28,15 +28,19 @@ for i = 1:length(testDatasets{1})
 
     [ ~, ~, ~, acc, conAcc, confusion ] = CostGradFunc(theta, thetaDecoder, testDatasets{2}{i}, separateWordFeatures, hyperParams, 0);
     if conAcc(1) ~= -1
-        aggConAcc = [aggConAcc; conAcc(2:end)];
+        aggConAcc = [aggConAcc, conAcc];
     end
     if i == 1
         targetConfusion = confusion;
+        targetConAcc = conAcc;
     end
     if hyperParams.showDetailedStats && acc > 0
-        log_msg = sprintf('%s\n%s\n%s',['For test data: ', testDatasets{1}{i}, ': ', num2str(acc), ' (', num2str(GetMacroF1(confusion)), ')'], ...
-            evalc('disp(confusion)'));
-        Log(hyperParams.examplelog, log_msg);
+        Log(hyperParams.examplelog, ['For test data: ', testDatasets{1}{i}, ': ', num2str(acc), ' (', num2str(GetMacroF1(confusion)), ')']);
+        if conAcc ~= -1
+            Log(hyperParams.examplelog, ['Connection accuracy: ',  num2str(conAcc(1, :)), ' std ', num2str(conAcc(2, :))]);            
+        end
+        conf_msg = sprintf('\n%s', evalc('disp(confusion)'));
+        Log(hyperParams.examplelog, conf_msg);
     end
     if (~isfield(hyperParams, 'testLabelIndices') || hyperParams.testLabelIndices(i) == targetLabelSet)
         aggConfusion = aggConfusion + confusion;
@@ -46,11 +50,12 @@ end
 % Compute Accor rate from aggregate confusion matrix
 targetAcc = sum(sum(eye(hyperParams.numLabels(targetLabelSet)) .* targetConfusion)) / sum(sum(targetConfusion));    
 aggAcc = sum(sum(eye(hyperParams.numLabels(targetLabelSet)) .* aggConfusion)) / sum(sum(aggConfusion));    
+aggConAcc = mean(aggConAcc, 2);
 
 combinedMf1 = [GetMacroF1(targetConfusion), GetMacroF1(aggConfusion)];
 
 combinedAcc = [targetAcc, aggAcc];
 
-combinedConAcc = [mean(aggConAcc(isfinite(aggConAcc))); aggConAcc];
+combinedConAcc = [targetConAcc, aggConAcc];
 
 end

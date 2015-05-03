@@ -65,8 +65,13 @@ if nargout > 1
         localCorrect = localPred == data(b).label(1);
 
         if (~localCorrect) && (argout > 2) && hyperParams.showExamples
-            logMessages{b} = ['for: ', data(b).left.getText(), ' ', data(b).right.getText(), ...
-                  ' hypothesis:  ', num2str(localPred), ' cost: ', num2str(localCost)];
+            if hyperParams.sentenceClassificationMode
+                logMessages{b} = ['for: ', data(b).sentence.getText(), ...
+                      ' hypothesis:  ', num2str(localPred), ' cost: ', num2str(localCost)];
+            else
+                logMessages{b} = ['for: ', data(b).left.getText(), ' ', data(b).right.getText(), ...
+                      ' hypothesis:  ', num2str(localPred), ' cost: ', num2str(localCost)];
+            end
         end
 
         % Record statistics
