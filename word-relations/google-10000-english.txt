@@ -1491,7 +1491,7 @@ guest
 seems
 publication
 pass
-labels
+relations
 trust
 van
 contains
@@ -1712,7 +1712,7 @@ poor
 teacher
 xxx
 eyes
-labelship
+relationship
 workers
 farm
 fucking
@@ -2659,7 +2659,7 @@ matters
 houses
 doc
 postal
-labelships
+relationships
 tennessee
 wear
 controls
@@ -3388,7 +3388,7 @@ stick
 securities
 allen
 pdt
-label
+relation
 enabled
 genre
 slide
@@ -7355,7 +7355,7 @@ abs
 slovakia
 flip
 guild
-corlabel
+correlation
 gorgeous
 capitol
 sim
