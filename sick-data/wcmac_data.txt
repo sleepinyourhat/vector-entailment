@@ -1411,8 +1411,8 @@
 =	Radwa Ashour	Rwada Ashour
 =	Regina Schueller	Regina Shueller
 =	Rehnquist	Rehnquist
-=	Labels	labels
-=	Labels	labelship
+=	Relations	relations
+=	Relations	relationship
 =	Rennyo	he
 =	Republicans	they
 =	River Forecast Centre	River Forecast Centre
