@@ -12234,8 +12234,8 @@ reins
 rejects
 rekindle
 related
-labelship
-labelships
+relationship
+relationships
 relative
 relatively
 relatives
