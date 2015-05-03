@@ -14605,9 +14605,9 @@ rejects
 rekindle
 related
 relatedness
-labelaship
-labelship
-labelships
+relationaship
+relationship
+relationships
 relative
 relatively
 relatives

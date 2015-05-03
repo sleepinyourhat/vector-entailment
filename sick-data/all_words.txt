@@ -6741,8 +6741,8 @@ reindeer
 reins
 related
 relatedness
-labels
-labelship
+relations
+relationship
 relax
 relaxed
 relaxes

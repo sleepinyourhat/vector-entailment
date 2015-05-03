@@ -8516,7 +8516,7 @@ interpret
 interpretation
 interpretations
 interpreting
-interlabelships
+interrelationships
 interrogation
 interrupted
 intersect
@@ -13139,9 +13139,9 @@ relate
 related
 relates
 relating
-label
-labelship
-labelships
+relation
+relationship
+relationships
 relative
 relatively
 relatives
