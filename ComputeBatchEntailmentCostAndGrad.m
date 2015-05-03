@@ -41,7 +41,7 @@ end
     rightBatch.runForward(embeddingTransformMatrix, connectionMatrix, scoringVector, compositionMatrix, hyperParams, computeGrad);
 
 % TODO: Weighted average.
-connectionAcc = [leftConnectionAcc; rightConnectionAcc];
+connectionAcc = [leftConnectionAcc rightConnectionAcc];
 
 % Set up and run top dropout.
 [ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGrad);

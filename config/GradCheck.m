@@ -1,13 +1,19 @@
 function [ hyperParams, options, wordMap, labelMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
-% TrainModel('', 1, @GradCheck, 1, 2, 4, 1, 0, 0, 1);
+% TrainModel('', 1, @GradCheck, 1, 2, 4, 1, 0, 1, 0);
 % NOTE: The LatticeLSTM doesn't do especially well on gradient checks at random initialization
 % but basically passes if tested on the model state after a few steps... keep an eye on this.
 
 [hyperParams, options] = Defaults();
 
 hyperParams = CompositionSetup(hyperParams, composition);
+
+
+    hyperParams.compNL = @ReLU;
+    hyperParams.compNLDeriv = @ReLUDeriv; 
+    hyperParams.classNL = @ReLU;
+    hyperParams.classNLDeriv = @ReLUDeriv;
 
 hyperParams.name = 'gradcheck';
 

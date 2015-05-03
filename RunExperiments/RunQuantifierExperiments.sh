@@ -92,8 +92,14 @@ export MATLABCMD="cd quant-naacl; lambda = 0.0001; dim = 25; td = 1; penult = 75
 export MATLABCMD="cd quant-naacl; lambda = 0.0001; dim = 25; td = 1; penult = 75; dropout = 1; tot = -1; name='/scr/sbowman/vintage-quant-2'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, 'f4'\, dim\, penult\, td\, lambda\, tot\, 1\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant-naacl; lambda = 0.0001; dim = 25; td = 1; penult = 75; dropout = 1; tot = -1; name='/scr/sbowman/vintage-quant-2'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, 'f5'\, dim\, penult\, td\, lambda\, tot\, 1\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
-Quantifiers(name, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+% To relaunch
+export MATLABCMD="cd quant-naacl; lambda = 0.0001; dim = 25; td = 1; penult = 75; dropout = 1; tot = -1; name='/scr/sbowman/vintage-quant-2'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, 'f3'\, dim\, penult\, td\, lambda\, tot\, 1\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant-naacl; lambda = 0.0001; dim = 25; td = 1; penult = 75; dropout = 1; tot = -1; name='/scr/sbowman/vintage-quant-2'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, 'f4'\, dim\, penult\, td\, lambda\, tot\, 1\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant-naacl; lambda = 0.0001; dim = 25; td = 1; penult = 75; dropout = 1; tot = -1; name='/scr/sbowman/vintage-quant-2'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, 'f5'\, dim\, penult\, td\, lambda\, tot\, 1\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
 
-lambda = 0.0001; dim = 15; td = 1; penult = 75; dropout = 1; tot = 0; name='newinit'; 
-TrainModel('', 1, @Quantifiers, name, dim, penult, td, lambda, tot, dropout);
+Quantifiers(name, dataflag, dim, penult, top, lambda, composition, tdrop)
+
+
+lambda = 0.0001; dim = 5; td = 1; penult = 5; dropout = 1; tot = 4; name='newinit-test'; 
+TrainModel('', 1, @Quantifiers, name, 'dev', dim, penult, td, lambda, tot, dropout);

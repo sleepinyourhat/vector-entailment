@@ -27,17 +27,14 @@ else
 end
 
 N = length(randomOrder); % Number of examples in full dataset.
-numBatches = ceil(N/options.miniBatchSize);
+
+% Don't bother with the last few examples if they don't make up a full minibatch. 
+% They'll be reshuffled in the next epoch.
+numBatches = floor(N / options.miniBatchSize);
 
 for batchNo = 0:(numBatches - 1)
     beginMiniBatch = (batchNo * options.miniBatchSize + 1);
     endMiniBatch = (batchNo + 1) * options.miniBatchSize;
-
-    % Don't bother with the last few examples if they don't make up a full minibatch. 
-    % They'll be reshuffled in the next epoch.
-    if endMiniBatch > N
-        return
-    end
 
     batchInd = randomOrder(beginMiniBatch:endMiniBatch);
     batch = trainingData(batchInd);
