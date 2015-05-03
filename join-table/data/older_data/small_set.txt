@@ -26,7 +26,7 @@ Sets in model:
 24 (0,)
 SAMPLE
 Training data:
-Join-derived relation statistics:
+Join-derived label statistics:
 Counter({'|': 95, '<': 68, '>': 60, 'v': 47, '#': 44, '=': 39, '^': 21, '?': 1})
 <	0	2	<
 =	0	3	=
@@ -404,7 +404,7 @@ v	23	19	v
 <	24	23	<
 =	24	24	=
 Test data:
-Join-derived relation statistics:
+Join-derived label statistics:
 Counter({'|': 55, '>': 51, '<': 43, '#': 32, 'v': 27, '=': 24, '^': 18})
 =	0	0	=
 <	0	1	<
@@ -656,7 +656,7 @@ v	23	2	v
 |	24	20	|
 <	24	21	<
 <	24	22	<
-True relation statistics for training:
+True label statistics for training:
 Counter({'|': 95, '<': 68, '>': 60, 'v': 47, '#': 44, '=': 39, '^': 22})
-True relation statistics for testing:
+True label statistics for testing:
 Counter({'|': 55, '>': 51, '<': 43, '#': 32, 'v': 27, '=': 24, '^': 18})

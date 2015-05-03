@@ -25,7 +25,7 @@ if mod(modelState.step, options.testFreq) == 0
             trainingSample = trainingData;
         end
 
-        if mod(modelState.step, options.detailedStatFreq) == 0 && modelState.step > 0
+        if mod(modelState.step, options.detailedStatFreq) == 0
             hyperParams.showDetailedStats = true;
         else
             hyperParams.showDetailedStats = false;
@@ -38,7 +38,7 @@ if mod(modelState.step, options.testFreq) == 0
             hyperParams.showExamples = false;
         end
 
-        if length(hyperParams.numRelations) == 1
+        if length(hyperParams.numLabels) == 1
             [cost, ~, ~, acc, conAcc, conf] = CostGradFunc(modelState.theta, modelState.thetaDecoder, trainingSample, modelState.separateWordFeatures, hyperParams, 0);
             macro = GetMacroF1(conf);
         else
@@ -48,7 +48,7 @@ if mod(modelState.step, options.testFreq) == 0
 
     % Test on test data.
     if nargin > 5
-        if mod(modelState.step, options.detailedStatFreq) == 0 && modelState.step > 0
+        if mod(modelState.step, options.detailedStatFreq) == 0
             hyperParams.showDetailedStats = true;
         else
             hyperParams.showDetailedStats = false;
@@ -87,6 +87,9 @@ if mod(modelState.step, options.testFreq) == 0
     end
 
     if conAcc(1) ~= -1
+        size(num2str(conAcc'))
+        size(num2str(testConAcc'))
+
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
             ' train connection acc: ', num2str(conAcc(1)), ' test connection acc: ',  num2str(testConAcc(1))]);
         Log(hyperParams.examplelog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
@@ -100,7 +103,6 @@ elseif mod(modelState.step, options.costFreq) == 0
 end
 
 if mod(modelState.step, options.checkpointFreq) == 0 && modelState.step > 0
-
     % Write a checkpoint to disk.
     save([options.name, '/', 'ckpt-', options.runName, datestr(now, 'yymmddHHMMSS'),...
        '@', num2str(modelState.step)], 'modelState');

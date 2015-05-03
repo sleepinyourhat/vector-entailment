@@ -103,7 +103,7 @@ classdef LatticeBatch < handle
                 for col = 1:lb.N
                     transformInputs = [ ones(1, lb.B); lb.rawEmbeddings(:, :, col) ];
                     [ lb.features(:, :, col, lb.N, 1), lb.masks(:, :, col) ] = ...
-                        Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);
+                        Dropout(hyperParams.compNL(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);
                 end
 
                 % Remove features for inactive nodes.
@@ -112,9 +112,9 @@ classdef LatticeBatch < handle
                            permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
 
                 [ lb.leftEdgeEmbedding, lb.masks(:, 1, lb.N + 1) ] = ...
-                    Dropout(tanh(embeddingTransformMatrix * [1; lb.rawLeftEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
+                    Dropout(hyperParams.compNL(embeddingTransformMatrix * [1; lb.rawLeftEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
                 [ lb.rightEdgeEmbedding, lb.masks(:, 1, lb.N + 2) ] = ...
-                    Dropout(tanh(embeddingTransformMatrix * [1; lb.rawRightEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
+                    Dropout(hyperParams.compNL(embeddingTransformMatrix * [1; lb.rawRightEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
             else
                 lb.leftEdgeEmbedding = lb.rawLeftEdgeEmbedding;
                 lb.rightEdgeEmbedding = lb.rawRightEdgeEmbedding;
@@ -153,7 +153,7 @@ classdef LatticeBatch < handle
                         scorerHiddenInputs(3, :) = (1.0 .* col) / row;
 
                         % Dimensions: hiddenD x B
-                        lb.scorerHiddenLayer(:, :, col, row) = tanh(connectionMatrix * scorerHiddenInputs);
+                        lb.scorerHiddenLayer(:, :, col, row) = hyperParams.compNL(connectionMatrix * scorerHiddenInputs);
                         lb.scores(col, :, row) = scoringVector * [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
                     end
 
@@ -191,7 +191,7 @@ classdef LatticeBatch < handle
                                              lb.features(:, :, col, row + 1, 2), lb.features(:, :, col + 1, row + 1, 2));
                     else
                         compositionInputs = [ones(1, lb.B); lb.features(:, :, col, row + 1, 1); lb.features(:, :, col + 1, row + 1, 1)];
-                        lb.compositionActivations(:, :, col, row, 1) = tanh(compositionMatrix * compositionInputs);
+                        lb.compositionActivations(:, :, col, row, 1) = hyperParams.compNL(compositionMatrix * compositionInputs);
                     end
 
                     % Multiply the three inputs by the three connection weights.
@@ -301,7 +301,7 @@ classdef LatticeBatch < handle
                         [ localCompositionMatrixGradients, compositionDeltaLeft, compositionDeltaRight ] = ...
                             ComputeRNNLayerGradients(lb.features(:, :, col, row + 1, 1), ...
                                                      lb.features(:, :, col + 1, row + 1, 1), ...
-                                                     compositionMatrix, compositionDeltas, @TanhDeriv, ...
+                                                     compositionMatrix, compositionDeltas, @hyperParams.compNLDeriv, ...
                                                      lb.compositionActivations(:, :, col, row, 1));
                         deltas(:, :, col, row + 1, 1) = ...
                             deltas(:, :, col, row + 1, 1) + compositionDeltaLeft;
@@ -369,7 +369,7 @@ classdef LatticeBatch < handle
                         scorerInput = [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
 
                         scorerHiddenDeltas = scoringVector' * deltasToScores(col, :);
-                        scorerHiddenDeltas = scorerHiddenDeltas(2:end, :) .* TanhDeriv([], lb.scorerHiddenLayer(:, :, col, row));
+                        scorerHiddenDeltas = scorerHiddenDeltas(2:end, :) .* hyperParams.compNLDeriv([], lb.scorerHiddenLayer(:, :, col, row));
 
                         scoringVectorGradients = scoringVectorGradients + deltasToScores(col, :) * scorerInput';
 
@@ -427,7 +427,7 @@ classdef LatticeBatch < handle
                     [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               transformDeltas, lb.rawEmbeddings(:, :, col), ...
-                              lb.features(:, :, col, lb.N, 1), @TanhDeriv);
+                              lb.features(:, :, col, lb.N, 1), hyperParams.compNLDeriv);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
 
@@ -436,14 +436,14 @@ classdef LatticeBatch < handle
                 [ localEmbeddingTransformMatrixGradients, leftEdgeEmbeddingDeltas ] = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           transformDeltas, lb.rawLeftEdgeEmbedding, ...
-                          lb.leftEdgeEmbedding, @TanhDeriv);
+                          lb.leftEdgeEmbedding, hyperParams.compNLDeriv);
                 embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
 
                 transformDeltas = rightEdgeEmbeddingDeltas .* lb.masks(:, 1, lb.N + 2);  % Take dropout into account
                 [ localEmbeddingTransformMatrixGradients, rightEdgeEmbeddingDeltas ] = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           transformDeltas, lb.rawRightEdgeEmbedding, ...
-                          lb.rightEdgeEmbedding, @TanhDeriv);
+                          lb.rightEdgeEmbedding, hyperParams.compNLDeriv);
                 embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
             else
                 embeddingTransformMatrixGradients = [];

@@ -1,6 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function  wordMap  = InitializeMaps(filename)
-% Load a word map from text. For use with the SICK model setup.
+% Load a word map from text.
 
 % Load the file
 fid = fopen(filename);

@@ -1,5 +1,5 @@
-function [ hyperParams, options, wordMap, relationMap ] = Join(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
-% Relation composition experiments.
+function [ hyperParams, options, wordMap, labelMap ] = Join(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
+% Label composition experiments.
 
 [hyperParams, options] = Defaults();
 
@@ -33,10 +33,10 @@ hyperParams.topDropout = tdrop;
 
 hyperParams.vocabName = dataflag;
 
-hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-hyperParams.numRelations = [7];
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
+hyperParams.numLabels = [7];
+labelMap = cell(1, 1);
+labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 
 if findstr(dataflag, 'fold1')

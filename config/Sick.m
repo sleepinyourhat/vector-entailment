@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, conDim)
+function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, conDim)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -72,10 +72,10 @@ if findstr(dataflag, 'sick-only-dev')
     wordMap = InitializeMaps('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all'; 
 
-    hyperParams.numRelations = [3];
-   	hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
-	relationMap = cell(1, 1);
-	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.numLabels = [3];
+   	hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
+	labelMap = cell(1, 1);
+	labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed.txt'};    
     hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt', ...
@@ -85,12 +85,12 @@ if findstr(dataflag, 'sick-only-dev')
     				 './sick-data/SICK_trial_parsed_lt18_parens.txt'};
     hyperParams.splitFilenames = {};
 elseif findstr(dataflag, 'sick-only')
-    % The number of relations.
-    hyperParams.numRelations = [3];
+    % The number of labels.
+    hyperParams.numLabels = [3];
 
-    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     wordMap = InitializeMaps('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all';
@@ -103,12 +103,12 @@ elseif findstr(dataflag, 'sick-only')
                      './sick-data/SICK_test_annotated_rearranged_parsed.txt'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'dg-only') 
-    % The number of relations.
-    hyperParams.numRelations = [2];
+    % The number of labels.
+    hyperParams.numLabels = [2];
 
-    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'ENTAILMENT', 'NONENTAILMENT'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     wordMap = InitializeMaps('sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095';
@@ -118,12 +118,12 @@ elseif strcmp(dataflag, 'dg-only')
                                  '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_last1k.tsv'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'dg-only-sst') 
-    % The number of relations.
-    hyperParams.numRelations = [2];
+    % The number of labels.
+    hyperParams.numLabels = [2];
 
-    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'ENTAILMENT', 'NONENTAILMENT'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     wordMap = InitializeMaps('sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst';
@@ -133,14 +133,14 @@ elseif strcmp(dataflag, 'dg-only-sst')
                                  '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_last1k.tsv'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'sick-plus-600k-ea-dev') 
-    % The number of relations.
-    hyperParams.numRelations = [3, 2];
+    % The number of labels.
+    hyperParams.numLabels = [3, 2];
 
-    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
+    hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(2, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+    labelMap = cell(2, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+    labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
     wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
@@ -155,17 +155,17 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
-    hyperParams.testRelationIndices = [1, 1, 2];
+    hyperParams.labelIndices = [1, 1, 2; 1, 1, 2; 0, 0, 0];
+    hyperParams.testLabelIndices = [1, 1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-dev') 
-    % The number of relations.
-    hyperParams.numRelations = [3, 2];
+    % The number of labels.
+    hyperParams.numLabels = [3, 2];
 
-    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
+    hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(2, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+    labelMap = cell(2, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+    labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
     wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
@@ -178,17 +178,17 @@ elseif strcmp(dataflag, 'sick-plus-600k-dev')
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 2; 1, 2; 0, 0];
-    hyperParams.testRelationIndices = [1, 2];
+    hyperParams.labelIndices = [1, 2; 1, 2; 0, 0];
+    hyperParams.testLabelIndices = [1, 2];
 elseif strcmp(dataflag, 'sick-plus-600k-ea') 
-    % The number of relations.
-    hyperParams.numRelations = [3, 2];
+    % The number of labels.
+    hyperParams.numLabels = [3, 2];
 
-    hyperParams.relations = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
+    hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(2, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+    labelMap = cell(2, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+    labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
     wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
@@ -206,15 +206,15 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea')
                      '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_100.tsv'};
     hyperParams.splitFilenames = {};
     % Use different classifiers for the different data sources.
-    hyperParams.relationIndices = [1, 1, 1, 1, 2; 1, 1, 1, 2, 0; 0, 0, 0, 0, 0];
-    hyperParams.testRelationIndices = [1, 1, 1, 2];
+    hyperParams.labelIndices = [1, 1, 1, 1, 2; 1, 1, 1, 2, 0; 0, 0, 0, 0, 0];
+    hyperParams.testLabelIndices = [1, 1, 1, 2];
 elseif strcmp(dataflag, 'imageflickrshort')
-    % The number of relations.
-    hyperParams.numRelations = [2]; 
+    % The number of labels.
+    hyperParams.numLabels = [2]; 
 
-    hyperParams.relations = {{'ENTAILMENT', 'NONENTAILMENT'}};
-	relationMap = cell(1, 1);
-	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'ENTAILMENT', 'NONENTAILMENT'}};
+	labelMap = cell(1, 1);
+	labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     wordMap = InitializeMaps('sick-data/flickr_words_t4.txt');
     hyperParams.vocabName = 'spt4-2cl';

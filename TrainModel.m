@@ -10,7 +10,7 @@ function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
 %% fold: Used for five fold cross-validation on some data sources. Settings other than 1 will 
 %%%% cause -f# to be appended to the experiment name.
 %% ConfigFn: A function handle to an experiment configuration function that sets up 
-%%%% hyperParams, options, wordMap, and relationMap. See examples in the config/ directory.
+%%%% hyperParams, options, wordMap, and labelMap. See examples in the config/ directory.
 %% varargin: All remaining arguments will be passed through to the config function.
 
 % Look for experiment configuration scripts in the config/ directory.
@@ -35,8 +35,8 @@ if isempty(gcp('nocreate'))
     end
 end
 
-[ hyperParams, options, wordMap, relationMap ] = ConfigFn(varargin{:});
-hyperParams.relationRanges = ComputeRelationRanges(relationMap);
+[ hyperParams, options, wordMap, labelMap ] = ConfigFn(varargin{:});
+hyperParams.labelRanges = ComputeLabelRanges(labelMap);
 
 % If the fold number is grater than one, the train/test split on split data will 
 % be offset accordingly.
@@ -113,7 +113,7 @@ hyperParams = FlushLogs(hyperParams);
 
 % Load training/test data
 [ trainDataset, testDatasets, hyperParams.trainingLengths ] = ...
-    LoadAllDatasets(wordMap, relationMap, hyperParams);
+    LoadAllDatasets(wordMap, labelMap, hyperParams);
 
 % Trim out individual examples if needed (only from the first source)
 if hyperParams.dataPortion < 1
@@ -126,17 +126,15 @@ end
 Log(hyperParams.statlog, 'Training')
 
 % Choose a function of the data to optimize.
-if ~hyperParams.sentenceClassificationMode
+if ~hyperParams.sentenceClassificationMode && ~hyperParams.useTrees
     % Entailment
-    if ~hyperParams.useTrees
-        optFn = @ComputeBatchEntailmentCostAndGrad;
-    else     
-        optFn = @ComputeUnbatchedEntailmentCostAndGrad;
-    end
+    optFn = @ComputeBatchEntailmentCostAndGrad;
+elseif ~hyperParams.useTrees
+    % Sentiment/classification
+    optFn = @ComputeBatchSentenceClassificationCostAndGrad;
 else
-    % Sentiment
-    assert(~hyperParams.useTrees, 'Sentiment is not yet compatible with unbatched computation (i.e., trees).');
-    optFn = @ComputeBatchSentimentCostAndGrad;
+    % Trees in either mode
+    optFn = @ComputeUnbatchedCostAndGrad;
 end
 
 % Launch the optimizer!

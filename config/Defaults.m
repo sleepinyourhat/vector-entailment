@@ -125,7 +125,7 @@ hyperParams.fastEmbed = false;
 
 hyperParams.clearActivations = false;
 
-% Applies to the unbatched ComputeCostAndGrad only.
+% Applies to unbatched computation only.
 % Full gradient vectors above this l2 norm will be rescaled down.
 hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
@@ -137,10 +137,13 @@ hyperParams.connectionCostScale = 1;
 
 % One scalar for each label. Multiply the cost and gradient of examples with this label by this factor.
 % Currently doesn't support multiple label sets, but this could be fairly easily fixed.
-hyperParams.relationCostMultipliers = [];
+hyperParams.labelCostMultipliers = [];
 
 % Load at most this many lines of any one file. Useful in debugging.
 hyperParams.lineLimit = inf;
+
+% Treat parsing parens as tokens in sequence models.
+hyperParams.parensInSequences = false;
 
 %%% minFunc options: %%%
 

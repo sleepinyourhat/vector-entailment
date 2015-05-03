@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp)
+function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -70,13 +70,13 @@ if findstr(dataflag, 'snli095-sick')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
-    hyperParams.numRelations = [3, 3];
+    hyperParams.numLabels = [3, 3];
 
-    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'},
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'},
                              {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
-    relationMap = cell(2, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+    labelMap = cell(2, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+    labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
     hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed.txt', ...
                                   './sick-data/SICK_train_parsed.txt'};    
@@ -84,74 +84,74 @@ if findstr(dataflag, 'snli095-sick')
     hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt', ...
                                  '../data/snli_0.95_dev_parsed.txt'};
 
-    hyperParams.relationIndices = [1, 2; 2, 1; 0, 0];
-    hyperParams.testRelationIndices = [2, 1];
+    hyperParams.labelIndices = [1, 2; 2, 1; 0, 0];
+    hyperParams.testLabelIndices = [2, 1];
     hyperParams.trainingMultipliers = [1; mult];
 
 elseif findstr(dataflag, 'snli095-only')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
-    hyperParams.numRelations = [3];
+    hyperParams.numLabels = [3];
 
-    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     hyperParams.trainFilenames = {'../data/snli_0.95_train_parsed.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt'};
 
-    hyperParams.relationIndices = [1; 1; 1];
-    hyperParams.testRelationIndices = [1];
+    hyperParams.labelIndices = [1; 1; 1];
+    hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
 elseif findstr(dataflag, 'snli096-only')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
-    hyperParams.numRelations = [3];
+    hyperParams.numLabels = [3];
 
-    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     hyperParams.trainFilenames = {'../data/snli_0.96_train.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'../data/snli_0.95_dev_parsed.txt'};
 
-    hyperParams.relationIndices = [1; 1; 1];
-    hyperParams.testRelationIndices = [1];
+    hyperParams.labelIndices = [1; 1; 1];
+    hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
 elseif findstr(dataflag, 'snli095short-only')
     wordMap = InitializeMaps('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
-    hyperParams.numRelations = [3];
+    hyperParams.numLabels = [3];
 
-    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'}};
-    relationMap = cell(1, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
     hyperParams.trainFilenames = {'../data/snli_0.95_train_words_parsed_short.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'../data/snli_0.95_dev_words_parsed_short.txt'};
 
-    hyperParams.relationIndices = [1; 1; 1];
-    hyperParams.testRelationIndices = [1];
+    hyperParams.labelIndices = [1; 1; 1];
+    hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
 elseif findstr(dataflag, 'dg-pre')
-    hyperParams.numRelations = [3, 3, 2];
+    hyperParams.numLabels = [3, 3, 2];
 
-    hyperParams.relations = {{'entailment', 'contradiction', 'neutral'},
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'},
                              {'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'},
                              {'ENTAILMENT', 'NONENTAILMENT'}};
-    relationMap = cell(3, 1);
-    relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-    relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
-    relationMap{3} = containers.Map(hyperParams.relations{3}, 1:length(hyperParams.relations{3}));
+    labelMap = cell(3, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+    labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
+    labelMap{3} = containers.Map(hyperParams.labels{3}, 1:length(hyperParams.labels{3}));
 
     wordMap = InitializeMaps('sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095';
@@ -161,8 +161,8 @@ elseif findstr(dataflag, 'dg-pre')
                                  '/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first1k.tsv'};
     hyperParams.splitFilenames = {};
 
-    hyperParams.relationIndices = [3, 0; 3, 3; 0, 0];
-    hyperParams.testRelationIndices = [3, 3];
+    hyperParams.labelIndices = [3, 0; 3, 3; 0, 0];
+    hyperParams.testLabelIndices = [3, 3];
 end
 
 end

@@ -2,7 +2,7 @@
 
 """
 Code for generating simple quantified statements and calculating
-their natural logic relation.
+their natural logic label.
 """
 
 from itertools import product
@@ -31,7 +31,7 @@ FILENAME_STEM = "f5_"
 if not DISTINGUISH_UNIONS_FROM_INDY:
     UNK = INDY
 
-# JOINTABLE = { # Version w/o UNK relation
+# JOINTABLE = { # Version w/o UNK label
 #    EQ:   {EQ:EQ,   FOR:FOR,  REV:REV,  NEG:NEG,  ALT:ALT,  COV:COV,  INDY:INDY},
 #    FOR:  {EQ:FOR,  FOR:FOR,  REV:INDY, NEG:ALT,  ALT:ALT,  COV:INDY, INDY:INDY},
 #    REV:  {EQ:REV,  FOR:INDY, REV:REV,  NEG:COV,  ALT:INDY, COV:COV,  INDY:INDY},
@@ -243,9 +243,9 @@ def all_sentences(ignore_unk=True):
         d['sentence'] = s
         d['premise'] = leaves(s, 0)
         d['hypothesis'] = leaves(s, 1)
-        d['relation'] = interpret(s, lexicon, projectivity)[0]
+        d['label'] = interpret(s, lexicon, projectivity)[0]
 
-        if ignore_unk and d['relation'] != UNK:
+        if ignore_unk and d['label'] != UNK:
             yield d
 
 
@@ -253,7 +253,7 @@ def label_distribution():
     """Calculates the distribution of labels for the current grammar."""
     counts = defaultdict(int)
     for d in all_sentences():
-        counts[d['relation']] += 1
+        counts[d['label']] += 1
     total = float(sum(counts.values()))
     for key, val in sorted(counts.items(), key=itemgetter(1), reverse=True):
         print key, val, val / total
@@ -273,7 +273,7 @@ def sentence_to_parse(sentence):
 
 
 def matlab_string(d):
-    return str(d['relation']) + '\t' + str(sentence_to_parse(d['premise'])) + '\t' + str(sentence_to_parse(d['hypothesis']))
+    return str(d['label']) + '\t' + str(sentence_to_parse(d['premise'])) + '\t' + str(sentence_to_parse(d['hypothesis']))
 
 #
 
@@ -312,4 +312,4 @@ if __name__ == '__main__':
             print 'Sentence %s:' % counter, d['sentence']
             print 'Premise:    ', d['premise']
             print 'Hypothesis: ', d['hypothesis']
-            print 'Relation:   ', d['relation']
+            print 'Label:   ', d['label']

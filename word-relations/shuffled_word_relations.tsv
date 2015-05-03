@@ -423,7 +423,7 @@ synonym	idea	model
 hypernym	cancer	sign
 synonym	species	kind
 synonym	high	violent
-hyponym	statistics	correlation
+hyponym	statistics	corlabel
 hypernym	machinery	scheme
 hypernym	nurses	treat
 hypernym	patent	register
@@ -2274,7 +2274,7 @@ synonym	some	one
 synonym	immediately	instantly
 synonym	failure	fail
 hypernym	father	leader
-synonym	history	relation
+synonym	history	label
 synonym	random	speed
 synonym	intent	object
 hypernym	heads	individual
@@ -2345,7 +2345,7 @@ hypernym	podcast	distribute
 hypernym	essays	attempt
 hypernym	foster	raise
 hypernym	dublin	port
-hypernym	tie	relationship
+hypernym	tie	labelship
 synonym	voluntary	free
 hypernym	credit	attribute
 synonym	need	want
@@ -3398,7 +3398,7 @@ hypernym	drink	use
 synonym	remove	kill
 synonym	police	the
 hyponym	integer	characteristic
-synonym	bearing	relation
+synonym	bearing	label
 synonym	equal	even
 synonym	sense	feeling
 hypernym	stamps	walk
@@ -3697,7 +3697,7 @@ hyponym	maintain	distance
 synonym	finds	fix
 hypernym	moves	propose
 hypernym	cake	cover
-hypernym	ties	relationship
+hypernym	ties	labelship
 synonym	offers	sacrifice
 hyponym	start	introduce
 hypernym	pride	experience
@@ -3959,7 +3959,7 @@ synonym	whole	total
 hypernym	possibility	prospect
 synonym	requested	prayer
 synonym	resorts	go
-synonym	connection	relationship
+synonym	connection	labelship
 synonym	injury	wrong
 hypernym	centers	relate
 synonym	device	decision
@@ -4269,7 +4269,7 @@ synonym	proposed	talk
 synonym	universal	entire
 synonym	proper	individual
 synonym	engine	machine
-hypernym	birth	relationship
+hypernym	birth	labelship
 hyponym	leave	skip
 antonym	senior	junior
 synonym	released	free
@@ -4884,7 +4884,7 @@ hypernym	rat	employ
 synonym	cold	reserved
 hypernym	throw	lay
 synonym	talk	reason
-hypernym	controls	relation
+hypernym	controls	label
 hypernym	neck	land
 hypernym	codes	label
 synonym	smart	quick
@@ -5174,7 +5174,7 @@ synonym	childhood	minority
 synonym	imaging	show
 synonym	purposes	example
 synonym	portion	division
-hypernym	relation	traffic
+hypernym	label	traffic
 synonym	growth	result
 synonym	receive	retain
 synonym	hire	employ
@@ -7216,7 +7216,7 @@ hypernym	transport	please
 synonym	maybe	uncertainty
 antonym	downloads	upload
 hypernym	delaware	colony
-hypernym	relation	yarn
+hypernym	label	yarn
 hypernym	print	copy
 synonym	pending	during
 hypernym	wish	asking
@@ -8152,7 +8152,7 @@ synonym	pin	pen
 hypernym	passing	response
 hyponym	creates	proof
 hypernym	tools	provide
-synonym	people	relations
+synonym	people	labels
 antonym	covered	babe
 hyponym	arrive	shore
 hypernym	moves	strike
@@ -9456,7 +9456,7 @@ hyponym	work	rat
 hyponym	linking	syndicate
 synonym	thin	small
 antonym	rights	obligation
-synonym	relation	tale
+synonym	label	tale
 hypernym	audit	examine
 hypernym	brings	attract
 antonym	protected	destroy
@@ -10410,7 +10410,7 @@ synonym	worldwide	universal
 synonym	warm	keen
 hypernym	cloud	affect
 hypernym	ds	authority
-synonym	account	relation
+synonym	account	label
 hypernym	neck	earth
 synonym	graph	chart
 hypernym	matter	moment
@@ -11365,7 +11365,7 @@ synonym	services	benefit
 synonym	rise	appear
 hypernym	rear	construct
 synonym	administrator	controller
-hypernym	association	relation
+hypernym	association	label
 synonym	beam	ray
 synonym	lay	law
 synonym	slow	late
@@ -11846,7 +11846,7 @@ synonym	tune	order
 synonym	version	translation
 hypernym	plant	pass
 synonym	represented	show
-synonym	references	relation
+synonym	references	label
 synonym	titles	ownership
 synonym	seed	sperm
 antonym	happy	sad
@@ -12902,7 +12902,7 @@ antonym	surplus	deficit
 synonym	hearts	courage
 hypernym	relief	damages
 hypernym	championship	contest
-synonym	accounts	relation
+synonym	accounts	label
 hyponym	functions	double
 hypernym	reviewed	remember
 antonym	respect	dis
@@ -12941,7 +12941,7 @@ hypernym	then	point
 hypernym	reporting	estimation
 synonym	meets	suffer
 synonym	fundamental	underlying
-hypernym	functionality	relation
+hypernym	functionality	label
 hyponym	hits	peak
 hypernym	router	device
 synonym	bridge	span
@@ -12996,7 +12996,7 @@ hypernym	supplement	be
 synonym	shooting	projection
 synonym	destination	appointment
 synonym	usr	employment
-synonym	reference	relation
+synonym	reference	label
 hypernym	notes	tone
 synonym	lodge	shelter
 hypernym	signs	communicate
@@ -13022,7 +13022,7 @@ synonym	breath	fragrance
 antonym	disability	ability
 hypernym	park	arena
 hypernym	exit	departure
-antonym	objects	relations
+antonym	objects	labels
 synonym	advertisement	ad
 hypernym	recommended	modify
 hypernym	sing	unwrap
@@ -13737,7 +13737,7 @@ synonym	discover	communicate
 hypernym	cultures	grow
 synonym	regulated	arrange
 synonym	used	manner
-synonym	description	relation
+synonym	description	label
 synonym	metro	el
 hypernym	filed	smooth
 synonym	skills	judgment
@@ -14583,7 +14583,7 @@ hypernym	decide	influence
 synonym	match	mate
 hypernym	changed	thing
 synonym	publish	reveal
-hypernym	controlled	relation
+hypernym	controlled	label
 hypernym	score	set
 hypernym	tracking	create
 hypernym	philadelphia	city
@@ -18709,7 +18709,7 @@ synonym	featuring	form
 hypernym	thongs	property
 hypernym	types	identify
 synonym	consent	yield
-synonym	relation	description
+synonym	label	description
 synonym	bullet	missile
 synonym	rod	authority
 synonym	case	cause
@@ -18858,7 +18858,7 @@ synonym	sells	cheat
 synonym	production	composition
 synonym	states	height
 synonym	shell	attack
-synonym	relation	narrative
+synonym	label	narrative
 synonym	publish	declare
 hypernym	arm	projection
 hypernym	p	element
@@ -19009,7 +19009,7 @@ hypernym	chair	position
 hypernym	claimed	demand
 hyponym	kill	waste
 hypernym	trademark	mark
-synonym	detail	relation
+synonym	detail	label
 hypernym	moon	idle
 synonym	soul	person
 hypernym	boobs	simple
@@ -19854,7 +19854,7 @@ hypernym	credits	idea
 synonym	extract	citation
 hypernym	adventures	risk
 hypernym	notice	asking
-hypernym	fuck	relation
+hypernym	fuck	label
 hypernym	compact	auto
 synonym	trials	effort
 antonym	outcome	source
@@ -21081,7 +21081,7 @@ synonym	quick	fleet
 hyponym	switches	shift
 synonym	village	city
 synonym	care	management
-antonym	object	relations
+antonym	object	labels
 synonym	beat	defeat
 synonym	former	earlier
 hypernym	still	photograph
@@ -21355,7 +21355,7 @@ synonym	attend	escort
 synonym	freedom	facility
 hyponym	knowledge	attitude
 hypernym	mode	average
-synonym	accounting	relation
+synonym	accounting	label
 synonym	entitled	attribute
 synonym	sizes	adjust
 synonym	perspective	view
@@ -21526,7 +21526,7 @@ antonym	severe	mild
 antonym	problem	solution
 hypernym	relax	alter
 synonym	strike	remove
-hypernym	control	relation
+hypernym	control	label
 synonym	mention	name
 synonym	perfect	whole
 hypernym	middle	part
@@ -23452,7 +23452,7 @@ synonym	determined	bent
 hypernym	costume	render
 hyponym	introduced	track
 hypernym	tongue	organ
-hypernym	association	relationship
+hypernym	association	labelship
 synonym	sets	determine
 hypernym	references	recommendation
 hypernym	test	cover
@@ -24480,7 +24480,7 @@ synonym	shares	division
 synonym	hire	rent
 hyponym	relating	center
 hypernym	appeal	mention
-hypernym	function	relation
+hypernym	function	label
 hypernym	lands	line
 hypernym	romantic	artist
 synonym	remarks	annotation
@@ -24576,7 +24576,7 @@ synonym	out	away
 synonym	pipe	play
 hyponym	chemical	flux
 synonym	urgent	pressing
-synonym	alliance	relation
+synonym	alliance	label
 hypernym	cad	package
 hypernym	wars	effort
 synonym	views	inspection
@@ -24819,7 +24819,7 @@ hypernym	america	land
 hypernym	letters	write
 hyponym	occurs	proceed
 synonym	reading	lesson
-hypernym	fucking	relation
+hypernym	fucking	label
 synonym	jack	money
 synonym	sample	example
 hypernym	third	gear
@@ -25144,7 +25144,7 @@ hypernym	dick	detective
 synonym	assets	property
 hypernym	flat	box
 synonym	bias	bent
-synonym	relation	detail
+synonym	label	detail
 synonym	linking	couple
 synonym	choose	elect
 synonym	grace	luck
@@ -25364,7 +25364,7 @@ synonym	instances	suggestion
 synonym	however	yet
 synonym	disk	button
 synonym	examination	inspection
-synonym	relative	relation
+synonym	relative	label
 hyponym	achieved	reach
 synonym	lack	need
 hypernym	refers	sort
@@ -26932,7 +26932,7 @@ hypernym	level	speak
 synonym	final	extreme
 synonym	pen	prison
 synonym	acute	sharp
-hypernym	functions	relation
+hypernym	functions	label
 hypernym	hair	textile
 hypernym	destination	end
 antonym	horizontal	vertical
@@ -27104,7 +27104,7 @@ hypernym	frame	part
 synonym	freedom	privileges
 hypernym	arts	discipline
 hyponym	make	customise
-hypernym	partnership	relationship
+hypernym	partnership	labelship
 synonym	calling	office
 synonym	protecting	preserve
 antonym	solution	problem
@@ -29056,7 +29056,7 @@ hypernym	impression	pressing
 synonym	want	failure
 hypernym	process	figure
 hyponym	mike	bug
-hypernym	membership	relationship
+hypernym	membership	labelship
 hypernym	direct	intend
 synonym	speaking	talk
 hypernym	room	live

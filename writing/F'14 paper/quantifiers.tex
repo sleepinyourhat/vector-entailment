@@ -20,11 +20,11 @@ negated. We use the quantifiers \ii{some}, \ii{most}, \ii{all},
 \ii{two}, and \ii{three}, and their negations \ii{no}, \ii{not-all},
 \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}, and also
 include five nouns, four intransitive verbs, and the negation symbol
-\ii{not}. In order to be able to define relations between sentences
-with differing lexical items, we define the lexical relations for
+\ii{not}. In order to be able to define labels between sentences
+with differing lexical items, we define the lexical labels for
 each noun--noun pair, each verb--verb pair, and each
 quantifier--quantifier pair. The grammar then generates pairs of
-sentences and calculates the relations
+sentences and calculates the labels
 between them.  
 Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
 
@@ -33,22 +33,22 @@ Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
 %dets = ['all', 'not_all', 'some', 'no', 'most', 'not_most', 'two', 'lt_two', 'three', 'lt_three']
 %adverbs = ['', 'not']
 
-% To assign relation labels to sentence pairs, we built a small
+% To assign label labels to sentence pairs, we built a small
 % task-specific implemenation of MacCartney's logic that can
 % accurately label sentences of this restricted language. The logic is
-% not able to derive all intuitively true relations of this language,
-% and fails to derive a single unique relation for certain types of
+% not able to derive all intuitively true labels of this language,
+% and fails to derive a single unique label for certain types of
 % statement, including De Morgean's laws (e.g. \ii{(all pets) growl
 % $\natneg$ (some pet) (not growl)}), and we simply discard these
 % examples. Exhaustively generating the valid sentences under this
-% grammar and choosing those to which a relation label can be assigned
+% grammar and choosing those to which a label label can be assigned
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
 In each run, we partition the full set of possible sentences under the grammar into training and test sentences, and label all of the pairs from within each set to generate a training set of 27k pairs and a test set of 7k pairs. Because the model doesn't see the test sentences at training time, it cannot directly use the kind of reasoning described in \S\ref{sec:join}, each model must learn a
 complete reasoning system for the limited language and logic presented
 in the training data, and must be able
-to recognize all of the lexical relations between the nouns, verbs,
+to recognize all of the lexical labels between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
 pairs like \eqref{p1} and \eqref{p2} in training and be required to 
 then label \eqref{p3}.

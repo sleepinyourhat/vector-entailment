@@ -34,7 +34,11 @@ def count_words(filenames):
                     tabsplit = line.split('\t')
                     adjusted_line = tabsplit[1] + ' ' + tabsplit[2]
                 else:
-                    adjusted_line = line
+                    tabsplit = line.split('\t')
+                    if len(tabsplit) > 1:
+                        adjusted_line = tabsplit[1]
+                    else:
+                        adjusted_line = line
                 for word in adjusted_line.split(' '):
                     if word not in EXCLUSIONS and '\n' not in word:
                         counter[word.lower()] += 1
@@ -47,14 +51,14 @@ def count_words(filenames):
 
 
 def create_wordlist(training_words, test_words, vector_words):
-    wordlist = ['-', '<unk>', '<num>', '<s>', '</s>']
-    for word in set(list(training_words.keys()) + list(test_words.keys())):
+    wordlist = set(['-', '<unk>', '<num>', '<s>', '</s>', '(', ')'])
+    for word in list(training_words.keys()) + list(test_words.keys()):
         if word in vector_words:
-            wordlist.append(word)
+            wordlist.add(word)
         elif training_words[word] > THRESHOLD:
-            wordlist.append(word)
+            wordlist.add(word)
 
-    return wordlist
+    return list(wordlist)
 
 
 with open(VECTOR_WORDLIST) as f:

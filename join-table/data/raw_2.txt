@@ -81,7 +81,7 @@ Sets in model:
 79 (1, 2)
 SAMPLE
 Training data:
-Join-derived relation statistics:
+Join-derived label statistics:
 Counter({'#': 656, '?': 325, '|': 190, '<': 156, 'v': 127, '>': 116, '^': 4, '=': 1})
 #	0	2	*
 v	0	3	*
@@ -3284,7 +3284,7 @@ v	78	77	*
 <	79	77	*
 =	79	79	*
 Test data:
-Join-derived relation statistics:
+Join-derived label statistics:
 Counter({'#': 624, '?': 324, '|': 172, '<': 164, '>': 164, 'v': 132, '=': 37, '^': 8})
 ?	0	0	=
 *	0	1	#
@@ -6486,7 +6486,7 @@ v	78	70	v
 *	79	73	#
 *	79	75	#
 ?	79	78	#
-True relation statistics for training:
+True label statistics for training:
 Counter({'#': 1804, '|': 396, '<': 345, '>': 311, 'v': 270, '=': 50, '^': 24})
-True relation statistics for testing:
+True label statistics for testing:
 Counter({'#': 1752, '|': 394, '>': 346, '<': 312, 'v': 290, '=': 70, '^': 36})

@@ -1,7 +1,7 @@
-function [ hyperParams, options, wordMap, relationMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
+function [ hyperParams, options, wordMap, labelMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
-% TrainModel('', 1, @GradCheck, 1, 2, 7, 1, 0, 0, 1);
+% TrainModel('', 1, @GradCheck, 1, 2, 4, 1, 0, 0, 1);
 % NOTE: The LatticeLSTM doesn't do especially well on gradient checks at random initialization
 % but basically passes if tested on the model state after a few steps... keep an eye on this.
 
@@ -69,37 +69,37 @@ if sentiment
 	wordMap = InitializeMaps('./sst-data/gradcheckwords.txt');
 	hyperParams.vocabName = 'sst-gc'; 
 
-	hyperParams.numRelations = [5];
-	hyperParams.relationCostMultipliers = [1 0.0001 3 0.25 1];
+	hyperParams.numLabels = [5];
+	hyperParams.labelCostMultipliers = [1 0.0001 3 0.25 1];
 
-	hyperParams.relations = {{'0', '1', '2', '3', '4'}};
-	relationMap = cell(1, 1);
-	relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+	hyperParams.labels = {{'0', '1', '2', '3', '4'}};
+	labelMap = cell(1, 1);
+	labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 	hyperParams.trainFilenames = {};    
 	hyperParams.splitFilenames = {'./sst-data/gradcheckfile.txt'};    
 	hyperParams.testFilenames = {};
 else
 	if ~multipleClassSets
-		hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-		hyperParams.relationCostMultipliers = [1 0.0001 3 0.25 1 0.5 0.5];
-		hyperParams.numRelations = [7];
-		relationMap = cell(1, 1);
-		relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+		hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
+		hyperParams.labelCostMultipliers = [1 0.0001 3 0.25 1 0.5 0.5];
+		hyperParams.numLabels = [7];
+		labelMap = cell(1, 1);
+		labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 		hyperParams.splitFilenames = {'./quantifiers/test_file.tsv'};
 		hyperParams.trainFilenames = {};
 		hyperParams.testFilenames = {};
 	else
-		hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'},
+		hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'},
 								 {'a', 'b', 'c', '#', '=', '>', '<', '|', '^', 'v'}};
-		hyperParams.numRelations = [7, 10];
-		hyperParams.relationIndices = [0, 0; 0, 0; 1, 2];
-	    hyperParams.testRelationIndices = [1, 2];
+		hyperParams.numLabels = [7, 10];
+		hyperParams.labelIndices = [0, 0; 0, 0; 1, 2];
+	    hyperParams.testLabelIndices = [1, 2];
 
-		relationMap = cell(2, 1);
-		relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
-		relationMap{2} = containers.Map(hyperParams.relations{2}, 1:length(hyperParams.relations{2}));
+		labelMap = cell(2, 1);
+		labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+		labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
 		hyperParams.splitFilenames = {'./quantifiers/test_file.tsv', './quantifiers/test_file_2.tsv'};
 		hyperParams.trainFilenames = {};

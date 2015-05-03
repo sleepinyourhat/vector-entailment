@@ -18,11 +18,11 @@ sr = Sequence.makeSequence('a a a a a a', map, 1);
 
 dataPoint(1).left = sl;
 dataPoint(1).right = sr;
-dataPoint(1).relation = 1;
+dataPoint(1).label = 1;
 
 dataPoint(2).left = sl;
 dataPoint(2).right = sr;
-dataPoint(2).relation = 1;
+dataPoint(2).label = 1;
 
 hyperParams = GradCheck(0, 1, 0, 0, 1, 0, 0, 1, 0);
 

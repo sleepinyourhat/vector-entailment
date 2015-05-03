@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadAllDatasets(wordMap, relationMap, hyperParams)
+function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadAllDatasets(wordMap, labelMap, hyperParams)
 % Load and combine all of the training and test data.
 % This is slow. And can probably be easily improved if it matters.
 
@@ -7,8 +7,8 @@ function [ trainDataset, testDatasetsCell, trainingLengths ] = LoadAllDatasets(w
 % testFilenames: Load these files as test data.
 % splitFilenames: Split these files into train and test data.
 
-% relationIndices: An optional matrix with three rows, one each for 
-% train/test/split, indicating which set of relations the dataset uses.
+% labelIndices: An optional matrix with three rows, one each for 
+% train/test/split, indicating which set of labels the dataset uses.
 
 if hyperParams.SSTMode
     loadFileFn = @LoadSentimentData;
@@ -24,48 +24,48 @@ else
     trainDataset = [];
 end
 testDatasets = {};
-relationIndex = 1;
+labelIndex = 1;
 
 trainingLengths = [];
 
 for i = 1:length(hyperParams.trainFilenames)
     Log(hyperParams.statlog, ['Loading training dataset ', hyperParams.trainFilenames{i}]);
-    if isfield(hyperParams, 'relationIndices')
-        relationIndex = hyperParams.relationIndices(1, i);
+    if isfield(hyperParams, 'labelIndices')
+        labelIndex = hyperParams.labelIndices(1, i);
     end
 
     if ~hyperParams.fragmentData
-        dataset = loadFileFn(hyperParams.trainFilenames{i}, wordMap, relationMap, ...
-                                  hyperParams, false, relationIndex);
+        dataset = loadFileFn(hyperParams.trainFilenames{i}, wordMap, labelMap, ...
+                                  hyperParams, false, labelIndex);
         trainDataset = [trainDataset; dataset];
         trainingLengths = [trainingLengths; length(dataset)];
     else
-        loadFileFn(hyperParams.trainFilenames{i}, wordMap, relationMap, hyperParams, true, relationIndex);
+        loadFileFn(hyperParams.trainFilenames{i}, wordMap, labelMap, hyperParams, true, labelIndex);
     end
         
 end
 
 for i = 1:length(hyperParams.testFilenames)
-    if isfield(hyperParams, 'relationIndices')
-        relationIndex = hyperParams.relationIndices(2, i);
+    if isfield(hyperParams, 'labelIndices')
+        labelIndex = hyperParams.labelIndices(2, i);
     else
-        relationIndex = 1;
+        labelIndex = 1;
     end
 
     Log(hyperParams.statlog, ['Loading test dataset ', hyperParams.testFilenames{i}]);
-    dataset = loadFileFn(hyperParams.testFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    dataset = loadFileFn(hyperParams.testFilenames{i}, wordMap, labelMap, hyperParams, false, labelIndex);
     testDatasets = [testDatasets, {dataset}];
 end
 
 for i = 1:length(hyperParams.splitFilenames)
-    if isfield(hyperParams, 'relationIndices')
-        relationIndex = hyperParams.relationIndices(3, i);
+    if isfield(hyperParams, 'labelIndices')
+        labelIndex = hyperParams.labelIndices(3, i);
     else
-        relationIndex = 1;
+        labelIndex = 1;
     end
 
     Log(hyperParams.statlog, ['Loading split dataset ', hyperParams.splitFilenames{i}]);
-    dataset = loadFileFn(hyperParams.splitFilenames{i}, wordMap, relationMap, hyperParams, false, relationIndex);
+    dataset = loadFileFn(hyperParams.splitFilenames{i}, wordMap, labelMap, hyperParams, false, labelIndex);
 
     lengthOfTestPortion = ceil(length(dataset) * hyperParams.testFraction);
     startOfTestPortion = 1 + (hyperParams.foldNumber - 1) * lengthOfTestPortion;

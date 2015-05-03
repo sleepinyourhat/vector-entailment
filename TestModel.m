@@ -8,17 +8,17 @@ function [combinedAcc, combinedMf1, aggConfusion, combinedConAcc] = TestModel(Co
 % 3. Aggregate performance across all of the test sets. Used, for instance, with and/or and quantification.
 
 % TODO: Currently, I only aggregate average test statistics across test datasets that use the no. 1 set 
-% of relations.
+% of labels.
 
-if isfield(hyperParams, 'testRelationIndices')
-    targetRelationSet = hyperParams.testRelationIndices(1);
+if isfield(hyperParams, 'testLabelIndices')
+    targetLabelSet = hyperParams.testLabelIndices(1);
 else
-    targetRelationSet = 1;
+    targetLabelSet = 1;
 
 end
 
-aggConfusion = zeros(hyperParams.numRelations(targetRelationSet));
-targetConfusion = zeros(hyperParams.numRelations(targetRelationSet));    
+aggConfusion = zeros(hyperParams.numLabels(targetLabelSet));
+targetConfusion = zeros(hyperParams.numLabels(targetLabelSet));    
 aggConAcc = [];
 
 for i = 1:length(testDatasets{1})
@@ -38,14 +38,14 @@ for i = 1:length(testDatasets{1})
             evalc('disp(confusion)'));
         Log(hyperParams.examplelog, log_msg);
     end
-    if (~isfield(hyperParams, 'testRelationIndices') || hyperParams.testRelationIndices(i) == targetRelationSet)
+    if (~isfield(hyperParams, 'testLabelIndices') || hyperParams.testLabelIndices(i) == targetLabelSet)
         aggConfusion = aggConfusion + confusion;
     end
 end
 
 % Compute Accor rate from aggregate confusion matrix
-targetAcc = sum(sum(eye(hyperParams.numRelations(targetRelationSet)) .* targetConfusion)) / sum(sum(targetConfusion));    
-aggAcc = sum(sum(eye(hyperParams.numRelations(targetRelationSet)) .* aggConfusion)) / sum(sum(aggConfusion));    
+targetAcc = sum(sum(eye(hyperParams.numLabels(targetLabelSet)) .* targetConfusion)) / sum(sum(targetConfusion));    
+aggAcc = sum(sum(eye(hyperParams.numLabels(targetLabelSet)) .* aggConfusion)) / sum(sum(aggConfusion));    
 
 combinedMf1 = [GetMacroF1(targetConfusion), GetMacroF1(aggConfusion)];
 

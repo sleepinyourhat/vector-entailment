@@ -101,7 +101,7 @@ Sets in model:
 99 (0, 2, 6)
 SAMPLE
 Training data:
-Join-derived relation statistics:
+Join-derived label statistics:
 Counter({'#': 3519, 'v': 927, '<': 802, '>': 753, '|': 623, '?': 198, '=': 132, '^': 46})
 =	0	0	=
 #	0	2	#
@@ -7104,7 +7104,7 @@ v	99	66	v
 #	99	98	#
 =	99	99	=
 Test data:
-Join-derived relation statistics:
+Join-derived label statistics:
 Counter({'#': 1524, 'v': 401, '>': 353, '<': 307, '|': 280, '?': 94, '=': 26, '^': 15})
 ?	0	1	#
 <	0	4	<
@@ -10106,7 +10106,7 @@ v	98	60	v
 #	99	78	#
 |	99	84	|
 #	99	92	#
-True relation statistics for training:
+True label statistics for training:
 Counter({'#': 3672, 'v': 939, '<': 809, '>': 764, '|': 634, '=': 135, '^': 47})
-True relation statistics for testing:
+True label statistics for testing:
 Counter({'#': 1588, 'v': 407, '>': 355, '<': 310, '|': 282, '=': 39, '^': 19})

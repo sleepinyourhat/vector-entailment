@@ -1,0 +1,3 @@
+export MATLABCMD="cd quant; lambda = 0.00001; dim = 25; td = 2; penult = 75; comp = 2; dataflag='a'; name='/scr/sbowman/alcir-init-c'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 2; dataflag='a'; name='/scr/sbowman/alcir-init-c'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.0000001; dim = 25; td = 2; penult = 75; comp = 2; dataflag='a'; name='/scr/sbowman/alcir-init-c'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp);" ; qsub -v MATLABCMD quant/run.sh  

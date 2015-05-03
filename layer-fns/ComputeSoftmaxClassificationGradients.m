@@ -7,8 +7,8 @@ B = size(probs, 2);
 inPadded = [ones(1, B); in];
 matrixGradients = zeros(size(matrix, 1), size(matrix, 2), B);
 
-% Compute a nonzero target relations vector for only those batch entries that have nonzero
-% target relations.
+% Compute a nonzero target labels vector for only those batch entries that have nonzero
+% target labels.
 dataPointHasLabel = labels(:, 1) ~= 0;
 fullRange = 1:size(labels, 1);
 filteredRange = fullRange(dataPointHasLabel);
@@ -21,8 +21,8 @@ if size(labels, 2) == 2
 	% Multiple class set case.
 
 	for b = 1:B
-		relationRange = hyperParams.relationRanges{labels(b, 2)};
-		delta = probs(1:length(relationRange), b) - targetprobs(1:length(relationRange), b);
+		labelRange = hyperParams.labelRanges{labels(b, 2)};
+		delta = probs(1:length(labelRange), b) - targetprobs(1:length(labelRange), b);
 		if nargin > 5
 			% Scale the deltas by the multipliers (optional)
 			delta = delta .* multipliers(b);
@@ -30,9 +30,9 @@ if size(labels, 2) == 2
 
 		if ~isempty(matrix)
 			if dataPointHasLabel(b)
-				matrixGradients(relationRange, :, b) = delta * inPadded(:, b)';
+				matrixGradients(labelRange, :, b) = delta * inPadded(:, b)';
 			end
-			deltaDown(:, b) = matrix(relationRange, :)' * delta;
+			deltaDown(:, b) = matrix(labelRange, :)' * delta;
 		else
 			deltaDown(:, b) = delta;
 		end

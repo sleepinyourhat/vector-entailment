@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, relationMap ] = Quantifiers(name, dataflag, dim, penult, top, lambda, composition, tdrop)
+function [ hyperParams, options, wordMap, labelMap ] = Quantifiers(name, dataflag, dim, penult, top, lambda, composition, tdrop)
 
 [hyperParams, options] = Defaults();
 
@@ -24,10 +24,10 @@ hyperParams.topDropout = tdrop;
 wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers'
 
-hyperParams.relations = {{'#', '=', '>', '<', '|', '^', 'v'}};
-hyperParams.numRelations = [7];
-relationMap = cell(1, 1);
-relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.relations{1}));
+hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
+hyperParams.numLabels = [7];
+labelMap = cell(1, 1);
+labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 if strcmp(dataflag, 'f1')
 	hyperParams.trainFilenames = {'./quantifiers/data/f1_train.txt'};

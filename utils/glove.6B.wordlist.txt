@@ -808,7 +808,7 @@ study
 fall
 mother
 met
-relations
+labels
 anti
 2002
 song
@@ -1481,7 +1481,7 @@ deep
 settlement
 simply
 nearby
-relationship
+labelship
 cash
 alone
 hamas
@@ -4920,7 +4920,7 @@ progressive
 wrestling
 clay
 pledge
-relationships
+labelships
 swing
 pole
 bat
@@ -6724,7 +6724,7 @@ courage
 tasks
 monica
 oxygen
-relation
+label
 1910
 steadily
 preserved
@@ -18679,7 +18679,7 @@ grossman
 appalachian
 grenada
 beetles
-correlation
+corlabel
 node
 coughlin
 concedes
@@ -35353,7 +35353,7 @@ davie
 bruckner
 notts
 wynne
-relational
+labelal
 presidio
 langston
 hump
@@ -51580,7 +51580,7 @@ blitzer
 refunding
 gullikson
 cadavers
-correlations
+corlabels
 sperry
 virgo
 gris
@@ -113985,7 +113985,7 @@ kleiber
 lodovico
 venality
 unicycle
-autocorrelation
+autocorlabel
 henge
 élite
 costarred
@@ -121189,7 +121189,7 @@ guiscard
 aventine
 florey
 whorf
-interrelationships
+interlabelships
 yoked
 saint-germain-en-laye
 quli
@@ -136345,7 +136345,7 @@ cth
 scapes
 amargosa
 sachet
-interrelationship
+interlabelship
 sagawa
 synopsys
 lleras
@@ -185142,7 +185142,7 @@ yesawich
 crogers
 khaldoun
 lactantius
-interrelation
+interlabel
 rdna
 r0
 eight-member
@@ -186126,7 +186126,7 @@ effinger
 karve
 nôm
 louis-le-grand
-interrelations
+interlabels
 cscl
 pedagogues
 cleaveland
@@ -220906,7 +220906,7 @@ cardioversion
 anes
 dorotea
 fenske
-object-relational
+object-labelal
 directshow
 mome
 chani
@@ -227985,7 +227985,7 @@ libidinal
 dapple
 submanifolds
 cross-roads
-public-relations
+public-labels
 discretized
 entailment
 reloadable
@@ -230404,7 +230404,7 @@ vdsl
 ivon
 jahrhundert
 1897-98
-cross-correlation
+cross-corlabel
 atropos
 basidiomycota
 superdisk
@@ -256520,7 +256520,7 @@ magistrale
 eadwig
 pre-cursor
 stanchart
-correlational
+corlabelal
 theaceae
 lilius
 indígenas
