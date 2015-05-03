@@ -18,18 +18,18 @@
     \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
     \cline{2-8}
   \end{array}$
-  \caption{In \S\ref{sec:join}, we assess our models' ability to learn to do inference over pairs of labels using the rules represented here, which are derived from the definitions of the labels in Table~\ref{b-table}.  As an example, given that $p_1 \natfor p_2$ and $p_2 \natneg p_3$, the entry in the $\natfor$ row and the $\natneg$ column lets us conclude that $p_1 \natalt p_3$. Cells containing a dot correspond to situations for which no valid inference can be drawn.} 
+  \caption{In \S\ref{sec:join}, we assess our models' ability to learn to do inference over pairs of relations using the rules represented here, which are derived from the definitions of the relations in Table~\ref{b-table}.  As an example, given that $p_1 \natfor p_2$ and $p_2 \natneg p_3$, the entry in the $\natfor$ row and the $\natneg$ column lets us conclude that $p_1 \natalt p_3$. Cells containing a dot correspond to situations for which no valid inference can be drawn.} 
   \label{tab:jointable}
 \end{table}
 
-\section{Reasoning about semantic labels}\label{sec:join}
+\section{Reasoning about semantic relations}\label{sec:join}
 
 The simplest kinds of deduction in natural logic involve atomic statements 
-using the labels in Table~\ref{b-table}. 
-For instance, from the label $p_1 \natrev p_2$ between two propositions, 
-one can infer the label $p_2 \natfor p_1$ by applying the definitions of the labels directly. 
-If one is also given the label $p_2 \natrev p_3$ one can conclude that $p_1 \natrev p_3$, by basic set-theoretic reasoning (transitivity of $\natrev$). The
-full set of sound such inferences on pairs of premise labels is depicted in
+using the relations in Table~\ref{b-table}. 
+For instance, from the relation $p_1 \natrev p_2$ between two propositions, 
+one can infer the relation $p_2 \natfor p_1$ by applying the definitions of the relations directly. 
+If one is also given the relation $p_2 \natrev p_3$ one can conclude that $p_1 \natrev p_3$, by basic set-theoretic reasoning (transitivity of $\natrev$). The
+full set of sound such inferences on pairs of premise relations is depicted in
 Table~\ref{tab:jointable}. Though these basic inferences do not involve compositional
 sentence representations, any successful reasoning using compositional representations
 will rely on the ability to perform sound inferences of this kind, so our first experiment studies how well each model can learn to perform them them in isolation.
@@ -52,7 +52,7 @@ on which we will base the statements in the train and test sets.
 This takes the form of a small Boolean structure in which terms denote
 sets of entities from a small domain.  Fig.~\ref{lattice-figure}a
 depicts a structure of this form with three entities ($a$, $b$, and $c$) and eight proposition terms ($p_1$--$p_8$). We then generate a 
-labelal statement for each pair of terms in the model, as shown in Fig.~\ref{lattice-figure}b. 
+relational statement for each pair of terms in the model, as shown in Fig.~\ref{lattice-figure}b. 
 We divide these statements evenly into train and test sets, and delete the test set
  examples which cannot be proven from the train examples, for which there is not enough information for even an ideal system to choose a correct label.
 In each experimental run, we create a model with 80 terms over a domain of 7 elements, yielding a training set of 3200 examples and a test set of 
@@ -66,7 +66,7 @@ are single terms rather than full tree structures, the composition
 layer is not used, and the two models are not recursive. We simply present
 the models with the (randomly initialized) embedding vectors for each
 of two terms, ensuring that the model has no information about the terms
-being compared except for the labels between them that appear in training.
+being compared except for the relations between them that appear in training.
 
 
 \begin{figure}[t]
@@ -129,7 +129,7 @@ being compared except for the labels between them that appear in training.
       model.  Test statements that are not provable from the training data shown are
       crossed out.}
   \end{subfigure}  
-  \caption{Small example structure and data for learning label composition.}
+  \caption{Small example structure and data for learning relation composition.}
   \label{lattice-figure}
 \end{figure} 
 
@@ -146,18 +146,18 @@ being compared except for the labels between them that appear in training.
   \end{tabular}
   
   
-  \caption{Performance on the semantic label experiments. These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses. The ``$\natind$ only'' entries reflect the frequency of the most frequent class.}
+  \caption{Performance on the semantic relation experiments. These results and all other results on artificial data are reported as mean accuracy scores over five runs followed by mean macroaveraged F1 scores in parentheses. The ``$\natind$ only'' entries reflect the frequency of the most frequent class.}
   \label{joinresultstable}
 \end{table}
 
 \paragraph{Results} 
-The resuts (Table \ref{joinresultstable}) show that NTN is able to accurately encode the labels between the terms in the geometric labels between their vectors, 
-and is able to then use that information to recover labels that 
+The resuts (Table \ref{joinresultstable}) show that NTN is able to accurately encode the relations between the terms in the geometric relations between their vectors, 
+and is able to then use that information to recover relations that 
 are not overtly included in the training data. The NN also generalizes fairly well, 
 but makes enough errors that it remains an open question whether 
 it is capable of learning representations with these properties. 
 It is not possible for us to rule out the possibility that different optimization techniques or
 further hyperparameter tuning could lead an NN model to succeed here.
 
-As an example from our test data, both models correctly labeled $p_1 \natfor p_3$, potentially learning from the training examples $\{p_1 \natfor p_{51},~p_3 \natrev p_{51}\}$ or $\{p_1\natfor p_{65},~p_3 \natrev p_{65} \}$. On another example involving comparably frequent labels, the NTN correctly labeled $p_6 \natrev p_{24}$, likely on the basis of the training examples $\{p_6 \natcov p_{28},~p_{28} \natneg p_{24}\}$, while the NN incorrectly assigned it $\natind$.
+As an example from our test data, both models correctly labeled $p_1 \natfor p_3$, potentially learning from the training examples $\{p_1 \natfor p_{51},~p_3 \natrev p_{51}\}$ or $\{p_1\natfor p_{65},~p_3 \natrev p_{65} \}$. On another example involving comparably frequent relations, the NTN correctly labeled $p_6 \natrev p_{24}$, likely on the basis of the training examples $\{p_6 \natcov p_{28},~p_{28} \natneg p_{24}\}$, while the NN incorrectly assigned it $\natind$.
 

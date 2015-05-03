@@ -62,7 +62,7 @@
 \maketitle
 \begin{abstract}
 \begin{quote}
-  Natural logic offers a powerful labelal conception of meaning
+  Natural logic offers a powerful relational conception of meaning
   that is a natural counterpart to distributed semantic
   representations, which have proven valuable in a wide range of
   sophisticated language tasks. However, it remains an open question
@@ -71,14 +71,14 @@
   logic. We address this question using two neural network-based
   models for learning embeddings: plain neural networks and neural
   tensor networks. Our experiments evaluate the models' ability to
-  learn the basic algebra of natural logic labels from simulated
+  learn the basic algebra of natural logic relations from simulated
   data and from the WordNet noun graph.  The overall positive results
   are promising for the future of learned distributed representations in
   the applied modeling of logical semantics.
 \end{quote}
 \end{abstract}
 
-Natural logic offers a powerful \emph{labelal} conception of
+Natural logic offers a powerful \emph{relational} conception of
 semantics: the meanings for expressions are given, at least in part,
 by their inferential connections with other expressions
 \cite{Katz72,maccartney2009extended,vanBenthem08NATLOG}. For instance,
@@ -86,14 +86,14 @@ by their inferential connections with other expressions
 world, but rather by its lexical network: it entails \word{reptile},
 excludes \word{chair}, is entailed by \word{sea
   turtle}, and so forth. With generalized notions of entailment and
-contradiction, these labelships can be defined for all lexical
+contradiction, these relationships can be defined for all lexical
 categories as well as complex phrases, sentences, and even texts. The
 resulting theories of meaning offer valuable new analytic tools for
-tasks involving database inference, label extraction, and textual
+tasks involving database inference, relation extraction, and textual
 entailment.
 
 Natural logic aligns well with distributed (e.g., vector)
-representations, which also naturally model meaning labelally.
+representations, which also naturally model meaning relationally.
 Distributed representations have been used successfully in a wide
 array of sophisticated language tasks, including part of speach tagging,
 \cite{collobert2011natural}, semantic role labeling \cite{collobert2011natural},
@@ -107,7 +107,7 @@ consistency.  Using the natural logic of \cite{maccartney2009extended}
 as our formal model, we address this open question using two neural
 network-based models for learning embeddings: plain neural networks
 and neural tensor networks (NTNs).  The natural logic is built from
-the seven labels defined in Table~\ref{b-table}. Its formal
+the seven relations defined in Table~\ref{b-table}. Its formal
 properties are now well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}, so it
 provides a rigorous set of goals for our neural models. To keep the
 discussion manageable, we limit attention to experiments involving the
@@ -116,7 +116,7 @@ involving logical connectives and quantifiers, see
 \cite{Bowman:Potts:Manning:2014}. % CITET
 
 In our experiments, we evaluate these models' ability to learn the
-basic algebra of natural logic labels from simulated data and from
+basic algebra of natural logic relations from simulated data and from
 the WordNet noun graph. The simulated data help us to achieve analytic
 insights into what the models learn, and the WordNet data show how they
 fare with a real natural language vocabulary.  We find that only the NTN is able to fully
@@ -141,17 +141,17 @@ WordNet experiment.
     independence       & $x \natind y$   & (else) & \ii{turtle $\natind$ pet}\\
     \bottomrule
   \end{tabular}
-  \protect\caption{\protect\label{b-table}The seven natural logic labels of \protect\cite{maccartney2009extended}. 
+  \protect\caption{\protect\label{b-table}The seven natural logic relations of \protect\cite{maccartney2009extended}. 
     $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
-    and the label $\natind$ applies whenever none of the other six do.} 
+    and the relation $\natind$ applies whenever none of the other six do.} 
 \end{table*}
 
-\section{Neural network models for label classification} \label{methods}
+\section{Neural network models for relation classification} \label{methods}
 
 We build embedding-based models using the method of
 \cite{Bowman:Potts:Manning:2014}, which is centered on the task of
 labeling a pair of words or sentences with one of a small set of
-logical labels. Unlike in a classical inference
+logical relations. Unlike in a classical inference
 setting, the model is not given specific premises to reason with at test time, but rather
 is expected to encode all of the information that it learns about each term (word) at training
 time in the term embedding vectors, and to then use only the information encoded in the relevant pair of
@@ -160,7 +160,7 @@ The architecture that we use is depicted in
 Figure~\ref{sample-figure}. The model represents the two input terms
 as single embedding vectors, which are fed into a comparison function based on one
 of two types of neural network layer function to produce a
-representation for the labelship between the two terms. This
+representation for the relationship between the two terms. This
 representation is then fed into a softmax classifier, which outputs a
 distribution over possible labels. The entire network, including the
 embeddings, is trained using backpropagation with AdaGrad \cite{duchi2011adaptive}
@@ -226,7 +226,7 @@ details on the implementation and training of the layer functions, see
         \caption{The model structure used to compare \ii{turtle} and
           \ii{animal}.  Learned term representations are fed through
           either an NN or NTN comparison layer and then to a softmax
-        classifier over the seven labels in Table~\ref{b-table}.}
+        classifier over the seven relations in Table~\ref{b-table}.}
   \label{sample-figure}
 \end{figure}
 
@@ -240,7 +240,7 @@ performance in that setting.
 
 %\ii{Source code and generated data will be released after the conclusion of the review period.} % TODO: Or upon request? Attach anonymized code?
 
-\section{Reasoning about semantic labels}\label{sec:join}
+\section{Reasoning about semantic relations}\label{sec:join}
 
 In this experiment, we test our model's ability to learn and use the
 natural logic inference rules schematized in
@@ -249,18 +249,18 @@ $b \natrev c$, one can conclude that $a \natrev c$, by basic
 set-theoretic reasoning (transitivity of $\natrev$). Similarly, from
 $a \natfor b$ and $b \natneg c$, it follows that $a \natalt c$.  There
 are 32 valid inferences that can be made on the basis of pairs of
-labels of the form $a R b$ and $b R' c$. Cells in the table
-containing a dot correspond to pairs of labels for which no valid
+relations of the form $a R b$ and $b R' c$. Cells in the table
+containing a dot correspond to pairs of relations for which no valid
 inference can be drawn in our logic.
 
-% about the labels themselves that do not depend on the
+% about the relations themselves that do not depend on the
 % internal structure of the things being compared. For example, given
 % that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that
 % $a\sqsupset c$ by the transitivity of $\sqsupset$, even without
-% understanding $a$, $b$, or $c$. These seven labels support more
+% understanding $a$, $b$, or $c$. These seven relations support more
 % than just transitivity: MacCartney and Manning's
 % \cite{maccartney2009extended} join table defines 32 valid inferences
-% that can be made on the basis of pairs of labels of the form $a R
+% that can be made on the basis of pairs of relations of the form $a R
 % b$ and $b R' c$, including several less intuitive ones such as that if
 % $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
 
@@ -277,22 +277,22 @@ cannot be proven from the training statements
 %
 % We test the model's ability to learn this behavior by creating
 % artificial data sets of terms which represent sets of numbers. Since
-% MacCartney and Manning's set of labels hold between sets as well as
+% MacCartney and Manning's set of relations hold between sets as well as
 % between sentences, we can use the underlying set structure to generate
-% the all of the labels that hold between any pair of these terms, as
+% the all of the relations that hold between any pair of these terms, as
 % in Figure \ref{lattice-figure}. We train the model defined above on a
-% subset of these labels, but rather then presenting the model with a
+% subset of these relations, but rather then presenting the model with a
 % pair of tree-structured sentences as inputs, simply present it with
 % two single terms, each of which corresponds to a single vector in the
 % (randomly initialized) vocabulary matrix $V$, ensuring that the model
-% has no information about the terms being compared except the labels
+% has no information about the terms being compared except the relations
 % between them.
 %
 In our experiments, we create 80 randomly generated sets drawn from a
 domain of seven elements. This yields 6400 statements about pairs of
 formulae, of which 3200 are chosen as a test set. 240 of the test examples 
 were excluded from the primary test set for lack of evidence in the training 
-data to support the choice of any one label. 
+data to support the choice of any one relation. 
 We then trained and evaluated both the NN model and the NTN model on these data sets. 
 
 \paragraph{Results} 
@@ -328,7 +328,7 @@ the NN.
         \natind & \natind & \UNK &  \UNK &  \natind &  \UNK &  \UNK &  \UNK \\
         \cline{2-8}
       \end{array}$}
-    \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the label that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying labels as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
+    \caption{Inference path from premises $a\,R\,b$ (row) and $b\,S\,c$ (column) to the relation that holds between $a$ and $c$, if any.  These inferences are based on basic set-theoretic truths about the meanings of the underlying relations as described in Table~\ref{b-table}. We assess our models' ability to reproduce such inferential paths.}
     \label{tab:jointable}
   \end{subfigure}
   \hfill
@@ -392,7 +392,7 @@ the NN.
       model.  Test statements not provable from the training data are
       crossed out.}\label{unprovable}
   \end{subfigure}  
-  \caption{Experimental goal and set-up for reasoning about semantic labels.}
+  \caption{Experimental goal and set-up for reasoning about semantic relations.}
   \label{exp1}
 \end{figure*} 
 % Note: None of these test examples is derivable from the shown training data, 
@@ -405,12 +405,12 @@ the NN.
 % RNN log: tue-j-11-6x80-r-75.txt
 % Train PER: 0.047188
 
-% and create a dataset consisting of the labels between every pair of
+% and create a dataset consisting of the relations between every pair of
 % sets, yielding 6400 pairs. 3200 of these pairs are then chosen as a
 % test dataset, and that test dataset was further split into the 2960
 % examples that can be provably derived from the test data using
 % MacCartney and Manning's join table (or by the symmetry of the
-% labels in about half of the cases) and the 240 that
+% relations in about half of the cases) and the 240 that
 % cannot. 
 
 % We tested a version of both the RNN model and the RNTN model on these
@@ -427,9 +427,9 @@ the NN.
 % only 90.0\% and 87.\%, respectively.
 
 These results are fairly straightforward to interpret. The NTN model
-was able to accurately encode the labels between the terms in the
-geometric labels between their vectors, and was able to then use
-that information to recover labels that were not overtly included
+was able to accurately encode the relations between the terms in the
+geometric relations between their vectors, and was able to then use
+that information to recover relations that were not overtly included
 in the training data. In contrast, the NN was able to achieve this
 behavior only incompletely. It is possible but not likely that it
 could be made to find a good solution with further optimization on
@@ -468,40 +468,40 @@ out to be more powerful that rigidly defined proof systems.
  \caption{Mean test \% accuracy scores (with standard error) on the WordNet data over five-fold crossvalidation. The baseline figure is the frequency of the most frequent class, \ii{hypernym}.\label{wn-table}} 
 \end{table*}
 
-\section{Reasoning about lexical labels in WordNet}\label{sec:wordnet}
+\section{Reasoning about lexical relations in WordNet}\label{sec:wordnet}
 
 Using simulated data as above is reassuring about what the models
 learn and why, but we also want to know how they perform with a real
 natural language vocabulary. Unfortunately, as far as we are aware,
 there are no available resources labeling such a vocabulary with the
-labels from Table~\ref{b-table}. However, the labels in WordNet
+relations from Table~\ref{b-table}. However, the relations in WordNet
 \cite{fellbaum2010wordnet,WordNet95} come close and pose the same substantive
 challenges within a somewhat easier classification problem.
 
 % WordNet \cite{fellbaum2010wordnet} provides a different type of
 % lattice structure which is compatible with our learning paradigm.
 
-We extract three types of label from WordNet. \ii{Hypernym} and
+We extract three types of relation from WordNet. \ii{Hypernym} and
 \ii{hyponym} can be represented directly in the WordNet graph
 structure, and correspond closely to the $\natrev$ and $\natfor$
-labels from natural logic. As in natural logic, these labels are
+relations from natural logic. As in natural logic, these relations are
 mirror images of one another: if \ii{dog} is a hyponym of \ii{animal}
 (perhaps indirectly by way of \ii{canid}, \ii{mammal}, etc.), then
 \ii{animal} is a hypernym of \ii{dog}. We also extract \ii{coordinate}
 terms, which share a direct hypernym, like \ii{dalmatian}, \ii{pug},
 and \ii{puppy}, which are all direct hyponyms of \ii{dog}.  Coordinate
 terms tend to exclude one another, thereby providing a loose approximation 
-of the natural logic exclusion label $\natalt$. WordNet's antonym label, however, is both too narrowly defined
-and too rare to use for this purpose. WordNet defines its labels over
+of the natural logic exclusion relation $\natalt$. WordNet's antonym relation, however, is both too narrowly defined
+and too rare to use for this purpose. WordNet defines its relations over
 sets of synonyms, rather than over individual terms, so we do not
-include a \ii{synonym} or \ii{equivalent} label, but rather
+include a \ii{synonym} or \ii{equivalent} relation, but rather
 consider only one member of each set of synonyms. Word pairs which do
-not fall into these three labels are not included in the data set.
+not fall into these three relations are not included in the data set.
 
 To limit the size of the vocabulary without otherwise simplifying the learning problem, we extract all of the
-instances of these three labels for single word nouns in WordNet that are hyponyms of the node 
+instances of these three relations for single word nouns in WordNet that are hyponyms of the node 
 \texttt{organism.n.01}. In order to balance the distribution of the classes, we slightly downsample instances 
-of the \ii{coordinate} label, yielding a total of 36,772 labels among 3,217 terms. We report results below using crossvalidation, choosing a disjoint 10\% test sample for each of five runs. Unlike in the previous experiment,
+of the \ii{coordinate} relation, yielding a total of 36,772 relations among 3,217 terms. We report results below using crossvalidation, choosing a disjoint 10\% test sample for each of five runs. Unlike in the previous experiment,
 it is not straightforward here to determine in advance
 how much data should be required to train an accurate model, so we performed training runs with 
 various fractions of the remaining data. Embeddings were fixed at 25 dimensions and were initialized 
@@ -539,13 +539,13 @@ inference algorithm.
 %    optimized neural network models.
 
 This paper evaluated two neural models on the task of learning 
-natural logic labels between distributed word representations. The
+natural logic relations between distributed word representations. The
 results suggest that at least the neural tensor network
 has the capacity to
 meet this challenge with reasonably-sized training sets, learning both 
 to embed a vocabulary in a way that encodes a diverse
-set of labels, and to subsequently use those embeddings to infer new
-labels. In
+set of relations, and to subsequently use those embeddings to infer new
+relations. In
 \cite{Bowman:Potts:Manning:2014}, we extend these results to include
 complex expressions involving logical connectives and quantifiers, with similar
 conclusions about (tree-structured recursive versions of) these models. These findings

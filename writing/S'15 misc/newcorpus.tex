@@ -1,14 +1,6 @@
-\section{A new corpus for natural language inference}\label{sec:discussion}
-
-need for new corpus
-
-Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
+\section{Discussion and conclusion}\label{sec:discussion}
 
 
-
-what's new
-- size
-- grounding
 
 data will be freely available
 
@@ -16,15 +8,13 @@ SICK presented an important challenge, we try to deliver on it.
 
 aim to surpass sick in both size and label consistency
 
-Since our goal is to evaluate the quality of the single sentence representations in our model, we train an entailment classifier that has access only to the output of our sentence representation model, and not to any of the word or phrase representations that it used. We encourage future users of this corpus to evaluate their models in this way when possible. Our classifier is simply a stack of three 100d (NONLIN) layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
-
 quote from SICK paper \cite{marelli2014sick}:
 
 \begin{quote}
 Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
 \end{quote}
 
-We use captions from the Flickr30k corpus \cite{hodoshimage} as the left hand side of each label pair. That corpus ...
+We use captions from the Flickr30k corpus \cite{hodoshimage} as the left hand side of each relation pair. That corpus ...
 
 We randomly selected individual captions from that corpus to use in our own corpus, though in the interest of encouraging more complex source sentences without discarding too much source data, we downsample sentences with lengths of under 90 characters so that these sentences make up only half of our corpus, rather than the original 69\%.
 
