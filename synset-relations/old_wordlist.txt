@@ -8,7 +8,7 @@ feeling
 location
 event
 group
-label
+relation
 phenomenon
 feat
 action
@@ -1404,7 +1404,7 @@ eight
 nine
 reservoir
 supply
-labelship
+relationship
 function
 operator
 foundation
