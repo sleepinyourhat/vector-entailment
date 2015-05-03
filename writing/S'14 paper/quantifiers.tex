@@ -31,14 +31,14 @@ negated. We use the basic quantifiers \ii{some}, \ii{most}, \ii{all},
 \ii{two}, and \ii{three}, and their negations \ii{no}, \ii{not-all},
 \ii{not-most}, \ii{less-than-two}, and \ii{less-than-three}. We also
 include five nouns, four intransitive verbs, and the negation symbol
-\ii{not}. In order to be able to define labels between sentences
-with differing lexical items, we define the lexical labels between
+\ii{not}. In order to be able to define relations between sentences
+with differing lexical items, we define the lexical relations between
 each noun--noun pair, each verb--verb pair, and each
 quantifier--quantifier pair. The grammar accepts aligned pairs of
-sentences of this form and calculates the natural logic labelship
+sentences of this form and calculates the natural logic relationship
 between them.  Some examples of these data are provided in
 Table~\ref{examplesofdata}.  As in previous sections, the goal of
-learning is then to assign these labelal labels accurately to
+learning is then to assign these relational labels accurately to
 unseen pairs of sentences.
 
 %nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
@@ -46,15 +46,15 @@ unseen pairs of sentences.
 %dets = ['all', 'not_all', 'some', 'no', 'most', 'not_most', 'two', 'lt_two', 'three', 'lt_three']
 %adverbs = ['', 'not']
 
-% To assign label labels to sentence pairs, we built a small
+% To assign relation labels to sentence pairs, we built a small
 % task-specific implemenation of MacCartney's logic that can
 % accurately label sentences of this restricted language. The logic is
-% not able to derive all intuitively true labels of this language,
-% and fails to derive a single unique label for certain types of
+% not able to derive all intuitively true relations of this language,
+% and fails to derive a single unique relation for certain types of
 % statement, including De Morgean's laws (e.g. \ii{(all pets) growl
 % $\natneg$ (some pet) (not growl)}), and we simply discard these
 % examples. Exhaustively generating the valid sentences under this
-% grammar and choosing those to which a label label can be assigned
+% grammar and choosing those to which a relation label can be assigned
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
@@ -82,7 +82,7 @@ complete reasoning system for the limited language and logic presented
 in the training data, but it is not being asked to generalize to test
 examples that are substantially different from those it was trained
 on. Crucially, though, to succeed on this task, the model must be able
-to recognize all of the lexical labels between the nouns, verbs,
+to recognize all of the lexical relations between the nouns, verbs,
 and quantifiers and how they interact. For instance, it might see
 \eqref{p1} and \eqref{p2} in training and, from that information,
 determine \eqref{p3}.

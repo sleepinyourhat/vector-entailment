@@ -33,7 +33,7 @@ support specific semantic behaviors. These tasks follow the format of
  \ii{natural language inference} 
 (also known as \ii{recognizing textual entailment};
 \citealt{dagan2006pascal}), in which the goal is to determine the core
-inferential labelship between two sentences. 
+inferential relationship between two sentences. 
 We introduce a novel NN architecture for natural language inference which
 independently computes vector representations for each of two sentences using
 standard TreeRNN or TreeRNTN \cite{socher2013acl1} models, and
@@ -51,13 +51,13 @@ language.
 In our first three experiments, we test our models' ability to learn the foundations of natural
 language inference by training them to reproduce the behavior of the natural logic of \newcite{maccartney2009extended} 
 on artificial data. This logic
-defines seven mutually-exclusive labels of synonymy, entailment, contradiction,
+defines seven mutually-exclusive relations of synonymy, entailment, contradiction,
 and mutual consistency, as summarized in Table~\ref{b-table}, and it
-provides rules of semantic combination for projecting these labels
+provides rules of semantic combination for projecting these relations
 from the lexicon up to complex phrases. The formal properties of this system 
 are now well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
 The first experiment using this logic 
-covers reasoning with the bare logical labels (\S\ref{sec:join}), the second extends this to reasoning with statements constructed compositionally from recursive functions (\S\ref{sec:recursion}),
+covers reasoning with the bare logical relations (\S\ref{sec:join}), the second extends this to reasoning with statements constructed compositionally from recursive functions (\S\ref{sec:recursion}),
 and the third covers the additional complexity that results from quantification (\S\ref{sec:quantifiers}).
 Though the performance of the plain TreeRNN model 
  is somewhat poor in our first experiment, we find that the stronger TreeRNTN model
@@ -94,7 +94,7 @@ any clear level of inferential complexity for which other approaches work and NN
     independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
     \bottomrule
   \end{tabular}
-  \caption{\label{b-table}The seven labels of MacCartney and Manning \protect\shortcite{maccartney2009extended}'s logic are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences.} %-%
+  \caption{\label{b-table}The seven relations of MacCartney and Manning \protect\shortcite{maccartney2009extended}'s logic are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences.} %-%
  
 \end{table*}
 

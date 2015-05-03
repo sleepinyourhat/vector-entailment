@@ -31,13 +31,13 @@ from that experiment with complex formulae. These formulae
 represent a truth-functionally complete classical propositional logic:
 each atomic variable denotes either $\True$ or $\False$, and the only
 operators are truth-functional ones.  Table~\ref{tab:pl} defines this
-logic, and Table~\ref{tab:plexs} gives some examples of labelal
-statements that we can make in these terms. To compute these labels
+logic, and Table~\ref{tab:plexs} gives some examples of relational
+statements that we can make in these terms. To compute these relations
 between statements, we exhaustively enumerate the sets of assignments
 of truth values to propositional variables that would satisfy each of
-the statements, and then we convert the set-theoretic label between
-those assignments into one of the seven labels in
-Table~\ref{b-table}. As a result, each labelal statement represents
+the statements, and then we convert the set-theoretic relation between
+those assignments into one of the seven relations in
+Table~\ref{b-table}. As a result, each relational statement represents
 a valid theorem of the propositional logic.
 
 \begin{table}[tp]
@@ -72,11 +72,11 @@ a valid theorem of the propositional logic.
       $\plneg(\plneg a \pland \plneg b)$ & $\nateq$ & $(a \plor b)$ \\ 
       \bottomrule
     \end{tabular}
-    \caption{Examples of statements about labels between
+    \caption{Examples of statements about relations between
       well-formed formulae, defined in terms of sets of satisfying
       interpretation functions $\sem{\cdot}$.}\label{tab:plexs}
   \end{subtable}
-  \caption{Propositional logic with natural logic labels.}  
+  \caption{Propositional logic with natural logic relations.}  
   \label{prop-figure}
 \end{table}
 
@@ -102,10 +102,10 @@ to be able to distinguish if we are to learn this logical system in its
 full generality.
 
 For our experiments, we randomly generate a large set of  unique pairs 
-of formulae and compute the label that holds for each pair.
+of formulae and compute the relation that holds for each pair.
 We discard pairs in which either statement is a tautology or
 contradiction (a statement that is true of either all or no possible
-assignments), for which none of the seven label labels in
+assignments), for which none of the seven relation labels in
 Table~\ref{b-table} can hold. The resulting set of formula pairs is
 then partitioned into bins based on the number of logical operators in
 the longer of the two formulae. We then randomly sample 15\% of each
@@ -114,9 +114,9 @@ bin for a held-out test set.
 If we do not implement any constraint that the two statements being
 compared are similar in any way, then the generated data are dominated
 by statements in which the two formulae refer to largely separate
-subsets of the six variables, which means that the $\natind$ label
+subsets of the six variables, which means that the $\natind$ relation
 is almost always correct.  In an effort to balance the distribution of
-label labels without departing from the basic task of modeling
+relation labels without departing from the basic task of modeling
 propositional logic, we disallow individual pairs of statements from
 referring to more than four of the six propositional variables.
 

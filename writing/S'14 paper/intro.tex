@@ -10,7 +10,7 @@ but it remains an open question whether they can achieve the same
 results as grammars based in logical forms
 \cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}
 when it comes to the core semantic concepts of quantification,
-entailment, and contradiction needed to identify the labelships
+entailment, and contradiction needed to identify the relationships
 between sentences like \ii{every animal walks}, \ii{every turtle
   moves}, and \ii{most reptiles don't move}. To date, experimental
 investigations of these concepts using distributed representations
@@ -23,7 +23,7 @@ structures.
 We address this question in the context of \ii{natural language
   inference} (also known as \ii{recognizing textual entailment};
 \cite{dagan2006pascal}), in which the goal is to determine the core
-inferential labelship between two sentences. Much of the
+inferential relationship between two sentences. Much of the
 theoretical work on this task (and some successful implemented models
 \cite{maccartney2009extended,watanabe2012latent}) involves \ii{natural
   logics}, which are formal systems that define rules of inference
@@ -31,25 +31,25 @@ between natural language words, phrases, and sentences without the
 need of intermediate representations in an artificial logical
 language. Following \cite{bowman2013can}, we use the natural logic
 developed by \cite{maccartney2009extended} as our formal model. This
-logic defines seven core labels of synonymy, entailment,
+logic defines seven core relations of synonymy, entailment,
 contradiction, and mutual consistency, as summarized in
 Table~\ref{b-table}, and it provides rules of semantic combination for
-projecting these labels from the lexicon up to complex phrases. The
+projecting these relations from the lexicon up to complex phrases. The
 formal properties and inferential strength of this system are now
 well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
 
 In our experiments, we use this pre-specified logical grammar to
-generate controlled data sets encoding the semantic labelships
+generate controlled data sets encoding the semantic relationships
 between pairs of expressions and evaluate whether each of two classes
 of neural model --- plain RNNs and recursive neural tensor networks
-(RNTNs, \cite{socher2013acl1}) --- can learn those labelships
+(RNTNs, \cite{socher2013acl1}) --- can learn those relationships
 correctly. In our first experiment (Section~\ref{sec:join}), we
-evaluate the ability of these models to learn the core labelal
+evaluate the ability of these models to learn the core relational
 algebra of natural logic from data. Our second experiment
-(Section~\ref{sec:recursion}) extends this evaluation to labels
+(Section~\ref{sec:recursion}) extends this evaluation to relations
 between complex recursive structures like $(a \plor b)$ and
 $\plneg(\plneg a \pland \plneg b)$, and our third experiment
-(Section~\ref{sec:quantifiers}) involves labels between quantified
+(Section~\ref{sec:quantifiers}) involves relations between quantified
 statements like \ii{every reptile walks} and \ii{no turtle moves}.
 We find that the plain RNN achieves only mixed results in all three
 experiments, whereas the stronger RNTN model generalizes well in every
@@ -77,9 +77,9 @@ semantic inferences in complex natural language sentences.
     independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
     \bottomrule
   \end{tabular}
-  \caption{The seven natural logic labels of \cite{maccartney2009extended}. 
+  \caption{The seven natural logic relations of \cite{maccartney2009extended}. 
     $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, 
-    and the label $\natind$ applies whenever none of the other six do.} %, including when there 
+    and the relation $\natind$ applies whenever none of the other six do.} %, including when there 
     %is insufficient knowledge to choose a label.}
   \label{b-table}
 \end{table}
@@ -90,7 +90,7 @@ semantic inferences in complex natural language sentences.
 
 % Deep learning methods in NLP which learn vector representations for words have seen successful uses in recent years on increasingly sophisticated tasks \cite{collobert2011natural, socher2011semi, socher2013acl1, chen2013learning}. Given the still modest performance of semantically rich NLP systems in many domains---question answering and machine translation, for instance---it is worth exploring the degree to which learned vectors can serve as general purpose semantic representations. Much of the work to date analyzing vector representations for words (see \cite{baroni2013frege}) has focused on lexical semantic behaviors---like the similarity between words like \ii{Paris} and \ii{France}. Good similarity functions are valuable for many NLP tasks, but there are real use cases for which it is necessary to know how words relate to one another or to some extrinsic representation, and to model the ways in which word meanings combine to form phrase, sentence, or document meanings. This paper explores the ability of linguistic representations developed using supervised deep learning techniques to support interpretation and reasoning. 
 
-% There are two broad family of tasks that could be used to test the ability of a model to develop general purpose meaning representations. In an interpretation task, sentences are mapped onto some denotation, such as  \ii{true} or \ii{false} for statements, or a factual answer for questions. There has been preliminary work in developing distributed models for interpretation \cite{grefenstette2013towards, rocktaschellow}, but developing a representation of world knowledge that corresponds accurately to the content expressed in language introduces considerable design challenges. I approach the problem by way of an inference task instead. Inferring the truth of one sentence from another does not require any preexisting knowledge representations, but nonetheless requires a precise representation of sentence meaning. I borrow the structure of the task from MacCartney and Manning  \cite{maccartney2009extended}. In it, the model is presented with a pair of sentences, and made to label the logical label between the sentences as equivalence, entailment, or any of five other classes, as here:
+% There are two broad family of tasks that could be used to test the ability of a model to develop general purpose meaning representations. In an interpretation task, sentences are mapped onto some denotation, such as  \ii{true} or \ii{false} for statements, or a factual answer for questions. There has been preliminary work in developing distributed models for interpretation \cite{grefenstette2013towards, rocktaschellow}, but developing a representation of world knowledge that corresponds accurately to the content expressed in language introduces considerable design challenges. I approach the problem by way of an inference task instead. Inferring the truth of one sentence from another does not require any preexisting knowledge representations, but nonetheless requires a precise representation of sentence meaning. I borrow the structure of the task from MacCartney and Manning  \cite{maccartney2009extended}. In it, the model is presented with a pair of sentences, and made to label the logical relation between the sentences as equivalence, entailment, or any of five other classes, as here:
 
 %\begin{quote}
 %\begin{enumerate}\small
@@ -104,7 +104,7 @@ semantic inferences in complex natural language sentences.
 
 % \subsection{Natural language inference and natural logic}
 
-% In its simplest form, \ii{natural language inference} (also known as \ii{recognizing textual entailment}, as in \cite{dagan2006pascal}) is the task of determine whether one sentence entails another. Much of the theoretical work on this task (and some successful implemented models \cite{maccartney2009natural, watanabe2012latent}) involve \ii{natural logic}, formal systems that define sound rules of inference from one sentence of natural language to another without the need for intermediate representations in some other logic. The most powerful model that we are aware of for natural logic is due to MacCartney and Manning \cite{maccartney2009extended} and Icard \cite{icard2012inclusion}, and is centered around the definition of a set of seven logical labels which can hold between sentences, shown in Table \ref{b-table}.
+% In its simplest form, \ii{natural language inference} (also known as \ii{recognizing textual entailment}, as in \cite{dagan2006pascal}) is the task of determine whether one sentence entails another. Much of the theoretical work on this task (and some successful implemented models \cite{maccartney2009natural, watanabe2012latent}) involve \ii{natural logic}, formal systems that define sound rules of inference from one sentence of natural language to another without the need for intermediate representations in some other logic. The most powerful model that we are aware of for natural logic is due to MacCartney and Manning \cite{maccartney2009extended} and Icard \cite{icard2012inclusion}, and is centered around the definition of a set of seven logical relations which can hold between sentences, shown in Table \ref{b-table}.
 
 % This approach to natural logic can capture much of the complexity of natural language meaning within a well understood framework, and is also fairly straightforward to implement in a machine learning setting since it can be reduced to a seven-way classification problem on sentence pairs. Our goal in this paper is to learn recursive neural network models which are able to mimic key behaviors of this system.
 
@@ -120,16 +120,16 @@ semantic inferences in complex natural language sentences.
 % cover & $x \smallsmile y$ & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ & \ii{animal, non-ape} \\ \hline
 % independence & $x$ \# $y$ & (else) & \ii{hungry, hippo}\\ \hline
 % \end{tabular}
-% \caption{The entailment labels in  $\mathfrak{B}$. $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, and the label \# applies whenever none of the other six do, including when there is insufficient knowledge to choose a label.}
+% \caption{The entailment relations in  $\mathfrak{B}$. $\mathcal{D}$ is the universe of possible objects of the same type as those being compared, and the relation \# applies whenever none of the other six do, including when there is insufficient knowledge to choose a label.}
 % \label{b-table}
 % \end{center}
 % \end{table}
 
-% The goal of each of the three experiments that we propose is to learn classifiers that are able to classify pairs of statements from some highly constrained language into these seven classes. It should be noted that this is not a balanced classification problem. If arbitrary pairs of statements are chosen for comparison in almost any domain of natural language, the minimally informative \# label will apply between them. % TODO: How much should we say about this?
+% The goal of each of the three experiments that we propose is to learn classifiers that are able to classify pairs of statements from some highly constrained language into these seven classes. It should be noted that this is not a balanced classification problem. If arbitrary pairs of statements are chosen for comparison in almost any domain of natural language, the minimally informative \# relation will apply between them. % TODO: How much should we say about this?
 
 
-% The natural logic engine at the core of MacCartney and Manning's system requires a complex set of linguistic knowledge, much of which takes the form of what he calls projectivity signatures. These signatures are tables showing the entailment label that must hold between two strings that differ in a given way (such as the substitution of the argument of some quantifier), and are explicitly provided to the model
-%for dozens of different cases of insertion, deletion and substitution of different types of lexical item. For example in judging the inference \ii{no animals bark $|$ some dogs bark} it would first used stored knowledge to compute the labels introduced by each of the two differences between the sentences. Here, the substitution of \ii{no} for \ii{some}  yields $\natneg$ and the substitution of \ii{dogs} for \ii{animals} yields $\sqsupset$. It would then use an additional store of knowledge about labels to resolve the resulting series of labels into one ($|$) that expresses the label between the two sentences being compared:
+% The natural logic engine at the core of MacCartney and Manning's system requires a complex set of linguistic knowledge, much of which takes the form of what he calls projectivity signatures. These signatures are tables showing the entailment relation that must hold between two strings that differ in a given way (such as the substitution of the argument of some quantifier), and are explicitly provided to the model
+%for dozens of different cases of insertion, deletion and substitution of different types of lexical item. For example in judging the inference \ii{no animals bark $|$ some dogs bark} it would first used stored knowledge to compute the relations introduced by each of the two differences between the sentences. Here, the substitution of \ii{no} for \ii{some}  yields $\natneg$ and the substitution of \ii{dogs} for \ii{animals} yields $\sqsupset$. It would then use an additional store of knowledge about relations to resolve the resulting series of relations into one ($|$) that expresses the relation between the two sentences being compared:
 %\begin{quote}
 
 %1. \ii{no animals bark $\natneg$ \textbf{some} animals bark}\\

@@ -17,9 +17,9 @@ are built up separately on each side of the tree, using the same
 composition function, until they have each been reduced to single
 vectors. The resulting vectors are fed into a separate comparison
 layer that is meant to generate a feature vector capturing the
-label between the two phrases. The output of this layer is then
+relation between the two phrases. The output of this layer is then
 given to a softmax classifier, which in turn produces a hypothesized
-distribution over the seven labels represented in Table~\ref{b-table}.
+distribution over the seven relations represented in Table~\ref{b-table}.
 
 
 For a composition layer, we evaluate models with both the plain neural

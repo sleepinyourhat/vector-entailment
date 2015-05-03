@@ -1,7 +1,7 @@
 \section{Recursive structure}\label{sec:recursion}
 
 A successful natural language inference system must reason 
-about labels not just over familiar
+about relations not just over familiar
 atomic symbols, but also over novel structures built up 
 recursively from these symbols. 
 This section shows that our models can learn a 
@@ -30,13 +30,13 @@ from that experiment with complex formulae. These formulae
 represent a complete classical propositional logic:
 each atomic symbol is a variable over the domain \{$\True$, $\False$\}, and the only
 operators are truth-functional ones.  Table~\ref{tab:pl} defines this
-logic, and Table~\ref{tab:plexs} gives some short examples labelal statements from our data.
- To compute these labels
+logic, and Table~\ref{tab:plexs} gives some short examples relational statements from our data.
+ To compute these relations
 between statements, we exhaustively enumerate the sets of assignments
 of truth values to propositional variables that would satisfy each of
-the statements, and then we convert the set-theoretic label between
-those assignments into one of the seven labels in
-Table~\ref{b-table}. As a result, each labelal statement represents
+the statements, and then we convert the set-theoretic relation between
+those assignments into one of the seven relations in
+Table~\ref{b-table}. As a result, each relational statement represents
 a valid theorem of the propositional logic, and to succeed, the models 
 must learn to reproduce the behavior of a theorem prover.\footnote{
 Socher et al.~\shortcite{socher2012semantic} show that a matrix-vector TreeRNN
@@ -77,18 +77,18 @@ In the much more demanding task presented here, the atomic symbols are variables
       $\plneg\, (\plneg p_1 \pland \plneg p_2)$ & $\nateq$ & $(p_1 \plor p_2)$ \\ 
       \bottomrule
     \end{tabular}
-    \caption{Examples of the type of statements used for training and testing. These are labels between
+    \caption{Examples of the type of statements used for training and testing. These are relations between
       well-formed formulae, computed in terms of sets of satisfying
       interpretation functions $\sem{\cdot}$.}\label{tab:plexs}
   \end{subtable}
-  \caption{Natural logic labels over sentences of propositional logic.}  
+  \caption{Natural logic relations over sentences of propositional logic.}  
   \label{prop-figure}
 \end{table}
 
 In our experiments, we randomly generate unique pairs 
-of formulae containing up to 12 instances of logical operators each and compute the label that holds for each pair.
+of formulae containing up to 12 instances of logical operators each and compute the relation that holds for each pair.
 We discard pairs in which either statement is either a tautology or a
-contradiction, for which the seven labels in
+contradiction, for which the seven relations in
 Table~\ref{b-table} are undefined. The resulting set of formula pairs is
 then partitioned into 12 bins according the number of operators in
 the larger of the two formulae. We then sample 20\% of each
@@ -96,9 +96,9 @@ bin for a held-out test set.
 If we do not implement any constraint that the two statements being
 compared are similar in any way, then the generated data are dominated
 by statements in which the two formulae refer to largely separate
-subsets of the six variables, which means that the $\natind$ label
+subsets of the six variables, which means that the $\natind$ relation
 is almost always correct.  In an effort to balance the distribution of
-label labels without departing from the basic task of modeling
+relation labels without departing from the basic task of modeling
 propositional logic, we disallow individual pairs of statements from
 referring to more than four of the six propositional variables.
 
@@ -125,7 +125,7 @@ and is as such guaranteed to ignore some information that it would need in order
 \end{figure}
 
 
-\paragraph{Results} Fig.~\ref{prop-results} shows the labelship
+\paragraph{Results} Fig.~\ref{prop-results} shows the relationship
 between test accuracy and statement size. While the summing baseline model performed poorly across the board, we found that both recursive
 models were able to perform well on unseen small test examples, 
 with TreeRNN accuracy above
