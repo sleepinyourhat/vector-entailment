@@ -50,7 +50,7 @@ end
 % Compute Accor rate from aggregate confusion matrix
 targetAcc = sum(sum(eye(hyperParams.numLabels(targetLabelSet)) .* targetConfusion)) / sum(sum(targetConfusion));    
 aggAcc = sum(sum(eye(hyperParams.numLabels(targetLabelSet)) .* aggConfusion)) / sum(sum(aggConfusion));    
-aggConAcc = mean(aggConAcc, 2);
+aggConAcc = mean(aggConAcc, 2)
 
 combinedMf1 = [GetMacroF1(targetConfusion), GetMacroF1(aggConfusion)];
 

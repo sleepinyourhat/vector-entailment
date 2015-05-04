@@ -106,7 +106,5 @@ end
     softmaxMatrix, wordFeatures, compositionMatrices, ...
     compositionMatrix, scoringVector, classifierExtraMatrix, embeddingTransformMatrix);
 
-theta = theta + 0.001; 
-'TEMP'
 end
 
