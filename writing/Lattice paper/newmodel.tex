@@ -105,7 +105,7 @@ The loss for the example is then defined as the sum of three parts, a log likeli
 
 \begin{eqnarray}
 loss & = & \lambda\theta^2 - \ln(l_\rho) -\\
-\nlonumber&&\frac{1}{N - 1} \sum_{i = 1}^{N - 2} \ln(o^{(i,\kappa^{(i)})}_{\textsc{compose}})
+\nonumber&&\frac{1}{N - 1} \sum_{i = 1}^{N - 2} \ln(o^{(i,\kappa^{(i)})}_{\textsc{compose}})
 \end{eqnarray}
 %
 Parameter gradients can then be computed using standard backpropagation through structure \cite{goller1996learning}. Notably, when the composition location labels $\vec{\kappa}$, are used, the corresponding error signal at each row is used not only to train the scoring parameters $\vec{v}_s$, but also propagates error through the input vector used in eq. \ref{scoringeqn} and into the rest of the model.

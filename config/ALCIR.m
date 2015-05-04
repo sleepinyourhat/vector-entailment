@@ -48,8 +48,14 @@ hyperParams.labels = {{'satisfiable', 'unsatisfiable'}};
 labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-hyperParams.trainFilenames = {};    
-hyperParams.splitFilenames = {'./alcir-data/ALCIR-data.txt'};    
-hyperParams.testFilenames = {};
+if strcmp(dataflag, 'cv') 
+    hyperParams.trainFilenames = {};    
+    hyperParams.splitFilenames = {'./alcir-data/ALCIR-data.txt'};    
+    hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'long') 
+    hyperParams.trainFilenames = {'./alcir-data/ALCIR-data.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'./alcir-data/ALCIR-data-long.txt'};
+end
 
 end
