@@ -39,7 +39,7 @@ hyperParams.topDepth = topDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = true;
+hyperParams.largeVocabMode = true;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;

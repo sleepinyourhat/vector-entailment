@@ -28,7 +28,7 @@ hyperParams.trainWords = trainwords;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = fastemb;
+hyperParams.largeVocabMode = fastemb;
 
 % How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = mbs;

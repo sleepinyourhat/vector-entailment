@@ -3,7 +3,7 @@ function [matrixGradients, deltaLeft, deltaRight] = ...
       ComputeRNNLayerGradients(l, r, matrix, delta, nonlinearityDeriv, output)
 % Compute the gradients and deltas for an RNN layer for a given batch.
 
-in = [(l(1, :) .* 0 + 1); l; r];
+in = padarray([l; r], 1, 1, 'pre');
 
 if nargin < 6
     innerOutput = matrix * in;

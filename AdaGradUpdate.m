@@ -1,19 +1,16 @@
-function modelState = AdaGradUpdate(modelState, options, grad, embGrad)
+function modelState = AdaGradUpdate(modelState, options, hyperParams, grad, embGrad)
 
 if modelState.step == 0
-    modelState.sumSqGrad = zeros(size(modelState.theta));
+    modelState.sumSqGrad = fZeros(size(modelState.theta), hyperParams.gpu);
     if length(embGrad) > 0
         % Set up a separate SumSqGrad tracker for the embeddings.
-        modelState.sumSqEmbGrad = zeros(size(modelState.separateWordFeatures));
+        modelState.sumSqEmbGrad = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode);
     end
 end
 
 % Do an AdaGrad-scaled parameter update
 modelState.sumSqGrad = modelState.sumSqGrad + grad.^2;
 modelState.theta = modelState.theta - modelState.lr * (grad ./ (sqrt(modelState.sumSqGrad) + options.adaEps));
-
-assert(sum(isnan(modelState.theta)) == 0, 'NaNs in theta.');
-assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.');
 
 % Do an AdaGrad-scaled parameter update to the separate word features
 if length(embGrad) > 0

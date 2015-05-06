@@ -20,7 +20,7 @@ end
     softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
     compositionMatrix, scoringVector, classifierExtraMatrix, embeddingTransformMatrix ] ...
     = stack2param(theta, decoder);
-if hyperParams.trainWords && ~hyperParams.fastEmbed
+if hyperParams.trainWords && ~hyperParams.largeVocabMode
     wordFeatures = trainedWordFeatures;
 else
     wordFeatures = separateWordFeatures;
@@ -37,13 +37,14 @@ end
     batch.runForward(embeddingTransformMatrix, connectionMatrix, scoringVector, compositionMatrix, hyperParams, computeGrad);
 
 % Set up and run top dropout.
-[ features, mask ] = Dropout(features, hyperParams.topDropout, computeGrad);
+[ features, mask ] = Dropout(features, hyperParams.topDropout, computeGrad, hyperParams.gpu);
 
-extraClassifierLayerInputs = zeros(hyperParams.penultDim, B, hyperParams.topDepth);
-extraClassifierLayerInnerOutputs = zeros(hyperParams.penultDim, B, hyperParams.topDepth - 1);
+extraClassifierLayerInputs = fZeros([hyperParams.penultDim, B, hyperParams.topDepth], hyperParams.gpu);
+extraClassifierLayerInnerOutputs = fZeros([hyperParams.penultDim, B, hyperParams.topDepth - 1], hyperParams.gpu);
 extraClassifierLayerInputs(:, :, 1) = features;
 for layer = 1:(hyperParams.topDepth - 1) 
-    extraClassifierLayerInnerOutputs(:, :, layer) = classifierExtraMatrix(:, :, layer) * [ones(1, B); extraClassifierLayerInputs(:, :, layer)];
+    extraClassifierLayerInnerOutputs(:, :, layer) = classifierExtraMatrix(:, :, layer) * ...
+        [ones([1, B], 'like', extraClassifierLayerInputs); extraClassifierLayerInputs(:, :, layer)];
     extraClassifierLayerInputs(:, :, layer + 1) = hyperParams.classNL(extraClassifierLayerInnerOutputs(:, :, layer));
 end
 
@@ -58,16 +59,15 @@ else
 end
 
 % Sum the log losses from the three sources over all of the batch elements and normalize.
-% TODO: Is it worth scaling the two different types of cost?
 normalizedCost = sum([topCosts; connectionCosts]) / length(data);
 
-% Apply regularization to the cost (does not include fastEmbed embeddings).
+% Apply regularization to the cost (does not include largeVocabMode embeddings).
 if hyperParams.norm == 2
     % Apply L2 regularization
-    regCost = hyperParams.lambda/2 * sum(theta.^2);
+    regCost = gather(hyperParams.lambda/2 * sum(theta.^2));
 else
     % Apply L1 regularization
-    regCost = hyperParams.lambda * sum(abs(theta)); 
+    regCost = gather(hyperParams.lambda * sum(abs(theta))); 
 end
 combinedCost = normalizedCost + regCost;
 
@@ -128,7 +128,7 @@ if computeGrad
                             connectionMatrix, scoringVector, compositionMatrix, hyperParams);
 
     % Pack up gradients
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
         grad = param2stack([], [], ...
             localSoftmaxGradient, ...
             [], localConnectionMatrixGradients, ...
@@ -157,7 +157,7 @@ if computeGrad
         grad = grad + hyperParams.lambda * sign(theta);
     end
 
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
         % Compile the embedding gradient
         embGrad = localWordFeatureGradients * 1/length(data);
 
@@ -166,11 +166,11 @@ if computeGrad
             if hyperParams.norm == 2
                 % Apply L2 regularization to the gradient
                 embGrad(:, wordInd) = embGrad(:, wordInd) + ...
-                    hyperParams.lambda * separateWordFeatures(:, wordInd);
+                    double(hyperParams.lambda * separateWordFeatures(:, wordInd));
             else
                 % Apply L1 regularization to the gradient
                 embGrad(:, wordInd) = embGrad(:, wordInd) + ...
-                    hyperParams.lambda * sign(separateWordFeatures(:, wordInd));
+                    double(hyperParams.lambda * sign(separateWordFeatures(:, wordInd)));
             end
         end
     else
@@ -188,7 +188,9 @@ if computeGrad
         assert(false, 'NANs in computed gradient.');
     end
 
-    assert(sum(isinf(grad)) == 0, 'Infs in computed gradient.'); 
+    % Not clear why this gather is necessary here and not above...
+    hasInf = gather(sum(isinf(grad)) == 0);
+    assert(hasInf, 'Infs in computed gradient.'); 
 end
 
 end

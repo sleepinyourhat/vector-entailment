@@ -6,6 +6,7 @@ grad = [];
 embGrad = [];
 
 assert(~hyperParams.useLattices, 'Use batched computation for the LatticeNN.');
+assert(~hyperParams.gpu, 'Use batching for GPU computation.');
 
 % Unpack theta
 [ mergeMatrices, mergeMatrix ...
@@ -14,7 +15,7 @@ assert(~hyperParams.useLattices, 'Use batched computation for the LatticeNN.');
     embeddingTransformMatrix ] ...
     = stack2param(theta, thetaDecoder);
 
-if hyperParams.trainWords && ~hyperParams.fastEmbed
+if hyperParams.trainWords && ~hyperParams.largeVocabMode
     wordFeatures = trainedWordFeatures;
 else
     wordFeatures = separateWordFeatures;
@@ -47,8 +48,8 @@ right.updateFeatures(wordFeatures, compositionMatrices, ...
 leftFeatures = left.getFeatures();
 rightFeatures = right.getFeatures();
 
-[ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGradient);
-[ rightFeatures, rightMask ] = Dropout(rightFeatures, hyperParams.topDropout, computeGradient);
+[ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGradient, hyperParams.gpu);
+[ rightFeatures, rightMask ] = Dropout(rightFeatures, hyperParams.topDropout, computeGradient, hyperParams.gpu);
 
 % Compute classification tensor layer (or plain RNN layer)
 if hyperParams.useThirdOrderMerge
@@ -146,7 +147,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
         + rightEmbeddingTransformMatrixGradients;
     
     % Pack up gradients
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
       grad = param2stack(localMergeMatricesGradients, ...
           localMergeMatrixGradients, ...
           localSoftmaxGradient, ...

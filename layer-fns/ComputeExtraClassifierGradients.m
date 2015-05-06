@@ -1,20 +1,19 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ matrixStackGradients, deltaDown ] = ...
           ComputeExtraClassifierGradients(...
-          	matrixStack, deltaDown, inputs, classNLDeriv)
+          	matrixStack, deltaDown, inputs, classNLDeriv, gpu)
 % Compute gradients for the middle NN layers of the classifier. This will 
 % only do non-trivial work if stackSize is greater than 0.
 
 if length(matrixStack) == 0
-	matrixStackGradients = [];
-	return
+	 matrixStackGradients = [];
+	 return
 end
 
 [ outDim, ~, stackSize ] = size(matrixStack);
 [ inDim, B, ~ ] = size(inputs);
 
-matrixStackGradients = zeros(outDim, inDim + 1, stackSize);
-biasStackGradients = zeros(outDim, stackSize, B);
+matrixStackGradients = matrixStack .* 0;  % TODO: fZeros?
 
 % We only support different input and output dimensionalities 
 % if the extra layers aren't used. Otherwise, the storage used here
@@ -26,7 +25,7 @@ for layer = stackSize:-1:1
     deltaDown = NLDeriv .* deltaDown;
 
     % Calculate matrix gradients
-    matrixStackGradients(:, :, layer) = deltaDown * [ones(1, B); inputs(:, :, layer)]';
+    matrixStackGradients(:, :, layer) = deltaDown * padarray(inputs(:, :, layer), 1, 1, 'pre')';
 
     % Calculate deltas to pass down
     deltaDown = matrixStack(:, 2:end, layer)' * deltaDown;

@@ -15,7 +15,7 @@ classdef Lattice < handle
     end
     
     methods(Static)
-        function l = makeLattice(iText, wordMap)
+        function l = makeLattice(iText, wordMap, gpu, embGpu)
             l = Lattice();
 
             terms = textscan(iText, '%s', 'delimiter', ' ');
@@ -40,9 +40,9 @@ classdef Lattice < handle
 
             % TODO: Handle unparsed sequences.
 
-            l.wordIndices = zeros(l.wordCount, 1);
-            l.connectionLabels = zeros(l.wordCount - 1, 1);
-            l.activeNode = tril(ones(l.wordCount), 0);
+            l.wordIndices = fZeros([l.wordCount, 1], embGpu);
+            l.connectionLabels = fZeros([l.wordCount - 1, 1], gpu);
+            l.activeNode = tril(fOnes([l.wordCount, l.wordCount], gpu), 0);
             l.text = iText;
 
             % Load the words and the tree structure.

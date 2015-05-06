@@ -100,8 +100,10 @@ end
 
 if mod(modelState.step, options.checkpointFreq) == 0 && modelState.step > 0
     % Write a checkpoint to disk.
+    cModelState = modelState
+    cModelState
     save([options.name, '/', 'ckpt-', options.runName, datestr(now, 'yymmddHHMMSS'),...
-       '@', num2str(modelState.step)], 'modelState');
+       '@', num2str(modelState.step)], 'cModelState');
 end
 
 % Log the cost.

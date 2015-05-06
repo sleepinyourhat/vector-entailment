@@ -38,14 +38,15 @@ classdef SequenceBatch < handle
 
             sb.sequences = cell(sb.B, 1);  % TODO: Needed?
 
-            sb.wordIndices = zeros(sb.N, sb.B);
+            sb.wordIndices = fZeros([sb.N, sb.B], hyperParams.gpu && ~hyperParams.largeVocabMode);
             sb.wordCounts = [sequences(:).wordCount]';
-            sb.inputFeatures = zeros(sb.D, sb.B, sb.N);
-            sb.rawEmbeddings = zeros(hyperParams.embeddingDim, sb.B, hyperParams.embeddingTransformDepth * sb.N);
-            sb.activationCache = zeros(sb.D * 4, sb.B, sb.N);
-            sb.features = zeros(sb.D, sb.B, sb.N);
-            sb.cFeatures = zeros(sb.D, sb.B, sb.N);
-            sb.masks = zeros(sb.D, sb.B, hyperParams.embeddingTransformDepth * sb.N);
+            sb.inputFeatures = fZeros([sb.D, sb.B, sb.N], hyperParams.gpu);
+            sb.activationCache = fZeros([sb.D * 4, sb.B, sb.N], hyperParams.gpu);
+            sb.features = fZeros([sb.D, sb.B, sb.N], hyperParams.gpu);
+            sb.cFeatures = fZeros([sb.D, sb.B, sb.N], hyperParams.gpu);
+            sb.masks = fZeros([sb.D, sb.B, hyperParams.embeddingTransformDepth * sb.N], hyperParams.gpu);
+
+            sb.rawEmbeddings = fZeros([hyperParams.embeddingDim, sb.B, hyperParams.embeddingTransformDepth * sb.N], false);
 
             % Copy data in from the individual batch entries.
             for b = 1:sb.B                
@@ -60,6 +61,10 @@ classdef SequenceBatch < handle
                         sb.inputFeatures(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));
                     end
                 end
+            end
+
+            if hyperParams.gpu && ~hyperParams.largeVocabMode
+                sb.rawEmbeddings = gpuArray(hyperParams.rawEmbeddings);
             end
         end
     end
@@ -77,7 +82,7 @@ classdef SequenceBatch < handle
                     % TODO: Adapt this zero-bias idea to LatticeBatch.
                     transformInputs = [ [w >= sb.N - sb.wordCounts + 1]'; sb.rawEmbeddings(:, :, w)];
                     [ sb.inputFeatures(:, :, w), sb.masks(:, :, w) ] = ...
-                        Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);
+                        Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode, hyperParams.gpu);
                 end
 
                 % Compute a feature vector for the predecessor node.
@@ -88,10 +93,10 @@ classdef SequenceBatch < handle
                     end
                 else
                     if LSTM
-                        predC = zeros(size(compositionMatrix, 1) / 4, sb.B);
-                        predActivations = zeros(size(compositionMatrix, 1) / 4, sb.B);
+                        predC = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
+                        predActivations = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
                     else
-                        predActivations = zeros(size(compositionMatrix, 1), sb.B);
+                        predActivations = zeros([size(compositionMatrix, 1), sb.B], 'like', sb.cFeatures);
                     end
                 end
 
@@ -120,8 +125,6 @@ classdef SequenceBatch < handle
             LSTM = size(compositionMatrix, 1) > size(compositionMatrix, 2);
             SUM = isempty(compositionMatrix);
 
-            HIDDENDIM = size(deltaH, 1);
-            EMBDIM = size(wordFeatures, 1);
             if isempty(embeddingTransformMatrix)
                 NUMTRANS = 0;
             else
@@ -130,10 +133,14 @@ classdef SequenceBatch < handle
 
             connectionMatrixGradients = []; 
             scoringVectorGradients = [];
-            compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2), size(compositionMatrix, 3));           
-            embeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM + 1, NUMTRANS);
-            wordGradients = sparse([], [], [], ...
-                size(wordFeatures, 1), size(wordFeatures, 2), sb.N * sb.B);
+            compositionMatrixGradients = fZeros(size(compositionMatrix), hyperParams.gpu);           
+            embeddingTransformMatrixGradients = fZeros(size(embeddingTransformMatrix), hyperParams.gpu);
+            if hyperParams.gpu && ~hyperParams.largeVocabMode
+                wordGradients = fZeros(size(wordFeatures), hyperParams.gpu);
+            else
+                wordGradients = sparse([], [], [], ...
+                    size(wordFeatures, 1), size(wordFeatures, 2), sb.N * sb.B);
+            end
 
             if LSTM
                 deltaC = 0 .* deltaH;
@@ -148,10 +155,10 @@ classdef SequenceBatch < handle
                     end
                 else
                     if LSTM
-                        predC = zeros(size(compositionMatrix, 1) / 4, sb.B);
-                        predActivations = zeros(size(compositionMatrix, 1) / 4, sb.B);
+                        predC = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
+                        predActivations = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
                     else
-                        predActivations = zeros(size(compositionMatrix, 1), sb.B);
+                        predActivations = zeros([size(compositionMatrix, 1), sb.B], 'like', sb.cFeatures);
                     end
                 end
 
@@ -167,7 +174,7 @@ classdef SequenceBatch < handle
                     end
                 elseif SUM
                     compDeltaInput = deltaH;
-                    localCompositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2), size(compositionMatrix, 3));
+                    localCompositionMatrixGradients = zeros(size(compositionMatrix), 'like', compositionMatrix);
                 else  % RNN
                     [ localCompositionMatrixGradients, deltaH, compDeltaInput ] = ...
                     ComputeRNNLayerGradients(predActivations, sb.inputFeatures(:, :, w), ...
@@ -181,7 +188,7 @@ classdef SequenceBatch < handle
                     [ localEmbeddingTransformMatrixGradients, compDeltaInput ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               compDeltaInput, sb.rawEmbeddings(:, :, w), ...
-                              sb.inputFeatures(:, :, w), @TanhDeriv);
+                              sb.inputFeatures(:, :, w), @TanhDeriv, hyperParams.gpu);
                 elseif NUMTRANS > 0
                     % Compute gradients for embedding transform layers only
                     compDeltaInput = compDeltaInput .* sb.masks(:, :, w); % Take dropout into account
@@ -189,7 +196,7 @@ classdef SequenceBatch < handle
                     localEmbeddingTransformMatrixGradients = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                                 compDeltaInput, sb.rawEmbeddings(:, :, w), ...
-                                sb.inputFeatures(:, :, w), @TanhDeriv);
+                                sb.inputFeatures(:, :, w), @TanhDeriv, hyperParams.gpu);
                 end
 
                 compositionMatrixGradients = ...
@@ -204,11 +211,18 @@ classdef SequenceBatch < handle
 
                 % Push input deltas into the word gradients.
                 if hyperParams.trainWords
+                    if hyperParams.gpu && hyperParams.largeVocabMode
+                        gathered = gather(compDeltaInput);
+                        gathered = double(gathered);
+                    else
+                        gathered = compDeltaInput;
+                    end
+
                     for b = 1:sb.B
                         if w >= sb.N - sb.wordCounts(b) + 1
                             wordGradients(:, sb.wordIndices(w, b)) = ...
                                 wordGradients(:, sb.wordIndices(w, b)) + ...
-                                compDeltaInput(:, b);
+                                gathered(:, b);
                         end
                     end
                 end 

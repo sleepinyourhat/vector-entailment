@@ -1,4 +1,4 @@
-function [ vocab, fullVocab, fullWordmap ] = InitializeVocabFromFile(wordMap, loc)
+function [ vocab, fullVocab, fullWordmap ] = InitializeVocabFromFile(wordMap, loc, hyperParams)
 % Initialize the embedding matrix from an existing vector source.
 
 % This will only initialize words that are specified in wordMap.
@@ -16,7 +16,7 @@ fullVocab = dlmread(loc, ' ', 0, 1);
 
 fullWordmap = containers.Map(words,2:length(words) + 1);
 
-vocab = normrnd(0, 1, size(fullVocab, 2), size(wordlist, 2));
+vocab = fNormrnd(0, 1, [size(fullVocab, 2), size(wordlist, 2)], hyperParams.gpu, hyperParams.gpu && hyperParams.largeVocabMode);
 
 % Rescale the loaded vectors into the same neighborhood as the random ones.
 loadScale = 1 / std(fullVocab(:));

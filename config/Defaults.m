@@ -7,7 +7,7 @@ hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 hyperParams.useTrees = 1;
 hyperParams.useLattices = 0;
 
-hyperParams.gpu = 0;
+hyperParams.gpu = false;
 
 % If set, and if useTrees and useLattice are false, use an LSTM RNN.
 % If set, and if useLattice is true, use a LatticeLSTM.
@@ -121,7 +121,8 @@ hyperParams.fragmentData = false;
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step. This does nothing if trainWords is false.
 % Useful as long as the vocabulary size is fairly large. (Exact threshold unknown.)
-hyperParams.fastEmbed = false;
+% NOTE: This forces embeddings out of GPU memory, which is desirable in this case.
+hyperParams.largeVocabMode = false;
 
 hyperParams.clearActivations = false;
 
@@ -164,7 +165,7 @@ options.miniBatchSize = 64;
 % Learning parameters
 
 % What to use to compute parameter updates. 
-options.updateFn = @AdaDeltaUpdate;
+options.updateFn = @RMSPropUpdate;
 
 % AdaDelta hyperparameters.
 options.adaDeltaRho = 0.95;

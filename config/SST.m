@@ -16,18 +16,18 @@ hyperParams.SSTMode = 1;
 
 %%
 if latte == 1
-    hyperParams.compNL = @ReLU;
-    hyperParams.compNLDeriv = @ReLUDeriv; 
-    hyperParams.classNL = @ReLU;
-    hyperParams.classNLDeriv = @ReLUDeriv;
+    hyperParams.compNL = @LReLU;
+    hyperParams.compNLDeriv = @LReLUDeriv; 
+    hyperParams.classNL = @LReLU;
+    hyperParams.classNLDeriv = @LReLUDeriv;
 elseif latte == 2
     hyperParams.compNL = @tanh;
     hyperParams.compNLDeriv = @TanhDeriv; 
-    hyperParams.classNL = @ReLU;
-    hyperParams.classNLDeriv = @ReLUDeriv;
+    hyperParams.classNL = @LReLU;
+    hyperParams.classNLDeriv = @LReLUDeriv;
 elseif latte == 3
-    hyperParams.compNL = @ReLU;
-    hyperParams.compNLDeriv = @ReLUDeriv; 
+    hyperParams.compNL = @LReLU;
+    hyperParams.compNLDeriv = @LReLUDeriv; 
     hyperParams.classNL = @tanh;
     hyperParams.classNLDeriv = @TanhDeriv;
 elseif latte == 4
@@ -67,7 +67,7 @@ hyperParams.topDepth = topDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = true;
+hyperParams.largeVocabMode = true;
 
 % The dimensionality of the classifier extra layers.
 hyperParams.penultDim = dim;
@@ -86,7 +86,6 @@ hyperParams.topDropout = topDropout;
 hyperParams = CompositionSetup(hyperParams, composition);
 
 hyperParams.loadWords = true;
-hyperParams.trainWords = true;
 
 % How often (in steps) to report cost.
 options.costFreq = 250;
@@ -99,7 +98,7 @@ options.lr = 0.0001;
 
 % How often to report confusion matrices and connection accuracies. 
 % Should be a multiple of testFreq.
-options.detailedStatFreq = 250;
+options.detailedStatFreq = 1;
 
 if strcmp(dataflag, 'sst-expanded')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');

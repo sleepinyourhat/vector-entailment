@@ -31,13 +31,13 @@ classdef Sequence < handle
     end
 
     methods(Static)
-        function s = makeSequence(iText, wordMap, useParens)
+        function s = makeSequence(iText, wordMap, useParens, gpuEmbed)
             assert(~isempty(iText), 'Bad input text.');
             
             C = textscan(iText, '%s', 'delimiter', ' ');
             C = C{1};
             s = [];
-            wordIndices = zeros(length(C), 1);
+            wordIndices = fZeros([length(C), 1], gpuEmbed);
             numWords = 0;
 
             for i = 1:length(C)
@@ -161,7 +161,7 @@ classdef Sequence < handle
 
                 transformActivations = compNL(transformInnerActivations);
 
-                [obj.inputActivations, obj.mask] = Dropout(transformActivations, hyperParams.bottomDropout, trainingMode);
+                [obj.inputActivations, obj.mask] = Dropout(transformActivations, hyperParams.bottomDropout, trainingMode, hyperParams.gpu);
             end
 
             % Compute a feature vector for the predecessor node.
@@ -177,10 +177,10 @@ classdef Sequence < handle
                 end
             else
                 if LSTM
-                    predC = zeros(size(compMatrix, 1) / 4, 1);
-                    predActivations = zeros(size(compMatrix, 1) / 4, 1);
+                    predC = fZeros([size(compMatrix, 1) / 4, 1], hyperParams.gpu);
+                    predActivations = fZeros([size(compMatrix, 1) / 4, 1], hyperParams.gpu);
                 else
-                    predActivations = zeros(size(compMatrix, 1), 1);
+                    predActivations = fZeros([size(compMatrix, 1), 1], hyperParams.gpu);
                 end
             end    
 
@@ -219,15 +219,15 @@ classdef Sequence < handle
                 size(wordFeatures, 1), size(wordFeatures, 2), 10);            
 
             forwardCompositionMatricesGradients = [];            
-            forwardEmbeddingTransformMatrixGradients = zeros(HIDDENDIM, EMBDIM + 1, NUMTRANS);
+            forwardEmbeddingTransformMatrixGradients = fZeros(size(embeddingTransformMatrix), hyperParams.gpu);
 
             if LSTM
                 if ~isempty(obj.pred)
                     predC = obj.pred.cActivations;
                     predH = obj.pred.activations;
                 else
-                    predC = zeros(size(obj.cActivations, 1), 1);
-                    predH = zeros(size(obj.activations, 1), 1);
+                    predC = fZeros(size(obj.cActivations), hyperParams.gpu);
+                    predH = fZeros(size(obj.activations), hyperParams.gpu);
                 end
 
                 if isempty(deltaC)
@@ -248,7 +248,7 @@ classdef Sequence < handle
                if ~isempty(obj.pred)
                     predActivations = obj.pred.activations;
                 else
-                    predActivations = zeros(size(compMatrix, 1), 1);
+                    predActivations = fZeros(size(compMatrix), hyperParams.gpu);
                 end
 
                 [ forwardCompositionMatrixGradients, compDeltaPred, ...
@@ -289,7 +289,7 @@ classdef Sequence < handle
                     [tempEmbeddingTransformMatrixGradients, compDeltaInput] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               compDeltaInput, wordFeatures(:, obj.wordIndex), ...
-                              obj.inputActivations, compNLDeriv);
+                              obj.inputActivations, compNLDeriv, hyperParams.gpu);
                     forwardEmbeddingTransformMatrixGradients = ...
                         forwardEmbeddingTransformMatrixGradients + ...
                         tempEmbeddingTransformMatrixGradients;

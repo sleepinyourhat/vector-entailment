@@ -41,7 +41,7 @@ for batchNo = 0:(numBatches - 1)
 
     [ cost, grad, embGrad ] = CostGradFunc(modelState.theta, modelState.thetaDecoder, batch, modelState.separateWordFeatures, hyperParams, true);
 
-    modelState = options.updateFn(modelState, options, grad, embGrad);
+    modelState = options.updateFn(modelState, options, hyperParams, grad, embGrad);
 
     modelState.step = modelState.step + 1;
     modelState.lastHundredCosts(mod(modelState.step, 100) + 1) = cost(1);

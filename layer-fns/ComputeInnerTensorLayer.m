@@ -7,12 +7,13 @@ B = size(l, 2);
 
 % Apply third-order tensor
 % NOTE: Sadly, there doesn't seem to be a good MATLAB primitive for this.
+% TODO: fZeros
 innerTensorLayerOutput = zeros(outDim, B);
 for outi = 1:outDim
     innerTensorLayerOutput(outi, :) = dot((matrices(:, :, outi) * r), l);
 end
 
 % Apply matrix.
-innerTensorLayerOutput = innerTensorLayerOutput + matrix * [ones(1, B); l; r];
+innerTensorLayerOutput = innerTensorLayerOutput + matrix * padarray([l; r], 1, 1, 'pre');
 
 end

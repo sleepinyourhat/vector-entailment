@@ -1,18 +1,18 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function modelState = RMSPropUpdate(modelState, options, grad, embGrad)
+function modelState = RMSPropUpdate(modelState, options, hyperParams, grad, embGrad)
 
 % Based on the Lua implementation in Kai Sheng Tai's torch-ntm:
 % https://github.com/kaishengtai/torch-ntm/blob/master/rmsprop.lua
 
 if modelState.step == 0
-    modelState.gradAccum = zeros(size(modelState.theta));
-    modelState.sqGradAccum = zeros(size(modelState.theta));
-    modelState.update = zeros(size(modelState.theta));
+    modelState.gradAccum = fZeros(size(modelState.theta), hyperParams.gpu);
+    modelState.sqGradAccum = fZeros(size(modelState.theta), hyperParams.gpu);
+    modelState.update = fZeros(size(modelState.theta), hyperParams.gpu);
     if length(embGrad) > 0
         % Set up a separate tracker for the embeddings.
-        modelState.embGradAccum = zeros(size(modelState.separateWordFeatures));
-        modelState.embSqGradAccum = zeros(size(modelState.separateWordFeatures));
-        modelState.embUpdate = zeros(size(modelState.separateWordFeatures));
+        modelState.embGradAccum = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode);
+        modelState.embSqGradAccum = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode);
+        modelState.embUpdate = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode);
     end
 end
 
@@ -27,9 +27,6 @@ modelState.update = modelState.update .* options.momentum - ...
                     sqrt(modelState.sqGradAccum - (modelState.gradAccum .^ 2) + options.RMSPropEps)); 
 
 modelState.theta = modelState.theta + modelState.update;
-
-assert(sum(isnan(modelState.theta)) == 0, 'NaNs in theta.');
-assert(sum(isinf(modelState.theta)) == 0, 'Infs in theta.');
 
 % Do a scaled parameter update to the separate word features.
 if length(embGrad) > 0

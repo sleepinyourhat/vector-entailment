@@ -26,7 +26,7 @@ hyperParams.topDepth = topDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = false;
+hyperParams.largeVocabMode = false;
 
 % The dimensionality of the classifier extra layers.
 hyperParams.penultDim = dim;

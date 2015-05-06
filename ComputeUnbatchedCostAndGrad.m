@@ -26,8 +26,8 @@ if (nargin < 6 || computeGrad) && nargout > 1
     computeGrad = 1;
     accumulatedGrad = zeros(length(theta), 1);
 
-    % If fastEmbed is on, set up a separate sparse accumulator for the embeddings.
-    if hyperParams.fastEmbed
+    % If largeVocabMode is on, set up a separate sparse accumulator for the embeddings.
+    if hyperParams.largeVocabMode
         accumulatedSeparateWordFeatureGradients = sparse([], [], [], ...
           size(separateWordFeatures, 1), size(separateWordFeatures, 2), hyperParams.embeddingDim * 5 * length(data));
     else
@@ -58,7 +58,7 @@ if nargout > 1
             exampleFn(theta, decoder, data(b), separateWordFeatures, hyperParams, computeGrad);
         accumulatedCost = accumulatedCost + localCost;
         accumulatedGrad = accumulatedGrad + localGrad;
-        if hyperParams.fastEmbed
+        if hyperParams.largeVocabMode
             accumulatedSeparateWordFeatureGradients = accumulatedSeparateWordFeatureGradients + localEmbGrad;
         end
 
@@ -108,7 +108,7 @@ end
 % Compute mean cost
 normalizedCost = (1/length(data) * accumulatedCost);
 
-% Apply regularization to the cost (does not include fastEmbed embeddings).
+% Apply regularization to the cost (does not include largeVocabMode embeddings).
 if hyperParams.norm == 2
     % Apply L2 regularization
     regCost = hyperParams.lambda/2 * sum(theta.^2);
@@ -138,7 +138,7 @@ if computeGrad
         grad = grad + hyperParams.lambda * sign(theta);
     end
 
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
         % Compile the embedding gradient
         embGrad = accumulatedSeparateWordFeatureGradients * 1/length(data);
 
