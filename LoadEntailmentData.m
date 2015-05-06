@@ -93,15 +93,18 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
     elseif hyperParams.useLattices
         data = repmat(struct('label', 0, 'left', Lattice(), 'right', Lattice()), numElements, 1);
         parfor dataInd = 1:numElements
-            data(dataInd).left = Lattice.makeLattice(rawData(dataInd).leftText, wordMap);
-            data(dataInd).right = Lattice.makeLattice(rawData(dataInd).rightText, wordMap);
+            data(dataInd).left = Lattice.makeLattice(rawData(dataInd).leftText, wordMap, hyperParams.gpu, hyperParams.gpu && ~hyperParams.largeVocabMode);
+            data(dataInd).right = Lattice.makeLattice(rawData(dataInd).rightText, wordMap, hyperParams.gpu, hyperParams.gpu && ~hyperParams.largeVocabMode);
             data(dataInd).label = rawData(dataInd).label;
         end
     else
         data = repmat(struct('label', 0, 'left', Sequence(), 'right', Sequence()), numElements, 1);
         parfor dataInd = 1:numElements
-            data(dataInd).left = Sequence.makeSequence(rawData(dataInd).leftText, wordMap, hyperParams.parensInSequences);
-            data(dataInd).right = Sequence.makeSequence(rawData(dataInd).rightText, wordMap, hyperParams.parensInSequences);
+            data(dataInd).left = Sequence.makeSequence(rawData(dataInd).leftText, wordMap, ...
+                hyperParams.parensInSequences, hyperParams.gpu && ~hyperParams.largeVocabMode);
+
+            data(dataInd).right = Sequence.makeSequence(rawData(dataInd).rightText, wordMap, ...
+                hyperParams.parensInSequences, hyperParams.gpu && ~hyperParams.largeVocabMode);
             data(dataInd).label = rawData(dataInd).label;
         end
     end

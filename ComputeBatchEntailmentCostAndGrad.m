@@ -20,7 +20,7 @@ end
     softmaxMatrix, trainedWordFeatures, connectionMatrix, ...
     compositionMatrix, scoringVector, classifierExtraMatrix, embeddingTransformMatrix] ...
     = stack2param(theta, decoder);
-if hyperParams.trainWords && ~hyperParams.fastEmbed
+if hyperParams.trainWords && ~hyperParams.largeVocabMode
     wordFeatures = trainedWordFeatures;
 else
     wordFeatures = separateWordFeatures;
@@ -44,8 +44,8 @@ end
 connectionAcc = [leftConnectionAcc rightConnectionAcc];
 
 % Set up and run top dropout.
-[ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGrad);
-[ rightFeatures, rightMask ] = Dropout(rightFeatures, hyperParams.topDropout, computeGrad);
+[ leftFeatures, leftMask ] = Dropout(leftFeatures, hyperParams.topDropout, computeGrad, hyperParams.gpu);
+[ rightFeatures, rightMask ] = Dropout(rightFeatures, hyperParams.topDropout, computeGrad, hyperParams.gpu);
 
 % Compute classification tensor layer (or plain RNN layer).
 if hyperParams.useThirdOrderMerge
@@ -57,11 +57,12 @@ else
 end
 
 % Post-merge layers
-extraClassifierLayerInputs = zeros(hyperParams.penultDim, B, hyperParams.topDepth);
-extraClassifierLayerInnerOutputs = zeros(hyperParams.penultDim, B, hyperParams.topDepth - 1);
+extraClassifierLayerInputs = fZeros([hyperParams.penultDim, B, hyperParams.topDepth], hyperParams.gpu);
+extraClassifierLayerInnerOutputs = fZeros([hyperParams.penultDim, B, hyperParams.topDepth - 1], hyperParams.gpu);
 extraClassifierLayerInputs(:, :, 1) = permute(mergeOutput, [1, 3, 2]);
 for layer = 1:(hyperParams.topDepth - 1) 
-    extraClassifierLayerInnerOutputs(:, :, layer) = classifierExtraMatrix(:, :, layer) * [ones(1, B); extraClassifierLayerInputs(:, :, layer)];
+    extraClassifierLayerInnerOutputs(:, :, layer) = classifierExtraMatrix(:, :, layer) * ...
+        [fOnes([1, B], hyperParams.gpu); extraClassifierLayerInputs(:, :, layer)];
     extraClassifierLayerInputs(:, :, layer + 1) = hyperParams.classNL(extraClassifierLayerInnerOutputs(:, :, layer));
 end
 
@@ -79,7 +80,7 @@ end
 % TODO: Is it worth scaling the two different types of cost?
 normalizedCost = sum([topCosts; leftConnectionCosts; rightConnectionCosts]) / length(data);
 
-% Apply regularization to the cost (does not include fastEmbed embeddings).
+% Apply regularization to the cost (does not include largeVocabMode embeddings).
 if hyperParams.norm == 2
     % Apply L2 regularization
     regCost = hyperParams.lambda/2 * sum(theta.^2);
@@ -188,7 +189,7 @@ if computeGrad
         + rightEmbeddingTransformMatrixGradients;
     
     % Pack up gradients
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
         grad = param2stack(localMergeMatricesGradients, ...
             localMergeMatrixGradients, ...
             localSoftmaxGradient, ...
@@ -219,7 +220,7 @@ if computeGrad
         grad = grad + hyperParams.lambda * sign(theta);
     end
 
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
         % Compile the embedding gradient
         embGrad = localWordFeatureGradients * 1/length(data);
 

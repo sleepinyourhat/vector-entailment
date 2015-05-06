@@ -22,17 +22,17 @@ else
 end
 
 % Randomly initialize softmax layer
-softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numLabels), 1, 1);
+softmaxMatrix = InitializeNNLayer(PENULT, sum(hyperParams.numLabels), 1, 1, 1, hyperParams.gpu);
 
-mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType);
+mergeMatrix = InitializeNNLayer(DIM * 2, PENULT, 1, hyperParams.NNinitType, 1, hyperParams.gpu);
 
 % Randomly initialize tensor parameters
 if ~hyperParams.sentenceClassificationMode
     if hyperParams.useThirdOrderMerge
-        mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType) .* hyperParams.tensorScale;
+        mergeMatrices = InitializeNTNLayer(DIM, PENULT, hyperParams.NTNinitType, hyperParams.gpu) .* hyperParams.tensorScale;
         mergeMatrix = mergeMatrix .* (1 - hyperParams.tensorScale);
     else
-        mergeMatrices = zeros(0, 0, PENULT);
+        mergeMatrices = fZeros([0, 0, PENULT], hyperParams.gpu);
     end
 else
     mergeMatrices = [];
@@ -40,9 +40,9 @@ else
 end
 
 if hyperParams.lstm
-    compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType, hyperParams.useLattices || hyperParams.useTrees);
+    compositionMatrix = InitializeLSTMLayer(DIM, NUMCOMP, hyperParams.LSTMinitType, hyperParams.useLattices || hyperParams.useTrees, hyperParams.gpu);
 else
-    compositionMatrix = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType);
+    compositionMatrix = InitializeNNLayer(DIM * 2, DIM, NUMCOMP, hyperParams.NNinitType, 1, hyperParams.gpu);
 end
   
 if hyperParams.eyeScale > 0 && ~hyperParams.lstm
@@ -53,10 +53,10 @@ end
 
 if hyperParams.useThirdOrderComposition && ~hyperParams.useLattices
     if hyperParams.tensorScale > 0
-        compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType) .* hyperParams.tensorScale;
+        compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType, hyperParams.gpu) .* hyperParams.tensorScale;
         compositionMatrix = compositionMatrix .* (1 - hyperParams.tensorScale);
     else
-        compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType);
+        compositionMatrices = InitializeNTNLayer(DIM, DIM, hyperParams.NTNinitType, hyperParams.gpu);
     end
     scoringVector = [];
 elseif hyperParams.useLattices
@@ -64,35 +64,37 @@ elseif hyperParams.useLattices
     % connection chosing layer in the lattice model.
 
     % This is not a proper NN layer - just a filter that will be .*'d with a clump of features and summed.
-    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth * DIM) + 3, hyperParams.latticeConnectionHiddenDim, 1, hyperParams.NNinitType, 0);
-    scoringVector = InitializeNNLayer(hyperParams.latticeConnectionHiddenDim, 1, 1, hyperParams.NNinitType);
+    compositionMatrices = InitializeNNLayer((2 * hyperParams.latticeConnectionContextWidth * DIM) + 3, ...
+        hyperParams.latticeConnectionHiddenDim, 1, hyperParams.NNinitType, 0, hyperParams.gpu);
+    scoringVector = InitializeNNLayer(hyperParams.latticeConnectionHiddenDim, 1, 1, hyperParams.NNinitType, ...
+        1, hyperParams.gpu);
 else
     compositionMatrices = [];
     scoringVector = [];
 end
 
-classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType);
+classifierExtraMatrix = InitializeNNLayer(PENULT, PENULT, TOPD - 1, hyperParams.NNinitType, 1, hyperParams.gpu);
 
   
 if NUMTRANS > 0
     assert(NUMTRANS == 1, 'Currently, we do not support more than one embedding transform layer.');
-    embeddingTransformMatrix = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType);
+    embeddingTransformMatrix = InitializeNNLayer(EMBDIM, DIM, NUMTRANS, hyperParams.NNinitType, 1, hyperParams.gpu);
 else
     embeddingTransformMatrix = [];
 end
   
 if hyperParams.loadWords
     Log(hyperParams.statlog, 'Loading the vocabulary.')
-    wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath);
+    wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, hyperParams);
 else 
     % Randomly initialize the words
-    wordFeatures = normrnd(0, 1, EMBDIM, vocabLength);
+    wordFeatures = fNormrnd(0, 1, [EMBDIM, vocabLength], hyperParams.gpu, hyperParams.gpu && hyperParams.largeVocabMode);
     if ~hyperParams.trainWords
         Log(hyperParams.statlog, 'Warning: Word vectors are randomly initialized and not trained.');     
     end
 end
 
-if ~hyperParams.trainWords || hyperParams.fastEmbed
+if ~hyperParams.trainWords || hyperParams.largeVocabMode
     % Move the initialized word features into separateWordFeatures
     separateWordFeatures = wordFeatures;
     wordFeatures = [];

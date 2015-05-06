@@ -30,14 +30,14 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 	% TODO: Vectorize and/or shuttle easy cases to other version.
 
 	if ~isempty(matrix)
-		inPadded = [ones(1, B); in];
+		inPadded = padarray(in, 1, 1, 'pre');
 		D = size(matrix, 1);
 	else
 		D = size(in, 1);
 	end
 
 	loss = zeros(B, 1);
-	probs = zeros(D, B); % This will be padded with zeros at the end if a shorter class set is used.
+	probs = zeros([D, B], 'like', in); % This will be padded with zeros at the end if a shorter class set is used.
 
 	for b = 1:B
 		labelRange = hyperParams.labelRanges{labels(b, 2)};
@@ -56,18 +56,17 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 
 		% Pad with ones to allow for zeros in labels, which won't contribute to cost.
 		if labels(b, 1) > 0
-			loss(b) = -log(probs(labels(b, 1)));
+			loss(b) = gather(-log(probs(labels(b, 1))));
 		end
 	end
 else
 	% Single class set case.
 	if ~isempty(matrix)
-		inPadded = [ones(1, B); in];
+		inPadded = padarray(in, 1, 1, pre);
 		unNormedProbs = exp(matrix * inPadded);
 	else
 		unNormedProbs = exp(in);
 	end
-
 
 	if nargin > 5
 		unNormedProbs = unNormedProbs .* active;
@@ -80,13 +79,13 @@ end
 % If a correct class vector is provided, compute the objective function value.
 if nargin > 3 && ~isempty(labels)
 	% Pad with ones to allow for zeros in labels, which won't contribute to cost.
-	evalprobs = [ones(1, size(probs, 2)); probs];
+	evalprobs = padarray(probs, 1, 1, 'pre');
 	labels = labels + 1;
 	probCorrect = evalprobs(sub2ind(size(evalprobs), labels(:, 1), (1:size(labels, 1))'));
-	loss = -log(probCorrect);
+	loss = gather(-log(probCorrect));
 elseif nargout > 1
 	probCorrect = ones(1, B);
-	loss = -log(probCorrect);
+	loss = gather(-log(probCorrect));
 end
 
 if nargin > 4

@@ -12,8 +12,6 @@ function [ h, c, IFOGf ] = ComputeTreeLSTMLayer(WLSTM, h_prev_l, h_prev_r, c_pre
 %% Outputs: [I, Fl, Fr, O, G]
 
 [ D, B ] = size(h_prev_l);
-h = zeros(D, B);
-c = zeros(D, B);
 
 Ir = 0 * D + 1:1 * D;
 Flr = 1 * D + 1:2 * D;
@@ -21,7 +19,7 @@ Frr = 2 * D + 1:3 * D;
 Or = 3 * D + 1:4 * D;
 Gr = 4 * D + 1:5 * D;
 
-in = [ones(1, B); h_prev_l; h_prev_r];
+in = padarray([h_prev_l; h_prev_r], 1, 1, 'pre');
 
 IFOG = WLSTM * in;
 

@@ -1,6 +1,6 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
 function [ matrixGradients, deltasDown ] = ...
-    ComputeBareSoftmaxGradients(matrix, probs, deltas, in)
+    ComputeBareSoftmaxGradients(matrix, probs, deltas, in, gpu)
 % Compute the gradient for the softmax layer parameters using incoming
 % deltas rather than log loss and a class label vector.
 
@@ -9,7 +9,7 @@ function [ matrixGradients, deltasDown ] = ...
 
 B = size(in, 2);
 outDim = size(probs, 1);
-inPadded = [ones(1, B); in];
+inPadded = [fOnes([1, B], gpu); in];
 
 % TODO: Save these between forward and backward passes
 if ~isempty(matrix)
@@ -20,15 +20,16 @@ end
 
 % Compute dProb / dZ
 % TODO: Vectorize more?
-zGradients = zeros(outDim, outDim, B);
+oneVec = ones([1, B], 'like', in);
+zGradients = zeros([outDim, outDim, B], 'like', in);
 for ii = 1:outDim
     for jj = 1:outDim
-        zGradients(ii, jj, :) = probs(ii, :) .* ((ones(1, B) * (ii == jj)) - probs(jj, :));
+        zGradients(ii, jj, :) = probs(ii, :) .* ((oneVec * (ii == jj)) - probs(jj, :));
     end
 end
 
 % Transpose and multiply.
-deltaZ = zeros(outDim, B);
+deltaZ = zeros([outDim, B], 'like', in);
 for b = 1:B
     deltaZ(:, b) = zGradients(:, :, b)' * deltas(:, b);
 end

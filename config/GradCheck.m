@@ -9,12 +9,6 @@ function [ hyperParams, options, wordMap, labelMap ] = GradCheck(transDepth, top
 
 hyperParams = CompositionSetup(hyperParams, composition);
 
-
-    hyperParams.compNL = @ReLU;
-    hyperParams.compNLDeriv = @ReLUDeriv; 
-    hyperParams.classNL = @ReLU;
-    hyperParams.classNLDeriv = @ReLUDeriv;
-
 hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors.
@@ -41,7 +35,7 @@ hyperParams.topDepth = topDepth;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
 % to the parameters that are in use at each step.
-hyperParams.fastEmbed = fastemb;
+hyperParams.largeVocabMode = fastemb;
 
 % Turn off gradient/delta clipping, since that distrorts gradients.
 hyperParams.clipGradients = false;

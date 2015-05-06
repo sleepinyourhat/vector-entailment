@@ -6,15 +6,13 @@ function [ h, c, IFOGf ] = ComputeLSTMLayer(WLSTM, h_prev, c_prev, x)
 % https://github.com/karpathy/neuraltalk/blob/master/imagernn/lstm_generator.py
 
 [ D, B ] = size(x);
-h = zeros(D, B);
-c = zeros(D, B);
 
 Ir = 0 * D + 1:1 * D;
 Fr = 1 * D + 1:2 * D;
 Or = 2 * D + 1:3 * D;
 Gr = 3 * D + 1:4 * D;
 
-in = [ones(1, B); x; h_prev];
+in = padarray([x; h_prev], 1, 1, 'pre');
 
 IFOG = WLSTM * in;
 

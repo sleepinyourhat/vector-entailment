@@ -6,6 +6,7 @@ grad = [];
 embGrad = [];
 
 assert(~hyperParams.useLattices, 'Unbatched computation is not available for the LatticeNN. Use batching.');
+assert(~hyperParams.gpu, 'Use batching for GPU computation.');
 
 % Unpack theta
 [ ~, ~, ...
@@ -14,7 +15,7 @@ assert(~hyperParams.useLattices, 'Unbatched computation is not available for the
     embeddingTransformMatrix ] ...
     = stack2param(theta, thetaDecoder);
 
-if hyperParams.trainWords && ~hyperParams.fastEmbed
+if hyperParams.trainWords && ~hyperParams.largeVocabMode
     wordFeatures = trainedWordFeatures;
 else
     wordFeatures = separateWordFeatures;
@@ -38,7 +39,7 @@ NUMTRANS = size(embeddingTransformMatrix, 3);
 dataPoint.sentence.updateFeatures(wordFeatures, compositionMatrices, ...
         compositionMatrix, embeddingTransformMatrix, hyperParams.compNL, computeGradient, hyperParams);
 
-[ features, mask ] = Dropout(dataPoint.sentence.getFeatures(), hyperParams.topDropout, computeGradient);
+[ features, mask ] = Dropout(dataPoint.sentence.getFeatures(), hyperParams.topDropout, computeGradient, hyperParams.gpu);
        
 % Run layers forward
 extraInputs = zeros(hyperParams.penultDim, 1, hyperParams.topDepth);
@@ -90,7 +91,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
                             hyperParams.compNLDeriv, hyperParams);
     
     % Pack up gradients
-    if hyperParams.fastEmbed
+    if hyperParams.largeVocabMode
       grad = param2stack([], ...
           [], ...
           localSoftmaxGradient, ...

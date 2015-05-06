@@ -53,23 +53,23 @@ classdef LatticeBatch < handle
 
             lb.lattices = cell(lb.B, 1);
 
-            lb.wordIndices = zeros(lb.N, lb.B);
+            lb.wordIndices = fZeros([lb.N, lb.B], hyperParams.gpu && ~hyperParams.largeVocabMode);
             lb.wordCounts = [lattices(:).wordCount];
-            lb.features = zeros(lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1);
-            lb.rawEmbeddings = zeros(hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N);
-            lb.masks = zeros(lb.D, lb.B, hyperParams.embeddingTransformDepth * (lb.N + 2));
-            lb.compositionActivations = zeros(lb.D, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm + 1);
-            lb.LSTM_IFOGf = zeros(lb.D * 5, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm);
-            lb.scorerHiddenLayer = zeros(hyperParams.latticeConnectionHiddenDim, lb.B, lb.N, lb.N);
-            lb.scores = zeros(lb.N - 1, lb.B, lb.N - 1);
-            lb.connections = zeros(lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1);
-            lb.connectionLabels = zeros(lb.B, lb.N - 1); %% deleted last
-            lb.activeNode = zeros(lb.B, lb.N, lb.N);
-            lb.supervisionWeights = ones(lb.B, lb.N);
+            lb.features = fZeros([lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1], hyperParams.gpu);
+            lb.rawEmbeddings = fZeros([hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N], false);
+            lb.masks = fZeros([lb.D, lb.B, hyperParams.embeddingTransformDepth * (lb.N + 2)], hyperParams.gpu);
+            lb.compositionActivations = fZeros([lb.D, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm + 1], hyperParams.gpu);
+            lb.LSTM_IFOGf = fZeros([lb.D * 5, lb.B, lb.N - 1, lb.N - 1, hyperParams.lstm], hyperParams.gpu);
+            lb.scorerHiddenLayer = fZeros([hyperParams.latticeConnectionHiddenDim, lb.B, lb.N, lb.N], hyperParams.gpu);
+            lb.scores = fZeros([lb.N - 1, lb.B, lb.N - 1], hyperParams.gpu);
+            lb.connections = fZeros([lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1], hyperParams.gpu);
+            lb.connectionLabels = fZeros([lb.B, lb.N - 1], hyperParams.gpu); %% deleted last
+            lb.activeNode = fZeros([lb.B, lb.N, lb.N], hyperParams.gpu);
+            lb.supervisionWeights = fOnes([lb.B, lb.N], hyperParams.gpu);
             lb.rawLeftEdgeEmbedding = wordFeatures(:, hyperParams.sentenceStartWordIndex);
             lb.rawRightEdgeEmbedding = wordFeatures(:, hyperParams.sentenceEndWordIndex);
-            lb.leftEdgeEmbedding = zeros(lb.D, 1);
-            lb.rightEdgeEmbedding = zeros(lb.D, 1);
+            lb.leftEdgeEmbedding = fZeros([lb.D, 1], hyperParams.gpu);
+            lb.rightEdgeEmbedding = fZeros([lb.D, 1], hyperParams.gpu);
 
             % Copy data in from the individual batch entries.
             for b = 1:lb.B
@@ -77,7 +77,6 @@ classdef LatticeBatch < handle
                 lb.wordIndices(1:lb.wordCounts(b), b) = lattices(b).wordIndices;
                 for w = 1:lattices(b).wordCount
                     % Populate the bottom row with word features.
-
                     if hyperParams.embeddingTransformDepth > 0
                         lb.rawEmbeddings(:, b, w) = wordFeatures(:, lattices(b).wordIndices(w));
                     else
@@ -90,7 +89,10 @@ classdef LatticeBatch < handle
                     lattices(b).activeNode';
             end
 
-            assert(~hyperParams.lstm || sum(sum(sum(sum(lb.features(:,:,:,:,2))))) == 0);
+            if hyperParams.gpu && ~hyperParams.largeVocabMode
+                lb.rawEmbeddings = gpuArray(hyperParams.rawEmbeddings);
+            end
+            % assert(~hyperParams.lstm || sum(sum(sum(sum(lb.features(:,:,:,:,2))))) == 0);
         end
     end
 
@@ -101,9 +103,9 @@ classdef LatticeBatch < handle
             % Run the optional embedding transformation layer forward.
             if ~isempty(embeddingTransformMatrix)
                 for col = 1:lb.N
-                    transformInputs = [ ones(1, lb.B); lb.rawEmbeddings(:, :, col) ];
+                    transformInputs = [ones(1, lb.B, 'like', lb.rawEmbeddings); lb.rawEmbeddings(:, :, col)];
                     [ lb.features(:, :, col, lb.N, 1), lb.masks(:, :, col) ] = ...
-                        Dropout(hyperParams.compNL(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode);
+                        Dropout(hyperParams.compNL(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode, hyperParams.gpu);
                 end
 
                 % Remove features for inactive nodes.
@@ -112,9 +114,9 @@ classdef LatticeBatch < handle
                            permute(lb.activeNode(:, :, lb.N), [3, 1, 2]));
 
                 [ lb.leftEdgeEmbedding, lb.masks(:, 1, lb.N + 1) ] = ...
-                    Dropout(hyperParams.compNL(embeddingTransformMatrix * [1; lb.rawLeftEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
+                    Dropout(hyperParams.compNL(embeddingTransformMatrix * [1; lb.rawLeftEdgeEmbedding]), hyperParams.bottomDropout, trainingMode, hyperParams.gpu);
                 [ lb.rightEdgeEmbedding, lb.masks(:, 1, lb.N + 2) ] = ...
-                    Dropout(hyperParams.compNL(embeddingTransformMatrix * [1; lb.rawRightEdgeEmbedding]), hyperParams.bottomDropout, trainingMode);
+                    Dropout(hyperParams.compNL(embeddingTransformMatrix * [1; lb.rawRightEdgeEmbedding]), hyperParams.bottomDropout, trainingMode, hyperParams.gpu);
             else
                 lb.leftEdgeEmbedding = lb.rawLeftEdgeEmbedding;
                 lb.rightEdgeEmbedding = lb.rawRightEdgeEmbedding;
@@ -122,7 +124,7 @@ classdef LatticeBatch < handle
 
             % Prepare to compute connection accuracy.
             if hyperParams.showDetailedStats
-                correctConnectionLabels = zeros(lb.B, 1);
+                correctConnectionLabels = fZeros([lb.B, 1], hyperParams.gpu);
                 totalConnectionLabels = max(0, lb.wordCounts' - 2);
             end
 
@@ -146,7 +148,7 @@ classdef LatticeBatch < handle
                     for col = 1:row
                         % Score each node in the row with a two-layer network with a single output unit.
 
-                        scorerHiddenInputs = [ones(3, lb.B); ...
+                        scorerHiddenInputs = [ones([3, lb.B], 'like', paddedRow); ...
                             reshape(paddedRow(:, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1, :), ...
                             [2 * lb.D * hyperParams.latticeConnectionContextWidth, lb.B])];
                         scorerHiddenInputs(2, :) = col;
@@ -154,7 +156,7 @@ classdef LatticeBatch < handle
 
                         % Dimensions: hiddenD x B
                         lb.scorerHiddenLayer(:, :, col, row) = hyperParams.compNL(connectionMatrix * scorerHiddenInputs);
-                        lb.scores(col, :, row) = scoringVector * [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
+                        lb.scores(col, :, row) = scoringVector * [ones(1, lb.B, 'like', lb.scorerHiddenLayer); lb.scorerHiddenLayer(:, :, col, row)];
                     end
 
                     % Softmax the scores.
@@ -164,7 +166,7 @@ classdef LatticeBatch < handle
                     lb.connections(3, :, 1:row, row) = merges';
 
                     if hyperParams.latticeLocalCurriculum
-                        connectionCosts = connectionCosts .* lb.supervisionWeights(:, row);
+                        connectionCosts = connectionCosts .* gather(lb.supervisionWeights(:, row));
                         lb.supervisionWeights(:, row - 1) = probCorrect .* lb.supervisionWeights(:, row);
                     end
 
@@ -190,7 +192,7 @@ classdef LatticeBatch < handle
                             ComputeTreeLSTMLayer(compositionMatrix, lb.features(:, :, col, row + 1, 1), lb.features(:, :, col + 1, row + 1, 1), ...
                                              lb.features(:, :, col, row + 1, 2), lb.features(:, :, col + 1, row + 1, 2));
                     else
-                        compositionInputs = [ones(1, lb.B); lb.features(:, :, col, row + 1, 1); lb.features(:, :, col + 1, row + 1, 1)];
+                        compositionInputs = [ones(1, lb.B, 'like', lb.features); lb.features(:, :, col, row + 1, 1); lb.features(:, :, col + 1, row + 1, 1)];
                         lb.compositionActivations(:, :, col, row, 1) = hyperParams.compNL(compositionMatrix * compositionInputs);
                     end
 
@@ -212,7 +214,7 @@ classdef LatticeBatch < handle
             end
 
             % Collect features from the tops of each tree, not the top of the feature matrix.
-            topFeatures = zeros(lb.D, lb.B);
+            topFeatures = fZeros([lb.D, lb.B], hyperParams.gpu);
             for b = 1:lb.B
                 topFeatures(:, b) = lb.features(:, b, 1, lb.N - lb.wordCounts(b) + 1, 1);
             end
@@ -224,6 +226,7 @@ classdef LatticeBatch < handle
             if hyperParams.showDetailedStats
                 connectionAccuracies = correctConnectionLabels ./ totalConnectionLabels;
                 connectionAccuracy = [mean(connectionAccuracies(isfinite(connectionAccuracies))); std(connectionAccuracies(isfinite(connectionAccuracies)))];
+                connectionAccuracy = gather(connectionAccuracy);
             else
                 connectionAccuracy = [-1; -1];
             end
@@ -235,16 +238,16 @@ classdef LatticeBatch < handle
             % Run backwards.
 
             contextPositions = -hyperParams.latticeConnectionContextWidth + 1:hyperParams.latticeConnectionContextWidth;
-            connectionMatrixGradients = zeros(size(connectionMatrix, 1), size(connectionMatrix, 2), size(connectionMatrix, 3));
-            scoringVectorGradients = zeros(size(scoringVector, 1), size(scoringVector, 2));
-            compositionMatrixGradients = zeros(size(compositionMatrix, 1), size(compositionMatrix, 2));
+            connectionMatrixGradients = fZeros(size(connectionMatrix), hyperParams.gpu);
+            compositionMatrixGradients = fZeros(size(compositionMatrix), hyperParams.gpu);
+            scoringVectorGradients = fZeros(size(scoringVector), hyperParams.gpu);
             % Initialize delta matrix with the incoming deltas in the right places.
 
             % TODO: This could be represented as a vector covering only the deltas at one row,
             % but this could impose some time/complexity costs. Investigate.
-            deltas = zeros(lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1);
-            leftEdgeEmbeddingDeltas = zeros(lb.D, 1);
-            rightEdgeEmbeddingDeltas = zeros(lb.D, 1);
+            deltas = fZeros([lb.D, lb.B, lb.N, lb.N, hyperParams.lstm + 1], hyperParams.gpu);
+            leftEdgeEmbeddingDeltas = fZeros([lb.D, 1], hyperParams.gpu);
+            rightEdgeEmbeddingDeltas = fZeros([lb.D, 1], hyperParams.gpu);
 
             % Populate the delta matrix with the incoming deltas (reasonably fast).
             for b = 1:lb.B
@@ -256,7 +259,7 @@ classdef LatticeBatch < handle
                 % Get the score deltas from the softmax.
                
                 % Push these deltas into the softmax that predicts where to merge.
-                deltasToMerges = zeros(row, lb.B);
+                deltasToMerges = zeros([row, lb.B], 'like', deltas);
 
                 % Remove deltas for inactive nodes.
                 deltas(:, :, :, row, :) = ...
@@ -336,7 +339,7 @@ classdef LatticeBatch < handle
 
                     % Compute gradients for the scores wrt. the incoming deltas from above and to the right.
                     [ ~, incomingDeltasToScores ] = ...
-                        ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row));
+                        ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row), hyperParams.gpu);
 
                     % Compute gradients for the scores wrt. the independent connection supervision signal.
                     [ ~, labelDeltasToScores ] = ...
@@ -359,14 +362,14 @@ classdef LatticeBatch < handle
                         repmat(lb.rightEdgeEmbedding, [1, 1, lb.B]);
 
                     for col = 1:row
-                        scorerHiddenInputs = [ones(3, lb.B); ...
+                        scorerHiddenInputs = [ones([3, lb.B], 'like', paddedRow); ...
                             reshape(paddedRow(:, contextPositions + col + hyperParams.latticeConnectionContextWidth - 1, :), ...
                             [2 * lb.D * hyperParams.latticeConnectionContextWidth, lb.B])];
                         scorerHiddenInputs(2, :) = col;
                         scorerHiddenInputs(3, :) = (1.0 .* col) / row;
                         
                         % Dimensions: hiddenD, B
-                        scorerInput = [ones(1, lb.B); lb.scorerHiddenLayer(:, :, col, row)];
+                        scorerInput = [ones(1, lb.B, 'like', lb.scorerHiddenLayer); lb.scorerHiddenLayer(:, :, col, row)];
 
                         scorerHiddenDeltas = scoringVector' * deltasToScores(col, :);
                         scorerHiddenDeltas = scorerHiddenDeltas(2:end, :) .* hyperParams.compNLDeriv([], lb.scorerHiddenLayer(:, :, col, row));
@@ -406,16 +409,17 @@ classdef LatticeBatch < handle
                 end
 
                 % Scale down the deltas.
+                % TODO: Recheck correctness... looks fishy...
                 if hyperParams.maxDeltaNorm > 0
-                    multipliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, :, row + 1, :).^2)), ones(1, lb.B, lb.N, 1, hyperParams.lstm + 1));
+                    multipliers = min(bsxfun(@rdivide, hyperParams.maxDeltaNorm, sum(deltas(:, :, :, row + 1, :).^2)), ones([1, lb.B, lb.N, 1, hyperParams.lstm + 1], 'like', deltas));
                     deltas(:, :, :, row + 1, :) = bsxfun(@times, deltas(:, :, :, row + 1, :), multipliers);
                 end
             end
 
             % Run the embedding transform layers backwards.
             if hyperParams.embeddingTransformDepth > 0
-                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix, 1), size(embeddingTransformMatrix, 2));                    
-                rawEmbeddingDeltas = zeros(hyperParams.embeddingDim, lb.B, lb.N);
+                embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix), 'like', embeddingTransformMatrix);                    
+                rawEmbeddingDeltas = zeros([hyperParams.embeddingDim, lb.B, lb.N], 'like', lb.features);
                 
                 % Remove deltas for inactive nodes.
                 deltas(:, :, :, lb.N, :) = ...
@@ -427,7 +431,7 @@ classdef LatticeBatch < handle
                     [ localEmbeddingTransformMatrixGradients, rawEmbeddingDeltas(:, :, col) ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                               transformDeltas, lb.rawEmbeddings(:, :, col), ...
-                              lb.features(:, :, col, lb.N, 1), hyperParams.compNLDeriv);
+                              lb.features(:, :, col, lb.N, 1), hyperParams.compNLDeriv, hyperParams.gpu);
                     embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
                 end
 
@@ -436,39 +440,48 @@ classdef LatticeBatch < handle
                 [ localEmbeddingTransformMatrixGradients, leftEdgeEmbeddingDeltas ] = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           transformDeltas, lb.rawLeftEdgeEmbedding, ...
-                          lb.leftEdgeEmbedding, hyperParams.compNLDeriv);
+                          lb.leftEdgeEmbedding, hyperParams.compNLDeriv, hyperParams.gpu);
                 embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
 
                 transformDeltas = rightEdgeEmbeddingDeltas .* lb.masks(:, 1, lb.N + 2);  % Take dropout into account
                 [ localEmbeddingTransformMatrixGradients, rightEdgeEmbeddingDeltas ] = ...
                       ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
                           transformDeltas, lb.rawRightEdgeEmbedding, ...
-                          lb.rightEdgeEmbedding, hyperParams.compNLDeriv);
+                          lb.rightEdgeEmbedding, hyperParams.compNLDeriv, hyperParams.gpu);
                 embeddingTransformMatrixGradients = embeddingTransformMatrixGradients + localEmbeddingTransformMatrixGradients;
             else
                 embeddingTransformMatrixGradients = [];
             end
 
             % Push deltas from the bottom row into the word gradients.
-            wordGradients = sparse([], [], [], ...
-                size(wordFeatures, 1), size(wordFeatures, 2), lb.N * lb.B);
+            if hyperParams.gpu && ~hyperParams.largeVocabMode
+                wordGradients = zeros(size(wordFeatures), 'like', wordFeatures);
+            else
+                wordGradients = sparse([], [], [], ...
+                    size(wordFeatures, 1), size(wordFeatures, 2), lb.N * lb.B);
+            end
 
-            % These have already been pooled across examples, so add them in directly.
-            wordGradients(:, hyperParams.sentenceStartWordIndex) = leftEdgeEmbeddingDeltas;
-            wordGradients(:, hyperParams.sentenceEndWordIndex) = rightEdgeEmbeddingDeltas;
+            if hyperParams.embeddingTransformDepth > 0
+                wordDeltas = rawEmbeddingDeltas;
+            else
+                wordDeltas = deltas(:, :, :, lb.N, 1);
+            end
+
+            if hyperParams.gpu && hyperParams.largeVocabMode
+                wordGradients(:, hyperParams.sentenceStartWordIndex) = double(gather(leftEdgeEmbeddingDeltas));
+                wordGradients(:, hyperParams.sentenceEndWordIndex) = double(gather(rightEdgeEmbeddingDeltas));
+                wordDeltas = double(gather(wordDeltas));
+            else
+                wordGradients(:, hyperParams.sentenceStartWordIndex) = leftEdgeEmbeddingDeltas;
+                wordGradients(:, hyperParams.sentenceEndWordIndex) = rightEdgeEmbeddingDeltas;
+            end
 
             if hyperParams.trainWords
                 for b = 1:lb.B
                     for col = 1:lb.wordCounts(b)
-                        if hyperParams.embeddingTransformDepth > 0
-                            wordGradients(:, lb.wordIndices(col, b)) = ...
-                                wordGradients(:, lb.wordIndices(col, b)) + ...
-                                rawEmbeddingDeltas(:, b, col);
-                        else
-                            wordGradients(:, lb.wordIndices(col, b)) = ...
-                                wordGradients(:, lb.wordIndices(col, b)) + ...
-                                deltas(:, b, col, lb.N, 1);
-                        end
+                        wordGradients(:, lb.wordIndices(col, b)) = ...
+                            wordGradients(:, lb.wordIndices(col, b)) + ...
+                            wordDeltas(:, b, col);
                     end
                 end
             end

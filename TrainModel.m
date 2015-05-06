@@ -73,6 +73,18 @@ if hyperParams.datasetsPortion < 1
         (1:round(hyperParams.datasetsPortion * length(hyperParams.splitFilenames))));
 end
 
+% Set up GPU, borrowed from Thang Luong
+if hyperParams.gpu
+    n = gpuDeviceCount;  
+    if n>0 % GPU exists
+        Log(hyperParams.statlog, ['Using GPU 1.'])
+        gpuDevice(1);
+    else
+        Log(hyperParams.statlog, ['No GPU found. Using CPUs.'])
+        hyperParams.gpu = false;
+    end    
+end
+
 % Look for previously saved checkpoint files.
 savedParams = '';
 if ~isempty(pretrainingFilename)

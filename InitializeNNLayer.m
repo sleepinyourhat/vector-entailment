@@ -1,4 +1,4 @@
-function matrix = InitializeNNLayer(indim, outdim, depth, initType, useBias)
+function matrix = InitializeNNLayer(indim, outdim, depth, initType, useBias, gpu)
 
 % Not currently set up for ReLU
 relu = 0;
@@ -9,23 +9,23 @@ if initType == 0
 	else
 		scale = 1 / sqrt(outdim);
 	end
-	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
+	matrix = fRand([outdim, indim, depth], gpu) .* (2 * scale) - scale;
 elseif initType == 1
 	if relu
 		scale = 2 / sqrt(indim);
 	else
 		scale = 1 / sqrt(indim);
 	end
-	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
+	matrix = fRand([outdim, indim, depth], gpu) .* (2 * scale) - scale;
 elseif initType == 2
 	scale = sqrt(6 / (outdim + indim));
-	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;
+	matrix = fRand([outdim, indim, depth], gpu) .* (2 * scale) - scale;
 elseif initType == 3
-	matrix = zeros(outdim, indim, depth);
+	matrix = fZeros([outdim, indim, depth], gpu);
 	for d = 1:depth
 		for ind = 1:outdim
 		  indices = randi([1, indim], 1, 15);
-		  matrix(ind, indices, d) = normrnd(0, 1, 1, length(indices)) * 0.25;
+		  matrix(ind, indices, d) = fNormrnd(0, 1, [1, length(indices)], gpu) * 0.25;
 		end
 	end
 	if indim == outdim && depth > 0
@@ -36,22 +36,22 @@ elseif initType == 3
 		matrix = 1.2 .* matrix ./ ev(1, 1);
 	end
 elseif initType == 4
-	% Softmax-specific mode. I haven't yet found any good strategies for this.
+	% Softmax-specific mode. I haven't yet found any good published strategies for this.
 	scale = 0.1 / sqrt(indim);
-	matrix = rand(outdim, indim, depth) .* (2 * scale) - scale;	
+	matrix = fRand([outdim, indim, depth], gpu) .* (2 * scale) - scale;
 elseif initType > 4
-	matrix = zeros(outdim, indim, depth);
+	matrix = fZeros([outdim, indim, depth], gpu);
 	for d = 1:depth
 		for ind = 1:outdim
 		  indices = randi([1, indim], 1, 15);
-		  matrix(ind, indices, d) = normrnd(0, 1, 1, length(indices)) .* (1 / initType);
+		  matrix(ind, indices, d) = fNormrnd(0, 1, [1, length(indices)], gpu) .* (1 / initType);
 		end
 	end
 end
 	
 % Add a bias column
 if depth > 0 && (nargin < 5 || useBias)
-	matrix = [ zeros(outdim, 1, depth), matrix ];
+	matrix = [ fZeros([outdim, 1, depth], gpu), matrix ];
 end
 
 end
