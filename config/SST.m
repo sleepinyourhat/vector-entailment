@@ -98,7 +98,7 @@ options.lr = 0.0001;
 
 % How often to report confusion matrices and connection accuracies. 
 % Should be a multiple of testFreq.
-options.detailedStatFreq = 1;
+options.detailedStatFreq = 250;
 
 if strcmp(dataflag, 'sst-expanded')
     wordMap = InitializeMaps('./sst-data/sst-words.txt');
