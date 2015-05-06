@@ -85,8 +85,8 @@ any clear level of inferential complexity for which other approaches work and NN
     \toprule
     Name & Symbol & Set-theoretic definition & Example \\ 
     \midrule
-    entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle, reptile}  \\ 
-    reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile, turtle}  \\ 
+    (strict) entailment         & $x \natfor y$   & $x \subset y$ & \ii{turtle, reptile}  \\ 
+    (strict) reverse entailment & $x \natrev y$   & $x \supset y$ & \ii{reptile, turtle}  \\ 
     equivalence        & $x \nateq y$    & $x = y$       & \ii{couch, sofa} \\ 
     alternation        & $x \natalt y$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ & \ii{turtle, warthog} \\ 
     negation           & $x \natneg y$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$    & \ii{able, unable} \\
@@ -94,7 +94,7 @@ any clear level of inferential complexity for which other approaches work and NN
     independence       & $x \natind y$   & (else) & \ii{turtle, pet}\\
     \bottomrule
   \end{tabular}
-  \caption{\label{b-table}The seven relations of MacCartney and Manning \protect\shortcite{maccartney2009extended}'s logic are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences.} %-%
+  \caption{\label{b-table}The seven relations of MacCartney and Manning \protect\shortcite{maccartney2009extended}'s logic are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences. The relations are defined so as to be mutually exclusive.} %-%
  
 \end{table*}
 
