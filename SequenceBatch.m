@@ -19,6 +19,7 @@ classdef SequenceBatch < handle
                                % IFOG activations for the LSTM.                                 
         masks = [];  % Same structure as transformInnerActivations, but contains dropout masks for the embedding transform layer.
         cFeatures = [];  % Same structure as features, but contains the cell activations.
+        typeDummy = [];
     end
    
     methods(Static)
@@ -38,33 +39,36 @@ classdef SequenceBatch < handle
 
             sb.sequences = cell(sb.B, 1);  % TODO: Needed?
 
-            sb.wordIndices = fZeros([sb.N, sb.B], hyperParams.gpu && ~hyperParams.largeVocabMode);
-            sb.wordCounts = [sequences(:).wordCount]';
-            sb.inputFeatures = fZeros([sb.D, sb.B, sb.N], hyperParams.gpu);
-            sb.activationCache = fZeros([sb.D * 4, sb.B, sb.N], hyperParams.gpu);
-            sb.features = fZeros([sb.D, sb.B, sb.N], hyperParams.gpu);
-            sb.cFeatures = fZeros([sb.D, sb.B, sb.N], hyperParams.gpu);
-            sb.masks = fZeros([sb.D, sb.B, hyperParams.embeddingTransformDepth * sb.N], hyperParams.gpu);
+            sb.typeDummy = fZeros([1, 1], hyperParams.gpu);
 
-            sb.rawEmbeddings = fZeros([hyperParams.embeddingDim, sb.B, hyperParams.embeddingTransformDepth * sb.N], false);
+            sb.wordIndices = fOnes([sb.N, sb.B], hyperParams.gpu && ~hyperParams.largeVocabMode);
+            sb.wordCounts = [sequences(:).wordCount]';
+            sb.inputFeatures = cell(sb.N, 1);
+            sb.activationCache = cell(sb.N .* hyperParams.lstm, 1);
+            sb.features = cell(sb.N, 1);
+            sb.cFeatures = cell(sb.N .* hyperParams.lstm, 1);
+            sb.masks = cell(sb.N .* hyperParams.embeddingTransformDepth, 1);
+            sb.rawEmbeddings = cell(sb.N .* hyperParams.embeddingTransformDepth, 1);
 
             % Copy data in from the individual batch entries.
             for b = 1:sb.B                
                 sb.sequences{b} = sequences(b);
                 sb.wordIndices(sb.N - sb.wordCounts(b) + 1:end, b) = sequences(b).wordIndices;
-                for w = sb.N - sb.wordCounts(b) + 1:sb.N
-                    % Populate the bottom row with word features.
-
-                    if hyperParams.embeddingTransformDepth > 0
-                        sb.rawEmbeddings(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));
-                    else
-                        sb.inputFeatures(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));
-                    end
-                end
             end
 
-            if hyperParams.gpu && ~hyperParams.largeVocabMode
-                sb.rawEmbeddings = gpuArray(hyperParams.rawEmbeddings);
+            for w = 1:sb.N
+                % Populate the bottom row with word features.
+                if hyperParams.embeddingTransformDepth > 0
+                    if hyperParams.gpu && ~hyperParams.largeVocabMode
+                        sb.rawEmbeddings{w} = gpuArray(wordFeatures(:, sb.wordIndices(w, :)));
+                    else                     
+                        sb.rawEmbeddings{w} = wordFeatures(:, sb.wordIndices(w, :));
+                    end 
+                    sb.rawEmbeddings{w} = bsxfun(@times, sb.rawEmbeddings{w}, [w >= sb.N - sb.wordCounts + 1]');
+                else
+                    sb.inputFeatures{w} = wordFeatures(:, sb.wordIndices(w, :));
+                    sb.inputFeatures{w} = bsxfun(@times, sb.inputFeatures{w}, [w >= sb.N - sb.wordCounts + 1]');
+                end
             end
         end
     end
@@ -80,41 +84,41 @@ classdef SequenceBatch < handle
             for w = 1:sb.N
                 if ~isempty(embeddingTransformMatrix)
                     % TODO: Adapt this zero-bias idea to LatticeBatch.
-                    transformInputs = [ [w >= sb.N - sb.wordCounts + 1]'; sb.rawEmbeddings(:, :, w)];
-                    [ sb.inputFeatures(:, :, w), sb.masks(:, :, w) ] = ...
+                    transformInputs = [ [w >= sb.N - sb.wordCounts + 1]'; sb.rawEmbeddings{w}(:, :)];
+                    [ sb.inputFeatures{w}(:, :), sb.masks{w}(:, :) ] = ...
                         Dropout(tanh(embeddingTransformMatrix * transformInputs), hyperParams.bottomDropout, trainingMode, hyperParams.gpu);
                 end
 
                 % Compute a feature vector for the predecessor node.
                 if w > 1
-                    predActivations = sb.features(:, :, w - 1);
+                    predActivations = sb.features{w - 1}(:, :);
                     if LSTM
-                        predC = sb.cFeatures(:, :, w - 1);
+                        predC = sb.cFeatures{w - 1}(:, :);
                     end
                 else
                     if LSTM
-                        predC = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
-                        predActivations = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
+                        predC = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.typeDummy);
+                        predActivations = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.typeDummy);
                     else
-                        predActivations = zeros([size(compositionMatrix, 1), sb.B], 'like', sb.cFeatures);
+                        predActivations = zeros([size(compositionMatrix, 1), sb.B], 'like', sb.typeDummy);
                     end
                 end
 
                 % Update the hidden features.
                 if LSTM
-                    [ sb.features(:, :, w), sb.cFeatures(:, :, w), sb.activationCache(:, :, w) ] = ...
-                        ComputeLSTMLayer(compositionMatrix, predActivations, predC, sb.inputFeatures(:, :, w));
+                    [ sb.features{w}(:, :), sb.cFeatures{w}(:, :), sb.activationCache{w}(:, :) ] = ...
+                        ComputeLSTMLayer(compositionMatrix, predActivations, predC, sb.inputFeatures{w}(:, :));
                 elseif SUM
-                    sb.features(:, :, w) = predActivations + sb.inputFeatures(:, :, w);
+                    sb.features{w}(:, :) = predActivations + sb.inputFeatures{w}(:, :);
                 else  % RNN
-                    sb.features(:, :, w) = ComputeRNNLayer(predActivations, sb.inputFeatures(:, :, w), ...
+                    sb.features{w}(:, :) = ComputeRNNLayer(predActivations, sb.inputFeatures{w}(:, :), ...
                         compositionMatrix, @tanh);
                 end
             end
 
             connectionCosts = 0;
             connectionAcc = -1;
-            endFeatures = sb.features(:, :, sb.N);
+            endFeatures = sb.features{sb.N};
         end
 
         function [ wordGradients, connectionMatrixGradients, scoringVectorGradients, ...
@@ -131,8 +135,8 @@ classdef SequenceBatch < handle
                 NUMTRANS = size(embeddingTransformMatrix, 3);
             end
 
-            connectionMatrixGradients = []; 
-            scoringVectorGradients = [];
+            connectionMatrixGradients = zeros(0, 0, 'like', deltaH); 
+            scoringVectorGradients = zeros(0, 0, 'like', deltaH);
             compositionMatrixGradients = fZeros(size(compositionMatrix), hyperParams.gpu);           
             embeddingTransformMatrixGradients = fZeros(size(embeddingTransformMatrix), hyperParams.gpu);
             if hyperParams.gpu && ~hyperParams.largeVocabMode
@@ -148,55 +152,55 @@ classdef SequenceBatch < handle
 
             for w = sb.N:-1:1
                 if w > 1
-                    predActivations = sb.features(:, :, w - 1);
+                    predActivations = sb.features{w - 1}(:, :);
 
                     if LSTM
-                        predC = sb.cFeatures(:, :, w - 1);
+                        predC = sb.cFeatures{w - 1}(:, :);
                     end
                 else
                     if LSTM
-                        predC = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
-                        predActivations = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.cFeatures);
+                        predC = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.typeDummy);
+                        predActivations = zeros([size(compositionMatrix, 1) / 4, sb.B], 'like', sb.typeDummy);
                     else
-                        predActivations = zeros([size(compositionMatrix, 1), sb.B], 'like', sb.cFeatures);
+                        predActivations = zeros([size(compositionMatrix, 1), sb.B], 'like', sb.typeDummy);
                     end
                 end
 
                 if LSTM
                     if w > 1
                         [ localCompositionMatrixGradients, compDeltaInput, deltaH, deltaC ] ...
-                            = ComputeLSTMLayerGradients(sb.inputFeatures(:, :, w), compositionMatrix, sb.activationCache(:, :, w), ...
-                                predC, predActivations, sb.cFeatures(:, :, w), deltaH, deltaC);
+                            = ComputeLSTMLayerGradients(sb.inputFeatures{w}(:, :), compositionMatrix, sb.activationCache{w}(:, :), ...
+                                predC, predActivations, sb.cFeatures{w}(:, :), deltaH, deltaC);
                     else
                         [ localCompositionMatrixGradients, compDeltaInput ] ...
-                            = ComputeLSTMLayerGradients(sb.inputFeatures(:, :, w), compositionMatrix, sb.activationCache(:, :, w), ...
-                                predC, predActivations, sb.cFeatures(:, :, w), deltaH, deltaC);      
+                            = ComputeLSTMLayerGradients(sb.inputFeatures{w}(:, :), compositionMatrix, sb.activationCache{w}(:, :), ...
+                                predC, predActivations, sb.cFeatures{w}(:, :), deltaH, deltaC);      
                     end
                 elseif SUM
                     compDeltaInput = deltaH;
                     localCompositionMatrixGradients = zeros(size(compositionMatrix), 'like', compositionMatrix);
                 else  % RNN
                     [ localCompositionMatrixGradients, deltaH, compDeltaInput ] = ...
-                    ComputeRNNLayerGradients(predActivations, sb.inputFeatures(:, :, w), ...
-                          compositionMatrix, deltaH, @TanhDeriv, sb.features(:, :, w));
+                    ComputeRNNLayerGradients(predActivations, sb.inputFeatures{w}(:, :), ...
+                          compositionMatrix, deltaH, @TanhDeriv, sb.features{w}(:, :));
                 end              
                 
                 if hyperParams.trainWords && NUMTRANS > 0
                     % Compute gradients for embedding transform layers and words
-                    compDeltaInput = compDeltaInput .* sb.masks(:, :, w); % Take dropout into account
+                    compDeltaInput = compDeltaInput .* sb.masks{w}(:, :); % Take dropout into account
                     compDeltaInput = bsxfun(@times, compDeltaInput, [w >= sb.N - sb.wordCounts + 1]');
                     [ localEmbeddingTransformMatrixGradients, compDeltaInput ] = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                              compDeltaInput, sb.rawEmbeddings(:, :, w), ...
-                              sb.inputFeatures(:, :, w), @TanhDeriv, hyperParams.gpu);
+                              compDeltaInput, sb.rawEmbeddings{w}(:, :), ...
+                              sb.inputFeatures{w}(:, :), @TanhDeriv, hyperParams.gpu);
                 elseif NUMTRANS > 0
                     % Compute gradients for embedding transform layers only
-                    compDeltaInput = compDeltaInput .* sb.masks(:, :, w); % Take dropout into account
+                    compDeltaInput = compDeltaInput .* sb.masks{w}(:, :); % Take dropout into account
                     compDeltaInput = bsxfun(@times, compDeltaInput, [w >= sb.N - sb.wordCounts + 1]');
                     localEmbeddingTransformMatrixGradients = ...
                           ComputeEmbeddingTransformGradients(embeddingTransformMatrix, ...
-                                compDeltaInput, sb.rawEmbeddings(:, :, w), ...
-                                sb.inputFeatures(:, :, w), @TanhDeriv, hyperParams.gpu);
+                                compDeltaInput, sb.rawEmbeddings{w}(:, :), ...
+                                sb.inputFeatures{w}(:, :), @TanhDeriv, hyperParams.gpu);
                 end
 
                 compositionMatrixGradients = ...

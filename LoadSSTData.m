@@ -96,7 +96,7 @@ function [ data ] = ProcessAndSave(rawData, wordMap, lastSave, nextItemNo, filen
         end
     else
         data = repmat(struct('label', 0, 'sentence', Sequence()), numElements, 1);
-        parfor dataInd = 1:numElements
+        for dataInd = 1:numElements
             data(dataInd).sentence = Sequence.makeSequence(rawData(dataInd).sentenceText, wordMap, ...
                 hyperParams.parensInSequences, hyperParams.gpu && ~hyperParams.largeVocabMode);
             data(dataInd).label = rawData(dataInd).label;

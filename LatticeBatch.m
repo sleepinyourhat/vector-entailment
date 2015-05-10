@@ -27,6 +27,7 @@ classdef LatticeBatch < handle
         activeNode = [];  % Triangular boolean matrix for each batch entry indicating whether each position 
                           % is within the lattice structure for that entry.
         supervisionWeights = [];  % Multiplicative weighting factors to apply to the cost/gradient for connections.
+        slantInputs = [];
 
         rawLeftEdgeEmbedding = [];   % The untransformed versions of the extra word embeddings that are fed to the 
         rawRightEdgeEmbedding = [];  % scorer at the edges of each sentence.
@@ -66,6 +67,7 @@ classdef LatticeBatch < handle
             lb.connectionLabels = fZeros([lb.B, lb.N - 1], hyperParams.gpu); %% deleted last
             lb.activeNode = fZeros([lb.B, lb.N, lb.N], hyperParams.gpu);
             lb.supervisionWeights = fOnes([lb.B, lb.N], hyperParams.gpu);
+            lb.slantInputs = fZeros([lb.N - 1, lb.B, lb.N - 1], hyperParams.gpu);
             lb.rawLeftEdgeEmbedding = wordFeatures(:, hyperParams.sentenceStartWordIndex);
             lb.rawRightEdgeEmbedding = wordFeatures(:, hyperParams.sentenceEndWordIndex);
             lb.leftEdgeEmbedding = fZeros([lb.D, 1], hyperParams.gpu);
@@ -157,6 +159,12 @@ classdef LatticeBatch < handle
                         % Dimensions: hiddenD x B
                         lb.scorerHiddenLayer(:, :, col, row) = hyperParams.compNL(connectionMatrix * scorerHiddenInputs);
                         lb.scores(col, :, row) = scoringVector * [ones(1, lb.B, 'like', lb.scorerHiddenLayer); lb.scorerHiddenLayer(:, :, col, row)];
+                    end
+
+                    if hyperParams.latticeSlant > 0
+                        % Use a slant layer to prefer left-side merges
+                        lb.slantInputs(1:row, :, row) = lb.scores(1:row, :, row);
+                        lb.scores(1:row, :, row) = ComputeSlantLayer(lb.scores(1:row, :, row), hyperParams.latticeSlant);
                     end
 
                     % Softmax the scores.
@@ -350,6 +358,11 @@ classdef LatticeBatch < handle
 
                     % Overwrite 0/0 deltas from inactive nodes.
                     deltasToScores(isnan(deltasToScores)) = 0;
+
+                    if hyperParams.latticeSlant > 0
+                        deltasToScores = ComputeSlantLayerGradients(lb.slantInputs(1:row, :, row), ...
+                            deltasToScores, hyperParams.latticeSlant);
+                    end
 
                     % Precompute a padded version of the features.
                     paddedRow = permute(padarray(lb.features(:, :, :, row + 1, 1), [0, 0, hyperParams.latticeConnectionContextWidth - 1]), [1, 3, 2, 4]);

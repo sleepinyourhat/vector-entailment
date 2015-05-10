@@ -20,18 +20,20 @@ addpath('config/')
 addpath('layer-fns/')
 
 % Set up paralellization
-if isempty(gcp('nocreate'))
-    c = parcluster();
-    t = tempname();
-    mkdir(t);
-    c.JobStorageLocation = t;
-    c.NumWorkers = 4;
-    if exist('parpool')
-      % >= 2013b
-      parpool(c, 4);
-    else
-      % < 2013b
-      matlabpool(c, 4);
+if false
+    if isempty(gcp('nocreate'))
+        c = parcluster();
+        t = tempname();
+        mkdir(t);
+        c.JobStorageLocation = t;
+        c.NumWorkers = 4;
+        if exist('parpool')
+          % >= 2013b
+          parpool(c, 4);
+        else
+          % < 2013b
+          matlabpool(c, 4);
+        end
     end
 end
 

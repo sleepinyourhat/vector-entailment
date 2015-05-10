@@ -15,31 +15,13 @@ hyperParams.sentenceClassificationMode = 1;
 hyperParams.SSTMode = 1;
 
 %%
-if latte == 1
-    hyperParams.compNL = @LReLU;
-    hyperParams.compNLDeriv = @LReLUDeriv; 
-    hyperParams.classNL = @LReLU;
-    hyperParams.classNLDeriv = @LReLUDeriv;
-elseif latte == 2
-    hyperParams.compNL = @tanh;
-    hyperParams.compNLDeriv = @TanhDeriv; 
-    hyperParams.classNL = @LReLU;
-    hyperParams.classNLDeriv = @LReLUDeriv;
-elseif latte == 3
-    hyperParams.compNL = @LReLU;
-    hyperParams.compNLDeriv = @LReLUDeriv; 
-    hyperParams.classNL = @tanh;
-    hyperParams.classNLDeriv = @TanhDeriv;
-elseif latte == 4
-    hyperParams.compNL = @tanh;
-    hyperParams.compNLDeriv = @TanhDeriv; 
-    hyperParams.classNL = @tanh;
-    hyperParams.classNLDeriv = @TanhDeriv;
-end
 
 hyperParams.latticeLocalCurriculum = curr;
 
 hyperParams.connectionCostScale = ccs;
+
+hyperParams.latticeSlant = adad;
+
 
 %%
 
@@ -93,9 +75,6 @@ options.costFreq = 250;
 % How often (in steps) to run on test data.
 options.testFreq = 250;
 
-options.updateFn = @RMSPropUpdate;
-options.lr = 0.0001;
-
 % How often to report confusion matrices and connection accuracies. 
 % Should be a multiple of testFreq.
 options.detailedStatFreq = 250;
@@ -133,5 +112,13 @@ elseif strcmp(dataflag, 'sst')
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'./sst-data/dev.txt'};
 end
+
+'TEMP'
+hyperParams.lineLimit = 50;
+hyperParams.loadWords = false;
+hyperParams.embeddingTransformDepth = 1;
+hyperParams.embeddingDim = 100;
+hyperParams.gpu = 0;
+hyperParams.largeVocabMode = 0;
 
 end
