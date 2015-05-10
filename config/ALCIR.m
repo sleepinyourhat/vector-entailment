@@ -1,11 +1,11 @@
-function [ hyperParams, options, wordMap, labelMap ] = ALCIR(expName, dataflag, dim, topDepth, penult, lambda, composition)
+function [ hyperParams, options, wordMap, labelMap ] = ALCIR(expName, dataflag, dim, topDepth, penult, lambda, composition, slant)
 
 [hyperParams, options] = Defaults();
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
-    '-td', num2str(topDepth), '-comp', num2str(composition) ];
+    '-td', num2str(topDepth), '-comp', num2str(composition),  '-sl', num2str(slant) ];
 
 hyperParams.sentenceClassificationMode = 1;
 
@@ -17,6 +17,15 @@ hyperParams.embeddingDim = dim;
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
 hyperParams.embeddingTransformDepth = 0;
+
+if slant == -1
+	hyperParams.connectionCostScale = 0;
+elseif slant == -2
+	hyperParams.dataPortion = 0.33;
+else
+	hyperParams.latticeSlant = slant;
+end
+
 
 hyperParams.parensInSequences = 1;
 
@@ -56,6 +65,10 @@ elseif strcmp(dataflag, 'long')
     hyperParams.trainFilenames = {'./alcir-data/ALCIR-data.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'./alcir-data/ALCIR-data-long.txt'};
+elseif strcmp(dataflag, 'parsetest') 
+    hyperParams.trainFilenames = {};    
+    hyperParams.splitFilenames = {'./alcir-data/ALCIR-data-parsesupervise-10k.txt'};    
+    hyperParams.testFilenames = {};
 end
 
 end

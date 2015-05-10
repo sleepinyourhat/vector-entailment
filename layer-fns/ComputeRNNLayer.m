@@ -2,7 +2,8 @@
 function [ activations, activationsPreNL ] = ComputeRNNLayer(l, r, matrix, NL)
 % Run an RNN layer as in forward propagation.
 
-activationsPreNL = matrix * padarray([l; r], 1, 1, 'pre');
+in = [zeros([1, size(l, 2)], 'like', l); l; r];
+activationsPreNL = matrix * in;
 activations = NL(activationsPreNL);
 
 end

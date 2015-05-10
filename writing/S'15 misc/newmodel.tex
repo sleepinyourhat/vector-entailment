@@ -12,7 +12,7 @@ Our hypothesis on this issue is in two parts. (i) As is near-universally accepte
   \centering\small
  	\input{lattice_fig.tex}
 
-        \caption{The connection structure of a LatticeNN. The correct binary parse tree for the example sentence, projected onto a lattice using the left-first rule, is shown in the bolded arrows.}
+        \caption{The connection structure of a LatticeNN. The correct binary parse tree for the example sentence, projected onto a lattice with the left-first rule, is shown in the bolded arrows.}
   \label{lattice-fig1}
 \end{figure}
 
@@ -100,7 +100,7 @@ Once all of the activations in the lattice have been computed, the top activatio
 \vec{l} = \text{softmax}(\mathbf{M_l}\,\vec{y}^{(1, 1)} + \vec{b}_l)
 \end{equation}
 %
-The loss for the example is then defined as the sum of three parts, a log likelihood term for the predicted sentiment class label, a sum of log likelihood terms for the correct composition location decisions (scaled by the number of ``middle'' layers in the lattice for which a composition location choice must be made), and an L2 regularization term. For sentiment label $\rho$, composition loctation label vector $\vec{\kappa}$, concatenated parameter vector $\theta$, and regularization strength hyperparameter $\lambda$ the loss is:
+The loss for the example is then defined as the sum of three parts, a log likelihood term for the predicted sentiment class label, a sum of log likelihood terms for the correct composition location decisions (scaled by the number of ``middle'' layers in the lattice for which a composition location choice must be made), and an L2 regularization term. For sentiment label label $\rho$, composition loctation label vector $\vec{\kappa}$, concatenated parameter vector $\theta$, and regularization strength hyperparameter $\lambda$ the loss is:
 %
 
 \begin{eqnarray}

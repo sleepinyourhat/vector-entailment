@@ -26,6 +26,8 @@ options.numPasses = 15000;
 
 options.miniBatchSize = mbs;
 
+options.updateFn = @AdaDeltaUpdate;
+
 wordMap = InitializeMaps('./propositionallogic/longer2/wordlist.txt');
 
 % The name assigned to the current vocabulary. Used in deciding whether to load a 

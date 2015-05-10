@@ -1,23 +1,3 @@
-% \begin{abstract}
-% Recursive neural network models for sentence meaning have been successful in many tasks, but it remains an open question whether any such model can learn compositional semantic representations that support logical deduction. We pursue this question directly by evaluating whether two such models can correctly learn to identify logical labelships such as entailment and contradiction between sentences. We first describe a recursive neural tensor network model for entailment and demonstrate it on the SICK challenge. We then use artificial data from a logical grammar to test the model's ability to learn to handle basic labelal reasoning, recursive functions, and quantification. The model performs competitively on the SICK data and generalizes well in all three experiments on simulated data, suggesting that it can learn suitable representations for logical inference in natural language.
-% \end{abstract}
-
-
-%%%% POTTS REVISION
 \begin{abstract} 
-  Recursive neural networks (RNNs) for sentence meaning have been
-  successful for many tasks, but it remains an open question whether
-  they can learn compositional semantic representations that
-  support logical deduction. We pursue this question by
-  evaluating whether two such models---plain RNNs and recursive neural
-  tensor networks (RNTNs)---can correctly learn to identify logical
-  labelships such as entailment and contradiction.
-  In our first set of experiments, we generate artificial data from a
-  logical grammar and use it to evaluate the models' ability to learn
-  to handle basic labelal reasoning, recursive structures, and
-  quantification. We then evaluate the models on the more natural
-  SICK challenge data. Both models perform competitively on the SICK
-  data and generalize well in all three experiments on simulated data,
-  suggesting that they can learn suitable representations for logical
-  inference in natural language. 
+In a tree-structured recursive neural network model, the meaning of a sentence is encoded using a neural network that is structured in a way that mirrors the syntactic structure of the sentence produced by a parser. This kind of syntactic structure is potentially valuable, but the reliance on an external parser is not ideal. There is no guarantee that the parsing formalisms used by freestanding syntact parsers are at all suitable for guiding semantic composition. We present a neural network model that is able to used a joint syntactic and semantic objective to learn to simultaneously discover semantically appropriate syntactic structures and to use those structures to produce semantic representations for some downstream task. We show that this model can reach state of the art performance on sentiment classification, and that it shows hints of being able to learn both syntactic and semantic representations that could be valuable in more demanding language understanding tasks.
 \end{abstract}

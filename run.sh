@@ -2,7 +2,7 @@
 
 ### Generic job script for all experiments.
 
-#PBS -l nodes=1:ppn=4 	### Request at least 4 cores
+#PBS -l nodes=1:ppn=6 	### Request at least 4 cores
 #PBS -l walltime=60:00:00	### Die after 60h
 #PBS -l mem=6000MB
 #PBS -q nlp

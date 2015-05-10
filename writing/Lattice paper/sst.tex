@@ -1,0 +1,6 @@
+\section{Sentiment classification}
+
+Our initial experiments are on the Stanford Sentiment Treebank, or SST \cite{socher2013acl1}, a benchmark for sentence embedding models. In particular, we learn a model for the fine-graned classification task, in which each sentence must be assigned an integer sentiment score in $\[1, 5\]$.
+
+In addition to sentence-level labels, every sentence in SST is parsed, and every node in the parse tree is labeled with another score from the same label set. Since we do not require our model to use the same syntactic structures that are provided with the data, we cannot use supervision from these labels at the intermediate nodes of our parse trees. We can, however, take advantage of these labels by treating every labeled subtree of each sentence as its own sentence at training time yielding 327k labeled examples, many of them very short. We can then use the same single classifier to predict top-node labels for both sentences and their subtrees, shuffling .
+

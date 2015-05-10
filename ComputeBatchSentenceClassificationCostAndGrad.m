@@ -5,6 +5,8 @@ function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchSe
 
 % NOTE: This is reasonably well optimized. The time complexity here lies almost entirely within the batch objects in normal cases.
 
+tic
+
 B = length(data);  % Batch size.
 
 if (nargin < 6 || computeGrad) && nargout > 1
@@ -192,5 +194,7 @@ if computeGrad
     hasInf = gather(sum(isinf(grad)) == 0);
     assert(hasInf, 'Infs in computed gradient.'); 
 end
+
+toc
 
 end
