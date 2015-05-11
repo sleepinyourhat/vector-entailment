@@ -22,7 +22,6 @@ hyperParams.connectionCostScale = ccs;
 
 hyperParams.latticeSlant = adad;
 
-
 %%
 
 hyperParams.dim = dim;
@@ -113,12 +112,12 @@ elseif strcmp(dataflag, 'sst')
     hyperParams.testFilenames = {'./sst-data/dev.txt'};
 end
 
-'TEMP'
-hyperParams.lineLimit = 50;
-hyperParams.loadWords = false;
-hyperParams.embeddingTransformDepth = 1;
-hyperParams.embeddingDim = 100;
-hyperParams.gpu = 0;
-hyperParams.largeVocabMode = 0;
+%'TEMP'
+%hyperParams.lineLimit = 50;
+%hyperParams.loadWords = false;
+%hyperParams.embeddingTransformDepth = 1;
+%hyperParams.embeddingDim = 100;
+%hyperParams.gpu = 0;
+%hyperParams.largeVocabMode = 0;
 
 end

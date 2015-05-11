@@ -19,7 +19,7 @@ Frr = 2 * D + 1:3 * D;
 Or = 3 * D + 1:4 * D;
 Gr = 4 * D + 1:5 * D;
 
-in = padarray([h_prev_l; h_prev_r], 1, 1, 'pre');
+in = [ones(1, size(h_prev_l, 2), 'like', h_prev_l); h_prev_l; h_prev_r];
 
 IFOG = WLSTM * in;
 

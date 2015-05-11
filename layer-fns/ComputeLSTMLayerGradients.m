@@ -33,7 +33,7 @@ y = IFOGf([Ir Fr Or], :);
 dIFOG([Ir Fr Or], :) = (y .* (1.0 - y)) .* dIFOGf([Ir Fr Or], :);
 
 % Compute main gradients and deltas.
-dWLSTM = dIFOG * padarray([x; h_prev], 1, 1, 'pre')';
+dWLSTM = dIFOG * [ones(1, size(x, 2), 'like', x); x; h_prev]';
 dHin = WLSTM' * dIFOG;
 delta_x_down = dHin(2:D + 1, :);
 if nargout > 2

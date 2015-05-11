@@ -12,7 +12,7 @@ Fr = 1 * D + 1:2 * D;
 Or = 2 * D + 1:3 * D;
 Gr = 3 * D + 1:4 * D;
 
-in = padarray([x; h_prev], 1, 1, 'pre');
+in = [ones(1, size(x, 2), 'like', x); x; h_prev];
 
 IFOG = WLSTM * in;
 

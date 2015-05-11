@@ -3,7 +3,7 @@ function [matrixGradients, deltaLeft, deltaRight] = ...
       ComputeRNNLayerGradients(l, r, matrix, delta, nonlinearityDeriv, output)
 % Compute the gradients and deltas for an RNN layer for a given batch.
 
-in = [zeros([1, size(l, 2)], 'like', l); l; r];
+in = [ones([1, size(l, 2)], 'like', l); l; r];
 
 if nargin < 6
     innerOutput = matrix * in;
