@@ -221,6 +221,9 @@ classdef SequenceBatch < handle
                     else
                         gathered = compDeltaInput;
                     end
+                    
+                    % wordGradients = wordGradients + ...
+                    %     CollectEmbeddingGradients(gathered, sb.wordIndices(w, :), size(wordGradients, 2));
 
                     for b = 1:sb.B
                         if w >= sb.N - sb.wordCounts(b) + 1
