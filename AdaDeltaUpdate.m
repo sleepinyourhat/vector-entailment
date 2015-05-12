@@ -7,7 +7,7 @@ if modelState.step == 0
     if length(embGrad) > 0
         % Set up a separate SumSqGrad tracker for the embeddings.
         modelState.sumSqEmbGrad = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode);
-        modelState.sumSqEmbDelta = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode;
+        modelState.sumSqEmbDelta = fZeros(size(modelState.separateWordFeatures), hyperParams.gpu && ~hyperParams.largeVocabMode);
     end
 end
 

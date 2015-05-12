@@ -41,6 +41,9 @@ hyperParams.latticeLocalCurriculum = false;
 
 hyperParams.latticeSlant = 0;
 
+hyperParams.latticeFirstPastThreshold = 0.45;
+hyperParams.latticeFirstPastHardMax = 1;
+
 % The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space

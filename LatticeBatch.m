@@ -167,10 +167,16 @@ classdef LatticeBatch < handle
                         lb.scores(1:row, :, row) = ComputeSlantLayer(lb.scores(1:row, :, row), hyperParams.latticeSlant);
                     end
 
-                    % Softmax the scores.
-                    [ merges, localConnectionCosts, probCorrect ] = ...
-                        ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
-
+                    if hyperParams.latticeFirstPastThreshold == 0
+                        % Softmax the scores.
+                        [ merges, localConnectionCosts, probCorrect ] = ...
+                            ComputeSoftmaxLayer(lb.scores(1:row, :, row), [], hyperParams, lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), lb.activeNode(:, 1:row, row)');
+                    else
+                        [ merges, probCorrect, localConnectionCosts ] = ComputeFirstPast(lb.scores(1:row, :, row), hyperParams.latticeFirstPastThreshold, ...
+                            lb.connectionLabels(:, row), hyperParams.connectionCostScale ./ (lb.wordCounts' - 2), hyperParams.latticeFirstPastHardMax);
+                        localConnectionCosts(~isfinite(localConnectionCosts)) = 0;
+                    end
+                        
                     lb.connections(3, :, 1:row, row) = merges';
 
                     if hyperParams.latticeLocalCurriculum
@@ -345,19 +351,24 @@ classdef LatticeBatch < handle
                 if row > 1
                     merges = permute(lb.connections(3, :, 1:row, row), [3, 2, 1, 4]);
 
-                    % Compute gradients for the scores wrt. the incoming deltas from above and to the right.
-                    [ ~, incomingDeltasToScores ] = ...
-                        ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row), hyperParams.gpu);
+                    if hyperParams.latticeFirstPastThreshold == 0
+                        % Compute gradients for the scores wrt. the incoming deltas from above and to the right.
+                        [ ~, incomingDeltasToScores ] = ...
+                            ComputeBareSoftmaxGradients([], merges, deltasToMerges, lb.scores(1:row, :, row), hyperParams.gpu);
 
-                    % Compute gradients for the scores wrt. the independent connection supervision signal.
-                    [ ~, labelDeltasToScores ] = ...
-                            ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
-                                lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
-
-                    deltasToScores = labelDeltasToScores + incomingDeltasToScores;
-
+                        % Compute gradients for the scores wrt. the independent connection supervision signal.
+                        [ ~, labelDeltasToScores ] = ...
+                                ComputeSoftmaxClassificationGradients([], merges, lb.connectionLabels(:, row), ...
+                                    lb.scores(1:row, :, row), hyperParams, hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)');
+                    
+                        deltasToScores = labelDeltasToScores + incomingDeltasToScores;
+                    else
+                        deltasToScores = ComputeFirstPastGradient(lb.scores(1:row, :, row), hyperParams.latticeFirstPastThreshold, merges, deltasToMerges, ...
+                            lb.connectionLabels(:, row), hyperParams.connectionCostScale .* lb.supervisionWeights(:, row) ./ (lb.wordCounts - 2)', hyperParams.latticeFirstPastHardMax);
+                    end
+                    
                     % Overwrite 0/0 deltas from inactive nodes.
-                    deltasToScores(isnan(deltasToScores)) = 0;
+                    deltasToScores(~isfinite(deltasToScores)) = 0;
 
                     if hyperParams.latticeSlant > 0
                         deltasToScores = ComputeSlantLayerGradients(lb.slantInputs(1:row, :, row), ...
