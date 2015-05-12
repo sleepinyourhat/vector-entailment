@@ -2,6 +2,10 @@
 function deriv = SigmoidDeriv (in, out)
 % Compute the gradient of the sigmoid (now actually tanh) nonlinearity
 
-assert(0, 'Not used.')
+if isempty(out)
+	out = Sigmoid(in);
+end
+
+deriv = out .* (1.0 - out);
 
 end

@@ -26,6 +26,7 @@ else
 	hyperParams.latticeSlant = slant;
 end
 
+hyperParams.latticeConnectionHiddenDim = 25;
 
 hyperParams.parensInSequences = 1;
 

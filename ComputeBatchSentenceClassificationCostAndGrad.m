@@ -5,7 +5,6 @@ function [ cost, grad, embGrad, acc, connectionAcc, confusion ] = ComputeBatchSe
 
 % NOTE: This is reasonably well optimized. The time complexity here lies almost entirely within the batch objects in normal cases.
 
-tic
 
 B = length(data);  % Batch size.
 
@@ -195,6 +194,5 @@ if computeGrad
     assert(hasInf, 'Infs in computed gradient.'); 
 end
 
-toc
 
 end

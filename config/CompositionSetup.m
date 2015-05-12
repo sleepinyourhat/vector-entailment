@@ -26,7 +26,7 @@ elseif composition == 4
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 1;
+	hyperParams.useThirdOrderMerge = 0;
 elseif composition == 5
 	hyperParams.useLattices = 1;
 	hyperParams.lstm = 0;
