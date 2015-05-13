@@ -39,10 +39,14 @@ hyperParams.latticeConnectionHiddenDim = 8;
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
 hyperParams.latticeLocalCurriculum = false;
 
+% TODO: Document or nix.
 hyperParams.latticeSlant = 0;
-
 hyperParams.latticeFirstPastThreshold = 0.45;
-hyperParams.latticeFirstPastHardMax = 1;
+hyperParams.latticeFirstPastHardMax = false;
+
+% Using the *right* edge embedding in a lattice is currently slow (the left is easier).
+% Leave it off during tuning.
+hyperParams.latticeRightEdgeEmbedding = true;
 
 % The number of embedding transform layers. topDepth = 1 means an NN layer will be
 % added above the embedding matrix. This is likely to only be useful when

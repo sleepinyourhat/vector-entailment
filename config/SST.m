@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, adad, ccs)
+function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, slant, ccs)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,7 +9,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-p', num2str
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), '-lattEv', num2str(latte), '-curr', num2str(curr), ...
-    '-adaDelta', num2str(adad), '-ccs', num2str(ccs) ];
+    '-slant', num2str(slant), '-ccs', num2str(ccs) ];
 
 hyperParams.sentenceClassificationMode = 1;
 hyperParams.SSTMode = 1;
@@ -20,8 +20,26 @@ hyperParams.latticeLocalCurriculum = curr;
 
 hyperParams.connectionCostScale = ccs;
 
-hyperParams.latticeSlant = adad;
-
+if slant == 1
+    hyperParams.latticeFirstPastThreshold = 0.5;
+    hyperParams.latticeFirstPastHardMax = false;
+elseif slant == 2
+    hyperParams.latticeFirstPastThreshold = 0.75;
+    hyperParams.latticeFirstPastHardMax = false;
+elseif slant == 3
+    hyperParams.latticeFirstPastThreshold = 0.9;
+    hyperParams.latticeFirstPastHardMax = false;
+elseif slant == 4
+    hyperParams.latticeFirstPastThreshold = 0.5;
+    hyperParams.latticeFirstPastHardMax = true;
+elseif slant == 5
+    hyperParams.latticeFirstPastThreshold = 0.9;
+    hyperParams.latticeFirstPastHardMax = true;
+else
+    hyperParams.latticeFirstPastThreshold = 0;
+    hyperParams.latticeFirstPastHardMax = false;
+end
+    
 %%
 
 hyperParams.dim = dim;
