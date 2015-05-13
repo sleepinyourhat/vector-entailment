@@ -18,13 +18,26 @@ hyperParams.embeddingDim = dim;
 % the rest of the constituents do.
 hyperParams.embeddingTransformDepth = 0;
 
-if slant == -1
-	hyperParams.connectionCostScale = 0;
-elseif slant == -2
-	hyperParams.dataPortion = 0.33;
+if slant == 1
+    hyperParams.latticeFirstPastThreshold = 0.5;
+    hyperParams.latticeFirstPastHardMax = false;
+elseif slant == 2
+    hyperParams.latticeFirstPastThreshold = 0.75;
+    hyperParams.latticeFirstPastHardMax = false;
+elseif slant == 3
+    hyperParams.latticeFirstPastThreshold = 0.9;
+    hyperParams.latticeFirstPastHardMax = false;
+elseif slant == 4
+    hyperParams.latticeFirstPastThreshold = 0.5;
+    hyperParams.latticeFirstPastHardMax = true;
+elseif slant == 5
+    hyperParams.latticeFirstPastThreshold = 0.9;
+    hyperParams.latticeFirstPastHardMax = true;
 else
-	hyperParams.latticeSlant = slant;
+    hyperParams.latticeFirstPastThreshold = 0;
+    hyperParams.latticeFirstPastHardMax = false;
 end
+    
 
 hyperParams.latticeConnectionHiddenDim = 25;
 

@@ -57,7 +57,7 @@ hyperParams.examplelog = fopen([hyperParams.name '/example_log'], 'a');
 
 % Ignore: modified every few iters.
 hyperParams.showExamples = false; 
-hyperParams.showDetailedStats = false;
+hyperParams.showDetailedStats = true;
 
 Log(hyperParams.statlog, ['hyperParams: \n' evalc('disp(hyperParams)')])
 Log(hyperParams.statlog, ['options: \n' evalc('disp(options)')])
