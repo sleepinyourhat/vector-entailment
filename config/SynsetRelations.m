@@ -37,7 +37,7 @@ options.lr = lr;
 
 hyperParams.numLabels = [3]; 
 
-wordMap = InitializeMaps('synset-labels/longer_wordlist.txt');
+wordMap = LoadWordMap('synset-labels/longer_wordlist.txt');
 hyperParams.vocabName = 'synset'; 
 
 hyperParams.labels = {{'hypernym', 'hyponym', 'coordinate'}};

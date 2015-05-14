@@ -69,7 +69,7 @@ options.miniBatchSize = 32;
 datamult = 8;
 
 if findstr(dataflag, 'sick-only-dev')
-    wordMap = InitializeMaps('sick-data/combined_words.txt');
+    wordMap = LoadWordMap('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all'; 
 
     hyperParams.numLabels = [3];
@@ -92,7 +92,7 @@ elseif findstr(dataflag, 'sick-only')
     labelMap = cell(1, 1);
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    wordMap = InitializeMaps('sick-data/combined_words.txt');
+    wordMap = LoadWordMap('sick-data/combined_words.txt');
     hyperParams.vocabName = 'sick_all';
 
     hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed_exactAlign.txt', ...
@@ -110,7 +110,7 @@ elseif strcmp(dataflag, 'dg-only')
     labelMap = cell(1, 1);
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    wordMap = InitializeMaps('sick-data/sick-snli0.95_words.txt');
+    wordMap = LoadWordMap('sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095';
 
     hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
@@ -125,7 +125,7 @@ elseif strcmp(dataflag, 'dg-only-sst')
     labelMap = cell(1, 1);
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    wordMap = InitializeMaps('sst-data/sst-words.txt');
+    wordMap = LoadWordMap('sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst';
 
     hyperParams.trainFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_1-2wds_first600k.tsv'};
@@ -142,7 +142,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea-dev')
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
     labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
-    wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
+    wordMap = LoadWordMap('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); 1];
@@ -167,7 +167,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-dev')
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
     labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
-    wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
+    wordMap = LoadWordMap('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [(datamult * 12); 1];
@@ -190,7 +190,7 @@ elseif strcmp(dataflag, 'sick-plus-600k-ea')
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
     labelMap{2} = containers.Map(hyperParams.labels{2}, 1:length(hyperParams.labels{2}));
 
-    wordMap = InitializeMaps('sick-data/all_sick_plus_t4.txt');
+    wordMap = LoadWordMap('sick-data/all_sick_plus_t4.txt');
     hyperParams.vocabName = 'aspt4';
 
     hyperParams.trainingMultipliers = [(datamult * 6); (datamult * 6); (datamult * 6); (datamult * 6); 1];
@@ -216,7 +216,7 @@ elseif strcmp(dataflag, 'imageflickrshort')
 	labelMap = cell(1, 1);
 	labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    wordMap = InitializeMaps('sick-data/flickr_words_t4.txt');
+    wordMap = LoadWordMap('sick-data/flickr_words_t4.txt');
     hyperParams.vocabName = 'spt4-2cl';
 
     hyperParams.splitFilenames = {'/scr/nlp/data/ImageFlickrEntailments/shuffled_clean_parsed_entailment_pairs_600k.tsv'};

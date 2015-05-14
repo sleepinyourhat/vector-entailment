@@ -102,6 +102,80 @@ TODO: VALIDATION INSTRUCTIONS
 \caption{\label{instructions-2}The instructions presented to workers during data validation.}
 \end{figure}
 
+\begin{table}
+\center
+  %\setlength{\tabcolsep}{15pt}
+  %\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{l l} 
+    \toprule
+Training pairs &  550,157\\
+Dev pairs &  10,000\\
+Test pairs &  10,000\\
+Total & 570,157\\
+\midrule
+L. mean token count & 14.1\\
+R. mean token count & 8.3 \\
+\midrule
+L. complete sentences & 70.2\%\\
+R. complete sentences & 75.4\%\\
+    \bottomrule
+  \end{tabular}
+\caption{\label{b-table}Key statistics for the raw sentence pairs. Since the left and right halves of each pair were collected separately, we report statistics for both.} 
+\end{table}
+
+
+\begin{table}
+\center
+  %\setlength{\tabcolsep}{15pt}
+  %\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{l l} 
+    \toprule
+Validated pairs \& 53,852
+Consensus label $\ne$ original label \& 8.5\%
+No consensus label $\ne$ \& 2.1\%
+Unanimous consensus \& 57.7\%
+
+    \bottomrule
+  \end{tabular}
+\caption{\label{b-table}Key statistics for the validated sentence pairs.} 
+\end{table}
+
+
+Total multiply annotated pairs: 53852
+Fraction where gold != original or no gold label: 0.0851593255589
+Fraction where gold != original: 0.0645844165491
+Fraction with no gold label: 0.0205749090099
+Fraction with unanimous agreement: 0.576561687588
+%% annotator agreement with gold labels: 0.889371871517
+%% annotator agreement with original labels: 0.855424084595
+
+\begin{table}
+\center
+  %\setlength{\tabcolsep}{15pt}
+  %\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{l lll} 
+    \toprule
+\textbf{Label} & \textbf{Train} & \textbf{Dev} & \textbf{Test}\\
+\midrule
+\ii{entailment} &33.3 & 33.3 & 33.0 \\
+\ii{neutral} & 33.2 & 32.7 & 32.5 \\
+\ii{contradiction} & 33.3 & 32.2 & 32.8 \\
+no gold label & 0.1 & 1.8 & 1.8 \\
+\bottomrule
+  \end{tabular}
+  % Dist. of each label in each data set.
+\caption{\label{b-table}Frequency (\%) of each label in the corpus. Note that unlabeled examples are omitted in standard evaluations.} 
+\end{table}
+
+No sentence overlap btw train and test and dev.
+
+Mention antonyms for motivation against unsup tasks
+
+% LHS length distribution: {1: 1, 2: 42, 3: 156, 4: 1095, 5: 3882, 6: 12120, 7: 26514, 8: 37434, 9: 44028, 10: 49245, 11: 50919, 12: 48363, 13: 43314, 14: 38121, 15: 33183, 16: 27621, 17: 23250, 18: 20247, 19: 18513, 20: 16386, 21: 13746, 22: 12066, 23: 9183, 24: 7131, 25: 6198, 26: 5007, 27: 3963, 28: 3438, 29: 2631, 30: 1959, 31: 1956, 32: 1434, 33: 1086, 34: 912, 35: 897, 36: 774, 37: 453, 38: 618, 39: 291, 40: 330, 41: 249, 42: 180, 43: 225, 44: 162, 45: 108, 46: 87, 47: 60, 48: 36, 49: 90, 50: 21, 51: 66, 52: 51, 53: 36, 54: 24, 55: 63, 56: 18, 57: 15, 58: 6, 59: 27, 60: 6, 61: 3, 62: 3, 63: 3, 64: 6, 65: 3, 66: 3, 67: 6, 68: 6, 69: 18, 70: 15, 71: 3, 72: 15, 73: 3, 75: 15, 79: 3, 82: 15}
+
+% RHS length distribution: {1: 39, 2: 1011, 3: 7980, 4: 29471, 5: 61196, 6: 74094, 7: 93600, 8: 85851, 9: 61359, 10: 46711, 11: 33241, 12: 22844, 13: 15994, 14: 11047, 15: 7601, 16: 5312, 17: 3732, 18: 2631, 19: 1878, 20: 1325, 21: 911, 22: 642, 23: 449, 24: 357, 25: 217, 26: 168, 27: 138, 28: 84, 29: 67, 30: 46, 31: 26, 32: 31, 33: 23, 34: 16, 35: 19, 36: 8, 37: 12, 38: 4, 39: 5, 40: 2, 41: 4, 42: 2, 43: 1, 44: 1, 48: 1, 51: 1, 55: 2, 56: 1, 60: 1, 62: 1}
+
+
 \paragraph{data partition}
 
 \paragraph{simple baselines}

@@ -97,7 +97,7 @@ options.testFreq = 250;
 options.detailedStatFreq = 250;
 
 if strcmp(dataflag, 'sst-expanded')
-    wordMap = InitializeMaps('./sst-data/sst-words.txt');
+    wordMap = LoadWordMap('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
 
     hyperParams.numLabels = [5];
@@ -116,7 +116,7 @@ if strcmp(dataflag, 'sst-expanded')
     hyperParams.labelCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
 
 elseif strcmp(dataflag, 'sst')
-    wordMap = InitializeMaps('./sst-data/sst-words.txt');
+    wordMap = LoadWordMap('./sst-data/sst-words.txt');
     hyperParams.vocabName = 'sst'; 
 
     hyperParams.numLabels = [5];

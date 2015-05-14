@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function  wordMap  = InitializeMaps(filename)
+function  wordMap  = LoadWordMap(filename)
 % Load a word map from text.
 
 % Load the file

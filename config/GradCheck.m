@@ -60,13 +60,13 @@ hyperParams.trainWords = trainwords;
 hyperParams.minFunc = true;
 options.DerivativeCheck = 'on';
 
-wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
+wordMap = LoadWordMap('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers';
 
 if sentiment 
 	hyperParams.sentenceClassificationMode = 1;
 	hyperParams.SSTMode = 1;
-	wordMap = InitializeMaps('./sst-data/gradcheckwords.txt');
+	wordMap = LoadWordMap('./sst-data/gradcheckwords.txt');
 	hyperParams.vocabName = 'sst-gc'; 
 
 	hyperParams.numLabels = [5];

@@ -24,6 +24,10 @@ end
 DIM = hyperParams.dim;
 EMBDIM = hyperParams.embeddingDim;
 
+wordFeatures(:, hyperParams.randomEmbeddingIndices) = ...
+    fNormrnd(0, 1, [EMBDIM, len(hyperParams.randomEmbeddingIndices)], ...
+             hyperParams.gpu, hyperParams.gpu && hyperParams.largeVocabMode);
+
 % Set the number of mposition functions
 if hyperParams.useSumming
     NUMCOMP = 0;

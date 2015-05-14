@@ -76,7 +76,7 @@ hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
-wordMap = InitializeMaps('../data/subj_words.txt');
+wordMap = LoadWordMap('../data/subj_words.txt');
 hyperParams.vocabName = 'subj'; 
 
 hyperParams.numLabels = [ 2 ];
