@@ -70,6 +70,10 @@ hyperParams.lambda = 0;
 hyperParams.bottomDropout = 1;
 hyperParams.topDropout = 1;
 
+% If this vector is populated with embedding indices, in ComputeSentenceClassificationExampleCostAndGrad,
+% the embeddings at those indices will be reinitialized before computing each example. Used for ALCIR.
+hyperParams.randomEmbeddingIndices = [];
+
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.
 hyperParams.norm = 2;

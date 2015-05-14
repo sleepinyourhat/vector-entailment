@@ -38,9 +38,21 @@ export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp 
 export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-b'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 0);" ; qsub -v MATLABCMD quant/run.sh  
 export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-b'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, -2);" ; qsub -v MATLABCMD quant/run.sh  
 
-export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-b'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, .33);" ; qsub -v MATLABCMD quant/run.sh  
-export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-b'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, .11);" ; qsub -v MATLABCMD quant/run.sh  
-export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-b'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, .03);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 1);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 2);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 3);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 4);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 5);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 0);" ; qsub -v MATLABCMD quant/run.sh  
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, -1);" ; qsub -v MATLABCMD quant/run.sh  
+
+
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 4);" ; qsub -v MATLABCMD quant/run.sh  -l nodes=1:ppn=2
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 5);" ; qsub -v MATLABCMD quant/run.sh  -l nodes=1:ppn=2
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 6);" ; qsub -v MATLABCMD quant/run.sh  -l nodes=1:ppn=2
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 7);" ; qsub -v MATLABCMD quant/run.sh  -l nodes=1:ppn=2
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, 0);" ; qsub -v MATLABCMD quant/run.sh  -l nodes=1:ppn=2
+export MATLABCMD="cd quant; lambda = 0.001; dim = 25; td = 2; penult = 75; comp = 4; dataflag='parsetest'; name='/scr/sbowman/alcir-d'; TrainModel(''\, 1\, @ALCIR\, name\, dataflag\, dim\, td\, penult\, lambda\, comp\, -1);" ; qsub -v MATLABCMD quant/run.sh  -l nodes=1:ppn=2
 
 
 % b 001 0.981

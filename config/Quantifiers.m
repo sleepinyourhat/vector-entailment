@@ -21,7 +21,7 @@ hyperParams.topDepth = top;
 
 hyperParams.topDropout = tdrop;
 
-wordMap = InitializeMaps('./quantifiers/wordlist.tsv'); 
+wordMap = LoadWordMap('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers'
 
 hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};

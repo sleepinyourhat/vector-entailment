@@ -11,17 +11,17 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "subj"
-TRAINING_FILES = ["../data/subj_parsed.txt"]
-DEV_FILES = []
-TEST_FILES = []
+BASENAME = "snlirc1_"
+TRAINING_FILES = ["../data/snli_1.0rc1_train.txt"]
+DEV_FILES = ["../data/snli_1.0rc1_dev.txt"]
+TEST_FILES = ["../data/snli_1.0rc1_test.txt"]
 
 VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
 
-ENTAILMENT_MODE = False
+ENTAILMENT_MODE = True
 
 
 def count_words(filenames):
@@ -36,31 +36,34 @@ def count_words(filenames):
                 else:
                     adjusted_line = line
                 for word in adjusted_line.split(' '):
-                    if word not in EXCLUSIONS and '\n' not in word:
-                        counter[word.lower()] += 1
+                    counter[word.lower()] += 1
                     if '-' in word:
                         for subword in word.split('-'):
-                            if subword not in EXCLUSIONS and '\n' not in subword:
-                                counter[subword.lower()] += 1
+                            counter[subword.lower()] += 1
 
     return counter
 
 
 def create_wordlist(training_words, test_words, vector_words):
-    wordlist = ['-', '<unk>', '<num>', '<s>', '</s>']
+    wordlist = set(['-', '<unk>', '<num>', '<s>', '</s>'])
     for word in set(list(training_words.keys()) + list(test_words.keys())):
+        if word in EXCLUSIONS or '\n' in word:
+            continue
         if word in vector_words:
-            wordlist.append(word)
+            wordlist.add(word)
         elif training_words[word] > THRESHOLD:
-            wordlist.append(word)
+            wordlist.add(word)
 
     return wordlist
 
 
 with open(VECTOR_WORDLIST) as f:
-    vector_words = f.read().splitlines()
+    vector_words = set(f.read().splitlines())
 
 training_words = count_words(TRAINING_FILES)
+for word in training_words:
+    print str(training_words[word]) + '\t' + word
+
 dev_test_words = count_words(TEST_FILES + DEV_FILES)
 
 wordlist = create_wordlist(training_words, dev_test_words, vector_words)

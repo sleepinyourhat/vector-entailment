@@ -33,11 +33,22 @@ elseif slant == 4
 elseif slant == 5
     hyperParams.latticeFirstPastThreshold = 0.9;
     hyperParams.latticeFirstPastHardMax = true;
-else
+elseif slant == 6
+    hyperParams.latticeFirstPastThreshold = 0.95;
+    hyperParams.latticeFirstPastHardMax = true;
+elseif slant == 7
+    hyperParams.latticeFirstPastThreshold = 0.98;
+    hyperParams.latticeFirstPastHardMax = true;
+elseif slant == -1
+    hyperParams.latticeFirstPastThreshold = 0;
+    hyperParams.latticeFirstPastHardMax = true;
+    hyperParams.connectionCostScale = 0;
+else    
     hyperParams.latticeFirstPastThreshold = 0;
     hyperParams.latticeFirstPastHardMax = false;
 end
-    
+
+hyperParams.latticeLocalCurriculum = true;
 
 hyperParams.latticeConnectionHiddenDim = 25;
 
@@ -62,7 +73,7 @@ hyperParams = CompositionSetup(hyperParams, composition);
 hyperParams.loadWords = false;
 hyperParams.trainWords = true;
 
-wordMap = InitializeMaps('./alcir-data/ALCIR-words.txt');
+wordMap = LoadWordMap('./alcir-data/ALCIR-words.txt');
 hyperParams.vocabName = 'subj'; 
 
 hyperParams.numLabels = [ 2 ];
