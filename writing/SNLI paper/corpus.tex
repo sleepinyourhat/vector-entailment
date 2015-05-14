@@ -1,5 +1,30 @@
 \section{A new corpus for natural language inference}\label{sec:discussion}
 
+\subsection{Grounding with imagined images}
+
+\subsection{Data collection}
+
+\subsection{Data validation}
+
+\subsection{Statistics}
+
+Abstract (CP)
+
+Intro (CP)
+
+The corpus
+- Why we use our wacky sort of grounding (CP)
+- MTurk prompts, validation strategy, and other details about collection (Sam)
+- Statistics (Sam)
+
+Using the corpus as a platform for evaluation
+- Non-neural baselines: methods and results (Gabor)
+- RTE system(s): methods and results (Gabor)
+- An NN architecture for evaluating sentence embedding models through entailment (Sam)
+- NN model evaluations: methods and results (Sam)
+- Discussion (Sam)
+
+
 need for new corpus
 
 Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
@@ -130,11 +155,10 @@ R. complete sentences & 75.4\%\\
   %\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l l} 
     \toprule
-Validated pairs \& 53,852
-Consensus label $\ne$ original label \& 8.5\%
-No consensus label $\ne$ \& 2.1\%
-Unanimous consensus \& 57.7\%
-
+Validated pairs \& 53,852\\
+Consensus label $\ne$ original label \& 8.5\%\\
+No consensus label $\ne$ \& 2.1\%\\
+Unanimous consensus \& 57.7\%\\
     \bottomrule
   \end{tabular}
 \caption{\label{b-table}Key statistics for the validated sentence pairs.} 
