@@ -1,6 +1,6 @@
 \section{The SICK textual entailment challenge}\label{sec:sick}
 
-
+% TODO: Something on how we can pack enough 
 
 The specific model architecture that we use is novel, and though the underlying tree structure approach has been validated elsewhere, our experiments so far do not guarantee that it viable model for handling inference over real
 natural language data. To investigate our models' ability to handle the noisy labels and the diverse range of linguistic structures seen in typical natural language data, we use the SICK textual entailment challenge corpus \cite{marelli2014sick}. The corpus consists of about 10k natural language sentence pairs, labeled with \ii{entailment}, \ii{contradiction}, or \ii{neutral}. At only a few thousand distinct sentences (many of them variants on an even smaller set of template sentences), the corpus is not large enough to train a high quality learned model of general natural language, but it is the largest human-labeled entailment corpus that we are aware of, and our results nonetheless show that tree-structured NN models can learn to do inference in the real world.

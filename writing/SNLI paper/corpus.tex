@@ -1,35 +1,23 @@
 \section{A new corpus for natural language inference}\label{sec:discussion}
 
+need for new corpus
+
+Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
+
+
 \subsection{Grounding with imagined images}
+
+Quote from SICK paper \cite{marelli2014sick}:
+
+\begin{quote}
+Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
+\end{quote}
 
 \subsection{Data collection}
 
 \subsection{Data validation}
 
 \subsection{Statistics}
-
-Abstract (CP)
-
-Intro (CP)
-
-The corpus
-- Why we use our wacky sort of grounding (CP)
-- MTurk prompts, validation strategy, and other details about collection (Sam)
-- Statistics (Sam)
-
-Using the corpus as a platform for evaluation
-- Non-neural baselines: methods and results (Gabor)
-- RTE system(s): methods and results (Gabor)
-- An NN architecture for evaluating sentence embedding models through entailment (Sam)
-- NN model evaluations: methods and results (Sam)
-- Discussion (Sam)
-
-
-need for new corpus
-
-Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
-
-
 
 what's new
 - size
@@ -42,12 +30,6 @@ SICK presented an important challenge, we try to deliver on it.
 aim to surpass sick in both size and r consistency
 
 Since our goal is to evaluate the quality of the single sentence representations in our model, we train an entailment classifier that has access only to the output of our sentence representation model, and not to any of the word or phrase representations that it used. We encourage future users of this corpus to evaluate their models in this way when possible. Our classifier is simply a stack of three 100d (NONLIN) layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
-
-quote from SICK paper \cite{marelli2014sick}:
-
-\begin{quote}
-Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
-\end{quote}
 
 We use captions from the Flickr30k corpus \cite{hodoshimage} as the left hand side of each relation pair. That corpus ...
 
@@ -110,11 +92,13 @@ A busy street with building lined up and people walking down the street outside 
 The data is freely available at (POST DATA), and is released under a CreativeCommons
 Attribution-ShareAlike licence, which is the same licence used for the Flickr30k source captions.
 
-\paragraph{validation}
+\paragraph{Validation}
 
-The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove blank responses and responses where the original author flagged the source caption for review. However, in order to measure the accuracy of our corpus, and in order to improve the quality of our test and development sets, we did perform an additional round of validation for TODOk examples.
+The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove blank responses and responses some pairs which the original author flagged for review. However, in order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we did perform an additional round of validation for about 54k examples.
 
-This validation phase is not fundamentally different from the Mechanical Turk labeling task used for the SICK entailment data: we present workers with pairs of sentences (in our case, in batches of five per screenfull), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original composer of the pair. 
+This validation phase is not fundamentally different from the Mechanical Turk labeling task used for the SICK entailment data: we present workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original composer of the pair. 
+
+The results of this validation process are summarized in Fig.~\ref{validation-stats}. For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the core classification task of NLI, and we 
 
 TODO: Data filtering? Data re-labeling?
 
@@ -127,51 +111,52 @@ TODO: VALIDATION INSTRUCTIONS
 \caption{\label{instructions-2}The instructions presented to workers during data validation.}
 \end{figure}
 
+\begin{figure}
+\center
+\includegraphics[width=3.05in]{length_dist}
+    % From 1.0rc2
+\caption{\label{b-table}The distribution of sentence length.} 
+\end{figure}
+
 \begin{table}
 \center
   %\setlength{\tabcolsep}{15pt}
   %\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l l} 
     \toprule
-Training pairs &  550,157\\
-Dev pairs &  10,000\\
-Test pairs &  10,000\\
-Total & 570,157\\
+Pairs in corpus & 570,157\\
+Training pairs &  550,159\\
+Dev pairs &  9,999\\
+Test pairs &  9,999\\
 \midrule
-L. mean token count & 14.1\\
-R. mean token count & 8.3 \\
+Premise mean token count & 14.1\\
+Hypothesis mean token count & 8.3 \\
 \midrule
-L. complete sentences & 70.2\%\\
-R. complete sentences & 75.4\%\\
+Premise complete sentences & 70.2 ??\%\\
+Hypothesis complete sentences & 75.4 ??\%\\
     \bottomrule
   \end{tabular}
-\caption{\label{b-table}Key statistics for the raw sentence pairs. Since the left and right halves of each pair were collected separately, we report statistics for both.} 
+    % From 1.0rc2
+\caption{\label{validation-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report statistics for both.} 
 \end{table}
 
-
 \begin{table}
 \center
   %\setlength{\tabcolsep}{15pt}
   %\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l l} 
     \toprule
-Validated pairs \& 53,852\\
-Consensus label $\ne$ original label \& 8.5\%\\
-No consensus label $\ne$ \& 2.1\%\\
-Unanimous consensus \& 57.7\%\\
+Validated pairs & 53,852\\
+gold label $\ne$ original label & 8.5\%\\
+Unanimous gold & 57.7\%\\
+No gold (no 3 labels match) & 2.1\%\\
+Label $=$ gold & 88.9\%\\
+Label $=$ original author's label & 85.5\%\\
     \bottomrule
   \end{tabular}
+    % From 1.0rc2
 \caption{\label{b-table}Key statistics for the validated sentence pairs.} 
 \end{table}
-
-
-Total multiply annotated pairs: 53852
-Fraction where gold != original or no gold label: 0.0851593255589
-Fraction where gold != original: 0.0645844165491
-Fraction with no gold label: 0.0205749090099
-Fraction with unanimous agreement: 0.576561687588
-%% annotator agreement with gold labels: 0.889371871517
-%% annotator agreement with original labels: 0.855424084595
 
 \begin{table}
 \center
@@ -181,14 +166,14 @@ Fraction with unanimous agreement: 0.576561687588
     \toprule
 \textbf{Label} & \textbf{Train} & \textbf{Dev} & \textbf{Test}\\
 \midrule
-\ii{entailment} &33.3 & 33.3 & 33.0 \\
-\ii{neutral} & 33.2 & 32.7 & 32.5 \\
-\ii{contradiction} & 33.3 & 32.2 & 32.8 \\
-no gold label & 0.1 & 1.8 & 1.8 \\
+\ii{entailment} &33.3 & 33.4 & 33.3 \\
+\ii{neutral} & 33.2 & 33.2 & 33.2 \\
+\ii{contradiction} & 33.3 & 33.2 & 33.3 \\
+- (no consensus) & 0.2 & 0.2 & 0.2 \\
 \bottomrule
   \end{tabular}
-  % Dist. of each label in each data set.
-\caption{\label{b-table}Frequency (\%) of each label in the corpus. Note that unlabeled examples are omitted in standard evaluations.} 
+  % From 1.0rc2
+\caption{\label{b-table}Frequency (\%) of each label in the corpus. Note that examples without gold labels are omitted in standard evaluations.} 
 \end{table}
 
 No sentence overlap btw train and test and dev.
@@ -200,12 +185,7 @@ Mention antonyms for motivation against unsup tasks
 % RHS length distribution: {1: 39, 2: 1011, 3: 7980, 4: 29471, 5: 61196, 6: 74094, 7: 93600, 8: 85851, 9: 61359, 10: 46711, 11: 33241, 12: 22844, 13: 15994, 14: 11047, 15: 7601, 16: 5312, 17: 3732, 18: 2631, 19: 1878, 20: 1325, 21: 911, 22: 642, 23: 449, 24: 357, 25: 217, 26: 168, 27: 138, 28: 84, 29: 67, 30: 46, 31: 26, 32: 31, 33: 23, 34: 16, 35: 19, 36: 8, 37: 12, 38: 4, 39: 5, 40: 2, 41: 4, 42: 2, 43: 1, 44: 1, 48: 1, 51: 1, 55: 2, 56: 1, 60: 1, 62: 1}
 
 
-\paragraph{data partition}
+\paragraph{Partition} We distribute the corpus with a pre-specified train/test/development split. The test and development sets contain 10k examples each. Each original ImageFlickr caption occurs in only one of the three sets, and all of the examples in the test and development sets have gone through validation.
 
-\paragraph{simple baselines}
-
-MFC
-
-BLEU
-
-Summing + NN
+\paragraph{General evaluation standards}
+While we hope that the corpus will be valuable in a variety of ways, we encourage researchers working on tools for semantic representation and inference to evaluate on our data in a uniform way: training on only the (parsed and/or unparsed) sentences included in the training set, and doing final evaluations on only the subset of the test set for which there are single gold labels.

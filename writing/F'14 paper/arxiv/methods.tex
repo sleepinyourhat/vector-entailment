@@ -46,7 +46,7 @@ Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
 representations for the left and right children of the node, and
 $\vec{y}$ is the node's output.  The TreeRNN concatenates them, multiplies
 them by an $n \times 2n$ matrix of learned weights, and adds a bias $\vec{b}$. 
-The TreeRNTN adds a learned third-order tensor 
+The TreeRNTN adds a learned full rank third-order tensor 
 $\mathbf{T}$, of dimension $n \times n \times n$, modeling
 multiplicative interactions between the child vectors. 
 The comparison layer uses the same layer function as the
@@ -57,7 +57,7 @@ Rather than use a $\tanh$ nonlinearity here, we found better results with the le
 0.01\min(x, 0)$. 
 
 Other strong tree-structured models have been proposed in past work
-\cite{sochergrounded,kalchbrenner2014convolutional,irsoydeep}, but
+\cite{sochergrounded,irsoydeep,tai2015improved}, but
 we believe that these two provide a valuable case study, and that positive results on 
 here are likely to generalize well to stronger models.
 
@@ -65,8 +65,8 @@ To run the model forward, we assemble the two tree-structured networks so as to 
 The word vectors are then looked up from the vocabulary embedding matrix $V$ (one of the learned model parameters), and
 the composition and comparison functions are used to pass information
 up the tree and into the classifier. For an objective
-function, we use the negative log of the probability assigned to the
-correct label with L2 regularization.
+function, we use the negative log likelihood of the
+correct label with tuned L2 regularization.
 
 We initialize parameters uniformly, using the range $(-0.05, 0.05)$ for layer parameters
 and $(-0.01, 0.01)$ for embeddings, and train the model using stochastic gradient descent (SGD)
