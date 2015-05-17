@@ -9,6 +9,10 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
 
 hyperParams.sentenceClassificationMode = 1;
 
+if slant == -2
+    hyperParams.randomEmbeddingIndices = [1, 2];
+end
+
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
 
@@ -83,7 +87,7 @@ labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
 if strcmp(dataflag, 'cv') 
-    hyperParams.trainFilenames = {};    
+    hyperParams.trainFilenames = {};
     hyperParams.splitFilenames = {'./alcir-data/ALCIR-data.txt'};    
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'long') 
