@@ -1,8 +1,184 @@
 \section{SNLI as a platform for NLI research}
+\todo{write me}
 
+%
+% Baselines
+%
 \subsection{Baselines}
+We evaluate a number of strong baselines on the SNLI corpus.
+The first class of baselines use models from the Excitement Open
+  Platform (EOP) 
+  \cite{pado2014design,magnini2014excitement}
+  -- an open source platform for RTE research which
+  is distributed alongside a number of RTE pipelines.
+We additionally evaluate against a both an unlexicalized and lexicalized
+  classifier with straightforward feature sets.
+\todo{some meaningful insight from \#s}
 
-\subsection{Existing NLI systems}
+
+%
+% EOP
+%
+\paragraph{Excitement Open Platform}
+% what is EOP
+The Excitement Open Platform is a tool to quickly develop RTE systems
+  while sharing components such as common lexical resources and 
+  evaluation sets.
+% 9 systems compared against
+A number of systems have been built using the platform, 9 of them
+  applicable to English are publicly distributed with version 1.2.1
+  of the software.
+% these fall into 2 classes
+These fall into two classes of algorithms: 2 are edit distance based,
+  whereas the remaining 7 make use of different features in a
+  maximum entropy classifier.
+
+% methodology
+We convert the 3-way classification task in SNLI into the RTE setting
+  by labeling both the \unknown\ and \contradiction\
+  labels as negative entailment, and treating the \entailment\ label as
+  the positive entailment.
+This creates a biased dataset of 66\% negative examples.
+% we report the best results from each class
+We run each of the 9 algorithms distributed with EOP on the 2-class
+  SNLI dataset, and report results for the best edit distance 
+  configuration and the best classifier based configuration, as
+  determined by performance on the development set.
+\todo{we may not have CPU time for this}.
+
+%
+% EOP RESULTS TABLE
+%
+% Some definitions
+\def\t#1{\small{#1}}
+\def\b#1{\t{\textbf{#1}}}
+\def\colspaceS{2.0mm}
+\def\colspaceM{3.0mm}
+\def\colspaceL{4.0mm}
+
+% The table
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
+\hline
+\textbf{System} & \multicolumn{4}{c}{\b{SNLI}} & \multicolumn{2}{c}{\b{RTE-3}} \\
+ & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} & \t{F$_1$} & \t{Acc.} \\
+\hline
+\t{Edit Distance} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & 
+                    \t{??.?} & \t{??.?} \\
+\t{Classifier}    & \t{68.0} & \t{38.7} & \t{49.3} & \t{73.5} & 
+                    \t{64.2} & \t{65.3} \\
+\hline
+\end{tabular}
+\end{center}
+% The caption
+\caption{
+\label{tab:eopresults}
+2-class accuracy and precision/recall of existing competitive RTE
+systems from the Excitement Open Platform.
+Results are reported for an edit-distance based algorithm, and a
+  classifier-based system.
+For comparision, results are also reported on the RTE-3 dataset.
+\todo{numbers are approx.}
+}
+\end{table}
+%
+% END EOP RESULTS TABLE
+%
+
+% the best systems
+We report results in \reftab{eopresults}.
+The best edit distance algorithm tunes the the weight of the three 
+  case-insensitive edit distance operations on the training set, 
+  after removing stop words.
+The best classifier-based system \todo{does something}.
+\todo{some insight from results}.
+
+%
+% Lexicalized Classifier
+%
+\paragraph{Lexicalized Classifier}
+Unlike the RTE datasets, SNLI's size allows approaches which make use of
+  rich lexicalized features.
+We implmement a lexicalized classifier to provide a strong baseline for future work
+  on the dataset.
+Our classifier implements 6 features:
+\begin{enumerate}  % TODO(gabor) This takes up way too much space
+\setlength\itemsep{0em}
+  \item the BLEU score of the \hypothesis\ with respect
+  to the \premise, using an n-gram length between 1 and 4.
+
+  \item The length difference between the \hypothesis\ and the \premise, as a real-valued
+  feature.
+
+  \item The overlap between words in the \premise\ and \hypothesis. This is counted
+  both as an absolute count and a percentage of possible overlap, and is computed
+  both over all words and over just nouns, verbs, adjectives, and adverbs.
+
+  \item For every pair of words across the \premise\ and \hypothesis\ which share a 
+  POS tag, an indicator feature over the two words.
+  
+  \item For every pair of bigrams across the \premise\ and \hypothesis\ which share a 
+  POS tag, an indicator feature over the two bigrams.
+  
+  \item An indicator for every unigram and bigram in the \hypothesis.
+\end{enumerate}
+
+%
+% BOW RESULTS TABLE
+%
+% Some definitions
+\def\t#1{\small{#1}}
+\def\b#1{\t{\textbf{#1}}}
+\def\colspaceS{2.0mm}
+\def\colspaceM{3.0mm}
+\def\colspaceL{4.0mm}
+
+% The table
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c}
+\hline
+\textbf{System} & \multicolumn{4}{c}{\b{2-Class}} & \b{3-Class} \\
+ & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} & \t{Acc.} \\
+\hline
+\t{Lexicalized}            & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & \t{77.3} \\
+\t{Unigrams Only}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
+\t{Unlexicalized}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
+\hline
+\end{tabular}
+\end{center}
+% The caption
+\caption{
+\label{tab:bowresults}
+Accuracy on the 2-class and 3-class SNLI dataset, as well as precision/recall
+  on the 2-class task to allow for comparision with the RTE systems.
+Ablation studies are reported for removing bigram features and all lexical
+  features.
+\todo{numbers are approx.}
+}
+\end{table}
+%
+% END BOW RESULTS TABLE
+%
+
+\Fig{learning_curves_bow.pdf}{0.6}{bowlearncurve}{
+A learning curve for the lexicalized and unlexicalized baseline classifiers.
+Note the y axis starting at a random-chance accuracy of 33\%.
+\todo{numbers are approx.}
+}
+
+% Results
+We report results in \reftab{bowresults}, along with ablation studies for removing
+  the bigram features (leaving only the unigram entailment pair feature),
+  and for removing all lexicalized features.
+In addition, we report learning curves for the lexicalized and fully unlexicalized
+  classifiers in \reffig{bowlearncurve}.
+
+Note that \todo{something interesting happens}.
+
+
+%\subsection{Existing NLI systems}
 
 \subsection{Sentence embeddings and NLI}
 
