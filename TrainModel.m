@@ -4,7 +4,8 @@ function TrainModel(pretrainingFilename, fold, ConfigFn, varargin)
 
 % Arguments:
 %% pretrainingFilename: Pass in the filename to a checkpoint file to start training
-%%%% from that checkpoint. If this argument is blank but a checkpoint with the exact same
+%%%% from that checkpoint with reset optimization. 
+%%%% If this argument is blank but a checkpoint with the exact same
 %%%% experiment name is found, that checkpoint will be loaded. To start a fresh experiment,
 %%%% use a fresh experiment name (set in the config file).
 %% fold: Used for five fold cross-validation on some data sources. Settings other than 1 will 
@@ -88,7 +89,18 @@ end
 % Look for previously saved checkpoint files.
 savedParams = '';
 if ~isempty(pretrainingFilename)
+    modelState.step = 0;
+
+    Log(hyperParams.statlog, ['Randomly initializing.']);
+    [ modelState.theta, modelState.thetaDecoder ] = ...
+       InitializeModel(wordMap, hyperParams);
+
     savedParams = pretrainingFilename;
+
+    Log(hyperParams.statlog, ['Loading transfer parameters: ' savedParams]);
+    a = load(savedParams);
+
+    modelState = TransferInitialization(modelState, a.modelState);
 else
     listing = dir([options.name, '/ckpt-best*']);
 
@@ -100,19 +112,20 @@ else
             savedParams = [options.name, '/', listing(end).name];
         end
     end
+
+    % Load the checkpoint if present.
+    if ~isempty(savedParams)
+        Log(hyperParams.statlog, ['Loading checkpoint: ' savedParams]);
+        a = load(savedParams);
+        modelState = a.modelState;
+    else
+        modelState.step = 0;
+        Log(hyperParams.statlog, ['Randomly initializing.']);
+        [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
+           InitializeModel(wordMap, hyperParams);
+    end
 end
 
-% Load the checkpoint if present.
-if ~isempty(savedParams)
-    Log(hyperParams.statlog, ['Loading parameters: ' savedParams]);
-    a = load(savedParams);
-    modelState = a.modelState;
-else
-    modelState.step = 0;
-    Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
-       InitializeModel(wordMap, hyperParams);
-end
 
 % Set up the special word indices for the lattice model
 if hyperParams.useLattices

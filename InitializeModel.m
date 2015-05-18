@@ -83,7 +83,10 @@ else
     embeddingTransformMatrix = [];
 end
   
-if hyperParams.loadWords
+if (nargout < 3) && hyperParams.largeVocabMode
+    % Transfer learning - this will just be overwritten.
+    wordFeatures = [];
+elseif hyperParams.loadWords
     Log(hyperParams.statlog, 'Loading the vocabulary.')
     wordFeatures = InitializeVocabFromFile(wordMap, hyperParams.vocabPath, hyperParams);
 else 
