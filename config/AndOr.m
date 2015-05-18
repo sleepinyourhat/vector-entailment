@@ -4,6 +4,8 @@ function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim
 
 [hyperParams, options] = Defaults();
 
+hyperParams.parensInSequences = true;
+
 hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-comp', num2str(composition), '-mbs', num2str(mbs), '-l', num2str(lambda)];
 

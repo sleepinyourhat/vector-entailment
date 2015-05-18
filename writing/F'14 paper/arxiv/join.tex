@@ -34,16 +34,16 @@ Table~\ref{tab:jointable}. Though these basic inferences do not involve composit
 sentence representations, any successful reasoning using compositional representations
 will rely on the ability to perform sound inferences of this kind, so our first experiment studies how well each model can learn to perform them them in isolation.
 
-
-
-
-
-
-
-
-
-
-
+% about the relations themselves that do not depend on the
+% internal structure of the things being compared. For example, given
+% that $a\sqsupset b$ and $b\sqsupset c$ one can conclude that
+% $a\sqsupset c$ by the transitivity of $\sqsupset$, even without
+% understanding $a$, $b$, or $c$. These seven relations support more
+% than just transitivity: MacCartney and Manning's
+% \cite{maccartney2009extended} join table defines 32 valid inferences
+% that can be made on the basis of pairs of relations of the form $a R
+% b$ and $b R' c$, including several less intuitive ones such as that if
+% $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
 
 
 \paragraph{Experiments}
@@ -161,3 +161,4 @@ further hyperparameter tuning could lead an NN model to succeed here.
 
 As an example from our test data, both models correctly labeled $p_1 \natfor p_3$, potentially learning from the training examples $\{p_1 \natfor p_{51},~p_3 \natrev p_{51}\}$ or $\{p_1\natfor p_{65},~p_3 \natrev p_{65} \}$. On another example involving comparably frequent relations, the NTN correctly labeled $p_6 \natrev p_{24}$, likely on the basis of the training examples $\{p_6 \natcov p_{28},~p_{28} \natneg p_{24}\}$, while the NN incorrectly assigned it $\natind$.
 
+% From train\test_1

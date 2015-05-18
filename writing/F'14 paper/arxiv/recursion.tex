@@ -10,18 +10,18 @@ In our evaluations, we exploit the fact that our logical language
 is infinite by testing on strings that are longer and more complex
 than any seen in training.
 
-
-
-
-
-
-
-
-
-
-
-
-
+% Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice
+%   said hello}, and \ii{Carl thinks that Bob said that Alice said
+%   hello}. Overt recursion of this kind is easy to find, and
+% theoretical accounts of natural language syntax and semantics rely
+% heavily on recursive structures. In order for a model to be able to
+% accurately learn natural language meanings, then, we expect that it
+% would need to be able to learn to represent the meanings of function
+% words in a such a way that they are able to behave correctly when
+% taking their own outputs as input. In evaluating the model, we take
+% advantage of the fact that recursive structures of this kind define
+% potentially infinite languages by testing the model on strings that
+% are longer and more complex than any seen in testing.
 
 \paragraph{Experiments}
 As in \S\ref{sec:join}, we generate artificial data from a formal system,
@@ -30,7 +30,7 @@ from that experiment with complex formulae. These formulae
 represent a complete classical propositional logic:
 each atomic symbol is a variable over the domain \{$\True$, $\False$\}, and the only
 operators are truth-functional ones.  Table~\ref{tab:pl} defines this
-logic, and Table~\ref{tab:plexs} gives some short examples relational statements from our data.
+logic, and Table~\ref{tab:plexs} gives some short examples of relational statements from our data.
  To compute these relations
 between statements, we exhaustively enumerate the sets of assignments
 of truth values to propositional variables that would satisfy each of
@@ -113,13 +113,13 @@ and is as such guaranteed to ignore some information that it would need in order
 \begin{figure}[t]
   \centering
   \includegraphics[width=3.05in]{decayfig.pdf}
-
+%  \includegraphics[width=5.3in]{recursion\string_pairwise.eps}
   \caption{Results on recursive structure. The vertical dotted line marks the size of the longest training examples.}
-
-
-
-
-
+%    The dashed line indicates that only expressions of size four or less appeared in the training data. \textbf{Bottom:} Semantically distinct formulae should have different
+%    representations. As measured by Euclidean distance, only the TreeRNTN
+%    achieves this for formulae containing more than a small number of
+%    connectives (\ii{and} in this example). The TreeRNN quickly collapses the representations,
+%    failing to capture the meaning contrasts.
     
   \label{prop-results} 
 \end{figure}
@@ -150,27 +150,27 @@ the majority of the time, and
  the performance of both models on those examples indicates that both have learned
   reasonable approximations of the underlying theorem proving task over recursive structure.
 
+% \mynote{In an effort to better understand why model performance decays, 
+%we evaluated both models on pairs of long formulae involving
+%binary connectives, to assess how well they distinguish representations for semantically distinct
+%formulae. We found that only the TreeRNTN is able to learn
+%substantially different representations for pairs of differing formulae like $(a \pland (a \pland a))$
+% and $(a \pland (a \pland b))$ when the difference between the two is placed under multiple operators.
+%The TreeRNN separates the bare symbols by a euclidean distance of 3.5, but this falls to less than one once the two are placed under three operators, and quickly approaches zero as depth increases.
+% The TreeRNTN separates the bare symbols by 2.5, and this falls off much more gradually to 1.3 with twelve operators.}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% we discovered that this model looses information about in longer
+% statements in a particularly problematic way. It appears that that
+% model is unable to distinguish between two sentences when the only
+% difference between those sentences is embedded within a very deep
+% structure. We evaluated both models on sentences that differed in only
+% one term, but for which that one term was embedded under a large
+% number of conjunctions, such as the pair \ii{a (and a)} and \ii{a (and
+%   b)}, or the pair \ii{a (and (a (and a)))} and \ii{a (and (a (and
+%   b)))}. We then measured the Euclidean distance between the vector
+% representations of the two sentences in each pair. Our findings are
+% shown in Figure~\ref{prop-falloff}, and show that while the TreeRNTN can
+% distinguish the two sentences well at every size that we test, the TreeRNN
+% fails after a depth of approximately six.
 
 

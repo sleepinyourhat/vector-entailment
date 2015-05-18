@@ -60,6 +60,7 @@ hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
 hyperParams = CompositionSetup(hyperParams, composition);
+hyperParams.useThirdOrderMerge = false;
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
@@ -106,9 +107,9 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
-elseif findstr(dataflag, 'snlirc1-only')
-    wordMap = LoadWordMap('./sick-data/snlirc1_words.txt');
-    hyperParams.vocabName = 'ssrc1'; 
+elseif findstr(dataflag, 'snlirc2-only')
+    wordMap = LoadWordMap('../data/snlirc2_words.txt');
+    hyperParams.vocabName = 'src2'; 
 
     hyperParams.numLabels = [3];
 
@@ -116,9 +117,9 @@ elseif findstr(dataflag, 'snlirc1-only')
     labelMap = cell(1, 1);
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    hyperParams.trainFilenames = {'../data/snli_1.0rc1_train.txt'};    
+    hyperParams.trainFilenames = {'../data/snli_1.0rc2_train.txt'};    
     hyperParams.splitFilenames = {};    
-    hyperParams.testFilenames = {'../data/snli_1.0rc1_dev.txt'};
+    hyperParams.testFilenames = {'../data/snli_1.0rc2_dev.txt'};
 
     hyperParams.labelIndices = [1; 1; 1];
     hyperParams.testLabelIndices = [1];
