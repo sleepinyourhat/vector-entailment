@@ -11,10 +11,10 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "snlirc1_"
-TRAINING_FILES = ["../data/snli_1.0rc1_train.txt"]
-DEV_FILES = ["../data/snli_1.0rc1_dev.txt"]
-TEST_FILES = ["../data/snli_1.0rc1_test.txt"]
+BASENAME = "snlirc2_"
+TRAINING_FILES = ["../data/snli_1.0rc2_train.txt"]
+DEV_FILES = ["../data/snli_1.0rc2_dev.txt"]
+TEST_FILES = ["../data/snli_1.0rc2_test.txt"]
 
 VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 
@@ -61,8 +61,8 @@ with open(VECTOR_WORDLIST) as f:
     vector_words = set(f.read().splitlines())
 
 training_words = count_words(TRAINING_FILES)
-for word in training_words:
-    print str(training_words[word]) + '\t' + word
+# for word in training_words:
+#    print str(training_words[word]) + '\t' + word
 
 dev_test_words = count_words(TEST_FILES + DEV_FILES)
 

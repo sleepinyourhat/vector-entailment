@@ -26,31 +26,7 @@ each noun--noun pair, each verb--verb pair, and each
 quantifier--quantifier pair. The grammar then generates pairs of
 sentences and calculates the relations
 between them.  
-Some examples of these data are provided in (\ref{p1}--\ref{p3}) below.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-In each run, we sample 20\% of the 60k generated pairs to test on and 
-train on the remainder. In this setting, each model must learn a
-complete reasoning system for the limited language and logic presented
-in the training data, and must be able
-to recognize all of the lexical relations between the nouns, verbs,
-and quantifiers and how they interact. For instance, it might see
+For instance, our models might then see
 pairs like \eqref{p1} and \eqref{p2} in training and be required to 
 then label \eqref{p3}.
 
@@ -62,6 +38,25 @@ then label \eqref{p3}.
   \\
   \text{(most turtle) reptile} \natalt \text{(all turtle) (not animal)}\label{p3}
 \end{gather}
+
+%nouns = ['warthogs', 'turtles', 'mammals', 'reptiles', 'pets']
+%verbs = ['walk', 'move', 'swim', 'growl']
+%dets = ['all', 'not_all', 'some', 'no', 'most', 'not_most', 'two', 'lt_two', 'three', 'lt_three']
+%adverbs = ['', 'not']
+
+% To assign relation labels to sentence pairs, we built a small
+% task-specific implemenation of MacCartney's logic that can
+% accurately label sentences of this restricted language. The logic is
+% not able to derive all intuitively true relations of this language,
+% and fails to derive a single unique relation for certain types of
+% statement, including De Morgean's laws (e.g. \ii{(all pets) growl
+% $\natneg$ (some pet) (not growl)}), and we simply discard these
+% examples. Exhaustively generating the valid sentences under this
+% grammar and choosing those to which a relation label can be assigned
+% yields 66k sentence pairs. Some examples of these data are provided
+% in Table~\ref{examplesofdata}.
+
+In each run, we randomly partition the set of valid \textit{single sentences} under the grammar into training and test, and then label all of the pairs from within each set to generate a training set of 27k pairs and a test set of 7k pairs. Because the model doesn't see the test sentences at training time, it cannot directly use the kind of reasoning described in \S\ref{sec:join}, and must instead both infer the word-level relations and learn a complete reasoning system over them for our logic. 
 
 We use the same summing baseline as in \S\ref{sec:recursion}.
 The highly consistent  sentence structure in this experiment means that this model
@@ -77,9 +72,9 @@ of examples that contain a sentence with a single token of it.
     ~ & \multicolumn{2}{c}{Train} & \multicolumn{2}{c}{Test} \\
     \midrule
     $\natind$ only &	35.4 & (7.5)	& 35.4	& (7.5)\\
-    25d SumNN	&	97.0&	(97.2)&	89.6&	(91.1)\\	
-    25d TreeRNN	&	\textbf{100}&	\textbf{(100)}&	\textbf{99.4}&	\textbf{(99.5)}\\
-    25d TreeRNTN	&	99.4&(99.5)&	99.4 & (99.2)\\
+    25d SumNN	&	96.9&	(97.7)&	93.9&	(95.0)\\	
+    25d TreeRNN	&	99.6&	(99.6)&	99.2&	(99.3)\\
+    25d TreeRNTN	&	\textbf{100}&(\textbf{100})&	\textbf{99.7} & \textbf{(99.5)}\\
     \bottomrule
   \end{tabular}
   
@@ -88,7 +83,7 @@ of examples that contain a sentence with a single token of it.
 \end{table} 
 
 %
-
+% do not allow a blank line --- adds too much space
 %
-\paragraph{Results} The results (Table~\ref{qresultstable}) show that both tree models are able to learn to generalize the underlying logic almost perfectly. The baseline summing model can largely memorize the training data, but does not generalize well. We do not find any consistent pattern in the handful of errors made by either tree model, and no errors were consistent across model restarts, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
+\paragraph{Results} The results (Table~\ref{qresultstable}) show that both tree models are able to learn to generalize the underlying logic almost perfectly. The baseline summing model can largely memorize the training data, but does not generalize as well. We do not find any consistent pattern in the handful of errors made by either tree model, and no errors were consistent across model restarts, suggesting that there is no fundamental obstacle to learning a perfect model for this problem.
 
