@@ -1,0 +1,40 @@
+
+\begin{figure}[tp]
+  \centering
+    \footnotesize
+
+	\newcommand{\labeledtreenode}[4][3]{\put(#2){\makebox(0,0){{\fcolorbox{black}{#4}{\makebox(#1,0.3){#3}}}}}}
+
+	\newcommand{\textlabel}[4][3.5]{\put(#2){\makebox(0,0){{\makebox(#1,0.3){#3}}}}}
+
+	\definecolor{lexcolor}{HTML}{F5F7C4}
+	\definecolor{compositioncolor}{HTML}{BBEBFF}
+	\definecolor{comparisoncolor}{HTML}{FFC895}
+	\definecolor{softmaxcolor}{HTML}{A5FF8A}
+
+	\setlength{\unitlength}{0.61cm}
+
+	%\resizebox{3in}{!}{
+	\begin{picture}(13.15, 5.5)
+	  
+	  \labeledtreenode[5]{6.5,6.5}{softmax classifier}{softmaxcolor}  
+	  \put(6.5,5.25){\vector(0,1){1}}  
+	  \labeledtreenode[5]{6.5,5.25}{$\tanh$ layer}{comparisoncolor}
+	  \put(6.5,4){\vector(0,1){1}}  
+	  \labeledtreenode[5]{6.5,4}{$\tanh$ layer}{comparisoncolor}	 
+	  \put(6.5,2.75){\vector(0,1){1}}  
+           \labeledtreenode[5]{6.5,2.75}{$\tanh$ layer}{comparisoncolor}
+
+	  
+	  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	  \put(3,1.5){\vector(2,1){0.85}}
+	  \labeledtreenode{1.5,1.5}{turtle}{lexcolor}
+
+	  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\end{picture}
+	%}
+        \caption{The standard model structure used for entailment evaluation.}
+  \label{sample-figure}
+\end{figure}

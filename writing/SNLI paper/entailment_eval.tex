@@ -1,9 +1,13 @@
 \section{SNLI as a platform for NLI research}
 
+Since our goal is to evaluate the quality of the single sentence representations in our model, we train an entailment classifier that has access only to the output of our sentence representation model, and not to any of the word or phrase representations that it used. We encourage future users of this corpus to evaluate their models in this way when possible. Our classifier is simply a stack of three 100d (NONLIN) layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
+
 \subsection{Baselines}
 
 \subsection{Existing NLI systems}
 
-\subsection{Sentence embeddings and NLI}
+\subsection{Sentence embeddings and NLI}\label{sentence-embedding}
+\input{model_structure_fig.tex}
+
 
 \subsection{Results}
