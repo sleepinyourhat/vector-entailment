@@ -180,16 +180,23 @@ Note that \todo{something interesting happens}.
 %\subsection{Existing NLI systems}
 
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
+
+SNLI is uniquely suitable for training neural network models that produce vector representations of sentence meaning. In this section, we compare the performance of six such models on SNLI. 
+In order to best evaluate the strengths of these six models at producing informative representations, we use sentence embedding as an intermediate step in the NLI classification task: each model most produce vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on evaluating the ability of existing models to produce representations that fully capture sentence meaning, at the possible cost of excluding from consideration neural models for NLI that directly compare the two inputs at the word or phrase level.
+
 \input{model_structure_fig.tex}
 
-Since our goal is to evaluate the quality of the single sentence representations in our model, we train an entailment classifier that has access only to the output of our sentence representation model, and not to any of the word or phrase representations that it used. We encourage future users of this corpus to evaluate their models in this way when possible. Our classifier is simply a stack of three 100d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
+Our neural network classifier, depicted in Fig.~\ref{modelstructure} is simply a stack of three 100d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
+
+We test six sentence representation models, each set to use 50d word and phrase embeddings. Our baseline model in this experiment simply sums the embeddings of the word in each sentence. Next, we experiment with two recurrent models: a plain RNN, and a one-layer LSTM RNN \cite{hochreiter1997long}. Finally, we experiment with three tree-structured models: a plain TreeRNN \cite{socher2011semi}, a tensor-parameterized TreeRNTN \cite{socher2013acl1}, and a TreeLSTM \cite{tai2015improved}.
+
+The word embeddings for all of the moedels are initialized the 200d reference GloVe vectors \cite{pennington2014glove} and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 200d embeddings into the 50d working space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
 
 \begin{table}
 \begin{center}
 \begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
 \hline
-\textbf{Sentence model} & \b{Train (3-Class)}  & \b{Test (3-Class)}\\
- & \t{Acc.} & \t{Acc.} \\
+\textbf{Sentence model} & \b{Train}  & \b{Test}\\
 \hline
 \t{Sum of words}            & \t{} & \t{} \\
 \t{RNN}            & \t{} & \t{} \\
@@ -203,12 +210,9 @@ Since our goal is to evaluate the quality of the single sentence representations
 % The caption
 \caption{
 \label{tab:nnresults}
-Accuracy on the 2-class and 3-class SNLI dataset, as well as precision/recall
-  on the 2-class task to allow for comparision with the RTE systems.
-Ablation studies are reported for removing bigram features and all lexical
-  features.
-\todo{numbers are approx.}
+Accuracy in 3-class classification on the SNLI training and test sets for each model.
+\todo{Replace with final numbers}
 }
 \end{table}
 
-\subsection{Results}
+Note that \todo{something interesting happens}.

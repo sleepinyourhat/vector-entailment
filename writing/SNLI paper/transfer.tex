@@ -1,4 +1,6 @@
-\subsection{SNLI and transfer learning}
+\section{SNLI and transfer learning}
+
+We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on SNLI should transfer well to any other task that involves understanding sentence meaning. To test this, we perform transfer learning experiments on four other tasks, in which models are initialized using the parameters of a model trained on  on SNLI (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
 
 \begin{table}
 \begin{center}
