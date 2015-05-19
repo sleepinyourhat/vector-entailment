@@ -24,8 +24,14 @@ end
 DIM = hyperParams.dim;
 EMBDIM = hyperParams.embeddingDim;
 
+if isfield(hyperParams, 'smallVecs') && hyperParams.smallVecs
+    sigma = 0.25;
+else
+    sigma = 1;
+end
+
 wordFeatures(:, hyperParams.randomEmbeddingIndices) = ...
-    fNormrnd(0, 1, [EMBDIM, length(hyperParams.randomEmbeddingIndices)], ...
+    fNormrnd(0, sigma, [EMBDIM, length(hyperParams.randomEmbeddingIndices)], ...
              hyperParams.gpu, hyperParams.gpu && hyperParams.largeVocabMode);
 wordFeatures(1, hyperParams.randomEmbeddingIndices) = 1;
 

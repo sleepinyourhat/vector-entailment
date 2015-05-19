@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp)
+function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, ad)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,7 +9,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), ...
-    '-dp', num2str(dp)];
+    '-dp', num2str(dp), '-ad', num2str(ad)];
 
 hyperParams.parensInSequences = 0;
 
@@ -47,8 +47,9 @@ hyperParams.penultDim = penult;
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
 
-% How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = 32;
+if ad
+    options.updateFn = @AdaDeltaUpdate;
+end
 
 % TODO:
 % hyperParams.maxDeltaNorm = dp;

@@ -141,7 +141,7 @@ hyperParams.clearActivations = false;
 
 % Applies to unbatched computation only.
 % Full gradient vectors above this l2 norm will be rescaled down.
-hyperParams.clipGradients = true;
+hyperParams.clipGradients = false;
 hyperParams.maxGradNorm = 5;
 
 % In batch learning, deltas above this *squared* l2 norm will be rescaled down.

@@ -11,11 +11,13 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "snlirc2_"
-TRAINING_FILES = ["../data/snli_1.0rc2_train.txt"]
-DEV_FILES = ["../data/snli_1.0rc2_dev.txt"]
-TEST_FILES = ["../data/snli_1.0rc2_test.txt"]
+BASENAME = "sick_basic"
+TRAINING_FILES = ["sick-data/SICK_train_parsed.txt"]
+DEV_FILES = ["sick-data/SICK_trial_parsed.txt"]
+TEST_FILES = ["sick-data/SICK_test_annotated_rearranged_parsed.txt"]
 
+# TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
+TRANSFER_SOURCE_WORDLIST = ""
 VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
@@ -60,13 +62,20 @@ def create_wordlist(training_words, test_words, vector_words):
 with open(VECTOR_WORDLIST) as f:
     vector_words = set(f.read().splitlines())
 
+if TRANSFER_SOURCE_WORDLIST:
+    with open(TRANSFER_SOURCE_WORDLIST) as f:
+        transfer_source_words = set(f.read().splitlines())
+else:
+    transfer_source_words = set()
+
 training_words = count_words(TRAINING_FILES)
 # for word in training_words:
 #    print str(training_words[word]) + '\t' + word
 
 dev_test_words = count_words(TEST_FILES + DEV_FILES)
 
-wordlist = create_wordlist(training_words, dev_test_words, vector_words)
+wordlist = create_wordlist(
+    training_words, dev_test_words, vector_words.union(transfer_source_words))
 
 with open(BASENAME + "_words.txt", 'w') as f:
     for item in sorted(wordlist):
