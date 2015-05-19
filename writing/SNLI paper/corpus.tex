@@ -47,6 +47,10 @@ This validation phase is not fundamentally different from the Mechanical Turk la
 
 The results of this validation process are summarized in Fig.~\ref{validation-stats}. For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the core classification task of NLI, and we do not include them when training and evaluating the models discussed in later sections.
 
+\subsection{The distributed corpus}
+\todo{Update all statistics to reflect the latest relase candidate.}
+
+
 \begin{table*}
   \centering\footnotesize
   \begin{tabular}{p{7.5cm}lp{5.5cm}}
@@ -57,14 +61,14 @@ A young man in a striped hoodie looks at an artistic Levi's advertisement that s
 \rule{0pt}{3ex}A woman is focusing on her game of curling. & \ii{neutral} & There is a women playing a game indoors\\
 \rule{0pt}{3ex}A group of people dressed in green and white are dancing in a circle outside of a white building. & \ii{contradiction} & A group performs indoors.\\
 \rule{0pt}{3ex}A balding professor giving a lecture to students on the topic of "opportunity". & \ii{neutral} & A female professor with hair giving a lecture to students.\\
-% TODO: Replace with *validated* examples from the post-rc2 training set, include all 5 labels
     \bottomrule
-% From 1.0rc2
+% From 1.0rc2`
   \end{tabular}
-  \caption{\label{snli-examples}Randomly chosen examples from SNLI.}
+  \caption{\label{snli-examples}Randomly chosen examples from SNLI.\\
+\todo{Replace with *validated* examples from the post-rc2 training set, include all 5 labels.}}
 \end{table*}
 
-\subsection{The distributed corpus}
+Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development sent with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and bare noun phrases of a style that is appropriate for the underlying caption task. Punctution and capitalization are only intermittently present.
 
 The data will be released upon publication under a CreativeCommons
 Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.

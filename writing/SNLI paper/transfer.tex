@@ -1,6 +1,12 @@
 \section{SNLI and transfer learning}
 
-We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on SNLI should transfer well to any other task that involves understanding sentence meaning. To test this, we perform transfer learning experiments on four other tasks, in which models are initialized using the parameters of a model trained on  on SNLI (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
+We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on SNLI should transfer well to any other task that involves understanding sentence meaning. To test this, we perform transfer learning experiments on four other tasks, in which models are initialized using the parameters of an LSTM RNN-based model trained on  on SNLI (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
+
+We first evaluate on SICK (\citealt{marelli2014sick}), the smaller entailment corpus SNLI was modeled on, training on the standard 4.5k training sentence pairs. We then evaluate on SUBJ (\citealt{pang2004sentimental}), a two-way sentence classification task, using 5-fold cross-validation over the 10k sentences. We next evaluate on the SST (\citealt{socher2013acl1}), a five-way sentiment classification task with labels for both phrases and sentences. We train on both types of label within the 8.5k sentence training set and test on only the sentence-level labels in the test set. We finally evaluate on FactBank. \todo{FactBank} ....
+
+ For SICK, we use pretrained parameters for all of the LSTM parameters, pretrained parameters for the $\tanh$ layers in the classifier, and pretrained embeddings for all of the words that occurred in both corpora, randomly initializing only the softmax layer and the remaining word embeddings. We use a similar strategy for the other three tasks, but do not transfer the initialization for the $\tanh$ layers, since the switch between sentence pair classification (in SNLI) and single sentence classification means that the input sizes for the bottom $\tanh$ do not match. In both cases we re-initialize AdaDelta as for a new model run.
+
+\todo{Do we want to use all four target tasks?}
 
 \begin{table}
 \begin{center}
@@ -10,16 +16,16 @@ We argue that for a sentence representation to provide the information necessary
  & \t{cold start} & \t{transfer} & \t{cold start} & \t{transfer}  \\
 \hline
 \t{SICK}            & \t{98} & \t{95} & \t{65?} & \t{68?}  \\
-\t{SST}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
 \t{SUBJ}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
+\t{SST}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
 \t{FactBank?}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
 \hline
 \end{tabular}
 \end{center}
 % The caption
-\caption{
-\label{tab:transferresults}
-LSTM
-\todo{numbers are approx.}
-}
+\caption{\label{tab:transferresults}
+The performance of an LSTM RNN classification model on four tasks under both a random initialization and an initialization copied from a model trained on SNLI.
+\todo{Fill in numbers.}}
 \end{table}
+
+The results are shown in Table~\ref{tab:transferresults}. For each task, the transfer model is compared with a model that was initialized randomly as normal. Note that \todo{something interesting happens}. Our transfer model shows \todo{something about the state of the art on the tasks.}
