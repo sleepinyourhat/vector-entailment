@@ -1,13 +1,12 @@
 \section{SNLI as a platform for NLI research}
-\todo{write me}
 
-Since our goal is to evaluate the quality of the single sentence representations in our model, we train an entailment classifier that has access only to the output of our sentence representation model, and not to any of the word or phrase representations that it used. We encourage future users of this corpus to evaluate their models in this way when possible. Our classifier is simply a stack of three 100d (NONLIN) layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
+The most immediate application for the SNLI corpus is in developing models for the task of NLI. In particular, since SNLI is dramatically larger than any existing corpus of comparable quality, we expect it to make possible the use of parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
 
-\subsection{Baselines}
+\subsection{Standard entailment models}
 We evaluate a number of strong baselines on the SNLI corpus.
 The first class of baselines use models from the Excitement Open
-  Platform (EOP) 
-  \cite{pado2014design,magnini2014excitement}
+  Platform (EOP,
+  \citealt{pado2014design,magnini2014excitement})
   -- an open source platform for RTE research which
   is distributed alongside a number of RTE pipelines.
 We additionally evaluate against a both an unlexicalized and lexicalized
@@ -183,5 +182,33 @@ Note that \todo{something interesting happens}.
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
 \input{model_structure_fig.tex}
 
+Since our goal is to evaluate the quality of the single sentence representations in our model, we train an entailment classifier that has access only to the output of our sentence representation model, and not to any of the word or phrase representations that it used. We encourage future users of this corpus to evaluate their models in this way when possible. Our classifier is simply a stack of three 100d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
+\hline
+\textbf{Sentence model} & \b{Train (3-Class)}  & \b{Test (3-Class)}\\
+ & \t{Acc.} & \t{Acc.} \\
+\hline
+\t{Sum of words}            & \t{} & \t{} \\
+\t{RNN}            & \t{} & \t{} \\
+\t{LSTM RNN}            & \t{75?} & \t{72?} \\
+\t{TreeRNN}            & \t{} & \t{} \\
+\t{TreeRNTN}            & \t{58?} & \t{56?} \\
+\t{LSTM TreeRNN}            & \t{72?} & \t{69?} \\
+\hline
+\end{tabular}
+\end{center}
+% The caption
+\caption{
+\label{tab:nnresults}
+Accuracy on the 2-class and 3-class SNLI dataset, as well as precision/recall
+  on the 2-class task to allow for comparision with the RTE systems.
+Ablation studies are reported for removing bigram features and all lexical
+  features.
+\todo{numbers are approx.}
+}
+\end{table}
 
 \subsection{Results}
