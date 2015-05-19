@@ -1,12 +1,12 @@
 \section{A new corpus for natural language inference}\label{sec:discussion}
 
-% TODO: Rewrite and expand motivation here (CP?)
+\todo{Rewrite and expand motivation here (CP?)}
 
 Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
 
 \subsection{Grounding with imagined images}
 
-% TODO: Rewrite and expand (CP?)
+\todo{Rewrite and expand (CP?)}
 
 Quote from SICK paper \cite{marelli2014sick}:
 
@@ -36,8 +36,8 @@ We will show you the caption for a photo. We will not show you the photo. Using 
 \caption{\label{instructions-1}The instructions used on Mechanical Turk for data collection.}
 \end{figure}
 
-% TODO: Do we need statistics about the number/distribution of workers?
-% TODO: Do we need statistics about how much of ImageFlickr we rejected/double-annotated?
+\todo{Do we need statistics about the number/distribution of workers?}
+\todo{Do we need statistics about how much of ImageFlickr we rejected/double-annotated?}
 
 \subsection{Data validation}
 
@@ -45,9 +45,7 @@ The majority of the sentence pairs in the corpus have not been reviewed by anyon
 
 This validation phase is not fundamentally different from the Mechanical Turk labeling task used for the SICK entailment data: we present workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original composer of the pair. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ.
 
-The results of this validation process are summarized in Fig.~\ref{validation-stats}. For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the core classification task of NLI, and we 
-
-TODO: Data filtering? Data re-labeling?
+The results of this validation process are summarized in Fig.~\ref{validation-stats}. For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the core classification task of NLI, and we do not include them when training and evaluating the models discussed in later sections.
 
 \begin{table*}
   \centering\footnotesize
@@ -68,13 +66,8 @@ A young man in a striped hoodie looks at an artistic Levi's advertisement that s
 
 \subsection{The distributed corpus}
 
-% Screenshot from phase 1
-
-
-% Screenshot from phase 2
-
-The data is freely available at (POST DATA), and is released under a CreativeCommons
-Attribution-ShareAlike licence, which is the same licence used for the Flickr30k source captions.
+The data will be released upon publication under a CreativeCommons
+Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.
 
 \begin{figure}
 \center
@@ -149,7 +142,7 @@ Label $=$ original author's label & 85.5\%\\
 
 The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser \cite{klein2003accurate}, both in the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
 
-% TODO (CM?)
+\todo{Update and expand (CM, SB)}
 
 \paragraph{General evaluation standards}
 While we hope that the corpus will be valuable in a variety of ways, we encourage researchers working on tools for semantic representation and inference to evaluate on our data in a uniform way: training on only the (parsed and/or unparsed) sentences included in the training set, and doing final evaluations on only the subset of the test set for which there are single gold labels.
