@@ -28,6 +28,8 @@ else
     hyperParams.vocabPath = ['../data/wordsource.scaled.' num2str(embDim) 'd.txt'];    
 end
 
+options.updateFn = @AdaDeltaUpdate;
+
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
@@ -68,9 +70,9 @@ options.miniBatchSize = 32;
 % Amount to upsample SICK data.
 datamult = 8;
 
-if findstr(dataflag, 'sick-only-dev')
-    wordMap = LoadWordMap('sick-data/combined_words.txt');
-    hyperParams.vocabName = 'sick_all'; 
+if strcmp(dataflag, 'sick-only-dev')
+    wordMap = LoadWordMap('sick-data/sick_basic_words.txt');
+    hyperParams.vocabName = 'sick_all';
 
     hyperParams.numLabels = [3];
    	hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
@@ -84,7 +86,7 @@ if findstr(dataflag, 'sick-only-dev')
     				 './sick-data/SICK_trial_parsed_18plusparens.txt', ...
     				 './sick-data/SICK_trial_parsed_lt18_parens.txt'};
     hyperParams.splitFilenames = {};
-elseif findstr(dataflag, 'sick-only')
+elseif strcmp(dataflag, 'sick-only')
     % The number of labels.
     hyperParams.numLabels = [3];
 
@@ -92,15 +94,30 @@ elseif findstr(dataflag, 'sick-only')
     labelMap = cell(1, 1);
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    wordMap = LoadWordMap('sick-data/combined_words.txt');
+    wordMap = LoadWordMap('sick-data/sick_basic_words.txt');
     hyperParams.vocabName = 'sick_all';
 
-    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed_exactAlign.txt', ...
-                     './sick-data/SICK_train_parsed.txt', ...
-                     './sick-data/SICK_trial_parsed_exactAlign.txt', ...
-                     './sick-data/SICK_trial_parsed.txt'};
-    hyperParams.testFilenames = {'./sick-data/SICK_test_annotated_rearranged_parsed_exactAlign.txt',...
-                     './sick-data/SICK_test_annotated_rearranged_parsed.txt'};
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed.txt'};
+    hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt',...
+                                 './sick-data/SICK_test_annotated_rearranged_parsed.txt'};
+    hyperParams.splitFilenames = {};
+elseif strcmp(dataflag, 'sick-only-transfer')
+    % The number of labels.
+    hyperParams.numLabels = [3];
+    hyperParams.loadWords = 0;
+
+    hyperParams.labels = {{'ENTAILMENT', 'CONTRADICTION', 'NEUTRAL'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    wordMap = LoadWordMap('sick-data/sick_from_snli1.0rc2_words.txt');
+    hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
+
+    hyperParams.vocabName = 'sick_all';
+
+    hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed.txt'};
+    hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt',...
+                                 './sick-data/SICK_test_annotated_rearranged_parsed.txt'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'dg-only') 
     % The number of labels.

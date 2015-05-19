@@ -11,7 +11,11 @@ hyperParams.sentenceClassificationMode = 1;
 
 if slant == -2
     hyperParams.randomEmbeddingIndices = [1, 2];
+elseif slant == -3
+    hyperParams.randomEmbeddingIndices = [1, 2];
+    hyperParams.smallVecs = 1;
 end
+
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
@@ -37,7 +41,7 @@ elseif slant == 4
 elseif slant == 5
     hyperParams.latticeFirstPastThreshold = 0.9;
     hyperParams.latticeFirstPastHardMax = true;
-elseif slant == 6
+elseif slant == 6 % Here and above works.
     hyperParams.latticeFirstPastThreshold = 0.95;
     hyperParams.latticeFirstPastHardMax = true;
 elseif slant == 7

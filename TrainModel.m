@@ -92,7 +92,7 @@ if ~isempty(pretrainingFilename)
     modelState.step = 0;
 
     Log(hyperParams.statlog, ['Randomly initializing.']);
-    [ modelState.theta, modelState.thetaDecoder ] = ...
+    [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
        InitializeModel(wordMap, hyperParams);
 
     savedParams = pretrainingFilename;
@@ -100,7 +100,7 @@ if ~isempty(pretrainingFilename)
     Log(hyperParams.statlog, ['Loading transfer parameters: ' savedParams]);
     a = load(savedParams);
 
-    modelState = TransferInitialization(modelState, a.modelState);
+    modelState = TransferInitialization(modelState, a.modelState, wordMap, hyperParams.sourceWordMap);
 else
     listing = dir([options.name, '/ckpt-best*']);
 

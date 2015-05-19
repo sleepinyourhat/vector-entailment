@@ -15,6 +15,9 @@ hyperParams.embeddingDim = dim;
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
 
+hyperParams.clipGradients = true;
+hyperParams.maxGradNorm = 5;
+
 % Regularization coefficient.
 hyperParams.lambda = lambda;
 
