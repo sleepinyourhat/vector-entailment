@@ -14,8 +14,6 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-p', num2str
 hyperParams.sentenceClassificationMode = 1;
 hyperParams.SSTMode = 1;
 
-%%
-
 hyperParams.latticeLocalCurriculum = curr;
 
 hyperParams.connectionCostScale = ccs;
@@ -119,6 +117,46 @@ if strcmp(dataflag, 'sst-expanded')
     hyperParams.trainFilenames = {'./sst-data/train_expanded.txt'};    
     hyperParams.splitFilenames = {};    
     hyperParams.testFilenames = {'./sst-data/dev.txt', './sst-data/train_sample.txt'};
+
+    % Loading this data is fast, and the preprocessed file winds up huge.
+    hyperParams.ignorePreprocessedFiles = true;
+
+    hyperParams.labelCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
+elseif strcmp(dataflag, 'sst-expanded-test')
+    wordMap = LoadWordMap('./sst-data/sst-words.txt');
+
+    hyperParams.vocabName = 'sst'; 
+
+    hyperParams.numLabels = [5];
+
+    hyperParams.labels = {{'0', '1', '2', '3', '4'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    hyperParams.trainFilenames = {'./sst-data/train_expanded.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'./sst-data/dev.txt', './sst-data/test.txt', './sst-data/train_sample.txt'};
+
+    % Loading this data is fast, and the preprocessed file winds up huge.
+    hyperParams.ignorePreprocessedFiles = true;
+
+    hyperParams.labelCostMultipliers = [4.878182632, 2.433623131, 0.3014847996, 1.826731877, 3.980980277];
+
+elseif strcmp(dataflag, 'sst-expanded-transfer')
+    wordMap = LoadWordMap('./sst-data/sst-snlirc2-transfer_words.txt');
+    hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
+
+    hyperParams.vocabName = 'sst-snlirc2'; 
+
+    hyperParams.numLabels = [5];
+
+    hyperParams.labels = {{'0', '1', '2', '3', '4'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    hyperParams.trainFilenames = {'./sst-data/train_expanded.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'./sst-data/dev.txt', './sst-data/test.txt','./sst-data/train_sample.txt'};
 
     % Loading this data is fast, and the preprocessed file winds up huge.
     hyperParams.ignorePreprocessedFiles = true;
