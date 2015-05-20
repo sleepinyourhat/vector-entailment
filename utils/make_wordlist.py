@@ -11,19 +11,18 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "sick_basic"
-TRAINING_FILES = ["sick-data/SICK_train_parsed.txt"]
-DEV_FILES = ["sick-data/SICK_trial_parsed.txt"]
-TEST_FILES = ["sick-data/SICK_test_annotated_rearranged_parsed.txt"]
+BASENAME = "sst-snlirc2-transfer"
+TRAINING_FILES = ["sst-data/train.txt"]
+DEV_FILES = ["sst-data/dev.txt"]
+TEST_FILES = ["sst-data/test.txt"]
 
-# TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
-TRANSFER_SOURCE_WORDLIST = ""
+TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
 VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
 
-ENTAILMENT_MODE = True
+ENTAILMENT_MODE = False
 
 
 def count_words(filenames):

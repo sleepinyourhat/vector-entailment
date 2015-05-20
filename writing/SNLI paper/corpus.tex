@@ -14,38 +14,37 @@ Quote from SICK paper \cite{marelli2014sick}:
 Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
 \end{quote}
 
+\todo{SICK is referenced below, so we should set it up as a point of reference either here or in the intro, including mentioning that it had both entailment and similarity labels.}
+
 \subsection{Data collection}
 
-We used Amazon Mechanical Turk for data collection. In each individual task, a worker was presented with premise scene descriptions from a preexisting corpus, and asked to supply hypotheses that fit each of our three labels (\ii{entailment}, \ii{neutral}, and \ii{contradiction}).
+We used Amazon Mechanical Turk for data collection. In each individual task (each HIT), a worker was presented with premise scene descriptions from a preexisting corpus, and asked to supply hypotheses that fit each of our three labels (\ii{entailment}, \ii{neutral}, and \ii{contradiction}), forcing the resulting data to be balanced among these classes.
 
-For the premises, we used the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions from that corpus (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: ``Our trip to the Olympic Peninsula''). We presented each caption to at least one worker, and some to more than one. With the exception of a handful that were flagged by workers as excessively difficult, at least three labeled pairs are available for each caption.
+For the premises, we used the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions from that corpus (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \textit{``Our trip to the Olympic Peninsula''}). We presented each caption to at least one worker, and some to more than one. With the exception of a handful that were flagged by workers as excessively difficult, at least three labeled pairs are available for each caption.
 
 The instructions that we provided to the workers are shown in Fig.~\ref{instructions-1}. Below the instructions were three fields for each of three requested sentences, corresponding to our \ii{entailment}, \ii{neutral}, and \ii{contradiction} labels, a fourth field (marked optional) for reporting problems, and a link to an FAQ page. That FAQ grew over the course of data collection, but discussed disallowed techniques (e.g., reusing the same sentence for many different prompts, which we saw in a few cases), sentence length and complexity (we did not enforce a minimum length, and we allowed bare NPs as well as full sentences), and logistical issues around payment timing.
 
 \begin{figure}
 \footnotesize
-% \toprule
-The Stanford University NLP Group is collecting data for use in research on computer understanding of English. We appreciate your help!
-
 We will show you the caption for a photo. We will not show you the photo. Using only the caption and what you know about the world:
 \begin{itemize}
 \item Write one alternate caption that is \textbf{definitely} a \textbf{true} description of the photo. \ii{Example: For the caption "Two dogs are running through a field." you could write "There are animals outdoors."}
 \item Write one alternate caption that \textbf{might be} a \textbf{true} description of the photo. \ii{Example: For the caption "Two dogs are running through a field." you could write "There are animals outdoors."}
 \item Write one alternate caption that is \textbf{definitely} a \textbf{false} description of the photo. \ii{Example: For the caption "Two dogs are running through a field." you could write "There are animals outdoors." This is different from the maybe correct category because its impossible for the dogs to be both running and sitting.}
 \end{itemize}
+\todo{Fix the broken examples here (SB)}
 \caption{\label{instructions-1}The instructions used on Mechanical Turk for data collection.}
 \end{figure}
 
 \todo{Do we need statistics about the number/distribution of workers?}
-\todo{Do we need statistics about how much of ImageFlickr we rejected/double-annotated?}
 
 \subsection{Data validation}
 
-The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove blank responses and responses some pairs which the original author flagged for review. However, in order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we did perform an additional round of validation for about 54k (TODO) examples.
+The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove a small number of responses where either a response field was empty or the original author flagged the source caption for review. In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we did perform an additional round of validation for about 10\% of our data.
 
-This validation phase is not fundamentally different from the Mechanical Turk labeling task used for the SICK entailment data: we present workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original composer of the pair. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ.
+This validation phase is not fundamentally different from the Mechanical Turk labeling task used to label the SICK entailment data: we present workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original composer of the pair. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ.
 
-The results of this validation process are summarized in Fig.~\ref{validation-stats}. For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the core classification task of NLI, and we do not include them when training and evaluating the models discussed in later sections.
+For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the core classification task of NLI, and we do not include them when training and evaluating the models discussed in later sections. The results of this validation process are summarized in Tables \ref{validation-stats} and \ref{validation-freq}, and suggest that while fundamental limits of both our crowdsourcing methods and the task itself impose an upper bound on the consistency of our labels, the data is sufficiently high quality to pose a challenging but realistic machine learning task.
 
 \subsection{The distributed corpus}
 \todo{Update all statistics to reflect the latest relase candidate.}
@@ -86,10 +85,10 @@ Attribution-ShareAlike licence, the same licence used for the Flickr30k source c
   %\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l l} 
     \toprule
-Pairs in corpus & 570,157\\
 Training pairs &  550,159\\
-Dev pairs &  9,999\\
+Development pairs &  9,999\\
 Test pairs &  9,999\\
+\textbf{Total sentence pairs} & 570,157\\
 \midrule
 Premise mean token count & 14.1\\
 Hypothesis mean token count & 8.3 \\
@@ -99,7 +98,7 @@ Hypothesis complete sentences & 75.4 ??\%\\
     \bottomrule
   \end{tabular}
     % From 1.0rc2
-\caption{\label{validation-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report statistics for both.} 
+\caption{\label{collection-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report statistics for both.} 
 \end{table}
 
 \begin{table}
@@ -117,7 +116,7 @@ Label $=$ original author's label & 85.5\%\\
     \bottomrule
   \end{tabular}
     % From 1.0rc2
-\caption{\label{b-table}Key statistics for the validated sentence pairs.} 
+\caption{\label{validation-stats}Key statistics for the validated sentence pairs.} 
 \end{table}
 
 \begin{table}
@@ -135,7 +134,7 @@ Label $=$ original author's label & 85.5\%\\
 \bottomrule
   \end{tabular}
   % From 1.0rc2
-\caption{\label{b-table}Frequency (\%) of each label in the corpus. Note that examples without gold labels are omitted in standard evaluations.} 
+\caption{\label{validation-freq}Frequency (\%) of each label in the corpus. Note that examples without gold labels are omitted in standard evaluations.} 
 \end{table}
 
 

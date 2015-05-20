@@ -77,5 +77,13 @@ export MATLABCMD="cd quant; lambda = 0.0001; dim = 40; ed = 300; td = 3; penult 
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 40; ed = 300; td = 3; penult = 0; dropout = [1\, .9]; tot = 4; collo = 3; dataflag='sst-expanded'; name='/scr/sbowman/sst-expanded-6'; TrainModel(''\, 1\, @SST\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 4\, 0\, 6\, .3);" ; qsub -v MATLABCMD quant/run.sh -q john
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 40; ed = 300; td = 3; penult = 0; dropout = [1\, .9]; tot = 4; collo = 3; dataflag='sst-expanded'; name='/scr/sbowman/sst-expanded-6'; TrainModel(''\, 1\, @SST\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 4\, 0\, 0\, .3);" ; qsub -v MATLABCMD quant/run.sh -q john
 
+
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 0; dropout = [0.9\, 0.9]; tot = 2; collo = 1; dataflag='sst-expanded-transfer'; name='/scr/sbowman/sst-expanded-6t'; TrainModel(''\, 1\, @SST\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 4\, 0\, 0\, .3);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 0; dropout = [0.9\, 0.9]; tot = 2; collo = 1; dataflag='sst-expanded-test'; name='/scr/sbowman/sst-expanded-6t'; TrainModel(''\, 1\, @SST\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 4\, 0\, 0\, .3);" ; qsub -v MATLABCMD quant/run.sh -q john
+
+
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [0.9\, 0.9]; collo = 1; dataflag='sick-only-transfer'; name='transfer2'; TrainModel('snlirc-snlirc2-only-l1e-07-dim50-ed200-td3-pen100-do0.9-0.9-co1-comp2-dp1/ckpt-best-tr150517185056@353375.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+
 																														function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, conD, curr, mdn, ccs)
 
