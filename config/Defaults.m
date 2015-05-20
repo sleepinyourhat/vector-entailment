@@ -178,7 +178,7 @@ options.miniBatchSize = 64;
 % Learning parameters
 
 % What to use to compute parameter updates. 
-options.updateFn = @RMSPropUpdate;
+options.updateFn = @AdaDeltaUpdate;
 
 % AdaDelta hyperparameters.
 options.adaDeltaRho = 0.95;
