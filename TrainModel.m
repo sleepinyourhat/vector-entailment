@@ -89,7 +89,7 @@ end
 % Look for previously saved checkpoint files.
 savedParams = '';
 if ~isempty(pretrainingFilename)
-    modelState.step = 0;
+    hyperParams.transfer = true;
 
     Log(hyperParams.statlog, ['Randomly initializing.']);
     [ modelState.theta, modelState.thetaDecoder, modelState.separateWordFeatures ] = ...
@@ -100,7 +100,7 @@ if ~isempty(pretrainingFilename)
     Log(hyperParams.statlog, ['Loading transfer parameters: ' savedParams]);
     a = load(savedParams);
 
-    modelState = TransferInitialization(modelState, a.modelState, wordMap, hyperParams.sourceWordMap);
+    modelState = TransferInitialization(modelState, a.modelState, wordMap, hyperParams.sourceWordMap, hyperParams);
 else
     listing = dir([options.name, '/ckpt-best*']);
 
@@ -142,7 +142,6 @@ hyperParams = FlushLogs(hyperParams);
 
 % Trim out individual examples if needed (only from the first source)
 if hyperParams.dataPortion < 1
-    Log(hyperParams.statlog, 'Trimming first training data set.')
     trainDataset = trainDataset([1:round(hyperParams.dataPortion * hyperParams.trainingLengths(1)),...
                                  (round(hyperParams.trainingLengths(1)) + 1):length(trainDataset)]);
     hyperParams.trainingLengths(1) = round(hyperParams.dataPortion * hyperParams.trainingLengths(1));

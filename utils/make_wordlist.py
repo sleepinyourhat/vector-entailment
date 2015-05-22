@@ -11,10 +11,10 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "pragbank"
-TRAINING_FILES = ["pragbank-data/train.txt"]
-DEV_FILES = []
-TEST_FILES = ["pragbank-data/test.txt"]
+BASENAME = "snlirc3"
+TRAINING_FILES = ["../data/snli_1.0rc3_train.txt"]
+DEV_FILES = ["../data/snli_1.0rc3_dev.txt"]
+TEST_FILES = ["../data/snli_1.0rc3_test.txt"]
 
 # TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
 TRANSFER_SOURCE_WORDLIST = ""
@@ -23,7 +23,7 @@ VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
 
-ENTAILMENT_MODE = False
+ENTAILMENT_MODE = True
 
 
 def count_words(filenames):

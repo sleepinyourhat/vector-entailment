@@ -1,5 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, latte, curr, adad, ccs)
-% Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
+function [ hyperParams, options, wordMap, labelMap ] = SUBJ(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, adi)
 
 [hyperParams, options] = Defaults();
 
@@ -8,24 +7,14 @@ function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, em
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-comp', num2str(composition), '-lattEv', num2str(latte), '-curr', num2str(curr), ...
-    '-adaDelta', num2str(adad), '-ccs', num2str(ccs) ];
+    '-comp', num2str(composition), '-adi', num2str(adi)  ];
+
+hyperParams.restartUpdateRuleInTransfer = adi;
+%TEMP:
+options.updateFn = @RMSPropUpdate;
+
 
 hyperParams.sentenceClassificationMode = 1;
-
-%%
-
-hyperParams.latticeEven = latte;
-
-hyperParams.latticeLocalCurriculum = curr;
-
-if adad
-    options.updateFn = @AdaDeltaUpdate;
-end
-
-hyperParams.connectionCostScale = ccs;
-
-%%
 
 hyperParams.testFraction = 0.1;
 
@@ -89,4 +78,9 @@ hyperParams.trainFilenames = {};
 hyperParams.splitFilenames = {'../data/subj_parsed.txt'};    
 hyperParams.testFilenames = {};
 
+
+if strcmp(dataflag, 'subj')
+elseif strcmp(dataflag, 'subj-transfer')
+	hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
+end
 end

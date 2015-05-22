@@ -74,6 +74,8 @@ hyperParams.topDropout = 1;
 % the embeddings at those indices will be reinitialized before computing each example. Used for ALCIR.
 hyperParams.randomEmbeddingIndices = [];
 
+hyperParams.restartUpdateRuleInTransfer = false;
+
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.
 hyperParams.norm = 2;
