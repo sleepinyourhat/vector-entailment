@@ -1,6 +1,6 @@
 /*
-javac -cp /u/nlp/distrib/stanford-corenlp-full-2015-04-20/stanford-corenlp-3.5.2.jar:guava-18.0.jar ParseThreeCol.java
-java -cp /u/nlp/distrib/stanford-corenlp-full-2015-04-20/stanford-corenlp-3.5.2.jar:guava-18.0.jar ParseThreeCol unparsed_entailment_pairs.tsv > parsed_entailment_pairs.tsv 
+javac -cp /u/nlp/distrib/stanford-corenlp-full-2015-04-20/stanford-corenlp-3.5.2.jar:guava-18.0.jar ParseThreeColPartial.java
+java -cp /u/nlp/distrib/stanford-corenlp-full-2015-04-20/stanford-corenlp-3.5.2.jar:guava-18.0.jar ParseThreeColPartial unparsed_entailment_pairs.tsv > parsed_entailment_pairs.tsv 
 */
 
 import java.util.Collection;
@@ -22,7 +22,7 @@ import edu.stanford.nlp.trees.*;
 import edu.stanford.nlp.parser.lexparser.*;
 import edu.stanford.nlp.sentiment.CollapseUnaryTransformer;
 
-class ParseThreeCol {
+class ParseThreeColPartial {
 	public static void main(String[] args) {
 		final LexicalizedParser lp = LexicalizedParser.loadModel("/u/nlp/data/lexparser/englishPCFG-3.5.2+brown.ser.gz");
 		final TokenizerFactory<CoreLabel> tokenizerFactory =
@@ -55,14 +55,14 @@ class ParseThreeCol {
 			while ((line = br.readLine()) != null) {
 				try {
 					columnDetail = line.split("\t");
-					for (int i = 1; i < 3; i++) {
+					for (int i = 1; i < 2; i++) {
 						Tree parse = parses.get(columnDetail[i]);	
 						Tree bin = binarizer.transformTree(parse);		
 						Tree collapsed = transformer.transformTree(bin);
 						parsed[i - 1] = parse.toString();	
 						binarized[i - 1] = unlabeledPrint(collapsed);	
 					}
-					System.out.println(columnDetail[0] + "\t" + binarized[0] + "\t" + binarized[1] + "\t" + parsed[0] + "\t" + parsed[1] + "\t" + columnDetail[1] + "\t" + columnDetail[2] + "\t" + columnDetail[3]);
+					System.out.println(columnDetail[0] + "\t" + binarized[0] + "\t" + "\t" + parsed[0] + "\t" + "\t" + columnDetail[1] + "\t" + "\t");
 					num_done++;
 					if (num_done % 1000 == 0) {
 						System.err.println("Finished " + num_done + ".");
@@ -95,6 +95,6 @@ class ParseThreeCol {
 	}
 	
 	
-	private ParseThreeCol() {} // static methods only
+	private ParseThreeColPartial() {} // static methods only
 	
 }
