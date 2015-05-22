@@ -32,7 +32,7 @@ class ParseThreeCol {
 	 * you therefore need to include in the classpath for ParserDemo to work.
 	 */
 	public static void main(String[] args) {
-		final LexicalizedParser lp = LexicalizedParser.loadModel("./englishPCFG.caseless.np_biased.ser.gz");
+		final LexicalizedParser lp = LexicalizedParser.loadModel("/u/nlp/data/lexparser/englishPCFG-3.5.2+brown.ser.gz");
 		final TokenizerFactory<CoreLabel> tokenizerFactory =
 		    PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
 		final CollapseUnaryTransformer transformer = new CollapseUnaryTransformer();

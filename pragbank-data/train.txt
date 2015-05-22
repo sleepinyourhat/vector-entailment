@@ -1,0 +1,500 @@
+CT_minus	the financial assistance from the World Bank and the International Monetary Fund are helping
+CT_minus	Pak can find buyers
+CT_minus	someone believes this
+CT_minus	people are spending in Asia
+PS_plus	there will be layoffs
+CT_plus	there was no hint of trouble in the last conversation
+CT_minus	there is a response
+CT_minus	controllers could contact the plane
+CT_minus	the United States tolerates totalitarian rule
+PS_plus	there will be a more productive relationship between Cuba and the world
+PR_minus	there will be a battle
+PR_plus	the observers will be disappointed
+PS_plus	the Pope's visit will persuade a great many more Cubans to break loose of the Cuban government
+CT_minus	a woman had been in charge
+CT_minus	someone hurried her up
+CT_minus	someone held her back
+PR_plus	Bush suggested that American forces could be in the gulf region for some time
+CT_plus	a letter was read
+PS_plus	Saddam accepted a border demarcation treaty
+PS_plus	Bush will order a national callup of armed forces reserves for active duty
+Uu	Bush will call up to 200,000 reservists
+Uu	Bush will seek congressional approval
+CT_minus	the spokesman was identified
+CT_minus	the size of the contingent was disclosed
+CT_minus	he discussed the details
+PR_plus	at least 50,000 U.S. troops will be committed to Desert Shield within weeks
+CT_minus	there is entry of foodstuffs
+PS_plus	there will be firing
+CT_plus	U.S. Air Force fliers have engaged in ``a little cat and mouse'' with Iraqi warplanes
+CT_plus	Iraqi warplanes retreated when weapons radar locks onto them
+CT_minus	they want to play
+CT_minus	he said if the weapons included missiles
+CT_minus	there was a decision
+CT_minus	there was an independent confirmation of the report by the government-run news agency
+CT_minus	the government-run news agency said when the reported attempt occurred
+CT_minus	there are flights to South Korea
+CT_minus	police gave details
+PS_plus	people are targeted by kidnappers
+CT_minus	kidnappings has been common in this U.S. commonwealth
+CT_plus	the speaker and his people will continue to do everything they can
+CT_plus	the mayor of Moscow allocated funds to help build a museum in honor of Mikhail Kalashnikov
+PR_plus	the two Libyans blew up a Pan Am jumbo jet over Scotland in 1988
+CT_minus	the trial of the two Libyans suspected of blowing up a Pan Am jumbo jet over Scotland in 1988 happened
+Uu	Amir was serious
+CT_plus	the panel also will look at the exodus
+CT_plus	Yeltsin and Kuchma said it would create a ``strong legal foundation"
+PS_plus	a 10-year economic program will double the two nations' trade turnover
+CT_plus	An-70 cargo planes will be manufactured
+Uu	there will be coordination of economic reforms and joint improvement of social programs in the two countries
+PR_plus	Kuchma discussed Ukraine's debt
+Uu	the Lebanese government will cooperate
+CT_plus	no-one wants to stay in Lebanon
+CT_plus	the speaker and his people think it's better to withdraw
+CT_plus	the Israeli government has been faced with a growing grassroots movement
+CT_plus	All sites were inspected to the satisfaction of the inspection team
+PR_plus	 the tour will last over a week
+CT_minus	the Baghdad government provided Ritter's team with escorts
+CT_minus	Ritter's team could enter the sites
+CT_minus	the official Iraqi News Agency mentioned Ritter by name
+CT_minus	Palace inspections are expected to start before the new agreement's procedures are in place
+CT_minus	the crowd reached the Yugoslavian consulate
+CT_minus	the Mitsubishi truck carried the bomb
+PR_plus	the multi-party talks will conclude by May
+CT_minus	a few hundred Protestants interfered with the Catholics
+CT_plus	an unmarked police car was hit with gasoline bombs from the Protestant side
+CT_minus	the united states is authorized to use force before going to the council
+PS_plus	there will be serious harm to relations with the Kremlin
+PS_plus	US air strikes against Iraq will do serious harm to relations with the Kremlin
+CT_plus	the president arrived in Philadelphia
+CT_minus	Annan planned a trip
+CT_plus	diplomacy appears to be making headway in resolving the united nation's standoff with Iraq
+PR_plus	diplomacy is making headway in resolving the united nation's standoff with Iraq
+PR_plus	he will meet with Iraqi deputy prime minister Tariq Aziz
+PS_plus	there will be a military conflict with Iraq
+PR_plus	there is a diplomatic solution to the crisis
+PR_plus	a diplomatic solution to the crisis is at hand
+PR_plus	oil prices will fall further
+PR_plus	the momentum will increase
+PS_plus	a series of bombings in Atalanta and last month's explosion at an Alabama women's clinic are related
+PS_plus	the plates came from a machine shop in north Carolina
+CT_plus	it would be extraordinary
+PR_plus	there is a connection
+CT_plus	there was an attack on a gay lounge
+CT_plus	officials suspect a link between all the bombings
+CT_minus	there are sweeping assertions
+CT_plus	the economy created jobs at a surprisingly robust pace in January
+CT_plus	the economy added 358,000 jobs last month
+CT_minus	concerns are raised
+CT_plus	potential inflation is counterbalanced by worries
+PS_plus	there will be price declines
+PR_plus	the situation will lead to a surge of inexpensive imports into the United States
+PR_plus	there will be a surge of inexpensive imports into the United States
+PR_plus	a surge of inexpensive imports into the United States will hurt American competitors
+PR_plus	the weakness of the Asian economies will lead to decreased demand for American exports
+PR_plus	there will be a decreased demand for American exports
+CT_plus	The woman was watching her clothes dry in a laundromat
+CT_plus	the victim was waiting for her clothes to dry
+CT_plus	a new Essex County task force began delving Thursday into the slayings of 14 black women over the last five years in the Newark area
+CT_minus	the police and prosecutors found a pattern linking the killings
+PR_plus	several of the victims were prostitutes
+PR_plus	these different methods of killing and other evidence indicate that the eight cases are not related
+CT_minus	officials drew firm conclusions
+CT_minus	there have been arrests in the slayings
+PR_plus	Justices Sandra Day O'Connor and Anthony Kennedy agree that the law amounted to unconstitutional sex discrimination
+CT_minus	they provided the votes to strike it down
+CT_minus	they striked it down
+CT_minus	the Justice Department covered itself with glory
+CT_minus	Keating got eligible for parole
+CT_minus	the issues had been raised before
+PR_plus	the ruling will send Keating's lawyers back to state court
+CT_minus	the city used some special protection in nineteen seventy-nine when the Soviet Union invaded Afghanistan
+CT_minus	the city got some special protection
+CT_plus	the US is bolstering its military presence in the gulf
+CT_plus	record figures came at a bad time
+CT_plus	soil will destroy things in its path
+CT_minus	some people were hurt
+CT_plus	the British government called for Sinn Fein to be expelled from the multiparty peace talks on northern Ireland
+CT_minus	local residents have laid out the red carpet
+Uu	the speaker and his people further the purpose of human rights
+CT_minus	the Saudis are compelled to allow Christians to worship in their country
+CT_plus	they'll rule on the application based only on land use issues
+CT_plus	Loudon county officials will ignore all the other objections
+CT_minus	they stayed
+CT_minus	Belgrade confirmed the operation was over
+PR_plus	the whole attack was planned in Belgrade
+CT_plus	Nigerian security forces clashed in Lagos with anti-government demonstrators
+Uu	Sani Abacha will run for president
+CT_plus	thousands of people gathered in the capital Abuja
+CT_minus	General Abacha had publicly announced his candidacy
+CT_plus	over fifty thousand CDs a year are sold
+CT_plus	The Federal Bureau of Investigation received more than eight thousand reports of hate group crimes last year
+CT_minus	women become victims of armed attack
+CT_plus	Women do not become <strong>victims</strong> of armed attack
+CT_minus	women have the right to work
+Uu	there are conditions of peace and justice
+CT_plus	the bloodletting tore the country apart
+CT_plus	her group is appealing to individuals
+CT_plus	the US government recently announced new regulations
+CT_plus	allowances are made for the most needy patients
+CT_minus	there are huge waiting time disparities
+CT_minus	the sickest patients are served
+CT_minus	there is peace
+CT_plus	there was a news conference
+Uu	Israel is stretching itself on matters that are vital to its security concerns
+PS_plus	the Iraqi leader will withdraw his troops from Kuwait
+Uu	Israel will withdraw from the West Bank
+CT_plus	he hopes to lure support from Arabs
+CT_minus	Mr. Baker used the word blockade
+CT_plus	reporters asked whether the interdiction would apply to food
+CT_minus	Mr. Bush used the word "blockade"
+PS_plus	the Iraqis will conclude that they need to lash out in some way to shake things up
+PR_plus	Saddam Hussein has three choices
+PS_plus	Iraq will start hostilities with Israel either through a direct attack or by attacking Jordan
+PS_plus	Iraq will start hostilities with Israel by attacking Jordan
+Uu	there will be hostilities
+CT_minus	they are allowed to leave
+PS_plus	they will become hostages
+CT_plus	U.S. officials see signs Saddam Hussein is getting nervous
+CT_plus	it shows he's nervous about pinpointing his location
+CT_minus	the administration is putting an upper limit on how high the force could go after that
+CT_minus	there is an upper limit
+PR_plus	thousands of Iraqi soldiers had surrendered
+CT_plus	there was an effort to avoid the ground war
+PS_plus	the allied forces will suffer greater casualties
+PS_plus	there will be greater casualties
+PR_plus	the goal will be supported by most Americans
+Uu	the addressee of the speaker will do so
+CT_plus	the series of United Nations resolutions condemning Iraq's invasion of Kuwait "imply that the restoration of peace and stability in the Gulf would be a heck of a lot easier if he and that leadership were not in power in Iraq
+Uu	forces and weapons will be engaged
+PR_plus	Iraq has the ability to deliver chemical weapons in artillery shells
+CT_minus	how much damage the allied air campaign was able to inflict on the Guard was seen
+PR_plus	the fact that a ground campaign has begun guarantees that the Bush administration will face fresh problems growing out of the military situation
+PR_plus	there will be fresh problems growing out of the military situation
+PR_plus	the Bush administration will face fresh problems
+PR_plus	President Hussein is taking Kuwaiti hostages
+CT_minus	Iraq responded to the U.S. ultimatum
+CT_minus	an amphibious assault on Kuwait's beaches began
+CT_plus	5,500 Iraqi prisoners were taken
+PS_plus	the total Iraqi prisoners climbed above 8,000
+PR_plus	tens of thousands of Iraqi soldiers will surrender
+Uu	the allies will succeed
+PR_plus	the Iraqi leader's internal power base was narrowing even before the war began
+PS_plus	the perception that the U.S. wants to destroy Iraq will increase Saddam Hussein's support within the Iraqi military
+CT_minus	the U.S. backed the peace proposals
+PR_plus	everyone believes that somehow Cuba is going to change
+PR_minus	the vital signs will change
+CT_minus	in Maine, about a half million people have power
+CT_plus	Mr. Bush decided to grant duty-free status for 18 categories
+CT_plus	James McAlpine resigned
+CT_minus	Mr. Stronach got a seat in Canada's Parliament
+PR_plus	he will cut costs
+CT_minus	Mr. McAlpine could be reached for comment
+CT_minus	he discussed other terms of the issue
+CT_plus	holders of more than a majority of the stock of the company approved the transaction
+CT_plus	there was an increase in loan
+CT_minus	there were one-time gains in the latest period
+CT_minus	there were one-time losses in the latest period
+CT_minus	there was profit this year from discontinued operations
+CT_plus	sales fell
+CT_plus	DSM had 71 million guilders of extraordinary charges
+CT_plus	the company is phasing out John Deere
+PR_plus	the California earthquake will result in a fourth-quarter pre-tax charge of less than $10 million
+CT_plus	there was a $415 million charge
+CT_plus	A.L. Williams Corp. was merged into Primerica Corp.
+CT_plus	Williams shares were delisted from the New York Stock Exchange
+CT_minus	terms were disclosed
+PS_plus	the move will help prevent Martin Ackerman from making a run at the computer-services concern
+PS_plus	the move prevent Martin Ackerman from making a run at the computer-services concern
+Uu	Martin Ackerman will make a run
+PS_plus	the company will be sold
+CT_minus	Mr. Edelman specified what prompted the recent moves
+CT_plus	the offer will expire
+CT_minus	Equus and Tony Lama gave a reason for the changed offer
+CT_minus	there was comment from Tony Lama
+CT_minus	a successor was named
+CT_minus	there was a board directorship at the London-based news organization
+CT_minus	Mr. Reupke served on the company's board of directors
+CT_plus	Heritage will exchange one share of a new preferred stock for each POP common share it does n't already own
+CT_plus	RMS International Inc. is seeking other financing sources
+PS_plus	the loan will be extended
+CT_plus	87-store Weisfield's were acquired
+CT_minus	the executives are staying with the company
+CT_minus	Coleco came up with another winner
+CT_plus	Coleco filed for bankruptcy-law protection
+CT_plus	Sony Corp. completed its tender offer for Columbia Pictures Entertainment Inc.
+PR_plus	the acquisition of Guber/Peters Entertainment Co. will close Monday
+CT_plus	the after-tax charge will be spread over the next three quarters
+PR_plus	the cost-cutting move will result in a fourth-quarter charge
+PR_plus	there will be a fourth-quarter charge
+PS_plus	the program will increase an individual's retirement benefits 10% to 20%
+CT_plus	the company has a strategy to implement budget constraints
+PR_plus	Upjohn will trim only about 275 to 350 of its more than 21,000 jobs world-wide
+CT_plus	a swift transition is expected
+CT_plus	the government and Union Bank of Finland will become major shareholders in the new company
+CT_plus	 the government and Union Bank of Finland will inject 100 million Finnish markkaa
+CT_plus	the battery plant will be closed
+CT_minus	the Reserve Fund was named
+CT_minus	the company expects further adverse financial impact from the restructuring
+CT_minus	StatesWest is abandoning its pursuit
+CT_plus	the Dallas oil and gas concern will purchase a 10% net-profits interest in certain oil and gas properties from National Canada Corp.
+CT_plus	Orkem S.A. is making a friendly bid
+PS_plus	there will be further acquisitions
+CT_plus	Courtaulds PLC announced some plans
+PR_plus	both the chemicals and textile businesses will focus more closely on core activities
+CT_plus	there is an agreement between the two concerns
+CT_minus	DPC commented on the suit
+CT_plus	Nashua intends to remain an independent public company
+CT_minus	it identified the bankers
+CT_plus	it also placed on CreditWatch for possible downgrade other securities
+PR_plus	it expired Friday evening
+CT_minus	Merieux's bid offered enough "net benefit"
+PR_plus	the offer will be approved
+CT_plus	there is an offer
+CT_plus	the debentures are due March 1, 2011
+CT_minus	Dow Jones and Co. owns the 33% of Telerate Inc. mentioned in the sentence
+CT_minus	the supplement changes the terms and conditions
+CT_minus	Dow Jones disclosed that Telerate's management expects the company's revenue to increase by 20% annually
+PS_plus	the $18-a-share price is fair to Telerate's minority shareholders
+CT_plus	there are negotiations
+CT_minus	there were changes in the offer
+CT_plus	Trustcorp Inc. will become Society Bank and Trust when its merger is completed with Society Corp. of Cleveland
+PR_plus	there will be a transaction
+PR_plus	the transaction will close
+PS_plus	the sale will fall through
+CT_plus	Lisbeth Echeandia said something about Nestle
+CT_minus	the company has an estimate of the impact of the earthquake
+CT_minus	there is an estimate of the impact of the earthquake
+PS_plus	there will be a huge problem
+Uu	Unisys deals with its increasingly oppressive debt load
+CT_plus	Unisys will pay about $100 million in interest every quarter
+PR_plus	Unisys will do little better than break even in the fourth quarter
+PS_plus	there will be a merger
+CT_minus	Crane officials returned phone calls seeking comment
+PS_plus	Milton Roy will be acquired
+CT_minus	it made merger overtures to the board
+CT_minus	there were merger overtures to the board
+CT_minus	there was a merger
+CT_plus	there is an intent to acquire Automated Custom Systems Inc.
+CT_plus	the go-it-alone approach nearly proved fatal
+PS_plus	the company will buy back some of its $172.5 million in subordinated convertible debentures
+CT_plus	Control Data intends to bid for the coming Minnesota lottery contract
+PR_plus	Control Data will bid for the coming Minnesota lottery contract
+CT_plus	Control Data is seeking new applications for the technology overseas
+CT_minus	he elaborated
+CT_minus	Perlman and Price said he spends much time considering the possibility of a hostile takeover
+CT_minus	Sansui adjusted to changing market conditions
+CT_minus	the analysts expect the Sansui deal to touch off a fresh wave of foreign purchases
+CT_minus	Sansui branched into other new businesses
+CT_minus	Sansui built new plants in Southeast Asia
+CT_plus	there are changes in the marketplace
+CT_minus	Polly Peck is jettisoning the existent top-management structure of Sansui
+CT_plus	there is an agreement between BellSouth Corp. and LIN Broadcasting Corp.
+PS_plus	the bolstered cellular agreement will fail to fend off McCaw Cellular Communications Inc.
+PS_plus	the debt will mortgage the cellular company's future earning power
+PS_plus	there will be a merger
+CT_minus	there are commitments from banks
+CT_minus	commitments from banks have been obtained
+CT_plus	under previous terms, holders received a dividend of only $20 a share
+CT_minus	the speaker thinks they're at that point yet
+CT_plus	BellSouth will sweeten the pact further
+CT_plus	market makers in Nasdaq over-the-counter stocks are adding their voices to the swelling chorus of complaints about program trading
+CT_minus	the portion of OTC volume attributable to program trading is known
+CT_minus	Peter DaPuzzo was troubled by program trading
+PR_plus	the programs hurt market makers more painfully these days
+CT_plus	market makers are cutting costs
+Uu	they are willing to buy shares
+CT_plus	makers suffer losses when program trading drags the market down
+CT_plus	individual investors own 65% of the OTC market's capitalization
+CT_minus	the jewelry store operator identified the party
+CT_plus	there are discussions
+CT_plus	there was a new account
+CT_plus	real estate issues were dashed Friday
+CT_plus	there were declines in other markets
+CT_minus	there is work on the cereal plant to be
+CT_minus	the Memphis facility began turning out product before 1993
+Uu	the Memphis, Tenn., facility turned out product
+PS_plus	there is a more pessimistic long-term outlook
+CT_minus	Kellogg has been as successful as rival General Mills Inc.
+CT_plus	Kellogg's current share is believed to be slightly under 40%
+CT_minus	sales are boosted further
+PS_plus	the ambitious plans will be scaled back
+PR_plus	the plant will be built
+CT_plus	the speaker and his people will continue to put new products into the marketplace
+CT_plus	the speaker and his people are putting put new products into the marketplace
+CT_plus	the speaker and his people will look at resuming their involvement with their plan
+CT_minus	the company did elaborate
+CT_plus	there are competitive reasons
+Uu	a merger will be consummated
+CT_minus	Dataproducts officials commented
+CT_plus	Jayark Corp. agreed to pay $4 million in cash
+CT_plus	there were transaction costs
+CT_plus	the company will sell the extrusion division for $15 million to R.D. Werner Co.
+CT_plus	National Intergroup earned $22.5 million
+PS_plus	National Aluminum's 54.5% stake will be sold
+PS_plus	there will be payments of additional proceeds
+CT_minus	Jim Pattison Industries elaborated on the statement
+CT_plus	a company official declined further comment
+CT_minus	there was further comment
+CT_plus	the company currently holds about 4.2 million of Innopac's 13.8 million common shares outstanding
+CT_minus	Mr. Fabi said whether Mr. Pattison has disclosed potential terms for his planned bid for control
+PR_plus	big institutional investors will continue the practice
+PR_plus	the practice (program trading) will continue
+PR_plus	stock-index funds will continue launching big programs through the market
+PR_plus	stock-index funds are launching big programs
+PR_plus	big programs will be launched
+Uu	there will be demand from the auto sector
+PS_plus	Southern's Gulf Power unit will plead guilty this week
+PS_plus	the new pact will fail to thwart rival suitor McCaw Cellular
+PR_plus	GM and Ford will go head to head in the markets to buy up rival 15% stakes in Jaguar
+PR_plus	GM and Ford will buy up rival 15% stakes in Jaguar
+PR_minus	Japan is opening up to more foreign takeovers
+CT_minus	there is work on a $1 billion cereal plant
+PS_plus	there are claims totaling nearly $1 billion
+PS_plus	half will be sold directly to Hewlett-Packard
+PR_plus	the Patterson group controls more than 40% of Rally's stock
+CT_minus	rally officials were available
+CT_plus	there is an intent to purchase La Jolla Bancorp
+CT_plus	West German and French authorities have cleared Dresdner Bank AG's takeover of a majority stake in Banque Internationale de Placement
+PS_plus	there will be a full-scale battle against Ford Motor Co.
+CT_plus	the No. 1 U.S. auto maker intends "to go to that 15%" level
+PR_plus	GM will complete a friendly deal with Jaguar
+PR_plus	there will be a friendly deal with Jaguar
+PR_plus	the deal with Jaguar will involve an eventual 30% stake and joint manufacturing ventures
+PR_plus	there will be joint manufacturing ventures
+PR_minus	there will be an all-out bidding war
+CT_minus	he specified what it was
+PS_plus	powerful political pressures will convince the Conservative government to keep its so-called golden share
+PS_plus	 the Conservative government will keep its so-called golden share
+PS_plus	Ford will turn up the heat by convening a special shareholders' meeting
+Uu	Ford will convene a special shareholders' meeting
+PS_plus	Ford will succeed
+PR_minus	the government will give in readily to a hostile foray by Ford
+PS_plus	they will let GM amass more than 15%
+PS_plus	Prime Minister Margaret Thatcher is receptive to Jaguar's request
+CT_plus	Dime Savings Bank of New York was cleared by the Federal Deposit Insurance Corp. to acquire Starpointe Savings Bank of Somerset
+CT_minus	a closing date has been set
+CT_plus	the directors authorized a 3-for-2 split of the common
+CT_plus	there was $1.06 billion
+CT_plus	CAMBREX Corp. declared its initial quarterly of five cents a share
+PS_plus	the withdrawals will spell trouble
+PS_plus	there will be trouble for the $200 billion junk market
+Uu	the heavy outflows will continue
+PS_plus	such selling will erode prices of high-yield junk bonds
+CT_plus	Louis Harvey said something about mutual fund groups 
+CT_plus	there was a credit squeeze
+CT_minus	the fund sold things
+PS_plus	funds will be forced to accept lower prices
+PS_plus	funds will accept lower prices
+PS_plus	asset values of the funds will plunge
+CT_plus	prosecutors issued their warning
+CT_plus	Mr. Antar's lawyers expect that any fees collected from Mr. Antar may be seized
+PR_plus	fees collected from Mr. Antar will be seized
+CT_plus	prosecutors believe Mr. Antar's allegedly ill-gotten gains are so great that any money he has used to pay attorneys derives from illegal activities
+CT_minus	Justin Feldman and Jack Arseneault commented on the matter
+PS_plus	the chip's flaws will delay several computer makers' marketing efforts
+PR_minus	the "bugs" hurt Intel
+PR_plus	the defects will be cleared up
+CT_plus	there is a normal part of product development
+PS_plus	concern about the chip is responsible for a decline of 87.5 cents in Intel's stock
+CT_plus	computer makers have jumped the gun to unveil 486-based products
+PR_plus	machines using the 486 will challenge higher-priced work stations
+PR_plus	486-based machines will reach the market early next year
+CT_plus	American Medical announced sharply lower earnings
+CT_plus	there were sharply lower earnings
+PS_plus	there will be a restructuring to help boost the stock price
+CT_minus	they materialized
+CT_plus	Norwood made "no detailed plans"
+CT_minus	detailed plans have been made
+CT_minus	Phoenix commented
+CT_minus	the company paid a dividend in the third quarter of 1984
+CT_plus	the company expects to use the proceeds to repay certain bank debt
+PS_plus	there will be a takeover
+CT_minus	there was a takeover
+CT_plus	the bid was launched
+CT_plus	he sought approval
+Uu	he boosted his Paribas stake above 10%
+PR_plus	the purchase of the additional 48% stake will cost more than 11 billion francs
+PR_plus	the debt reduction will save the Fort Lauderdale home video concern
+CT_minus	there are periodic interest payments
+CT_plus	their core auto operations were net losers in the third quarter
+CT_plus	there is volatility of stock prices
+PR_plus	there will be much more sluggish growth in the fourth quarter
+CT_minus	growth was a little slower
+CT_plus	net jumped to $87 million
+PR_plus	revenue in the latest quarter will total about $28 million
+CT_plus	a strengthening in the dollar lowers the value of overseas earnings
+CT_plus	sales inreased in the third quarter
+CT_plus	Dominion Textile Inc. holders adopted a shareholder-rights plan
+Uu	a hostile bidder will acquire more than 20% of the shares outstanding
+CT_minus	his family has ties to the company
+CT_plus	there has been a record backlog of orders
+CT_plus	Sun is vulnerable to competition from International Business Machines Corp.
+CT_minus	she identified other bidders
+CT_plus	she said something about Mr. Drabinsky's offer
+CT_minus	there was a purchase
+CT_minus	the directors indicated the source of financing
+PR_plus	MCA and the Bronfman associates will buy for $57 million
+Uu	Mr. Drabinsky will succeed in an offer
+CT_plus	things are being done at the suggestion of Mr. Drabinsky
+CT_plus	there has been a suggestion from Mr. Drabinsky
+CT_plus	they accommodate Mr. Drabinsky
+CT_minus	Rank Organisation PLC owns 51% of Cineplex's Film House unit
+CT_minus	Michael Gifford gave a breakdown
+CT_minus	Mr. Drabinsky was reached
+CT_plus	GM Class E fell
+CT_plus	EDS earned $315.8 million
+CT_plus	Westinghouse Electric Corp. is capitalizing on a major restructuring program
+CT_minus	there was a nuclear power plant order from a U.S. utility in about a decade
+CT_minus	Westinghouse had a nuclear power plant order from a U.S. utility in about a decade
+CT_plus	gain will be offset
+CT_minus	the executives disclosed the size of the expected gain
+CT_plus	capital expenditure in 1990 will rise slightly
+CT_minus	the luxury airline and casino company disclosed the purchase price
+PR_plus	the proceeds will be used for remodeling the company's Desert Inn resort in Las Vegas
+PR_plus	the company's Desert Inn resort in Las Vegas will be remodeled
+PR_plus	a property for the new resort will be acquired
+PR_plus	certain aircraft of the MGM Grand Air unit will be refurbished
+PR_plus	construction will begin in early 1991
+CT_minus	the prospectus included many details about the studio and theme park
+PR_plus	there will be an effect of price erosion in major product lines
+PR_plus	Bethlehem is the most vulnerable to a slowdown
+CT_minus	it has linked up with a joint venture partner to share costs and risks
+CT_minus	it shared costs and risks
+CT_minus	it has diversified beyond steel
+CT_plus	third-quarter net income dropped 8%
+CT_minus	the company consolidates its Eastern Steel division
+CT_plus	there were orders
+CT_minus	he could be reached for comment
+CT_minus	there was comment
+CT_minus	Bertin Nadeau said if Mr. Lortie was asked to leave
+CT_plus	Mr. Lortie's departure was seen as inevitable
+CT_plus	discussions are under way
+CT_minus	he confirmed the reports
+CT_minus	he denied reports that Henri Roy is trying to put together a management buy-out of the catalogue showroom unit
+Uu	Henri Roy is trying to put together a management buy-out
+Uu	Henri Roy is putting together a management buy-out of the catalogue showroom unit
+CT_minus	Mr. Roy was reached
+PR_plus	Lawrence Insurance will help finance the acquisition of United Republic
+CT_minus	America West identified the entity
+CT_plus	thrifts will divest high-yield bond investments
+CT_minus	Columbia officials know how quickly they will dispose of the thrift's junk bonds
+CT_minus	federal regulations have been completed
+PR_minus	the thrift will face problems
+PR_plus	there will be write-downs
+PR_plus	the new strategy will be applied soon in selected markets nationwide
+PS_plus	there will be fallout from the coming pricing struggle
+PR_plus	the brewing giant will see that grow to 42.5% in the current year
+PS_plus	there will be a grow to 42.5% in the current year
+CT_plus	Anheuser decided to join in the barroom brawl
+CT_plus	Anheuser will join in the barroom brawl
+CT_plus	there is some barroom brawl
+CT_plus	it will get bloody
+CT_plus	the auction business is conducted in the second and fourth quarters
+CT_minus	Esselte AB owns the 22% of its U.S. unit described in the sentence
+CT_minus	the parent owns the shares
+CT_plus	profit suffered
+PR_plus	the restructuring will help
+PS_plus	the plan includes selling branches
+PR_plus	the Sunnyvale company will earn 35 cents a share for the quarter
+CT_plus	the competition from International Business Machines Corp. increased

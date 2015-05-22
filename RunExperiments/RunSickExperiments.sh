@@ -193,8 +193,9 @@ export MATLABCMD="cd quant; conCost = 5; lambda = 0.0005; dim = 50; ed = 200; td
 export MATLABCMD="cd quant; conCost = 5; lambda = 0.0005; dim = 50; ed = 200; td = 2; penult = 75; comp = 6; dropout = [0.75\, 0.75]; collo = 1; dataflag='dg-only-sst'; name='/scr/sbowman/updaterule4b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, comp\, dropout(1)\, dropout(2)\, collo\, 1\, conCost);" ; qsub -v MATLABCMD quant/run.sh -q john
 
 
-export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [0.9\, 0.9]; collo = 1; dataflag='sick-only'; name='transfer2'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [0.9\, 0.9]; collo = 1; dataflag='sick-only'; name='transfer2b'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [0.9\, 0.9]; collo = 1; dataflag='sick-only-transfer'; name='transfer2'; TrainModel('snlirc-snlirc2-only-l1e-07-dim50-ed200-td3-pen100-do0.9-0.9-co1-comp2-dp1/ckpt-best-tr150517185056@353375.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [0.9\, 0.9]; collo = 1; dataflag='sick-only-transfer'; name='transfer2ct'; TrainModel('snlirc-snlirc2-only-l1e-07-dim50-ed200-td3-pen100-do0.9-0.9-co1-comp2-dp1/ckpt-best-tr150517185056@353375.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
 
 
 cd quant; 

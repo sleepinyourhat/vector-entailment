@@ -10,22 +10,26 @@ We first evaluate on SICK (\citealt{marelli2014sick}), the smaller entailment co
 
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c}
 \hline
-\textbf{Corpus} & \multicolumn{2}{c}{\b{Train Acc.}} &\multicolumn{2}{c}{ \b{Test Acc.}} \\
- & \t{cold start} & \t{transfer} & \t{cold start} & \t{transfer}  \\
+\textbf{Corpus} & \multicolumn{2}{c}{\b{Train Acc.}} &\multicolumn{3}{c}{ \b{Test Acc.}} \\
+ & \t{cold start} & \t{transfer} & \t{cold start} & \t{transfer} & \t{SotA} \\
 \hline
-\t{SICK}            & \t{98} & \t{95} & \t{63?} & \t{69?}  \\
-\t{SUBJ}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
-\t{SST}          & \t{??.?} & \t{??.?} & \t{43?} & \t{43?} \\
-\t{FactBank?}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
+\t{SICK}            & \t{98} & \t{95} & \t{63?} & \t{69?} & \t{84.5} \\
+\t{SUBJ}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?}& \t{??.?} \\
+\t{SST}          & \t{??.?} & \t{??.?} & \t{43?} & \t{43?} & \t{50.6}\\
+\t{FactBank?}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?}& \t{??.?} \\
 \hline
 \end{tabular}
 \end{center}
-% The caption
+
 \caption{\label{tab:transferresults}
-The performance of an LSTM RNN classification model on four tasks under both a random initialization and an initialization copied from a model trained on SNLI.
-\todo{Fill in numbers.}}
+The performance of an LSTM RNN classification model on four tasks under both a random initialization and an initialization copied from a model trained on SNLI. \todo{Final numbers.}} 
+
 \end{table}
+..
+The final column shows the state of the art results from \cite{lai2014illinois}, TODO, and \cite{tai2015improved}, respectively
+...
+
 
 The results are shown in Table~\ref{tab:transferresults}. For each task, the transfer model is compared with a model that was initialized randomly as normal. Note that \todo{something interesting happens}. Our transfer model shows \todo{something about the state of the art on the tasks.}
