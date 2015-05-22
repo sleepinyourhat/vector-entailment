@@ -4,7 +4,7 @@ set xlabel "# Training Examples"
 set ylabel "3-Class Accuracy"
 set xrange [1:600000]
 set yrange [33.333:100]
-#set logscale x 10
+set logscale x 10
 
 set output 'learning_curves_bow.pdf'
 plot \

@@ -77,7 +77,7 @@ systems from the Excitement Open Platform.
 Results are reported for an edit-distance based algorithm, and a
   classifier-based system.
 For comparision, results are also reported on the RTE-3 dataset.
-\todo{numbers are approx.}
+\todo{numbers are still dev.}
 }
 \end{table}
 %
@@ -135,14 +135,14 @@ Our classifier implements 6 features:
 % The table
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceM}c}
 \hline
-\textbf{System} & \multicolumn{4}{c}{\b{2-Class}} & \b{3-Class} \\
- & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} & \t{Acc.} \\
+\textbf{System} & \b{Dev} & \multicolumn{4}{c}{\b{Test}} \\
+ & \t{Acc.} & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} \\
 \hline
-\t{Lexicalized}            & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & \t{77.3} \\
-\t{Unigrams Only}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
-\t{Unlexicalized}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} \\
+\t{Lexicalized}            & \t{??.?} & \t{79.4} & \t{82.3} & \t{80.9} & \t{78.2} \\
+\t{Unigrams Only}          & \t{??.?} & \t{71.1} & \t{77.7} & \t{74.3} & \t{71.6} \\
+\t{Unlexicalized}          & \t{??.?} & \t{56.0} & \t{64.4} & \t{59.9} & \t{50.39} \\
 \hline
 \end{tabular}
 \end{center}
@@ -153,7 +153,7 @@ Accuracy on the 2-class and 3-class SNLI dataset, as well as precision/recall
   on the 2-class task to allow for comparision with the RTE systems.
 Ablation studies are reported for removing bigram features and all lexical
   features.
-\todo{numbers are approx.}
+\todo{fill in dev numbers}
 }
 \end{table}
 %
@@ -163,7 +163,8 @@ Ablation studies are reported for removing bigram features and all lexical
 % Commenting out until PDF available. -S
 % Running 'make' should generate PDF from gnuplot
 \Fig{learning_curves_bow.pdf}{0.6}{bowlearncurve}{
-A learning curve for the lexicalized and unlexicalized baseline classifiers.
+A learning curve for the lexicalized and unlexicalized baseline classifiers,
+plotted on a log scale.
 Note the y axis starting at a random-chance accuracy of 33\%.
 \todo{numbers are approx.}
 }
