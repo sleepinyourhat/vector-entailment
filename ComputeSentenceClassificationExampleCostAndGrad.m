@@ -53,6 +53,11 @@ dataPoint.sentence.updateFeatures(wordFeatures, compositionMatrices, ...
 [ features, mask ] = Dropout(dataPoint.sentence.getFeatures(), hyperParams.topDropout, computeGradient, hyperParams.gpu);
        
 % Run layers forward
+if hyperParams.penultDim == 2 * hyperParams.dim
+    % Hack for transfer learning: pad with zeros.
+    features = [features; zeros(size(features), 'like', features)];
+end
+
 extraInputs = zeros(hyperParams.penultDim, 1, hyperParams.topDepth);
 extraInnerOutputs = zeros(hyperParams.penultDim, 1, hyperParams.topDepth - 1);
 extraInputs(:, 1, 1) = features;

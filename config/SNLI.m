@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc)
+function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, lstminit)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,9 +9,11 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), ...
-    '-dp', num2str(dp), '-gc', num2str(gc)];
+    '-dp', num2str(dp), '-gc', num2str(gc),  '-lstminit', num2str(lstminit)];
 
 hyperParams.parensInSequences = 0;
+
+hyperParams.LSTMinitType = lstminit;
 
 hyperParams.dataPortion = dp;
 
@@ -47,8 +49,9 @@ hyperParams.penultDim = penult;
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
 
-if gc
+if gc > 0
     hyperParams.clipGradients = true;
+    hyperParams.maxGradNorm = gc;
 end
 
 % TODO:
@@ -68,7 +71,7 @@ hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
 
-if findstr(dataflag, 'snli095-sick')
+if strcmp(dataflag, 'snli095-sick')
     wordMap = LoadWordMap('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
@@ -90,7 +93,7 @@ if findstr(dataflag, 'snli095-sick')
     hyperParams.testLabelIndices = [2, 1];
     hyperParams.trainingMultipliers = [1; mult];
 
-elseif findstr(dataflag, 'snli095-only')
+elseif strcmp(dataflag, 'snli095-only')
     wordMap = LoadWordMap('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
@@ -108,7 +111,7 @@ elseif findstr(dataflag, 'snli095-only')
     hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
-elseif findstr(dataflag, 'snlirc2-only')
+elseif strcmp(dataflag, 'snlirc2-only')
     wordMap = LoadWordMap('../data/snlirc2_words.txt');
     hyperParams.vocabName = 'src2'; 
 
@@ -126,7 +129,43 @@ elseif findstr(dataflag, 'snlirc2-only')
     hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
-elseif findstr(dataflag, 'snli095short-only')
+elseif strcmp(dataflag, 'snlirc3-only')
+    wordMap = LoadWordMap('../data/snlirc3_words.txt');
+    hyperParams.vocabName = 'src3'; 
+
+    hyperParams.numLabels = [3];
+
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    hyperParams.trainFilenames = {'../data/snli_1.0rc3_train.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'../data/snli_1.0rc3_dev.txt', '../data/snli_1.0rc3_test.txt'};
+
+    hyperParams.labelIndices = [1, 1; 1, 1; 1, 1];
+    hyperParams.testLabelIndices = [1, 1];
+    hyperParams.trainingMultipliers = [1];
+
+elseif strcmp(dataflag, 'snlirc3-only-short')
+    wordMap = LoadWordMap('../data/snlirc3_words.txt');
+    hyperParams.vocabName = 'src3'; 
+
+    hyperParams.numLabels = [3];
+
+    hyperParams.labels = {{'entailment', 'contradiction', 'neutral'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    hyperParams.trainFilenames = {'../data/snli_1.0rc3_train_firsttenth.txt'};    
+    hyperParams.splitFilenames = {};    
+    hyperParams.testFilenames = {'../data/snli_1.0rc3_dev.txt', '../data/snli_1.0rc3_test.txt'};
+
+    hyperParams.labelIndices = [1, 1; 1, 1; 1, 1];
+    hyperParams.testLabelIndices = [1, 1];
+    hyperParams.trainingMultipliers = [1];
+
+elseif strcmp(dataflag, 'snli095short-only')
     wordMap = LoadWordMap('./sick-data/sick-snli0.95_words.txt');
     hyperParams.vocabName = 'ss095'; 
 
@@ -144,7 +183,7 @@ elseif findstr(dataflag, 'snli095short-only')
     hyperParams.testLabelIndices = [1];
     hyperParams.trainingMultipliers = [1];
 
-elseif findstr(dataflag, 'dg-pre')
+elseif strcmp(dataflag, 'dg-pre')
     hyperParams.numLabels = [3, 3, 2];
 
     hyperParams.labels = {{'entailment', 'contradiction', 'neutral'},

@@ -42,6 +42,12 @@ end
 
 extraClassifierLayerInputs = fZeros([hyperParams.penultDim, B, hyperParams.topDepth], hyperParams.gpu);
 extraClassifierLayerInnerOutputs = fZeros([hyperParams.penultDim, B, hyperParams.topDepth - 1], hyperParams.gpu);
+
+if hyperParams.penultDim == 2 * hyperParams.dim
+    % Hack for transfer learning: pad with zeros.
+    features = [features; zeros(size(features), 'like', features)];
+end
+
 extraClassifierLayerInputs(:, :, 1) = features;
 for layer = 1:(hyperParams.topDepth - 1) 
     extraClassifierLayerInnerOutputs(:, :, layer) = classifierExtraMatrix(:, :, layer) * ...

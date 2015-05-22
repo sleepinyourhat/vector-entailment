@@ -18,7 +18,7 @@ if collo == 1
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
 elseif collo == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
-    assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
+    assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in 50d.'); 
 elseif collo == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 end
@@ -53,9 +53,6 @@ hyperParams = CompositionSetup(hyperParams, composition);
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
-wordMap = LoadWordMap('../data/subj_words.txt');
-hyperParams.vocabName = 'subj'; 
-
 hyperParams.numLabels = [ 7 ];
 
 hyperParams.labels = {{'CT_plus', 'CT_minus', 'PR_plus', 'PR_minus', 'PS_plus', 'PS_minus', 'Uu'}};
@@ -65,5 +62,15 @@ labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{
 hyperParams.trainFilenames = {'pragbank-data/train.txt'};    
 hyperParams.splitFilenames = {};    
 hyperParams.testFilenames = {'pragbank-data/test.txt'};
+
+
+if strcmp(dataflag, 'pragbank')
+	wordMap = LoadWordMap('pragbank-data/pragbank_words.txt');
+	hyperParams.vocabName = 'subj'; 
+elseif strcmp(dataflag, 'pragbank-transfer')
+	wordMap = LoadWordMap('pragbank-data/pragbank-snlirc2-transfer_words.txt');
+	hyperParams.vocabName = 'subj';
+	hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
+end
 
 end
