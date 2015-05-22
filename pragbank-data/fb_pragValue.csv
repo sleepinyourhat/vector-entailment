@@ -1,0 +1,773 @@
+file,sentId,eId,eiId,split,eText,relSourceText,normalization,CT_plus,CT_minus,PR_plus,PR_minus,PS_plus,PS_minus,Uu
+ABC19980108.1830.0711.tml,2,e4,ei378,train,helping,READER,the financial assistance from the World Bank and the International Monetary Fund are helping,0,9,0,1,0,0,0
+ABC19980108.1830.0711.tml,15,e30,ei398,train,break,READER,Wong Kwan will break even,0,0,0,5,0,1,4
+ABC19980108.1830.0711.tml,18,e34,ei401,train,find,READER,Pak can find buyers,0,9,0,0,0,0,1
+ABC19980108.1830.0711.tml,21,e41,ei407,train,believe,READER,someone believes this,0,9,1,0,0,0,0
+ABC19980108.1830.0711.tml,23,e46,ei412,train,spending,READER,people are spending in Asia,0,7,0,1,0,0,2
+ABC19980108.1830.0711.tml,29,e54,ei419,train,layoffs,READER,there will be layoffs,1,0,3,0,6,0,0
+ABC19980114.1830.0611.tml,4,e236,ei277,train,hint,READER,there was no hint of trouble in the last conversation,10,0,0,0,0,0,0
+ABC19980114.1830.0611.tml,12,e61,ei267,train,response,READER,there is a response,2,8,0,0,0,0,0
+ABC19980114.1830.0611.tml,16,e235,ei275,train,contact,READER,controllers could contact the plane,0,10,0,0,0,0,0
+ABC19980120.1830.0957.tml,10,e99,ei432,train,tolerate,READER,the United States tolerates totalitarian rule,0,8,0,2,0,0,0
+ABC19980120.1830.0957.tml,12,e100,ei438,train,able,READER,"Castro will be able to say to the rest of the world, this government is not as closed, as intolerant, as totalitarian as some make it out to be",5,0,2,0,0,0,3
+ABC19980120.1830.0957.tml,13,e107,ei446,train,relationship,READER,there will be a more productive relationship between Cuba and the world,0,0,0,0,8,0,2
+ABC19980120.1830.0957.tml,15,e52,ei450,train,battle,READER,there will be a battle,0,1,0,7,0,0,2
+ABC19980120.1830.0957.tml,15,e53,ei451,train,disappointed,READER,the observers will be disappointed,0,0,9,0,1,0,0
+ABC19980120.1830.0957.tml,19,e64,ei459,train,persuade,READER,the Pope's visit will persuade a great many more Cubans to break loose of the Cuban government,0,0,0,1,9,0,0
+ABC19980120.1830.0957.tml,19,e66,ei460,train,break,READER,many more Cubans will break loose of the Cuban government,1,0,0,0,5,0,4
+ABC19980304.1830.1636.tml,7,e254,ei289,train,in,READER,a woman had been in charge,1,9,0,0,0,0,0
+ABC19980304.1830.1636.tml,15,e24,ei280,train,hurried,READER,someone hurried her up,2,8,0,0,0,0,0
+ABC19980304.1830.1636.tml,16,e25,ei281,train,held,READER,someone held her back,1,9,0,0,0,0,0
+AP900815-0044.tml,3,e10,ei1524,train,release,READER,Saddam Hussein will release soldiers captured during the Iran-Iraq war,1,0,4,0,3,0,2
+AP900815-0044.tml,9,e43,ei1547,train,suggest,READER,Bush suggested that American forces could be in the gulf region for some time,1,0,6,0,2,0,1
+AP900815-0044.tml,12,e61,ei1558,train,read,READER,a letter was read,10,0,0,0,0,0,0
+AP900815-0044.tml,14,e75,ei1569,train,accept,READER,Saddam accepted a border demarcation treaty,2,0,2,0,6,0,0
+AP900815-0044.tml,15,e84,ei1577,train,aimed,READER,the move aimed at heading off more trouble with Iran,3,0,4,0,2,0,1
+AP900815-0044.tml,18,e100,ei1592,train,urging,READER,Dick Cheney is urging Bush to order a national callup of armed forces reserves for active duty,0,1,2,0,5,0,2
+AP900815-0044.tml,18,e101,ei1593,train,order,READER,Bush will order a national callup of armed forces reserves for active duty,0,0,0,0,6,0,4
+AP900815-0044.tml,18,e103,ei1595,train,duty,READER,there will be active duty,1,0,0,0,5,0,4
+AP900815-0044.tml,19,e107,ei1598,train,call,READER,"Bush will call up to 200,000 reservists",0,0,0,0,3,0,7
+AP900815-0044.tml,19,e110,ei1599,train,seeking,READER,Bush will seek congressional approval,0,2,0,0,0,0,8
+AP900815-0044.tml,30,e158,ei1639,train,identified,READER,the spokesman was identified,1,9,0,0,0,0,0
+AP900815-0044.tml,40,e198,ei1667,train,disclosed,READER,the size of the contingent was disclosed,0,10,0,0,0,0,0
+AP900815-0044.tml,46,e220,ei1683,train,discuss,READER,he discussed the details,0,10,0,0,0,0,0
+AP900815-0044.tml,47,e233,ei1692,train,conference,READER,there will be an international conference,1,0,3,0,2,0,4
+AP900815-0044.tml,51,e255,ei1711,train,blockade,READER,there will be an anti-Iraq naval blockade,2,0,2,0,2,0,4
+AP900815-0044.tml,59,e285,ei1734,train,committed,READER,"at least 50,000 U.S. troops will be committed to Desert Shield within weeks",1,0,9,0,0,0,0
+AP900816-0139.tml,6,e27,ei1554,train,entry,READER,there is entry of foodstuffs,0,10,0,0,0,0,0
+AP900816-0139.tml,13,e44,ei1577,train,protect,READER,the roundup protects Iraq,3,0,3,0,2,0,2
+AP900816-0139.tml,19,e233,ei1588,train,expansionism,READER,there is Iraqi expansionism,0,0,2,0,3,0,5
+AP900816-0139.tml,35,e255,ei1644,train,firing,READER,there will be firing,1,0,0,0,7,0,2
+AP900816-0139.tml,36,e103,ei1647,train,engaged,READER,U.S. Air Force fliers have engaged in ``a little cat and mouse'' with Iraqi warplanes,9,0,0,0,1,0,0
+AP900816-0139.tml,36,e104,ei1648,train,retreated,READER,Iraqi warplanes retreated when weapons radar locks onto them,9,0,0,1,0,0,0
+AP900816-0139.tml,37,e107,ei1650,train,want,READER,they want to play,0,9,0,0,0,0,1
+AP900816-0139.tml,39,e115,ei1656,train,say,READER,he said if the weapons included missiles,0,8,1,0,0,0,1
+AP900816-0139.tml,59,e171,ei1709,train,decision,READER,there was a decision,0,10,0,0,0,0,0
+AP900816-0139.tml,66,e194,ei1733,train,confirmation,READER,there was an independent confirmation of the report by the government-run news agency,0,10,0,0,0,0,0
+AP900816-0139.tml,66,e195,ei1736,train,say,READER,the government-run news agency said when the reported attempt occurred,0,10,0,0,0,0,0
+APW19980213.1320.tml,5,e29,ei327,train,services,READER,"there is a number of services</strong> between Australia, Indonesia, Thailand and Malaysia",2,2,0,1,0,0,5
+APW19980213.1320.tml,6,e31,ei330,train,flights,READER,there are flights to South Korea,1,7,1,0,1,0,0
+APW19980213.1380.tml,7,e162,ei320,train,ransom,READER,the kidnappaers got a ransom of dlrs 1 million,0,4,0,1,0,1,4
+APW19980213.1380.tml,8,e15,ei323,train,gave,READER,police gave details,0,10,0,0,0,0,0
+APW19980213.1380.tml,11,e23,ei332,train,targeted,READER,people are targeted by kidnappers,1,0,0,0,7,0,2
+APW19980213.1380.tml,13,e54,ei340,train,common,READER,kidnappings has been common in this U.S. commonwealth,0,9,0,1,0,0,0
+APW19980219.0476.tml,6,e7,ei2460,train,killed,READER,a British mine removal expert got killed by Khmer Rouge guerrillas almost two years ago,3,0,5,0,1,0,1
+APW19980219.0476.tml,15,e42,ei2489,train,continue,READER,the speaker and his people will continue to do everything they can,7,0,1,0,2,0,0
+APW19980219.0476.tml,19,e83,ei2513,train,sent,READER,the remains will be sent across the border into Thailand and onward to Bangkok,4,0,4,0,2,0,0
+APW19980227.0468.tml,5,e1,ei104,train,allocated,READER,the mayor of Moscow allocated funds to help build a museum in honor of Mikhail Kalashnikov,10,0,0,0,0,0,0
+APW19980227.0476.tml,6,e4,ei2096,train,blowing,READER,the two Libyans blew up a Pan Am jumbo jet over Scotland in 1988,0,0,6,0,3,0,1
+APW19980227.0476.tml,6,e1997,ei2094,train,trial,READER,the trial of the two Libyans suspected of blowing up a Pan Am jumbo jet over Scotland in 1988 happened,0,10,0,0,0,0,0
+APW19980227.0476.tml,7,e10,ei2102,train,press,READER,it will press anew for a trial in a third neutral country,5,0,5,0,0,0,0
+APW19980227.0487.tml,11,e44,ei426,train,serious,READER,Amir was serious,0,0,0,2,0,1,7
+APW19980227.0489.tml,8,e19,ei2071,train,look,READER,the panel also will look at the exodus,7,0,3,0,0,0,0
+APW19980227.0494.tml,5,e3,ei2308,train,resolved,READER,Presidents Leonid Kuchma and Boris Yeltsin resolved even more nagging problems,4,0,3,0,3,0,0
+APW19980227.0494.tml,16,e61,ei2338,train,saying,READER,"Yeltsin and Kuchma said it would create a ``strong legal foundation""",10,0,0,0,0,0,0
+APW19980227.0494.tml,24,e101,ei2362,train,doubling,READER,a 10-year economic program will double the two nations' trade turnover,2,0,1,0,7,0,0
+APW19980227.0494.tml,25,e107,ei2366,train,cooperation,READER,"there will be cooperation in the metallurgy, fuel, energy, aircraft building, missile, space and chemical industries",4,0,2,0,2,0,2
+APW19980227.0494.tml,26,e111,ei2367,train,manufacturing,READER,An-70 cargo planes will be manufactured,7,0,2,0,0,0,1
+APW19980227.0494.tml,27,e114,ei2370,train,coordination,READER,there will be coordination of economic reforms and joint improvement of social programs in the two countries,0,0,2,0,1,0,7
+APW19980227.0494.tml,28,e125,ei2376,train,discuss,READER,Kuchma discussed Ukraine's debt,1,0,7,0,0,0,2
+APW19980301.0720.tml,5,e3,ei2000,train,wants,READER,Israel wants to withdraw from southern Lebanon,3,0,5,0,2,0,0
+APW19980301.0720.tml,6,e10,ei2006,train,withdraw,READER,Israel will withdraw from southern Lebanon,0,0,1,0,5,0,4
+APW19980301.0720.tml,7,e14,ei2008,train,cooperate,READER,the Lebanese government will cooperate,1,0,0,0,2,0,7
+APW19980301.0720.tml,12,e43,ei2029,train,stay,READER,no-one wants to stay in Lebanon,6,0,0,0,4,0,0
+APW19980301.0720.tml,13,e44,ei2030,train,think,READER,the speaker and his people think it's better to withdraw,9,0,0,0,0,0,1
+APW19980301.0720.tml,17,e61,ei2041,train,faced,READER,the Israeli government has been faced with a growing grassroots movement,10,0,0,0,0,0,0
+APW19980301.0720.tml,22,e84,ei2059,train,talks,READER,there are peace talks between the two countries,0,5,0,0,2,0,3
+APW19980301.0720.tml,25,e100,ei2072,train,talks,READER,there are Israel-Syrian talks,4,5,0,0,0,0,1
+APW19980301.0720.tml,26,e109,ei2078,train,withdraw,READER,Defense Minister Yitzhak Mordechai withdrew troops in exchange for guarantees that Israel would not be attacked,1,3,1,0,0,0,5
+APW19980306.1001.tml,8,e10,ei1239,train,inspected,READER,All sites were inspected to the satisfaction of the inspection team,10,0,0,0,0,0,0
+APW19980306.1001.tml,12,e27,ei1250,train,last,READER, the tour will last over a week,0,0,10,0,0,0,0
+APW19980306.1001.tml,13,e33,ei1255,train,providing,READER,the Baghdad government provided Ritter's team with escorts,2,8,0,0,0,0,0
+APW19980306.1001.tml,13,e37,ei1257,train,enter,READER,Ritter's team could enter the sites,1,9,0,0,0,0,0
+APW19980306.1001.tml,15,e42,ei1259,train,mention,READER,the official Iraqi News Agency mentioned Ritter by name,0,10,0,0,0,0,0
+APW19980306.1001.tml,26,e98,ei1295,train,expected,READER,Palace inspections are expected to start before the new agreement's procedures are in place,0,7,1,2,0,0,0
+APW19980306.1001.tml,29,e114,ei1303,train,lift,READER,the Security Council will lift the sweeping sanctions imposed on Iraq,0,3,0,3,1,3,0
+APW19980308.0201.tml,5,e49,ei198,train,reaching,READER,the crowd reached the Yugoslavian consulate,0,10,0,0,0,0,0
+APW19980322.0749.tml,9,e15,ei2036,train,attempt,READER,there is a latest attempt by extremists to undermine the peace process,3,0,4,0,3,0,0
+APW19980322.0749.tml,12,e36,ei2047,train,carried,READER,the Mitsubishi truck carried the bomb,1,6,1,0,2,0,0
+APW19980322.0749.tml,13,e42,ei2050,train,conclude,READER,the multi-party talks will conclude by May,0,0,10,0,0,0,0
+APW19980322.0749.tml,27,e100,ei2094,train,interfering,READER,a few hundred Protestants interfered with the Catholics,2,8,0,0,0,0,0
+APW19980322.0749.tml,29,e105,ei2098,train,hit,READER,an unmarked police car was hit with gasoline bombs from the Protestant side,8,0,1,0,1,0,0
+APW19980501.0480.tml,10,e48,ei266,train,initiatives,READER,there will be electronic commerce initiatives in the country,3,0,3,0,1,0,3
+APW19980501.0480.tml,17,e101,ei292,train,address,READER,the trust levels that enterprises have with each other will be addressed,2,1,3,0,1,0,3
+APW19981205.0374.tml,6,e1,ei1,test,participate,READER,"Poland, Hungary and the Czech Republic will participate in NATO strategy planning",0,0,2,0,3,0,5
+APW19981205.0374.tml,8,e10,ei12,test,join,READER,the three will join,1,0,7,0,2,0,0
+APW19990122.0193.tml,4,e2,ei2,test,found,READER,a strand of hair was found near where a sniper shot and killed a doctor,9,1,0,0,0,0,0
+APW19990122.0193.tml,5,e8,ei8,test,came,READER,the hair came from the same person,0,0,10,0,0,0,0
+APW19990122.0193.tml,6,e12,ei12,test,exclude,READER,the first DNA tests excluded a match between the two strands,0,9,0,1,0,0,0
+APW19990122.0193.tml,14,e44,ei44,test,fired,READER,the sniper fired the rifle bullet that killed Slepian near the location where the cap was found,0,0,6,0,3,0,1
+APW19990122.0193.tml,16,e54,ei54,test,visit,READER,Louis Freeh went on an official visit to Mexico,10,0,0,0,0,0,0
+APW19990122.0193.tml,17,e61,ei61,test,shooting,READER,there was a shooting,10,0,0,0,0,0,0
+APW19990122.0193.tml,17,e63,ei63,test,leading,READER,a trail of credit card receipts leads to Mexico,10,0,0,0,0,0,0
+APW19990122.0193.tml,19,e70,ei70,test,spotted,READER,Kopp's car was spotted in Amherst in the weeks before Slepian was killed,9,0,1,0,0,0,0
+APW19990206.0090.tml,5,e8,ei8,test,was,READER,Horsley's ÒNuremburg FilesÓ was the focus of a federal court trial that lead to a $107 million verdict,10,0,0,0,0,0,0
+APW19990206.0090.tml,6,e12,ei12,test,was,READER,Horsley was a defendant in the suit,0,10,0,0,0,0,0
+APW19990206.0090.tml,16,e37,ei37,test,searching,READER,they are searching for a bolder provider to host the files,9,0,1,0,0,0,0
+APW19990312.0251.tml,4,e3,ei3,test,shedding,READER,"Poland, Hungary and the Czech Republic shed their military ties to the Soviet Union",10,0,0,0,0,0,0
+APW19990312.0251.tml,5,e4,ei4,test,accepted,READER,Secretary of State Madeleine Albright accepted admission papers from the three countries' foreign ministers,9,0,0,0,0,0,1
+APW19990312.0251.tml,12,e21,ei21,test,working,READER,Jan Kavan was working in nearby Kansas City with the underground in 1968,8,0,1,1,0,0,0
+APW19990312.0251.tml,22,e37,ei37,test,dominate,READER,the issue will dominate a NATO summit,0,0,9,0,0,0,1
+APW19990312.0251.tml,22,e38,ei38,test,summit,READER,there will be a NATO summit,9,0,1,0,0,0,0
+APW19990312.0251.tml,28,e55,ei55,test,enhance,READER,the three new members enhance NATO's ability to fulfill its core mission,9,0,1,0,0,0,0
+APW19990312.0251.tml,30,e64,ei64,test,helps,READER,extending membership to these three democracies helps stabilize a region,6,1,2,0,0,0,1
+APW19990410.0123.tml,4,e2,ei2,test,yield,READER,a rifle found near the home of a slain abortion doctor yielded clues,0,0,3,0,6,0,1
+APW19990410.0123.tml,9,e19,ei19,test,said,READER,Rowe said that the rifle might also have clothing fibers,7,0,0,0,3,0,0
+APW19990410.0123.tml,11,e23,ei23,test,say,READER,investigators said how close the weapon was to the house,0,10,0,0,0,0,0
+APW19990410.0123.tml,15,e37,ei37,test,came,READER,a strand of hair behind Slepian's home came from Kopp,3,0,5,0,2,0,0
+APW19990506.0155.tml,4,e4,ei4,test,slaying,READER,a doctor was slain,10,0,0,0,0,0,0
+APW19990506.0155.tml,7,e12,ei12,test,responsible,READER,James Kopp is responsible for the death of Dr. Barnett Slepian,1,0,7,0,2,0,0
+APW19990506.0155.tml,17,e33,ei33,test,divulge,READER,investigators divulged the evidence against Kopp,0,10,0,0,0,0,0
+APW19990506.0155.tml,23,e68,ei68,test,contact,READER,Kopp will contact a priest,0,0,0,0,0,1,9
+APW19990506.0155.tml,23,e71,ei71,test,did,READER,Kopp did something,1,0,0,0,2,0,7
+APW19990507.0207.tml,14,e26,ei26,test,called,READER,they had called Kopp a suspect,2,5,0,0,2,0,1
+APW19990507.0207.tml,15,e29,ei29,test,said,READER,investigators said a discovery of a rifle represented a major breakthrough,10,0,0,0,0,0,0
+APW19990507.0207.tml,17,e35,ei35,test,linked,READER,Kopp also has been linked to a strand of hair found near where the sniper fired,10,0,0,0,0,0,0
+APW19990507.0207.tml,17,e37,ei37,test,fired,READER, the sniper fired,10,0,0,0,0,0,0
+APW19990607.0041.tml,8,e16,ei16,test,arrest,READER,Kopp has been arrested,0,8,0,0,0,0,2
+APW19990607.0041.tml,10,e27,ei27,test,have,READER,Bin Laden and Kopp have one thing in common,9,0,1,0,0,0,0
+APW19990607.0041.tml,13,e39,ei39,test,unknown,READER,it is unknown whether Kopp crossed into Mexico,10,0,0,0,0,0,0
+APW19990607.0041.tml,15,e49,ei49,test,placing,READER,Bin Laden is placed on the most-wanted list,7,0,1,0,0,0,2
+APW19990607.0041.tml,16,e54,ei54,test,receive,READER,the FBI receives threats from individuals with ties to Bin Laden,10,0,0,0,0,0,0
+APW19990607.0041.tml,21,e67,ei67,test,are,READER,Bin Laden and Kopp are the 455th and 456th persons to be placed on the FBI's most wanted list,10,0,0,0,0,0,0
+APW19990607.0041.tml,24,e77,ei77,test,apprehended,READER,another eight suspects have been apprehended,0,8,0,1,0,0,1
+APW19990607.0041.tml,31,e94,ei94,test,has,READER,he has felony convictions,0,10,0,0,0,0,0
+APW19991024.0075.tml,11,e20,ei20,test,service,READER,there was a memorial service,0,10,0,0,0,0,0
+APW19991024.0075.tml,15,e34,ei34,test,know,READER,the police know where Kopp is,0,10,0,0,0,0,0
+APW19991024.0075.tml,19,e41,ei41,test,service,READER,there was a service,9,0,1,0,0,0,0
+APW19991024.0075.tml,20,e52,ei52,test,operations,READER,Emily Lyons has undergone a number of operations since the clinic bombing,10,0,0,0,0,0,0
+APW20000124.0182.tml,7,e16,ei16,test,say,READER,police Inspector Dave Bowen says that someone is wanted for attempted murder,9,0,0,0,0,0,1
+CNN19980126.1600.1104.tml,7,e46,ei269,train,intense,READER,it's fairly intense for AT and T and the people here,4,0,4,0,1,0,1
+CNN19980213.2130.0155.tml,3,e10,ei581,train,expect,READER,Saddam Hussein expects punishing air strikes to continue well into the future,1,0,3,0,4,0,2
+CNN19980213.2130.0155.tml,6,e40,ei601,train,authorized,READER,the united states is authorized to use force before going to the council,0,10,0,0,0,0,0
+CNN19980213.2130.0155.tml,7,e50,ei608,train,harm,READER,there will be serious harm to relations with the Kremlin,1,0,1,0,8,0,0
+CNN19980213.2130.0155.tml,7,e118,ei607,train,do,READER,US air strikes against Iraq will do serious harm to relations with the Kremlin,1,0,1,0,8,0,0
+CNN19980213.2130.0155.tml,10,e61,ei618,train,arrived,READER,the president arrived in Philadelphia,10,0,0,0,0,0,0
+CNN19980213.2130.0155.tml,13,e141,ei631,train,planned,READER,Annan planned a trip,0,9,0,1,0,0,0
+CNN19980222.1130.0084.tml,2,e1,ei156,train,appears,READER,diplomacy appears to be making headway in resolving the united nation's standoff with Iraq,7,0,1,0,2,0,0
+CNN19980222.1130.0084.tml,2,e2,ei157,train,making,READER,diplomacy is making headway in resolving the united nation's standoff with Iraq,0,0,7,0,3,0,0
+CNN19980222.1130.0084.tml,2,e4,ei158,train,resolving,READER,diplomacy is resolving the united nation's standoff with Iraq,0,0,5,0,5,0,0
+CNN19980222.1130.0084.tml,5,e73,ei167,train,meet,READER,he will meet with Iraqi deputy prime minister Tariq Aziz,3,0,6,0,1,0,0
+CNN19980223.1130.0960.tml,1,e26,ei148,train,conflict,READER,there will be a military conflict with Iraq,0,0,2,0,7,0,1
+CNN19980223.1130.0960.tml,2,e28,ei151,train,solution,READER,there is a diplomatic solution to the crisis,0,0,8,0,1,0,1
+CNN19980223.1130.0960.tml,2,e32,ei153,train,hand,READER,a diplomatic solution to the crisis is at hand,1,0,8,0,1,0,0
+CNN19980223.1130.0960.tml,2,e33,ei155,train,fall,READER,oil prices will fall further,2,0,7,0,0,0,1
+CNN19980223.1130.0960.tml,4,e13,ei162,train,increase,READER,the momentum will increase,0,0,7,0,3,0,0
+CNN19980227.2130.0067.tml,2,e8,ei2001,train,related,READER,a series of bombings in Atalanta and last month's explosion at an Alabama women's clinic are related,0,0,2,0,8,0,0
+CNN19980227.2130.0067.tml,16,e36,ei2017,train,match,READER,the plates match those found at the abortion clinic bombing in Atlanta,3,0,4,0,3,0,0
+CNN19980227.2130.0067.tml,17,e42,ei2020,train,come,READER,the plates came from a machine shop in north Carolina,0,0,1,0,9,0,0
+CNN19980227.2130.0067.tml,19,e102,ei2027,train,extraordinary,READER,it would be extraordinary,7,0,0,2,1,0,0
+CNN19980227.2130.0067.tml,19,e104,ei2029,train,connection,READER,there is a connection,0,0,7,1,2,0,0
+CNN19980227.2130.0067.tml,22,e61,ei2035,train,attack,READER,there was an attack on a gay lounge,10,0,0,0,0,0,0
+CNN19980227.2130.0067.tml,25,e72,ei2043,train,suspect,READER,officials suspect a link between all the bombings,6,0,4,0,0,0,0
+CNN19980227.2130.0067.tml,25,e110,ei2044,train,link,READER,there is a link between all the bombings,0,0,5,0,5,0,0
+CNN19980227.2130.0067.tml,27,e80,ei2051,train,assertion,READER,there are sweeping assertions,0,9,0,0,0,0,1
+NYT19980206.0460.tml,8,e1,ei2184,train,created,READER,the economy created jobs at a surprisingly robust pace in January,10,0,0,0,0,0,0
+NYT19980206.0460.tml,9,e10,ei2191,train,added,READER,"the economy added 358,000 jobs last month",10,0,0,0,0,0,0
+NYT19980206.0460.tml,15,e32,ei2206,train,raise,READER,concerns are raised,0,6,1,2,0,0,1
+NYT19980206.0460.tml,21,e61,ei2224,train,counterbalanced,READER,potential inflation is counterbalanced by worries,7,0,1,0,1,0,1
+NYT19980206.0460.tml,21,e246,ei2225,train,declines,READER,there will be price declines,0,0,0,0,8,0,2
+NYT19980206.0460.tml,29,e107,ei2251,train,move,READER,the federal budget will soon move from deficit into surplus,1,0,5,0,4,0,0
+NYT19980206.0460.tml,37,e162,ei2270,train,lead,READER,the situation will lead to a surge of inexpensive imports into the United States,1,0,8,0,1,0,0
+NYT19980206.0460.tml,37,e163,ei2271,train,surge,READER,there will be a surge of inexpensive imports into the United States,1,0,6,0,2,0,1
+NYT19980206.0460.tml,37,e164,ei2272,train,hurting,READER,a surge of inexpensive imports into the United States will hurt American competitors,2,0,7,0,0,0,1
+NYT19980206.0460.tml,38,e166,ei2274,train,lead,READER,the weakness of the Asian economies will lead to decreased demand for American exports,1,0,6,0,3,0,0
+NYT19980206.0460.tml,38,e167,ei2275,train,demand,READER,there will be a decreased demand for American exports,0,0,7,0,2,0,1
+NYT19980212.0019.tml,4,e1,ei210,train,watching,READER,The woman was watching her clothes dry in a laundromat,10,0,0,0,0,0,0
+NYT19980212.0019.tml,5,e10,ei217,train,waiting,READER,the victim was waiting for her clothes to dry,10,0,0,0,0,0,0
+NYT19980402.0453.tml,4,e1,ei2217,train,began,READER,a new Essex County task force began delving Thursday into the slayings of 14 black women over the last five years in the Newark area,10,0,0,0,0,0,0
+NYT19980402.0453.tml,5,e10,ei2227,train,find,READER,the police and prosecutors found a pattern linking the killings,0,10,0,0,0,0,0
+NYT19980402.0453.tml,5,e51,ei2230,train,prostitutes,READER,several of the victims were prostitutes,1,0,7,0,1,0,1
+NYT19980402.0453.tml,10,e30,ei2252,train,indicate,READER,these different methods of killing and other evidence indicate that the eight cases are not related,2,0,8,0,0,0,0
+NYT19980402.0453.tml,10,e31,ei2254,train,related,READER,the eight cases are related,0,5,0,5,0,0,0
+NYT19980402.0453.tml,11,e34,ei2258,train,draw,READER,officials drew firm conclusions,0,10,0,0,0,0,0
+NYT19980402.0453.tml,12,e36,ei2260,train,arrests,READER,there have been arrests in the slayings,0,10,0,0,0,0,0
+NYT19980424.0421.tml,10,e43,ei2131,train,agree,READER,Justices Sandra Day O'Connor and Anthony Kennedy agree that the law amounted to unconstitutional sex discrimination,1,0,8,0,0,0,1
+NYT19980424.0421.tml,10,e44,ei2132,train,amounted,READER,the law amounted to unconstitutional sex discrimination,3,0,4,0,2,0,1
+NYT19980424.0421.tml,11,e45,ei2133,train,providing,READER,they provided the votes to strike it down,0,10,0,0,0,0,0
+NYT19980424.0421.tml,11,e46,ei2134,train,strike,READER,they striked it down,0,10,0,0,0,0,0
+NYT19980424.0421.tml,12,e54,ei2140,train,cover,READER,the Justice Department covered itself with glory,0,9,0,1,0,0,0
+NYT19981025.0188.tml,11,e15,ei15,test,stop,READER,a principled commitment stopped the assassin's bullet,0,10,0,0,0,0,0
+NYT19981025.0188.tml,17,e33,ei33,test,wounded,READER,a clinic bombing wounded a nurse,10,0,0,0,0,0,0
+NYT19981025.0188.tml,20,e40,ei40,test,make,READER,all arson and bombings at clinics still make the national news,1,9,0,0,0,0,0
+NYT19981025.0188.tml,21,e42,ei42,test,working,READER,conservatives are working to dismantle reproductive rights,9,0,0,0,0,0,1
+NYT19981025.0188.tml,21,e43,ei43,test,dismantle,READER,conservatives in Congress and in state legislatures will dismantle reproductive rights,0,0,1,0,5,0,4
+NYT19981025.0188.tml,24,e66,ei66,test,warranted,READER,strong condemnations are warranted,3,0,1,1,2,0,3
+NYT19981025.0188.tml,25,e71,ei71,test,working,READER,doctors are working,3,0,0,0,0,0,7
+NYT19981025.0188.tml,28,e83,ei83,test,have,READER,more than 80 percent of counties in this country have an abortion provider,0,10,0,0,0,0,0
+NYT19981025.0216.tml,5,e2,ei2,test,emerged,READER,additional details of the slaying emerged on Sunday,10,0,0,0,0,0,0
+NYT19981025.0216.tml,6,e5,ei5,test,entered,READER,the sniper's bullet entered through a partially draped kitchen window,9,0,1,0,0,0,0
+NYT19981025.0216.tml,7,e10,ei10,test,said,READER,Murray said that the doctor's wife and one of his sons were in the kitchen,10,0,0,0,0,0,0
+NYT19981025.0216.tml,12,e20,ei20,test,described,READER,Donald Spitz described Slepian's killer as a hero,10,0,0,0,0,0,0
+NYT19981025.0216.tml,21,e50,ei50,test,defend,READER,Bishop Henry Mansell defended the Church's opposition to abortion,10,0,0,0,0,0,0
+NYT19981025.0216.tml,26,e65,ei65,test,call,READER,they call these doctors murderers,9,0,0,0,1,0,0
+NYT19981026.0446.tml,10,e10,ei10,test,raised,READER,Charles Schumer has raised Slepian's death himself,0,10,0,0,0,0,0
+NYT19981026.0446.tml,12,e15,ei15,test,identified,READER,suspects have been identified,3,7,0,0,0,0,0
+NYT19981026.0446.tml,17,e34,ei34,test,conference,READER,there will be a news conference to screen a television advertisement,5,0,5,0,0,0,0
+NYT19981026.0446.tml,24,e56,ei56,test,working,READER,David Eichenbaum is working for someone in this year's campaign,0,10,0,0,0,0,0
+NYT19981026.0446.tml,25,e61,ei61,test,incident,READER,there was an incident,9,0,0,0,1,0,0
+NYT19981026.0446.tml,28,e66,ei66,test,comment,READER,D'Amato's aides commented about the political ramifications of the slaying,0,10,0,0,0,0,0
+NYT19981026.0446.tml,28,e68,ei68,test,talk,READER,Schumer's aides talked about whether they planned to refer to it in any advertisements,0,8,0,1,0,0,1
+NYT19981026.0446.tml,31,e78,ei78,test,was,READER,Steven Goldstein was less reticent,10,0,0,0,0,0,0
+NYT19981026.0446.tml,35,e89,ei89,test,enforce,READER,Vacco enforced a court order in 1992 against anti-abortion protesters,0,9,0,1,0,0,0
+NYT19981026.0446.tml,40,e104,ei104,test,elected,READER,Spitzer will be elected,0,0,0,0,3,0,7
+NYT19981026.0446.tml,41,e108,ei108,test,defended,READER,Goldstein defended the use of the issue by noting that the attorney general has direct impact on the issue of clinic access,9,0,0,0,1,0,0
+NYT19981026.0446.tml,42,e114,ei114,test,attempting,READER,Spitzer had attempted to capitalize on the murder,5,0,1,0,3,0,1
+NYT19981026.0446.tml,42,e116,ei116,test,garner,READER,Spitzer garnered votes,3,1,0,0,4,0,2
+NYT19981026.0446.tml,43,e120,ei120,test,exploit,READER,Eliot Spitzer will exploit the unfortunate murder of Slepian as a steppingstone for his own political ambitions,3,0,2,0,5,0,0
+NYT19981026.0446.tml,44,e124,ei124,test,be,READER,there is political hay to be made,1,0,2,0,7,0,0
+NYT19981026.0446.tml,44,e125,ei125,test,made,READER,political hay will be made,1,0,1,0,8,0,0
+NYT19981026.0446.tml,45,e127,ei127,test,Trying,READER,some candidate tried to score political points from a homicide,1,0,2,1,1,0,5
+NYT19981026.0446.tml,45,e132,ei132,test,working,READER,Maureen Connelly was working for at least one candidate in the election,0,9,0,0,0,0,1
+NYT19981120.0362.tml,8,e4,ei4,test,fled,READER,the antiabortion activist fled to Mexico,0,0,0,0,9,0,1
+NYT19981120.0362.tml,21,e31,ei31,test,investigating,READER,a task force is investigating the similarities,10,0,0,0,0,0,0
+NYT19981121.0173.tml,8,e4,ei4,test,questioning,READER,two men were questioned,6,0,3,0,0,1,0
+NYT19981121.0173.tml,10,e9,ei9,test,termed,READER,the men were termed suspects,0,10,0,0,0,0,0
+NYT19981121.0173.tml,15,e30,ei30,test,sought,READER,an abortion opponent is being sought,10,0,0,0,0,0,0
+NYT19981121.0173.tml,16,e32,ei32,test,comment,READER,Amherst police officials commented Saturday,0,10,0,0,0,0,0
+NYT19981121.0173.tml,21,e46,ei46,test,took,READER,a police officer on duty took their names,10,0,0,0,0,0,0
+NYT19981121.0173.tml,22,e49,ei49,test,interviews,READER,they were interviewed,1,2,1,1,1,0,4
+NYT19981121.0173.tml,22,e50,ei50,test,were,READER,they were  in the area after the homicide,10,0,0,0,0,0,0
+NYT19981121.0173.tml,22,e51,ei51,test,homicide,READER,there was a homicide,9,0,1,0,0,0,0
+NYT19981121.0173.tml,24,e57,ei57,test,live,READER,the two men live in the Cleveland area,0,0,6,0,3,0,1
+NYT19990312.0271.tml,11,e3,ei3,test,domination,READER,there is a Soviet domination of the Czech Republic,4,3,0,2,0,0,1
+NYT19990312.0271.tml,13,e15,ei15,test,made,READER,Albright made secret of her joy,0,10,0,0,0,0,0
+NYT19990312.0271.tml,14,e19,ei19,test,said,READER,the speaker said that `Hallelujah' was an old Central European expression,9,0,1,0,0,0,0
+NYT19990312.0271.tml,20,e32,ei32,test,enlargement,READER,there was an enlargement of NATO,6,0,1,0,0,0,3
+NYT19990312.0271.tml,20,e36,ei36,test,said,READER,proponents said the goal to enlarge NATO grew out of a desire to cement democratic gains,6,0,4,0,0,0,0
+NYT19990312.0271.tml,21,e42,ei42,test,welcoming,READER,the three new countries will be welcomed,1,0,0,2,3,1,3
+NYT19990312.0271.tml,24,e53,ei53,test,continue,READER,the speaker and his people will continue to erase the line drawn in Europe by Stalin,9,0,1,0,0,0,0
+NYT19990312.0271.tml,24,e54,ei54,test,erasing,READER,the speaker and his people will be erasing the line drawn in Europe by Stalin,8,0,2,0,0,0,0
+NYT19990312.0271.tml,26,e64,ei64,test,involvement,READER,NATO will be involved in Kosovo,1,0,2,0,6,0,1
+NYT19990312.0271.tml,30,e75,ei75,test,produce,READER,the NATO summit will produce an initiative,6,0,3,0,1,0,0
+NYT19990312.0271.tml,30,e76,ei76,test,initiative,READER,there will be an initiative,7,0,3,0,0,0,0
+NYT19990312.0271.tml,33,e100,ei101,test,strikes,READER,there will be NATO air strikes,0,0,1,0,8,0,1
+NYT19990312.0271.tml,33,e101,ei102,test,agree,READER,Milosevic will agree to the deployment,0,0,0,1,0,1,8
+NYT19990312.0271.tml,43,e127,ei130,test,remained,READER,the Czech foreign minister remained buoyant during his opposition work,10,0,0,0,0,0,0
+NYT19990312.0271.tml,45,e134,ei137,test,Accession,READER,there was accession to NATO,5,0,0,1,0,0,4
+NYT19990312.0271.tml,56,e172,ei175,test,reached,READER,NATO has reached out to its former Eastern-bloc enemies in the past,0,9,0,0,0,0,1
+NYT19990419.0515.tml,9,e10,ei10,test,violence,READER,there is violence against providers of abortion,3,0,1,0,2,0,4
+NYT19990419.0515.tml,11,e17,ei17,test,amassed,READER,District Attorney Frank C. Clark has amassed material to support a criminal indictment for homicide,3,0,6,0,1,0,0
+NYT19990419.0515.tml,11,e18,ei18,test,support,READER,a criminal indictment for homicide will be supported,1,0,3,0,5,0,1
+NYT19990419.0515.tml,13,e25,ei25,test,saying,READER,the authorities are saying who the suspect is,1,9,0,0,0,0,0
+NYT19990419.0515.tml,16,e34,ei34,test,be,READER,that is a theoretical advantage,1,1,1,0,3,1,3
+NYT19990419.0515.tml,16,e36,ei36,test,have,READER,the authorities have an idea where Kopp is,0,10,0,0,0,0,0
+NYT19990419.0515.tml,17,e38,ei38,test,said,READER,Clark said that finding the rifle was important,9,0,0,0,0,0,1
+NYT19990419.0515.tml,22,e61,ei61,test,killed,READER,all of those doctors were killed,0,10,0,0,0,0,0
+NYT19990419.0515.tml,25,e71,ei71,test,discuss,READER,Denise E. O'Donnell discussed what federal charges were being pursued,1,8,0,0,1,0,0
+NYT19990505.0443.tml,9,e8,ei8,test,match,READER,the fibers found near the murder and the fibers found in Kopp's car match,8,0,1,0,0,0,1
+NYT19990505.0443.tml,11,e18,ei18,test,was,READER,there was an official confirmation of the decision to upgrade the warrant,0,9,0,0,0,0,1
+NYT19990505.0443.tml,11,e24,ei24,test,development,READER,there was a major development in the Slepian murder investigation,8,0,2,0,0,0,0
+NYT19990505.0443.tml,13,e26,ei26,test,is,READER,there is a federal homicide statute,0,10,0,0,0,0,0
+NYT19990505.0443.tml,13,e28,ei28,test,charged,READER,Kopp will be charged under the recent Freedom of Access to Clinic Entrances Ac,0,0,0,0,8,0,2
+NYT19990505.0443.tml,13,e33,ei33,test,threats,READER,there are threats against abortion providers,6,0,1,0,1,0,2
+NYT19990505.0443.tml,14,e35,ei35,test,convicted,READER,Kopp will be convicted,1,0,1,0,1,0,7
+NYT19990505.0443.tml,16,e41,ei41,test,recovered,READER,a weapon was recovered in the first police searches,3,7,0,0,0,0,0
+NYT19990505.0443.tml,20,e67,ei67,test,parked,READER,a stranger was parked near Slepian's home early,7,1,2,0,0,0,0
+PRI19980115.2000.0186.tml,7,e2004,ei2286,train,eligible,READER,Keating got eligible for parole,1,7,0,0,0,0,2
+PRI19980115.2000.0186.tml,8,e20,ei2293,train,raised,READER,the issues had been raised before,0,10,0,0,0,0,0
+PRI19980115.2000.0186.tml,9,e24,ei2298,train,send,READER,the ruling will send Keating's lawyers back to state court,0,0,10,0,0,0,0
+PRI19980121.2000.2591.tml,5,e6,ei2004,train,used,READER,the city used some special protection in nineteen seventy-nine when the Soviet Union invaded Afghanistan,0,6,0,3,0,0,1
+PRI19980121.2000.2591.tml,5,e8,ei2005,train,protection,READER,the city got some special protection,0,6,0,3,0,0,1
+PRI19980205.2000.1890.tml,1,e1,ei158,train,bolstering,READER,the US is bolstering its military presence in the gulf,10,0,0,0,0,0,0
+PRI19980205.2000.1890.tml,7,e29,ei180,train,blowing,READER,the terrorists who have been arrested blew up Pan Am flight one oh three over Scotland,0,4,1,0,1,0,4
+PRI19980205.2000.1998.tml,6,e19,ei2013,train,come,READER,record figures came at a bad time,8,0,0,0,1,1,0
+PRI19980205.2000.1998.tml,8,e49,ei2018,train,eager,READER,the German electorate is increasingly eager to dispense with the services of Europe's longest serving leader,4,0,5,0,1,0,0
+PRI19980213.2000.0313.tml,4,e11,ei214,train,destroy,READER,soil will destroy things in its path,7,0,0,0,2,0,1
+PRI19980213.2000.0313.tml,6,e18,ei218,train,hurt,READER,some people were hurt,0,10,0,0,0,0,0
+PRI19980216.2000.0170.tml,1,e1,ei222,train,called,READER,the British government called for Sinn Fein to be expelled from the multiparty peace talks on northern Ireland,10,0,0,0,0,0,0
+PRI19980303.2000.2550.tml,4,e14,ei547,train,laid,READER,local residents have laid out the red carpet,0,6,0,3,0,1,0
+PRI19980303.2000.2550.tml,24,e76,ei583,train,penalize,READER,the children are penalized,1,0,1,0,3,0,5
+PRI19980303.2000.2550.tml,25,e155,ei584,train,further,READER,the speaker and his people further the purpose of human rights,0,3,0,0,0,0,7
+PRI19980303.2000.2550.tml,26,e86,ei592,train,compelled,READER,the Saudis are compelled to allow Christians to worship in their country,0,10,0,0,0,0,0
+PRI19980303.2000.2550.tml,26,e89,ei593,train,allow,READER,the Saudis allow Christians to worship in their country,0,5,0,3,0,0,2
+PRI19980303.2000.2550.tml,28,e100,ei599,train,embrace,READER,the citizens of Loudon county embrace religious and human freedom,4,0,0,1,0,0,5
+PRI19980303.2000.2550.tml,29,e102,ei601,train,rule,READER,they'll rule on the application based only on land use issues,7,0,3,0,0,0,0
+PRI19980303.2000.2550.tml,29,e108,ei603,train,ignore,READER,Loudon county officials will ignore all the other objections,7,0,2,0,1,0,0
+PRI19980306.2000.1675.tml,6,e6,ei202,train,stay,READER,they stayed,0,6,0,4,0,0,0
+PRI19980306.2000.1675.tml,7,e11,ei209,train,confirmed,READER,Belgrade confirmed the operation was over,0,7,1,0,0,0,2
+PRI19980306.2000.1675.tml,7,e14,ei212,train,planned,READER,the whole attack was planned in Belgrade,0,0,7,0,1,0,2
+VOA19980303.1600.0917.tml,1,e1,ei2222,train,clashed,READER,Nigerian security forces clashed in Lagos with anti-government demonstrators,10,0,0,0,0,0,0
+VOA19980303.1600.0917.tml,1,e3,ei2224,train,run,READER,Sani Abacha will run for president,0,0,1,0,3,0,6
+VOA19980303.1600.0917.tml,3,e10,ei2232,train,gathering,READER,thousands of people gathered in the capital Abuja,9,0,0,0,1,0,0
+VOA19980303.1600.0917.tml,6,e18,ei2247,train,announced,READER,General Abacha had publicly announced his candidacy,0,10,0,0,0,0,0
+VOA19980303.1600.2745.tml,13,e61,ei50035,train,sold,READER,over fifty thousand CDs a year are sold,7,0,1,1,1,0,0
+VOA19980303.1600.2745.tml,19,e90,ei50052,train,received,READER,The Federal Bureau of Investigation received more than eight thousand reports of hate group crimes last year,10,0,0,0,0,0,0
+VOA19980303.1600.2745.tml,20,e101,ei50060,train,have,READER,police departments have accurately reported hate crimes in the past,1,3,1,2,0,1,2
+VOA19980305.1800.2603.tml,11,e18,ei449,train,become,READER,women become victims of armed attack,0,8,0,1,0,0,1
+VOA19980305.1800.2603.tml,11,e82,ei450,train,victims,READER,Women do not become <strong>victims</strong> of armed attack,8,0,0,0,1,0,1
+VOA19980305.1800.2603.tml,11,e85,ei453,train,right,READER,women have the right to work,1,8,0,0,0,0,1
+VOA19980305.1800.2603.tml,22,e101,ei481,train,conditions,READER,there are conditions of peace and justice,0,0,0,3,1,0,6
+VOA19980305.1800.2603.tml,24,e61,ei488,train,torn,READER,the bloodletting tore the country apart,7,0,1,0,1,0,1
+VOA19980305.1800.2603.tml,24,e104,ei485,train,appealing,READER,her group is appealing to individuals,10,0,0,0,0,0,0
+VOA19980331.1700.1533.tml,1,e1,ei267,train,announced,READER,the US government recently announced new regulations,10,0,0,0,0,0,0
+VOA19980331.1700.1533.tml,7,e43,ei290,train,made,READER,allowances are made for the most needy patients,8,0,1,0,0,1,0
+VOA19980331.1700.1533.tml,9,e45,ei292,train,waiting,READER,there are huge waiting time disparities,0,8,0,2,0,0,0
+VOA19980331.1700.1533.tml,11,e48,ei294,train,doing,READER,they're doing this because the sickest patients are n't being served,0,5,0,4,1,0,0
+VOA19980331.1700.1533.tml,11,e52,ei295,train,served,READER,the sickest patients are served,0,10,0,0,0,0,0
+VOA19980501.1800.0355.tml,3,e26,ei170,train,peace,READER,there is peace,1,7,0,1,1,0,0
+VOA19980501.1800.0355.tml,3,e61,ei165,train,conference,READER,there was a news conference,10,0,0,0,0,0,0
+VOA19980501.1800.0355.tml,4,e10,ei175,train,stretch,READER,Israel is stretching itself on matters that are vital to its security concerns,0,1,0,1,0,1,7
+WSJ900813-0157.tml,4,e417,ei1142,train,withdraw,READER,the Iraqi leader will withdraw his troops from Kuwait,0,0,0,2,7,0,1
+WSJ900813-0157.tml,4,e418,ei1143,train,withdraws,READER,Israel will withdraw from the West Bank,0,0,0,0,2,0,8
+WSJ900813-0157.tml,5,e419,ei1144,train,hopes,READER,he hopes to lure support from Arabs,6,0,4,0,0,0,0
+WSJ900813-0157.tml,5,e425,ei1149,train,use,READER,Iraq will use its occupation of Kuwait as a lever to solve the Arab world's most frustrating problem,2,0,1,0,2,0,5
+WSJ900813-0157.tml,8,e434,ei1175,train,export,READER,there is export of oil,5,0,4,0,0,0,1
+WSJ900813-0157.tml,10,e31,ei1182,train,use,READER,Mr. Baker used the word blockade,0,10,0,0,0,0,0
+WSJ900813-0157.tml,11,e44,ei1192,train,compliance,READER,there will be compliance with the sanctions,0,0,5,0,0,0,5
+WSJ900813-0157.tml,13,e61,ei1203,train,asked,READER,reporters asked whether the interdiction would apply to food,10,0,0,0,0,0,0
+WSJ900813-0157.tml,15,e69,ei1208,train,using,READER,"Mr. Bush used the word ""blockade""",0,10,0,0,0,0,0
+WSJ900813-0157.tml,27,e163,ei1255,train,negotiations,READER,there will be negotiations,3,0,0,1,3,0,3
+WSJ900813-0157.tml,29,e180,ei1259,train,go,READER,the Iraqis will go through the humiliation of backing out of Kuwait,0,1,0,4,0,1,4
+WSJ900813-0157.tml,29,e182,ei1260,train,backing,READER,the Iraqis will back out of Kuwait,0,2,0,3,0,0,5
+WSJ900813-0157.tml,29,e183,ei1261,train,conclude,READER,the Iraqis will conclude that they need to lash out in some way to shake things up,0,0,1,0,7,0,2
+WSJ900813-0157.tml,30,e194,ei1267,train,choices,READER,there are three choices for Saddam Hussein,4,0,4,0,0,0,2
+WSJ900813-0157.tml,30,e196,ei1266,train,have,READER,Saddam Hussein has three choices,1,0,6,0,2,0,1
+WSJ900813-0157.tml,37,e235,ei1293,train,start,READER,Iraq will start hostilities with Israel either through a direct attack or by attacking Jordan,0,0,0,0,7,0,3
+WSJ900813-0157.tml,37,e237,ei1295,train,attack,READER,there will be a direct attack,0,0,1,0,4,0,5
+WSJ900813-0157.tml,37,e239,ei1296,train,attacking,READER,Iraq will start hostilities with Israel by attacking Jordan,0,0,0,0,8,0,2
+WSJ900813-0157.tml,37,e699,ei1294,train,hostilities,READER,there will be hostilities,0,0,1,0,3,0,6
+WSJ900813-0157.tml,43,e263,ei1307,train,allowed,READER,they are allowed to leave,0,10,0,0,0,0,0
+WSJ900813-0157.tml,43,e267,ei1309,train,become,READER,they will become hostages,0,0,0,0,10,0,0
+WSJ900813-0157.tml,52,e328,ei1333,train,see,READER,U.S. officials see signs Saddam Hussein is getting nervous,7,0,2,0,0,0,1
+WSJ900813-0157.tml,54,e337,ei1341,train,shows,READER,it shows he's nervous about pinpointing his location,9,0,1,0,0,0,0
+WSJ900813-0157.tml,57,e354,ei1348,train,putting,READER,the administration is putting an upper limit on how high the force could go after that,1,9,0,0,0,0,0
+WSJ900813-0157.tml,57,e700,ei1349,train,limit,READER,there is an upper limit,0,10,0,0,0,0,0
+WSJ900813-0157.tml,60,e461,ei1369,train,head,READER,a fourth U.S. aircraft carrier will head for the Middle East within a few days,0,0,5,0,4,0,1
+WSJ910225-0066.tml,8,e11,ei1198,train,surrendered,READER,thousands of Iraqi soldiers had surrendered,4,0,6,0,0,0,0
+WSJ910225-0066.tml,9,e19,ei1205,train,effort,READER,there was an effort to avoid the ground war,7,3,0,0,0,0,0
+WSJ910225-0066.tml,9,e452,ei1210,train,dictating,READER,Iraq dictates peace terms,0,1,2,1,2,0,4
+WSJ910225-0066.tml,16,e47,ei1228,train,suffer,READER,the allied forces will suffer greater casualties,0,0,1,0,8,0,1
+WSJ910225-0066.tml,16,e455,ei1229,train,casualties,READER,there will be greater casualties,0,0,1,0,8,0,1
+WSJ910225-0066.tml,16,e456,ei1231,train,bogged,READER,the allied forces will become bogged down militarily,1,0,1,0,5,0,3
+WSJ910225-0066.tml,22,e93,ei1270,train,supported,READER,the goal will be supported by most Americans,0,0,7,0,3,0,0
+WSJ910225-0066.tml,24,e104,ei1277,train,doing,READER,the addressee of the speaker will do so,1,1,0,0,1,0,7
+WSJ910225-0066.tml,24,e106,ei1279,train,destroy,READER,people will destroy the war machine of a ruthless dictator,2,0,2,0,2,0,4
+WSJ910225-0066.tml,25,e111,ei1284,train,imply,READER,"the series of United Nations resolutions condemning Iraq's invasion of Kuwait ""imply that the restoration of peace and stability in the Gulf would be a heck of a lot easier if he and that leadership were not in power in Iraq",8,0,1,0,0,0,1
+WSJ910225-0066.tml,27,e132,ei1299,train,seem,READER,forces and weapons seem fully engaged,0,5,0,3,0,0,2
+WSJ910225-0066.tml,27,e133,ei1300,train,engaged,READER,forces and weapons will be engaged,0,0,1,0,3,0,6
+WSJ910225-0066.tml,28,e135,ei1301,train,unleashed,READER,Iraq unleashed its stockpile,1,4,0,4,0,1,0
+WSJ910225-0066.tml,30,e146,ei1307,train,have,READER,Iraq has the ability to deliver chemical weapons in artillery shells,0,0,6,0,1,0,3
+WSJ910225-0066.tml,31,e151,ei1310,train,engaged,READER,allied troops engaged Iraq's vaunted Republican Guard,1,3,0,3,1,1,1
+WSJ910225-0066.tml,32,e159,ei1315,train,seen,READER,how much damage the allied air campaign was able to inflict on the Guard was seen,0,7,0,0,0,0,3
+WSJ910225-0066.tml,36,e185,ei1334,train,sweep,READER,American forces will sweep around Iraqi defenses,0,0,3,0,3,0,4
+WSJ910225-0066.tml,37,e196,ei1338,train,guarantees,READER,the fact that a ground campaign has begun guarantees that the Bush administration will face fresh problems growing out of the military situation,0,0,7,0,1,0,2
+WSJ910225-0066.tml,37,e490,ei1340,train,problems,READER,there will be fresh problems growing out of the military situation,1,0,9,0,0,0,0
+WSJ910225-0066.tml,37,e527,ei1339,train,face,READER,the Bush administration will face fresh problems,0,0,8,0,1,0,1
+WSJ910225-0066.tml,38,e202,ei1344,train,taking,READER,President Hussein is taking Kuwaiti hostages,1,0,6,0,3,0,0
+WSJ910225-0066.tml,50,e504,ei1398,train,maneuvering,READER,there is diplomatic maneuvering,1,5,0,3,0,0,1
+WSJ910225-0066.tml,56,e311,ei1438,train,respond,READER,Iraq responded to the U.S. ultimatum,0,10,0,0,0,0,0
+WSJ910225-0066.tml,58,e325,ei1451,train,begun,READER,an amphibious assault on Kuwait's beaches began,0,8,0,1,1,0,0
+WSJ910225-0066.tml,60,e332,ei1455,train,taken,READER,"5,500 Iraqi prisoners were taken",8,0,0,0,1,1,0
+WSJ910225-0066.tml,60,e336,ei1458,train,climbed,READER,"the total Iraqi prisoners climbed above 8,000",0,0,3,0,7,0,0
+WSJ910225-0066.tml,61,e342,ei1463,train,abandoned,READER,much of Iraq's offensive military equipment will be abandoned in Kuwait,1,0,1,0,3,0,5
+WSJ910225-0066.tml,62,e344,ei1465,train,surrender,READER,tens of thousands of Iraqi soldiers will surrender,0,0,7,0,3,0,0
+WSJ910225-0066.tml,63,e345,ei1466,train,succeed,READER,the allies will succeed,1,0,1,0,0,0,8
+WSJ910225-0066.tml,65,e363,ei1482,train,undermine,READER,that will undermine any chances of rebuilding either Iraq or its armed forces,5,0,3,0,2,0,0
+WSJ910225-0066.tml,70,e387,ei1492,train,narrowing,READER,the Iraqi leader's internal power base was narrowing even before the war began,1,0,7,0,1,1,0
+WSJ910225-0066.tml,73,e405,ei1503,train,increase,READER,the perception that the U.S. wants to destroy Iraq will increase Saddam Hussein's support within the Iraqi military,0,0,1,0,9,0,0
+WSJ910225-0066.tml,74,e409,ei1506,train,back,READER,the U.S. backed the peace proposals,0,9,0,0,1,0,0
+XIE19981203.0008.tml,7,e11,ei11,test,process,READER,there was a ratification process in February this year,10,0,0,0,0,0,0
+XIE19990210.0079.tml,4,e6,ei6,test,fixed,READER,a date had already been fixed,0,10,0,0,0,0,0
+XIE19990210.0079.tml,6,e12,ei12,test,enable,READER,the accession will enables the countries to be eligible for signing the documents,10,0,0,0,0,0,0
+XIE19990313.0173.tml,4,e10,ei10,test,end,READER,the embassy's mission of liaison between Hungary and NATO ended,8,1,0,0,1,0,0
+XIE19990313.0173.tml,4,e11,ei11,test,mission,READER,there is an embassy's mission of liaison between Hungary and NATO,7,3,0,0,0,0,0
+XIE19990313.0229.tml,7,e14,ei14,test,saying,READER,"Martonyi said ""it has been our manifest destiny to rejoin those with whom we share the same values, interests and goals''",10,0,0,0,0,0,0
+XIE19990313.0229.tml,7,e17,ei17,test,share,READER,Martonyi and his people share the same values as the existing members of NATO,4,1,2,0,0,0,3
+ea980120.1830.0071.tml,2,e61,ei199,train,witness,READER,we will witness the rendezvous,5,0,2,0,2,1,0
+ea980120.1830.0071.tml,11,e26,ei222,train,believe,READER,everyone believes that somehow Cuba is going to change,2,0,6,0,2,0,0
+ed980111.1130.0089.tml,1,e1,ei155,train,change,READER,the vital signs will change,0,0,1,9,0,0,0
+ed980111.1130.0089.tml,1,e25,ei154,train,likely,READER,those vital signs are likely to change much,0,5,0,5,0,0,0
+ed980111.1130.0089.tml,6,e32,ei167,train,have,READER,"in Maine, about a half million people have power",0,6,0,0,0,0,4
+wsj_0026.tml,8,e14,ei2000,train,decided,READER,Mr. Bush decided to grant duty-free status for 18 categories,10,0,0,0,0,0,0
+wsj_0027.tml,4,e1,ei1989,train,resigned,READER,James McAlpine resigned,10,0,0,0,0,0,0
+wsj_0027.tml,5,e10,ei1996,train,reduce,READER,Mr. Stronach will reduce overhead,1,0,5,0,2,0,2
+wsj_0027.tml,11,e71,ei2016,train,seat,READER,Mr. Stronach got a seat in Canada's Parliament,1,9,0,0,0,0,0
+wsj_0027.tml,13,e44,ei2022,train,cut,READER,he will cut costs,1,0,8,0,0,0,1
+wsj_0027.tml,15,e48,ei2027,train,reached,READER,Mr. McAlpine could be reached for comment,0,10,0,0,0,0,0
+wsj_0106.tml,5,e14,ei138,train,conversion,READER,a  conversion will take place,1,0,2,0,3,0,4
+wsj_0106.tml,7,e23,ei144,train,discuss,READER,he discussed other terms of the issue,0,10,0,0,0,0,0
+wsj_0122.tml,6,e10,ei89,train,approved,READER,holders of more than a majority of the stock of the company approved the transaction,9,0,1,0,0,0,0
+wsj_0124.tml,10,e34,ei327,train,acquisition,READER,Valley Federal Savings and Loan Association was acquired,1,5,0,1,3,0,0
+wsj_0124.tml,11,e19,ei331,train,increase,READER,there was an increase in loan,7,0,0,0,0,0,3
+wsj_0127.tml,5,e2000,ei2157,train,gains,READER,there were one-time gains in the latest period,0,10,0,0,0,0,0
+wsj_0127.tml,5,e2001,ei2158,train,losses,READER,there were one-time losses in the latest period,1,8,0,0,1,0,0
+wsj_0127.tml,6,e2005,ei2160,train,profit,READER,there was profit this year from discontinued operations,0,10,0,0,0,0,0
+wsj_0127.tml,9,e19,ei2170,train,fell,READER,sales fell,10,0,0,0,0,0,0
+wsj_0132.tml,7,e19,ei2007,train,had,READER,DSM had 71 million guilders of extraordinary charges,10,0,0,0,0,0,0
+wsj_0136.tml,7,e10,ei2088,train,phasing,READER,the company is phasing out John Deere,10,0,0,0,0,0,0
+wsj_0144.tml,7,e10,ei2215,train,result,READER,the California earthquake will result in a fourth-quarter pre-tax charge of less than $10 million,2,0,6,0,2,0,0
+wsj_0144.tml,11,e61,ei2226,train,charge,READER,there was a $415 million charge,10,0,0,0,0,0,0
+wsj_0150.tml,3,e1,ei137,train,merged,READER,A.L. Williams Corp. was merged into Primerica Corp.,10,0,0,0,0,0,0
+wsj_0150.tml,6,e10,ei146,train,delisted,READER,Williams shares were delisted from the New York Stock Exchange,6,0,2,0,1,0,1
+wsj_0150.tml,11,e18,ei152,train,disclosed,READER,terms were disclosed,0,10,0,0,0,0,0
+wsj_0151.tml,4,e6,ei302,train,help,READER,the move will help prevent Martin Ackerman from making a run at the computer-services concern,1,0,2,0,7,0,0
+wsj_0151.tml,4,e8,ei303,train,prevent,READER,the move prevent Martin Ackerman from making a run at the computer-services concern,0,1,0,0,7,0,2
+wsj_0151.tml,4,e10,ei304,train,making,READER,Martin Ackerman will make a run at the computer-services concern,0,0,0,2,2,3,3
+wsj_0151.tml,4,e11,ei305,train,run,READER,Martin Ackerman will make a run,0,1,0,1,1,1,6
+wsj_0151.tml,6,e23,ei314,train,sale,READER,the company will be sold,0,0,0,0,10,0,0
+wsj_0151.tml,8,e29,ei318,train,specify,READER,Mr. Edelman specified what prompted the recent moves,0,9,0,0,0,0,1
+wsj_0152.tml,4,e10,ei125,train,expire,READER,the offer will expire,6,1,3,0,0,0,0
+wsj_0157.tml,8,e19,ei2207,train,gave,READER,Equus and Tony Lama gave a reason for the changed offer,0,10,0,0,0,0,0
+wsj_0157.tml,8,e2001,ei2210,train,comment,READER,there was comment from Tony Lama,1,9,0,0,0,0,0
+wsj_0158.tml,7,e157,ei500,train,successor,READER,a successor was named,1,9,0,0,0,0,0
+wsj_0158.tml,10,e362,ei553,train,directorship,READER,there was a board directorship at the London-based news organization,1,6,0,1,0,0,2
+wsj_0158.tml,11,e21,ei517,train,serve,READER,Mr. Reupke served on the company's board of directors,0,10,0,0,0,0,0
+wsj_0158.tml,15,e32,ei533,train,surprised,READER,the speaker will be very surprised,3,0,1,1,5,0,0
+wsj_0165.tml,4,e10,ei72,train,exchange,READER,Heritage will exchange one share of a new preferred stock for each POP common share it does n't already own,10,0,0,0,0,0,0
+wsj_0165.tml,5,e14,ei73,train,exercised,READER,warrants and options will be exercised,2,0,3,0,1,0,4
+wsj_0167.tml,3,e3,ei2093,train,seeking,READER,RMS International Inc. is seeking other financing sources,10,0,0,0,0,0,0
+wsj_0168.tml,7,e10,ei133,train,extended,READER,the loan will be extended,0,0,0,0,8,1,1
+wsj_0168.tml,7,e12,ei134,train,increase,READER,there will be an increase in the conversion price,2,0,2,0,4,0,2
+wsj_0169.tml,8,e19,ei165,train,acquisition,READER,87-store Weisfield's were acquired,10,0,0,0,0,0,0
+wsj_0172.tml,9,e24,ei165,train,staying,READER,the executives are staying with the company,0,8,0,0,0,0,2
+wsj_0173.tml,9,e18,ei2167,train,come,READER,Coleco came up with another winner,0,10,0,0,0,0,0
+wsj_0173.tml,9,e19,ei2168,train,filed,READER,Coleco filed for bankruptcy-law protection,10,0,0,0,0,0,0
+wsj_0175.tml,3,e1,ei205,train,completed,READER,Sony Corp. completed its tender offer for Columbia Pictures Entertainment Inc.,10,0,0,0,0,0,0
+wsj_0175.tml,7,e19,ei221,train,close,READER,the acquisition of Guber/Peters Entertainment Co. will close Monday,3,0,6,0,0,0,1
+wsj_0176.tml,5,e10,ei140,train,spread,READER,the after-tax charge will be spread over the next three quarters,9,0,0,0,0,0,1
+wsj_0184.tml,4,e7,ei426,train,result,READER,the cost-cutting move will result in a fourth-quarter charge,0,0,9,0,1,0,0
+wsj_0184.tml,4,e80,ei427,train,charge,READER,there will be a fourth-quarter charge,2,0,6,0,2,0,0
+wsj_0184.tml,7,e24,ei436,train,increase,READER,the program will increase an individual's retirement benefits 10% to 20%,0,0,0,0,9,1,0
+wsj_0184.tml,9,e189,ei439,train,strategy,READER,the company has a strategy to implement budget constraints,9,0,0,0,1,0,0
+wsj_0184.tml,14,e50,ei456,train,trim,READER,"Upjohn will trim only about 275 to 350 of its more than 21,000 jobs world-wide",0,0,9,0,0,0,1
+wsj_0187.tml,9,e14,ei266,train,expected,READER,a swift transition is expected,8,0,2,0,0,0,0
+wsj_0187.tml,9,e44,ei264,train,settlement,READER,there will be a settlement,1,0,3,0,3,0,3
+wsj_0187.tml,10,e18,ei271,train,become,READER,the government and Union Bank of Finland will become major shareholders in the new company,9,0,1,0,0,0,0
+wsj_0187.tml,10,e20,ei272,train,injecting,READER, the government and Union Bank of Finland will inject 100 million Finnish markkaa,10,0,0,0,0,0,0
+wsj_0189.tml,10,e14,ei2232,train,closed,READER,the battery plant will be closed,9,0,1,0,0,0,0
+wsj_0266.tml,5,e9,ei128,train,named,READER,the Reserve Fund was named,0,9,0,0,0,0,1
+wsj_0313.tml,4,e10,ei230,train,expect,READER,the company expects further adverse financial impact from the restructuring,0,8,0,1,1,0,0
+wsj_0321.tml,4,e12,ei159,train,abandoning,READER,StatesWest is abandoning its pursuit,0,10,0,0,0,0,0
+wsj_0329.tml,4,e10,ei61,train,purchase,READER,the Dallas oil and gas concern will purchase a 10% net-profits interest in certain oil and gas properties from National Canada Corp.,7,0,2,0,0,0,1
+wsj_0332.tml,3,e1,ei154,train,making,READER,Orkem S.A. is making a friendly bid,10,0,0,0,0,0,0
+wsj_0332.tml,8,e22,ei171,train,addition,READER,there will be the addition of related Orkem businesses and further acquisitions,2,0,4,0,2,0,2
+wsj_0332.tml,8,e24,ei172,train,acquisitions,READER,there will be further acquisitions,1,0,2,0,7,0,0
+wsj_0332.tml,8,e45,ei170,train,restructuring,READER,there will be a restructuring of Orkem's U.K. unit,5,0,3,0,1,0,1
+wsj_0340.tml,3,e3,ei101,train,help,READER,"the 43,000 shares of Cie. de Navigation Mixte will help fend off an unwelcome takeover bid for the company",2,0,3,0,4,0,1
+wsj_0340.tml,3,e4,ei102,train,fend,READER,"the 43,000 shares of Cie. de Navigation Mixte will fend off an unwelcome takeover bid for the company",1,0,4,0,4,0,1
+wsj_0376.tml,4,e1,ei1989,train,announced,READER,Courtaulds PLC announced some plans,9,1,0,0,0,0,0
+wsj_0376.tml,13,e104,ei2019,train,focus,READER,both the chemicals and textile businesses will focus more closely on core activities,0,0,6,0,1,0,3
+wsj_0376.tml,15,e110,ei2026,train,happy,READER,Courtaulds' institutional shareholders are happy,1,0,2,0,2,0,5
+wsj_0471.tml,3,e10,ei127,train,agreement,READER,there is an agreement between the two concerns,8,0,2,0,0,0,0
+wsj_0471.tml,7,e29,ei141,train,comment,READER,DPC commented on the suit,0,8,0,2,0,0,0
+wsj_0505.tml,10,e31,ei2015,train,increase,READER,Ratners will increase the number of its U.S. stores,2,0,3,0,5,0,0
+wsj_0505.tml,10,e135,ei2024,train,450,READER,there will be about 450 stores,5,0,3,0,2,0,0
+wsj_0520.tml,14,e106,ei2025,train,intention,READER,Nashua intends to remain an independent public company,8,0,2,0,0,0,0
+wsj_0527.tml,4,e6,ei1993,train,meet,READER,Crossland will meet the new government capital criteria,0,0,0,5,0,5,0
+wsj_0527.tml,9,e36,ei2012,train,identify,READER,it identified the bankers,0,10,0,0,0,0,0
+wsj_0527.tml,18,e61,ei2035,train,placed,READER,it also placed on CreditWatch for possible downgrade other securities,10,0,0,0,0,0,0
+wsj_0533.tml,5,e109,ei486,train,expire,READER,the bid expired last Thursday,2,3,2,1,1,1,0
+wsj_0533.tml,7,e111,ei490,train,expire,READER,it expired Friday evening,1,0,7,0,1,0,1
+wsj_0533.tml,10,e32,ei499,train,offer,READER,"Merieux's bid offered enough ""net benefit""",0,9,0,1,0,0,0
+wsj_0533.tml,11,e42,ei505,train,approved,READER,the offer will be approved,0,0,10,0,0,0,0
+wsj_0533.tml,13,e61,ei512,train,offer,READER,there is an offer,8,0,1,0,1,0,0
+wsj_0541.tml,4,e19,ei88,train,due,READER,"the debentures are due March 1, 2011",9,0,1,0,0,0,0
+wsj_0542.tml,4,e3,ei359,train,own,READER,Dow Jones and Co. owns the 33% of Telerate Inc. mentioned in the sentence,0,10,0,0,0,0,0
+wsj_0542.tml,5,e9,ei363,train,expire,READER,the offer expired at midnight Friday,2,4,1,2,0,1,0
+wsj_0542.tml,7,e26,ei373,train,change,READER,the supplement changes the terms and conditions,0,10,0,0,0,0,0
+wsj_0542.tml,8,e32,ei377,train,disclosing,READER,Dow Jones disclosed that Telerate's management expects the company's revenue to increase by 20% annually,0,10,0,0,0,0,0
+wsj_0542.tml,9,e104,ei400,train,goal,READER,the 20% growth rate is the goal of Telerate's management,4,0,2,1,2,0,1
+wsj_0542.tml,12,e101,ei394,train,fair,READER,the $18-a-share price is fair to Telerate's minority shareholders,2,0,1,0,6,0,1
+wsj_0542.tml,13,e61,ei396,train,negotiations,READER,there are negotiations,10,0,0,0,0,0,0
+wsj_0542.tml,13,e66,ei399,train,changes,READER,there were changes in the offer,0,10,0,0,0,0,0
+wsj_0551.tml,4,e1,ei82,train,become,READER,Trustcorp Inc. will become Society Bank and Trust when its merger is completed with Society Corp. of Cleveland,10,0,0,0,0,0,0
+wsj_0551.tml,6,e9,ei88,train,transaction,READER,there will be a transaction,4,0,6,0,0,0,0
+wsj_0551.tml,6,e12,ei90,train,close,READER,the transaction will close,2,0,6,0,2,0,0
+wsj_0557.tml,4,e10,ei1997,train,pay,READER,the food and tobacco giant will pay debt,2,0,4,0,0,0,4
+wsj_0557.tml,8,e25,ei2011,train,sale,READER,most of the Del Monte unit will be sold,2,0,5,0,1,0,2
+wsj_0557.tml,9,e26,ei2012,train,sale,READER,there will be a sale,0,0,4,0,4,0,2
+wsj_0557.tml,9,e89,ei2013,train,fall,READER,the sale will fall through,0,0,0,0,10,0,0
+wsj_0557.tml,17,e61,ei2025,train,said,READER,Lisbeth Echeandia said something about Nestle,10,0,0,0,0,0,0
+wsj_0558.tml,9,e19,ei2009,train,has,READER,the company has an estimate of the impact of the earthquake,0,10,0,0,0,0,0
+wsj_0558.tml,9,e20,ei2010,train,estimate,READER,there is an estimate of the impact of the earthquake,0,10,0,0,0,0,0
+wsj_0568.tml,19,e2410,ei2867,train,problem,READER,there will be a huge problem,0,0,3,0,6,0,1
+wsj_0568.tml,20,e105,ei2873,train,deal,READER,Unisys deals with its increasingly oppressive debt load,2,0,1,0,1,0,6
+wsj_0568.tml,22,e110,ei2877,train,pay,READER,Unisys will pay about $100 million in interest every quarter,8,0,1,0,0,0,1
+wsj_0568.tml,34,e172,ei2914,train,do,READER,Unisys will do little better than break even in the fourth quarter,0,0,8,0,1,0,1
+wsj_0570.tml,6,e14,ei434,train,merger,READER,there will be a merger,0,0,0,0,6,0,4
+wsj_0570.tml,7,e25,ei440,train,return,READER,Crane officials returned phone calls seeking comment,0,10,0,0,0,0,0
+wsj_0570.tml,12,e42,ei456,train,acquisition,READER,Milton Roy will be acquired,0,0,0,0,8,0,2
+wsj_0570.tml,15,e56,ei466,train,made,READER,it made merger overtures to the board,2,8,0,0,0,0,0
+wsj_0570.tml,15,e58,ei468,train,overtures,READER,there were merger overtures to the board,0,9,0,0,0,0,1
+wsj_0570.tml,15,e112,ei467,train,merger,READER,there was a merger,0,10,0,0,0,0,0
+wsj_0570.tml,16,e61,ei470,train,intent,READER,there is an intent to acquire Automated Custom Systems Inc.,10,0,0,0,0,0,0
+wsj_0575.tml,5,e6,ei2642,train,proved,READER,the go-it-alone approach nearly proved fatal,10,0,0,0,0,0,0
+wsj_0575.tml,10,e29,ei2656,train,buying,READER,the company will buy back some of its $172.5 million in subordinated convertible debentures,0,0,0,0,9,0,1
+wsj_0575.tml,12,e43,ei2664,train,paying,READER,12 3/4% will be paid,5,0,0,0,5,0,0
+wsj_0575.tml,24,e102,ei2697,train,intends,READER,Control Data intends to bid for the coming Minnesota lottery contract,9,0,0,1,0,0,0
+wsj_0575.tml,24,e104,ei2698,train,bid,READER,Control Data will bid for the coming Minnesota lottery contract,1,0,8,0,1,0,0
+wsj_0575.tml,24,e105,ei2699,train,seeking,READER,Control Data is seeking new applications for the technology overseas,10,0,0,0,0,0,0
+wsj_0575.tml,25,e110,ei2701,train,elaborate,READER,he elaborated,0,10,0,0,0,0,0
+wsj_0575.tml,40,e183,ei2741,train,said,READER,Perlman and Price said he spends much time considering the possibility of a hostile takeover,0,9,0,1,0,0,0
+wsj_0583.tml,5,e11,ei1994,train,adjust,READER,Sansui adjusted to changing market conditions,0,9,0,0,0,0,1
+wsj_0583.tml,14,e56,ei2019,train,expect,READER,the analysts expect the Sansui deal to touch off a fresh wave of foreign purchases,3,6,1,0,0,0,0
+wsj_0583.tml,20,e87,ei2029,train,branch,READER,Sansui branched into other new businesses,1,9,0,0,0,0,0
+wsj_0583.tml,22,e98,ei2036,train,build,READER,Sansui built new plants in Southeast Asia,0,10,0,0,0,0,0
+wsj_0583.tml,23,e102,ei2039,train,changes,READER,there are changes in the marketplace,10,0,0,0,0,0,0
+wsj_0583.tml,32,e156,ei2064,train,jettisoning,READER,Polly Peck is jettisoning the existent top-management structure of Sansui,0,10,0,0,0,0,0
+wsj_0584.tml,3,e1,ei2573,train,agreement,READER,there is an agreement between BellSouth Corp. and LIN Broadcasting Corp.,9,0,0,0,0,0,1
+wsj_0584.tml,3,e4,ei2575,train,fail,READER,the bolstered cellular agreement will fail to fend off McCaw Cellular Communications Inc.,0,0,1,0,7,0,2
+wsj_0584.tml,3,e7,ei2576,train,fend,READER,the agreement will fend off McCaw Cellular Communications Inc.,0,2,0,3,1,3,1
+wsj_0584.tml,5,e14,ei2582,train,mortgage,READER,the debt will mortgage the cellular company's future earning power,0,0,3,0,6,0,1
+wsj_0584.tml,7,e32,ei2591,train,merger,READER,there will be a merger,2,0,1,0,6,0,1
+wsj_0584.tml,8,e41,ei2596,train,commitments,READER,there are commitments from banks,0,10,0,0,0,0,0
+wsj_0584.tml,8,e43,ei2597,train,obtained,READER,commitments from banks have been obtained,0,10,0,0,0,0,0
+wsj_0584.tml,9,e45,ei2598,train,received,READER,"under previous terms, holders received a dividend of only $20 a share",6,1,1,0,1,0,1
+wsj_0584.tml,23,e100,ei2632,train,become,READER,it will become non-economical for one company,5,0,5,0,0,0,0
+wsj_0584.tml,24,e101,ei2634,train,think,READER,the speaker thinks they're at that point yet,0,8,0,2,0,0,0
+wsj_0584.tml,26,e107,ei2640,train,sweeten,READER,BellSouth will sweeten the pact further,8,0,0,0,1,0,1
+wsj_0584.tml,26,e110,ei2641,train,ease,READER,concerns of institutional investors will be eased,4,0,3,0,2,0,1
+wsj_0584.tml,30,e327,ei2659,train,high,READER,the trading value of the new cellular company is as high as the value that shareholders would have realized from the McCaw offer,0,5,1,0,0,0,4
+wsj_0584.tml,36,e332,ei2668,train,willing,READER,a sleeping Bell mentality is willing to take on dilution,0,0,1,4,2,1,2
+wsj_0584.tml,50,e227,ei2700,train,hint,READER,McCaw hinted at that option,5,0,2,0,3,0,0
+wsj_0585.tml,4,e1,ei1989,train,adding,READER,market makers in Nasdaq over-the-counter stocks are adding their voices to the swelling chorus of complaints about program trading,10,0,0,0,0,0,0
+wsj_0585.tml,9,e33,ei1995,train,known,READER,the portion of OTC volume attributable to program trading is known,1,9,0,0,0,0,0
+wsj_0585.tml,16,e305,ei2020,train,troubled,READER,Peter DaPuzzo was troubled by program trading,0,10,0,0,0,0,0
+wsj_0585.tml,22,e92,ei2035,train,hurt,READER,the programs hurt market makers more painfully these days,2,0,7,0,0,0,1
+wsj_0585.tml,24,e103,ei2040,train,cut,READER,market makers are cutting costs,6,0,2,0,0,0,2
+wsj_0585.tml,26,e326,ei2046,train,willing,READER,they are willing to buy shares,0,0,2,0,1,0,7
+wsj_0585.tml,27,e130,ei2048,train,suffer,READER,market makers suffer huge losses,1,0,0,0,5,0,4
+wsj_0585.tml,27,e327,ei2049,train,losses,READER,there will be huge losses,0,0,2,0,3,0,5
+wsj_0585.tml,33,e333,ei2066,train,losses,READER,makers suffer losses when program trading drags the market down,10,0,0,0,0,0,0
+wsj_0585.tml,42,e345,ei2078,train,own,READER,individual investors own 65% of the OTC market's capitalization,10,0,0,0,0,0,0
+wsj_0585.tml,60,e267,ei2119,train,identify,READER,the jewelry store operator identified the party,1,8,0,1,0,0,0
+wsj_0585.tml,60,e1091,ei2136,train,discussions,READER,there are discussions,9,0,1,0,0,0,0
+wsj_0586.tml,5,e21,ei1377,train,bear,READER,it bore the load,1,1,0,4,1,1,2
+wsj_0586.tml,10,e42,ei1397,train,account,READER,there was a new account,8,0,2,0,0,0,0
+wsj_0586.tml,26,e111,ei1466,train,dashed,READER,real estate issues were dashed Friday,8,1,0,0,0,0,1
+wsj_0586.tml,43,e335,ei1520,train,declines,READER,there were declines in other markets,8,0,1,0,0,0,1
+wsj_0610.tml,6,e5,ei1998,train,work,READER,there is work on the cereal plant to be,0,7,1,0,0,0,2
+wsj_0610.tml,8,e10,ei2004,train,begin,READER,the Memphis facility began turning out product before 1993,0,7,1,1,0,0,1
+wsj_0610.tml,8,e11,ei2005,train,turning,READER,"the Memphis, Tenn., facility turned out product",2,1,1,0,0,0,6
+wsj_0610.tml,8,e197,ei2007,train,outlook,READER,there is a more pessimistic long-term outlook,0,0,1,1,7,0,1
+wsj_0610.tml,9,e17,ei2009,train,capitalizing,READER,Kellogg capitalized on the public's health-oriented desire for oat bran,1,5,1,0,1,0,2
+wsj_0610.tml,9,e198,ei2008,train,successful,READER,Kellogg has been as successful as rival General Mills Inc.,0,10,0,0,0,0,0
+wsj_0610.tml,10,e19,ei2011,train,believed,READER,Kellogg's current share is believed to be slightly under 40%,10,0,0,0,0,0,0
+wsj_0610.tml,10,e1048,ei2124,train,40,READER,Kellogg's current share is slightly under 40%,3,0,4,0,3,0,0
+wsj_0610.tml,27,e85,ei2063,train,boosting,READER,sales are boosted further,0,7,0,2,1,0,0
+wsj_0610.tml,29,e95,ei2069,train,scaled,READER,the ambitious plans will be scaled back,0,0,2,0,7,0,1
+wsj_0610.tml,31,e105,ei2073,train,built,READER,the plant will be built,0,0,6,3,0,0,1
+wsj_0610.tml,32,e107,ei2074,train,regain,READER,the speaker and his people will regain their leadership level,1,0,4,0,4,1,0
+wsj_0610.tml,32,e108,ei2076,train,continue,READER,the speaker and his people will continue to put new products into the marketplace,7,0,3,0,0,0,0
+wsj_0610.tml,32,e110,ei2077,train,put,READER,the speaker and his people are putting put new products into the marketplace,9,0,1,0,0,0,0
+wsj_0610.tml,32,e114,ei2080,train,look,READER,the speaker and his people will look at resuming their involvement with their plan,8,0,0,1,0,0,1
+wsj_0610.tml,38,e1054,ei2130,train,optimistic,READER,the company's plans have been overly optimistic,0,0,5,0,5,0,0
+wsj_0610.tml,46,e157,ei2119,train,elaborate,READER,the company did elaborate,0,10,0,0,0,0,0
+wsj_0610.tml,46,e1045,ei2121,train,reasons,READER,there are competitive reasons,8,0,2,0,0,0,0
+wsj_0661.tml,4,e10,ei1996,train,consummated,READER,a merger will be consummated,0,0,0,0,2,0,8
+wsj_0661.tml,11,e45,ei2020,train,comment,READER,Dataproducts officials commented,0,10,0,0,0,0,0
+wsj_0662.tml,3,e1,ei116,train,agreed,READER,Jayark Corp. agreed to pay $4 million in cash,10,0,0,0,0,0,0
+wsj_0667.tml,5,e44,ei1995,train,costs,READER,there were transaction costs,9,0,1,0,0,0,0
+wsj_0670.tml,5,e10,ei1997,train,sell,READER,the company will sell the extrusion division for $15 million to R.D. Werner Co.,8,0,2,0,0,0,0
+wsj_0670.tml,7,e19,ei2003,train,earned,READER,National Intergroup earned $22.5 million,10,0,0,0,0,0,0
+wsj_0670.tml,9,e28,ei2009,train,sale,READER,National Aluminum's 54.5% stake will be sold,0,0,0,0,9,0,1
+wsj_0670.tml,11,e41,ei2014,train,payments,READER,there will be payments of additional proceeds,1,0,1,0,7,0,1
+wsj_0674.tml,5,e7,ei1994,train,elaborate,READER,Jim Pattison Industries elaborated on the statement,1,9,0,0,0,0,0
+wsj_0674.tml,5,e11,ei1996,train,declined,READER,a company official declined further comment,10,0,0,0,0,0,0
+wsj_0674.tml,5,e12,ei1997,train,comment,READER,there was further comment,0,10,0,0,0,0,0
+wsj_0674.tml,6,e14,ei1999,train,holds,READER,the company currently holds about 4.2 million of Innopac's 13.8 million common shares outstanding,9,0,1,0,0,0,0
+wsj_0674.tml,12,e29,ei2019,train,say,READER,Mr. Fabi said whether Mr. Pattison has disclosed potential terms for his planned bid for control,0,9,0,1,0,0,0
+wsj_0675.tml,3,e5,ei746,train,continue,READER,big institutional investors will continue the practice,0,0,9,0,0,0,1
+wsj_0675.tml,3,e144,ei747,train,practice,READER,the practice (program trading) will continue,1,0,7,1,0,0,1
+wsj_0675.tml,4,e147,ei753,train,trading,READER,there is stock-index arbitrage trading,5,5,0,0,0,0,0
+wsj_0675.tml,5,e18,ei755,train,continue,READER,stock-index funds will continue launching big programs through the market,1,0,8,0,1,0,0
+wsj_0675.tml,5,e19,ei756,train,launching,READER,stock-index funds are launching big programs,4,0,6,0,0,0,0
+wsj_0675.tml,5,e146,ei757,train,programs,READER,big programs will be launched,0,0,7,0,2,0,1
+wsj_0675.tml,12,e42,ei774,train,demand,READER,there will be demand from the auto sector,1,0,0,1,2,0,6
+wsj_0675.tml,13,e326,ei775,train,plead,READER,Southern's Gulf Power unit will plead guilty this week,0,0,1,0,8,0,1
+wsj_0675.tml,14,e50,ei779,train,pact,READER,there will be a pact,0,0,5,0,5,0,0
+wsj_0675.tml,16,e62,ei790,train,fail,READER,the new pact will fail to thwart rival suitor McCaw Cellular,0,0,0,0,9,0,1
+wsj_0675.tml,16,e65,ei791,train,thwart,READER,the new pact will thwart rival suitor McCaw Cellular,0,0,0,2,4,3,1
+wsj_0675.tml,21,e83,ei808,train,go,READER,GM and Ford will go head to head in the markets to buy up rival 15% stakes in Jaguar,0,0,9,0,0,0,1
+wsj_0675.tml,21,e87,ei809,train,buy,READER,GM and Ford will buy up rival 15% stakes in Jaguar,0,0,8,0,2,0,0
+wsj_0675.tml,24,e100,ei818,train,opening,READER,Japan is opening up to more foreign takeovers,0,0,0,8,0,1,1
+wsj_0675.tml,24,e101,ei819,train,takeovers,READER,there are foreign takeovers,1,3,0,2,1,0,3
+wsj_0675.tml,25,e638,ei821,train,work,READER,there is work on a $1 billion cereal plant,0,9,0,0,0,0,1
+wsj_0675.tml,26,e109,ei826,train,claims,READER,there are claims totaling nearly $1 billion,3,0,0,0,6,0,1
+wsj_0675.tml,26,e690,ei839,train,$,READER,there are nearly $1 billion claims,1,0,2,0,5,0,2
+wsj_0679.tml,5,e10,ei314,train,develop,READER,Hewlett-Packard will develop and maintain a strategic partnership,5,0,3,0,0,0,2
+wsj_0679.tml,10,e40,ei336,train,sold,READER,half will be sold directly to Hewlett-Packard,1,0,1,0,6,1,1
+wsj_0695.tml,11,e33,ei160,train,controls,READER,the Patterson group controls more than 40% of Rally's stock,1,0,8,0,1,0,0
+wsj_0695.tml,12,e34,ei161,train,available,READER,rally officials were available,0,10,0,0,0,0,0
+wsj_0706.tml,5,e10,ei1994,train,intent,READER,there is an intent to purchase La Jolla Bancorp,10,0,0,0,0,0,0
+wsj_0713.tml,4,e1,ei120,train,cleared,READER,West German and French authorities have cleared Dresdner Bank AG's takeover of a majority stake in Banque Internationale de Placement,10,0,0,0,0,0,0
+wsj_0736.tml,5,e8,ei288,train,resulting,READER,the one-time charge of $8.3 million will resulting in a net loss for the third quarter,5,0,4,0,0,0,1
+wsj_0745.tml,4,e6,ei2455,train,battle,READER,there will be a full-scale battle against Ford Motor Co.,0,0,0,0,10,0,0
+wsj_0745.tml,5,e10,ei2459,train,purchase,READER,GM will purchase more than $15 million worth of Jaguar shares,0,0,4,0,5,0,1
+wsj_0745.tml,6,e14,ei2463,train,intends,READER,"the No. 1 U.S. auto maker intends ""to go to that 15%"" level",7,0,0,0,1,0,2
+wsj_0745.tml,8,e29,ei2475,train,completing,READER,GM will complete a friendly deal with Jaguar,2,0,8,0,0,0,0
+wsj_0745.tml,8,e30,ei2476,train,deal,READER,there will be a friendly deal with Jaguar,0,0,8,0,1,0,1
+wsj_0745.tml,8,e2073,ei2477,train,involve,READER,the deal with Jaguar will involve an eventual 30% stake and joint manufacturing ventures,1,0,8,0,1,0,0
+wsj_0745.tml,8,e2075,ei2478,train,ventures,READER,there will be joint manufacturing ventures,0,0,8,0,0,0,2
+wsj_0745.tml,11,e2091,ei2486,train,war,READER,there will be an all-out bidding war,0,0,0,9,0,1,0
+wsj_0745.tml,13,e53,ei2492,train,specify,READER,he specified what it was,0,10,0,0,0,0,0
+wsj_0745.tml,14,e56,ei2494,train,convince,READER,powerful political pressures will convince the Conservative government to keep its so-called golden share,0,0,0,0,10,0,0
+wsj_0745.tml,14,e59,ei2495,train,keep,READER, the Conservative government will keep its so-called golden share,1,0,1,0,7,0,1
+wsj_0745.tml,20,e87,ei2508,train,turn,READER,Ford will turn up the heat by convening a special shareholders' meeting,2,0,0,0,7,0,1
+wsj_0745.tml,20,e89,ei2509,train,convening,READER,Ford will convene a special shareholders' meeting,0,0,0,0,4,0,6
+wsj_0745.tml,20,e90,ei2510,train,meeting,READER,there will be a special shareholders' meeting,2,0,1,0,4,0,3
+wsj_0745.tml,20,e91,ei2511,train,urging,READER,Ford will urge holders to drop the limits early,1,1,0,0,5,0,3
+wsj_0745.tml,21,e92,ei2513,train,succeed,READER,Ford will succeed,0,0,1,0,8,0,1
+wsj_0745.tml,22,e97,ei2519,train,give,READER,the government will give in readily to a hostile foray by Ford,0,1,0,8,0,0,1
+wsj_0745.tml,24,e107,ei2525,train,settle,READER,GM will settle for a minority stake,1,0,5,0,3,0,1
+wsj_0745.tml,30,e141,ei2542,train,let,READER,they will let GM amass more than 15%,1,0,0,0,8,0,1
+wsj_0745.tml,30,e2011,ei2539,train,receptive,READER,Prime Minister Margaret Thatcher is receptive to Jaguar's request,0,0,1,0,7,0,2
+wsj_0751.tml,4,e1,ei138,train,cleared,READER,Dime Savings Bank of New York was cleared by the Federal Deposit Insurance Corp. to acquire Starpointe Savings Bank of Somerset,10,0,0,0,0,0,0
+wsj_0751.tml,6,e10,ei145,train,move,READER,there will be a move,4,0,3,0,0,0,3
+wsj_0751.tml,6,e14,ei147,train,closing,READER,the banks will close the purchase,3,0,3,0,1,0,3
+wsj_0751.tml,7,e16,ei149,train,set,READER,a closing date has been set,0,10,0,0,0,0,0
+wsj_0752.tml,3,e1,ei95,train,authorized,READER,the directors authorized a 3-for-2 split of the common,10,0,0,0,0,0,0
+wsj_0760.tml,16,e62,ei224,train,$,READER,there was $1.06 billion,8,1,1,0,0,0,0
+wsj_0762.tml,3,e1,ei1991,train,declared,READER,CAMBREX Corp. declared its initial quarterly of five cents a share,10,0,0,0,0,0,0
+wsj_0762.tml,6,e10,ei2002,train,flow,READER,there will be cash flow in 1990,2,0,5,0,3,0,0
+wsj_0768.tml,12,e39,ei2595,train,spell,READER,the withdrawals will spell trouble,0,0,0,0,10,0,0
+wsj_0768.tml,12,e41,ei2596,train,trouble,READER,there will be trouble for the $200 billion junk market,0,0,0,0,8,0,2
+wsj_0768.tml,13,e44,ei2598,train,continue,READER,the heavy outflows will continue,1,0,0,0,2,0,7
+wsj_0768.tml,14,e54,ei2604,train,erode,READER,such selling will erode prices of high-yield junk bonds,0,0,2,0,8,0,0
+wsj_0768.tml,15,e61,ei2608,train,says,READER,Louis Harvey said something about mutual fund groups ,10,0,0,0,0,0,0
+wsj_0768.tml,23,e189,ei2619,train,squeeze,READER,there was a credit squeeze,10,0,0,0,0,0,0
+wsj_0768.tml,26,e102,ei2625,train,sell,READER,the fund sold things,0,10,0,0,0,0,0
+wsj_0768.tml,43,e152,ei2660,train,forced,READER,funds will be forced to accept lower prices,0,0,0,1,9,0,0
+wsj_0768.tml,43,e155,ei2661,train,accept,READER,funds will accept lower prices,0,0,0,0,8,0,2
+wsj_0768.tml,44,e160,ei2665,train,plunge,READER,asset values of the funds will plunge,0,0,1,0,8,1,0
+wsj_0778.tml,8,e44,ei2008,train,seizing,READER,the government will seize Mr. Antar's assets,0,0,2,0,4,0,4
+wsj_0778.tml,13,e93,ei2030,train,issued,READER,prosecutors issued their warning,9,0,1,0,0,0,0
+wsj_0778.tml,14,e101,ei2036,train,expect,READER,Mr. Antar's lawyers expect that any fees collected from Mr. Antar may be seized,7,0,2,0,0,0,1
+wsj_0778.tml,14,e104,ei2037,train,seized,READER,fees collected from Mr. Antar will be seized,0,0,6,0,4,0,0
+wsj_0778.tml,15,e107,ei2039,train,believe,READER,prosecutors believe Mr. Antar's allegedly ill-gotten gains are so great that any money he has used to pay attorneys derives from illegal activities,9,0,0,0,1,0,0
+wsj_0778.tml,17,e121,ei2046,train,comment,READER,Justin Feldman and Jack Arseneault commented on the matter,0,10,0,0,0,0,0
+wsj_0781.tml,3,e2,ei2217,train,delay,READER,the chip's flaws will delay several computer makers' marketing efforts,1,0,1,0,8,0,0
+wsj_0781.tml,3,e5,ei2219,train,expected,READER,"the ""bugs"" are expected to hurt Intel",2,4,0,4,0,0,0
+wsj_0781.tml,3,e8,ei2220,train,hurt,READER,"the ""bugs"" hurt Intel",0,0,0,10,0,0,0
+wsj_0781.tml,4,e14,ei2223,train,cleared,READER,the defects will be cleared up,0,0,8,0,2,0,0
+wsj_0781.tml,8,e233,ei2239,train,part,READER,there is a normal part of product development,8,0,0,0,0,0,2
+wsj_0781.tml,9,e44,ei2243,train,ship,READER,Hewlett will ship a computer based on the 486 chip,5,0,4,0,1,0,0
+wsj_0781.tml,14,e240,ei2255,train,responsible,READER,concern about the chip is responsible for a decline of 87.5 cents in Intel's stock,0,0,2,0,8,0,0
+wsj_0781.tml,14,e241,ei2259,train,responsible,READER,concern about the chip is partly responsible for a drop in Compaq's stock,1,0,4,1,4,0,0
+wsj_0781.tml,23,e106,ei2284,train,jumped,READER,computer makers have jumped the gun to unveil 486-based products,7,0,2,0,1,0,0
+wsj_0781.tml,41,e174,ei2320,train,challenge,READER,machines using the 486 will challenge higher-priced work stations,1,0,7,0,2,0,0
+wsj_0781.tml,48,e203,ei2329,train,reach,READER,486-based machines will reach the market early next year,0,0,10,0,0,0,0
+wsj_0786.tml,10,e19,ei398,train,announced,READER,American Medical announced sharply lower earnings,10,0,0,0,0,0,0
+wsj_0786.tml,10,e76,ei399,train,earnings,READER,there were sharply lower earnings,10,0,0,0,0,0,0
+wsj_0786.tml,10,e77,ei402,train,leases,READER,there are real estate leases,4,1,0,0,1,0,4
+wsj_0786.tml,12,e80,ei407,train,restructuring,READER,there will be a restructuring to help boost the stock price,0,0,1,0,9,0,0
+wsj_0786.tml,19,e65,ei433,train,materialized,READER,they materialized,0,10,0,0,0,0,0
+wsj_0791.tml,9,e14,ei192,train,made,READER,"Norwood made ""no detailed plans""",9,0,1,0,0,0,0
+wsj_0791.tml,9,e43,ei193,train,plans,READER,detailed plans have been made,0,8,0,2,0,0,0
+wsj_0791.tml,10,e23,ei198,train,comment,READER,Phoenix commented,0,10,0,0,0,0,0
+wsj_0798.tml,4,e4,ei215,train,raise,READER,the proposed rights issue will raise about 396 million Canadian dollars net of expenses,3,0,3,0,4,0,0
+wsj_0805.tml,4,e7,ei163,train,paying,READER,the company paid a dividend in the third quarter of 1984,0,10,0,0,0,0,0
+wsj_0806.tml,6,e10,ei121,train,expects,READER,the company expects to use the proceeds to repay certain bank debt,6,0,4,0,0,0,0
+wsj_0810.tml,5,e10,ei2653,train,pay,READER,Paribas paid for the takeover by selling parts of the company,0,1,2,0,2,0,5
+wsj_0810.tml,5,e11,ei2654,train,takeover,READER,there will be a takeover,1,0,1,0,6,0,2
+wsj_0810.tml,9,e38,ei2670,train,seek,READER,he seeks legal and regulatory means of blocking or delaying Paribas's bid,0,0,5,0,2,0,3
+wsj_0810.tml,15,e174,ei2697,train,takeover,READER,there was a takeover,0,9,0,0,0,0,1
+wsj_0810.tml,20,e99,ei2723,train,launched,READER,the bid was launched,9,0,0,0,0,0,1
+wsj_0810.tml,20,e100,ei2724,train,sought,READER,he sought approval,10,0,0,0,0,0,0
+wsj_0810.tml,20,e103,ei2726,train,boost,READER,he boosted his Paribas stake above 10%,0,0,0,0,4,0,6
+wsj_0810.tml,21,e107,ei2730,train,organizing,READER,Mr. Fournier will organize a takeover bid,0,0,2,3,2,2,1
+wsj_0810.tml,21,e108,ei2731,train,bid,READER,Mr. Fournier will bid,0,0,1,5,2,2,0
+wsj_0810.tml,23,e113,ei2733,train,support,READER,the large institutions that hold nearly 50% of Navigation Mixte's capital all strongly support Mr. Fournier,1,0,1,0,3,4,1
+wsj_0810.tml,27,e2010,ei2748,train,cost,READER,the purchase of the additional 48% stake will cost more than 11 billion francs,2,0,8,0,0,0,0
+wsj_0811.tml,5,e17,ei160,train,save,READER,the debt reduction will save the Fort Lauderdale home video concern,0,0,8,0,1,0,1
+wsj_0811.tml,6,e21,ei161,train,payments,READER,there are periodic interest payments,0,10,0,0,0,0,0
+wsj_0816.tml,9,e101,ei501,train,losers,READER,their core auto operations were net losers in the third quarter,10,0,0,0,0,0,0
+wsj_0816.tml,10,e106,ei504,train,volatility,READER,there is volatility of stock prices,6,0,2,0,2,0,0
+wsj_0816.tml,13,e114,ei514,train,growth,READER,there will be much more sluggish growth in the fourth quarter,0,0,9,0,1,0,0
+wsj_0816.tml,17,e134,ei541,train,be,READER,growth was a little slower,0,7,0,1,0,0,2
+wsj_0904.tml,5,e10,ei359,train,jumped,READER,net jumped to $87 million,10,0,0,0,0,0,0
+wsj_0907.tml,6,e11,ei134,train,total,READER,revenue in the latest quarter will total about $28 million,0,0,9,0,1,0,0
+wsj_0918.tml,6,e19,ei2005,train,lowers,READER,a strengthening in the dollar lowers the value of overseas earnings,9,1,0,0,0,0,0
+wsj_0918.tml,23,e93,ei2058,train,increasing,READER,sales inreased in the third quarter,10,0,0,0,0,0,0
+wsj_0924.tml,4,e1,ei159,train,adopted,READER,Dominion Textile Inc. holders adopted a shareholder-rights plan,10,0,0,0,0,0,0
+wsj_0924.tml,6,e10,ei166,train,acquires,READER,a hostile bidder will acquire more than 20% of the shares outstanding,0,0,0,0,1,0,9
+wsj_0924.tml,7,e11,ei167,train,triggered,READER,the rights will be triggered,0,0,1,0,4,0,5
+wsj_0927.tml,23,e64,ei2453,train,has,READER,his family has ties to the company,0,10,0,0,0,0,0
+wsj_0928.tml,12,e35,ei2015,train,demand,READER,there will be a demand for Sun's newest computers,4,0,1,0,1,1,3
+wsj_0928.tml,15,e100,ei2025,train,record,READER,there has been a record backlog of orders,10,0,0,0,0,0,0
+wsj_0928.tml,17,e102,ei2030,train,vulnerable,READER,Sun is vulnerable to competition from International Business Machines Corp.,7,0,3,0,0,0,0
+wsj_0938.tml,5,e10,ei768,train,offering,READER,Mr. Drabinsky and Vice Chairman Myron Gottlieb will offer C$16.40 a share,0,0,4,0,3,0,3
+wsj_0938.tml,12,e60,ei797,train,identify,READER,she identified other bidders,0,10,0,0,0,0,0
+wsj_0938.tml,12,e61,ei798,train,said,READER,she said something about Mr. Drabinsky's offer,9,0,0,0,0,0,1
+wsj_0938.tml,17,e195,ei811,train,had,READER,Mr. Drabinsky had the right to vote those shares,3,1,0,2,1,0,3
+wsj_0938.tml,17,e202,ei815,train,purchase,READER,there was a purchase,3,7,0,0,0,0,0
+wsj_0938.tml,19,e94,ei821,train,indicate,READER,the directors indicated the source of financing,0,10,0,0,0,0,0
+wsj_0938.tml,19,e101,ei824,train,buy,READER,MCA and the Bronfman associates will buy for $57 million,1,0,7,0,2,0,0
+wsj_0938.tml,19,e103,ei826,train,succeeds,READER,Mr. Drabinsky will succeed in an offer,0,0,0,0,3,0,7
+wsj_0938.tml,20,e106,ei827,train,done,READER,things are being done at the suggestion of Mr. Drabinsky,10,0,0,0,0,0,0
+wsj_0938.tml,20,e107,ei828,train,suggestion,READER,there has been a suggestion from Mr. Drabinsky,9,0,1,0,0,0,0
+wsj_0938.tml,20,e110,ei829,train,accommodate,READER,they accommodate Mr. Drabinsky,10,0,0,0,0,0,0
+wsj_0938.tml,21,e211,ei837,train,own,READER,Rank Organisation PLC owns 51% of Cineplex's Film House unit,0,7,1,0,0,0,2
+wsj_0938.tml,22,e131,ei842,train,give,READER,Michael Gifford gave a breakdown,0,9,0,0,0,0,1
+wsj_0938.tml,29,e156,ei859,train,reached,READER,Mr. Drabinsky was reached,0,9,0,0,0,1,0
+wsj_0950.tml,9,e19,ei2004,train,fell,READER,GM Class E fell,9,0,0,0,0,0,1
+wsj_0950.tml,24,e61,ei2048,train,earned,READER,EDS earned $315.8 million,10,0,0,0,0,0,0
+wsj_0973.tml,4,e1,ei1991,train,capitalizing,READER,Westinghouse Electric Corp. is capitalizing on a major restructuring program,10,0,0,0,0,0,0
+wsj_0973.tml,7,e17,ei2000,train,expect,READER,Westinghouse expected some businesses to produce 10% operating margins,2,3,1,1,0,0,3
+wsj_0973.tml,14,e51,ei2016,train,order,READER,there was a nuclear power plant order from a U.S. utility in about a decade,2,6,0,1,0,0,1
+wsj_0973.tml,14,e138,ei2015,train,had,READER,Westinghouse had a nuclear power plant order from a U.S. utility in about a decade,1,8,0,0,0,0,1
+wsj_0973.tml,23,e101,ei2052,train,offset,READER,gain will be offset,8,0,1,0,1,0,0
+wsj_0973.tml,24,e102,ei2053,train,disclose,READER,the executives disclosed the size of the expected gain,0,10,0,0,0,0,0
+wsj_0973.tml,25,e105,ei2054,train,rise,READER,capital expenditure in 1990 will rise slightly,6,0,3,0,0,0,1
+wsj_0973.tml,25,e470,ei2061,train,$,READER,capital expenditure was $470 million this year,4,1,2,0,3,0,0
+wsj_0981.tml,8,e26,ei2286,train,disclose,READER,the luxury airline and casino company disclosed the purchase price,0,10,0,0,0,0,0
+wsj_0981.tml,11,e40,ei2296,train,used,READER,the proceeds will be used for remodeling the company's Desert Inn resort in Las Vegas,1,0,6,0,2,0,1
+wsj_0981.tml,11,e41,ei2297,train,remodeling,READER,the company's Desert Inn resort in Las Vegas will be remodeled,0,0,8,0,2,0,0
+wsj_0981.tml,11,e43,ei2299,train,acquire,READER,a property for the new resort will be acquired,1,0,7,0,2,0,0
+wsj_0981.tml,11,e101,ei2298,train,refurbishing,READER,certain aircraft of the MGM Grand Air unit will be refurbished,3,0,6,0,0,0,1
+wsj_0981.tml,14,e66,ei2316,train,begin,READER,construction will begin in early 1991,1,0,7,0,2,0,0
+wsj_0981.tml,17,e71,ei2320,train,include,READER,the prospectus included many details about the studio and theme park,0,10,0,0,0,0,0
+wsj_0981.tml,17,e77,ei2323,train,feature,READER,"the parks features several ""themed"" areas similar to those found at parks built by Walt Disney Co.",1,0,4,0,4,0,1
+wsj_1003.tml,4,e288,ei935,train,end,READER,it will be the end of a two-year boom in the industry,5,0,5,0,0,0,0
+wsj_1003.tml,5,e184,ei941,train,effect,READER,there will be an effect of price erosion in major product lines,3,0,7,0,0,0,0
+wsj_1003.tml,13,e201,ei963,train,vulnerable,READER,Bethlehem is the most vulnerable to a slowdown,1,0,7,0,2,0,0
+wsj_1003.tml,14,e56,ei966,train,linked,READER,it has linked up with a joint venture partner to share costs and risks,0,10,0,0,0,0,0
+wsj_1003.tml,14,e59,ei967,train,share,READER,it shared costs and risks,0,10,0,0,0,0,0
+wsj_1003.tml,14,e490,ei965,train,diversified,READER,it has diversified beyond steel,0,10,0,0,0,0,0
+wsj_1003.tml,22,e110,ei1002,train,dropped,READER,third-quarter net income dropped 8%,10,0,0,0,0,0,0
+wsj_1003.tml,23,e114,ei1008,train,consolidates,READER,the company consolidates its Eastern Steel division,1,9,0,0,0,0,0
+wsj_1003.tml,34,e248,ei1046,train,orders,READER,there were orders,6,0,1,1,1,0,1
+wsj_1006.tml,8,e22,ei2000,train,reached,READER,he could be reached for comment,0,10,0,0,0,0,0
+wsj_1006.tml,8,e25,ei2001,train,comment,READER,there was comment,0,10,0,0,0,0,0
+wsj_1006.tml,9,e27,ei2003,train,say,READER,Bertin Nadeau said if Mr. Lortie was asked to leave,0,8,0,0,0,0,2
+wsj_1006.tml,18,e61,ei2028,train,seen,READER,Mr. Lortie's departure was seen as inevitable,9,0,1,0,0,0,0
+wsj_1006.tml,18,e328,ei2029,train,inevitable,READER,Mr. Lortie's departure was inevitable,5,0,4,0,0,0,1
+wsj_1006.tml,27,e333,ei2075,train,under,READER,discussions are under way,10,0,0,0,0,0,0
+wsj_1006.tml,28,e99,ei2055,train,confirm,READER,he confirmed the reports,0,9,0,0,0,0,1
+wsj_1006.tml,28,e100,ei2056,train,deny,READER,he denied reports that Henri Roy is trying to put together a management buy-out of the catalogue showroom unit,0,8,0,0,0,0,2
+wsj_1006.tml,28,e102,ei2058,train,trying,READER,Henri Roy is trying to put together a management buy-out,1,0,0,0,1,0,8
+wsj_1006.tml,28,e104,ei2059,train,put,READER,Henri Roy is putting together a management buy-out of the catalogue showroom unit,2,0,0,0,1,0,7
+wsj_1006.tml,29,e105,ei2061,train,reached,READER,Mr. Roy was reached,0,10,0,0,0,0,0
+wsj_1008.tml,5,e10,ei108,train,help,READER,Lawrence Insurance will help finance the acquisition of United Republic,1,0,8,0,1,0,0
+wsj_1011.tml,14,e38,ei2050,train,identify,READER,America West identified the entity,0,10,0,0,0,0,0
+wsj_1013.tml,15,e42,ei2449,train,divest,READER,thrifts will divest high-yield bond investments,6,0,2,0,0,0,2
+wsj_1013.tml,24,e92,ei2481,train,realized,READER,investors realized that the thrift would be forced to take a big write-down,4,0,4,0,2,0,0
+wsj_1013.tml,26,e100,ei2489,train,know,READER,Columbia officials know how quickly they will dispose of the thrift's junk bonds,0,10,0,0,0,0,0
+wsj_1013.tml,26,e102,ei2490,train,dispose,READER,they will dispose of the thrift's junk bonds,0,0,4,0,4,0,2
+wsj_1013.tml,26,e105,ei2491,train,allow,READER,federal regulations allow thrifts to continue holding the bonds in separately capitalized subsidiaries,1,4,0,1,3,0,1
+wsj_1013.tml,26,e108,ei2492,train,continue,READER,thrifts will continue holding the bonds in separately capitalized subsidiaries,1,2,0,2,2,0,3
+wsj_1013.tml,26,e111,ei2494,train,completed,READER,federal regulations have been completed,0,10,0,0,0,0,0
+wsj_1013.tml,27,e114,ei2496,train,face,READER,the thrift will face problems,0,0,1,8,1,0,0
+wsj_1013.tml,27,e2010,ei2498,train,write,READER,there will be write-downs,3,0,6,0,1,0,0
+wsj_1013.tml,30,e134,ei2508,train,completed,READER,many of the transactions were completed,3,5,1,0,0,0,1
+wsj_1014.tml,3,e6,ei2261,train,war,READER,there will be a bruising price war,0,0,5,0,5,0,0
+wsj_1014.tml,7,e32,ei2280,train,means,READER,Anheuser's entry into the fray means near-term earnings trouble for all the industry players,2,0,3,0,3,0,2
+wsj_1014.tml,12,e58,ei2299,train,applied,READER,the new strategy will be applied soon in selected markets nationwide,3,0,7,0,0,0,0
+wsj_1014.tml,15,e410,ei2307,train,fallout,READER,there will be fallout from the coming pricing struggle,1,0,1,0,7,0,1
+wsj_1014.tml,19,e99,ei2332,train,see,READER,the brewing giant will see that grow to 42.5% in the current year,1,0,8,0,0,0,1
+wsj_1014.tml,19,e100,ei2333,train,grow,READER,there will be a grow to 42.5% in the current year,1,0,3,0,6,0,0
+wsj_1014.tml,20,e102,ei2334,train,decided,READER,Anheuser decided to join in the barroom brawl,10,0,0,0,0,0,0
+wsj_1014.tml,20,e104,ei2335,train,join,READER,Anheuser will join in the barroom brawl,8,0,0,0,2,0,0
+wsj_1014.tml,20,e105,ei2336,train,brawl,READER,there is some barroom brawl,8,2,0,0,0,0,0
+wsj_1014.tml,21,e110,ei2338,train,get,READER,it will get bloody,8,0,1,0,1,0,0
+wsj_1025.tml,6,e14,ei68,train,conducted,READER,the auction business is conducted in the second and fourth quarters,6,1,3,0,0,0,0
+wsj_1031.tml,5,e10,ei62,train,entitle,READER,the rights will entitle Philip Morris holders to buy shares of either the company,5,0,1,0,2,0,2
+wsj_1033.tml,3,e52,ei1993,train,own,READER,Esselte AB owns the 22% of its U.S. unit described in the sentence,0,8,0,1,0,0,1
+wsj_1033.tml,4,e70,ei1996,train,own,READER,the parent owns the shares,0,7,0,0,1,0,2
+wsj_1035.tml,6,e10,ei2003,train,suffered,READER,profit suffered,10,0,0,0,0,0,0
+wsj_1038.tml,4,e10,ei1996,train,help,READER,the restructuring will help,1,0,7,0,2,0,0
+wsj_1038.tml,8,e20,ei2004,train,include,READER,the plan includes selling branches,2,0,1,0,7,0,0
+wsj_1039.tml,7,e10,ei136,train,earn,READER,the Sunnyvale company will earn 35 cents a share for the quarter,1,0,6,0,2,0,1
+wsj_1039.tml,7,e111,ei140,train,increased,READER,the competition from International Business Machines Corp. increased,10,0,0,0,0,0,0
+wsj_1042.tml,7,e14,ei88,train,exercised,READER,the warrants will be exercised,0,0,1,0,4,0,5
