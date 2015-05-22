@@ -11,12 +11,13 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "sst-snlirc2-transfer"
-TRAINING_FILES = ["sst-data/train.txt"]
-DEV_FILES = ["sst-data/dev.txt"]
-TEST_FILES = ["sst-data/test.txt"]
+BASENAME = "pragbank"
+TRAINING_FILES = ["pragbank-data/train.txt"]
+DEV_FILES = []
+TEST_FILES = ["pragbank-data/test.txt"]
 
-TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
+# TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
+TRANSFER_SOURCE_WORDLIST = ""
 VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])

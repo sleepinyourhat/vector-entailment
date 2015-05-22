@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, ad)
+function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -9,7 +9,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
     '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition), ...
-    '-dp', num2str(dp), '-ad', num2str(ad)];
+    '-dp', num2str(dp), '-gc', num2str(gc)];
 
 hyperParams.parensInSequences = 0;
 
@@ -47,8 +47,8 @@ hyperParams.penultDim = penult;
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
 
-if ad
-    options.updateFn = @AdaDeltaUpdate;
+if gc
+    hyperParams.clipGradients = true;
 end
 
 % TODO:
