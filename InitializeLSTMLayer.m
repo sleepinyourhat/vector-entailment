@@ -21,18 +21,18 @@ elseif initType == 2
 	matrix = fRand([numOutputs * dim, 2 * dim + 1, depth], gpu) .* (2 * scale) - scale;
 	matrix(:, 1) = 0;
 elseif initType == 3
-	scale =  sqrt(6 / ((3 * dim) + 1));
+	scale = 1 / sqrt((2 * dim) + 1);
 	matrix = fRand([numOutputs * dim, 2 * dim + 1, depth], gpu) .* (2 * scale) - scale;
 	matrix(:, 1) = 0;
 	matrix(Fr, 1) = 1;
 elseif initType == 4
-	scale =  sqrt(6 / ((3 * dim) + 1));
+	scale = 1 / sqrt((2 * dim) + 1);
 	matrix = fRand([numOutputs * dim, 2 * dim + 1, depth], gpu) .* (2 * scale) - scale;
 	matrix(:, 1) = 0;
 	matrix(Fr, 1) = 1;
 	matrix([Ir, Or], 1) = -1;
 elseif initType == 5
-	scale =  sqrt(6 / ((3 * dim) + 1));
+	scale = 1 / sqrt((2 * dim) + 1);
 	matrix = fRand([numOutputs * dim, 2 * dim + 1, depth], gpu) .* (2 * scale) - scale;
 	matrix(:, 1) = 0;
 	matrix(Fr, 1) = 5;

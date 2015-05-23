@@ -3,6 +3,8 @@ function freshModelState = TransferInitialization(freshModelState, pretrainedMod
 % Set up for transfer learning: copy sentence embedding parameters but not
 % classifier parameters into a new model state.
 
+% TODO: Currently tied to RMSProp
+
 % Unpack fresh model state.
 [ mergeMatrices, mergeMatrix, ...
     softmaxMatrix, wordFeatures, ~, ...
@@ -15,9 +17,7 @@ function freshModelState = TransferInitialization(freshModelState, pretrainedMod
     compositionMatrix, scoringVector, pretrainedClassifierExtraMatrix, embeddingTransformMatrix] ...
     = stack2param(pretrainedModelState.theta, pretrainedModelState.thetaDecoder);
 
-if length(pretrainedClassifierExtraMatrix) == length(classifierExtraMatrix)
-	classifierExtraMatrix = pretrainedClassifierExtraMatrix;
-end
+classifierExtraMatrix = pretrainedClassifierExtraMatrix;
 
 if ~isempty(wordFeatures)
 	wordFeaturesInStack = true;

@@ -95,6 +95,11 @@ if nargout > 1 && (nargin < 6 || computeGradient)
           ComputeExtraClassifierGradients(classifierExtraMatrix,...
             softmaxDelta, extraInputs, hyperParams.classNLDeriv);
 
+    if hyperParams.penultDim == 2 * hyperParams.dim
+        % Hack for transfer learning: pad with zeros.
+        extraDelta = extraDelta(1:hyperParams.dim, :);
+    end
+
     extraDelta = extraDelta .* mask;
 
     [ localWordFeatureGradients, ...
