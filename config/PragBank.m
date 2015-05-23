@@ -38,7 +38,7 @@ hyperParams.topDepth = topDepth;
 hyperParams.largeVocabMode = true;
 
 % The dimensionality of the classifier extra layers.
-hyperParams.penultDim = dim;
+hyperParams.penultDim = penult;
 
 % Regularization coefficient.
 hyperParams.lambda = lambda;

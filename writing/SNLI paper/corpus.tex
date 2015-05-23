@@ -52,22 +52,20 @@ For each pair that we validated, we chose a gold label. If any one of the three 
 
 \begin{table*}
   \centering\footnotesize
-  \begin{tabular}{p{7.5cm}lp{5.5cm}}
+  \begin{tabular}{p{6cm}p{0.75cm}p{1.4cm}p{6cm}}
   \toprule
-A young man in a striped hoodie looks at an artistic Levi's advertisement that says "We are all workers." & \ii{entailment} & There is a man in a hoodie looking at an advertisement.\\
-\rule{0pt}{3ex}Two men on laptops in a dark room. & \ii{entailment} & Two men are on their laptops.\\
-\rule{0pt}{3ex}A naked baby and toddler smear each other in paint. & \ii{neutral} & The kids are in the bathtub.\\
-\rule{0pt}{3ex}A woman is focusing on her game of curling. & \ii{neutral} & There is a women playing a game indoors\\
-\rule{0pt}{3ex}A group of people dressed in green and white are dancing in a circle outside of a white building. & \ii{contradiction} & A group performs indoors.\\
-\rule{0pt}{3ex}A balding professor giving a lecture to students on the topic of "opportunity". & \ii{neutral} & A female professor with hair giving a lecture to students.\\
+A man inspects the uniform of a figure in some East Asian country. & \b{contr.}& \t{$\{$c c c c c$\}$} & The man is sleeping\\
+\rule{0pt}{3ex}An older and younger man smiling. & \b{neut.}& \t{$\{$n n e n n$\}$} & Two men are smiling and laughing at the cats playing on the floor.\\
+\rule{0pt}{3ex}A black race car starts up in front of a crowd of people. & \b{contr.}& \t{$\{$c c c c c$\}$} & A man is driving down a lonely road.\\
+\rule{0pt}{3ex}A soccer game with multiple males playing. & \b{ent.}& \t{$\{$e e e e e$\}$} & Some men are playing a sport.\\
+\rule{0pt}{3ex}A smiling costumed woman is holding an umbrella. & \b{neut.}& \t{$\{$n n e c n$\}$} & A happy woman in a fairy costume holds an umbrella.\\
     \bottomrule
-% From 1.0rc2
+% From 1.0rc3
   \end{tabular}
-  \caption{\label{snli-examples}Randomly chosen examples from SNLI.\\
-\todo{Replace with *validated* examples from the post-rc2 training set, include all 5 labels.}}
+  \caption{\label{snli-examples}Randomly chosen examples from the SNLI development set, shown with the gold labels and the full set of annotator labels (abbreviated).}
 \end{table*}
 
-Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development sent with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and bare noun phrases of a style that is appropriate for the underlying caption task. Punctution and capitalization are only intermittently present.
+Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development sent with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and bare noun phrases of a style that is appropriate for the underlying caption task. Punctution and capitalization are only intermittently presE
 
 The data will be released upon publication under a CreativeCommons
 Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.
@@ -126,10 +124,10 @@ Label $=$ original author's label & 85.8\%\\
     \toprule
 \textbf{Label} & \textbf{Train} & \textbf{Dev} & \textbf{Test}\\
 \midrule
-\ii{entailment} &33.3 & 33.3 & 33.7 \\
-\ii{neutral} & 33.2 & 32.4 & 32.2 \\
-\ii{contradiction} &  33.3 & 32.7 & 32.4  \\
-- (no consensus) & 0.1 & 1.6 & 1.8 \\
+\ii{entailment} &		33.3 & 	33.3 & 	33.7 \\
+\ii{neutral} & 		33.2 & 	32.4 & 	32.2 \\
+\ii{contradiction} &  	33.3 & 	32.7 & 	32.4  \\
+- (no consensus) & 	0.1 & 	1.6 & 	1.8 \\
 \bottomrule
   \end{tabular}	
 % From 1.0rc3
