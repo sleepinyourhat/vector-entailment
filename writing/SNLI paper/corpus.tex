@@ -1,20 +1,63 @@
 \section{A new corpus for natural language inference}\label{sec:discussion}
 
-\todo{Rewrite and expand motivation here (CP?)}
+\subsection{Motivation}
 
-Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
+To date, the primary sources of annotated NLI corpora have been the
+Recognizing Textual Entailment (RTE)
+tasks.\footnote{\url{http://aclweb.org/aclwiki/index.php?title=Textual_Entailment_Resource_Pool}}
+These are generally high-quality, hand-labeled data sets, and they
+have stimulated innovative logical and statistical models of natural
+language reasoning, but their small size limits their utility as a
+testbed for distributed representations. The recent SemEval 2014 data
+set called Sentences Involving Compositional Knowledge (SICK) is a
+step up in terms of size, but only to about 10,000 examples, and its
+partly automatic construction introduced some spurious patterns into
+the data (\citealt{marelli2014semeval}, $\S$6). Finally, the
+Denotation Graph data set \cite{hodoshimage} contains millions of
+examples, but it was constructed using fully automatic methods, and is
+noisy enough that it is probably suitable only as a source of
+supplementary training data.
 
-\subsection{Grounding with imagined images}
+Existing resources suffer from a subtler issue that impacts even
+projects using only human-provided annotations: indeterminacies of
+event and entity coreference lead to insurmountable indeterminacy
+concerning the correct semantic label \cite{marelli2014sick}. For
+instance, the sentence pair \word{A boat sank in the Pacific
+  ocean} and \word{A boat sank in the ocean} could reasonably in
+numerous ways depending on how the objects and events are grounded. If
+the two boats are different, then the sentences are semantically
+independent. If the boats are the same and the oceans are the same,
+then the first sentence entails the second (in the relevant
+commonsense way). If the boats are the same and the oceans are
+different, then the two events are (commonsense) contradictory. This
+kind of indeterminacy can be resolved only once the questions of
+coreference are resolved.
 
-\todo{Rewrite and expand (CP?)}
+With our corpus, we sought to address the issues of size, quality, and
+indeterminacy. To do this, we employed a crowdsourcing framework with
+the following crucial innovations. First, the examples were grounded
+in specific scenarios, which helps greatly in controlling event and
+entity coreference that beset existing corpora. Second, the prompt
+gave participants the freedom to produce entirely novel sentences
+within the task setting, which led to richer examples than we see with
+the more proscribed string-editing techniques of earlier approaches,
+without sacrificing consistency. Third, a subset of the resulting
+sentences were sent to a validation task aimed at flagging low-quality
+data and identifying areas of inferential uncertainty.
 
-Quote from SICK paper \cite{marelli2014sick}:
+% Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
 
-\begin{quote}
-Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
-\end{quote}
+% \subsection{Grounding with imagined images}
 
-\todo{SICK is referenced below, so we should set it up as a point of reference either here or in the intro, including mentioning that it had both entailment and similarity labels.}
+% \todo{Rewrite and expand (CP?)} --- I incorporated this above.
+
+% Quote from SICK paper \cite{marelli2014sick}:
+
+% \begin{quote}
+% Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
+% \end{quote}
+
+%\todo{SICK is referenced below, so we should set it up as a point of reference either here or in the intro, including mentioning that it had both entailment and similarity labels.}
 
 \subsection{Data collection}
 
