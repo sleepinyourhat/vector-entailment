@@ -1,5 +1,28 @@
 \begin{abstract} 
-\todo{Write (CP?)}
-
-
+  Entailment and contradiction are fundamental to natural language
+  meaning and lie at the heart of tasks like summarization, textual
+  entailment, and commonsense reasoning.
+  %
+  However, computational modeling of these concepts is currently
+  hampered by the limited nature of existing annotated resources.
+  %
+  To address this, we present a new corpus of sentence pairs labeled
+  for entailment, contradiction, and semantic independence. At 550K
+  pairs, it is an order of magnitude larger than all other resources
+  of its type.
+  %
+  And, in contrast to many such resources, all of the sentences were
+  written by humans in a grounded, naturalistic context, and 54K of
+  the labels have been independently validated.
+  %
+  In this paper, we use this corpus to evaluate a wide variety of
+  models for natural language inference, finding that Tree-Structured
+  Long Short-Term Memory networks (TreeLSTMs) achieve the best
+  performance.
+  %
+  In addition, to enhance the case for TreeLSTMs, and deepen the
+  argument for the centrality of entailment and contradiction in
+  semantics, we show that the TreeLSTM's representatations, trained on
+  our corpus, perform well in a disparate set of additional semantic
+  tasks.  
 \end{abstract}
