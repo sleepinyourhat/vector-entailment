@@ -18,11 +18,11 @@ representations. Distributed representations excel at capturing
 relations based in similarity, and they have proven effective at
 modeling simple dimensions of meaning like evaluative sentiment
 \cite{socher2013acl1}, but it is less clear that they can be
-trained to support the full range of logical inferences required for
-NLI. In the SemEval 2014 task aimed at evaluating distributed
+trained to support the full range of logical and commonsense
+ inferences required for NLI. In the SemEval 2014 task aimed at evaluating distributed
 representations for NLI, the best-performing systems relied heavily on
 additional features and reasoning capabilities
-\cite{marelli2014semeval}.
+\cite{marelli2014semeval}. 
 
 Our primary objective in this paper is to provide a new empirical
 evaluation of a wide range of models for distributed semantic
@@ -34,14 +34,15 @@ indeterminacies of event and entity coreference that significantly
 impact annotation quality.
 
 To address this, we present a new corpus of sentence pairs labeled for
-entailment, contradiction, and semantic independence. At 550,152
+entailment, contradiction, and semantic independence. At 570,152
 sentence-pairs, this corpus is orders of magnitude larger than all
 other resources of its type. And, in contrast to many such resources,
 all of the sentences were written by humans in a grounded,
 naturalistic context. In a separate validation phase, we collected
-four additional judgments for each label for 56,941 of the examples,
-and 98\% of cases emerge with a gold label, which attests to the high
-quality of the data.
+four additional judgments for each label for 56,941 of the examples.
+Of these, 98\% of cases emerge with a three annotator consensus, 
+and 58\% see a unanimous consensus from all five annotators, 
+which attests to the high quality of the data.
 
 In this paper, we use this corpus to evaluate a wide variety of models
 for natural language inference, including rule-based systems, simple
@@ -54,6 +55,7 @@ disparate set of additional semantic tasks.  The success of these
 transfer-learning experiments is also a testament to the centrality
 of NLI in semantics.
 
+\todo{Plain LSTMs strong, used in transfer.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

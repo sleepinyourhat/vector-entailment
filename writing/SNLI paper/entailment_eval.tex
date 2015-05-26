@@ -145,7 +145,7 @@ Our classifier implements 6 features:
 \label{tab:bowresults}
 Accuracy on the 2-class and 3-class SNLI dataset, as well as precision/recall
   on the 2-class task to allow for comparision with the RTE systems.
-Ablation studies are reported for removing bigram features and all lexical
+Ablation results are reported for models lacking bigram features and lacking all lexical
   features.
 \todo{fill in dev numbers}
 }
@@ -186,7 +186,7 @@ Our neural network classifier, depicted in Fig.~\ref{modelstructure} is simply a
 
 We test six sentence representation models, each set to use 50d word and phrase embeddings. Our baseline model in this experiment simply sums the embeddings of the word in each sentence. Next, we experiment with two recurrent models: a plain RNN, and a one-layer LSTM RNN \cite{hochreiter1997long}. Finally, we experiment with three tree-structured models: a plain TreeRNN \cite{socher2011semi}, a tensor-parameterized TreeRNTN \cite{socher2013acl1}, and a TreeLSTM \cite{tai2015improved}.
 
-The word embeddings for all of the moedels are initialized the 200d reference GloVe vectors \cite{pennington2014glove} and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 200d embeddings into the 50d working space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
+The word embeddings for all of the moedels are initialized the 300d reference GloVe vectors \cite{pennington2014glove} and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensianal phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
 
 \begin{table}
 \begin{center}
@@ -194,12 +194,12 @@ The word embeddings for all of the moedels are initialized the 200d reference Gl
 \hline
 \textbf{Sentence model} & \b{Train}  & \b{Test}\\
 \hline
-\t{Sum of words}            & \t{79?} & \t{76?} \\
-\t{RNN}            & \t{?} & \t{68} \\	
-\t{LSTM RNN}            & \t{75?} & \t{76?} \\
-\t{TreeRNN}            & \t{69?} & \t{69?} \\
-\t{TreeRNTN}            & \t{58?} & \t{56?} \\
-\t{LSTM TreeRNN}            & \t{75?} & \t{73?} \\
+\t{100d Sum of words}            & \t{79?} & \t{76?} \\
+\t{100d RNN}            & \t{?} & \t{68} \\	
+\t{100d LSTM RNN}            & \t{75?} & \t{76?} \\
+\t{100d TreeRNN}            & \t{69?} & \t{69?} \\
+\t{50d TreeRNTN}            & \t{58?} & \t{56?} \\
+\t{100d LSTM TreeRNN}            & \t{75?} & \t{73?} \\
 \hline
 \end{tabular}
 \end{center}
