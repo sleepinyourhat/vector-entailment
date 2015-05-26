@@ -17,19 +17,21 @@ approaches employing \emph{distributed} word and phrase
 representations. Distributed representations excel at capturing
 relations based in similarity, and they have proven effective at
 modeling simple dimensions of meaning like evaluative sentiment
-\cite{socher2013acl1}, but it is less clear that they can be
+(e.g., \citealt{socher2013acl1}), but it is less clear that they can be
 trained to support the full range of logical and commonsense
- inferences required for NLI. In the SemEval 2014 task aimed at evaluating distributed
+inferences required for NLI. In the SemEval 2014 task aimed at evaluating distributed
 representations for NLI, the best-performing systems relied heavily on
 additional features and reasoning capabilities
 \cite{marelli2014semeval}. 
 
 Our primary objective in this paper is to provide a new empirical
 evaluation of a wide range of models for distributed semantic
-representations in the context of NLI. However, in our view, the
-existing corpus resources in this area do not permit such an
-assessment. They are generally too small for training modern
-data-intensive, wide-coverage models, and they are often beset with
+representations in the context of NLI, thereby deepening the case for
+NLI as a powerful evaluation of domain-general approaches to semantic
+representation. However, in our view, existing NLI corpora do not
+permit such an assessment. They are generally too small for training
+modern data-intensive, wide-coverage models, many contain sentences
+that were algorithmically generated, and they are often beset with
 indeterminacies of event and entity coreference that significantly
 impact annotation quality.
 
