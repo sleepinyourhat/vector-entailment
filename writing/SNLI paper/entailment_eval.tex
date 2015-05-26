@@ -7,11 +7,11 @@ We evaluate a number of strong baselines on the SNLI corpus.
 The first class of baselines use models from the Excitement Open
   Platform (EOP,
   \citealt{pado2014design,magnini2014excitement})
-  -- an open source platform for RTE research which
-  is distributed alongside a number of RTE pipelines.
-We additionally evaluate against a both an unlexicalized and lexicalized
-  classifier with straightforward feature sets.
-\todo{some meaningful insight from \#s}
+  -- an open source platform for RTE research.
+%  which
+%  is distributed alongside a number of RTE pipelines.
+We additionally evaluate against a strong classifier-based baseline based on
+  both  unlexicalized and lexicalized features.
 
 
 %
@@ -31,18 +31,26 @@ These fall into two classes of algorithms: 2 are edit distance based,
   whereas the remaining 7 make use of different features in a
   maximum entropy classifier.
 
-% methodology
-We convert the 3-way classification task in SNLI into the RTE setting
-  by labeling both the \unknown\ and \contradiction\
-  labels as negative entailment, and treating the \entailment\ label as
-  the positive entailment.
-This creates a biased dataset of 66\% negative examples.
+%% methodology
+%We convert the 3-way classification task in SNLI into the RTE setting
+%  by labeling both the \unknown\ and \contradiction\
+%  labels as negative entailment, and treating the \entailment\ label as
+%  the positive entailment.
+%This creates a biased dataset of 66\% negative examples.
 % we report the best results from each class
-We run each of the 9 algorithms distributed with EOP on the 2-class
-  SNLI dataset, and report results for the best edit distance 
-  configuration and the best classifier based configuration, as
+We run the top performing edit-distance based algorithm and the top
+  performing classifier-based algorithm on the SNLI test set, as
   determined by performance on the development set.
-\todo{we may not have CPU time for this}.
+Note that these models were run using the default configuration
+  with minimal tuning.
+The results should therefore be taken as a strong baseline for
+  RTE-style approaches to the problem, rather than necessarily
+  representing the state-of-the-art system's performance on the
+  task.
+%We run each of the 9 algorithms distributed with EOP on the 2-class
+%  SNLI dataset, and report results for the best edit distance 
+%  configuration and the best classifier based configuration, as
+%  determined by performance on the development set.
 
 %
 % EOP RESULTS TABLE
@@ -64,7 +72,7 @@ We run each of the 9 algorithms distributed with EOP on the 2-class
 \hline
 \t{Edit Distance} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & 
                     \t{??.?} & \t{??.?} \\
-\t{Classifier}    & \t{68.0} & \t{38.7} & \t{49.3} & \t{73.5} & 
+\t{Classifier}    & \t{67.9} & \t{38.7} & \t{49.3} & \t{7X.X} & 
                     \t{64.2} & \t{65.3} \\
 \hline
 \end{tabular}
@@ -72,11 +80,13 @@ We run each of the 9 algorithms distributed with EOP on the 2-class
 % The caption
 \caption{
 \label{tab:eopresults}
-2-class accuracy and precision/recall of existing competitive RTE
+3-class accuracy and precision/recall of existing competitive RTE
 systems from the Excitement Open Platform.
 Results are reported for an edit-distance based algorithm, and a
   classifier-based system.
-For comparision, results are also reported on the RTE-3 dataset.
+In order to calibrate the difficulty of the dataset against the 
+  classical RTE problems, results are also reported on the (2-class) 
+  RTE-3 dataset.
 \todo{numbers are still dev.}
 }
 \end{table}
@@ -89,8 +99,41 @@ We report results in \reftab{eopresults}.
 The best edit distance algorithm tunes the the weight of the three 
   case-insensitive edit distance operations on the training set, 
   after removing stop words.
-The best classifier-based system \todo{does something}.
-\todo{some insight from results}.
+The best classifier-based system makes use of information from
+  WordNet \cite{miller1995wordnet} and VerbOcean
+  \cite{chklovski2004verbocean}, and makes use of features
+  based on tree patterns and dependency tree skeletons
+  \cite{wang2007recognizing}.
+Unsurprisingly, the classification-based approach outperforms simple
+  edit distance metrics, and performs quite well despite relatively
+  little lexicalization.
+
+% TODO(Sam): Can you add these to the Bibtex?
+%
+%@article{miller1995wordnet,
+%  title={{W}ord{N}et: a lexical database for English},
+%  author={Miller, George A},
+%  journal={Communications of the ACM},
+%  volume={38},
+%  number={11},
+%  pages={39--41},
+%  year={1995},
+%  publisher={ACM}
+%}
+%
+%@inproceedings{chklovski2004verbocean,
+%  title={VerbOcean: Mining the Web for Fine-Grained Semantic Verb Relations.},
+%  author={Chklovski, Timothy and Pantel, Patrick},
+%  booktitle={EMNLP},
+%  year={2004}
+%}
+%
+%@inproceedings{wang2007recognizing,
+%  title={Recognizing textual entailment using sentence similarity based on dependency tree skeletons},
+%  author={Wang, Rui and Neumann, G{\"u}nter},
+%  booktitle={ACL-PASCAL Workshop on Textual Entailment and Paraphrasing},
+%  year={2007},
+%}
 
 %
 % Lexicalized Classifier
@@ -98,28 +141,29 @@ The best classifier-based system \todo{does something}.
 \paragraph{Lexicalized Classifier}
 Unlike the RTE datasets, SNLI's size allows approaches which make use of
   rich lexicalized features.
-We implmement a lexicalized classifier to provide a strong baseline for future work
-  on the dataset.
+We implmement such a lexicalized classifier as a strong baseline 
+  for the task.
 Our classifier implements 6 features:
-\begin{enumerate}  % TODO(gabor) This takes up way too much space
-\setlength\itemsep{0em}
+\begin{enumerate}
+\setlength\itemsep{-0.25em}
   \item the BLEU score of the \hypothesis\ with respect
   to the \premise, using an n-gram length between 1 and 4.
 
   \item The length difference between the \hypothesis\ and the \premise, as a real-valued
   feature.
 
-  \item The overlap between words in the \premise\ and \hypothesis. This is counted
-  both as an absolute count and a percentage of possible overlap, and is computed
-  both over all words and over just nouns, verbs, adjectives, and adverbs.
+  \item The overlap between words in the \premise\ and \hypothesis. We include
+  both as an absolute count and a percentage of possible overlap, and compute
+  the count both over all words and over just nouns, verbs, adjectives, 
+  and adverbs.
+  
+  \item\label{lst:ngram} An indicator for every unigram and bigram in the \hypothesis.
 
-  \item For every pair of words across the \premise\ and \hypothesis\ which share a 
+  \item\label{lst:unigram} Cross-unigrams: for every pair of words across the \premise\ and \hypothesis\ which share a 
   POS tag, an indicator feature over the two words.
   
-  \item For every pair of bigrams across the \premise\ and \hypothesis\ which share a 
+  \item\label{lst:bigram} Cross-bigrams: for every pair of bigrams across the \premise\ and \hypothesis\ which share a 
   POS tag, an indicator feature over the two bigrams.
-  
-  \item An indicator for every unigram and bigram in the \hypothesis.
 \end{enumerate}
 
 %
@@ -143,10 +187,11 @@ Our classifier implements 6 features:
 % The caption
 \caption{
 \label{tab:bowresults}
-Accuracy on the 2-class and 3-class SNLI dataset, as well as precision/recall
-  on the 2-class task to allow for comparision with the RTE systems.
-Ablation results are reported for models lacking bigram features and lacking all lexical
-  features.
+Accuracy on the SNLI dataset, including precision/recall for the
+  \textit{entailed} class on the test set.
+Ablation results are reported for models lacking cross-bigram features 
+  (Feature \ref{lst:bigram}), and lacking all lexical
+  features (Features \ref{lst:ngram}--\ref{lst:bigram}).
 \todo{fill in dev numbers}
 }
 \end{table}
@@ -156,11 +201,10 @@ Ablation results are reported for models lacking bigram features and lacking all
 
 % Commenting out until PDF available. -S
 % Running 'make' should generate PDF from gnuplot
-\Fig{learning_curves_bow.pdf}{0.6}{bowlearncurve}{
+\Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
 A learning curve for the lexicalized and unlexicalized baseline classifiers,
 plotted on a log scale.
 Note the y axis starting at a random-chance accuracy of 33\%.
-\todo{numbers are approx.}
 }
 
 % Results
@@ -170,7 +214,30 @@ We report results in \reftab{bowresults}, along with ablation studies for removi
 In addition, we report learning curves for the lexicalized and fully unlexicalized
   classifiers in \reffig{bowlearncurve}.
 
-Note that \todo{something interesting happens}.
+% Insights 1: lexicalization helps a bunch
+It is interesting to note the substantial jump in accuracy from using
+  lexicalized features, and even from using the relatively sparse
+  cross-bigram features.
+In fact, the addition of these features alone allow the classifier to
+  outperform the RTE baselines -- this is in some sense unsurprising:
+  the RTE systems have been tuned on relatively small corpora
+  (~1600 examples), whereas a classifier trained on SNLI can make use of
+  over two orders of magnitude more data.
+
+% Insights 2: the learning curve for the unlexicalized classifier is sad
+More surprising is how quickly the lexicalized classifier outperforms its
+  unlexicalized counterpart (see \reffig{bowlearncurve}).
+With only 100 training examples, the cross-bigram classifier is already
+  outperforming its unlexicalized counterpart.
+Empirically we notice that the top weighted features for the classifier
+  trained on 100 examples tend to be high precision entailments;
+  e.g.,
+  \textit{playing} $\rightarrow$ \textit{outside}
+  (most scenes are outdoors), or \textit{a banana} $\rightarrow$
+  \textit{person eating}.
+If relatively few spurious entailments get high weight -- as it appears
+  is the case -- then it makes sense that when these do fire they
+  provide some boost in accuracy.
 
 
 %\subsection{Existing NLI systems}
