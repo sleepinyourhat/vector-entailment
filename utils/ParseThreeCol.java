@@ -62,7 +62,7 @@ class ParseThreeCol {
 						parsed[i - 1] = parse.toString();	
 						binarized[i - 1] = unlabeledPrint(collapsed);	
 					}
-					System.out.println(columnDetail[0] + "\t" + binarized[0] + "\t" + binarized[1] + "\t" + parsed[0] + "\t" + parsed[1] + "\t" + columnDetail[1] + "\t" + columnDetail[2] + "\t" + columnDetail[3]);
+					System.out.println(columnDetail[0] + "\t" + binarized[0] + "\t" + binarized[1] + "\t" + parsed[0] + "\t" + parsed[1] + "\t" + columnDetail[1] + "\t" + columnDetail[2]);
 					num_done++;
 					if (num_done % 1000 == 0) {
 						System.err.println("Finished " + num_done + ".");

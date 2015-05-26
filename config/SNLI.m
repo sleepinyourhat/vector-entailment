@@ -54,10 +54,6 @@ if gc > 0
     hyperParams.maxGradNorm = gc;
 end
 
-% TODO:
-% hyperParams.maxDeltaNorm = dp;
-% hyperParams.connectionCostScale = mult;
-
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
 hyperParams.bottomDropout = bottomDropout;

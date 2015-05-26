@@ -47,9 +47,9 @@ class ParseThreeColPartial {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(args[0]));  
 			String line = null;  
-			String[] columnDetail = new String[4];
-			String[] binarized = new String[2];
-			String[] parsed = new String[2];
+			String[] columnDetail = new String[5];
+			String[] binarized = new String[1];
+			String[] parsed = new String[1];
 
 			int num_done = 0;
 			while ((line = br.readLine()) != null) {
@@ -62,7 +62,7 @@ class ParseThreeColPartial {
 						parsed[i - 1] = parse.toString();	
 						binarized[i - 1] = unlabeledPrint(collapsed);	
 					}
-					System.out.println(columnDetail[0] + "\t" + binarized[0] + "\t" + "\t" + parsed[0] + "\t" + "\t" + columnDetail[1] + "\t" + "\t");
+					System.out.println(columnDetail[0] + "\t" + binarized[0] + "\t" + "\t" + parsed[0] + "\t" + "\t" + columnDetail[1] + "\t" + columnDetail[2]  + "\t");
 					num_done++;
 					if (num_done % 1000 == 0) {
 						System.err.println("Finished " + num_done + ".");
