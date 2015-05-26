@@ -9,7 +9,8 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
     '-comp', num2str(composition)];
 
-hyperParams.sentenceClassificationMode = 1;
+% Treat this as an entailment problem, with the target word as the hypothesis.
+hyperParams.sentenceClassificationMode = 0;
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
@@ -59,9 +60,9 @@ hyperParams.labels = {{'CT_plus', 'CT_minus', 'PR_plus', 'PR_minus', 'PS_plus', 
 labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-hyperParams.trainFilenames = {'pragbank-data/train.txt'};    
+hyperParams.trainFilenames = {'pragbank-data/train-parsed.txt'};    
 hyperParams.splitFilenames = {};    
-hyperParams.testFilenames = {'pragbank-data/test.txt'};
+hyperParams.testFilenames = {'pragbank-data/test-parsed.txt'};
 
 
 if strcmp(dataflag, 'pragbank')

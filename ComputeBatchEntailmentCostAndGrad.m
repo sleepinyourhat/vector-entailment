@@ -242,6 +242,13 @@ if computeGrad
         embGrad = [];
     end
 
+    if hyperParams.clipGradients
+        gradNorm = norm(grad);
+        if gradNorm > hyperParams.maxGradNorm
+            grad = grad .* (hyperParams.maxGradNorm ./ gradNorm);
+        end
+    end
+
     if sum(isnan(grad)) > 0
         [ mergeMatrices, mergeMatrix, ...
             softmaxMatrix, trainedWordFeatures, compositionMatrices,...

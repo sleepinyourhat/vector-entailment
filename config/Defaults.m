@@ -26,7 +26,7 @@ hyperParams.eyeScale = 0.5;
 % Which initialization scheme to use
 hyperParams.NNinitType = 1;
 hyperParams.NTNinitType = 1;
-hyperParams.LSTMinitType = 2;
+hyperParams.LSTMinitType = 5;
 
 % How far *in each direction* should the connection classifier in a Lattice model look.
 % Setting this to 1 means to only use the immediate left and right composition inputs with no
@@ -74,7 +74,7 @@ hyperParams.topDropout = 1;
 % the embeddings at those indices will be reinitialized before computing each example. Used for ALCIR.
 hyperParams.randomEmbeddingIndices = [];
 
-hyperParams.restartUpdateRuleInTransfer = true;
+hyperParams.restartUpdateRuleInTransfer = false;
 
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.

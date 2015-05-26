@@ -1,112 +1,112 @@
-PR_plus	the three will join
-CT_plus	a strand of hair was found near where a sniper shot and killed a doctor
-PR_plus	the hair came from the same person
-CT_minus	the first DNA tests excluded a match between the two strands
-PR_plus	the sniper fired the rifle bullet that killed Slepian near the location where the cap was found
-CT_plus	Louis Freeh went on an official visit to Mexico
-CT_plus	there was a shooting
-CT_plus	a trail of credit card receipts leads to Mexico
-CT_plus	Kopp's car was spotted in Amherst in the weeks before Slepian was killed
-CT_plus	Horsley's ÒNuremburg FilesÓ was the focus of a federal court trial that lead to a $107 million verdict
-CT_minus	Horsley was a defendant in the suit
-CT_plus	they are searching for a bolder provider to host the files
-CT_plus	Poland, Hungary and the Czech Republic shed their military ties to the Soviet Union
-CT_plus	Secretary of State Madeleine Albright accepted admission papers from the three countries' foreign ministers
-CT_plus	Jan Kavan was working in nearby Kansas City with the underground in 1968
-PR_plus	the issue will dominate a NATO summit
-CT_plus	there will be a NATO summit
-CT_plus	the three new members enhance NATO's ability to fulfill its core mission
-CT_plus	extending membership to these three democracies helps stabilize a region
-PS_plus	a rifle found near the home of a slain abortion doctor yielded clues
-CT_plus	Rowe said that the rifle might also have clothing fibers
-CT_minus	investigators said how close the weapon was to the house
-CT_plus	a doctor was slain
-PR_plus	James Kopp is responsible for the death of Dr. Barnett Slepian
-CT_minus	investigators divulged the evidence against Kopp
-Uu	Kopp will contact a priest
-Uu	Kopp did something
-CT_plus	investigators said a discovery of a rifle represented a major breakthrough
-CT_plus	Kopp also has been linked to a strand of hair found near where the sniper fired
-CT_plus	 the sniper fired
-CT_minus	Kopp has been arrested
-CT_plus	Bin Laden and Kopp have one thing in common
-CT_plus	it is unknown whether Kopp crossed into Mexico
-CT_plus	Bin Laden is placed on the most-wanted list
-CT_plus	the FBI receives threats from individuals with ties to Bin Laden
-CT_plus	Bin Laden and Kopp are the 455th and 456th persons to be placed on the FBI's most wanted list
-CT_minus	another eight suspects have been apprehended
-CT_minus	he has felony convictions
-CT_minus	there was a memorial service
-CT_minus	the police know where Kopp is
-CT_plus	there was a service
-CT_plus	Emily Lyons has undergone a number of operations since the clinic bombing
-CT_plus	police Inspector Dave Bowen says that someone is wanted for attempted murder
-CT_minus	a principled commitment stopped the assassin's bullet
-CT_plus	a clinic bombing wounded a nurse
-CT_minus	all arson and bombings at clinics still make the national news
-CT_plus	conservatives are working to dismantle reproductive rights
-Uu	doctors are working
-CT_minus	more than 80 percent of counties in this country have an abortion provider
-CT_plus	additional details of the slaying emerged on Sunday
-CT_plus	the sniper's bullet entered through a partially draped kitchen window
-CT_plus	Murray said that the doctor's wife and one of his sons were in the kitchen
-CT_plus	Donald Spitz described Slepian's killer as a hero
-CT_plus	Bishop Henry Mansell defended the Church's opposition to abortion
-CT_plus	they call these doctors murderers
-CT_minus	Charles Schumer has raised Slepian's death himself
-CT_minus	suspects have been identified
-CT_minus	David Eichenbaum is working for someone in this year's campaign
-CT_plus	there was an incident
-CT_minus	D'Amato's aides commented about the political ramifications of the slaying
-CT_minus	Schumer's aides talked about whether they planned to refer to it in any advertisements
-CT_plus	Steven Goldstein was less reticent
-CT_minus	Vacco enforced a court order in 1992 against anti-abortion protesters
-Uu	Spitzer will be elected
-CT_plus	Goldstein defended the use of the issue by noting that the attorney general has direct impact on the issue of clinic access
-PS_plus	there is political hay to be made
-PS_plus	political hay will be made
-CT_minus	Maureen Connelly was working for at least one candidate in the election
-PS_plus	the antiabortion activist fled to Mexico
-CT_plus	a task force is investigating the similarities
-CT_plus	two men were questioned
-CT_minus	the men were termed suspects
-CT_plus	an abortion opponent is being sought
-CT_minus	Amherst police officials commented Saturday
-CT_plus	a police officer on duty took their names
-CT_plus	they were  in the area after the homicide
-CT_plus	there was a homicide
-PR_plus	the two men live in the Cleveland area
-CT_minus	Albright made secret of her joy
-CT_plus	the speaker said that `Hallelujah' was an old Central European expression
-CT_plus	there was an enlargement of NATO
-CT_plus	proponents said the goal to enlarge NATO grew out of a desire to cement democratic gains
-CT_plus	the speaker and his people will continue to erase the line drawn in Europe by Stalin
-CT_plus	the speaker and his people will be erasing the line drawn in Europe by Stalin
-PS_plus	NATO will be involved in Kosovo
-CT_plus	the NATO summit will produce an initiative
-CT_plus	there will be an initiative
-PS_plus	there will be NATO air strikes
-Uu	Milosevic will agree to the deployment
-CT_plus	the Czech foreign minister remained buoyant during his opposition work
-CT_minus	NATO has reached out to its former Eastern-bloc enemies in the past
-PR_plus	District Attorney Frank C. Clark has amassed material to support a criminal indictment for homicide
-CT_minus	the authorities are saying who the suspect is
-CT_minus	the authorities have an idea where Kopp is
-CT_plus	Clark said that finding the rifle was important
-CT_minus	all of those doctors were killed
-CT_minus	Denise E. O'Donnell discussed what federal charges were being pursued
-CT_plus	the fibers found near the murder and the fibers found in Kopp's car match
-CT_minus	there was an official confirmation of the decision to upgrade the warrant
-CT_plus	there was a major development in the Slepian murder investigation
-CT_minus	there is a federal homicide statute
-PS_plus	Kopp will be charged under the recent Freedom of Access to Clinic Entrances Ac
-CT_plus	there are threats against abortion providers
-Uu	Kopp will be convicted
-CT_minus	a weapon was recovered in the first police searches
-CT_plus	a stranger was parked near Slepian's home early
-CT_plus	there was a ratification process in February this year
-CT_minus	a date had already been fixed
-CT_plus	the accession will enables the countries to be eligible for signing the documents
-CT_plus	the embassy's mission of liaison between Hungary and NATO ended
-CT_plus	there is an embassy's mission of liaison between Hungary and NATO
-CT_plus	Martonyi said "it has been our manifest destiny to rejoin those with whom we share the same values, interests and goals''
+PR_plus	the three will join	join
+CT_plus	a strand of hair was found near where a sniper shot and killed a doctor	found
+PR_plus	the hair came from the same person	came
+CT_minus	the first DNA tests excluded a match between the two strands	exclude
+PR_plus	the sniper fired the rifle bullet that killed Slepian near the location where the cap was found	fired
+CT_plus	Louis Freeh went on an official visit to Mexico	visit
+CT_plus	there was a shooting	shooting
+CT_plus	a trail of credit card receipts leads to Mexico	leading
+CT_plus	Kopp's car was spotted in Amherst in the weeks before Slepian was killed	spotted
+CT_plus	Horsley's ÒNuremburg FilesÓ was the focus of a federal court trial that lead to a $107 million verdict	was
+CT_minus	Horsley was a defendant in the suit	was
+CT_plus	they are searching for a bolder provider to host the files	searching
+CT_plus	Poland, Hungary and the Czech Republic shed their military ties to the Soviet Union	shedding
+CT_plus	Secretary of State Madeleine Albright accepted admission papers from the three countries' foreign ministers	accepted
+CT_plus	Jan Kavan was working in nearby Kansas City with the underground in 1968	working
+PR_plus	the issue will dominate a NATO summit	dominate
+CT_plus	there will be a NATO summit	summit
+CT_plus	the three new members enhance NATO's ability to fulfill its core mission	enhance
+CT_plus	extending membership to these three democracies helps stabilize a region	helps
+PS_plus	a rifle found near the home of a slain abortion doctor yielded clues	yield
+CT_plus	Rowe said that the rifle might also have clothing fibers	said
+CT_minus	investigators said how close the weapon was to the house	say
+CT_plus	a doctor was slain	slaying
+PR_plus	James Kopp is responsible for the death of Dr. Barnett Slepian	responsible
+CT_minus	investigators divulged the evidence against Kopp	divulge
+Uu	Kopp will contact a priest	contact
+Uu	Kopp did something	did
+CT_plus	investigators said a discovery of a rifle represented a major breakthrough	said
+CT_plus	Kopp also has been linked to a strand of hair found near where the sniper fired	linked
+CT_plus	 the sniper fired	fired
+CT_minus	Kopp has been arrested	arrest
+CT_plus	Bin Laden and Kopp have one thing in common	have
+CT_plus	it is unknown whether Kopp crossed into Mexico	unknown
+CT_plus	Bin Laden is placed on the most-wanted list	placing
+CT_plus	the FBI receives threats from individuals with ties to Bin Laden	receive
+CT_plus	Bin Laden and Kopp are the 455th and 456th persons to be placed on the FBI's most wanted list	are
+CT_minus	another eight suspects have been apprehended	apprehended
+CT_minus	he has felony convictions	has
+CT_minus	there was a memorial service	service
+CT_minus	the police know where Kopp is	know
+CT_plus	there was a service	service
+CT_plus	Emily Lyons has undergone a number of operations since the clinic bombing	operations
+CT_plus	police Inspector Dave Bowen says that someone is wanted for attempted murder	say
+CT_minus	a principled commitment stopped the assassin's bullet	stop
+CT_plus	a clinic bombing wounded a nurse	wounded
+CT_minus	all arson and bombings at clinics still make the national news	make
+CT_plus	conservatives are working to dismantle reproductive rights	working
+Uu	doctors are working	working
+CT_minus	more than 80 percent of counties in this country have an abortion provider	have
+CT_plus	additional details of the slaying emerged on Sunday	emerged
+CT_plus	the sniper's bullet entered through a partially draped kitchen window	entered
+CT_plus	Murray said that the doctor's wife and one of his sons were in the kitchen	said
+CT_plus	Donald Spitz described Slepian's killer as a hero	described
+CT_plus	Bishop Henry Mansell defended the Church's opposition to abortion	defend
+CT_plus	they call these doctors murderers	call
+CT_minus	Charles Schumer has raised Slepian's death himself	raised
+CT_minus	suspects have been identified	identified
+CT_minus	David Eichenbaum is working for someone in this year's campaign	working
+CT_plus	there was an incident	incident
+CT_minus	D'Amato's aides commented about the political ramifications of the slaying	comment
+CT_minus	Schumer's aides talked about whether they planned to refer to it in any advertisements	talk
+CT_plus	Steven Goldstein was less reticent	was
+CT_minus	Vacco enforced a court order in 1992 against anti-abortion protesters	enforce
+Uu	Spitzer will be elected	elected
+CT_plus	Goldstein defended the use of the issue by noting that the attorney general has direct impact on the issue of clinic access	defended
+PS_plus	there is political hay to be made	be
+PS_plus	political hay will be made	made
+CT_minus	Maureen Connelly was working for at least one candidate in the election	working
+PS_plus	the antiabortion activist fled to Mexico	fled
+CT_plus	a task force is investigating the similarities	investigating
+CT_plus	two men were questioned	questioning
+CT_minus	the men were termed suspects	termed
+CT_plus	an abortion opponent is being sought	sought
+CT_minus	Amherst police officials commented Saturday	comment
+CT_plus	a police officer on duty took their names	took
+CT_plus	they were  in the area after the homicide	were
+CT_plus	there was a homicide	homicide
+PR_plus	the two men live in the Cleveland area	live
+CT_minus	Albright made secret of her joy	made
+CT_plus	the speaker said that `Hallelujah' was an old Central European expression	said
+CT_plus	there was an enlargement of NATO	enlargement
+CT_plus	proponents said the goal to enlarge NATO grew out of a desire to cement democratic gains	said
+CT_plus	the speaker and his people will continue to erase the line drawn in Europe by Stalin	continue
+CT_plus	the speaker and his people will be erasing the line drawn in Europe by Stalin	erasing
+PS_plus	NATO will be involved in Kosovo	involvement
+CT_plus	the NATO summit will produce an initiative	produce
+CT_plus	there will be an initiative	initiative
+PS_plus	there will be NATO air strikes	strikes
+Uu	Milosevic will agree to the deployment	agree
+CT_plus	the Czech foreign minister remained buoyant during his opposition work	remained
+CT_minus	NATO has reached out to its former Eastern-bloc enemies in the past	reached
+PR_plus	District Attorney Frank C. Clark has amassed material to support a criminal indictment for homicide	amassed
+CT_minus	the authorities are saying who the suspect is	saying
+CT_minus	the authorities have an idea where Kopp is	have
+CT_plus	Clark said that finding the rifle was important	said
+CT_minus	all of those doctors were killed	killed
+CT_minus	Denise E. O'Donnell discussed what federal charges were being pursued	discuss
+CT_plus	the fibers found near the murder and the fibers found in Kopp's car match	match
+CT_minus	there was an official confirmation of the decision to upgrade the warrant	was
+CT_plus	there was a major development in the Slepian murder investigation	development
+CT_minus	there is a federal homicide statute	is
+PS_plus	Kopp will be charged under the recent Freedom of Access to Clinic Entrances Ac	charged
+CT_plus	there are threats against abortion providers	threats
+Uu	Kopp will be convicted	convicted
+CT_minus	a weapon was recovered in the first police searches	recovered
+CT_plus	a stranger was parked near Slepian's home early	parked
+CT_plus	there was a ratification process in February this year	process
+CT_minus	a date had already been fixed	fixed
+CT_plus	the accession will enables the countries to be eligible for signing the documents	enable
+CT_plus	the embassy's mission of liaison between Hungary and NATO ended	end
+CT_plus	there is an embassy's mission of liaison between Hungary and NATO	mission
+CT_plus	Martonyi said "it has been our manifest destiny to rejoin those with whom we share the same values, interests and goals''	saying
