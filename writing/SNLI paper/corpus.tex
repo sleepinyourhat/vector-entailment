@@ -5,7 +5,7 @@ Recognizing Textual Entailment (RTE)
 tasks.\footnote{\url{http://aclweb.org/aclwiki/index.php?title=Textual_Entailment_Resource_Pool}}
 These are generally high-quality, hand-labeled data sets, and they
 have stimulated innovative logical and statistical models of natural
-language reasoning, but their small size of a few hundred examples each
+language reasoning, but their small size (a few hundred examples each)
 limits their utility as a testbed for learned distributed representations. 
 The data for the SemEval 2014 task called Sentences Involving Compositional Knowledge (SICK) is a
 step up in terms of size, but only to 4,500 training examples, and its
@@ -15,8 +15,9 @@ Denotation Graph entailment set \cite{hodoshimage} contains millions of
 examples of entailments between sentences and artificially constructed
 short phrases, but it was labeled using fully automatic methods, and is
 noisy enough that it is probably suitable only as a source of
-supplementary training data.
-\todo{also cf. PPDB?}
+supplementary training data. The Paraphase Database of \cite{ganitkevitch2013ppdb}
+addresses these issues of size and quality, but only for the limited
+fragment of the NLI problem that is captured by paraphase.
 
 Existing resources suffer from a subtler issue that impacts even
 projects using only human-provided annotations: indeterminacies of
@@ -29,7 +30,7 @@ the two boats are assumed to be different, then the sentences are semantically
 independent. If the boats and the oceans are assumed to be the same,
 then the first sentence entails the second (in the relevant
 commonsense way). If the boats are assumed to be the same and 
-\ii{the ocean} in the second sentence is interpreted with a specific referent 
+\word{the ocean} in the second sentence is interpreted with a specific referent 
 that is not the Pacific, then the two events are (commonsense) contradictory. This
 kind of indeterminacy can be resolved only once the questions of
 coreference are resolved.
@@ -64,9 +65,9 @@ data and identifying areas of inferential uncertainty.
 
 We used Amazon Mechanical Turk for data collection. In each individual task (each HIT), a worker was presented with premise scene descriptions from a preexisting corpus, and asked to supply hypotheses that fit each of our three labels (\ii{entailment}, \ii{neutral}, and \ii{contradiction}), forcing the resulting data to be balanced among these classes.
 
-For the premises, we used the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions  (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \textit{Our trip to the Olympic Peninsula}). We presented each caption to at least one worker, and some to more than one. With the exception of a handful that were flagged by workers as excessively difficult, at least three labeled pairs are available for each caption.
+For the premises, we used the Flickr30k corpus \cite{hodoshimage}, a database of approximately 160k captions  (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, and they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \word{Our trip to the Olympic Peninsula}). We presented each caption to at least one worker, and some to more than one. With the exception of a handful that were flagged by workers as excessively difficult, our corpus contains at least three labeled pairs for each caption.
 
-The instructions that we provided to the workers are shown in Fig.~\ref{instructions-1}. Below the instructions were three fields for each of three requested sentences, corresponding to our \ii{entailment}, \ii{neutral}, and \ii{contradiction} labels, a fourth field (marked optional) for reporting problems, and a link to an FAQ page. That FAQ grew over the course of data collection, but discussed disallowed techniques (e.g., reusing the same sentence for many different prompts, which we saw in a few cases), sentence length and complexity (we did not enforce a minimum length, and we allowed bare NPs as well as full sentences), and logistical issues around payment timing. About 2500 workers contributed data.
+The instructions that we provided to the workers are shown in Fig.~\ref{instructions-1}. Below the instructions were three fields for each of three requested sentences, corresponding to our \ii{entailment}, \ii{neutral}, and \ii{contradiction} labels, a fourth field (marked optional) for reporting problems, and a link to an FAQ page. That FAQ grew over the course of data collection. It warned about disallowed techniques (e.g., reusing the same sentence for many different prompts, which we saw in a few cases), provided guidance concerning sentence length and complexity (we did not enforce a minimum length, and we allowed bare NPs as well as full sentences), and reviewed logistical issues around payment timing. About 2,500 workers contributed data.
 
 \begin{figure}
 \begin{framed}
@@ -84,12 +85,15 @@ We will show you the caption for a photo. We will not show you the photo. Using 
 
 \subsection{Data validation}
 
-The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove a small number of responses where either a response field was empty or the original author flagged the source caption for review. In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we did perform an additional round of validation for about 10\% of our data.
+% I suggest removing this sentence. It sounds like a negative, but
+% there is no practical alternative except what we did do.
+%
+% The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove a small number of cases where either a response field was empty or the original author flagged the source caption for review.
+In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we performed an additional round of validation for about 10\% of our data.
+This validation phase was not fundamentally different from the Mechanical Turk labeling task used to label the SICK entailment data: we presented workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original author. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ. Though we used a very restrictive qualification (based on past approval rate) to select workers, we nonetheless discovered and deleted some instances of random guessing during an early round of validation, and subsequently instituted a fully closed qualification restricted to about 30 trusted workers.
+\todo{Leave in mention of qual? I would--CP}
 
-This validation phase is not fundamentally different from the Mechanical Turk labeling task used to label the SICK entailment data: we present workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original composer of the pair. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ. Though we used a very restrictive qualification (based on past approval rate) to select workers, we nonetheless discovered and deleted some instances of random guessing during an early round of validation, and subsequently instituted a fully closed qualification restricted to about 30 trusted workers.
-\todo{Leave in mention of qual?}
-
-For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the standard NLI classification task, and we do not include them when training and evaluating the models discussed in later sections. The results of this validation process are summarized in Tables \ref{validation-stats} and \ref{validation-freq}, and suggest that while fundamental limits of both our crowdsourcing methods and the task itself impose an upper bound on the consistency of our labels, the data is sufficiently high quality to pose a challenging but realistic machine learning task.
+For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the standard NLI classification task, and we do not include them when training and evaluating the models discussed in later sections. The results of this validation process are summarized in Tables \ref{validation-stats}, \ref{kappas}, and \ref{validation-freq}, and suggest that while fundamental limits of both our crowdsourcing methods and the task itself impose an upper bound on the consistency of our labels, the data is sufficiently high quality to pose a challenging but realistic machine learning task.
 
 \subsection{The distributed corpus}
 
@@ -108,7 +112,11 @@ A man inspects the uniform of a figure in some East Asian country. & \b{contr.}&
   \caption{\label{snli-examples}Randomly chosen examples from the SNLI development set, shown with the gold labels and the full set of annotator labels (abbreviated). Unlike in many existing NLI corpora, the premise and hypothesis sentences in SNLI are often too dissimilar in structure to support approaches to NLI that rely on building sentence-to-sentence alignments.}
 \end{table*}
 
-Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development sent with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments. Punctution and capitalization are only intermittently present.
+Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development set with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments. Punctuation and capitalization are only intermittently present.
+
+% \marginpar{{\tiny Does this mean that expected punctuation is missing, 
+% or that the sentences required little punctuation even by 
+% prescriptive standards?}}
 
 The data will be released upon publication under a CreativeCommons
 Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.
@@ -156,8 +164,25 @@ Label $=$ original author's label & 85.8\%\\
     \bottomrule
   \end{tabular}
     % From 1.0rc3
-\caption{\label{validation-stats}Key statistics for the validated sentence pairs.} 
+\caption{\label{validation-stats}Key statistics for the validated pairs.} 
 \end{table}
+
+\begin{table}
+\center
+  %\setlength{\tabcolsep}{15pt}
+  %\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{l r} 
+    \toprule
+    contradiction & 0.77 \\
+    entailment & 0.72 \\
+    neutral & 0.60 \\[1ex]
+    overall & 0.70 \\
+    \bottomrule
+  \end{tabular}
+    % From 1.0rc3
+\caption{\label{kappas}Fleiss $\kappa$ statistics.} 
+\end{table}
+
 
 \begin{table}
 \center
