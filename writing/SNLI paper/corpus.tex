@@ -217,6 +217,42 @@ No gold label (no 3 labels match) & 2.0\%\\
 \caption{\label{validation-stats}Key statistics for the validated pairs. The \ii{author's label} is the label that was used by the worker who wrote the premise to create the sentence pair. A \ii{gold label} reflects a consensus of three votes among the author and the four annotators.} 
 \end{table}
 
+\begin{table}
+  \centering
+  \begin{tabular}{l r} 
+    \toprule
+    contradiction & 0.77 \\
+    entailment & 0.72 \\
+    neutral & 0.60 \\[1ex]
+    overall & 0.70 \\
+    \bottomrule
+  \end{tabular}
+  % From 1.0rc3
+\caption{\label{kappas}Fleiss $\kappa$ statistics (all $p < 0.00001$).} 
+\end{table}
+
+
+%%%%% This is the first table I would cut to save space.
+%%%%% I summarized its content quickly in the prose. CP
+%
+\begin{table}
+\center
+  %\setlength{\tabcolsep}{15pt}
+  %\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{l lll} 
+    \toprule
+\textbf{Label} & \textbf{Train} & \textbf{Dev} & \textbf{Test}\\
+\midrule
+\ii{entailment} &		33.3 & 	33.3 & 	33.7 \\
+\ii{neutral} & 		33.2 & 	32.4 & 	32.2 \\
+\ii{contradiction} &  	33.3 & 	32.7 & 	32.4  \\
+- (no consensus) & 	0.1 & 	1.6 & 	1.8 \\
+\bottomrule
+  \end{tabular}	
+% From 1.0rc3
+\caption{\label{validation-freq}Frequency (\%) of each label in the corpus. Note that examples without gold labels are omitted in standard evaluations.} 
+\end{table}
+
 \paragraph{Partition} We distribute the corpus with a pre-specified train/test/development split. The test and development sets contain 10k examples each. Each original ImageFlickr caption occurs in only one of the three sets, and all of the examples in the test and development sets have gone through validation.
 
 
