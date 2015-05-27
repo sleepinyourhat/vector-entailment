@@ -16,10 +16,10 @@ We use pretrained parameters for all of the LSTM parameters, pretrained paramete
 \textbf{Corpus} & \multicolumn{2}{c}{\b{Train Acc.}} &\multicolumn{3}{c}{ \b{Test Acc.}} \\
  & \t{cold start} & \t{transfer} & \t{cold start} & \t{transfer} & \t{SotA} \\
 \hline
-\t{SICK}            & \t{98} & \t{95} & \t{63?} & \t{80.0?} & \t{84.5} \\
-\t{SUBJ}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?}& \t{??.?} \\
-\t{SST}          & \t{??.?} & \t{??.?} & \t{43?} & \t{43?} & \t{50.6}\\
-\t{PragBank}          & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?}& \t{??.?} \\
+\t{SICK}            & \t{100} & \t{99} & \t{62.9?} & \t{79.8?} & \t{84.5} \\
+\t{SUBJ}          & \t{??.?} & \t{??.?} & \t{90?} & \t{91?}& \t{95.5} \\
+\t{SST}          & \t{??.?} & \t{??.?} & \t{43?} & \t{42?} & \t{50.6}\\
+\t{PragBank}          & \t{??.?} & \t{??.?} & \t{50} & \t{56}& \t{~75} \\
 \hline
 \end{tabular}
 \end{center}
@@ -29,7 +29,7 @@ The performance of an LSTM RNN model on four tasks under both a random initializ
 
 \end{table}
 
-The final column shows the state of the art results from \cite{lai2014illinois}, TODO, \cite{tai2015improved}, TODO, respectively.
+The final column shows the state of the art results from \cite{lai2014illinois}, \cite{zhao2015self}, \cite{tai2015improved}, TODO, respectively.
 \todo{Does Tai have the SotA on SST?}
 
 The results are shown in Table~\ref{tab:transferresults}. For each task, the transfer model is compared with a model that was initialized randomly as normal. Note that \todo{something interesting happens}. Within the domain of NLI, our transfer model shows the best number yet reported on SICK for a fully-learned model, and approaches the overall state of the art (and to the 84\% level of interannotator agreement, a likely performance cieling), while the randomly initialized model performs poorly. This suggests that the introduction of SNLI makes it newly possible to train representation learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on semantically sophisticated tasks.

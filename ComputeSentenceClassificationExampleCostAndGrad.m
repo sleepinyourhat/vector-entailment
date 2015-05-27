@@ -138,7 +138,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
     if hyperParams.clipGradients
         gradNorm = norm(grad);
         if gradNorm > hyperParams.maxGradNorm
-            grad = grad ./ gradNorm;
+            grad = grad .* (hyperParams.maxGradNorm ./ gradNorm);
         end
     end
 end
