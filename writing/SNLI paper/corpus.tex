@@ -35,6 +35,8 @@ that is not the Pacific, then the two events are (commonsense) contradictory. Th
 kind of indeterminacy can be resolved only once the questions of
 coreference are resolved.
 
+\noindent\todo{Introduce name of corpus.}
+
 With our corpus, we sought to address the issues of size, quality, and
 indeterminacy. To do this, we employed a crowdsourcing framework with
 the following crucial innovations. First, the examples were grounded
@@ -66,6 +68,8 @@ data and identifying areas of inferential uncertainty.
 We used Amazon Mechanical Turk for data collection. In each individual task (each HIT), a worker was presented with premise scene descriptions from a preexisting corpus, and asked to supply hypotheses that fit each of our three labels (\ii{entailment}, \ii{neutral}, and \ii{contradiction}), forcing the resulting data to be balanced among these classes.
 
 For the premises, we used the Flickr30k corpus \cite{hodoshimage}, a database of approximately 160k captions  (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, and they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \word{Our trip to the Olympic Peninsula}). We presented each caption to at least one worker, and some to more than one. With the exception of a handful that were flagged by workers as excessively difficult, our corpus contains at least three labeled pairs for each caption.
+
+\noindent\todo{Explain our 5x->1x annotation switch...}
 
 The instructions that we provided to the workers are shown in Fig.~\ref{instructions-1}. Below the instructions were three fields for each of three requested sentences, corresponding to our \ii{entailment}, \ii{neutral}, and \ii{contradiction} labels, a fourth field (marked optional) for reporting problems, and a link to an FAQ page. That FAQ grew over the course of data collection. It warned about disallowed techniques (e.g., reusing the same sentence for many different prompts, which we saw in a few cases), provided guidance concerning sentence length and complexity (we did not enforce a minimum length, and we allowed bare NPs as well as full sentences), and reviewed logistical issues around payment timing. About 2,500 workers contributed data.
 
@@ -114,6 +118,8 @@ suggesting that the corpus is sufficiently high quality to pose a
 challenging but realistic machine learning task.
 
 
+\noindent\todo{More on *why* `-' isn't a valid test label}
+
 \subsection{The distributed corpus}
 
 \begin{table*}
@@ -159,12 +165,14 @@ Test pairs & 10,000\\
 Premise mean token count & 14.1\\
 Hypothesis mean token count & 8.3 \\
 \midrule
-\multicolumn{2}{l}{\textbf{Frequency of complete sentences:}}\\
+\multicolumn{2}{l}{\textbf{Parser output:}}\\
 Premise `S'-rooted parses & 74.0\%\\
 Hypothesis `S'-rooted parses & 88.9\%\\
+Unique word tokens (ignoring case) & ...\\
     \bottomrule
   \end{tabular}
 % From 1.0rc3
+\todo{Unique word count.}
 \caption{\label{collection-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report some statistics for both.} 
 \end{table}
 
@@ -205,7 +213,7 @@ No gold label (no 3 labels match) & 2.0\%\\
 
 The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser \cite{klein2003accurate} (trained on the standard training set as well as on the Brown Corpus; \citealt{francis1979brown}), both in the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
 
-\noindent\todo{Update as appropriate (CM)}
+\noindent\todo{Use version number for 4/20/15 model}
 
 \paragraph{General evaluation standards}
 While we hope that the corpus will be valuable in a variety of ways, we encourage researchers working on tools for semantic representation and inference to evaluate on our data in a uniform way: training on only the (parsed and/or unparsed) sentences included in the training set, and doing final evaluations on only the subset of the test set for which there are single gold labels.

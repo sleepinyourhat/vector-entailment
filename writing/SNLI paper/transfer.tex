@@ -2,6 +2,8 @@
 
 We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on SNLI should transfer well to any other task that involves understanding sentence meaning. To test this, we perform transfer learning experiments on four other tasks, in which models are initialized using the parameters of an LSTM RNN-based model trained on  on SNLI (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
 
+\noindent\todo{Mention domain limitation to scenes}
+
 We first evaluate on SICK (\citealt{marelli2014sick}), the smaller entailment corpus SNLI was modeled on, training on the standard 4.5k training sentence pairs. We then evaluate on SUBJ (\citealt{pang2004sentimental}), a two-way sentence classification task, using 5-fold cross-validation over the 10k sentences. We next evaluate on the SST (\citealt{socher2013acl1}), a five-way sentiment classification task with labels for both phrases and sentences. We train on both types of label within the 8.5k sentence training set and test on only the sentence-level labels in the test set. We finally evaluate on PragBank, an 800 example 6-way sentence classification task focused on veridicality. \todo{Cite} ....
 \noindent\todo{Pick best 2-3 tasks.}
 
@@ -33,6 +35,6 @@ The performance of an LSTM RNN model on four tasks under both a random initializ
 The final column shows the state of the art results from \citealt{lai2014illinois}, \citealt{zhao2015self}, \citealt{tai2015improved}, and \todo{CITE}.
 \noindent\todo{Does Tai have the SotA on SST?}
 
-The results are shown in Table~\ref{tab:transferresults}. For each task, the transfer model is compared with a model that was initialized randomly as normal. Note that \todo{something interesting happens}. Within the domain of NLI, our transfer model shows the best number yet reported on SICK for a fully-learned model, and approaches the overall state of the art (and to the 84\% level of interannotator agreement, a likely performance cieling), while the randomly initialized model performs poorly. This suggests that the introduction of SNLI makes it newly possible to train representation learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on semantically sophisticated tasks.
+The results are shown in Table~\ref{tab:transferresults}. For each task, the transfer model is compared with a model that was initialized randomly as normal. Note that \todo{something interesting happens}. Within the domain of NLI, our transfer model shows the best number yet reported on SICK for a fully-learned model, and approaches the overall state of the art (and to the 84\% level of interannotator agreement, a likely performance ceiling), while the randomly initialized model performs poorly. This suggests that the introduction of SNLI makes it newly possible to train representation learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on semantically sophisticated tasks.
 
 \noindent\todo{something about SotA on the other tasks.}
