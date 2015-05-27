@@ -41,7 +41,7 @@ classdef SequenceBatch < handle
             sb.wordIndices = zeros(sb.N, sb.B);
             sb.wordCounts = [sequences(:).wordCount]';
             sb.inputFeatures = zeros(sb.D, sb.B, sb.N);
-            sb.rawEmbeddings = zeros(hyperParams.embeddingDim, sb.B, hyperParams.embeddingTransformDepth * sb.N);
+            sb.rawEmbeddings = zeros(hyperParams.embeddingDim, sb.B, hyperParams.useEmbeddingTransform * sb.N);
             sb.activationCache = zeros(sb.D * 4, sb.B, sb.N);
             if hyperParams.gpu
                 sb.features = zeros(sb.D, sb.B, sb.N, 'gpuArray');
@@ -50,7 +50,7 @@ classdef SequenceBatch < handle
 
                 end
             sb.cFeatures = zeros(sb.D, sb.B, sb.N);
-            sb.masks = zeros(sb.D, sb.B, hyperParams.embeddingTransformDepth * sb.N);
+            sb.masks = zeros(sb.D, sb.B, hyperParams.useEmbeddingTransform * sb.N);
 
             % Copy data in from the individual batch entries.
             for b = 1:sb.B                
@@ -59,7 +59,7 @@ classdef SequenceBatch < handle
                 for w = sb.N - sb.wordCounts(b) + 1:sb.N
                     % Populate the bottom row with word features.
 
-                    if hyperParams.embeddingTransformDepth > 0
+                    if hyperParams.useEmbeddingTransform > 0
                         sb.rawEmbeddings(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));
                     else
                         sb.inputFeatures(:, b, w) = wordFeatures(:, sb.wordIndices(w, b));

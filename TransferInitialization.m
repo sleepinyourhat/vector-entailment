@@ -3,7 +3,7 @@ function freshModelState = TransferInitialization(freshModelState, pretrainedMod
 % Set up for transfer learning: copy sentence embedding parameters but not
 % classifier parameters into a new model state.
 
-% TODO: Currently tied to RMSProp
+% NOTE: Currently restricted to AdaDelta-optimized models.
 
 % Unpack fresh model state.
 [ ~, ~, ...
@@ -89,11 +89,5 @@ end
 [ freshModelState.theta, freshModelState.thetaDecoder ] = param2stack(mergeMatrices, mergeMatrix, ...
     softmaxMatrix, wordFeatures, connectionMatrix, ...
     compositionMatrix, scoringVector, classifierExtraMatrix, embeddingTransformMatrix);
-
-freshModelState
-freshModelState.theta(1:5000:end)
-compositionMatrix(1:10, 1:10)
-GcompositionMatrix(1:10, 1:10)
-DcompositionMatrix(1:10, 1:10)
 
 end

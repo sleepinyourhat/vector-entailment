@@ -1,4 +1,5 @@
-function [ hyperParams, options, wordMap, labelMap ] = TREC(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, adi)
+function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, adi)
+% Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
 
@@ -6,14 +7,16 @@ function [ hyperParams, options, wordMap, labelMap ] = TREC(expName, dataflag, e
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
-    '-comp', num2str(composition), '-adi', num2str(adi)  ];
+    '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
+    '-comp', num2str(composition), ...
+    '-dp', num2str(dp), '-gc', num2str(gc),  '-adi', num2str(adi)];
 
 hyperParams.restartUpdateRuleInTransfer = adi;
 
-hyperParams.sentenceClassificationMode = 1;
 
-hyperParams.testFraction = 0.1;
+hyperParams.parensInSequences = 0;
+
+hyperParams.dataPortion = dp;
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
@@ -41,14 +44,16 @@ hyperParams.topDepth = topDepth;
 % to the parameters that are in use at each step.
 hyperParams.largeVocabMode = true;
 
-% The dimensionality of the classifier extra layers.
+% The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
 
 % Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
 
-% How many examples to run before taking a parameter update step on the accumulated gradients.
-options.miniBatchSize = 32;
+if gc > 0
+    hyperParams.clipGradients = true;
+    hyperParams.maxGradNorm = gc;
+end
 
 % Apply dropout to the top feature vector of each tree, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
@@ -56,30 +61,30 @@ hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
 
 hyperParams = CompositionSetup(hyperParams, composition);
+hyperParams.useThirdOrderMerge = false;
 
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
-hyperParams.fragmentData = false;
+    hyperParams.numLabels = [4];
 
-
-hyperParams.numLabels = [ 6 ];
-
-hyperParams.labels = {{'NUM', 'HUM', 'DESC', 'LOC', 'ENTY', 'ABBR'}};
+hyperParams.labels = {{'Comparison', 'Contingency', 'Expansion', 'Temporal'}};
 labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-hyperParams.trainFilenames = {'../data/trec_train_parsed.txt'};    
+hyperParams.trainFilenames = {'../data/pdtb2-train.tsv'};    
 hyperParams.splitFilenames = {};    
-hyperParams.testFilenames = {'../data/trec_test_parsed.txt'};
+hyperParams.testFilenames = {'../data/pdtb2-dev.tsv', ...
+                             '../data/pdtb2-test.tsv'};
 
+if strcmp(dataflag, 'pdtb')
+    wordMap = LoadWordMap('../data/pdtb_words.txt');
+    hyperParams.vocabName = 'pdtb'; 
+elseif strcmp(dataflag, 'pdtb-transfer')
+    wordMap = LoadWordMap('../data/pdtb-rc3_words.txt');
+    hyperParams.vocabName = 'pdtbrc3'; 
+    hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
 
-if strcmp(dataflag, 'trec')
-	hyperParams.vocabName = 'trec'; 
-	wordMap = LoadWordMap('../data/trec_words.txt');
-elseif strcmp(dataflag, 'trec-transfer')
-	hyperParams.vocabName = 'trec2t'; 
-	hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
-	wordMap = LoadWordMap('../data/trec-rc2-transfer_words.txt');
 end
+
 end

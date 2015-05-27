@@ -47,8 +47,8 @@ classdef SequenceBatch < handle
             sb.activationCache = cell(sb.N .* hyperParams.lstm, 1);
             sb.features = cell(sb.N, 1);
             sb.cFeatures = cell(sb.N .* hyperParams.lstm, 1);
-            sb.masks = cell(sb.N .* hyperParams.embeddingTransformDepth, 1);
-            sb.rawEmbeddings = cell(sb.N .* hyperParams.embeddingTransformDepth, 1);
+            sb.masks = cell(sb.N .* hyperParams.useEmbeddingTransform, 1);
+            sb.rawEmbeddings = cell(sb.N .* hyperParams.useEmbeddingTransform, 1);
 
             % Copy data in from the individual batch entries.
             for b = 1:sb.B                
@@ -58,7 +58,7 @@ classdef SequenceBatch < handle
 
             for w = 1:sb.N
                 % Populate the bottom row with word features.
-                if hyperParams.embeddingTransformDepth > 0
+                if hyperParams.useEmbeddingTransform > 0
                     if hyperParams.gpu && ~hyperParams.largeVocabMode
                         sb.rawEmbeddings{w} = gpuArray(wordFeatures(:, sb.wordIndices(w, :)));
                     else                     

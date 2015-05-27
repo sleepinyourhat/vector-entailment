@@ -7,10 +7,21 @@ hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 hyperParams.useTrees = 1;
 hyperParams.useLattices = 0;
 
+% Run batched models on GPUs. 
+% The current implementations are slower on GPU than they are on (multicore) CPU.
 hyperParams.gpu = false;
 
-% If set, and if useTrees and useLattice are false, use an LSTM RNN.
+% Use NTN layers in place of NN layers.
+hyperParams.useThirdOrderComposition = true;
+hyperParams.useThirdOrderMerge = true;
+
+% Use a simple summing layer in place of the composition (R)NN layer.
+% useThirdOrderComposition should be false if this is used.
+hyperParams.useSumming = false;
+
 % If set, and if useLattice is true, use a LatticeLSTM.
+% If set, and if useTrees is true, use a TreeLSTM.
+% If set, and if useTrees and useLattice are false, use an LSTM RNN.
 hyperParams.lstm = 0;
 
 % The dimensionality of the word/phrase vectors.
@@ -20,10 +31,12 @@ hyperParams.embeddingDim = 25;
 % How much of a contribution (in the range 0-1) should tensors give to outputs at initialization.
 hyperParams.tensorScale = 0.9;
 
-% How much of the output of the matrix parameters (in the range 0-1) should be initialized with an identity matrix.
+% For matrix initialization (where possible), this weights between an identity matrix 
+% (or identity matrix pair) initialization and a random initialization.
 hyperParams.eyeScale = 0.5;
 
-% Which initialization scheme to use
+% Which initialization scheme to use.
+% See Initialize*Layer.m files for details.
 hyperParams.NNinitType = 1;
 hyperParams.NTNinitType = 1;
 hyperParams.LSTMinitType = 5;
@@ -33,47 +46,50 @@ hyperParams.LSTMinitType = 5;
 % additional context.
 hyperParams.latticeConnectionContextWidth = 4;
 
+% The size of the hidden layer used in scoring possible merges in the lattice.
 hyperParams.latticeConnectionHiddenDim = 8;
 
 % If set, weight the supervision higher in the lattice by the product of the probabilities 
 % of the correct merge positions lower in the lattice to avoid training the composition model on bad inputs.
 hyperParams.latticeLocalCurriculum = false;
 
-% TODO: Document or nix.
+% Experimental features related to merge scoring in the lattice model.
 hyperParams.latticeSlant = 0;
 hyperParams.latticeFirstPastThreshold = 0.45;
 hyperParams.latticeFirstPastHardMax = false;
 
-% Using the *right* edge embedding in a lattice is currently slow (the left is easier).
-% Leave it off during tuning.
+% Use the *right* edge embedding in a lattice.
+% This adds a nontrivial amount to the run time (the left edge is easier).
 hyperParams.latticeRightEdgeEmbedding = true;
 
-% The number of embedding transform layers. topDepth = 1 means an NN layer will be
-% added above the embedding matrix. This is likely to only be useful when
-% learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do. Currently, 0 and 1 are the only supported values,
-% though it may be worth adding support for multiple layers later.
-hyperParams.embeddingTransformDepth = 0;
+% Add an NN layer between the embeddings and the composition function.
+hyperParams.useEmbeddingTransform = 0;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
 hyperParams.topDepth = 1;
 
-% The dimensionality of the comparison layer(s).
+% The dimensionality of the merge and post-merge layer(s).
 hyperParams.penultDim = 75;
 
 % Regularization coefficient.
 hyperParams.lambda = 0;
 
-% Apply dropout to the top feature vector of each tree, preserving activations
+% Apply dropout to the embeddings, preserving activations
 % with this probability. If this is set to 1, dropout is effectively not used.
 hyperParams.bottomDropout = 1;
+
+% Apply dropout to the top feature vector of each tree, preserving activations
+% with this probability. If this is set to 1, dropout is effectively not used.
 hyperParams.topDropout = 1;
 
 % If this vector is populated with embedding indices, in ComputeSentenceClassificationExampleCostAndGrad,
 % the embeddings at those indices will be reinitialized before computing each example. Used for ALCIR.
 hyperParams.randomEmbeddingIndices = [];
 
+% If set, reinitialize the accumulators (in AdaDelta, the only supported optimizer for transfer)
+% that influence the LR during transfer. If false, preserve the accumulators for the model parameters
+% (but not the embeddings).
 hyperParams.restartUpdateRuleInTransfer = false;
 
 % L1 v. L2 regularization. If no regularization is needed, set
@@ -81,10 +97,11 @@ hyperParams.restartUpdateRuleInTransfer = false;
 hyperParams.norm = 2;
 
 % Use the syntactically untied composition layer params.
-% NOTE: This is not well supported right now.
+% DEPRECATED.
 hyperParams.untied = false; 
 
-% Use only the specified fraction of the training datasets
+% Use only the specified fraction of the training datasets 
+% (used for problems with many interchangable training files).
 hyperParams.datasetsPortion = 1.0;
 
 % Use only the specified fraction of the individual training examples
@@ -98,39 +115,35 @@ hyperParams.testFraction = 0.2;
 % and if none are available, save .mat objects after loading.
 hyperParams.ignorePreprocessedFiles = true;
 
+% Use SST-specific loading methods.
+hyperParams.SSTMode = false;
+
 % When evaluating random samples from a training data set, don't evaluate
 % more than this many in each session.
 hyperParams.maxTrainingEvalSampleSize = 1000;
 
-% Use NTN layers in place of NN layers.
-hyperParams.useThirdOrderComposition = true;
-hyperParams.useThirdOrderMerge = true;
-
-% Use a simple summing layer in place of the composition (R)NN layer.
-% useThirdOrderComposition should be false if this is used.
-hyperParams.useSumming = false;
-
-% Use classification-specific CostGradFn.
+% Use the sentence classification CostGradFn instead of the
+% default pair classification CostGradFn.
 hyperParams.sentenceClassificationMode = false;
 
-% Use SST-specific loading methods.
-hyperParams.SSTMode = false;
-
-
-% If set, train using minFunc. Only partially supported. See GradCheck for an example.
+% If set, train using minFunc. Only partially supported. See config/GradCheck.m for an example.
 hyperParams.minFunc = false;
 
+% If set, load pretrained word embeddings.
 hyperParams.loadWords = false;
-hyperParams.trainWords = true;
 hyperParams.vocabPath = '';
+
+% If set, backpropagate into the embeddings.
+hyperParams.trainWords = true;
 
 % Nonlinearities.
 hyperParams.compNL = @TanhActivation;
-hyperParams.compNLDeriv = @TanhDeriv; 
+hyperParams.compNLDeriv = @TanhDeriv;
 hyperParams.classNL = @TanhActivation;
 hyperParams.classNLDeriv = @TanhDeriv;
 
 % If set, don't try to keep the entire training data set in memory at once.
+% NOTE: Work in progress. Currently slow.
 hyperParams.fragmentData = false;
 
 % If set, store embedding matrix gradients as spare matrices, and only apply regularization
@@ -139,14 +152,15 @@ hyperParams.fragmentData = false;
 % NOTE: This forces embeddings out of GPU memory, which is desirable in this case.
 hyperParams.largeVocabMode = false;
 
+% If set, deallocate activations for examples at the end of a batch.
+% NOTE: Doesn't seem to help memory usage in practice. Investigate...
 hyperParams.clearActivations = false;
 
-% Applies to unbatched computation only.
-% Full gradient vectors above this l2 norm will be rescaled down.
-hyperParams.clipGradients = false;
-hyperParams.maxGradNorm = 5;
+% Full gradient vectors above this L2 norm will be rescaled down.
+hyperParams.clipGradients = true;
+hyperParams.maxGradNorm = 10;
 
-% In batch learning, deltas above this *squared* l2 norm will be rescaled down.
+% In batch learning, deltas above this *squared* L2 norm will be rescaled down.
 hyperParams.maxDeltaNorm = inf;
 
 hyperParams.connectionCostScale = 1;
@@ -155,7 +169,7 @@ hyperParams.connectionCostScale = 1;
 % Currently doesn't support multiple label sets, but this could be fairly easily fixed.
 hyperParams.labelCostMultipliers = [];
 
-% Load at most this many lines of any one file. Useful in debugging.
+% Load at most this many lines of any one examples file. Useful in debugging.
 hyperParams.lineLimit = inf;
 
 % Treat parsing parens as tokens in sequence models.
@@ -177,8 +191,6 @@ options.PlotFcns = [];
 options.numPasses = 1000;
 options.miniBatchSize = 64;
 
-% Learning parameters
-
 % What to use to compute parameter updates. 
 options.updateFn = @AdaDeltaUpdate;
 
@@ -198,14 +210,14 @@ options.momentum = 0.9;
 options.lr = 0.0001;
 
 % How often (in steps) to report cost.
-options.costFreq = 125;
+options.costFreq = 500;
 
 % How often (in steps) to run on test data.
-options.testFreq = 125;
+options.testFreq = 500;
 
 % How often to report confusion matrices and connection accuracies. 
 % Should be a multiple of testFreq.
-options.detailedStatFreq = 125;
+options.detailedStatFreq = 500;
 
 % How often to display which items are misclassified.
 % Should be a multiple of testFreq.

@@ -11,19 +11,19 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "pragbank"
-TRAINING_FILES = ["pragbank-data/train.txt"]
-DEV_FILES = []
-TEST_FILES = ["pragbank-data/test.txt"]
+BASENAME = "pdtb-rc3"
+TRAINING_FILES = ["../data/pdtb2-train.tsv"]
+DEV_FILES = ["../data/pdtb2-train.tsv"]
+TEST_FILES = ["../data/pdtb2-train.tsv"]
 
-# TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
-TRANSFER_SOURCE_WORDLIST = ""
+TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
+# TRANSFER_SOURCE_WORDLIST = ""
 VECTOR_WORDLIST = "utils/glove.840B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
 
-ENTAILMENT_MODE = False
+ENTAILMENT_MODE = True
 SST_MODE = False
 
 
@@ -77,10 +77,6 @@ training_words = count_words(TRAINING_FILES)
 #    print str(training_words[word]) + '\t' + word
 
 dev_test_words = count_words(TEST_FILES + DEV_FILES)
-
-print training_words['there']
-print dev_test_words['there']
-print str('there' in transfer_source_words)
 
 wordlist = create_wordlist(
     training_words, dev_test_words, vector_words.union(transfer_source_words))

@@ -59,3 +59,11 @@ export MATLABCMD="cd quant; lambda = 0.00001; dim = 50; ed = 200; td = 3; penult
 
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 50; ed = 200; td = 3; penult = 100; dropout = [1\, 1]; tot = 2; collo = 1; dataflag='subj'; name='/scr/sbowman/subj6'; TrainModel(''\, 1\, @SUBJ\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; lambda = 0.00001; dim = 50; ed = 200; td = 3; penult = 100; dropout = [1\, 1]; tot = 2; collo = 1; dataflag='subj'; name='/scr/sbowman/subj6'; TrainModel(''\, 1\, @SUBJ\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0);" ; qsub -v MATLABCMD quant/run.sh
+
+% 0001 optimal for notrans
+% 001-00001 optimal for transfer ??
+
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; dropout = [1\, 1]; tot = 2; collo = 1; dataflag='subj-transfer'; name='/scr/sbowman/subj6swap'; TrainModel('/scr/sbowman/snlirc2-snlirc2-only-l1e-05-dim50-ed200-td3-pen100-do1-1-co1-comp2-dp1-gc0/ckpt-best-tr150522185602@435250.mat'\, 1\, @SUBJ\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 50; ed = 200; td = 3; penult = 100; dropout = [1\, 1]; tot = 2; collo = 1; dataflag='subj'; name='/scr/sbowman/subj6swap'; TrainModel(''\, 1\, @SUBJ\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0);" ; qsub -v MATLABCMD quant/run.sh
+
+

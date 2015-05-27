@@ -57,8 +57,8 @@ classdef LatticeBatch < handle
 
             lb.wordIndices = fZeros([lb.N, lb.B], hyperParams.gpu && ~hyperParams.largeVocabMode);
             lb.wordCounts = [lattices(:).wordCount];
-            lb.rawEmbeddings = fZeros([hyperParams.embeddingDim, lb.B, hyperParams.embeddingTransformDepth * lb.N], false);
-            lb.masks = fZeros([lb.D, lb.B, hyperParams.embeddingTransformDepth * (lb.N + 2)], hyperParams.gpu);
+            lb.rawEmbeddings = fZeros([hyperParams.embeddingDim, lb.B, hyperParams.useEmbeddingTransform * lb.N], false);
+            lb.masks = fZeros([lb.D, lb.B, hyperParams.useEmbeddingTransform * (lb.N + 2)], hyperParams.gpu);
             lb.scores = fZeros([lb.N - 1, lb.B, lb.N - 1], hyperParams.gpu);
             lb.connections = fZeros([lb.NUMACTIONS, lb.B, lb.N - 1, lb.N - 1], hyperParams.gpu);
             lb.connectionLabels = fZeros([lb.B, lb.N - 1], hyperParams.gpu); %% deleted last
@@ -92,7 +92,7 @@ classdef LatticeBatch < handle
                 lb.wordIndices(1:lb.wordCounts(b), b) = lattices(b).wordIndices;
                 for w = 1:lattices(b).wordCount
                     % Populate the bottom row with word features.
-                    if hyperParams.embeddingTransformDepth > 0
+                    if hyperParams.useEmbeddingTransform > 0
                         lb.rawEmbeddings(:, b, w) = wordFeatures(:, lattices(b).wordIndices(w));
                     else
                         lb.features{lb.N}(:, b, w, 1) = wordFeatures(:, lattices(b).wordIndices(w));
@@ -492,7 +492,7 @@ classdef LatticeBatch < handle
             end
 
             % Run the embedding transform layers backwards.
-            if hyperParams.embeddingTransformDepth > 0
+            if hyperParams.useEmbeddingTransform > 0
                 embeddingTransformMatrixGradients = zeros(size(embeddingTransformMatrix), 'like', lb.masks);                    
                 rawEmbeddingDeltas = zeros([hyperParams.embeddingDim, lb.B, lb.N], 'like', lb.masks);
                 
@@ -538,7 +538,7 @@ classdef LatticeBatch < handle
                     size(wordFeatures, 1), size(wordFeatures, 2), lb.N * lb.B);
             end
 
-            if hyperParams.embeddingTransformDepth > 0
+            if hyperParams.useEmbeddingTransform > 0
                 wordDeltas = rawEmbeddingDeltas;
             else
                 wordDeltas = deltas{lb.N}(:, :, :, 1);
