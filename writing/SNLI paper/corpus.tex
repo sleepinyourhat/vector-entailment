@@ -102,8 +102,9 @@ Nearly all of the examples received a majority
 label, indicating broad consensus about the nature of the data and
 categories. The gold-labeled examples are essentially evenly
 distributed across the three categories in our train, development, and
-testing. The Fleiss $\kappa$ scores in
-Table~\ref{kappas} are likely to be conservative given our large and
+testing. The Fleiss $\kappa$ scores 
+(computed over every example with a full five annotations)
+are likely to be conservative given our large and
 unevenly distributed pool of workers, but they still provide insights
 about the levels of disagreement across the three semantic
 classes. This disagreement likely reflects not just the limitations of
@@ -204,7 +205,7 @@ No gold label (no 3 labels match) & 2.0\%\\
 
 The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser \cite{klein2003accurate} (trained on the standard training set as well as on the Brown Corpus; \citealt{francis1979brown}), both in the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
 
-\todo{Update as appropriate (CM)}
+\noindent\todo{Update as appropriate (CM)}
 
 \paragraph{General evaluation standards}
 While we hope that the corpus will be valuable in a variety of ways, we encourage researchers working on tools for semantic representation and inference to evaluate on our data in a uniform way: training on only the (parsed and/or unparsed) sentences included in the training set, and doing final evaluations on only the subset of the test set for which there are single gold labels.
