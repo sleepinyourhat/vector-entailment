@@ -13,6 +13,7 @@ with open('train.txt', 'w') as trainfile:
 
                 portion = row[4]
                 sentence = row[7]
+                target = row[5]
                 label = '-'
                 for col in range(8, 15):
                     if int(row[col]) > 5:
@@ -21,8 +22,10 @@ with open('train.txt', 'w') as trainfile:
 
                 if label != '-':
                     if portion == 'test':
-                        testfile.write(label + '\t' + sentence + '\n')
+                        testfile.write(
+                            label + '\t' + sentence + '\t' + target + '\n')
                     elif portion == 'train':
-                        trainfile.write(label + '\t' + sentence + '\n')
+                        trainfile.write(
+                            label + '\t' + sentence + '\t' + target + '\n')
                     else:
                         print 'Bad portion flag: ' + portion

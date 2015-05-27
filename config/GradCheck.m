@@ -1,7 +1,7 @@
 function [ hyperParams, options, wordMap, labelMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
 
-% TrainModel('', 1, @GradCheck, 1, 2, 4, 1, 0, 1, 0);
+% TrainModel('', 1, @GradCheck, 1, 2, 2, 1, 0, 0, 1);
 % NOTE: The LatticeLSTM doesn't do especially well on gradient checks at random initialization
 % but basically passes if tested on the model state after a few steps... keep an eye on this.
 
@@ -12,11 +12,11 @@ hyperParams = CompositionSetup(hyperParams, composition);
 hyperParams.name = 'gradcheck';
 
 % The dimensionality of the word/phrase vectors.
-hyperParams.dim = 3;
+hyperParams.dim = 2;
 hyperParams.embeddingDim = 3;
 
 % The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 3;
+hyperParams.penultDim = 4;
 
 hyperParams.testFraction = 0.33;
 

@@ -85,15 +85,33 @@ We will show you the caption for a photo. We will not show you the photo. Using 
 
 \subsection{Data validation}
 
-% I suggest removing this sentence. It sounds like a negative, but
-% there is no practical alternative except what we did do.
-%
-% The majority of the sentence pairs in the corpus have not been reviewed by anyone since their construction as part of the data collection Mechanical Turk task, except to remove a small number of cases where either a response field was empty or the original author flagged the source caption for review.
 In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we performed an additional round of validation for about 10\% of our data.
-This validation phase was not fundamentally different from the Mechanical Turk labeling task used to label the SICK entailment data: we presented workers with pairs of sentences (in our case, in batches of five at a time), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original author. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ. Though we used a very restrictive qualification (based on past approval rate) to select workers, we nonetheless discovered and deleted some instances of random guessing during an early round of validation, and subsequently instituted a fully closed qualification restricted to about 30 trusted workers.
-\todo{Leave in mention of qual? I would--CP}
+This validation phase was not fundamentally different from the Mechanical Turk labeling task used to label the SICK entailment data: we presented workers with pairs of sentences (in our case, in batches of five), and ask them to choose a single label for each pair. We supplied each pair to four annonators, yielding five labels per pair including the label used by the original author. The instructions were broadly similar to the instructions for initial data collection shown in Fig.~\ref{instructions-1}, and linked to a similar FAQ. Though we used a very restrictive qualification (based on past approval rate) to select workers, we nonetheless discovered and deleted some instances of random guessing during an early round of validation, and subsequently instituted a fully closed qualification restricted to about 30 trusted workers.
+%\todo{Leave in mention of qual? I would--CP Settled -SB}
 
-For each pair that we validated, we chose a gold label. If any one of the three labels was chosen by at least three of the five annotators, that label is the gold label. If there was no such consensus, which occurred in about 0.2\% of cases, we chose the label `-'. While these unlabeled examples are included in the corpus distribution, they are unlikely to be helpful for the standard NLI classification task, and we do not include them when training and evaluating the models discussed in later sections. The results of this validation process are summarized in Tables \ref{validation-stats}, \ref{kappas}, and \ref{validation-freq}, and suggest that while fundamental limits of both our crowdsourcing methods and the task itself impose an upper bound on the consistency of our labels, the data is sufficiently high quality to pose a challenging but realistic machine learning task.
+For each pair that we validated, we chose a gold label. If any one of
+the three labels was chosen by at least three of the five annotators,
+that label is the gold label. If there was no such consensus, which
+occurred in about 0.2\% of cases, we chose the label `-'. While these
+unlabeled examples are included in the corpus distribution, they are
+unlikely to be helpful for the standard NLI classification task, and
+we do not include them when training and evaluating the models
+discussed in later sections. The results of this validation process
+are summarized in Table \ref{validation-stats}. 
+Nearly all of the examples received a majority
+label, indicating broad consensus about the nature of the data and
+categories. The gold-labeled examples are essentially evenly
+distributed across the three categories in our train, development, and
+testing. The Fleiss $\kappa$ scores in
+Table~\ref{kappas} are likely to be conservative given our large and
+unevenly distributed pool of workers, but they still provide insights
+about the levels of disagreement across the three semantic
+classes. This disagreement likely reflects not just the limitations of
+large crowdsourcing efforts but also the uncertainty inherent in NLI.
+Regardless, the overall rates of agreement is extremely high,
+suggesting that the corpus is sufficiently high quality to pose a
+challenging but realistic machine learning task.
+
 
 \subsection{The distributed corpus}
 
@@ -112,11 +130,7 @@ A man inspects the uniform of a figure in some East Asian country. & \b{contr.}&
   \caption{\label{snli-examples}Randomly chosen examples from the SNLI development set, shown with the gold labels and the full set of annotator labels (abbreviated). Unlike in many existing NLI corpora, the premise and hypothesis sentences in SNLI are often too dissimilar in structure to support approaches to NLI that rely on building sentence-to-sentence alignments.}
 \end{table*}
 
-Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development set with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments. Punctuation and capitalization are only intermittently present.
-
-% \marginpar{{\tiny Does this mean that expected punctuation is missing, 
-% or that the sentences required little punctuation even by 
-% prescriptive standards?}}
+Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development set with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments. Punctuation and capitalization are often omitted.
 
 The data will be released upon publication under a CreativeCommons
 Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.
@@ -124,7 +138,8 @@ Attribution-ShareAlike licence, the same licence used for the Flickr30k source c
 \begin{figure}
 \center
 \includegraphics[width=3.05in]{length_dist}
-    % From 1.0rc2
+    % From 1.0rc2, though still accurate as of rc3
+\todo{Replace w/ mean+SD if low on space.}
 \caption{\label{b-table}The distribution of sentence length.} 
 \end{figure}
 
@@ -134,19 +149,22 @@ Attribution-ShareAlike licence, the same licence used for the Flickr30k source c
   %\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l l} 
     \toprule
+\multicolumn{2}{l}{\textbf{Data set sizes:}}\\
 Training pairs &  550,152\\
 Development pairs &  10,000\\
 Test pairs & 10,000\\
 \midrule
+\multicolumn{2}{l}{\textbf{Sentence length:}}\\
 Premise mean token count & 14.1\\
 Hypothesis mean token count & 8.3 \\
 \midrule
+\multicolumn{2}{l}{\textbf{Frequency of complete sentences:}}\\
 Premise `S'-rooted parses & 74.0\%\\
 Hypothesis `S'-rooted parses & 88.9\%\\
     \bottomrule
   \end{tabular}
 % From 1.0rc3
-\caption{\label{collection-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report statistics for both.} 
+\caption{\label{collection-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report some statistics for both.} 
 \end{table}
 
 \begin{table}
@@ -155,53 +173,29 @@ Hypothesis `S'-rooted parses & 88.9\%\\
   %\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{l l} 
     \toprule
+\multicolumn{2}{l}{\textbf{General:}}\\
 Validated pairs & 56,941\\
-gold label $\ne$ original label & 6.8\%\\
-Unanimous gold & 58.3\%\\
-No gold (no 3 labels match) & 2.0\%\\
-Label $=$ gold & 89.0\%\\
-Label $=$ original author's label & 85.8\%\\
-    \bottomrule
-  \end{tabular}
-    % From 1.0rc3
-\caption{\label{validation-stats}Key statistics for the validated pairs.} 
-\end{table}
-
-\begin{table}
-\center
-  %\setlength{\tabcolsep}{15pt}
-  %\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{l r} 
-    \toprule
-    contradiction & 0.77 \\
-    entailment & 0.72 \\
-    neutral & 0.60 \\[1ex]
-    overall & 0.70 \\
-    \bottomrule
-  \end{tabular}
-    % From 1.0rc3
-\caption{\label{kappas}Fleiss $\kappa$ statistics.} 
-\end{table}
-
-
-\begin{table}
-\center
-  %\setlength{\tabcolsep}{15pt}
-  %\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{l lll} 
-    \toprule
-\textbf{Label} & \textbf{Train} & \textbf{Dev} & \textbf{Test}\\
+Pairs w/ unanimous gold label & 58.3\%\\
 \midrule
-\ii{entailment} &		33.3 & 	33.3 & 	33.7 \\
-\ii{neutral} & 		33.2 & 	32.4 & 	32.2 \\
-\ii{contradiction} &  	33.3 & 	32.7 & 	32.4  \\
-- (no consensus) & 	0.1 & 	1.6 & 	1.8 \\
-\bottomrule
-  \end{tabular}	
-% From 1.0rc3
-\caption{\label{validation-freq}Frequency (\%) of each label in the corpus. Note that examples without gold labels are omitted in standard evaluations.} 
+\multicolumn{2}{l}{\textbf{Individual annotator label agreement:}}\\
+Annotator label $=$ gold & 89.0\%\\
+Annotator label $=$ author's label & 85.8\%\\
+\midrule
+\multicolumn{2}{l}{\textbf{Gold label/author's label agreement:}}\\
+Gold label $=$ author's label & 91.2\%\\
+Gold label $\ne$ author's label & 6.8\% \\
+No gold label (no 3 labels match) & 2.0\%\\
+\midrule
+\multicolumn{2}{l}{\textbf{Fleiss $\kappa$:}}\\
+    \ii{contradiction} & 0.77 \\
+    \ii{entailment} & 0.72 \\
+    \ii{neutral} & 0.60 \\
+    Overall & 0.70 \\
+    \bottomrule
+  \end{tabular}
+    % From 1.0rc3
+\caption{\label{validation-stats}Key statistics for the validated pairs. The \ii{author's label} is the label that was used by the worker who wrote the premise to create the sentence pair. A \ii{gold label} reflects a consensus of three votes among the author and the four annotators.} 
 \end{table}
-
 
 \paragraph{Partition} We distribute the corpus with a pre-specified train/test/development split. The test and development sets contain 10k examples each. Each original ImageFlickr caption occurs in only one of the three sets, and all of the examples in the test and development sets have gone through validation.
 

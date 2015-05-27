@@ -10,9 +10,6 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-comp', num2str(composition), '-adi', num2str(adi)  ];
 
 hyperParams.restartUpdateRuleInTransfer = adi;
-%TEMP:
-options.updateFn = @RMSPropUpdate;
-
 
 hyperParams.sentenceClassificationMode = 1;
 
@@ -60,7 +57,8 @@ hyperParams.topDropout = topDropout;
 
 hyperParams = CompositionSetup(hyperParams, composition);
 
-hyperParams.loadWords = true;
+hyperParams.loadWords = true
+
 hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;

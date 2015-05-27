@@ -11,19 +11,20 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "snlirc3"
-TRAINING_FILES = ["../data/snli_1.0rc3_train.txt"]
-DEV_FILES = ["../data/snli_1.0rc3_dev.txt"]
-TEST_FILES = ["../data/snli_1.0rc3_test.txt"]
+BASENAME = "pragbank"
+TRAINING_FILES = ["pragbank-data/train.txt"]
+DEV_FILES = []
+TEST_FILES = ["pragbank-data/test.txt"]
 
-# TRANSFER_SOURCE_WORDLIST = "../data/snlirc2_words.txt"
+# TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
 TRANSFER_SOURCE_WORDLIST = ""
-VECTOR_WORDLIST = "utils/glove.6B.wordlist.txt"
+VECTOR_WORDLIST = "utils/glove.840B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
 
-ENTAILMENT_MODE = True
+ENTAILMENT_MODE = False
+SST_MODE = False
 
 
 def count_words(filenames):
@@ -35,8 +36,11 @@ def count_words(filenames):
                 if ENTAILMENT_MODE:
                     tabsplit = line.split('\t')
                     adjusted_line = tabsplit[1] + ' ' + tabsplit[2]
-                else:
+                elif SST_MODE:
                     adjusted_line = line
+                else:
+                    tabsplit = line.split('\t')
+                    adjusted_line = tabsplit[1]
                 for word in adjusted_line.split(' '):
                     counter[word.lower()] += 1
                     if '-' in word:
@@ -73,6 +77,10 @@ training_words = count_words(TRAINING_FILES)
 #    print str(training_words[word]) + '\t' + word
 
 dev_test_words = count_words(TEST_FILES + DEV_FILES)
+
+print training_words['there']
+print dev_test_words['there']
+print str('there' in transfer_source_words)
 
 wordlist = create_wordlist(
     training_words, dev_test_words, vector_words.union(transfer_source_words))
