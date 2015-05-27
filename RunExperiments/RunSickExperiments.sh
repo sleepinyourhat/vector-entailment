@@ -230,6 +230,15 @@ export MATLABCMD="cd quant; lambda = 0.001; dim = 50; ed = 200; td = 3; penult =
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 50; ed = 200; td = 3; penult = 100; tot = 7; dropout = [1\, 1]; collo = 1; dataflag='sick-only-transfer'; name='transfer3'; TrainModel('/scr/sbowman/snlirc2-snlirc2-only-l1e-05-dim50-ed200-td3-pen100-do1-1-co1-comp7-dp1-ad1/ckpt-best-tr150521134003@97250.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh -q nlp
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 50; ed = 200; td = 3; penult = 100; tot = 7; dropout = [1\, 1]; collo = 1; dataflag='sick-only-transfer'; name='transfer3'; TrainModel('/scr/sbowman/snlirc2-snlirc2-only-l1e-05-dim50-ed200-td3-pen100-do1-1-co1-comp7-dp1-ad1/ckpt-best-tr150521134003@97250.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh -q nlp
 
+% Next round
+
+export MATLABCMD="cd quant; lambda = 0.00003; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [1\, 1]; collo = 1; dataflag='sick-only-transfer'; name='transfer3'; TrainModel('/scr/sbowman/snlirc2-snlirc2-only-l1e-05-dim50-ed200-td3-pen100-do1-1-co1-comp2-dp1-gc0/ckpt-best-tr150522185602@435250.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.000003; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [1\, 1]; collo = 1; dataflag='sick-only-transfer'; name='transfer3'; TrainModel('/scr/sbowman/snlirc2-snlirc2-only-l1e-05-dim50-ed200-td3-pen100-do1-1-co1-comp2-dp1-gc0/ckpt-best-tr150522185602@435250.mat'\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+export MATLABCMD="cd quant; lambda = 0.001; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [1\, 1]; collo = 1; dataflag='sick-only'; name='transfer3'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; lambda = 0.003; dim = 50; ed = 200; td = 3; penult = 100; tot = 2; dropout = [1\, 1]; collo = 1; dataflag='sick-only'; name='transfer3'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+
 
 
 cd quant; 

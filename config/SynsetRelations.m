@@ -11,7 +11,7 @@ hyperParams.dim = 25;
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
-hyperParams.embeddingTransformDepth = transDepth;
+hyperParams.useEmbeddingTransform = transDepth;
 
 % The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;

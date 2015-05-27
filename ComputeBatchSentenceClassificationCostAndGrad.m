@@ -45,7 +45,7 @@ extraClassifierLayerInnerOutputs = fZeros([hyperParams.penultDim, B, hyperParams
 
 if hyperParams.penultDim == 2 * hyperParams.dim
     % Hack for transfer learning: pad with zeros.
-    features = [features; zeros(size(features), 'like', features)];
+    features = [zeros(size(features), 'like', features); features];
 end
 
 extraClassifierLayerInputs(:, :, 1) = features;
@@ -126,7 +126,7 @@ if computeGrad
 
     if hyperParams.penultDim == 2 * hyperParams.dim
         % Hack for transfer learning: pad with zeros.
-        extraDelta = extraDelta(1:hyperParams.dim, :);
+        extraDelta = extraDelta(hyperParams.dim + 1:end, :);
     end
 
     deltaDown = extraDelta .* mask;

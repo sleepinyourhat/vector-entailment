@@ -24,7 +24,7 @@ hyperParams.embeddingDim = dim;
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
-hyperParams.embeddingTransformDepth = 0;
+hyperParams.useEmbeddingTransform = 0;
 
 if slant == 1
     hyperParams.latticeFirstPastThreshold = 0.5;

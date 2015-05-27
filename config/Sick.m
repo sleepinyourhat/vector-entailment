@@ -34,7 +34,7 @@ options.updateFn = @AdaDeltaUpdate;
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
-hyperParams.embeddingTransformDepth = 1;
+hyperParams.useEmbeddingTransform = 1;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.

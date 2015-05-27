@@ -10,7 +10,7 @@ DIM = hyperParams.dim;
 EMBDIM = hyperParams.embeddingDim;
 PENULT = hyperParams.penultDim;
 TOPD = hyperParams.topDepth;
-NUMTRANS = hyperParams.embeddingTransformDepth;
+NUMTRANS = hyperParams.useEmbeddingTransform;
 
 if hyperParams.useSumming
     NUMCOMP = 0;

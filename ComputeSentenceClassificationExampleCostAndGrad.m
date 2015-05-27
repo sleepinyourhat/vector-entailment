@@ -55,7 +55,7 @@ dataPoint.sentence.updateFeatures(wordFeatures, compositionMatrices, ...
 % Run layers forward
 if hyperParams.penultDim == 2 * hyperParams.dim
     % Hack for transfer learning: pad with zeros.
-    features = [features; zeros(size(features), 'like', features)];
+    features = [zeros(size(features), 'like', features); features];
 end
 
 extraInputs = zeros(hyperParams.penultDim, 1, hyperParams.topDepth);
@@ -97,7 +97,7 @@ if nargout > 1 && (nargin < 6 || computeGradient)
 
     if hyperParams.penultDim == 2 * hyperParams.dim
         % Hack for transfer learning: pad with zeros.
-        extraDelta = extraDelta(1:hyperParams.dim, :);
+        extraDelta = extraDelta(hyperParams.dim + 1:end, :);
     end
 
     extraDelta = extraDelta .* mask;
