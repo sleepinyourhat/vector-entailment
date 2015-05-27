@@ -96,7 +96,7 @@ In order to calibrate the difficulty of the dataset against the
 
 % the best systems
 We report results in \reftab{eopresults}.
-The best edit distance algorithm tunes the the weight of the three 
+The best edit distance algorithm tunes the weight of the three 
   case-insensitive edit distance operations on the training set, 
   after removing stop words.
 The best classifier-based system makes use of information from
@@ -114,7 +114,7 @@ Unsurprisingly, the classification-based approach outperforms simple
 \paragraph{Lexicalized Classifier}
 Unlike the RTE datasets, SNLI's size allows approaches which make use of
   rich lexicalized features.
-We implmement such a lexicalized classifier as a strong baseline 
+We implement such a lexicalized classifier as a strong baseline 
   for the task.
 Our classifier implements 6 features:
 \begin{enumerate}
@@ -226,7 +226,7 @@ Our neural network classifier, depicted in Fig.~\ref{modelstructure} is simply a
 
 We test six sentence representation models, each set to use 50d word and phrase embeddings. Our baseline model in this experiment simply sums the embeddings of the word in each sentence. Next, we experiment with two recurrent models: a plain RNN, and a one-layer LSTM RNN \cite{hochreiter1997long}. Finally, we experiment with three tree-structured models: a plain TreeRNN \cite{socher2011semi}, a tensor-parameterized TreeRNTN \cite{socher2013acl1}, and a TreeLSTM \cite{tai2015improved}.
 
-The word embeddings for all of the moedels are initialized the 300d reference GloVe vectors \cite{pennington2014glove} and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensianal phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
+The word embeddings for all of the moedels are initialized the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
 
 \begin{table}
 \begin{center}
