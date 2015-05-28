@@ -62,10 +62,6 @@ hyperParams.topDropout = topDropout;
 hyperParams = CompositionSetup(hyperParams, composition);
 hyperParams.useThirdOrderMerge = false;
 
-if (composition == 7) || (composition < 2)
-    options.miniBatchSize = 16;
-end
-
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 

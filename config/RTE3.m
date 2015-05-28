@@ -73,16 +73,26 @@ labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{
 
 hyperParams.trainFilenames = {'../data/rte3_train_parsed.tab'};    
 hyperParams.splitFilenames = {};    
-hyperParams.testFilenames = {'../data/rte3_train_parsed.tab'};
+hyperParams.testFilenames = {'../data/rte3_test_parsed.tab'};
+
+wordMap = LoadWordMap('../data/rte3_words.txt');
+hyperParams.vocabName = 'rte3'; 
 
 if strcmp(dataflag, 'rte3')
-    wordMap = LoadWordMap('../data/pdtb_words.txt');
-    hyperParams.vocabName = 'rte3'; 
+    % Tranfer wordlist is same.
 elseif strcmp(dataflag, 'rte3-transfer')
-    wordMap = LoadWordMap('../data/pdtb-rc3_words.txt');
-    hyperParams.vocabName = 'rte3rc3'; 
     hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
-
 end
+
+% How often (in steps) to report cost.
+options.costFreq = 100;
+
+% How often (in steps) to run on test data.
+options.testFreq = 100;
+
+% How often to report confusion matrices and connection accuracies. 
+% Should be a multiple of testFreq.
+options.detailedStatFreq = 100;
+
 
 end

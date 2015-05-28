@@ -9,15 +9,15 @@
     \tikzstyle{label}=[text width=40mm,align=center]    
     \tikzstyle{softmax}=[fill=red!40,text width=40mm,align=center]
     \tikzstyle{preclass}=[fill=orange!40,text width=50mm,align=center]
-    \tikzstyle{e}=[fill=green!40,text width=25mm,align=center]
+    \tikzstyle{e}=[fill=green!40,text width=26mm,align=center]
     \tikzstyle{m}=[draw=black,text width=38mm,align=center]    
     
     \node[softmax]  (softmax) at (0*\dx,6*\dy) {3-way softmax classifier};
-    \node[preclass]  (pc3) at (0*\dx,5*\dy) {100d $\tanh$ layer};
-    \node[preclass]  (pc2) at (0*\dx,4*\dy) {100d $\tanh$ layer};
-    \node[preclass]  (pc1) at (0*\dx,3*\dy) {100d $\tanh$ layer};
-    \node[e]  (pe) at (-3*\dx,1.85*\dy) {50d premise};
-    \node[e]  (he) at (3*\dx,1.85*\dy) {50d hypothesis};
+    \node[preclass]  (pc3) at (0*\dx,5*\dy) {200d $\tanh$ layer};
+    \node[preclass]  (pc2) at (0*\dx,4*\dy) {200d $\tanh$ layer};
+    \node[preclass]  (pc1) at (0*\dx,3*\dy) {200d $\tanh$ layer};
+    \node[e]  (pe) at (-3*\dx,1.85*\dy) {100d premise};
+    \node[e]  (he) at (3*\dx,1.85*\dy) {100d hypothesis};
     \node[m]  (pem) at (-3*\dx,0.5*\dy) {embedding model\\ with premise input};
     \node[m]  (hem) at (3*\dx,0.5*\dy) {embedding model\\ with hypothesis input};    
     

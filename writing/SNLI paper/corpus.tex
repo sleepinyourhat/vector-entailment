@@ -22,7 +22,7 @@ fragment of the NLI problem that is captured by paraphase.
 Existing resources suffer from a subtler issue that impacts even
 projects using only human-provided annotations: indeterminacies of
 event and entity coreference lead to insurmountable indeterminacy
-concerning the correct semantic label \cite{marelli2014sick}. For
+concerning the correct semantic label (\citealt{de2008finding} $\S4.3$, \citealt{marelli2014sick}). For
 instance, the sentence pair \word{A boat sank in the Pacific
   ocean} and \word{A boat sank in the ocean} could reasonably be labeled in
 numerous ways depending on how the objects and events are grounded. If
@@ -34,7 +34,7 @@ commonsense way). If the boats are assumed to be the same and
 that is not the Pacific, then the two events are (commonsense) contradictory. This
 kind of indeterminacy can be resolved only once the questions of
 coreference are resolved.
-\todo{Cite Marneffe `08 \S4.3 for coref issue.}
+
 
 With our corpus, we sought to address the issues of size, quality, and
 indeterminacy. To do this, we employed a crowdsourcing framework with
@@ -205,9 +205,7 @@ No gold label (no 3 labels match) & 2.0\%\\
 
 \paragraph{Parses}
 
-The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser \cite{klein2003accurate}, trained on the standard training set as well as on the Brown Corpus \cite{francis1979brown}, which we found to improve the parse quality of the descriptive sentences and noun phrases found in the descriptions). Parses are available in both the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
-
-\noindent\todo{Use version number for 4/20/15 model}
+The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser 3.5.2 \cite{klein2003accurate}, trained on the standard training set as well as on the Brown Corpus \cite{francis1979brown}, which we found to improve the parse quality of the descriptive sentences and noun phrases found in the descriptions). Parses are available in both the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
 
 \paragraph{General evaluation standards}
 While we hope that the corpus will be valuable in a variety of ways, we encourage researchers working on tools for semantic representation and inference to evaluate on our data in a uniform way: training on only the (parsed and/or unparsed) sentences included in the training set, and doing final evaluations on only the subset of the test set for which there are single gold labels.
