@@ -5,7 +5,7 @@ Recognizing Textual Entailment (RTE)
 tasks.\footnote{\url{http://aclweb.org/aclwiki/index.php?title=Textual_Entailment_Resource_Pool}}
 These are generally high-quality, hand-labeled data sets, and they
 have stimulated innovative logical and statistical models of natural
-language reasoning, but their small size (a few hundred examples each)
+language reasoning, but their small size (fewer than a thousand examples each)
 limits their utility as a testbed for learned distributed representations. 
 The data for the SemEval 2014 task called Sentences Involving Compositional Knowledge (SICK) is a
 step up in terms of size, but only to 4,500 training examples, and its
@@ -34,8 +34,7 @@ commonsense way). If the boats are assumed to be the same and
 that is not the Pacific, then the two events are (commonsense) contradictory. This
 kind of indeterminacy can be resolved only once the questions of
 coreference are resolved.
-
-\noindent\todo{Introduce name of corpus.}
+\todo{Cite Marneffe `08 \S4.3 for coref issue.}
 
 With our corpus, we sought to address the issues of size, quality, and
 indeterminacy. To do this, we employed a crowdsourcing framework with
@@ -94,7 +93,7 @@ This validation phase was not fundamentally different from the Mechanical Turk l
 For each pair that we validated, we chose a gold label. If any one of
 the three labels was chosen by at least three of the five annotators,
 that label is the gold label. If there was no such consensus, which
-occurred in about 0.2\% of cases, we chose the label `-'. While these
+occurred in about 0.2\% of cases, we chose the label `-'. While rare these
 unlabeled examples are included in the corpus distribution, they are
 unlikely to be helpful for the standard NLI classification task, and
 we do not include them when training and evaluating the models
@@ -115,9 +114,6 @@ Regardless, the overall rates of agreement is extremely high,
 suggesting that the corpus is sufficiently high quality to pose a
 challenging but realistic machine learning task.
 
-
-\noindent\todo{More on *why* `-' isn't a valid test label}
-
 \subsection{The distributed corpus}
 
 \begin{table*}
@@ -132,10 +128,10 @@ A man inspects the uniform of a figure in some East Asian country. & \b{contr.}&
     \bottomrule
 % From 1.0rc3
   \end{tabular}
-  \caption{\label{snli-examples}Randomly chosen examples from the SNLI development set, shown with the gold labels and the full set of annotator labels (abbreviated). Unlike in many existing NLI corpora, the premise and hypothesis sentences in SNLI are often too dissimilar in structure to support approaches to NLI that rely on building sentence-to-sentence alignments.}
+  \caption{\label{snli-examples}Randomly chosen examples from our development set, shown with the gold labels and the full set of annotator labels (abbreviated). Unlike in many existing NLI corpora, the premise and hypothesis sentences in our corpus are often too dissimilar in structure to support approaches to NLI that rely on building sentence-to-sentence alignments.}
 \end{table*}
 
-Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development set with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments. Punctuation and capitalization are often omitted.
+Table~\ref{snli-examples} shows a set of randomly chosen validated examples from the development set with their labels. Qualitatively, we find the data that we collected to draw fairly extensively on commonsense knowledge, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We find the sentences that we collected to be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments. Punctuation and capitalization are often omitted.
 
 The data will be released upon publication under a CreativeCommons
 Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.
@@ -166,7 +162,7 @@ Hypothesis mean token count & 8.3 \\
 \multicolumn{2}{l}{\textbf{Parser output:}}\\
 Premise `S'-rooted parses & 74.0\%\\
 Hypothesis `S'-rooted parses & 88.9\%\\
-Unique word tokens (ignoring case) & ...\\
+Distinct words (ignoring case) & 37,026\\
     \bottomrule
   \end{tabular}
 % From 1.0rc3
@@ -209,7 +205,7 @@ No gold label (no 3 labels match) & 2.0\%\\
 
 \paragraph{Parses}
 
-The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser \cite{klein2003accurate} (trained on the standard training set as well as on the Brown Corpus; \citealt{francis1979brown}), both in the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
+The distributed corpus includes parses for every sentence produced by the Stanford PCFG Parser \cite{klein2003accurate}, trained on the standard training set as well as on the Brown Corpus \cite{francis1979brown}, which we found to improve the parse quality of the descriptive sentences and noun phrases found in the descriptions). Parses are available in both the standard PTB format and in the binarized unlabeled format used by tree-structured neural network models, as in \S\ref{sentence-embedding}.
 
 \noindent\todo{Use version number for 4/20/15 model}
 

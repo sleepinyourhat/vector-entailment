@@ -18,6 +18,8 @@ hyperParams.latticeLocalCurriculum = curr;
 
 hyperParams.connectionCostScale = ccs;
 
+
+
 if slant == 1
     hyperParams.latticeFirstPastThreshold = 0.5;
     hyperParams.latticeFirstPastHardMax = false;
@@ -178,12 +180,10 @@ elseif strcmp(dataflag, 'sst')
     hyperParams.testFilenames = {'./sst-data/dev.txt'};
 end
 
-%'TEMP'
-%hyperParams.lineLimit = 50;
-%hyperParams.loadWords = false;
-%hyperParams.useEmbeddingTransform = 1;
-%hyperParams.embeddingDim = 100;
-%hyperParams.gpu = 0;
-%hyperParams.largeVocabMode = 0;
+% Temp testing method.
+if ccs == -100
+    hyperParams.lineLimit = 500;
+    hyperParams.loadWords = 0;
+end
 
 end

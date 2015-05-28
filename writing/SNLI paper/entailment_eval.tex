@@ -1,9 +1,9 @@
-\section{SNLI as a platform for NLI research}
+\section{Our data as a platform for NLI research}
 
-The most immediate application for the SNLI corpus is in developing models for the task of NLI. In particular, since SNLI is dramatically larger than any existing corpus of comparable quality, we expect it to make possible the use of parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
+The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training  parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
 
 \subsection{Standard entailment models}
-We evaluate a number of strong baselines on the SNLI corpus.
+We evaluate a number of strong baselines on our corpus.
 The first class of baselines use models from the Excitement Open
   Platform (EOP,
   \citealt{pado2014design,magnini2014excitement})
@@ -39,7 +39,7 @@ These fall into two classes of algorithms: 2 are edit distance based,
 %This creates a biased dataset of 66\% negative examples.
 % we report the best results from each class
 We run the top performing edit-distance based algorithm and the top
-  performing classifier-based algorithm on the SNLI test set, as
+  performing classifier-based algorithm on our test set, as
   determined by performance on the development set.
 Note that these models were run using the default configuration
   with minimal tuning.
@@ -67,7 +67,7 @@ The results should therefore be taken as a strong baseline for
 \begin{center}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
 \hline
-\textbf{System} & \multicolumn{4}{c}{\b{SNLI}} & \multicolumn{2}{c}{\b{RTE-3}} \\
+\textbf{System} & \multicolumn{4}{c}{\b{Our corpus}} & \multicolumn{2}{c}{\b{RTE-3}} \\
  & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} & \t{F$_1$} & \t{Acc.} \\
 \hline
 \t{Edit Distance} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & 
@@ -112,7 +112,7 @@ Unsurprisingly, the classification-based approach outperforms simple
 % Lexicalized Classifier
 %
 \paragraph{Lexicalized Classifier}
-Unlike the RTE datasets, SNLI's size allows approaches which make use of
+Unlike the RTE datasets, our corpus's size allows approaches which make use of
   rich lexicalized features.
 We implement such a lexicalized classifier as a strong baseline 
   for the task.
@@ -160,7 +160,7 @@ Our classifier implements 6 features:
 % The caption
 \caption{
 \label{tab:bowresults}
-Accuracy on the SNLI dataset, including precision/recall for the
+Accuracy on the our dataset, including precision/recall for the
   \textit{entailed} class on the test set.
 Ablation results are reported for models lacking cross-bigram features 
   (Feature \ref{lst:bigram}), and lacking all lexical
@@ -194,8 +194,9 @@ It is interesting to note the substantial jump in accuracy from using
 In fact, the addition of these features alone allow the classifier to
   outperform the RTE baselines -- this is in some sense unsurprising:
   the RTE systems have been tuned on relatively small corpora
-  ($\sim$1600 examples), whereas a classifier trained on SNLI can make use of
+  ($\sim$1600 examples), whereas a classifier trained on our corpus can make use of
   over two orders of magnitude more data.
+  \todo{Use curve to justify large size of corpus.}
 
 % Insights 2: the learning curve for the unlexicalized classifier is sad
 More surprising is how quickly the lexicalized classifier outperforms its
@@ -217,8 +218,8 @@ If relatively few spurious entailments get high weight -- as it appears
 
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
 
-SNLI is uniquely suitable for training neural network models that produce vector representations of sentence meaning. In this section, we compare the performance of six such models on SNLI. 
-In order to best evaluate the strengths of these six models at producing informative representations, we use sentence embedding as an intermediate step in the NLI classification task: each model most produce vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on evaluating the ability of existing models to produce representations that fully capture sentence meaning, at the possible cost of excluding from consideration neural models for NLI that directly compare the two inputs at the word or phrase level.
+Our corpus is uniquely suitable for training neural network models that produce vector representations of sentence meaning. In this section, we compare the performance of six such models on the corpus. 
+In order to best evaluate the strengths of these six models at producing informative representations, we use sentence embedding as an intermediate step in the NLI classification task: each model must produce a vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on evaluating the ability of existing models to produce representations that fully capture sentence meaning, at the possible cost of excluding from consideration neural models for NLI that directly compare the two inputs at the word or phrase level.
 
 \input{model_structure_fig.tex}
 
@@ -226,7 +227,7 @@ Our neural network classifier, depicted in Fig.~\ref{modelstructure} is simply a
 
 We test six sentence representation models, each set to use 50d word and phrase embeddings. Our baseline model in this experiment simply sums the embeddings of the word in each sentence. Next, we experiment with two recurrent models: a plain RNN, and a one-layer LSTM RNN \cite{hochreiter1997long}. Finally, we experiment with three tree-structured models: a plain TreeRNN \cite{socher2011semi}, a tensor-parameterized TreeRNTN \cite{socher2013acl1}, and a TreeLSTM \cite{tai2015improved}.
 
-The word embeddings for all of the models are initialized the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
+The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
 
 \begin{table}
 \begin{center}
@@ -246,7 +247,7 @@ The word embeddings for all of the models are initialized the 300d reference Glo
 % The caption
 \caption{
 \label{tab:nnresults}
-Accuracy in 3-class classification on the SNLI training and test sets for each model.
+Accuracy in 3-class classification on the our training and test sets for each model.
 \todo{Replace with final numbers/dims}
 }
 \end{table}
