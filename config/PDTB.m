@@ -72,17 +72,17 @@ hyperParams.labels = {{'Comparison', 'Contingency', 'Expansion', 'Temporal'}};
 labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-hyperParams.trainFilenames = {'../data/pdtb2-train.tsv'};    
+hyperParams.trainFilenames = {'../data/pdtb2-train_parsed.tsv'};    
 hyperParams.splitFilenames = {};    
-hyperParams.testFilenames = {'../data/pdtb2-dev.tsv', ...
-                             '../data/pdtb2-test.tsv'};
+hyperParams.testFilenames = {'../data/pdtb2-dev_parsed.tsv', ...
+                             '../data/pdtb2-test_parsed.tsv'};
+
+wordMap = LoadWordMap('../data/pdtb_words.txt');
+hyperParams.vocabName = 'pdtb'; 
 
 if strcmp(dataflag, 'pdtb')
-    wordMap = LoadWordMap('../data/pdtb_words.txt');
-    hyperParams.vocabName = 'pdtb'; 
+    % Transfer doesn't change the wordlist here.
 elseif strcmp(dataflag, 'pdtb-transfer')
-    wordMap = LoadWordMap('../data/pdtb-rc3_words.txt');
-    hyperParams.vocabName = 'pdtbrc3'; 
     hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
 end
 

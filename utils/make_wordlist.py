@@ -11,13 +11,13 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "rte3-rc3"
-TRAINING_FILES = ["../data/rte3_train_parsed.tab"]
-DEV_FILES = []
-TEST_FILES = ["../data/rte3_test_parsed.tab"]
+BASENAME = "pdtb"
+TRAINING_FILES = ["../data/pdtb2-train_parsed.tsv"]
+DEV_FILES = ["../data/pdtb2-dev_parsed.tsv"]
+TEST_FILES = ["../data/pdtb2-test_parsed.tsv"]
 
-TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
-# TRANSFER_SOURCE_WORDLIST = ""
+# TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
+TRANSFER_SOURCE_WORDLIST = ""
 VECTOR_WORDLIST = "utils/glove.840B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
