@@ -242,4 +242,10 @@ elseif strcmp(dataflag, 'imageflickrshort')
     hyperParams.trainFilenames = {};
 end
 
+% Temp testing method.
+if conDim == -100
+    hyperParams.lineLimit = 500;
+    hyperParams.loadWords = 0;
+end
+
 end

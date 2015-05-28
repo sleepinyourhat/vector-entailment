@@ -30,10 +30,12 @@ else
     sigma = 1;
 end
 
-wordFeatures(:, hyperParams.randomEmbeddingIndices) = ...
-    fNormrnd(0, sigma, [EMBDIM, length(hyperParams.randomEmbeddingIndices)], ...
-             hyperParams.gpu, hyperParams.gpu && hyperParams.largeVocabMode);
-wordFeatures(1, hyperParams.randomEmbeddingIndices) = 1;
+if length(hyperParams.randomEmbeddingIndices) > 0
+    wordFeatures(:, hyperParams.randomEmbeddingIndices) = ...
+        fNormrnd(0, sigma, [EMBDIM, length(hyperParams.randomEmbeddingIndices)], ...
+                 hyperParams.gpu, hyperParams.gpu && hyperParams.largeVocabMode);
+    wordFeatures(1, hyperParams.randomEmbeddingIndices) = 1;
+end
 
 % Set the number of mposition functions
 if hyperParams.useSumming

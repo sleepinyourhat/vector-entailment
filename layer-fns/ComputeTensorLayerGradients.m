@@ -27,7 +27,8 @@ for b = 1:B
 end
 
 matricesGradients = bsxfun(@times, permute(delta, [3, 4, 1, 2]), permute(inputProduct, [1, 2, 4, 3]));
-matrixGradients = delta * padarray([l; r], 1, 1, 'pre')';
+matrixInput = [ones([1, size(l, 2)], 'like', l); l; r];
+matrixGradients = delta * matrixInput';
 
 % Compute the deltas.
 innerTensorLayerMatrixL = zeros(inDim, outDim);

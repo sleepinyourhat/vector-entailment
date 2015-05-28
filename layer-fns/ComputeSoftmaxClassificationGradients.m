@@ -4,7 +4,8 @@ function [ matrixGradients, deltaDown ] = ...
 % Compute the gradient for the softmax layer parameters assuming log loss for a batch.
 
 B = size(probs, 2);
-inPadded = padarray(in, 1, 1, 'pre');
+inPadded = [ones([1, size(in, 2)], 'like', in); in];
+
 matrixGradients = fZeros([size(matrix, 1), size(matrix, 2), B], hyperParams.gpu);
 
 % Compute a nonzero target labels vector for only those batch entries that have nonzero

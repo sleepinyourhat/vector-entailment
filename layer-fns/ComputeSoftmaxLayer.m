@@ -30,7 +30,7 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 	% TODO: Vectorize and/or shuttle easy cases to other version.
 
 	if ~isempty(matrix)
-		inPadded = padarray(in, 1, 1, 'pre');
+		inPadded = [ones([1, size(in, 2)], 'like', in); in];
 		D = size(matrix, 1);
 	else
 		D = size(in, 1);
@@ -62,7 +62,7 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 else
 	% Single class set case.
 	if ~isempty(matrix)
-		inPadded = padarray(in, 1, 1, pre);
+		inPadded = [ones([1, size(in, 2)], 'like', in); in];
 		unNormedProbs = exp(matrix * inPadded);
 	else
 		unNormedProbs = exp(in);
@@ -79,7 +79,7 @@ end
 % If a correct class vector is provided, compute the objective function value.
 if nargin > 3 && ~isempty(labels)
 	% Pad with ones to allow for zeros in labels, which won't contribute to cost.
-	evalprobs = padarray(probs, 1, 1, 'pre');
+	evalprobs = [ones([1, size(probs, 2)], 'like', probs); probs];
 	labels = labels + 1;
 	probCorrect = evalprobs(sub2ind(size(evalprobs), labels(:, 1), (1:size(labels, 1))'));
 	loss = gather(-log(probCorrect));
