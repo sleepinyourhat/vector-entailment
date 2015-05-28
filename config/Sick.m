@@ -110,8 +110,8 @@ elseif strcmp(dataflag, 'sick-only-transfer')
     labelMap = cell(1, 1);
     labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-    wordMap = LoadWordMap('sick-data/sick_from_snli1.0rc2_words.txt');
-    hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
+    wordMap = LoadWordMap('sick-data/sick-rc3_words.txt');
+    hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
 
     hyperParams.vocabName = 'sick_all';
 
