@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, adi)
+function [ hyperParams, options, wordMap, labelMap ] = RTE3(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, adi)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -12,7 +12,6 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-dp', num2str(dp), '-gc', num2str(gc),  '-adi', num2str(adi)];
 
 hyperParams.restartUpdateRuleInTransfer = adi;
-
 
 hyperParams.parensInSequences = 0;
 
@@ -66,23 +65,22 @@ hyperParams.useThirdOrderMerge = false;
 hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
-hyperParams.numLabels = [4];
+hyperParams.numLabels = [2];
 
-hyperParams.labels = {{'Comparison', 'Contingency', 'Expansion', 'Temporal'}};
+hyperParams.labels = {{'True', 'False'}};
 labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-hyperParams.trainFilenames = {'../data/pdtb2-train.tsv'};    
+hyperParams.trainFilenames = {'../data/rte3_train_parsed.tab'};    
 hyperParams.splitFilenames = {};    
-hyperParams.testFilenames = {'../data/pdtb2-dev.tsv', ...
-                             '../data/pdtb2-test.tsv'};
+hyperParams.testFilenames = {'../data/rte3_train_parsed.tab'};
 
-if strcmp(dataflag, 'pdtb')
+if strcmp(dataflag, 'rte3')
     wordMap = LoadWordMap('../data/pdtb_words.txt');
-    hyperParams.vocabName = 'pdtb'; 
-elseif strcmp(dataflag, 'pdtb-transfer')
+    hyperParams.vocabName = 'rte3'; 
+elseif strcmp(dataflag, 'rte3-transfer')
     wordMap = LoadWordMap('../data/pdtb-rc3_words.txt');
-    hyperParams.vocabName = 'pdtbrc3'; 
+    hyperParams.vocabName = 'rte3rc3'; 
     hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
 
 end

@@ -11,13 +11,14 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "pdtb-rc3"
-TRAINING_FILES = ["../data/pdtb2-train.tsv"]
-DEV_FILES = ["../data/pdtb2-train.tsv"]
-TEST_FILES = ["../data/pdtb2-train.tsv"]
+BASENAME = "temp"
+TRAINING_FILES = ["../Distributions/snli_1.0rc3/snli_1.0rc3_dev.txt",
+                  "../Distributions/snli_1.0rc3/snli_1.0rc3_test.txt", "../Distributions/snli_1.0rc3/snli_1.0rc3_train.txt"]
+DEV_FILES = []
+TEST_FILES = []
 
-TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
-# TRANSFER_SOURCE_WORDLIST = ""
+# TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
+TRANSFER_SOURCE_WORDLIST = ""
 VECTOR_WORDLIST = "utils/glove.840B.wordlist.txt"
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
@@ -73,10 +74,12 @@ else:
     transfer_source_words = set()
 
 training_words = count_words(TRAINING_FILES)
+print str(len(training_words)) + " words in training."
 # for word in training_words:
 #    print str(training_words[word]) + '\t' + word
 
 dev_test_words = count_words(TEST_FILES + DEV_FILES)
+print str(len(dev_test_words)) + " words in dev/test."
 
 wordlist = create_wordlist(
     training_words, dev_test_words, vector_words.union(transfer_source_words))
