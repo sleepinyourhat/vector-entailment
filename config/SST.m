@@ -180,10 +180,4 @@ elseif strcmp(dataflag, 'sst')
     hyperParams.testFilenames = {'./sst-data/dev.txt'};
 end
 
-% Temp testing method.
-if ccs == -100
-    hyperParams.lineLimit = 500;
-    hyperParams.loadWords = 0;
-end
-
 end

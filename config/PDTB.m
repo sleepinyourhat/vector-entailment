@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, adi)
+function [ hyperParams, options, wordMap, labelMap ] = PDTB(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, adi)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
@@ -84,7 +84,12 @@ elseif strcmp(dataflag, 'pdtb-transfer')
     wordMap = LoadWordMap('../data/pdtb-rc3_words.txt');
     hyperParams.vocabName = 'pdtbrc3'; 
     hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
+end
 
+% Temp testing method.
+if adi == -100
+    hyperParams.lineLimit = 500;
+    hyperParams.loadWords = 0;
 end
 
 end

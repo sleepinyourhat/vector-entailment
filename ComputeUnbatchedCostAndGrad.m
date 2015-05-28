@@ -51,7 +51,7 @@ if nargout > 1
     % multiple writes within the paralellized loop.
     logMessages = cell(B, 1);
 
-    parfor b = 1:B
+    for b = 1:B
         % assert(~isempty(data(b).label), 'Null label.')
 
         [localCost, localGrad, localEmbGrad, localPred] = ...

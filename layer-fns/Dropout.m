@@ -10,7 +10,11 @@ elseif ~trainingMode
 	% Test mode: Scale all activations by probPreserve without dropout.
 	mask = (activations .* 0 + 1) .* probPreserve;
 else
-	mask = fRand(size(activations), gpu) < probPreserve;	
+	if gpu
+		mask = rand(size(activations), 'single', 'gpuArray') < probPreserve;	
+	else
+		mask = rand(size(activations)) < probPreserve;	
+	end
 end
 
 activations = mask .* activations;

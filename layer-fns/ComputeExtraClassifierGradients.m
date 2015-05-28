@@ -25,7 +25,7 @@ for layer = stackSize:-1:1
     deltaDown = NLDeriv .* deltaDown;
 
     % Calculate matrix gradients
-    matrixStackGradients(:, :, layer) = deltaDown * padarray(inputs(:, :, layer), 1, 1, 'pre')';
+    matrixStackGradients(:, :, layer) = deltaDown * [ones([1, size(inputs(:, :, layer), 2)], 'like', inputs(:, :, layer)); inputs(:, :, layer)]';
 
     % Calculate deltas to pass down
     deltaDown = matrixStack(:, 2:end, layer)' * deltaDown;
