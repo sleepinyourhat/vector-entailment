@@ -226,7 +226,7 @@ options.examplesFreq = 1000;
 % How often (in steps) to save parameters to disk.
 % Checkpoints saved at these intervals coexist with checkpoints created
 % automatically whenever a the best accuracy score is updated.
-options.checkpointFreq = 100000; 
+options.checkpointFreq = 25000; 
 
 % The name assigned to the current call to TrainSGD. This can be used to
 % distinguish multiple phases of training in the same experiment.
