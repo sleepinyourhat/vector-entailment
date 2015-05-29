@@ -3,6 +3,8 @@ function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, e
 
 [hyperParams, options] = Defaults();
 
+hyperParams.transferSoftmax = true;
+
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...

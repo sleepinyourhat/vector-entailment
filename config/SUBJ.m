@@ -79,6 +79,6 @@ hyperParams.testFilenames = {};
 
 if strcmp(dataflag, 'subj')
 elseif strcmp(dataflag, 'subj-transfer')
-	hyperParams.sourceWordMap = LoadWordMap('../data/snlirc2_words.txt');
+	hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
 end
 end
