@@ -1,32 +1,8 @@
 \begin{abstract} 
-  % Entailment and contradiction are fundamental to natural language
-  % meaning and lie at the heart of tasks like summarization, textual
-  % entailment, and commonsense reasoning.
-  Entailment and contradiction are fundamental to natural language
-  meaning and so are an important testing
-  ground for semantic representations.
-  %
-  %However, computational modeling of these concepts is currently
-  %hampered by the limited nature of existing annotated resources.
-  However, progress is currently hampered by the limitations of
-  existing annotated resources for training.
-  %
-  To address this, we present a new corpus of sentence pairs labeled
-  for entailment, contradiction, and semantic independence. At 570K
-  pairs, it is two orders of magnitude larger than all other resources
-  of its type.
-  %
-  And, in contrast to many such resources, all of the sentences were
-  written by humans in a grounded, naturalistic context.
-  %
-  In this paper, we use this corpus to evaluate a wide variety of
-  models for natural language inference, finding that Tree-Structured
-  Long Short-Term Memory networks (TreeLSTMs) achieve the best
-  performance.
-  %
-  In addition, to enhance the case for TreeLSTMs, and deepen the
-  argument for the centrality of entailment and contradiction in
-  semantics, we show that the TreeLSTM's representations, trained on
-  our corpus, perform well in a disparate set of additional semantic
-  tasks.  
+Understanding entailment and contradiction is  fundamental to understanding natural language, and inference about entailment and contradiction is a valuable testing ground for the development of semantic representations. 
+However, research in this area has been dramatically limited by the lack of large-scale resources. 
+To address this, we introduce a new freely available corpus of labeled sentence pairs, written by humans in a novel grounded task framing based on image captioning. 
+At 570K pairs, it is two orders of magnitude larger than all other resources of its type. 
+In this paper, we use this corpus to evaluate a wide variety of natural language inference models, finding that Tree-Structured Long Short-Term Memory networks (TreeLSTMs) achieve the best performance. 
+In addition, we show that models trained on our corpus perform competitively on an existing NLI test set.
 \end{abstract}
