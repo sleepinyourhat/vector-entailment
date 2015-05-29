@@ -13,13 +13,12 @@ The first class of baselines use models from the Excitement Open
 We additionally evaluate against a strong classifier-based baseline based on
   both  unlexicalized and lexicalized features.
 
-
 %
 % EOP
 %
 \paragraph{Excitement Open Platform}
 % what is EOP
-The Excitement Open Platform is a tool to quickly develop RTE systems
+The Excitement Open Platform is a tool to quickly develop NLI systems
   while sharing components such as common lexical resources and 
   evaluation sets.
 % 9 systems compared against
@@ -44,7 +43,7 @@ We run the top performing edit-distance based algorithm and the top
 Note that these models were run using the default configuration
   with minimal tuning.
 The results should therefore be taken as a strong baseline for
-  RTE-style approaches to the problem, rather than necessarily
+  NLI-style approaches to the problem, rather than necessarily
   representing the state-of-the-art system's performance on the
   task.
 %We run each of the 9 algorithms distributed with EOP on the 2-class
@@ -87,6 +86,7 @@ Results are reported for an edit-distance based algorithm, and a
 In order to calibrate the difficulty of the dataset against the 
   classical RTE problems, results are also reported on the (2-class) 
   RTE-3 dataset.
+\todo{Cite RTE-3 here.}
 \todo{Final numbers}
 }
 \end{table}
@@ -252,4 +252,38 @@ Accuracy in 3-class classification on the our training and test sets for each mo
 }
 \end{table}
 
-Note that \todo{something interesting happens}.
+\subsubsection{Evaluating on other inference corpora}
+
+To the extent that successfully training a sentence model on our corpus forces that model to encode broadly accurate representations of English scene descriptions, we should expect it to be possible to adapt these representations in a different setting. In this section, we experiment with transfer learning on SICK, the corpus for the most recent NLI shared task.
+
+To perform transfer learning, we take the parameters of strong LSTM RNN model trained on our corpus and use them to initialize new model which trained from that point only on the training portion of SICK. The only newly initialized parameters are the embeddings for words that appear in the new training set, but not in our training set, and those parameters are initialized using GloVe embeddings, as before. We use the same model hyperparameters that were used to train the original model, with the exception of the L2 regularization strength which is re-tuned. We additionally transfer the accumulators that are used by AdaDelta to set the learning rates with the intention of ensuring that the model does not learn too quickly in its first few epochs and destroy the knowledge accumulated in the pre-transfer phase of training.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
+\hline
+\textbf{Sentence model} & \b{Train}  & \b{Test}\\
+\hline
+\t{100d LSTM RNN (random init.)}            & \t{100} & \t{71.3} \\
+% From: ~/quant/transfer-sick-only-l0.0001-dim50-ed200-td3-pen100-do0.9-0.9-ws1-par0-comp2-cdim1/
+\t{100d LSTM RNN (transfer init.)}            & \t{100?} & \t{80?} \\
+% From: 
+\hline
+\end{tabular}
+\end{center}
+
+\caption{\label{tab:transferresults}
+The performance (\% accuracy) of an LSTM RNN model on SICK under both a random initialization and a transfer initialization copied from a model trained on our corpus.  \todo{Final numbers.}} 
+\end{table}
+
+\todo{Why not RTE3?}
+
+We compare the performance of an LSTM model with both the transfer initialization and a normal random initialization. We tune the regularization parameter separately for each case. Table \ref{tab:transferresults} shows these results.
+
+Our transfer model shows the best performance yet reported on SICK for an unaugmented neural network model, and approaches the overall state of the art at 84.6\% \cite{lai2014illinois}, as well as the 84\% level of interannotator agreement, which represents a likely performance ceiling. The randomly initialized model performs relatively poorly. This suggests that the introduction of a large high-quality corpus makes it newly possible to train representation learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on inference tasks.
+
+
+
+
+
+
