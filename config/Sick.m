@@ -1,7 +1,9 @@
-function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, parens, conDim)
+function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, adi, conDim)
 % Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
 
 [hyperParams, options] = Defaults();
+
+hyperParams.restartUpdateRuleInTransfer = adi;
 
 hyperParams.transferSoftmax = true;
 
@@ -10,7 +12,7 @@ hyperParams.transferSoftmax = true;
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth), '-pen', num2str(penult), ...
     '-do', num2str(bottomDropout), '-', num2str(topDropout), '-ws', num2str(wordsource),...
-    '-par', num2str(parens), '-comp', num2str(composition), ...
+    '-adi', num2str(adi), '-comp', num2str(composition), ...
     '-cdim', num2str(conDim)];
 
 
@@ -29,8 +31,6 @@ elseif wordsource == 3
 else
     hyperParams.vocabPath = ['../data/wordsource.scaled.' num2str(embDim) 'd.txt'];    
 end
-
-options.updateFn = @AdaDeltaUpdate;
 
 % The number of embedding transform layers. topDepth > 0 means NN layers will be
 % added above the embedding matrix. This is likely to only be useful when
@@ -244,10 +244,5 @@ elseif strcmp(dataflag, 'imageflickrshort')
     hyperParams.trainFilenames = {};
 end
 
-% Temp testing method.
-if conDim == -100
-    hyperParams.lineLimit = 500;
-    hyperParams.loadWords = 0;
-end
 
 end
