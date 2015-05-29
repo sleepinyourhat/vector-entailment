@@ -90,7 +90,8 @@ hyperParams.randomEmbeddingIndices = [];
 % If set, reinitialize the accumulators (in AdaDelta, the only supported optimizer for transfer)
 % that influence the LR during transfer. If false, preserve the accumulators for the model parameters
 % (but not the embeddings).
-hyperParams.restartUpdateRuleInTransfer = false;
+hyperParams.restartUpdateRuleInTransfer = true;
+hyperParams.transferSoftmax = false;
 
 % L1 v. L2 regularization. If no regularization is needed, set
 % lambda to 0 and ignore this parameter.
