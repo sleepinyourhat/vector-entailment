@@ -13,7 +13,7 @@ function freshModelState = TransferInitialization(freshModelState, pretrainedMod
 
 % Unpack pretrained model state.
 [ mergeMatrices, mergeMatrix, ...
-    ~, pretrainedWordFeatures, connectionMatrix, ...
+    pretrainedSoftmaxMatrix, pretrainedWordFeatures, connectionMatrix, ...
     compositionMatrix, scoringVector, classifierExtraMatrix, embeddingTransformMatrix] ...
     = stack2param(pretrainedModelState.theta, pretrainedModelState.thetaDecoder);
 [ GmergeMatrices, GmergeMatrix, ...
@@ -24,6 +24,14 @@ function freshModelState = TransferInitialization(freshModelState, pretrainedMod
     ~, DpretrainedWordFeatures, DconnectionMatrix, ...
     DcompositionMatrix, DscoringVector, DclassifierExtraMatrix, DembeddingTransformMatrix] ...
     = stack2param(pretrainedModelState.sumSqDelta, pretrainedModelState.thetaDecoder);
+
+if hyperParams.transferSoftmax && (size(softmaxMatrix, 1) == 3)
+	Log(hyperParams.statlog, ['Copying entailment softmax layer.']);
+	softmaxMatrix = pretrainedSoftmaxMatrix;
+elseif hyperParams.transferSoftmax && (size(softmaxMatrix, 1) == 2)
+	Log(hyperParams.statlog, ['Copying entailment softmax layer from three-way entailment to two-way.']);
+	softmaxMatrix = pretrainedSoftmaxMatrix([1 3], :);
+end
 
 if ~isempty(wordFeatures)
 	wordFeaturesInStack = true;

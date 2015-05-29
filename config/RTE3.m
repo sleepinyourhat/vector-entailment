@@ -12,6 +12,7 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-dp', num2str(dp), '-gc', num2str(gc),  '-adi', num2str(adi)];
 
 hyperParams.restartUpdateRuleInTransfer = adi;
+hyperParams.transferSoftmax = true;
 
 hyperParams.parensInSequences = 0;
 
