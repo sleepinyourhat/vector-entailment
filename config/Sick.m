@@ -5,7 +5,7 @@ function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, e
 
 hyperParams.restartUpdateRuleInTransfer = adi;
 
-hyperParams.transferSoftmax = true;
+hyperParams.transferSoftmax = false;
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
@@ -120,6 +120,39 @@ elseif strcmp(dataflag, 'sick-only-transfer')
     hyperParams.trainFilenames = {'./sick-data/SICK_train_parsed.txt'};
     hyperParams.testFilenames = {'./sick-data/SICK_trial_parsed.txt',...
                                  './sick-data/SICK_test_annotated_rearranged_parsed.txt'};
+    hyperParams.splitFilenames = {};
+elseif strcmp(dataflag, 'sick2-only')
+    % The number of labels.
+    hyperParams.numLabels = [2];
+
+    hyperParams.labels = {{'ENTAILMENT', 'NEUTRAL'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    wordMap = LoadWordMap('sick-data/sick_basic_words.txt');
+    hyperParams.vocabName = 'sick_all';
+
+    hyperParams.trainFilenames = {'./sick-data/SICK2_train_parsed.txt'};
+    hyperParams.testFilenames = {'./sick-data/SICK2_trial_parsed.txt',...
+                                 './sick-data/SICK2_test_annotated_rearranged_parsed.txt'};
+    hyperParams.splitFilenames = {};
+elseif strcmp(dataflag, 'sick2-only-transfer')
+    % The number of labels.
+    hyperParams.numLabels = [2];
+    hyperParams.loadWords = 0;
+
+    hyperParams.labels = {{'ENTAILMENT', 'NEUTRAL'}};
+    labelMap = cell(1, 1);
+    labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
+
+    wordMap = LoadWordMap('sick-data/sick-rc3_words.txt');
+    hyperParams.sourceWordMap = LoadWordMap('../data/snlirc3_words.txt');
+
+    hyperParams.vocabName = 'sick_all';
+
+    hyperParams.trainFilenames = {'./sick-data/SICK2_train_parsed.txt'};
+    hyperParams.testFilenames = {'./sick-data/SICK2_trial_parsed.txt',...
+                                 './sick-data/SICK2_test_annotated_rearranged_parsed.txt'};
     hyperParams.splitFilenames = {};
 elseif strcmp(dataflag, 'dg-only') 
     % The number of labels.
