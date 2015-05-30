@@ -1,3 +1,18 @@
+\begin{table*}[t]
+  \centering\footnotesize
+  \begin{tabular}{p{6cm}p{0.75cm}p{1.4cm}p{6cm}}
+  \toprule
+A man inspects the uniform of a figure in some East Asian country. & \b{contr.}& \t{$\{$c c c c c$\}$} & The man is sleeping\\
+\rule{0pt}{3ex}An older and younger man smiling. & \b{neut.}& \t{$\{$n n e n n$\}$} & Two men are smiling and laughing at the cats playing on the floor.\\
+\rule{0pt}{3ex}A black race car starts up in front of a crowd of people. & \b{contr.}& \t{$\{$c c c c c$\}$} & A man is driving down a lonely road.\\
+\rule{0pt}{3ex}A soccer game with multiple males playing. & \b{ent.}& \t{$\{$e e e e e$\}$} & Some men are playing a sport.\\
+\rule{0pt}{3ex}A smiling costumed woman is holding an umbrella. & \b{neut.}& \t{$\{$n n e c n$\}$} & A happy woman in a fairy costume holds an umbrella.\\
+    \bottomrule
+% From 1.0rc3
+  \end{tabular}
+  \caption{\label{snli-examples}Randomly chosen examples from the development section of our new corpus, shown with both the gold labels and the full set of annotator labels (abbreviated).}
+\end{table*}
+
 \section{Introduction}\label{sec:introduction}
 
 The semantic concepts of entailment and contradiction are central to
@@ -50,15 +65,11 @@ which attests to the high quality of the data.
 In this paper, we use this corpus to evaluate a wide variety of models
 for natural language inference, including rule-based systems, simple
 linear classifiers, and compositional neural networks. We find that
-Tree-Structured Long Short-Term Memory networks (TreeLSTMs;
-\citealt{tai2015improved,le2015compositional}) achieve the best
-performance. In addition, we enhance the case for TreeLSTMs by showing
-that its representations, trained on our corpus, perform well in a
-disparate set of additional semantic tasks.  The success of these
-transfer-learning experiments is also a testament to the centrality
-of NLI in semantics.
-
-\todo{TreeLSTM vs. LSTM result TBD.}
+a neural network model based on a Long Short-Term Memory network (LSTM; 
+\citealt{hochreiter1997long}) for sentence embedding achieves the best
+performance, and we validate that strong performance by showing that
+a model trained on our data can be successfully adapted to an existing
+NLI challenge task, yielding the best reported performance for a neural network model.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

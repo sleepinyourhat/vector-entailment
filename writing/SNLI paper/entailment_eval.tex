@@ -86,7 +86,6 @@ Results are reported for an edit-distance based algorithm, and a
 In order to calibrate the difficulty of the dataset against the 
   classical RTE problems, results are also reported on the (2-class) 
   RTE-3 dataset.
-\todo{Cite RTE-3 here.}
 \todo{Final numbers}
 }
 \end{table}
@@ -95,7 +94,8 @@ In order to calibrate the difficulty of the dataset against the
 %
 
 % the best systems
-We report results in \reftab{eopresults}.
+We report results in \reftab{eopresults}, covering both our own test set 
+and the standard RTE-3 test set \cite{giampiccolo2007third}.
 The best edit distance algorithm tunes the weight of the three 
   case-insensitive edit distance operations on the training set, 
   after removing stop words.
@@ -107,6 +107,7 @@ The best classifier-based system makes use of information from
 Unsurprisingly, the classification-based approach outperforms simple
   edit distance metrics, and performs quite well despite relatively
   little lexicalization.
+\todo{Is the RTE3 model trained on RTE3?}
 
 %
 % Lexicalized Classifier
@@ -172,49 +173,22 @@ Ablation results are reported for models lacking cross-bigram features
 % END BOW RESULTS TABLE
 %
 
-% Commenting out until PDF available. -S
-% Running 'make' should generate PDF from gnuplot
-\Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
-A learning curve for the lexicalized and unlexicalized baseline classifiers,
-plotted on a log scale.
-Note the y axis starting at a random-chance accuracy of 33\%.
-}
 
 % Results
 We report results in \reftab{bowresults}, along with ablation studies for removing
   the bigram features (leaving only the unigram entailment pair feature),
   and for removing all lexicalized features.
-In addition, we report learning curves for the lexicalized and fully unlexicalized
-  classifiers in \reffig{bowlearncurve}.
 
 % Insights 1: lexicalization helps a bunch
 It is interesting to note the substantial jump in accuracy from using
   lexicalized features, and even from using the relatively sparse
   cross-bigram features.
 In fact, the addition of these features alone allow the classifier to
-  outperform the RTE baselines -- this is in some sense unsurprising:
-  the RTE systems have been tuned on relatively small corpora
+  outperform the EOP models -- this is in some sense unsurprising:
+  the EOP systems have been tuned on relatively small corpora
   ($\sim$1600 examples), whereas a classifier trained on our corpus can make use of
   over two orders of magnitude more data.
   \todo{Use curve to justify large size of corpus.}
-
-% Insights 2: the learning curve for the unlexicalized classifier is sad
-More surprising is how quickly the lexicalized classifier outperforms its
-  unlexicalized counterpart (see \reffig{bowlearncurve}).
-With only 100 training examples, the cross-bigram classifier is already
-  outperforming its unlexicalized counterpart.
-Empirically we notice that the top weighted features for the classifier
-  trained on 100 examples tend to be high precision entailments;
-  e.g.,
-  \textit{playing} $\rightarrow$ \textit{outside}
-  (most scenes are outdoors), or \textit{a banana} $\rightarrow$
-  \textit{person eating}.
-If relatively few spurious entailments get high weight -- as it appears
-  is the case -- then it makes sense that when these do fire they
-  provide some boost in accuracy.
-
-
-%\subsection{Existing NLI systems}
 
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
 
@@ -223,11 +197,11 @@ In order to best evaluate the strengths of these six models at producing informa
 
 \input{model_structure_fig.tex}
 
-Our neural network classifier, depicted in Fig.~\ref{modelstructure} is simply a stack of three 100d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
+Our neural network classifier, depicted in Fig.~\ref{modelstructure} is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the representation model itself.
 
-We test six sentence representation models, each set to use 50d word and phrase embeddings. Our baseline model in this experiment simply sums the embeddings of the word in each sentence. Next, we experiment with two recurrent models: a plain RNN, and a one-layer LSTM RNN \cite{hochreiter1997long}. Finally, we experiment with three tree-structured models: a plain TreeRNN \cite{socher2011semi}, a tensor-parameterized TreeRNTN \cite{socher2013acl1}, and a TreeLSTM \cite{tai2015improved}.
+We test three sentence representation models, each set to use 100d word and phrase embeddings. Our baseline model in this experiment simply sums the embeddings of the word in each sentence. In addition, we experiment with two simple sequence embedding models models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}. Both use the simple conventional layout with one layer per input token.
 
-The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were reimplemented in a common framework for this paper, and the implementations will be made available at publication time.
+The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine tuned. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each. All models were implemented in a common framework for this paper, and the implementations will be made available at publication time.
 
 \begin{table}
 \begin{center}
@@ -237,17 +211,17 @@ The word embeddings for all of the models are initialized with the 300d referenc
 \hline
 \t{100d Sum of words}            & \t{79?} & \t{76?} \\
 \t{100d RNN}            & \t{75?} & \t{72?} \\	
-\t{100d LSTM RNN}            & \t{81.4?} & \t{78.2?} \\
-\t{100d TreeRNN}            & \t{69?} & \t{69?} \\
-\t{50d TreeRNTN}            & \t{61?} & \t{60?} \\
-\t{100d LSTM TreeRNN}            & \t{72?} & \t{73?} \\
+\t{100d LSTM RNN}            & \t{81.4?} & \t{78.0?} \\
+% \t{100d TreeRNN}            & \t{69?} & \t{69?} \\
+% \t{50d TreeRNTN}            & \t{61?} & \t{60?} \\
+% \t{100d LSTM TreeRNN}            & \t{72?} & \t{73?} \\
 \hline
 \end{tabular}
 \end{center}
 % The caption
 \caption{
 \label{tab:nnresults}
-Accuracy in 3-class classification on the our training and test sets for each model.
+Accuracy in 3-class classification on our training and test sets for each model.
 \todo{Replace with final numbers/dims}
 }
 \end{table}
@@ -266,8 +240,8 @@ To perform transfer learning, we take the parameters of strong LSTM RNN model tr
 \hline
 \t{100d LSTM RNN (random init.)}            & \t{100} & \t{71.3} \\
 % From: ~/quant/transfer-sick-only-l0.0001-dim50-ed200-td3-pen100-do0.9-0.9-ws1-par0-comp2-cdim1/
-\t{100d LSTM RNN (transfer init.)}            & \t{100?} & \t{80?} \\
-% From: 
+\t{100d LSTM RNN (transfer init.)}            & \t{100?} & \t{80.4?} \\
+% From: ...
 \hline
 \end{tabular}
 \end{center}
@@ -276,14 +250,37 @@ To perform transfer learning, we take the parameters of strong LSTM RNN model tr
 The performance (\% accuracy) of an LSTM RNN model on SICK under both a random initialization and a transfer initialization copied from a model trained on our corpus.  \todo{Final numbers.}} 
 \end{table}
 
-\todo{Why not RTE3?}
-
 We compare the performance of an LSTM model with both the transfer initialization and a normal random initialization. We tune the regularization parameter separately for each case. Table \ref{tab:transferresults} shows these results.
 
 Our transfer model shows the best performance yet reported on SICK for an unaugmented neural network model, and approaches the overall state of the art at 84.6\% \cite{lai2014illinois}, as well as the 84\% level of interannotator agreement, which represents a likely performance ceiling. The randomly initialized model performs relatively poorly. This suggests that the introduction of a large high-quality corpus makes it newly possible to train representation learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on inference tasks.
 
+We attempted to apply this same transfer evaluation technique to the RTE-3 challenge dataset, but found that the small size of the training set (800 examples) did not allow our model to adapt to the 
 
+\subsection{Further analysis}
 
+Fig.~\reffig{bowlearncurve} shows a learning curve for the LSTM and the lexicalized and unlexicalized feature-based models. Here, we observe further confirmation that supervised neural network models like our LSTM-based model are only competitive 
+% describe intersection
+% promising with more data
+% useful resource in the development of more sophisticated SE models
 
+\Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
+A learning curve for the lexicalized and unlexicalized baseline classifiers and the LSTM,
+plotted on a log scale. The minibatch-based training method that we chose for the LSTM requires at least 64 examples to function. Note that the y axis starts at a random-chance accuracy of 33\%. \todo{One more LSTM data point at ~80}}
 
-
+% Insights 2: the learning curve for the unlexicalized classifier is sad
+Setting aside the neural network model, were surprised at how quickly
+the lexicalized classifier outperforms its
+  unlexicalized counterpart (see \reffig{bowlearncurve}).
+With only 100 training examples, the cross-bigram classifier is already
+  outperforming its unlexicalized counterpart.
+Empirically we notice that the top weighted features for the classifier
+  trained on 100 examples tend to be high precision entailments;
+  e.g.,
+  \textit{playing} $\rightarrow$ \textit{outside}
+  (most scenes are outdoors), or \textit{a banana} $\rightarrow$
+  \textit{person eating}.
+If relatively few spurious entailments get high weight -- as it appears
+  is the case -- then it makes sense that when these do fire they
+  provide some boost in accuracy.
+  
+  \todo{Insert example-specific error analysis}
