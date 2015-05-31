@@ -94,7 +94,7 @@ The transformation based model allows for 3-class predictions on our
 %
 
 % the best systems
-We report results in \reftab{eopresults}, covering both our own test set,
+We report results in \reftab{tab:eopresults}, covering both our own test set,
   the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
 Each of the models was trained on its own training set.
 The results for RTE-3 are taken from \newcite{magnini2014excitement}.
@@ -181,7 +181,7 @@ Ablation results are reported for models lacking cross-bigram features
 
 
 % Results
-We report results in \reftab{bowresults}, along with ablation studies for removing
+We report results in \reftab{tab:bowresults}, along with ablation studies for removing
   the bigram features (leaving only the unigram entailment pair feature),
   and for removing all lexicalized features.
 
@@ -203,7 +203,7 @@ To focus specifically on the strengths of these models at producing informative 
 
 \input{model_structure_fig.tex}
 
-Our neural network classifier, depicted in Figure\ref{modelstructure}, is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the sentence embedding model itself.
+Our neural network classifier, depicted in \reffig{modelstructure}, is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the sentence embedding model itself.
 
 We test three sentence embedding models, each set to use 100d phrase and sentence embeddings. Our baseline sentence embedding simply sums the embeddings of the words in each sentence. In addition, we experiment with two simple sequence embedding models models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}. Both use the simple conventional layout with one layer per input token.
 
@@ -240,11 +240,11 @@ Accuracy in 3-class classification on our training and test sets for each model.
 }
 \end{table}
 
-The results are shown in Table~\ref{tab:nnresults}. The sum of words model performed slightly worse than the fundamentially similar lexicalized classifier---while the sum of words model is able to use pretrained word embeddings to better handle rare words, it lacks even the rudimentary sensitivity to word order that the lexicalized model's bigram features provide. Of the two RNN models, the LSTM's more robust ability to learn long-term dependencies serves it well, giving it a substantial advantage over the plain RNN, and allowing it to roughly tie in performance with the lexicalized classifier.
+The results are shown in \reftab{tab:nnresults}. The sum of words model performed slightly worse than the fundamentially similar lexicalized classifier---while the sum of words model is able to use pretrained word embeddings to better handle rare words, it lacks even the rudimentary sensitivity to word order that the lexicalized model's bigram features provide. Of the two RNN models, the LSTM's more robust ability to learn long-term dependencies serves it well, giving it a substantial advantage over the plain RNN, and allowing it to roughly tie in performance with the lexicalized classifier.
 
 \subsection{Analysis of performance}
 
-Figure \ref{fig:bowlearncurve} shows a learning curve for the LSTM and the lexicalized and unlexicalized feature-based models. This learning curve shows that the large size of the corpus is crucial to both the LSTM and the lexicalized model, and suggests that additional data would yield still better performance for both. It is also worth noting that, though the LSTM and the lexicalized model show similar performance when trained on the data we present here, the steeper slope for the LSTM suggests that its ability to learn arbitrarily structured representations of sentence meaning would give it an advantage over the more constrained lexicalized model on still larger datasets. Since the LSTM is trained using SGD with minibatches of 64 examples, and was tuned in that setting, our ability to meaningfully evaluate it on extremely small fractions of the data was limited.
+\Reffig{fig:bowlearncurve} shows a learning curve for the LSTM and the lexicalized and unlexicalized feature-based models. This learning curve shows that the large size of the corpus is crucial to both the LSTM and the lexicalized model, and suggests that additional data would yield still better performance for both. It is also worth noting that, though the LSTM and the lexicalized model show similar performance when trained on the data we present here, the steeper slope for the LSTM suggests that its ability to learn arbitrarily structured representations of sentence meaning would give it an advantage over the more constrained lexicalized model on still larger datasets. Since the LSTM is trained using SGD with minibatches of 64 examples, and was tuned in that setting, our ability to meaningfully evaluate it on extremely small fractions of the data was limited.
 
 % useful resource in the development of more sophisticated SE models
 
@@ -339,7 +339,7 @@ To perform transfer, we take the parameters of the LSTM RNN model trained on our
 The performance (\% accuracy) of a 100d LSTM RNN model on SICK under both a random initialization and a transfer initialization copied from a model trained on our corpus.} 
 \end{table}
 
-We compare the performance of an LSTM model with both the transfer initialization and a normal random initialization. We tune the regularization parameter separately for each case. Table~\ref{tab:transferresults} shows these results. 
+We compare the performance of an LSTM model with both the transfer initialization and a normal random initialization. We tune the regularization parameter separately for each case. \Reftab{tab:transferresults} shows these results. 
 
 Our transfer model shows the best performance yet reported on SICK for an unaugmented neural network model, surpasses the available EOP models, and approaches both the overall state of the art at 84.6\% \cite{lai2014illinois} and the 84\% level of interannotator agreement, which represents a likely performance ceiling. The randomly initialized model performs relatively poorly. This suggests that the introduction of a large high-quality corpus makes it newly possible to train representation-learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on inference tasks.
 
