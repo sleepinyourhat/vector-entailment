@@ -271,6 +271,8 @@ export MATLABCMD="cd quant; lambda = 0.0001; dim = 100; ed = 300; td = 3; penult
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 100; ed = 300; td = 3; penult = 200; tot = 2; dropout = [0.95\, 0.95]; collo = 3; dataflag='sick-only'; name='transfer5'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 100; ed = 300; td = 3; penult = 200; tot = 2; dropout = [0.95\, 0.95]; collo = 3; dataflag='sick2-only'; name='transfer5'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
 
+export MATLABCMD="cd quant; lambda = 0.0001; dim = 10; ed = 30; td = 1; penult = 20; tot = 2; dropout = [0.95\, 0.95]; collo = 0; dataflag='sick-only'; name='sick-logging-test'; TrainModel(''\, 1\, @Sick\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 0\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
 
 
 

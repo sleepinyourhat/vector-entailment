@@ -21,7 +21,10 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-if wordsource == 1
+hyperParams.loadWords = true;
+if wordsource == 0
+    hyperParams.loadWords = false;
+elseif wordsource == 1
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
 elseif wordsource == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
@@ -61,7 +64,6 @@ hyperParams.useEyes = 1;
 
 hyperParams = CompositionSetup(hyperParams, composition);
 
-hyperParams.loadWords = true;
 hyperParams.trainWords = true;
 
 hyperParams.fragmentData = false;
