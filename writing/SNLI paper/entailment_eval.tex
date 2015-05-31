@@ -66,14 +66,14 @@ These are:
 \begin{center}
 \def\t#1{\small{#1}}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
-\hline
+\toprule
 \b{System} & \b{Our corpus} & \b{SICK} & \b{RTE-3} \\
-\hline
+\midrule
 \t{Edit Distance Based}  & \t{71.9} & \t{65.4} & \t{64.4} \\
 \t{Classifier Based}     & \t{72.2} & \t{74.3} & \t{65.3} \\
-\hline
+%\addlinespace[1ex]
 \t{Transformation Based} & \t{??.?} & \t{76.7} & \t{67.1} \\
-\hline
+\bottomrule
 \end{tabular}
 \end{center}
 % The caption
@@ -156,13 +156,13 @@ Our classifier implements 6 features:
 \begin{table}
 \begin{center}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
-\hline
+\toprule
 \b{System} & \b{Train} & \b{Dev} & \b{Test} \\
-\hline
+\midrule
 \t{Lexicalized}            & \t{99.7} & \t{78.7} & \t{78.2} \\
 \t{Unigrams Only}          & \t{93.1} & \t{72.2} & \t{71.6} \\
-\t{Unlexicalized}          & \t{49.4} & \t{50.1} & \t{50.39} \\
-\hline
+\t{Unlexicalized}          & \t{49.4} & \t{50.1} & \t{50.4} \\ % Last value was 50.39; rounded for consistency.
+\bottomrule
 \end{tabular}
 \end{center}
 % The caption
@@ -212,9 +212,9 @@ The word embeddings for all of the models are initialized with the 300d referenc
 \begin{table}
 \begin{center}
 \begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
-\hline
+\toprule
 \textbf{Sentence model} & \b{Train}  & \b{Test}\\
-\hline
+\midrule
 \t{100d Sum of words}            & \t{79.3} & \t{75.3} \\
 % scr/snlirc3d-snlirc3-only-l0.0001-dim100-ed300-td3-pen200-do0.9-0.9-co3-comp-1-dp1-gc5-lstminit5/stat_log
 % 290500, dev 76.4, mostly converged, but check
@@ -230,7 +230,7 @@ The word embeddings for all of the models are initialized with the 300d referenc
 % \t{100d TreeRNN}            & \t{69?} & \t{69?} \\
 % \t{50d TreeRNTN}            & \t{61?} & \t{60?} \\
 % \t{100d LSTM TreeRNN}            & \t{72?} & \t{73?} \\
-\hline
+\bottomrule
 \end{tabular}
 \end{center}
 % The caption
@@ -323,15 +323,15 @@ To perform transfer, we take the parameters of the LSTM RNN model trained on our
 \begin{table}
 \begin{center}
 \begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
-\hline
+\toprule
 \textbf{Sentence model} & \b{Train}  & \b{Test}\\
-\hline
+\midrule
 \t{LSTM RNN (random init.)}            & \t{100} & \t{71.3} \\
 % From: ~/quant/transfer-sick-only-l0.0001-dim50-ed200-td3-pen100-do0.9-0.9-ws1-par0-comp2-cdim1/
 
 \t{LSTM RNN (transfer init.)}            & \t{99.9} & \b{80.8} \\
 % From: ~/quant/transfer5-sick-only-transfer-l0.0001-dim100-ed300-td3-pen200-do0.95-0.95-ws3-adi0-comp2-cdim1/stat_log
-\hline
+\bottomrule
 \end{tabular}
 \end{center}
 
