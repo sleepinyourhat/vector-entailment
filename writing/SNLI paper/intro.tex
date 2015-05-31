@@ -64,11 +64,11 @@ which attests to the high quality of the data.
 
 In this paper, we use this corpus to evaluate a wide variety of models
 for natural language inference, including rule-based systems, simple
-linear classifiers, and compositional neural networks. We find that
-a neural network model which uses a Long Short-Term Memory network (LSTM; 
-\citealt{hochreiter1997long}) to represent sentence meaning achieves the best
-performance, and we validate that strong performance by showing that
-a model trained on our data can be successfully adapted to an existing
+linear classifiers, and compositional neural networks. 
+We find that two models achieve comparable performance: a feature-rich
+classifier model and a neural network model which uses a Long Short-Term Memory network (LSTM; 
+\citealt{hochreiter1997long}) to represent sentence meaning. We further evaluate the LSTM model
+by taking advantage of its ready support for transfer learning, and show that it can be adapted to an existing
 NLI challenge task, yielding the best reported performance for a neural network model.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
