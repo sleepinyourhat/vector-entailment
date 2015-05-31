@@ -10,7 +10,7 @@ The first class of models from the Excitement Open
 %  which
 %  is distributed alongside a number of RTE pipelines.
 We additionally evaluate against a strong classifier-based baseline based on
-  both  unlexicalized and lexicalized features.
+  both unlexicalized and lexicalized features.
 
 %
 % EOP
@@ -20,35 +20,42 @@ We additionally evaluate against a strong classifier-based baseline based on
 The Excitement Open Platform is a tool to quickly develop NLI systems
   while sharing components such as common lexical resources and 
   evaluation sets.
-% 9 systems compared against
-A number of systems have been built using the platform, 9 of them
-  applicable to English are publicly distributed with version 1.2.1
-  of the software.
-% these fall into 2 classes
-These fall into two classes of algorithms: 2 are edit distance based,
-  whereas the remaining 7 make use of different features in a
-  maximum entropy classifier.
+We evaluate against three algorithms included in the distribution,
+  and also evaluated in \newcite{magnini2014excitement}.
+These are: 
+  (1) a simple edit-distance based algorithm;
+  (2) a classifier-based algorithm; and
+  (3) an algorithm based around tree transformations.
 
-%% methodology
-%We convert the 3-way classification task in SNLI into the RTE setting
-%  by labeling both the \unknown\ and \contradiction\
-%  labels as negative entailment, and treating the \entailment\ label as
-%  the positive entailment.
-%This creates a biased dataset of 66\% negative examples.
-% we report the best results from each class
-We run the top performing edit-distance based algorithm and the top
-  performing classifier-based algorithm on our test set, as
-  determined by performance on the development set.
-Note that these models were run using the default configuration
-  with minimal tuning.
-The results should therefore be taken as a strong baseline for
-  NLI-style approaches to the problem, rather than necessarily
-  representing the state-of-the-art system's performance on the
-  task.
-%We run each of the 9 algorithms distributed with EOP on the 2-class
-%  SNLI dataset, and report results for the best edit distance 
-%  configuration and the best classifier based configuration, as
+%% 9 systems compared against
+%A number of systems have been built using the platform, 9 of them
+%  applicable to English are publicly distributed with version 1.2.1
+%  of the software.
+%% these fall into 2 classes
+%These fall into two classes of algorithms: 2 are edit distance based,
+%  whereas the remaining 7 make use of different features in a
+%  maximum entropy classifier.
+%
+%%% methodology
+%%We convert the 3-way classification task in SNLI into the RTE setting
+%%  by labeling both the \unknown\ and \contradiction\
+%%  labels as negative entailment, and treating the \entailment\ label as
+%%  the positive entailment.
+%%This creates a biased dataset of 66\% negative examples.
+%% we report the best results from each class
+%We run the top performing edit-distance based algorithm and the top
+%  performing classifier-based algorithm on our test set, as
 %  determined by performance on the development set.
+%Note that these models were run using the default configuration
+%  with minimal tuning.
+%The results should therefore be taken as a strong baseline for
+%  NLI-style approaches to the problem, rather than necessarily
+%  representing the state-of-the-art system's performance on the
+%  task.
+%%We run each of the 9 algorithms distributed with EOP on the 2-class
+%%  SNLI dataset, and report results for the best edit distance 
+%%  configuration and the best classifier based configuration, as
+%%  determined by performance on the development set.
 
 %
 % EOP RESULTS TABLE
@@ -63,29 +70,28 @@ The results should therefore be taken as a strong baseline for
 % The table
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
 \hline
-\textbf{System} & \multicolumn{4}{c}{\b{Our corpus}} & \multicolumn{2}{c}{\b{RTE-3}} \\
- & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} & \t{F$_1$} & \t{Acc.} \\
+\textbf{System} & \b{Our corpus} & \b{SICK} & \b{RTE-3} \\
 \hline
-\t{Edit Distance} & \t{??.?} & \t{??.?} & \t{??.?} & \t{??.?} & 
-                    \t{??.?} & \t{??.?} \\
-\t{Classifier}    & \t{67.9} & \t{38.7} & \t{49.3} & \t{7X.X} & 
-                    \t{64.2} & \t{65.3} \\
+\t{Edit Distance Based}  & \t{71.9} & \t{65.4} & \t{64.4} \\
+\t{Classifier Based}     & \t{72.2} & \t{74.3} & \t{65.3} \\
+\hline
+\t{Transformation Based} & \t{??.?} & \t{76.7} & \t{67.1} \\
 \hline
 \end{tabular}
 \end{center}
 % The caption
 \caption{
 \label{tab:eopresults}
-3-class accuracy and precision/recall of existing competitive RTE
-systems from the Excitement Open Platform.
-Results are reported for an edit-distance based algorithm, and a
-  classifier-based system.
-In order to calibrate the difficulty of our corpus against the 
-  classical RTE problems, results are also reported on the (2-class) 
-  RTE-3 challenge data.
-\todo{Final numbers}
+Accuracies of various entailment algorithms included in the
+  Excitement Open Platform.
+The edit distance and classifier based accuracies are are on a 2-class
+  classification task; on our corpus and SICK this results in a 66\%
+  majority class baseline.
+All RTE results are 2-class accuracy.
+The transformation based model allows for 3-class predictions on our
+  corpus and SICK; these are reported in the last row.
 }
 \end{table}
 %
@@ -93,20 +99,28 @@ In order to calibrate the difficulty of our corpus against the
 %
 
 % the best systems
-We report results in \reftab{eopresults}, covering both our own test set 
-and the standard RTE-3 test set \cite{giampiccolo2007third}.
-The best edit distance algorithm tunes the weight of the three 
-  case-insensitive edit distance operations on the training set, 
-  after removing stop words.
-The best classifier-based system makes use of information from
-  WordNet \cite{miller1995wordnet} and VerbOcean
-  \cite{chklovski2004verbocean}, and makes use of features
-  based on tree patterns and dependency tree skeletons
-  \cite{wang2007recognizing}.
-Unsurprisingly, the classification-based approach outperforms simple
-  edit distance metrics, and performs quite well despite relatively
-  little lexicalization.
-\todo{Is the RTE3 model trained on RTE3?}
+We report results in \reftab{eopresults}, covering both our own test set,
+  the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
+Each of the models was trained on its own training set.
+The results for RTE-3 are taken from \newcite{magnini2014excitement}.
+Note that the edit distance and classifier based models are evaluated only on
+  2-class entailment; all RTE results are likewise reported for 2-class entailment.
+To convert 3-class problems like SICK and our corpus to this setting, all instances
+  of \contradiction\ and \unknown\ are converted to nonentailment.
+This yields a random-chance baseline of 66\%.
+
+%The best edit distance algorithm tunes the weight of the three 
+%  case-insensitive edit distance operations on the training set, 
+%  after removing stop words.
+%The best classifier-based system makes use of information from
+%  WordNet \cite{miller1995wordnet} and VerbOcean
+%  \cite{chklovski2004verbocean}, and makes use of features
+%  based on tree patterns and dependency tree skeletons
+%  \cite{wang2007recognizing}.
+%Unsurprisingly, the classification-based approach outperforms simple
+%  edit distance metrics, and performs quite well despite relatively
+%  little lexicalization.
+%\todo{Is the RTE3 model trained on RTE3?}
 
 %
 % Lexicalized Classifier
@@ -146,14 +160,13 @@ Our classifier implements 6 features:
 % The table
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceM}c}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
 \hline
-\textbf{System} & \b{Dev} & \multicolumn{4}{c}{\b{Test}} \\
- & \t{Acc.} & \t{P} & \t{R} & \t{F$_1$} & \t{Acc.} \\
+\b{System} & \b{Train} & \b{Dev} & \b{Test} \\
 \hline
-\t{Lexicalized}            & \t{??.?} & \t{79.4} & \t{82.3} & \t{80.9} & \t{78.2} \\
-\t{Unigrams Only}          & \t{??.?} & \t{71.1} & \t{77.7} & \t{74.3} & \t{71.6} \\
-\t{Unlexicalized}          & \t{??.?} & \t{56.0} & \t{64.4} & \t{59.9} & \t{50.39} \\
+\t{Lexicalized}            & \t{99.7} & \t{78.7} & \t{78.2} \\
+\t{Unigrams Only}          & \t{93.1} & \t{72.2} & \t{71.6} \\
+\t{Unlexicalized}          & \t{49.4} & \t{50.1} & \t{50.39} \\
 \hline
 \end{tabular}
 \end{center}
@@ -165,8 +178,6 @@ Accuracy on the our dataset, including precision/recall for the
 Ablation results are reported for models lacking cross-bigram features 
   (Feature \ref{lst:bigram}), and lacking all lexical
   features (Features \ref{lst:ngram}--\ref{lst:bigram}).
-\todo{Final numbers}
-\todo{Do we want P/R for NNs?}
 }
 \end{table}
 %
@@ -291,6 +302,7 @@ If relatively few spurious entailments get high weight---as it appears
 is the case---then it makes sense that, when these do fire, they
 boost accuracy.
   
+
 %\todo{Insert example-specific error analysis}
 
 There are revealing patterns in the errors common to all the models
@@ -324,3 +336,4 @@ distributional associations between \word{throws} and \word{can't
 
 
 % A woman prepares ingredients for a bowl of soup.	A soup bowl prepares a woman.
+
