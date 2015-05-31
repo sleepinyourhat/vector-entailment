@@ -1,12 +1,12 @@
 \begin{table*}[t]
   \centering\footnotesize
-  \begin{tabular}{p{6cm}p{0.75cm}p{1.4cm}p{6cm}}
+  \begin{tabular}{p{6.4cm}p{1.7cm}p{6.4cm}}
   \toprule
-A man inspects the uniform of a figure in some East Asian country. & \b{contr.}& \t{$\{$c c c c c$\}$} & The man is sleeping\\
-\rule{0pt}{3ex}An older and younger man smiling. & \b{neut.}& \t{$\{$n n e n n$\}$} & Two men are smiling and laughing at the cats playing on the floor.\\
-\rule{0pt}{3ex}A black race car starts up in front of a crowd of people. & \b{contr.}& \t{$\{$c c c c c$\}$} & A man is driving down a lonely road.\\
-\rule{0pt}{3ex}A soccer game with multiple males playing. & \b{ent.}& \t{$\{$e e e e e$\}$} & Some men are playing a sport.\\
-\rule{0pt}{3ex}A smiling costumed woman is holding an umbrella. & \b{neut.}& \t{$\{$n n e c n$\}$} & A happy woman in a fairy costume holds an umbrella.\\
+A man inspects the uniform of a figure in some East Asian country. & \fulllabel{contradiction}{c c c c c} & The man is sleeping\\
+\rule{0pt}{3ex}An older and younger man smiling. & \fulllabel{neutral}{n n e n n} & Two men are smiling and laughing at the cats playing on the floor.\\
+\rule{0pt}{3ex}A black race car starts up in front of a crowd of people. & \fulllabel{contradiction}{c c c c c} & A man is driving down a lonely road.\\
+\rule{0pt}{3ex}A soccer game with multiple males playing. & \fulllabel{entailment}{e e e e e} & Some men are playing a sport.\\
+\rule{0pt}{3ex}A smiling costumed woman is holding an umbrella. & \fulllabel{neutral}{n n e c n} & A happy woman in a fairy costume holds an umbrella.\\
     \bottomrule
 % From 1.0rc3
   \end{tabular}
@@ -26,8 +26,8 @@ essential in tasks ranging from information retrieval to semantic
 parsing to commonsense reasoning.
 \todo{Non-MacCartney NLI citation.}
 
-NLI has been addressed using a wide variety of techniques, including
-those grounded in syntactic structures, knowledge bases, and symbolic
+NLI has been addressed using a variety of techniques, including
+those based on sequence neural network models, knowledge bases, and symbolic
 logic. In recent years, it has become an important testing ground for
 approaches employing \emph{distributed} word and phrase
 representations. Distributed representations excel at capturing
@@ -65,8 +65,8 @@ which attests to the high quality of the data.
 In this paper, we use this corpus to evaluate a wide variety of models
 for natural language inference, including rule-based systems, simple
 linear classifiers, and compositional neural networks. We find that
-a neural network model based on a Long Short-Term Memory network (LSTM; 
-\citealt{hochreiter1997long}) for sentence embedding achieves the best
+a neural network model which uses a Long Short-Term Memory network (LSTM; 
+\citealt{hochreiter1997long}) to represent sentence meaning achieves the best
 performance, and we validate that strong performance by showing that
 a model trained on our data can be successfully adapted to an existing
 NLI challenge task, yielding the best reported performance for a neural network model.
