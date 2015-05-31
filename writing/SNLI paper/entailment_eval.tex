@@ -295,6 +295,24 @@ entailment for \word{A young girl throws sand toward the
 distributional associations between \word{throws} and \word{can't
   stand}.
 
+Analysis of the models' predictions also yields insights into the
+extent to which they grapple with event and entity coreference. For
+the most part, the original image prompts contained a focal element
+that the caption writer identified with a syntactic subject, following
+information structuring conventions associating subjects and topics in
+English \cite{Ward04}. Our annotators generally followed suit, writing
+sentences with similar topic/focus (theme/rheme) structure that
+promotes a coherence, situation-specific construal of each sentence
+pair. This is information that our models can easily take advantage
+of, but it can lead them astray. For instance, all of them stumble
+with the amusingly simple case \emph{A woman prepares ingredients for
+  a bowl of soup}/\emph{A soup bowl prepares a woman}, in which prior
+expectations about parallelism are not met. Another headline example
+of this type is \emph{A man wearing padded arm protection is being
+  bitten by a German shepherd dog}/\emph{A man bit a dog}, which all
+the models wrongly diagnose as \ii{entailment}, though the sentences
+report two very different stories.
+
 
 \section{Transfer learning with SICK}
 
