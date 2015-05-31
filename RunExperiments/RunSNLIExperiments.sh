@@ -299,6 +299,9 @@ echo "cd quant; lambda = 0.00003; dim = 25; ed = 300; td = 3; penult = 200; drop
 echo "cd quant; lambda = 0.000001; dim = 100; ed = 300; td = 3; penult = 200; dropout = [0.9, 0.9]; tot = 7; collo = 3; dataflag='snlirc3-only'; name='/scr/sbowman/snlirc3dJ'; TrainModel('', 1, @SNLI, name, dataflag, ed, dim, td, penult, lambda, tot, dropout(1), dropout(2), collo, 1, 5, 5);"  | /afs/cs/software/bin/matlab_r2014b -nodisplay
 echo "cd quant; lambda = 0.0000003; dim = 100; ed = 300; td = 3; penult = 200; dropout = [0.9, 0.9]; tot = 2; collo = 3; dataflag='snlirc3-only'; name='/scr/sbowman/snlirc3dJ'; TrainModel('', 1, @SNLI, name, dataflag, ed, dim, td, penult, lambda, tot, dropout(1), dropout(2), collo, 1, 5, 5);"   | /afs/cs/software/bin/matlab_r2014b -nodisplay
 
+export MATLABCMD="cd quant; lambda = 0.00003; dim = 100; ed = 300; td = 3; penult = 200; dropout = [0.95\, 0.95]; tot = 2; collo = 3; dataflag='snlirc3-only'; name='/scr/sbowman/snlirc3d-examplelogging'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, collo\, 1\, 5\, 5);" ; qsub -v MATLABCMD quant/run.sh -l mem=3gb  -l nodes=1:ppn=4 -q john
+
+
 cd quant; 
 lambda = 0.000001; dim = 45; ed = 50; td = 2; penult = 75; dropout = [0.5, 0.5]; tot = 1; collo = 2; dataflag='snli095short-only'; name='/scr/sbowman/snli095-prof-b'; 
 TrainModel('', 1, @SNLI, name, dataflag, ed, dim, td, penult, lambda, tot, dropout(1), dropout(2), collo, 1, 5, 5)
