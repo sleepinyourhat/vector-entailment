@@ -219,9 +219,18 @@ The word embeddings for all of the models are initialized with the 300d referenc
 \hline
 \textbf{Sentence model} & \b{Train}  & \b{Test}\\
 \hline
-\t{100d Sum of words}            & \t{79?} & \t{76?} \\
-\t{100d RNN}            & \t{75?} & \t{72?} \\	
-\t{100d LSTM RNN}            & \t{81.4?} & \t{78.0?} \\
+\t{100d Sum of words}            & \t{79.3} & \t{75.3} \\
+% scr/snlirc3d-snlirc3-only-l0.0001-dim100-ed300-td3-pen200-do0.9-0.9-co3-comp-1-dp1-gc5-lstminit5/stat_log
+% 290500, dev 76.4, mostly converged, but check
+
+\t{100d RNN}            & \t{73.4} & \t{71.8} \\	
+% scr/snlirc3d-snlirc3-only-l0.0001-dim100-ed300-td3-pen200-do0.9-0.9-co3-comp3-dp1-gc5-lstminit5/stat_log
+% 307500, dev 71.744, 
+
+\t{100d LSTM RNN}            & \t{84.8} & \b{78.0} \\
+% scr/snlirc3d-snlirc3-only-l3e-05-dim100-ed300-td3-pen200-do0.95-0.95-co3-comp2-dp1-gc5-lstminit5/stat_log
+% 372000, dev 79.039
+
 % \t{100d TreeRNN}            & \t{69?} & \t{69?} \\
 % \t{50d TreeRNTN}            & \t{61?} & \t{60?} \\
 % \t{100d LSTM TreeRNN}            & \t{72?} & \t{73?} \\
@@ -232,7 +241,6 @@ The word embeddings for all of the models are initialized with the 300d referenc
 \caption{
 \label{tab:nnresults}
 Accuracy in 3-class classification on our training and test sets for each model.
-\todo{Replace with final numbers}
 }
 \end{table}
 
@@ -252,14 +260,15 @@ To perform transfer, we take the parameters of strong LSTM RNN model trained on 
 \hline
 \t{100d LSTM RNN (random init.)}            & \t{100} & \t{71.3} \\
 % From: ~/quant/transfer-sick-only-l0.0001-dim50-ed200-td3-pen100-do0.9-0.9-ws1-par0-comp2-cdim1/
-\t{100d LSTM RNN (transfer init.)}            & \t{100?} & \t{80.8?} \\
-% From: ...
+
+\t{100d LSTM RNN (transfer init.)}            & \t{99.9} & \b{80.8} \\
+% From: ~/quant/transfer5-sick-only-transfer-l0.0001-dim100-ed300-td3-pen200-do0.95-0.95-ws3-adi0-comp2-cdim1/stat_log
 \hline
 \end{tabular}
 \end{center}
 
 \caption{\label{tab:transferresults}
-The performance (\% accuracy) of an LSTM RNN model on SICK under both a random initialization and a transfer initialization copied from a model trained on our corpus.  \todo{Final numbers.}} 
+The performance (\% accuracy) of an LSTM RNN model on SICK under both a random initialization and a transfer initialization copied from a model trained on our corpus.} 
 \end{table}
 
 We compare the performance of an LSTM model with both the transfer initialization and a normal random initialization. We tune the regularization parameter separately for each case. Table \ref{tab:transferresults} shows these results.
