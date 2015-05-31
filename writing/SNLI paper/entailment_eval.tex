@@ -1,4 +1,4 @@
-\section{Our data as a platform for NLI research}
+\section{Our data as a platform for evaluation}
 
 The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training  parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
 
@@ -250,7 +250,7 @@ Figure \ref{fig:bowlearncurve} shows a learning curve for the LSTM and the lexic
 
 \Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
 A learning curve for the lexicalized and unlexicalized baseline classifiers and the LSTM,
-plotted on a log scale. The y axis starts at a random-chance accuracy of 33\%. Since the LSTM is trained using SGD with minibatches of 64 examples, and was tuned in that setting, our ability to meaningfully evaluate it on extremely small fractions of the data was limited.}
+plotted on a log scale. The y axis starts at a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
 
 % Insights 2: the learning curve for the unlexicalized classifier is sad
 We were struck by the speed with which the lexicalized classifier outperforms its unlexicalized counterpart.
@@ -288,7 +288,7 @@ the lexicalized classifier and the LSTM predict \ii{neutral}.
 In other cases, models' attempts to shortcut this kind of inference 
 through lexical cues can lead them astray. 
 Some of these examples have qualities
-reminiscent of Winograd schema \cite{Winograd:1972,Levesque:2013}. For
+reminiscent of Winograd schemas \cite{Winograd:1972,Levesque:2013}. For
 example, all the models wrongly predict
 entailment for \word{A young girl throws sand toward the
   ocean}/\word{A girl can't stand the ocean}, presumably because of
