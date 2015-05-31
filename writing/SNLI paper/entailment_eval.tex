@@ -291,15 +291,49 @@ plotted on a log scale. The minibatch-based training method that we chose for th
 
 % Insights 2: the learning curve for the unlexicalized classifier is sad
 We were struck by how quickly the lexicalized classifier outperforms its unlexicalized counterpart.
-With only 100 training examples, the cross-bigram classifier is already outperforming its unlexicalized counterpart.
-Empirically we notice that the top weighted features for the classifier
+With only 100 training examples, the cross-bigram classifier already outperforms its unlexicalized counterpart.
+Empirically, we find that the top weighted features for the classifier
   trained on 100 examples tend to be high precision entailments;
   e.g.,
   \textit{playing} $\rightarrow$ \textit{outside}
   (most scenes are outdoors), or \textit{a banana} $\rightarrow$
   \textit{person eating}.
 If relatively few spurious entailments get high weight---as it appears
-  is the case---then it makes sense that when these do fire they
-  provide some boost in accuracy.
+is the case---then it makes sense that, when these do fire, they
+boost accuracy.
   
-  \todo{Insert example-specific error analysis}
+
+%\todo{Insert example-specific error analysis}
+
+There are revealing patterns in the errors common to all the models
+considered here. Despite the large size of the training corpus and the
+distributional information captured by GloVe initialization, many
+lexical relationships are still misanalyzed, leading to incorrect
+predictions of \ii{independent}, even for pairs that are common in the
+training corpus like \word{beach}/\word{surf} and
+\word{sprinter}/\word{runner}. Semantic mistakes at the phrasal level
+(e.g., predicting contradiction for \word{A shopper buys cat food at a
+  Walmart}/\word{A person shops for their pet at a stor}) indicate
+that additional attention to compositional semantics would pay off.
+%
+% Others that could replace the above:
+% \word{Two teen girls relax on a black futon}/\word{Two young girls are sitting inside}
+% \word{A male is placing an order in a deli}/\word{A man buying a sandwich at a deli}
+%
+However, many of the persistent problems run deeper, to inferences
+that depend on world knowledge and context-specific inferences, as in
+the entailment pair \word{A race car driver leaps from a burning
+  car}/\word{A race car driver escaping danger}, for which all our
+models predict \ii{independent}. Some of these examples have qualities
+reminiscent of Winograd schema \cite{Winograd:1972,Levesque:2013}. For
+example, it seems likely that all the models wrongly predict
+entailment for \word{A young girl throws sand toward the
+  ocean}/\word{A girl can't stand the ocean}, presumably because of
+distributional associations between \word{throws} and \word{can't
+  stand}.
+
+
+
+
+% A woman prepares ingredients for a bowl of soup.	A soup bowl prepares a woman.
+
