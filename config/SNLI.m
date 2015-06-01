@@ -1,71 +1,49 @@
-function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, lstminit)
-% Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
+function [ hyperParams, options, wordMap, labelMap ] = SNLI(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, dp, gc, lstminit)
+% Configuration for our in-development corpus.
+% See Defaults.m for parameter descriptions.
 
 [hyperParams, options] = Defaults();
+hyperParams.parensInSequences = false;
+hyperParams.largeVocabMode = true;
+hyperParams.loadWords = true;
+hyperParams.trainWords = true;
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
+    '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(wordsource),...
     '-comp', num2str(composition), ...
     '-dp', num2str(dp), '-gc', num2str(gc),  '-lstminit', num2str(lstminit)];
 
-hyperParams.parensInSequences = 0;
 
 hyperParams.LSTMinitType = lstminit;
-
 hyperParams.dataPortion = dp;
-
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-if collo == 1
+if wordsource == 1
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
-elseif collo == 2
+elseif wordsource == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
-elseif collo == 3
+elseif wordsource == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 end
 
-% The number of embedding transform layers. topDepth > 0 means NN layers will be
-% added above the embedding matrix. This is likely to only be useful when
-% learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
-hyperParams.useEmbeddingTransform = 1;
-
-% The number of comparison layers. topDepth > 1 means NN layers will be
-% added between the RNTN composition layer and the softmax layer.
+hyperParams.useEmbeddingTransform = true;
 hyperParams.topDepth = topDepth;
-
-% If set, store embedding matrix gradients as spare matrices, and only apply regularization
-% to the parameters that are in use at each step.
-hyperParams.largeVocabMode = true;
-
-% The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
-
-% Regularization coefficient.
-hyperParams.lambda = lambda; % 0.002 works?;
+hyperParams.lambda = lambda;
+hyperParams.bottomDropout = bottomDropout;
+hyperParams.topDropout = topDropout;
+hyperParams = CompositionSetup(hyperParams, composition);
+hyperParams.useThirdOrderMerge = false;
 
 if gc > 0
     hyperParams.clipGradients = true;
     hyperParams.maxGradNorm = gc;
 end
-
-% Apply dropout to the top feature vector of each tree, preserving activations
-% with this probability. If this is set to 1, dropout is effectively not used.
-hyperParams.bottomDropout = bottomDropout;
-hyperParams.topDropout = topDropout;
-
-hyperParams = CompositionSetup(hyperParams, composition);
-hyperParams.useThirdOrderMerge = false;
-
-hyperParams.loadWords = true;
-hyperParams.trainWords = true;
-
-hyperParams.fragmentData = false;
 
 if strcmp(dataflag, 'snli095-sick')
     wordMap = LoadWordMap('./sick-data/sick-snli0.95_words.txt');

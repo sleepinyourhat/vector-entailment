@@ -1,11 +1,13 @@
 function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, adi, conDim)
-% Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
+% Configuration for experiments involving the SemEval SICK challenge and DenotationGraph. 
+% See Defaults.m for parameter descriptions.
 
 [hyperParams, options] = Defaults();
-
-hyperParams.restartUpdateRuleInTransfer = adi;
-
-hyperParams.transferSoftmax = true;
+hyperParams.dim = dim;
+hyperParams.embeddingDim = embDim;
+hyperParams.loadWords = true;
+hyperParams.largeVocabMode = true;
+hyperParams.trainWords = true;
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
@@ -15,13 +17,6 @@ hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2s
     '-adi', num2str(adi), '-comp', num2str(composition), ...
     '-cdim', num2str(conDim)];
 
-
-% The dimensionality of the word/phrase vectors. Currently fixed at 25 to match
-% the GloVe vectors.
-hyperParams.dim = dim;
-hyperParams.embeddingDim = embDim;
-
-hyperParams.loadWords = true;
 if wordsource == 0
     hyperParams.loadWords = false;
 elseif wordsource == 1
@@ -35,40 +30,17 @@ else
     hyperParams.vocabPath = ['../data/wordsource.scaled.' num2str(embDim) 'd.txt'];    
 end
 
-% The number of embedding transform layers. topDepth > 0 means NN layers will be
-% added above the embedding matrix. This is likely to only be useful when
-% learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
-hyperParams.useEmbeddingTransform = 1;
-
-% The number of comparison layers. topDepth > 1 means NN layers will be
-% added between the RNTN composition layer and the softmax layer.
+hyperParams.restartUpdateRuleInTransfer = adi;
+hyperParams.transferSoftmax = true;
+hyperParams.useEmbeddingTransform = true;
 hyperParams.topDepth = topDepth;
-
-% If set, store embedding matrix gradients as spare matrices, and only apply regularization
-% to the parameters that are in use at each step.
-hyperParams.largeVocabMode = true; % If we train words, go ahead and use it.
-
-% The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
-
-% Regularization coefficient.
-hyperParams.lambda = lambda; % 0.002 works?;
-
-% Apply dropout to the top feature vector of each tree, preserving activations
-% with this probability. If this is set to 1, dropout is effectively not used.
+hyperParams.lambda = lambda;
 hyperParams.bottomDropout = bottomDropout;
 hyperParams.topDropout = topDropout;
-
-hyperParams.useEyes = 1;
-
+hyperParams.useEyes = true;
 hyperParams = CompositionSetup(hyperParams, composition);
 
-hyperParams.trainWords = true;
-
-hyperParams.fragmentData = false;
-
-% How many examples to run before taking a parameter update step on the accumulated gradients.
 options.miniBatchSize = 32;
 
 % Amount to upsample SICK data.

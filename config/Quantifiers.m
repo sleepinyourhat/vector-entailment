@@ -1,4 +1,6 @@
 function [ hyperParams, options, wordMap, labelMap ] = Quantifiers(name, dataflag, dim, penult, top, lambda, composition, tdrop)
+% Configure quantifier experiments.
+% See Defaults.m for parameter descriptions.
 
 [hyperParams, options] = Defaults();
 
@@ -6,20 +8,16 @@ hyperParams.name = [name, dataflag, '-d', num2str(dim), '-pen', num2str(penult),
 				    '-composition', num2str(composition), '-l', num2str(lambda),...
 				    '-dropout', num2str(tdrop)];
 
-hyperParams.dim = dim;
-hyperParams.embeddingDim = dim;
-
-% The dimensionality of the comparison layer(s).
-hyperParams.penultDim = penult;
-
-% Regularization coefficient.
-hyperParams.lambda = lambda; % 0.002 works for Tree, 1e-6 for Sequence?
-
 hyperParams = CompositionSetup(hyperParams, composition);
 
+hyperParams.dim = dim;
+hyperParams.embeddingDim = dim;
+hyperParams.penultDim = penult;
+hyperParams.lambda = lambda; % 0.002 works for Tree, 1e-6 for Sequence?
 hyperParams.topDepth = top;
-
 hyperParams.topDropout = tdrop;
+
+options.examplesFreq = 25000; 
 
 wordMap = LoadWordMap('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers'
@@ -49,8 +47,5 @@ else
 	hyperParams.testFilenames = {'./quantifiers/data/dev_test.txt'};
 end
 hyperParams.splitFilenames = {};
-
-options.numPasses = 1000;
-options.examplesFreq = 25000; 
 
 end

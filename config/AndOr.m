@@ -1,9 +1,10 @@
 function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, mbs)
-% Configure the recursion experiments. 
-% NOTE: the {a-h} variables in the paper are actual multiletter names in the data used here.
+% Configuration the recursion/propositional logic experiments.
+% See Defaults.m for parameter descriptions.
+
+% NOTE: the {a-h} variables in the paper are actual multiletter names (of pets) in the data used here.
 
 [hyperParams, options] = Defaults();
-
 hyperParams.parensInSequences = true;
 
 hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
@@ -11,30 +12,22 @@ hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(pen
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
-
-% The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
-
 hyperParams.clipGradients = true;
 hyperParams.maxGradNorm = 5;
-
-% Regularization coefficient.
 hyperParams.lambda = lambda;
-
 hyperParams = CompositionSetup(hyperParams, composition);
-
-hyperParams.topDropout = 1;
-
 hyperParams.topDepth = top;
 
 options.numPasses = 15000;
-
 options.miniBatchSize = mbs;
+options.detailedStatFreq = 1000;
+options.costFreq = 1000;
+options.testFreq = 1000;
+options.examplesFreq = 25000; 
 
 wordMap = LoadWordMap('./propositionallogic/longer2/wordlist.txt');
 
-% The name assigned to the current vocabulary. Used in deciding whether to load a 
-% preparsed MAT form of an examples file.
 hyperParams.vocabName = 'RC'; 
 
 hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
@@ -74,10 +67,5 @@ elseif strcmp(dataflag, 'and-or-deep-static')
     hyperParams.splitFilenames = {};
     hyperParams.testFilenames = {'./propositionallogic/longer2/test1', './propositionallogic/longer2/test2', './propositionallogic/longer2/test3', './propositionallogic/longer2/test4', './propositionallogic/longer2/test5', './propositionallogic/longer2/test6', './propositionallogic/longer2/test7', './propositionallogic/longer2/test8', './propositionallogic/longer2/test9', './propositionallogic/longer2/test10', './propositionallogic/longer2/test11', './propositionallogic/longer2/test12'};
 end
-
-options.detailedStatFreq = 1000;
-options.costFreq = 1000;
-options.testFreq = 1000;
-options.examplesFreq = 25000; 
 
 end

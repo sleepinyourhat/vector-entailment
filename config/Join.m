@@ -1,5 +1,6 @@
 function [ hyperParams, options, wordMap, labelMap ] = Join(name, dataflag, dim, penult, top, lambda, tot, relu, tdrop, mbs)
 % Label composition experiments.
+% See Defaults.m for parameter descriptions.
 
 [hyperParams, options] = Defaults();
 
@@ -13,25 +14,21 @@ if tot == -1
   hyperParams.useThirdOrderMerge = 0;
   hyperParams.useSumming = 1;
 else
-  % Use NTN layers in place of NN layers.
+  % Optionally use NTN layers in place of NN layers.
   hyperParams.useThirdOrderComposition = tot;
   hyperParams.useThirdOrderMerge = tot;
 end
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
-
-% The dimensionality of the comparison layer(s).
 hyperParams.penultDim = penult;
-
-% Regularization coefficient.
 hyperParams.lambda = lambda; % 0.002 works?;
-
 hyperParams.topDepth = top;
-
 hyperParams.topDropout = tdrop;
 
 hyperParams.vocabName = dataflag;
+
+options.miniBatchSize = mbs;
 
 hyperParams.labels = {{'#', '=', '>', '<', '|', '^', 'v'}};
 hyperParams.numLabels = [7];
@@ -82,10 +79,5 @@ else
                      './join-table/data/6x80_test_underivable.tsv'};
     wordMap = LoadWordPairData('./join-table/data/6x80_train.tsv');
 end
-
-options.numPasses = 2600;
-
-options.miniBatchSize = mbs;
-
 
 end

@@ -1,4 +1,6 @@
-function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo)
+function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource)
+% Configure PragBank experiments.
+% See Defaults.m for parameter descriptions.
 
 [hyperParams, options] = Defaults();
 
@@ -6,7 +8,7 @@ function [ hyperParams, options, wordMap, labelMap ] = SST(expName, dataflag, em
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
+    '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(wordsource),...
     '-comp', num2str(composition)];
 
 % Treat this as an entailment problem, with the target word as the hypothesis.
@@ -15,12 +17,12 @@ hyperParams.sentenceClassificationMode = 0;
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
 
-if collo == 1
+if wordsource == 1
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
-elseif collo == 2
+elseif wordsource == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in 50d.'); 
-elseif collo == 3
+elseif wordsource == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 end
 
@@ -28,7 +30,7 @@ end
 % added above the embedding matrix. This is likely to only be useful when
 % learnWords is false, and so the embeddings do not exist in the same space
 % the rest of the constituents do.
-hyperParams.useEmbeddingTransform = 1;
+hyperParams.useEmbeddingTransform = true;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.
