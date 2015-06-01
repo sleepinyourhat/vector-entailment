@@ -67,7 +67,7 @@ These are:
 \def\t#1{\small{#1}}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
 \toprule
-\textbf{System} & \b{Our corpus} & \b{SICK} & \b{RTE-3} \\
+\b{System} & \b{Our corpus} & \b{SICK} & \b{RTE-3} \\
 \midrule
 \t{Edit Distance Based}        & \t{71.9} & \t{65.4} & \b{61.9} \\
 \t{Classifier Based}           & \b{72.2} & \b{71.4} & \t{61.5} \\
@@ -155,13 +155,15 @@ Our classifier implements 6 feature types:
 % The table
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
+\def\t#1{\small{#1}}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c}
 \toprule
-\b{System} & \b{Train} & \b{Test} \\
+\b{System}	 & \multicolumn{2}{c}{\b{Our corpus}} & \b{SICK}\vspace{-0.5mm}\\
+ & \b{Train} & \b{Test} & \b{Test} \vspace{-0.5mm}\\
 \midrule
-\t{Lexicalized}            & \t{99.7}  & \b{78.2} \\ % & \t{78.7}
-\t{Unigrams Only}          & \t{93.1} & \t{71.6} \\ % & \t{72.2}
-\t{Unlexicalized}          & \t{49.4} & \t{50.4} \\ % & \t{50.1} % Last value was 50.39; rounded for consistency.
+\t{Lexicalized}            & \t{99.7}  & \b{78.2} & \b{77.3} \\ % & \t{78.7}
+\t{Unigrams Only}          & \t{93.1} & \t{71.6} & \t{74.0} \\ % & \t{72.2}
+\t{Unlexicalized}          & \t{49.4} & \t{50.4} & \t{69.4}\\ % & \t{50.1} % Last value was 50.39; rounded for consistency.
 \bottomrule
 \end{tabular}
 \end{center}
