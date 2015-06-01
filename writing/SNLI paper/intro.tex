@@ -27,15 +27,15 @@ parsing to commonsense reasoning.
 
 NLI has been addressed using a variety of techniques, including
 those based on symbolic logic, knowledge bases, and neural networks. 
-In recent years, it has become an imp`ortant testing ground for
+In recent years, it has become an important testing ground for
 approaches employing \emph{distributed} word and phrase
 representations. Distributed representations excel at capturing
-relations based in similarity, and they have proven effective at
+relations based in similarity, and have proven effective at
 modeling simple dimensions of meaning like evaluative sentiment
 (e.g., \citealt{socher2013recursive}), but it is less clear that they can be
 trained to support the full range of logical and commonsense
 inferences required for NLI \cite{Bowman:Potts:Manning:2014,Weston-etal:2015,Weston-etal:2015Q}. 
-In the SemEval 2014 entailment task, which was aimed at evaluating distributed
+In a SemEval 2014 task aimed at evaluating distributed
 representations for NLI, the best-performing systems relied heavily on
 additional features and reasoning capabilities
 \cite{marelli2014semeval}. 
@@ -43,7 +43,7 @@ additional features and reasoning capabilities
 Our ultimate objective in this paper is to provide an empirical
 evaluation of learning-centered approaches to NLI with a focus on
 systems for representation learning,
-thereby deepening the case for NLI as a powerful evaluation of 
+advancing the case for NLI as a tool for the evaluation of 
 domain-general approaches to semantic representation. 
 However, in our view, existing NLI corpora do not
 permit such an assessment. They are generally too small for training
@@ -56,7 +56,7 @@ To address this, this paper introduces a new corpus of sentence pairs labeled fo
 entailment, contradiction, and semantic independence. At 570,152
 sentence pairs, this corpus is two orders of magnitude larger than all
 other resources of its type. And, in contrast to many such resources,
-all of the sentences were written by humans in a grounded,
+all of its sentences and labels were written by humans in a grounded,
 naturalistic context. In a separate validation phase, we collected
 four additional judgments for each label for 56,941 of the examples.
 Of these, 98\% of cases emerge with a three-annotator consensus, 
@@ -66,8 +66,8 @@ In this paper, we use this corpus to evaluate a variety of models
 for natural language inference, including rule-based systems, simple
 linear classifiers, and neural network-based models. 
 We find that two models achieve comparable performance: a feature-rich
-classifier model and a neural network model which uses a Long Short-Term Memory network (LSTM; 
-\citealt{hochreiter1997long}) to represent sentence meaning. We further evaluate the LSTM model
+classifier model and a neural network model centered around a Long Short-Term Memory network (LSTM; 
+\citealt{hochreiter1997long}). We further evaluate the LSTM model
 by taking advantage of its ready support for transfer learning, and show that it can be adapted to an existing
 NLI challenge task, yielding the best reported performance by a neural network model and approaching the overall state of the art.
 
