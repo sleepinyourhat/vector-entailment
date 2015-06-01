@@ -185,12 +185,12 @@ We report results in \reftab{tab:bowresults}, along with ablation studies for re
   the cross-bigram features (leaving only the cross-unigram feature),
   and for removing all lexicalized features.
 % Insights 1: lexicalization helps a bunch
-There is a substantial jump in accuracy from using
-  lexicalized features, and even from using the relatively sparse
+On our large corpus in particular, there is a substantial jump in accuracy from using
+  lexicalized features, and another from using the very sparse
   cross-bigram features.
-The latter of these was initially surprising, but can be explained if
+The latter  result can be explained if
   the classifier automatically learns to recognize explicit negations and adjective
-  modification---such a result was shown in
+  modification, and a similar result was shown in
   \newcite{sidaw12simple} for bigram features in sentiment analysis.
   
 % Insight 2: do well without alignments
