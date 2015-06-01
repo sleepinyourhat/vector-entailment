@@ -5,7 +5,7 @@ function [ hyperParams, options, wordMap, labelMap ] = Sick(expName, dataflag, e
 
 hyperParams.restartUpdateRuleInTransfer = adi;
 
-hyperParams.transferSoftmax = false;
+hyperParams.transferSoftmax = true;
 
 % Generate an experiment name that includes all of the hyperparameter values that
 % are being tuned.
