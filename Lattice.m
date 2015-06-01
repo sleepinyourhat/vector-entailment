@@ -92,7 +92,5 @@ classdef Lattice < handle
         function t = getText(obj)
             t = obj.text;
         end
-        
-        % TODO: Connection visualization tools.
     end
 end

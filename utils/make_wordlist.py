@@ -9,8 +9,6 @@ from collections import defaultdict
 # source file, and if they are included in the vectorwordlist,
 # or if they appear in training data more than THRESHOLD times.
 
-# TODO: Ensure that there are no duplicates.
-
 BASENAME = "sat"
 TRAINING_FILES = ["sat-data/sat.txt"]
 DEV_FILES = []
