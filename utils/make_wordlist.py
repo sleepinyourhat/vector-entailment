@@ -11,19 +11,20 @@ from collections import defaultdict
 
 # TODO: Ensure that there are no duplicates.
 
-BASENAME = "pdtb"
-TRAINING_FILES = ["../data/pdtb2-train_parsed.tsv"]
-DEV_FILES = ["../data/pdtb2-dev_parsed.tsv"]
-TEST_FILES = ["../data/pdtb2-test_parsed.tsv"]
+BASENAME = "sat"
+TRAINING_FILES = ["sat-data/sat.txt"]
+DEV_FILES = []
+TEST_FILES = []
 
 # TRANSFER_SOURCE_WORDLIST = "../data/snlirc3_words.txt"
 TRANSFER_SOURCE_WORDLIST = ""
-VECTOR_WORDLIST = "utils/glove.840B.wordlist.txt"
+# VECTOR_WORDLIST = "utils/glove.840B.wordlist.txt"
+VECTOR_WORDLIST = ""
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
 THRESHOLD = 50
 
-ENTAILMENT_MODE = True
+ENTAILMENT_MODE = False
 SST_MODE = False
 
 
@@ -59,12 +60,16 @@ def create_wordlist(training_words, test_words, vector_words):
             wordlist.add(word)
         elif training_words[word] > THRESHOLD:
             wordlist.add(word)
+        else:
+            print 'Skipping ' + word
 
     return wordlist
 
-
-with open(VECTOR_WORDLIST) as f:
-    vector_words = set(f.read().splitlines())
+if VECTOR_WORDLIST:
+    with open(VECTOR_WORDLIST) as f:
+        vector_words = set(f.read().splitlines())
+else:
+    vector_words = set()
 
 if TRANSFER_SOURCE_WORDLIST:
     with open(TRANSFER_SOURCE_WORDLIST) as f:

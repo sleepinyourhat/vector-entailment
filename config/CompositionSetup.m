@@ -1,6 +1,6 @@
 function [ hyperParams ] = CompositionSetup(hyperParams, composition)
 % Set up the various composition function configurations.
-
+% Called by other config files.
 
 if composition == -1
 	hyperParams.useTrees = 0;
@@ -47,7 +47,5 @@ elseif composition == 7
 	hyperParams.useThirdOrderComposition = 0;
 	hyperParams.useThirdOrderMerge = 0;
 end
-
-
 
 end

@@ -1,41 +1,19 @@
 function [ hyperParams, options, wordMap, labelMap ] = GradCheck(transDepth, topDepth, composition, trainwords, fastemb, multipleClassSets, sentiment)
 % Set up a gradient check for the main learned parameters.
+% See Defaults.m for parameter descriptions.
 
+% Example call:
 % TrainModel('', 1, @GradCheck, 1, 2, 1, 1, 0, 0, 1);
+
 % NOTE: The LatticeLSTM doesn't do especially well on gradient checks at random initialization
 % but basically passes if tested on the model state after a few steps... keep an eye on this.
 
 [hyperParams, options] = Defaults();
-
-hyperParams = CompositionSetup(hyperParams, composition);
-
-hyperParams.name = 'gradcheck';
-
-% The dimensionality of the word/phrase vectors.
-hyperParams.dim = 2;
-hyperParams.embeddingDim = 3;
-
-% The dimensionality of the comparison layer(s).
-hyperParams.penultDim = 4;
-
-hyperParams.testFraction = 0.33;
-
-hyperParams.parensInSequences = false;
+hyperParams.minFunc = true;
+options.DerivativeCheck = 'on';
 
 % Test text file loading, rather than importing preprocessed data.
 hyperParams.ignorePreprocessedFiles = true;
-
-% The number of embedding transform layers. transDepth > 0 means NN layers will be
-% added above the embedding matrix. This is likely to only be useful when
-% learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
-hyperParams.useEmbeddingTransform = transDepth;
-
-hyperParams.topDepth = topDepth;
-
-% If set, store embedding matrix gradients as spare matrices, and only apply regularization
-% to the parameters that are in use at each step.
-hyperParams.largeVocabMode = fastemb;
 
 % Turn off gradient/delta clipping, since that distrorts gradients.
 hyperParams.clipGradients = false;
@@ -47,6 +25,19 @@ hyperParams.maxDeltaNorm = inf;
 % This is defined in a way that is guaranteed to cause the gradient check to fail.
 hyperParams.latticeLocalCurriculum = false;
 
+hyperParams = CompositionSetup(hyperParams, composition);
+
+hyperParams.name = 'gradcheck';
+
+hyperParams.dim = 2;
+hyperParams.embeddingDim = 3;
+hyperParams.penultDim = 4;
+hyperParams.testFraction = 0.33;
+hyperParams.parensInSequences = false;
+hyperParams.useEmbeddingTransform = transDepth;
+hyperParams.topDepth = topDepth;
+hyperParams.largeVocabMode = fastemb;
+
 % Turn off regularization to more clearly show patterns in the main gradinets.
 hyperParams.lambda = 0;
 
@@ -56,9 +47,6 @@ hyperParams.topDropout = -1;
 
 hyperParams.loadWords = false;
 hyperParams.trainWords = trainwords;
-
-hyperParams.minFunc = true;
-options.DerivativeCheck = 'on';
 
 wordMap = LoadWordMap('./quantifiers/wordlist.tsv'); 
 hyperParams.vocabName = 'quantifiers';

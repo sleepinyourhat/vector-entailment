@@ -1,5 +1,6 @@
-function [ hyperParams, options, wordMap, labelMap ] = PDTB(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, collo, dp, gc, adi)
-% Configuration for experiments involving the SemEval SICK challenge and ImageFlickr 30k. 
+function [ hyperParams, options, wordMap, labelMap ] = PDTB(expName, dataflag, embDim, dim, topDepth, penult, lambda, composition, bottomDropout, topDropout, wordsource, dp, gc, adi)
+% Configure Penn Discourse experiments.
+% See Defaults.m for parameter descriptions.
 
 [hyperParams, options] = Defaults();
 
@@ -7,34 +8,24 @@ function [ hyperParams, options, wordMap, labelMap ] = PDTB(expName, dataflag, e
 % are being tuned.
 hyperParams.name = [expName, '-', dataflag, '-l', num2str(lambda), '-dim', num2str(dim),...
     '-ed', num2str(embDim), '-td', num2str(topDepth),...
-    '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(collo),...
+    '-pen', num2str(penult), '-do', num2str(bottomDropout), '-', num2str(topDropout), '-co', num2str(wordsource),...
     '-comp', num2str(composition), ...
     '-dp', num2str(dp), '-gc', num2str(gc),  '-adi', num2str(adi)];
 
 hyperParams.restartUpdateRuleInTransfer = adi;
-
-
-hyperParams.parensInSequences = 0;
-
 hyperParams.dataPortion = dp;
-
 hyperParams.dim = dim;
 hyperParams.embeddingDim = embDim;
+hyperParams.useEmbeddingTransform = true;
 
-if collo == 1
+if wordsource == 1
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.6B.' num2str(embDim) 'd.txt'];
-elseif collo == 2
+elseif wordsource == 2
     hyperParams.vocabPath = '/u/nlp/data/senna_embeddings/combined.txt';  
     assert(embDim == 50, 'The Collobert and Weston-sourced vectors only come in dim 50.'); 
-elseif collo == 3
+elseif wordsource == 3
     hyperParams.vocabPath = ['/scr/nlp/data/glove_vecs/glove.840B.' num2str(embDim) 'd.txt'];
 end
-
-% The number of embedding transform layers. topDepth > 0 means NN layers will be
-% added above the embedding matrix. This is likely to only be useful when
-% learnWords is false, and so the embeddings do not exist in the same space
-% the rest of the constituents do.
-hyperParams.useEmbeddingTransform = 1;
 
 % The number of comparison layers. topDepth > 1 means NN layers will be
 % added between the RNTN composition layer and the softmax layer.

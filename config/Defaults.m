@@ -1,6 +1,8 @@
 function [ hyperParams, options ] = Defaults()
 % Set defaults for all model and learning parameters.
+% Called by other config files.
 
+% The name used for the experiment directory.
 hyperParams.name = ['rnn' datestr(now, 'yymmddHHMMSS')];
 
 % Use Tree or Lattice to represent data if set. Else, use Sequence.
