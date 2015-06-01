@@ -23,9 +23,9 @@ The Excitement Open Platform is a tool to quickly develop NLI systems
 We evaluate against three algorithms included in the distribution,
   and also evaluated in \newcite{magnini2014excitement}.
 These are: 
-  (1) a simple edit-distance based algorithm;
-  (2) a classifier-based algorithm; and
-  (3) an algorithm based around tree transformations.
+  (1) a simple edit-distance based algorithm; and
+  (2) a classifier-based algorithm.
+%  (3) an algorithm based around tree transformations.
 
 %% 9 systems compared against
 %A number of systems have been built using the platform, 9 of them
@@ -71,22 +71,22 @@ These are:
 \midrule
 \t{Edit Distance Based}  & \t{71.9} & \t{65.4} & \t{61.9} \\
 \t{Classifier Based}     & \t{72.2} & \t{74.3} & \t{61.5} \\
-\midrule
-\t{Transformation Based} & \t{36.0} & \t{76.7} & \t{56.4} \\
+%\midrule
+%\t{Transformation Based} & \t{36.0} & \t{76.7} & \t{56.4} \\
 \bottomrule
 \end{tabular}
 \end{center}
 % The caption
 \caption{
 \label{tab:eopresults}
-Accuracies of various entailment algorithms included in the
+Accuracies of two entailment algorithms included in the
   Excitement Open Platform.
-The edit distance and classifier based accuracies are are on a 2-class
+Note that all accuracies are are on a 2-class
   classification task; this results in a majority-class baseline
   of 66\% on our class and 71\% on SICK.
-All RTE results are 2-class accuracy.
-The transformation based model allows for 3-class predictions on our
-  corpus and SICK; these are reported in the last row.
+%All RTE results are 2-class accuracy.
+%The transformation based model allows for 3-class predictions on our
+%  corpus and SICK; these are reported in the last row.
 }
 \end{table}
 %
@@ -97,12 +97,18 @@ The transformation based model allows for 3-class predictions on our
 We report results in \reftab{tab:eopresults}, covering both our own test set,
   the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
 Each of the models was trained on its own training set.
-The results for RTE-3 are taken from \newcite{magnini2014excitement}.
+%The results for RTE-3 are taken from \newcite{magnini2014excitement}.
 The edit distance and classifier based models are evaluated only on
   2-class entailment; all RTE results are likewise reported for 2-class entailment.
 To convert 3-class problems like SICK and our corpus to this setting, all instances
   of \contradiction\ and \unknown\ are converted to nonentailment.
-This yields a chance baseline of 66\%.
+This yields a chance baseline of 66\% on our corpus, and 71\% on SICK.
+
+Note that all results are reported without using any of the included lexical
+  resources.
+We do not attempt to necessarily compare against the state-of-the-art
+  RTE systems as much as give a general sense for the relative
+  difficulties of the datasets.
 
 %The best edit distance algorithm tunes the weight of the three 
 %  case-insensitive edit distance operations on the training set, 
@@ -145,7 +151,7 @@ Our classifier implements 6 features:
   POS tag, an indicator feature over the two words.
   
   \item\label{lst:bigram} Cross-bigrams: for every pair of bigrams across the \premise\ and \hypothesis\ which share a 
-  POS tag, an indicator feature over the two bigrams.
+  POS tag on the second word, an indicator feature over the two bigrams.
 \end{enumerate}
 
 %
@@ -182,19 +188,32 @@ Ablation results are reported for models lacking cross-bigram features
 
 % Results
 We report results in \reftab{tab:bowresults}, along with ablation studies for removing
-  the bigram features (leaving only the unigram entailment pair feature),
+  the cross-bigram features (leaving only the cross-unigram feature),
   and for removing all lexicalized features.
-
 % Insights 1: lexicalization helps a bunch
 There is a substantial jump in accuracy from using
   lexicalized features, and even from using the relatively sparse
   cross-bigram features.
-In fact, the addition of these features alone allow the classifier to
-  outperform the EOP models.
-  This seems initially surprising, but it makes sense given how our corpus differs from existing ones:
-  the EOP systems have been tuned on relatively small corpora
-  ($\sim$1600 examples), whereas a classifier trained on our corpus can make use of
-  over two orders of magnitude more data.
+The latter of these was initially surprising, but could be attributed to
+  the classifier automatically learning explicit negations or adjective
+  modification.
+A similar for bigram features in sentiment analysis was shown in
+  \newcite{sidaw12simple}.
+
+% Insight 2: do well without alignments
+Another surprising fact is that the classifier performs as well as it
+  does without any notion of alignment or tree transformations.
+Although likely richer models would continue to improve performance,
+  the results suggest that given enough data
+  the more noisy part-of-speech overlap constraint can produce an effective
+  model.
+
+%In fact, the addition of these features alone allow the classifier to
+%  outperform many of the .
+%  This seems initially surprising, but it makes sense given how our corpus differs from existing ones:
+%  the EOP systems have been tuned on relatively small corpora
+%  ($\sim$1600 examples), whereas a classifier trained on our corpus can make use of
+%  over two orders of magnitude more data.
 
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
 
