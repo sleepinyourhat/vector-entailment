@@ -1,6 +1,6 @@
 \section{Our data as a platform for evaluation}
 
-The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training  parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
+% The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training  parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
 
 \subsection{Standard entailment models}
 
@@ -80,13 +80,13 @@ These are:
 % The caption
 \caption{
 \label{tab:eopresults}
-Accuracies of two entailment algorithms included in the
+Accuracies for two entailment algorithms included in the
   Excitement Open Platform.
 Note that all accuracies are are on a 2-class
   classification task; this results in a majority-class baseline
   of 66\% on our class and 71\% on SICK.
 %All RTE results are 2-class accuracy.
-%The transformation based model allows for 3-class predictions on our
+%The transformation-based model allows for 3-class predictions on our
 %  corpus and SICK; these are reported in the last row.
 }
 \end{table}
@@ -213,21 +213,20 @@ Although likely richer models would continue to improve performance,
 %  outperform many of the .
 %  This seems initially surprising, but it makes sense given how our corpus differs from existing ones:
 %  the EOP systems have been tuned on relatively small corpora
-%  ($\sim$1600 examples), whereas a classifier trained on our corpus can make use of
+%  ($\approx$1600 examples), whereas a classifier trained on our corpus can make use of
 %  over two orders of magnitude more data.
 
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
 
-Our corpus is uniquely suitable for training neural network models that produce distributed representations of sentence meaning. In this section, we compare the performance of three such models on the corpus. 
-To focus specifically on the strengths of these models at producing informative sentence representations, we use sentence embedding as an intermediate step in the NLI classification task: each model must produce a vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on existing models for sentence embedding, and it allows us to evaluate the ability of those models to learn useful representations of meaning (which may be independently useful for subsequent tasks), at the cost of excluding from consideration possible strong neural models for NLI that directly compare the two inputs at the word or phrase level.
+Our corpus is suitably large and diverse to make it possible to train neural network models that produce distributed representations of sentence meaning. In this section, we compare the performance of three such models on the corpus. To focus specifically on the strengths of these models at producing informative sentence representations, we use sentence embedding as an intermediate step in the NLI classification task: each model must produce a vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on existing models for sentence embedding, and it allows us to evaluate the ability of those models to learn useful representations of meaning (which may be independently useful for subsequent tasks), at the cost of excluding from consideration possible strong neural models for NLI that directly compare the two inputs at the word or phrase level.
 
 \input{model_structure_fig.tex}
 
-Our neural network classifier, depicted in \reffig{modelstructure}, is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the sentence embedding model itself.
+Our neural network classifier, depicted in \reffig{modelstructure} (and based on a one-layer model in \citealt{Bowman:Potts:Manning:2014}), is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the sentence embedding model itself.
 
-We test three sentence embedding models, each set to use 100d phrase and sentence embeddings. Our baseline sentence embedding simply sums the embeddings of the words in each sentence. In addition, we experiment with two simple sequence embedding models models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}. Both use the simple conventional layout with one layer per input token.
+We test three sentence embedding models, each set to use 100d phrase and sentence embeddings. Our baseline sentence embedding simply sums the embeddings of the words in each sentence. In addition, we experiment with two simple sequence embedding models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}. Both use the simple conventional layout with one layer per input token.
 
-The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine tuned as part of training. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each, and additionally applied dropout \cite{srivastava2014dropout} to the inputs and outputs of the sentence embedding models (though not to its internal connections) with a fixed dropout rate. All models were implemented in a common framework for this paper, and the implementations will be made available at publication time.
+The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine-tuned as part of training. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each, and additionally applied dropout \cite{srivastava2014dropout} to the inputs and outputs of the sentence embedding models (though not to its internal connections) with a fixed dropout rate. All models were implemented in a common framework for this paper, and the implementations will be made available at publication time.
 
 \begin{table}
 \begin{center}
@@ -270,7 +269,7 @@ The results are shown in \reftab{tab:nnresults}. The sum of words model performe
 
 \Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
 A learning curve for the lexicalized and unlexicalized baseline classifiers and the LSTM,
-plotted on a log scale. The y axis starts at a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
+plotted on a log scale. The y-axis starts at a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
 
 % Insights 2: the learning curve for the unlexicalized classifier is sad
 We were struck by the speed with which the lexicalized classifier outperforms its unlexicalized counterpart.
@@ -292,7 +291,7 @@ lexical relationships are still misanalyzed, leading to incorrect
 predictions of \ii{independent}, even for pairs that are common in the
 training corpus like \word{beach}/\word{surf} and
 \word{sprinter}/\word{runner}. Semantic mistakes at the phrasal level
-(e.g., predicting contradiction for word{A male is placing an order in a 
+(e.g., predicting contradiction for \word{A male is placing an order in a 
 deli}/\word{A man buying a sandwich at a deli}) indicate
 that additional attention to compositional semantics would pay off.
 %
@@ -305,7 +304,7 @@ that depend on world knowledge and context-specific inferences, as in
 the entailment pair \word{A race car driver leaps from a burning
   car}/\word{A race car driver escaping danger}, for which both
 the lexicalized classifier and the LSTM predict \ii{neutral}. 
-In other cases, models' attempts to shortcut this kind of inference 
+In other cases, the models' attempts to shortcut this kind of inference 
 through lexical cues can lead them astray. 
 Some of these examples have qualities
 reminiscent of Winograd schemas \cite{Winograd:1972,Levesque:2013}. For
@@ -321,8 +320,9 @@ the most part, the original image prompts contained a focal element
 that the caption writer identified with a syntactic subject, following
 information structuring conventions associating subjects and topics in
 English \cite{Ward04}. Our annotators generally followed suit, writing
-sentences with similar topic/focus (theme/rheme) structure that
-promotes a coherent, situation-specific construal of each sentence
+sentences that, while structurally diverse, share topic/focus (theme/rheme)
+structure with their premises.
+This promotes a coherent, situation-specific construal of each sentence
 pair. This is information that our models can easily take advantage
 of, but it can lead them astray. For instance, all of them stumble
 with the amusingly simple case \emph{A woman prepares ingredients for
