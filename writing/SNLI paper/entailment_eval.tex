@@ -80,7 +80,7 @@ These are:
 % The caption
 \caption{
 \label{tab:eopresults}
-2-class accuracy for two entailment algorithms included in the
+2-class test accuracy for two systems included in the
   Excitement Open Platform.
 %All RTE results are 2-class accuracy.
 %The transformation-based model allows for 3-class predictions on our
@@ -155,11 +155,10 @@ Our classifier implements 6 feature types:
 % The table
 \begin{table}
 \begin{center}
-\def\t#1{\small{#1}}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c}
 \toprule
-\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{Our corpus}} & \b{SICK}\vspace{-0.5mm}\\
- & \t{Train} & \t{Test} & \t{Test} \vspace{-0.5mm}\\
+\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{Our corpus}} & \b{SICK}\\
+ & \t{Train} & \t{Test} & \t{Test}\\
 \midrule
 \t{Lexicalized}            & \t{99.7}  & \b{78.2} & \b{77.3} \\ % & \t{78.7}
 \t{Unigrams Only}          & \t{93.1} & \t{71.6} & \t{74.0} \\ % & \t{72.2}
@@ -344,8 +343,6 @@ To the extent that successfully training a neural network model like our LSTM on
 \bottomrule
 \end{tabular}
 \end{center}
-
-training sets
 
 \caption{\label{tab:transferresults}
 LSTM 3-class accuracy on the SICK train and test sets under three training regimes.} 
