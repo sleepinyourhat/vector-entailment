@@ -1,5 +1,5 @@
 function modelState = AdaDeltaUpdate(modelState, options, hyperParams, grad, embGrad)
-% TODO: This is pretty slow, and could benefit from GPUification.
+% TODO: This is pretty slow, and could benefit from smart GPUification.
 
 if modelState.step == 0
     modelState.sumSqGrad = fZeros(size(modelState.theta), hyperParams.gpu);
