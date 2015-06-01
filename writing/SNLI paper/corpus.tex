@@ -17,9 +17,9 @@ Denotation Graph entailment set \cite{hodoshimage} contains millions of
 examples of entailments between sentences and artificially constructed
 short phrases, but it was labeled using fully automatic methods, and is
 noisy enough that it is probably suitable only as a source of
-supplementary training data. The Paraphase Database of \citealt{ganitkevitch2013ppdb}
+supplementary training data. The Paraphase Database of \newcite{ganitkevitch2013ppdb}
 addresses these issues of size and quality, but only for the limited
-fragment of the NLI problem that is captured by paraphase.
+fragment of the NLI problem that is captured by paraphrase.
 
 Existing resources suffer from a subtler issue that impacts even
 projects using only human-provided annotations: indeterminacies of
@@ -42,13 +42,14 @@ With our corpus, we sought to address the issues of size, quality, and
 indeterminacy. To do this, we employed a crowdsourcing framework with
 the following crucial innovations. First, the examples were grounded
 in specific scenarios, and the premise and hypothesis sentences in each example 
-are constrained to describe that scenario from the same perspective, 
+were constrained to describe that scenario from the same perspective, 
 which helps greatly in controlling event and entity coreference. Second, the prompt
 gave participants the freedom to produce entirely novel sentences
 within the task setting, which led to richer examples than we see with
 the more proscribed string-editing techniques of earlier approaches,
 without sacrificing consistency. Third, a subset of the resulting
-sentences were sent to a validation task aimed at providing highly reliable set of annotations over the same data, and at identifying areas of inferential uncertainty.
+sentences were sent to a validation task aimed at providing a highly 
+reliable set of annotations over the same data, and at identifying areas of inferential uncertainty.
 
 % Our ultimate aim in this work is to develop supervised models for sentence representation that can accurately capture natural language meaning. While sentiment tasks like SST have provided a useful testbed for sentence representation models, sentiment labeling only requires that models be able to encode a small piece of the full expressive capacity of language. We claim that the task of natural language inference (also called recognizing textual entailment, or RTE) is significantly more demanding, and that strong performance on this task is good evidence of a model's overall strength in sentence representation.
 
@@ -73,7 +74,7 @@ We will show you the caption for a photo. We will not show you the photo. Using 
 \begin{itemize}
 \item Write one alternate caption that is \textbf{definitely} a \textbf{true} description of the photo. \ii{Example: For the caption ``\ii{Two dogs are running through a field.}'' you could write ``\ii{There are animals outdoors.}"}
 \item Write one alternate caption that \textbf{might be} a \textbf{true} description of the photo. \ii{Example: For the caption ``\ii{Two dogs are running through a field.}" you could write ``\ii{Some puppies are running to catch a stick.}"}
-\item Write one alternate caption that is \textbf{definitely} a \textbf{false} description of the photo. \ii{Example: For the caption ``\ii{Two dogs are running through a field.}" you could write ``\ii{The pets are sitting on a couch.}" This is different from the maybe correct category because it's impossible for the dogs to be both running and sitting.}
+\item Write one alternate caption that is \textbf{definitely} a \textbf{false} description of the photo. \ii{Example: For the caption ``\ii{Two dogs are running through a field.}" you could write ``\ii{The pets are sitting on a couch.}" This is different from the} maybe correct \ii{category because it's impossible for the dogs to be both running and sitting.}
 \end{itemize}
 \end{framed}
 
@@ -126,7 +127,7 @@ Distinct words (ignoring case) & 37,026\\
 \subsection{Data validation}
 
 In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we performed an additional round of validation for about 10\% of our data.
-This validation phase followed the same basic form as the Mechanical Turk labeling task used to label the SICK entailment data: we presented workers with pairs of sentences in batches of five, and ask them to choose a single label for each pair. We supplied each pair to four annotators, yielding five labels per pair including the label used by the original author. The instructions were similar to the instructions for initial data collection shown in \reffig{instructions-1}, and linked to a similar FAQ. Though we initially used a very restrictive qualification (based on past approval rate) to select workers for the validation task, we nonetheless discovered (and excluded from the corpus) some instances of random guessing in an early batch of work, and subsequently instituted a fully closed qualification restricted to about 30 trusted workers.
+This validation phase followed the same basic form as the Mechanical Turk labeling task used to label the SICK entailment data: we presented workers with pairs of sentences in batches of five, and asked them to choose a single label for each pair. We supplied each pair to four annotators, yielding five labels per pair including the label used by the original author. The instructions were similar to the instructions for initial data collection shown in \reffig{instructions-1}, and linked to a similar FAQ. Though we initially used a very restrictive qualification (based on past approval rate) to select workers for the validation task, we nonetheless discovered (and deleted) some instances of random guessing in an early batch of work, and subsequently instituted a fully closed qualification restricted to about 30 trusted workers.
 
 For each pair that we validated, we assigned a gold label. If any one of
 the three labels was chosen by at least three of the five annotators, it was 
@@ -141,15 +142,14 @@ The results of this validation process
 are summarized in \reftab{validation-stats}. 
 Nearly all of the examples received a majority
 label, indicating broad consensus about the nature of the data and
-categories. The gold-labeled examples are essentially evenly
-distributed across the three categories in our train, development, and
-testing. The Fleiss $\kappa$ scores 
+categories. The gold-labeled examples are very nearly evenly
+distributed across the three labels. The Fleiss $\kappa$ scores 
 (computed over every example with a full five annotations)
 are likely to be conservative given our large and
-unevenly distributed pool of workers, but they still provide insights
+unevenly distributed pool of annotators, but they still provide insights
 about the levels of disagreement across the three semantic
 classes. This disagreement likely reflects not just the limitations of
-large crowdsourcing efforts but also the uncertainty inherent in NLI.
+large crowdsourcing efforts but also the uncertainty inherent in naturalistic NLI.
 Regardless, the overall rate of agreement is extremely high,
 suggesting that the corpus is sufficiently high quality to pose a
 challenging but realistic machine learning task.
@@ -165,8 +165,8 @@ Validated pairs & 56,951\\
 Pairs w/ unanimous gold label & 58.3\%\\
 \midrule
 \multicolumn{2}{l}{\textbf{Individual annotator label agreement:}}\\
-Annotator label $=$ gold & 89.0\%\\
-Annotator label $=$ author's label & 85.8\%\\
+Individual label $=$ gold label & 89.0\%\\
+Individual label $=$ author's label & 85.8\%\\
 \midrule
 \multicolumn{2}{l}{\textbf{Gold label/author's label agreement:}}\\
 Gold label $=$ author's label & 91.2\%\\
@@ -189,10 +189,12 @@ No gold label (no 3 labels match) & 2.0\%\\
 \Reftab{snli-examples} shows a set of randomly chosen validated examples from the development set with their labels. Qualitatively, we find the data that we collected draws fairly extensively on commonsense knowledge, and that hypothesis and premise sentences often differ structurally in significant ways, suggesting that superficial word alignment models are unlikely to be able to succeed at classification. We also find the sentences that we collected to be largely fluent, correctly spelled English, with a mix of full sentences and caption-style noun phrase fragments, though punctuation and capitalization are often omitted.
 
 The data will be released upon publication under a CreativeCommons
-Attribution-ShareAlike licence, the same licence used for the Flickr30k source captions.
+Attribution-ShareAlike license, the same license used for the Flickr30k source captions.
 
 
-\paragraph{Partition} We distribute the corpus with a pre-specified train/test/development split. The test and development sets contain 10k examples each. Each original ImageFlickr caption occurs in only one of the three sets, and all of the examples in the test and development sets have been validated.
+\paragraph{Partition} 
+
+We distribute the corpus with a pre-specified train/test/development split. The test and development sets contain 10k examples each. Each original ImageFlickr caption occurs in only one of the three sets, and all of the examples in the test and development sets have been validated.
 
 \paragraph{Parses}
 
