@@ -1,0 +1,115 @@
+\footnotesize
+
+\newcommand{\labeledtreenode}[4][3.5]{\put(#2){\makebox(0,0){{\colorbox{#4}{\makebox(#1,0.3){#3}}}}}}
+
+\newcommand{\textlabel}[4][3.5]{\put(#2){\makebox(0,0){\makebox(#1,0.3){#3}}}}
+
+\definecolor{lexcolor}{HTML}{F5F7C4}
+\definecolor{compositioncolor}{HTML}{BBEBFF}
+\definecolor{comparisoncolor}{HTML}{FFC895}
+\definecolor{softmaxcolor}{HTML}{A5FF8A}
+
+
+% \setlength{\unitlength}{0.61cm}
+% \begin{picture}(21,7.5)
+  
+%   \labeledtreenode[2.4]{11.5,7}{$P(\sqsubset) = 0.8$}{softmaxcolor}  
+%   \put(11.5,5.7){\vector(0,1){1}}  
+%   \labeledtreenode[7.85]{11.5,5.4}{all reptiles walk \emph{vs.}~some turtles move}{comparisoncolor}
+
+
+%   \textlabel{8,7}{Softmax classifier}{black}
+%   \textlabel{4.5,5.4}{Comparison N(T)N layer}{black}
+      
+%   \textlabel{11.75,3.6}{Composition RN(T)N layers}{black}
+
+%   \textlabel{5,0.1}{Learned, randomly initialized word vectors}{black}
+  
+%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+%   \put(1.75,1.35){\vector(2,1){1.7}}
+%   \labeledtreenode{1.75,1}{all}{lexcolor}
+
+%   \put(6,1.35){\vector(-2,1){1.7}}
+%   \labeledtreenode{6,1}{reptiles}{lexcolor}
+
+%   \put(4,2.75){\vector(2,1){1.7}}
+%   \labeledtreenode{4,2.5}{all reptiles}{compositioncolor}
+
+%   \put(8.25,2.75){\vector(-2,1){1.7}}
+%   \labeledtreenode{8.25,2.5}{walk}{lexcolor}
+
+%   \put(6.25,4.25){\vector(4,1){3.25}}
+%   \labeledtreenode{6.25,3.9}{all reptiles walk}{compositioncolor}
+  
+%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%   \put(12.75,1.35){\vector(2,1){1.7}}
+%   \labeledtreenode{12.75,1}{some}{lexcolor}
+
+%   \put(17,1.35){\vector(-2,1){1.7}}
+%   \labeledtreenode{17,1}{turtles}{lexcolor}
+
+%   \put(15,2.75){\vector(2,1){1.7}}
+%   \labeledtreenode{15,2.5}{some turtles}{compositioncolor}
+
+%   \put(19.25,2.75){\vector(-2,1){1.7}}
+%   \labeledtreenode{19.25,2.5}{move}{lexcolor}
+          
+%   \put(17.25,4.25){\vector(-4,1){3.25}}
+%   \labeledtreenode{17.25,3.9}{some turtles move}{compositioncolor}
+  
+% \end{picture}
+
+
+\setlength{\unitlength}{0.56cm}
+\begin{picture}(13,7.5)
+  
+  \labeledtreenode[2.75]{7.75,7}{$P(\sqsubset) = 0.8$}{softmaxcolor}  
+  \put(7.75,5.7){\vector(0,1){1}}  
+  \labeledtreenode[8.5]{7.75,5.4}{all reptiles walk \emph{vs.}~some turtles move}{comparisoncolor}
+
+
+  \textlabel{4,7}{Softmax classifier}{black}
+  \textlabel{1.25,5.4}{\parbox{0.65in}{Comparison N(T)N layer}}{black}      
+  \textlabel{1.25,3.1}{\parbox{0.65in}{Composition RN(T)N layers}}{black}
+  \textlabel{6.5,0.1}{Pre-trained or randomly initialized learned word vectors}{black}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+  \put(2,1.35){\vector(3,2){1.2}}
+  \labeledtreenode[0.75]{2,1}{all}{lexcolor}
+
+  \put(4.75,1.35){\vector(-3,2){1.2}}
+  \labeledtreenode[1.75]{4.75,1}{reptiles}{lexcolor}
+
+  \put(3.5,2.75){\vector(3,2){1.2}}
+  \labeledtreenode[2.4]{3.5,2.5}{all reptiles}{compositioncolor}
+
+  \put(6.25,2.75){\vector(-3,2){1.2}}
+  \labeledtreenode[1.5]{6.25,2.5}{walk}{lexcolor}
+
+  \put(4.75,4.25){\vector(3,2){1.2}}
+  \labeledtreenode{4.75,3.9}{all reptiles walk}{compositioncolor}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \put(8.25,1.35){\vector(3,2){1.2}}
+  \labeledtreenode[1.25]{8.25,1}{some}{lexcolor}
+
+  \put(11,1.35){\vector(-3,2){1.2}}
+  \labeledtreenode[1.5]{10.75,1}{turtles}{lexcolor}
+
+  \put(9.75,2.75){\vector(3,2){1.2}}
+  \labeledtreenode[2.75]{9.75,2.5}{some turtles}{compositioncolor}
+
+  \put(12.5,2.75){\vector(-3,2){1.2}}
+  \labeledtreenode[1]{12.5,2.5}{move}{lexcolor}
+          
+  \put(10.75,4.25){\vector(-3,2){1.2}}
+  \labeledtreenode[4]{10.75,3.9}{some turtles move}{compositioncolor}
+  
+\end{picture}
+
+
+

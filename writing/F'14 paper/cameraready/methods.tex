@@ -1,0 +1,86 @@
+
+\section{Tree-structured neural networks} \label{methods}
+
+We limit the scope of our experiments in this paper to neural network models 
+that adhere to the linguistic \ii{principle of
+ compositionality}, which says that the meanings for complex
+expressions are derived from the meanings of their parts
+via specific composition functions \cite{Partee84,Janssen97}. In our
+distributed setting, word meanings are embedding vectors of dimension $n$. A learned
+composition function maps pairs of them to single phrase vectors of dimension $n$, 
+which can then be merged again to represent more complex
+phrases, forming a tree structure. Once the entire sentence-level representation has been
+derived at the top of the tree, it serves as a fixed-dimensional input for some subsequent layer function.
+
+\begin{figure}[tp]
+  \centering
+  \input{figure1}
+  \caption{In our model, two separate tree-structured networks build up vector representations for each of two sentences using either NN or NTN layer functions. A comparison layer then uses the resulting vectors to produce features for a classifier.} 
+  \label{sample-figure}
+\end{figure}
+
+To apply these recursive models to our task, we propose the tree 
+pair model architecture depicted in Fig.~\ref{sample-figure}. 
+In it, the two phrases being compared are processed separately using a pair 
+of tree-structured networks that share a single set of parameters. 
+The resulting vectors are fed into a separate comparison
+layer that is meant to generate a feature vector capturing the
+relation between the two phrases. The output of this layer is then
+given to a softmax classifier, which produces a
+distribution over the seven relations represented in Table~\ref{b-table}.
+
+For the sentence embedding portions of the network, we evaluate both TreeRNN models with
+ the standard NN layer function \eqref{TreeRNN} and those with the more powerful neural tensor 
+ network layer function
+\eqref{TreeRNTN} proposed in \newcite{chen2013learning}. The nonlinearity $f(x) = \tanh(x)$ is applied
+ elementwise to the output of either layer function.
+%
+\begin{gather} 
+\label{TreeRNN}
+\vec{y}_{\textit{TreeRNN}} = f(\mathbf{M} \colvec{2}{\vec{x}^{(l)}}{\vec{x}^{(r)}} + \vec{b}\,) \\
+\label{TreeRNTN} 
+\vec{y}_{\textit{TreeRNTN}} = \vec{y}_{\textit{TreeRNN}} + f(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
+\end{gather} 
+%
+Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
+representations for the left and right children of the node, and
+$\vec{y}$ is the node's output.  The TreeRNN concatenates them, multiplies
+them by an $n \times 2n$ matrix of learned weights, and adds a bias $\vec{b}$. 
+The TreeRNTN adds a learned full rank third-order tensor 
+$\mathbf{T}$, of dimension $n \times n \times n$, modeling
+multiplicative interactions between the child vectors. 
+The comparison layer uses the same layer function as the
+composition layers (either an NN layer or an NTN layer) with
+independently learned parameters and a separate nonlinearity function.
+Rather than use a $\tanh$ nonlinearity here, we found better results with the leaky rectified linear function
+\cite{maasrectifier}: $f(x)=\max(x, 0) +
+0.01\min(x, 0)$. 
+
+Other strong tree-structured models have been proposed in past work
+\cite{sochergrounded,irsoydeep,tai2015improved}, but
+we believe that these two provide a valuable case study, and that positive results on 
+here are likely to generalize well to stronger models.
+
+To run the model forward, we assemble the two tree-structured networks so as to match the structures provided for each phrase, which are either included in the source data or given by a parser.
+The word vectors are then looked up from the vocabulary embedding matrix $V$ (one of the learned model parameters), and
+the composition and comparison functions are used to pass information
+up the tree and into the classifier. For an objective
+function, we use the negative log likelihood of the
+correct label with tuned L2 regularization.
+
+We initialize parameters uniformly, using the range $(-0.05, 0.05)$ for layer parameters
+and $(-0.01, 0.01)$ for embeddings, and train the model using stochastic gradient descent (SGD)
+with learning rates computed using AdaDelta \cite{zeiler2012adadelta}.
+The classifier feature vector is fixed at 75 dimensions and 
+the dimensions of the recursive layers are tuned manually.
+Training times on CPUs vary from hours to days across experiments.
+On the experiments which use artificial data, we report mean
+results over five fold cross-validation, where
+variance across runs is typically no
+more than two percentage points. In addition, because the classes are not necessarily balanced, 
+we report both accuracy and macroaveraged F1.\footnote{We compute macroaveraged F1 
+as the harmonic mean of average precision and average recall, both computed
+for all classes for which there is test data, setting precision to 0 
+where it is not defined.}
+Source code and generated data will be released after the review period.
+
