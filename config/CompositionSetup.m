@@ -15,12 +15,12 @@ elseif composition == 2
 	hyperParams.useTrees = 0;
 	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.useThirdOrderMerge = 1;
 elseif composition == 3
 	hyperParams.lstm = 0;
 	hyperParams.useTrees = 0;
 	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.useThirdOrderMerge = 1;
 elseif composition == 4
 	hyperParams.useLattices = 1;
 	hyperParams.lstm = 0;

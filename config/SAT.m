@@ -27,6 +27,10 @@ hyperParams.lambda = lambda;
 
 hyperParams = CompositionSetup(hyperParams, composition);
 
+hyperParams.lineLimit = 5000;
+
+options.examplesFreq = 25000; 
+
 wordMap = LoadWordMap('./sat-data/sat_words.txt');
 hyperParams.vocabName = 'sat'; 
 
@@ -36,8 +40,19 @@ hyperParams.labels = {{'SAT', 'UNSAT'}};
 labelMap = cell(1, 1);
 labelMap{1} = containers.Map(hyperParams.labels{1}, 1:length(hyperParams.labels{1}));
 
-hyperParams.trainFilenames = {};    
-hyperParams.splitFilenames = {'./sat-data/sat.txt'};    
-hyperParams.testFilenames = {};
+
+if strcmp(dataflag, 'sat')
+	hyperParams.trainFilenames = {};    
+	hyperParams.splitFilenames = {'./sat-data/sat.txt'};    
+	hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'sat-l')
+	hyperParams.trainFilenames = {};    
+	hyperParams.splitFilenames = {'./sat-data/sat_l.txt'};    
+	hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'sat-ls')
+	hyperParams.trainFilenames = {};    
+	hyperParams.splitFilenames = {'./sat-data/sat_l_shuf.txt'};    
+	hyperParams.testFilenames = {};
+end
 
 end

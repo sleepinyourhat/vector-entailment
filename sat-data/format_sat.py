@@ -3,10 +3,12 @@ from os import listdir
 
 def format(label):
     filenames = [
-        f for f in listdir('instances/' + label)]
+        f for f in listdir('instances_l/' + label)]
 
     for filename in filenames:
-        with open('instances/' + label + '/' + filename) as f:
+        with open('instances_l/' + label + '/' + filename) as f:
+            if '.' in filename:
+                continue
             string = label + '\t'
             for index, line in enumerate(f):
                 if index > 1:
