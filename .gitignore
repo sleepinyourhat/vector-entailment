@@ -16,3 +16,4 @@ UnbreakData.m
 *.gz
 *.DS_Store
 RunExperiments.m
+sat-data/*
