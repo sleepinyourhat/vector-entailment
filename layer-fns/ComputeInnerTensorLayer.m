@@ -2,8 +2,8 @@
 function innerTensorLayerOutput = ComputeInnerTensorLayer(l, r, matrices, matrix)
 % Run an NTN layer as in forward propagation, not including the nonlinearity.
 
-outDim = size(matrix, 1)
-B = size(l, 2)
+outDim = size(matrix, 1);
+B = size(l, 2);
 
 % Apply third-order tensor
 % NOTE: Sadly, there doesn't seem to be a good MATLAB primitive for this.

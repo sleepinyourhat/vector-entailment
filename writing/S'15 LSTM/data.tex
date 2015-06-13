@@ -1,0 +1,221 @@
+\subsection{Natural language inference as an ev}
+
+borrow data
+
+framing is entailment - true NLI has nice property, this generalizes that
+
+data is from simulated language meant to highlight recursion
+
+\paragraph{The task} The 
+
+
+\todo{Rework into a 1-2 paragraph introduction to NLI and NatLog.}
+
+Tree-structured recursive neural network models (TreeRNNs; \citealt{goller1996learning}) for sentence meaning
+have been successful in an array of sophisticated language tasks,
+including sentiment analysis \cite{socher2011semi,irsoydeep},
+image description \cite{sochergrounded}, and paraphrase detection
+\cite{Socher-etal:2011:Paraphrase}. These results are encouraging for
+the ability of these models to learn to produce and use strong 
+semantic representations for sentences. However, it remains an 
+open question whether any such fully learned model can achieve the kind of
+high-fidelity distributed representations proposed in recent algebraic
+work on vector space modeling 
+\cite{ClarkCoeckeSadrzadeh2011,grefenstette2013towards,Hermann-etal:2013,rocktaschellow},
+and whether any such model can match the performance of grammars based in logical forms
+in their ability to model core semantic phenomena like quantification, entailment, and contradiction \cite{Warren:Pereira:1982,Zelle:Mooney:1996,ZetCol:2005,LiangJordan:2013}.
+
+Recent work on the algebraic approach of
+\newcite{ClarkCoeckeSadrzadeh2011} has yielded rich frameworks 
+for computing the meanings of fragments of natural
+language compositionally from vector or tensor representations, but 
+has not yet yielded effective methods for learning these representations
+from data in typical machine learning settings. 
+Past experimental work on reasoning with
+distributed representations have been largely confined to short
+phrases \cite{Mitchell:Lapata:2010,Grefenstette-etal:2011,baroni2012entailment}.
+However, for robust natural language understanding, it is essential to
+model these phenomena in their full generality on complex linguistic
+structures. 
+
+This paper describes four machine learning experiments
+that directly evaluate the abilities of these models to learn representations that 
+support specific semantic behaviors. These tasks follow the format of
+ \ii{natural language inference} 
+(also known as \ii{recognizing textual entailment};
+\citealt{dagan2006pascal}), in which the goal is to determine the core
+inferential relationship between two sentences. 
+We introduce a novel NN architecture for natural language inference which
+independently computes vector representations for each of two sentences using
+standard TreeRNN or TreeRNTN \cite{socher2013acl1} models, and
+produces a judgment for the pair using only those representations. This allows
+us to gauge the abilities of these two models to represent all of the necessary semantic
+information in the sentence vectors. 
+
+Much of the
+theoretical work on natural language inference (and some successful implemented models;
+\citealt{maccartney2009extended,watanabe2012latent}) involves \ii{natural
+  logics}, which are formal systems that define rules of inference
+between natural language words, phrases, and sentences without the
+need of intermediate representations in an artificial logical
+language.
+In our first three experiments, we test our models' ability to learn the foundations of natural
+language inference by training them to reproduce the behavior of the natural logic of \newcite{maccartney2009extended} 
+on artificial data. This logic
+defines seven mutually-exclusive relations of synonymy, entailment, contradiction,
+and mutual consistency, as summarized in Table~\ref{b-table}, and it
+provides rules of semantic combination for projecting these relations
+from the lexicon up to complex phrases. The formal properties of this system 
+are now well-understood \cite{Icard:Moss:2013,Icard:Moss:2013:LILT}.
+The first experiment using this logic 
+covers reasoning with the bare logical relations (\S\ref{sec:join}), the second extends this to reasoning with statements constructed compositionally from recursive functions (\S\ref{sec:recursion}),
+and the third covers the additional complexity that results from quantification (\S\ref{sec:quantifiers}).
+Though the performance of the plain TreeRNN model 
+ is somewhat poor in our first experiment, we find that the stronger TreeRNTN model
+  generalizes well in every case, suggesting that it has learned to simulate our target logical concepts.
+
+The experiments with simulated data provide a convincing demonstration
+of the ability of neural networks to learn to build and use semantic representations for complex natural language sentences from reasonably-sized
+training sets. However, we are also interested in the more practical
+question of whether they can learn these representations from
+naturalistic text. To address this question, we apply our models to
+the SICK entailment challenge data in \S\ref{sec:sick}. The small size of this corpus puts
+data-hungry NN models like ours at a disadvantage, but we are
+nonetheless able to achieve competitive performance on it,
+surpassing several submitted models with significant hand-engineered task-specific features and our own NN baseline.
+This suggests that the representational abilities that we observe in the previous sections
+are not limited to carefully circumscribed tasks. We conclude that TreeRNTN models
+are adequate for typical cases of natural language inference, and that there is not yet
+any clear level of inferential complexity for which other approaches work and NN models fail.
+
+\begin{table}[tp]
+  \centering\small
+  \renewcommand{\arraystretch}{1}
+  \begin{tabular}{l c l l} 
+    \toprule
+    Name & Symb. & Set-theoretic definition \\ 
+    \midrule
+strict entailment         & $\natfor$   & $x \subset y$  \\ 
+    strict rev. entailment & $\natrev$   & $x \supset y$  \\ 
+    equivalence        & $\nateq$    & $x = y$   \\ 
+    alternation        & $\natalt$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ \\ 
+    negation           & $\natneg$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$   \\
+    cover              & $\natcov$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ \\ 
+    independence       & $\natind$   & (else)\\
+    \bottomrule
+  \end{tabular}
+  \caption{\label{b-table}The seven relations of MacCartney and Manning \protect\shortcite{maccartney2009extended}'s logic are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences. The relations are defined so as to be mutually exclusive. (adapted from \protect\citealt{Bowman:Potts:Manning:2014})} %-%
+ 
+\end{table}
+
+
+
+A successful natural language inference system must reason 
+about relations not just over familiar
+atomic symbols, but also over novel structures built up 
+recursively from these symbols. 
+This section shows that our models can learn a 
+compositional semantics over such structures.
+In our evaluations, we exploit the fact that our logical language
+is infinite by testing on strings that are longer and more complex
+than any seen in training.
+
+% Consider, for example, \ii{Alice said hello}, \ii{Bob said that Alice
+%   said hello}, and \ii{Carl thinks that Bob said that Alice said
+%   hello}. Overt recursion of this kind is easy to find, and
+% theoretical accounts of natural language syntax and semantics rely
+% heavily on recursive structures. In order for a model to be able to
+% accurately learn natural language meanings, then, we expect that it
+% would need to be able to learn to represent the meanings of function
+% words in a such a way that they are able to behave correctly when
+% taking their own outputs as input. In evaluating the model, we take
+% advantage of the fact that recursive structures of this kind define
+% potentially infinite languages by testing the model on strings that
+% are longer and more complex than any seen in testing.
+
+\paragraph{Experiments}
+As in \S\ref{sec:join}, we generate artificial data from a formal system,
+ but we now replace the unanalyzed symbols
+from that experiment with complex formulae. These formulae
+represent a complete classical propositional logic:
+each atomic symbol is a variable over the domain \{$\True$, $\False$\}, and the only
+operators are truth-functional ones.  Table~\ref{tab:pl} defines this
+logic, and Table~\ref{tab:plexs} gives some short examples of relational statements from our data.
+ To compute these relations
+between statements, we exhaustively enumerate the sets of assignments
+of truth values to propositional variables that would satisfy each of
+the statements, and then we convert the set-theoretic relation between
+those assignments into one of the seven relations in
+Table~\ref{b-table}. As a result, each relational statement represents
+a valid theorem of the propositional logic, and to succeed, the models 
+must learn to reproduce the behavior of a theorem prover.\footnote{
+Socher et al.~\shortcite{socher2012semantic} show that a matrix-vector TreeRNN
+model somewhat similar to our TreeRNTN can learn boolean logic, 
+a logic where the atomic symbols are simply the
+values $\True$ and $\False$. While learning the operators of that logic is not trivial, the outputs of
+each operator can be represented accurately by a single bit.
+In the much more demanding task presented here, the atomic symbols are variables over these values, and the sentence vectors must thus be able to distinguish up to {\tiny $2^{2^{6}}$} distinct conditions on valuations.}
+
+\begin{table}[tp]
+  \centering\small
+%  \begin{subtable}[t]{0.45\textwidth}
+%    \centering
+%    \begin{tabular}[t]{l l}
+%      \toprule
+%      Formula     & Interpretation \\
+%      \midrule
+%      $p_1$, $p_2$, $p_3$, $p_4$, $p_5$, $p_6$ & $\sem{x} \in \{\True, \False\}$ \\
+%      $\plneg \varphi$ & $\True$ iff $\sem{\varphi} = \False$ \\
+%      $(\varphi \pland \psi)$ & $\True$ iff $\False \notin \{\sem{\varphi}, \sem{\psi}\}$ \\
+%      $(\varphi \plor \psi)$  & $\True$ iff $\True \in \{\sem{\varphi}, \sem{\psi}\}$ \\
+%      \bottomrule
+%    \end{tabular}    
+%    \caption{Well-formed formulae. $\varphi$ and $\psi$
+%      range over all well-formed formulae, and $\sem{\cdot}$ is
+%      the interpretation function mapping formulae into $\{\True,
+%      \False\}$.}\label{tab:pl}
+%  \end{subtable}
+    \begin{tabular}[t]{r c l}
+      \toprule
+      $\plneg p_3$        & $\natneg$ & $p_3$ \\
+      $\plneg \plneg p_6$ & $\nateq$  & $p_6$ \\
+      $p_3$               & $\natfor$ & $(p_3 \plor p_2)$ \\
+      $(p_1 \plor (p_2 \plor p_4))$               & $\natrev$ & $(p_2 \pland  \plneg p_4)$ \\
+      %$(a \natfor b)$   & $\nateq$  & $(b \natrev a)$ \\	
+      $\plneg\, (\plneg p_1 \pland \plneg p_2)$ & $\nateq$ & $(p_1 \plor p_2)$ \\ 
+      $(p_3 \pland \plneg p_1 ) \plor \plneg p_3$    & $\natrev$& $\plneg\, (p_3 \plor p_2)$ \\
+      %<	( not ( c ( or b ) ) )	( ( c ( and ( not a ) ) ) ( or ( not c ) ) )
+      \bottomrule
+    \end{tabular}
+    \caption{Examples of short expressions from the artificial data introduced by \protect\citealt{Bowman:Potts:Manning:2014}.}\label{tab:plexs}
+\end{table}
+
+\todo{Note about extra parens}
+
+In our experiments, we randomly generate unique pairs 
+of formulae containing up to 12 instances of logical operators each and compute the relation that holds for each pair.
+We discard pairs in which either statement is either a tautology or a
+contradiction, for which the seven relations in
+Table~\ref{b-table} are undefined. The resulting set of formula pairs is
+then partitioned into 12 bins according the number of operators in
+the larger of the two formulae. We then sample 20\% of each
+bin for a held-out test set.
+If we do not implement any constraint that the two statements being
+compared are similar in any way, then the generated data are dominated
+by statements in which the two formulae refer to largely separate
+subsets of the six variables, which means that the $\natind$ relation
+is almost always correct.  In an effort to balance the distribution of
+relation labels without departing from the basic task of modeling
+propositional logic, we disallow individual pairs of statements from
+referring to more than four of the six propositional variables.
+
+In order to test the model's generalization to unseen structures, we discard
+training examples with more than 4 logical operators, yielding 60k short training examples,
+and 21k test examples across all 12 bins.
+In addition to the two tree models, we also train a summing NN baseline
+which is largely identical to the TreeRNN, except that instead of using a learned composition function,
+it simply sums the term vectors in each expression to compose them before passing them to the comparison layer. Unlike the two tree models, this baseline does not use word order,
+and is as such guaranteed to ignore some information that it would need in order to succeed perfectly.
+
+
+\paragraph{Model tuning} We stipulate dimensionalities of 50 and 100 for the sentence embeddings and the classifier layers, respectively. We initialize 

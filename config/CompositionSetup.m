@@ -9,7 +9,7 @@ if composition == -1
 	hyperParams.useSumming = 1;
 elseif composition < 2
 	hyperParams.useThirdOrderComposition = composition;
-	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.useThirdOrderMerge = 1;
 elseif composition == 2
 	hyperParams.lstm = 1;
 	hyperParams.useTrees = 0;
@@ -45,7 +45,7 @@ elseif composition == 7
 	hyperParams.useTrees = 1;
 	hyperParams.eyeScale = 0;
 	hyperParams.useThirdOrderComposition = 0;
-	hyperParams.useThirdOrderMerge = 0;
+	hyperParams.useThirdOrderMerge = 1;
 end
 
 end
