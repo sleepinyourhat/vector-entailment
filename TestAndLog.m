@@ -33,7 +33,7 @@ if mod(modelState.step, options.testFreq) == 0
 
         if mod(modelState.step, options.examplesFreq) == 0 && modelState.step > 0
             hyperParams.showExamples = true;
-            Log(hyperParams.examplelog, 'Training data:')
+            Log(hyperParams.examplelog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ' training data:'])
         else
             hyperParams.showExamples = false;
         end
@@ -61,7 +61,7 @@ if mod(modelState.step, options.testFreq) == 0
         end
 
         if (mod(modelState.step, options.examplesFreq) == 0 || mod(modelState.step, options.detailedStatFreq) == 0) && modelState.step > 0
-            Log(hyperParams.examplelog, 'Test data:');
+            Log(hyperParams.examplelog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ' test data:']);
         end
         [testAcc, testMf1, ~, testConAcc] = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
         modelState.bestTestAcc = max(testAcc, modelState.bestTestAcc);
