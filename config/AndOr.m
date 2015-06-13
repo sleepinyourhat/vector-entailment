@@ -1,4 +1,4 @@
-function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, mbs)
+function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim, penult, top, lambda, composition, dp)
 % Configuration the recursion/propositional logic experiments.
 % See Defaults.m for parameter descriptions.
 
@@ -8,7 +8,7 @@ function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim
 hyperParams.parensInSequences = true;
 
 hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
-				    '-comp', num2str(composition), '-mbs', num2str(mbs), '-l', num2str(lambda)];
+				    '-comp', num2str(composition), '-dp', num2str(dp), '-l', num2str(lambda)];
 
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
@@ -19,9 +19,10 @@ hyperParams.LSTMinitType = 2;
 hyperParams.lambda = lambda;
 hyperParams = CompositionSetup(hyperParams, composition);
 hyperParams.topDepth = top;
+hyperParams.dataPortion = dp;
 
 options.numPasses = 15000;
-options.miniBatchSize = mbs;
+options.miniBatchSize = 32;
 options.detailedStatFreq = 1000;
 options.costFreq = 1000;
 options.testFreq = 1000;

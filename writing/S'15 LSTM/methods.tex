@@ -1,31 +1,37 @@
 \section{Sentence embedding models for NLI} \label{methods}
 
-\begin{figure}[t!]
+\begin{figure}[t]
   \centering
   \input{figure1}
-  \caption{In our model, two separate sentence models---based on either tree (b) or sequence (c) models---build up vector representations for each of two sentences. A multilayer classifier component (a) then uses the resulting vectors to predict a label that reflects the logical relationship between the two sentences.} 
+  \caption{In our model, two copies of a sentence model---based on either tree (b) or sequence (c) models---encode the two sentences. A multilayer classifier component (a) then uses the resulting vectors to predict a label that reflects the logical relationship between the two sentences.} 
   \label{sample-figure}
 \end{figure}
 
 \begin{figure*}[t]
   \centering
-\begin{subfigure}[t]{0.29\textwidth}
-  \includegraphics[height=1.6in]{fig3.pdf}
-  \caption{Training expression size $\le$3.}
-  \end{subfigure}~~
-\begin{subfigure}[t]{0.29\textwidth}
-    \includegraphics[height=1.6in]{fig4.pdf}
-  \caption{Training expression size $\le$4.}
-  \end{subfigure}~~
-\begin{subfigure}[t]{0.4\textwidth}
-      \includegraphics[height=1.6in]{fig6.pdf}
-  \caption{Training expression size $\le$6.}
+  \begin{subfigure}[t]{0.04\textwidth}
+      \includegraphics[height=1.45in]{scale.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{0.24\textwidth}
+  \includegraphics[height=1.45in]{fig3c.pdf}
+  \caption{Training on sz. $\le$3.}
+  \end{subfigure}~~~
+\begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[height=1.45in]{fig4c.pdf}
+  \caption{Training on sz. $\le$4.}
+  \end{subfigure}~~~~
+\begin{subfigure}[t]{0.24\textwidth}
+      \includegraphics[height=1.45in]{fig6c.pdf}
+  \caption{Training on sz. $\le$6.}
+\end{subfigure}~~
+\begin{subfigure}[t]{0.08\textwidth}
+      \includegraphics[height=1.45in]{leg.pdf}
 \end{subfigure}
   \caption{Results on three experiments with increasingly rich training sets. The horizontal axis on each graph divides the test set data points (expression pairs) into bins by the number of logical operators in the more complex of the two expressions in the pair.}
   \label{prop-results} 
 \end{figure*}
 
-We use the model architecture depicted in Figure \ref{fig:model:top}. This approach is loosely based on the model used in the experiments by \newcite{Bowman:Potts:Manning:2014}. The model architecture uses two copies of a single sentence embedding network---a TreeRNN, TreeRNTN, or LSTM RNN, depending on the precise experiment---to embed the premise and hypothesis sentences, and then uses those embeddings as the features for a multilayer classifier which predicts one of the seven relations. Since the embeddings are computed separately, the embedding models are forced encode every element of the sentence meaning that the downstream model will need. Though this prevents us from exploiting cross-sentence alignment information that could allow for the learning of more effective entailment models, it allows us to focus our evaluation on models that capture the meanings of single sentences.
+We use the model architecture depicted in Figure \ref{fig:model:top}. This approach builds on the model used in \newcite{Bowman:Potts:Manning:2014}. The model architecture uses two copies of a single sentence embedding network---a TreeRNN, TreeRNTN, or LSTM RNN, depending on the precise experiment---to embed the premise and hypothesis sentences, and then uses those embeddings as the features for a multilayer classifier which predicts one of the seven relations. Since the embeddings are computed separately, the embedding models are forced to encode every element of the sentence meaning that the downstream model will need.
 
 \paragraph{Classifier}
 The classifier component of the model consists of a combinging layer which takes the two sentence representations as inputs, followed by two neural network layers, then a softmax classifier.
@@ -36,11 +42,10 @@ For the combining layer, we use a (recursive) neural tensor network ((R)NTN, \ci
 \label{TreeRNTN} 
 \vec{y}_{\textit{RNTN}} = \vec{y}_{\textit{RNN}} + \tanh(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
 \end{gather} 
-Our model is largely identical to the Bowman et al. model, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all three models, rather than just the TreeRNTN model, so as to ensure that the three sentence embedding models are compared in as similar a setting as possible.
+
+Our model is largely identical to the Bowman et al.~model, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all three models, rather than just the TreeRNTN model, so as to ensure that the three sentence embedding models are compared in as similar a setting as possible.
 
 \paragraph{Sentence embedding}
-The sentence embedding component of the model transforms the (jointly learned) embeddings of the input words into a single sentence vector. We experiment with two tree-structured models (Figure \ref{fig:model:tree}), one with an RNTN activation function or a plain RNN activation function. Both are structured using the parses that are provided with the data. In addition, we use a sequence model (Figure \ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} with the precise formulation from \newcite{zaremba2015recurrent}.
+The sentence embedding component of the model transforms the (jointly learned) embeddings of the input words into a single sentence vector. We experiment with two tree-structured models (Figure \ref{fig:model:tree}), one with an RNTN activation function or a plain RNN activation function. Both are structured using the parses that are provided with the data. In addition, we use a sequence model (Figure \ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} implemented as in \newcite{zaremba2015recurrent}.\todo{Okay to omit negative result on sequence RNN?}
 
-We additionally experimented with a plain RNN---the sequence equivalent of the TreeRNN---but were not able to coerce that weaker model into learning to model even the training data well, so they are omitted below. LSTM, in contrast are the most widely used of a class of models that attempt to avoid the extreme sensitivity to initialization and gradient magnitude that make RNN training so unreliable.
-
-\paragraph{Training} We randomly initialize all embeddings and layer parameters, and then train all parameters using minibatch stochastic gradient descent with AdaDelta \cite{zeiler2012adadelta} learning rates. Our objective is the standard negative log likelihood classification objective with L2 regularization. All models were stopped at 100 epochs (TODO), it which point all had largely converged without significantly declining from their peak performances.
+\paragraph{Training} We randomly initialize all embeddings and layer parameters, and then train all parameters using minibatch stochastic gradient descent with AdaDelta \cite{zeiler2012adadelta} learning rates. Our objective is the standard negative log likelihood classification objective with L2 regularization. All models were stopped at 100 epochs (TODO), at which point all had largely converged without significantly declining from their peak performances.
