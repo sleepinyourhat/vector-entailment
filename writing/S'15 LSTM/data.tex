@@ -2,27 +2,27 @@
 \paragraph{Reasoning about entailment} 
 The data that we use define a version of the recognizing textual entailment task, in which the goal is to determine what kind of logical consequence relation holds between two sentences, drawing on a small fixed vocabulary of relations such as entailment, contradiction, or synonymy. This task is well suited to evaluating neural network models for sentence interpretation: models must develop comprehensive represenations of the meanings of each sentence to do well at the task, but the data does not force these representations to take a specific form, allowing the model to learn whatever kind of representations it can use most effectively.
 
-The data we use are labeled with the seven relation system of \newcite{maccartney2009extended}, depicted in Table \ref{b-table}.
+The data we use are labeled with the seven mutually exclusive logical reations of \newcite{maccartney2009extended}, which distinguish entailment in two directions ($\natfor$, $\natrev$), equivalence ($\nateq$), two types of contradiction ($\natneg$, $\natalt$), and two types of semantic independence ($\natind$, $\natcov$).
 
-\begin{table}[tp]
-  \centering\small
-  \renewcommand{\arraystretch}{1}
-  \begin{tabular}{l c l l} 
-    \toprule
-    Name & Symb. & Set-theoretic definition \\ 
-    \midrule
-strict entailment         & $\natfor$   & $x \subset y$  \\ 
-    strict rev. entailment & $\natrev$   & $x \supset y$  \\ 
-    equivalence        & $\nateq$    & $x = y$   \\ 
-    alternation        & $\natalt$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ \\ 
-    negation           & $\natneg$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$   \\
-    cover              & $\natcov$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ \\ 
-    independence       & $\natind$   & (else)\\
-    \bottomrule
-  \end{tabular}
-  \caption{\label{b-table}MacCartney's seven mutually exclusive relations are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences.
-  } %-%
-\end{table}
+%\begin{table}[tp]
+%  \centering\small
+%  \renewcommand{\arraystretch}{1}
+%  \begin{tabular}{l c l l} 
+%    \toprule
+%    Name & Symb. & Set-theoretic definition \\ 
+%    \midrule
+%strict entailment         & $\natfor$   & $x \subset y$  \\ 
+%    strict rev. entailment & $\natrev$   & $x \supset y$  \\ 
+%    equivalence        & $\nateq$    & $x = y$   \\ 
+%    alternation        & $\natalt$   & $x \cap y = \emptyset \wedge x \cup y \neq \mathcal{D}$ \\ 
+%    negation           & $\natneg$   & $x \cap y = \emptyset \wedge x \cup y = \mathcal{D}$   \\
+%    cover              & $\natcov$   & $x \cap y \neq \emptyset \wedge x \cup y = \mathcal{D}$ \\ 
+%    independence       & $\natind$   & (else)\\
+%    \bottomrule
+%  \end{tabular}
+%  \caption{\label{b-table}MacCartney's seven mutually exclusive relations are defined abstractly on pairs of sets drawing from the universe $\mathcal{D}$, but can be straightforwardly applied to any pair of natural language words, phrases, or sentences.
+%  } %-%
+%\end{table}
 
 \begin{table}[tp]
   \centering\small
@@ -63,10 +63,10 @@ strict entailment         & $\natfor$   & $x \subset y$  \\
 
 Crucially, the language is defined such that any sentence can be embedded under negation or conjunction to create a new sentence, allowing for arbitrary-depth recursion, and the scope of negation and conjunction are determined only by bracketing with parentheses (rather than bare word order). The compositional structure of each sentence can thus be an arbitrary tree structure, and interpreting a sentence correctly requires using that structure.
 
-The data comes with parentheses representing complete binary bracketing. Our two models use this information differently. For the tree structured model, we assumble the tree structure for each sentence according to the parentheses, but do not treat them as word tokens. For the sequence model, we treat the parentheses as words, and learn their embeddings. This provides the two models with equivalent data, so that their ability to handle unseen structures can be fairly compared.
+The data come with parentheses representing complete binary bracketing. Our two models use this information differently. For the tree structured model, we assumble the tree structure for each sentence according to the parentheses, but do not treat them as word tokens. For the sequence model, we treat the parentheses as words, and learn their embeddings. This provides the two models with equivalent data, so that their ability to handle unseen structures can be fairly compared.
 
 \paragraph{The corpus}
-The sentence pairs in the corpus are divided into thirteen bins according to the number of logical connectives (\word{and, or, not}) in the longer of the two sentences in the pair. We test the model on each bin separately (58k total examples, using an 80/20\% train/test split) in order to evaluate how its performance depends on the complexity of the sentences. In three experiments, we train our models on the training portions of bins 0--3 (62k examples), bins 0--4 (90k), and bins 0--6 (160k). Capping the size of the training sentences below length 12 allows us to evaluate how the models interpret the sentences: if their performance falls off abruptly above the cutoff, it is reasonable to assume that the models are depending heavily on specific sentence structures, and cannot generalize to new structures. If then performance decays gradually\footnote{Since sentences are fixed-dimensional vectors of fixed-precision floating point numbers, the models will inevitably will start to make errors on sentences above some length, and the (necessary) use of L2 regularization exacerbates this for sentences which are longer than those seen in training.} with no such abrupt change, then it must have learned a more generally valid interpretation function for the language which respects its recursive structure.
+The sentence pairs in the corpus are divided into thirteen bins according to the number of logical connectives (\word{and, or, not}) in the longer of the two sentences in the pair. We test the model on each bin separately (58k total examples, using an 80/20\% train/test split) in order to evaluate how its performance depends on the complexity of the sentences. In three experiments, we train our models on the training portions of bins 0--3 (62k examples), 0--4 (90k), and 0--6 (160k). Capping the size of the training sentences below length 12 allows us to evaluate how the models interpret the sentences: if their performance falls off abruptly above the cutoff, it is reasonable to assume that the models are depending heavily on specific sentence structures, and cannot generalize to new structures. If then performance decays gradually\footnote{Since sentences are fixed-dimensional vectors of fixed-precision floating point numbers, the models will inevitably will start to make errors on sentences above some length, and the (necessary) use of L2 regularization exacerbates this for sentences which are longer than those seen in training.} with no such abrupt change, then it must have learned a more generally valid interpretation function for the language which respects its recursive structure.
 
 
 
