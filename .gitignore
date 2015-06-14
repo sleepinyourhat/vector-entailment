@@ -17,3 +17,5 @@ UnbreakData.m
 *.DS_Store
 RunExperiments.m
 sat-data/*
+
+*.gz(busy)
