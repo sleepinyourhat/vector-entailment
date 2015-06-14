@@ -225,6 +225,6 @@ export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0001; dim = 5
 
 
 cd quant; 
-dataflag = 'and-or-deep-6'; lambda = 0.000005; dim = 50; td = 1; penult = 100; dropout = 1; tot = 2; name='dimtest4'; relu = 1; TrainModel('/scr/sbowman/tuning6-e-and-or-deep-d50-pen100-top3-comp2-mbs32-l0.0003-f2/ckpt-best-tr150612132029@55000.mat', 1, @AndOr, name, dataflag, dim, penult, td, lambda, tot, 1);
+dataflag = 'and-or-deep-6'; lambda = 0.000005; dim = 50; td = 3; penult = 100; dropout = 1; tot = 2; name='dimtest4'; relu = 1; TrainModel('/scr/sbowman/tuning6-e-and-or-deep-d50-pen100-top3-comp2-mbs32-l0.0003-f2/ckpt-best-tr150612132029@55000.mat', 1, @AndOr, name, dataflag, dim, penult, td, lambda, tot, 1);
 
 qdel 940236 939675 939676 939671 939672 939667 939668
