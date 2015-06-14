@@ -99,6 +99,8 @@ hyperParams.transferSoftmax = false;
 % lambda to 0 and ignore this parameter.
 hyperParams.norm = 2;
 
+hyperParams.logHiddenActivations = false;
+
 % Use the syntactically untied composition layer params.
 % DEPRECATED.
 hyperParams.untied = false; 

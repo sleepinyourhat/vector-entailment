@@ -81,6 +81,11 @@ classdef SequenceBatch < handle
             LSTM = size(compositionMatrix, 1) > size(compositionMatrix, 2);
             SUM =  isempty(compositionMatrix);
 
+            if hyperParams.logHiddenActivations
+                words = sb.sequences{1}.getWords();
+                words
+            end
+
             for w = 1:sb.N
                 if ~isempty(embeddingTransformMatrix)
                     % TODO: Adapt this zero-bias idea to LatticeBatch.
@@ -113,6 +118,10 @@ classdef SequenceBatch < handle
                 else  % RNN
                     sb.features{w}(:, :) = ComputeRNNLayer(predActivations, sb.inputFeatures{w}(:, :), ...
                         compositionMatrix, @tanh);
+                end
+
+                if hyperParams.logHiddenActivations && w <= sb.wordCounts(1);
+                    Log(hyperParams.examplelog, [words{w}, ' ', num2str(sb.features{w}(:, 1)')]);
                 end
             end
 

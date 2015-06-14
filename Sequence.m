@@ -117,6 +117,18 @@ classdef Sequence < handle
             end
         end
 
+        function s = getWords(obj)
+            if isStart(obj)
+                t = obj.text;
+                if obj.unknown
+                    t = [t '*'];
+                end
+                s = {t};
+            else
+                s = [obj.getPred().getWords(), obj.text()];
+            end
+        end
+
         
         function f = getFeatures(obj)
             % Returns the saved features for the node.

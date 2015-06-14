@@ -10,6 +10,10 @@ hyperParams.parensInSequences = true;
 hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
 				    '-comp', num2str(composition), '-dp', num2str(dp), '-l', num2str(lambda)];
 
+
+% hyperParams.logHiddenActivations = true;
+% hyperParams.lineLimit = 15;
+
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
 hyperParams.penultDim = penult;
@@ -29,6 +33,8 @@ options.testFreq = 1000;
 options.examplesFreq = 25000; 
 
 wordMap = LoadWordMap('./propositionallogic/longer2/wordlist.txt');
+hyperParams.sourceWordMap = LoadWordMap('./propositionallogic/longer2/wordlist.txt');
+
 
 hyperParams.vocabName = 'RC'; 
 
