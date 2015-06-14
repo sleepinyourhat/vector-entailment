@@ -1,3 +1,9 @@
 \begin{abstract}
-Tree-structured neural networks aim to deliver a robust and principled method for representing sentence meaning, but these models largely have not outperformed simpler sequence-based models by substantial margins. We hypothesize that sequence models like LSTMs are able to discover and implicitly use the same kinds of recursive compositional structures that the tree-structured ones are built around---at least in cases where there are clear cues to that structure in the data---mitigating the advantage of the tree-structured models. We investigate this possibility using artificial data task for which recursive compositional structure is crucial, and find that the sequence model is able to exploit the underlying structure, though it is less efficient at learning than the tree models, only succeeding after exposure to a larger and richer set of training data.
+%Tree-structured neural networks aim to deliver a robust and principled method for representing sentence meaning, but 
+Tree-structured neural networks aim to deliver robust sentential meaning representations, but 
+these models largely have not %outperformed simpler sequence-based models by substantial margins. 
+significantly outperformed simpler sequence-based models.
+We hypothesize that sequence models like LSTMs are able to discover and implicitly use %the same kinds of 
+recursive compositional structure, %that the tree-structured ones are built around---
+at least in cases where there are clear cues to that structure in the data, mitigating the advantage of a tree-structured architecture. We investigate this possibility using an artificial data task for which recursive compositional structure is crucial, and find that the sequence model is able to exploit the underlying structure, though it is less efficient at learning than the tree models, succeeding only after exposure to a larger and richer training set.
 \end{abstract}
