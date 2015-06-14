@@ -31,10 +31,10 @@
   \label{prop-results} 
 \end{figure*}
 
-We use the model architecture depicted in Figure~\ref{fig:model:top}, which builds on the model used in \newcite{Bowman:Potts:Manning:2014}. The model architecture uses two copies of a single sentence embedding network (a tree or sequence model) to embed the premise and hypothesis (left and right side) sentences, and then uses those embeddings as the features for a multilayer classifier which predicts one of the seven relations. Since the embeddings are computed separately, the embedding models are forced to encode every element of the sentence meaning that the downstream model will need.
+We use the architecture depicted in Figure~\ref{fig:model:top}, which builds on the one used in \newcite{Bowman:Potts:Manning:2014}. The model architecture uses two copies of a single sentence embedding network (a tree or sequence model) to embed the premise and hypothesis (left and right side) sentences, and then uses those embeddings as the features for a multilayer classifier which predicts one of the seven relations. Since the embeddings are computed separately, the embedding models are forced to encode every element of the sentence meaning that the downstream model will need.
 
 \paragraph{Classifier}
-The classifier component of the model consists of a combinging layer which takes the two sentence representations as inputs, followed by two neural network layers, then a softmax classifier.
+The classifier component of the model consists of a combining layer which takes the two sentence representations as inputs, followed by two neural network layers, then a softmax classifier.
 For the combining layer, we use a neural tensor network (NTN, \citealt{chen2013learning}) layer, which sums the output of a plain recursive/recurrent neural network layer with a vector computed using two multiplications with a learned (full rank) third-order tensor parameter:
 \begin{gather} 
 \label{TreeRNN}
