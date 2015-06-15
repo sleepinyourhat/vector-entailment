@@ -8,7 +8,7 @@ function [ hyperParams, options, wordMap, labelMap ] = AndOr(name, dataflag, dim
 hyperParams.parensInSequences = true;
 
 hyperParams.name = [name, '-', dataflag, '-d', num2str(dim), '-pen', num2str(penult), '-top', num2str(top), ...
-				    '-comp', num2str(composition), '-mbs32-l', num2str(lambda)];
+				    '-comp', num2str(composition), '-dp', num2str(dp), '-l', num2str(lambda)];
 
 
 % hyperParams.logHiddenActivations = true;
