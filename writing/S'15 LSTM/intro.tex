@@ -1,12 +1,28 @@
 \section{Introduction}\label{sec:intro}
 
-Neural network models that encode sentences as vectors have been successfully used in a wide array of NLP tasks, including translation \cite{sutskever2014sequence}, parsing \cite{dyer2015transition}, and sentiment analysis \cite{tai2015improved}. Many of the most successful of these models are based on either tree or sequence architectures. Sequence models based on recurrent neural networks build representations incrementally from left to right \cite{elman1990finding,sutskever2014sequence}, while tree models based on \ii{recursive} neural networks \cite{goller1996learning,socher2011semi} build representations incrementally according the hierarchical structure of linguistic phrases. Tree models are often presented as the more principled choice, since they align with standard linguistic assumptions about constituent structure and the compositional derivation of complex meanings.
+Neural network models that encode sentences as real-valued vectors have been successfully used in a wide array of NLP tasks, including translation \cite{sutskever2014sequence}, parsing \cite{dyer2015transition}, and sentiment analysis \cite{tai2015improved}. 
+% Many of the most successful of these models are based on either tree or sequence architectures. 
+These models for language may be either 
+sequence models based on recurrent neural networks, which build representations incrementally from left to right \cite{elman1990finding,sutskever2014sequence}, or tree models based on \ii{recursive} neural networks \cite{goller1996learning,socher2011semi}, which build representations incrementally according the hierarchical structure of linguistic phrases. 
 
-While both classes of model perform %objectively 
-well on many tasks, and both are under active development, tree models have not shown the kinds of dramatic performance improvements over sequence models that their billing would lead one to expect: head-to-head comparisons with sequence models show either modest improvements \cite{tai2015improved} or none at all \cite{li2015tree}. We propose a possible explanation for these results: standard sequence models can learn to implicitly exploit recursive syntactic structure in generating sentence representations, thereby demonstrating the behavior that tree-structured models are explicitly designed around. If correct, this means that
+
+While both model classes perform %objectively 
+well on many tasks, and both are under active development,
+tree models are often presented as the more principled choice, since they align with standard linguistic assumptions about constituent structure and the compositional derivation of complex meanings.
+Nevertheless,
+tree models have not shown the kinds of dramatic performance improvements over sequence models that their billing would lead one to expect: head-to-head comparisons with sequence models show either modest improvements \cite{tai2015improved} or none at all \cite{li2015tree}. 
+
+We propose a possible explanation for these results: standard sequence models can learn to
+%  implicitly 
+exploit recursive syntactic structure in generating sentence meaning representations, thereby 
+% demonstrating 
+learning to use the 
+% behavior 
+structure that tree-structured models are explicitly designed around. This first requires that
 %This would require both that 
-sequence models are able to identify syntactic structure in natural language---which we believe is plausible, on the basis of other recent research---and that they are able to use that structure to guide interpretation. %the way in which they interpret sentences. 
-In this paper, we  evaluate this second ability, focusing on cases where the relevant syntactic structure is clearly indicated in the data.
+sequence models are able to identify syntactic structure in natural language. We believe this is plausible, on the basis of other recent research \cite{Karpathy2015vaurn}. %the way in which they interpret sentences. 
+In this paper, we  evaluate whether LSTM models are able to use that structure to guide interpretation, 
+focusing on cases where the relevant syntactic structure is clearly indicated in the data.
 
 We compare standard tree and sequence models on their handling of recursive structure by training the models on sentences whose length and recursion depth are limited, and then testing them on longer and more complex sentences, such that only models that exploit the recursive structure will be able to generalize in a way that yields correct interpretations for these test sentences. Our methods are based on those of \newcite{Bowman:Potts:Manning:2014}, who describe an experiment and corresponding artificial dataset which tests this ability in two tree models. We adapt that experiment to sequence models by decorating the statements with an explicit bracketing, and we use this design to compare an LSTM sequence model with three tree models, with a focus on what data each model needs in order to learn the needed generalizations.
 
