@@ -1,10 +1,17 @@
+\begin{figure}[t]
+  \centering
+      \includegraphics[height=1.1in]{lcc.pdf}
+  \caption{Learning curve for the $\le6$ experiment.}
+  \label{fig:lc} 
+\end{figure}
+
 \section{Results and discussion}\label{sec:discussion}
 
-The results are shown in Figure~\ref{prop-results}. All four models were able to largely memorize the training data (TODO, TODO, TODO, and TODO for $\le$6, pooling across bins). In the $\le$6 setting, the three tree models were able to perform at above TODO\% on examples of size $\le$2 with a steady decay in performance continuing through TODO\% at size 12, and similar, if steeper, decays with smaller training sets. All four robustly beat the simple baselines reported in Bowman et al.: the most frequent class occurs just over 50\% of the time, and a summing model that ignores word order does reasonably on the shortest examples but falls below 60\% by bin 4.
+The results are shown in Figure~\ref{prop-results}. All four models were able to largely memorize the training data (??.?, ??.?, ??.?, and ??.? for $\le$6, pooling across bins). In the $\le$6 setting, the three tree models were able to perform at above ??\% on examples of size $\le$2 with a steady decay in performance continuing through ??.?\% at size 12, and similar, if steeper, decays with smaller training sets. All four robustly beat the simple baselines reported in Bowman et al.: the most frequent class occurs just over 50\% of the time, and a summing model that ignores word order does reasonably on the shortest examples but falls below 60\% by bin 4.
 
-The LSTM performs fairly poorly in the $\le3$ setting, with performance at 3 a mediocre TODO\%, and an abrupt drop to TODO\% at 4, suggesting that the model did not acquire the needed generalizations. With more ample training data in the $\le6$ condition, though, the LSTM shows fairly good accuracy on short examples, and a smooth decay with no abrupt drop. 
+The LSTM performs fairly poorly in the $\le3$ setting, with performance at 3 a mediocre ??.?\%, and an abrupt drop to \% at 4, suggesting that the model did not acquire the needed generalizations. With more ample training data in the $\le6$ condition, though, the LSTM shows fairly good accuracy on short examples, and a smooth decay with no abrupt drop. 
 
-Learning curve experiments suggest that none of these models are saturated, and that still larger data sets could help even on this simple task. The LSTM in the $\le6$ strikingly moves from TODO\% accuracy with a random 33\% of the available training data to TODO\% on all of it. The plain TreeRNN shows the smallest improvement, moving from TODO\% to TODO\%.
+The learning curve (Figure~\ref{fig:lc}) suggests that additional data is unlikely to change these basic results, though the disparity in performance at the 11\% level is striking: the LSTM sequence model and the TreeRNTN (the model with the most parameters by far) lag far behind the other two.
 
 \section{Conclusion}
 
