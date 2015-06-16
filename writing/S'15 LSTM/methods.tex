@@ -27,7 +27,7 @@
 \begin{subfigure}[t]{0.08\textwidth}
       \includegraphics[height=1.5in]{leg.pdf}
 \end{subfigure}
-  \caption{Test accuracy on three experiments with increasingly rich training sets. The horizontal axis on each graph divides the test set expression pairs into bins by the number of logical operators in the more complex of the two expressions in the pair. The dotted line shows the size we trained on up to.}
+  \caption{Test accuracy on three experiments with increasingly rich training sets. The horizontal axis on each graph divides the test set expression pairs into bins by the number of logical operators in the more complex of the two expressions in the pair. The dotted line shows the maximum size in each training set.}
   \label{prop-results} 
 \end{figure*}
 
@@ -46,6 +46,6 @@ For the combining layer, we use a neural tensor network (NTN, \citealt{chen2013l
 Our model is largely identical to the Bowman et al.~model, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all three models, rather than just the TreeRNTN model, so as to ensure that the three sentence models are compared in as similar a setting as possible.
 
 \paragraph{Sentence models}
-The sentence encoding component of the model transforms the (jointly learned) embeddings of the input words into a single sentence vector. We experiment with tree models (Figure~\ref{fig:model:tree}) with TreeRNN (eqn.~\ref{TreeRNN}), TreeRNTN (eqn.~\ref{TreeRNTN}), and TreeLSTM \cite{tai2015improved} activation functions. In addition, we use a sequence model (Figure~\ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} implemented as in \newcite{zaremba2015recurrent}. Experiments with simpler non-LSTM RNN sequence models tended to underfit the training data, and are not included here.
+The sentence encoding component of the model transforms the (jointly learned) embeddings of the input words into a single sentence vector. We experiment with tree models (Figure~\ref{fig:model:tree}) with TreeRNN (eqn.~\ref{TreeRNN}), TreeRNTN (eqn.~\ref{TreeRNTN}), and TreeLSTM \cite{tai2015improved} activation functions. In addition, we use a sequence model (Figure~\ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} implemented as in \newcite{zaremba2015recurrent}. Experiments with simpler non-LSTM RNN sequence models tended to badly underfit the training data, and are not included here.
 
 \paragraph{Training} We randomly initialize all embeddings and layer parameters, and train them using minibatch stochastic gradient descent with AdaDelta \cite{zeiler2012adadelta} learning rates. Our objective is the standard negative log likelihood classification objective with L2 regularization (tuned on a separate train/test split). All models were trained for 72 epochs, after which all had largely converged without significantly declining from their peak performances.
