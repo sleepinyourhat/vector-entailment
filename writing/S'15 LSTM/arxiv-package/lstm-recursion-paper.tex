@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{acl2015}
+\usepackage{times}
+\usepackage{latexsym}
+% \setlength\titlebox{5cm}    % Expanding the titlebox
+
+%%% Custom additions %%%
+% \usepackage{hyperref}
+\usepackage{url}
+\usepackage[leqno, fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+% \usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{todonotes}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{bmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{bmatrix}
+        \fi
+}
+
+
+\newcommand{\nateq}{\equiv}
+\newcommand{\natind}{\mathbin{\#}}
+%\newcommand{\natneg}{\raisebox{2px}{\tiny\thinspace$\wedge$\thinspace}}
+\newcommand{\natneg}{\mathbin{^{\wedge}}}
+\newcommand{\natfor}{\sqsubset}
+\newcommand{\natrev}{\sqsupset}
+\newcommand{\natalt}{\mathbin{|}}
+\newcommand{\natcov}{\mathbin{\smallsmile}}
+
+\newcommand{\qq}{\hspace{0.1em}}
+\newcommand{\plneg}{\mathop{\textit{not}\qq}}
+\newcommand{\pland}{\mathbin{\qq\textit{and}\qq}}
+\newcommand{\plor}{\mathbin{\qq\textit{or}\qq}}
+
+
+
+
+% Strikeout
+\newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
+\begin{picture}(0,0)\put(0,1){\line(-1,0){\howlong\divide\unitlength}}\end{picture}}
+
+\newcommand{\True}{\texttt{T}}
+\newcommand{\False}{\texttt{F}}
+\usepackage{stmaryrd}
+\newcommand{\sem}[1]{\ensuremath{\llbracket#1\rrbracket}}
+
+\newcommand{\mynote}[1]{{\color{blue}#1}}
+
+\newcommand{\tbchecked}[1]{{\color{red}#1}}
+
+\usepackage{gb4e}
+\noautomath
+
+\def\ii#1{\textit{#1}}
+\newcommand{\word}[1]{\emph{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Code to simulate natbib's citealt, which prints citations with
+%%%%% no parentheses:
+
+\makeatletter
+\def\citealt{\def\citename##1{{\frenchspacing##1} }\@internalcitec}
+\def\@citexc[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \def\@citea{}\@citealt{\@for\@citeb:=#2\do
+    {\@citea\def\@citea{;\penalty\@m\ }\@ifundefined
+       {b@\@citeb}{{\bf ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+{\csname b@\@citeb\endcsname}}}{#1}}
+\def\@internalcitec{\@ifnextchar [{\@tempswatrue\@citexc}{\@tempswafalse\@citexc[]}}
+\def\@citealt#1#2{{#1\if@tempswa, #2\fi}}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% %%%
+
+\title{Tree-structured composition in neural networks\\without tree-structured architectures}
+
+\author{
+Samuel R.\ Bowman$^{\ast\dag}$ \\
+\texttt{sbowman@stanford.edu} \\
+\And
+Christopher D.\ Manning$^{\ast\dag\ddag}$\\
+\texttt{manning@stanford.edu}\\
+\And
+Christopher Potts$^{\ast}$\\
+\texttt{cgpotts@stanford.edu}
+\AND\\[-3ex]
+{$^{\ast}$Stanford Linguistics\quad
+$^{\dag}$Stanford NLP Group\quad
+$^{\ddag}$Stanford Computer Science}
+}
+
+\date{}
+
+\makeatletter
+\newcommand{\@BIBLABEL}{\@emptybiblabel}
+\newcommand{\@emptybiblabel}[1]{}
+\definecolor{black}{rgb}{0,0,0}
+\makeatother
+\usepackage[breaklinks, draft, colorlinks, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+
+\begin{document}
+\maketitle
+
+\input{abstract.tex}
+\input{intro.tex}
+\input{data.tex}
+\input{methods.tex}
+\input{discussion.tex}
+
+\subsubsection*{Acknowledgments}
+
+%
+We gratefully acknowledge support from %
+a Google Faculty Research Award, %
+a gift from Bloomberg L.P., 
+the Defense Advanced Research Projects Agency (DARPA) Deep Exploration and Filtering of Text (DEFT) Program under Air Force Research Laboratory (AFRL) contract no.~FA8750-13-2-0040,
+the National Science Foundation under grant no.~IIS 1159679, and %
+the Department of the Navy, Office of Naval Research, under grant no.~N00014-10-1-0109.
+%
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of 
+Google, 
+Bloomberg L.P.,
+DARPA,
+AFRL
+NSF, 
+ONR, or 
+the US government.
+
+\bibliographystyle{acl}
+\bibliography{MLSemantics} 
+
+\end{document}
