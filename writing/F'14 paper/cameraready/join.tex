@@ -32,7 +32,7 @@ If one is also given the relation $p_2 \natrev p_3$ one can conclude that $p_1 \
 full set of sound such inferences on pairs of premise relations is depicted in
 Table~\ref{tab:jointable}. Though these basic inferences do not involve compositional
 sentence representations, any successful reasoning using compositional representations
-will rely on the ability to perform sound inferences of this kind, so our first experiment studies how well each model can learn to perform them them in isolation.
+will rely on the ability to perform sound inferences of this kind in order to be able to use unseen relational facts within larger derivations. Our first experiment studies how well each model can learn to perform them them in isolation.
 
 % about the relations themselves that do not depend on the
 % internal structure of the things being compared. For example, given
@@ -44,29 +44,6 @@ will rely on the ability to perform sound inferences of this kind, so our first 
 % that can be made on the basis of pairs of relations of the form $a R
 % b$ and $b R' c$, including several less intuitive ones such as that if
 % $a \natneg b$ and $b~|~c$ then $a \sqsupset c$.
-
-
-\paragraph{Experiments}
-We begin by creating a world model
-on which we will base the statements in the train and test sets.
-This takes the form of a small Boolean structure in which terms denote
-sets of entities from a small domain.  Fig.~\ref{lattice-figure}a
-depicts a structure of this form with three entities ($a$, $b$, and $c$) and eight proposition terms ($p_1$--$p_8$). We then generate a 
-relational statement for each pair of terms in the model, as shown in Fig.~\ref{lattice-figure}b. 
-We divide these statements evenly into train and test sets, and delete the test set
- examples which cannot be proven from the train examples, for which there is not enough information for even an ideal system to choose a correct label.
-In each experimental run, we create a model with 80 terms over a domain of 7 elements, yielding a training set of 3200 examples and a test set of 
-2960 examples.
-
-We trained models with both the NN and NTN comparison functions on these
-data sets.\footnote{Since this task relies crucially on the learning of a pair of vectors, no simpler version of our model is a viable baseline.} %+%
-In both cases, the models are implemented as
-described in \S\ref{methods}, but since the items being compared
-are single terms rather than full tree structures, the composition
-layer is not used, and the two models are not recursive. We simply present
-the models with the (randomly initialized) embedding vectors for each
-of two terms, ensuring that the model has no information about the terms
-being compared except for the relations between them that appear in training.
 
 
 \begin{figure}[t]
@@ -106,7 +83,7 @@ being compared except for the relations between them that appear in training.
       
       \labelednode{2.5}{0.5}{}{}
     \end{picture}}
-    \caption{Example boolean structure. The terms $p_1$--$p_8$ name the sets. Not all sets have names, and  some sets have multiple names, so that learning $\nateq$ is non-trivial.}
+    \caption{Example boolean structure, shown with edges idicating inclusion. The terms $p_1$--$p_8$ name the sets. Not all sets have names, and  some sets have multiple names, so that learning $\nateq$ is non-trivial.}
   \end{subfigure}
   \qquad\small
     \begin{subfigure}[t]{0.43\textwidth}
@@ -126,7 +103,7 @@ being compared except for the relations between them that appear in training.
     \end{tabular}
 
     \caption{A few examples of atomic statements about the
-      model.  Test statements that are not provable from the training data shown are
+      model depicted above.  Test statements that are not provable from the training data shown are
       crossed out.}
   \end{subfigure}  
   \caption{Small example structure and data for learning relation composition.}
@@ -150,6 +127,29 @@ being compared except for the relations between them that appear in training.
   \label{joinresultstable}
 \end{table}
 
+\paragraph{Experiments}
+We begin by creating a world model
+on which we will base the statements in the train and test sets.
+This takes the form of a small Boolean structure in which terms denote
+sets of entities from a small domain.  Fig.~\ref{lattice-figure}a
+depicts a structure of this form with three entities ($a$, $b$, and $c$) and eight proposition terms ($p_1$--$p_8$). We then generate a 
+relational statement for each pair of terms in the model, as shown in Fig.~\ref{lattice-figure}b. 
+We divide these statements evenly into train and test sets, and delete the test set
+ examples which cannot be proven from the train examples, for which there is not enough information for even an ideal system to choose a correct label.
+In each experimental run, we create a model with 80 terms over a domain of 7 elements, yielding a training set of 3200 examples and a test set of 
+2960 examples.
+
+We trained models with both the NN and NTN comparison functions on these
+data sets.\footnote{Since this task relies crucially on the learning of a pair of vectors, no simpler version of our model is a viable baseline.} %+%
+In both cases, the models are implemented as
+described in \S\ref{methods}, but since the items being compared
+are single terms rather than full tree structures, the composition
+layer is not used, and the two models are not recursive. We simply present
+the models with the (randomly initialized) embedding vectors for each
+of two terms, ensuring that the model has no information about the terms
+being compared except for the relations between them that appear in training.
+
+
 \paragraph{Results} 
 The results (Table \ref{joinresultstable}) show that NTN is able to accurately encode the relations between the terms in the geometric relations between their vectors, 
 and is able to then use that information to recover relations that 
@@ -157,7 +157,7 @@ are not overtly included in the training data. The NN also generalizes fairly we
 but makes enough errors that it remains an open question whether 
 it is capable of learning representations with these properties. 
 It is not possible for us to rule out the possibility that different optimization techniques or
-further hyperparameter tuning could lead an NN model to succeed here.
+finer-grained hyperparameter tuning could lead an NN model to succeed.
 
 As an example from our test data, both models correctly labeled $p_1 \natfor p_3$, potentially learning from the training examples $\{p_1 \natfor p_{51},~p_3 \natrev p_{51}\}$ or $\{p_1\natfor p_{65},~p_3 \natrev p_{65} \}$. On another example involving comparably frequent relations, the NTN correctly labeled $p_6 \natrev p_{24}$, likely on the basis of the training examples $\{p_6 \natcov p_{28},~p_{28} \natneg p_{24}\}$, while the NN incorrectly assigned it $\natind$.
 

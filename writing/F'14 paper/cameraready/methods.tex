@@ -6,8 +6,8 @@ that adhere to the linguistic \ii{principle of
  compositionality}, which says that the meanings for complex
 expressions are derived from the meanings of their parts
 via specific composition functions \cite{Partee84,Janssen97}. In our
-distributed setting, word meanings are embedding vectors of dimension $n$. A learned
-composition function maps pairs of them to single phrase vectors of dimension $n$, 
+distributed setting, word meanings are embedding vectors of dimension $N$. A learned
+composition function maps pairs of them to single phrase vectors of dimension $N$, 
 which can then be merged again to represent more complex
 phrases, forming a tree structure. Once the entire sentence-level representation has been
 derived at the top of the tree, it serves as a fixed-dimensional input for some subsequent layer function.
@@ -45,9 +45,9 @@ For the sentence embedding portions of the network, we evaluate both TreeRNN mod
 Here, $\vec{x}^{(l)}$ and $\vec{x}^{(r)}$ are the column vector
 representations for the left and right children of the node, and
 $\vec{y}$ is the node's output.  The TreeRNN concatenates them, multiplies
-them by an $n \times 2n$ matrix of learned weights, and adds a bias $\vec{b}$. 
+them by an $N \times 2N$ matrix of learned weights, and adds a bias $\vec{b}$. 
 The TreeRNTN adds a learned full rank third-order tensor 
-$\mathbf{T}$, of dimension $n \times n \times n$, modeling
+$\mathbf{T}$, of dimension $N \times N \times N$, modeling
 multiplicative interactions between the child vectors. 
 The comparison layer uses the same layer function as the
 composition layers (either an NN layer or an NTN layer) with
@@ -82,5 +82,5 @@ we report both accuracy and macroaveraged F1.\footnote{We compute macroaveraged 
 as the harmonic mean of average precision and average recall, both computed
 for all classes for which there is test data, setting precision to 0 
 where it is not defined.}
-Source code and generated data will be released after the review period.
+Source code and generated data can be downloaded from \url{http://stanford.edu/~sbowman/}.
 
