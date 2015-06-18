@@ -19,7 +19,7 @@ end
 
 SCALE = 0.05;
 TSCALE = hyperParams.tensorScale * SCALE;
-
+ 
 % Randomly initialize softmax layer
 classifierParameters = [zeros(sum(hyperParams.numRelations), 1), ...
                         rand(sum(hyperParams.numRelations), PENULT) .* (2 * SCALE) - SCALE];

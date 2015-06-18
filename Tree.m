@@ -86,15 +86,10 @@ classdef Tree < handle
                 if wordMap.isKey(nextTry)
                     t.wordIndex = wordMap(nextTry);
                 else
-                    if wordMap.isKey('*UNK*')
-                        t.wordIndex = wordMap('*UNK*');
-                        if rand > 0.99 % Downsample what gets logged.
-                            disp(['Failed to map word ' t.text]);
-                        end
-                    else
-                        assert(false, ['Failed to map word ' t.text]);
+                    if rand > 0.99 % Downsample what gets logged.
+                        disp(['Failed to map word ' t.text]);
                     end
-                        
+                    t.wordIndex = wordMap('*UNK*');
                 end
             end
             assert(t.wordIndex ~= -1, 'Bad leaf!')
@@ -108,10 +103,11 @@ classdef Tree < handle
                 t.type = 2;
             else
                 t.type = l.type;
-            end     
+            end
+                
         end
+        
     end
-
     methods
         
         function resp = isLeaf(obj)

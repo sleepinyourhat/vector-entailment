@@ -18,11 +18,7 @@ hyperParams.penultDim = penult;
 hyperParams.lambda = lambda;
 
 % Use NTN layers in place of NN layers.
-if tot == -1
-	hyperParams.useThirdOrder = 0;
-	hyperParams.useThirdOrderComparison = 0;
-	hyperParams.useSumming = 1
-elseif tot == 0
+if tot == 0
 	hyperParams.useThirdOrder = 0;
 	hyperParams.useThirdOrderComparison = 0;
 elseif tot == 1
@@ -52,7 +48,7 @@ options.numPasses = 15000;
 
 options.miniBatchSize = mbs;
 
-wordMap = LoadTrainingData('./RC/longer2/train1');
+wordMap = LoadTrainingData('./RC/train1');
 
 % The name assigned to the current vocabulary. Used in deciding whether to load a 
 % preparsed MAT form of an examples file.
@@ -67,7 +63,7 @@ relationMap{1} = containers.Map(hyperParams.relations{1}, 1:length(hyperParams.r
 
 if strcmp(dataflag, 'and-or') 
     hyperParams.trainFilenames = {};
-    hyperParams.splitFilenames = {'./RC/longer2/train0', './RC/longer2/train1', './RC/longer2/train2', './RC/longer2/train3', './RC/longer2/train4', './RC/longer2/train5'};
+    hyperParams.splitFilenames = {'./RC/train0', './RC/train1', './RC/train2', './RC/train3', './RC/train4', './RC/test0', './RC/test1', './RC/test2', './RC/test3', './RC/test4', './RC/test5', './RC/test6'};
     hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep') 
     hyperParams.trainFilenames = {};

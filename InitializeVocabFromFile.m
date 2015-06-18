@@ -6,13 +6,21 @@ function [ vocab, fullVocab, fullWordmap ] = InitializeVocabFromFile(wordMap, lo
 
 wordlist = wordMap.keys();
 
-% Load a single vector file.
-fid = fopen(loc);
-words = textscan(fid,'%s %*[^\n]'); % Take only first column.
-words = words{1};
-fclose(fid);
-fullVocab = dlmread(loc, ' ', 0, 1); 
-
+if isempty(loc)
+    % Load the old two-file GloVe vectors.
+    fid = fopen('sick_data/words_25d.txt');
+    words = textscan(fid,'%s','Delimiter','\n');
+    words = words{1};
+    fclose(fid);
+    fullVocab = dlmread('sick_data/vectors_25d.txt', ' ', 0, 1);
+else
+    % Load a single vector file.
+    fid = fopen(loc);
+    words = textscan(fid,'%s %*[^\n]'); % Take only first column.
+    words = words{1};
+    fclose(fid);
+    fullVocab = dlmread(loc, ' ', 0, 1); 
+end
 
 fullWordmap = containers.Map(words,2:length(words) + 1);
 
