@@ -56,7 +56,7 @@ then label \eqref{p3}.
 % yields 66k sentence pairs. Some examples of these data are provided
 % in Table~\ref{examplesofdata}.
 
-In each run, we randomly partition the set of valid \textit{single sentences} into train and test, and then label all of the pairs from within each set to generate a training set of 27k pairs and a test set of 7k pairs. Because the model doesn't see the test sentences at training time, it cannot directly use the kind of reasoning described in \S\ref{sec:join} (treating sentences as unanalyzed symbols), and must instead infer the word-level relations and learn a complete reasoning system over them for our logic. 
+In each run, we randomly partition the set of valid \textit{single sentences} into train and test, and then label all of the pairs from within each set to generate a training set of 27k pairs and a test set of 7k pairs. Because the model doesn't see the test sentences at training time, it cannot directly use the kind of reasoning described in \S\ref{sec:join} at the sentence level (by treating sentences as unanalyzed symbols), and must instead jointly learn the word-level relations and a complete reasoning system over them for our logic. 
 
 We use the same summing baseline as in \S\ref{sec:recursion}.
 The highly consistent  sentence structure in this experiment means that this model
