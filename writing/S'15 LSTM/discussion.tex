@@ -14,7 +14,7 @@ On the longer test sentences, the tree models decayed smoothly in performance ac
 
 All four models robustly beat the simple baselines reported in Bowman et al.: the most frequent class occurs just over 50\% of the time and a neural bag of words model does reasonably on the shortest examples but falls below 60\% by bin~4.
 
-The learning curve (Figure~\ref{fig:lc}) suggests that additional data is unlikely to change these basic results, though the disparity in performance at the 11\% level is striking: the LSTM sequence model and the TreeRNTN (the model with the most parameters by far) lag far behind the other two.
+The learning curve (Figure~\ref{fig:lc}) suggests that additional data is unlikely to change these basic results. The LSTM lags behind the tree models across the curve, but appears to gain accuracy at a similar rate.
 
 \section{Conclusion}
 
