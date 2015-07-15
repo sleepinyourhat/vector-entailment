@@ -125,7 +125,7 @@ classdef SequenceBatch < handle
                 end
             end
 
-            connectionCosts = 0;
+            connectionCosts = zeros(0, sb.B);
             connectionAcc = -1;
             endFeatures = sb.features{sb.N};
         end

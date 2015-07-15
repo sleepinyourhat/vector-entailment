@@ -9,8 +9,8 @@ from collections import defaultdict
 # source file, and if they are included in the vectorwordlist,
 # or if they appear in training data more than THRESHOLD times.
 
-BASENAME = "sat"
-TRAINING_FILES = ["sat-data/sat.txt"]
+BASENAME = "sentiment-bigrams"
+TRAINING_FILES = ["imdb_bigrams.txt"]
 DEV_FILES = []
 TEST_FILES = []
 
@@ -20,10 +20,11 @@ TRANSFER_SOURCE_WORDLIST = ""
 VECTOR_WORDLIST = ""
 
 EXCLUSIONS = set(['(', '(0', '(1', '(2', '(3', '(4', ')', '', ' ', '\n', '\r'])
-THRESHOLD = 50
+THRESHOLD = 0
 
 ENTAILMENT_MODE = False
 SST_MODE = False
+TEN_WAY_MODE = True
 
 
 def count_words(filenames):
@@ -37,6 +38,9 @@ def count_words(filenames):
                     adjusted_line = tabsplit[1] + ' ' + tabsplit[2]
                 elif SST_MODE:
                     adjusted_line = line
+                elif TEN_WAY_MODE:
+                    tabsplit = line.split('\t')
+                    adjusted_line = tabsplit[0] + ' ' + tabsplit[1]
                 else:
                     tabsplit = line.split('\t')
                     adjusted_line = tabsplit[1]
@@ -50,6 +54,9 @@ def count_words(filenames):
 
 
 def create_wordlist(training_words, test_words, vector_words):
+    tokens = 0
+    skipped_tokens = 0
+
     wordlist = set(['-', '<unk>', '<num>', '<s>', '</s>'])
     for word in set(list(training_words.keys()) + list(test_words.keys())):
         if word in EXCLUSIONS or '\n' in word:
@@ -60,7 +67,10 @@ def create_wordlist(training_words, test_words, vector_words):
             wordlist.add(word)
         else:
             print 'Skipping ' + word
+            skipped_tokens += training_words[word]
+        tokens += training_words[word]
 
+    print 'On training set, skipped ' + str(skipped_tokens) + '/' + str(tokens) + ' tokens.'
     return wordlist
 
 if VECTOR_WORDLIST:

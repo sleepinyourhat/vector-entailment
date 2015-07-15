@@ -63,8 +63,18 @@ if mod(modelState.step, options.testFreq) == 0
         if (mod(modelState.step, options.examplesFreq) == 0 || mod(modelState.step, options.detailedStatFreq) == 0) && modelState.step > 0
             Log(hyperParams.examplelog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ' test data:']);
         end
-        [testAcc, testMf1, ~, testConAcc] = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
-        modelState.bestTestAcc = max(testAcc, modelState.bestTestAcc);
+        if hyperParams.sentimentBigramMode
+            testAcc = TestModelCrossEnt(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
+        else    
+            [testAcc, testMf1, ~, testConAcc] = TestModel(CostGradFunc, modelState.theta, modelState.thetaDecoder, testDatasets, modelState.separateWordFeatures, hyperParams);
+        end
+
+        if hyperParams.sentimentBigramMode
+            modelState.bestTestAcc = min(testAcc, modelState.bestTestAcc);
+        else
+            modelState.bestTestAcc = max(testAcc, modelState.bestTestAcc);
+        end
+
         hyperParams.showExamples = false;
         if (testAcc(1) == modelState.bestTestAcc(1)) && (modelState.step > 0)
             % Write a checkpoint to disk.
@@ -77,7 +87,11 @@ if mod(modelState.step, options.testFreq) == 0
     end
 
     % Log statistics.
-    if testAcc ~= -1
+    if hyperParams.sentimentBigramMode
+        Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
+            ' train xent: ', num2str(acc), ' test xent: ', num2str(testAcc), ...
+            ' (best: ', num2str(modelState.bestTestAcc), ')']);
+    elseif testAcc ~= -1
         Log(hyperParams.statlog, ['pass ', num2str(modelState.pass), ' step ', num2str(modelState.step), ...
             ' train acc: ', num2str(acc), ' (mf1 ', num2str(macro), ') test acc: ', num2str(testAcc), ...
             ' mf1: ', num2str(testMf1), ' (best: ', num2str(modelState.bestTestAcc), ')']);

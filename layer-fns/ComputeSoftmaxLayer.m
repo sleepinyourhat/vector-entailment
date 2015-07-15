@@ -1,5 +1,5 @@
 % Want to distribute this code? Have other questions? -> sbowman@stanford.edu
-function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, multipliers, active)
+function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperParams, labels, multipliers, active, score_dist)
 % Run the softmax classifier layer forward, and compute log loss if possible. 
 
 % Note: Label range specifies which labels are under consideration. If 
@@ -15,6 +15,8 @@ function [ probs, loss, probCorrect ] = ComputeSoftmaxLayer(in, matrix, hyperPar
 
 % labels should be a B x 1 matrix of labels if only one class set is used, or a B x 2 matrix
 % with the second column containing class set indices if multiple are used.
+
+% dish should be a C x B matrix reflecting a set of distributions over C classes.
 
 % If the matrix is empty, we assume that the input vector already contains the appropriate features.
 
@@ -47,7 +49,7 @@ if (nargin > 3) && ~isempty(labels) && (size(labels, 2) == 2)
 			unNormedProbs = exp(in);
 		end
 
-		if nargin > 5
+		if nargin > 5 && ~isempty(active)
 			unNormedProbs = unNormedProbs .* active;
 		end
 
@@ -68,7 +70,7 @@ else
 		unNormedProbs = exp(in);
 	end
 
-	if nargin > 5
+	if nargin > 5 && ~isempty(active)
 		unNormedProbs = unNormedProbs .* active;
 	end
 
@@ -83,12 +85,18 @@ if nargin > 3 && ~isempty(labels)
 	labels = labels + 1;
 	probCorrect = evalprobs(sub2ind(size(evalprobs), labels(:, 1), (1:size(labels, 1))'));
 	loss = gather(-log(probCorrect));
+elseif nargin > 6 && ~isempty(score_dist)
+	% Compute asymmetric cross-entropy with score_dist.
+	loss = sum(score_dist .* log((score_dist + eps) ./ (probs + eps)));
+	% Dummy value.
+	probCorrect = loss;
 elseif nargout > 1
+	% Dummy values.
 	probCorrect = ones(1, B);
 	loss = gather(-log(probCorrect));
 end
 
-if nargin > 4
+if nargin > 4 && ~isempty(multipliers)
 	loss = loss .* multipliers;
 	loss(isnan(loss)) = 0;
     probs(isnan(probs)) = 0;

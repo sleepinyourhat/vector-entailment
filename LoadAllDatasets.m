@@ -14,6 +14,8 @@ if hyperParams.SSTMode
     loadFileFn = @LoadSSTData;
 elseif hyperParams.sentenceClassificationMode
     loadFileFn = @LoadSentenceClassificationData;
+elseif hyperParams.sentimentBigramMode
+    loadFileFn = @LoadSentimentBigramData;
 else
     loadFileFn = @LoadEntailmentData;
 end

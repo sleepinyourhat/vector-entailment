@@ -142,9 +142,8 @@ hyperParams = FlushLogs(hyperParams);
 
 % Trim out individual examples if needed (only from the first source)
 if hyperParams.dataPortion < 1
-    trainDataset = trainDataset([1:round(hyperParams.dataPortion * hyperParams.trainingLengths(1)),...
-                                 (round(hyperParams.trainingLengths(1)) + 1):length(trainDataset)]);
-    hyperParams.trainingLengths(1) = round(hyperParams.dataPortion * hyperParams.trainingLengths(1));
+    trainDataset = trainDataset([1:round(hyperParams.dataPortion * length(trainDataset))]);
+    hyperParams.trainingLengths = round(hyperParams.dataPortion * hyperParams.trainingLengths);
 end
 
 Log(hyperParams.statlog, 'Training')

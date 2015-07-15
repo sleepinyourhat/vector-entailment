@@ -131,6 +131,8 @@ hyperParams.maxTrainingEvalSampleSize = 1000;
 % default pair classification CostGradFn.
 hyperParams.sentenceClassificationMode = false;
 
+hyperParams.sentimentBigramMode = false;
+
 % If set, train using minFunc. Only partially supported. See config/GradCheck.m for an example.
 hyperParams.minFunc = false;
 

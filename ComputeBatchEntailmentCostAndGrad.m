@@ -71,6 +71,9 @@ if ~isempty(hyperParams.labelCostMultipliers)
     multipliers = multipliers(:, 1);
     [ labelProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
                   softmaxMatrix, hyperParams, [data(:).label]', multipliers);
+elseif hyperParams.sentimentBigramMode
+    [ labelProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
+                  softmaxMatrix, hyperParams, [], [], [], [data(:).score_dist]);
 else
     [ labelProbs, topCosts ] = ComputeSoftmaxLayer(extraClassifierLayerInputs(:, :, hyperParams.topDepth), ...
                   softmaxMatrix, hyperParams, [data(:).label]');
@@ -100,27 +103,37 @@ end
 % Compute and report statistics.
 accumulatedSuccess = 0;
 [ ~, preds ] = max(labelProbs);
-confusion = zeros(hyperParams.numLabels(data(1).label(2)));
-for b = 1:B
-    localCorrect = preds(b) == data(b).label(1);
-    accumulatedSuccess = accumulatedSuccess + localCorrect;
+if ~hyperParams.sentimentBigramMode
+    confusion = zeros(hyperParams.numLabels(data(1).label(2)));
+    for b = 1:B
+            localCorrect = preds(b) == data(b).label(1);
+            accumulatedSuccess = accumulatedSuccess + localCorrect;
 
-    if (~localCorrect) && (nargout > 2) && hyperParams.showExamples
-        Log(hyperParams.examplelog, ...
-            ['hyp:' num2str(preds(b)), '###true:', num2str(data(b).label(1)), '###',...
-             num2str(labelProbs(1, b)), '###', num2str(labelProbs(2, b)), '###', ...
-             num2str(labelProbs(3, b)), '###', ...
-             data(b).left.getText(), '###', data(b).right.getText()]);
-            % TODO: Remove hard-coded '3' if it works, and switch to tab literals.
+        if (~localCorrect) && (nargout > 2) && hyperParams.showExamples
+            Log(hyperParams.examplelog, ...
+                ['hyp:' num2str(preds(b)), ' ---- true:', num2str(data(b).label(1)), '---- ',...
+                 data(b).left.getText(), ' ---- ', data(b).right.getText()]);
+        end
+
+        if nargout > 5
+            confusion(preds(b), data(b).label(1)) = ...
+              confusion(preds(b), data(b).label(1)) + 1;
+        end
+    end
+    acc = (accumulatedSuccess / B);
+else
+    if hyperParams.showExamples && (nargout > 2)
+        for b = 1:B
+            Log(hyperParams.examplelog, ...
+                ['hyp:' num2str(labelProbs(:,b)'), ' ---- true: ', num2str(data(b).score_dist'), ' ---- ',...
+                 data(b).left.getText(), ' ---- ', data(b).right.getText()]);  
+        end 
     end
 
-    if nargout > 5
-        confusion(preds(b), data(b).label(1)) = ...
-          confusion(preds(b), data(b).label(1)) + 1;
-    end
+    confusion = 0;
+    acc = normalizedCost;
 end
 
-acc = (accumulatedSuccess / B);
 
 % Compute the gradients.
 if computeGrad
@@ -129,6 +142,10 @@ if computeGrad
         ComputeSoftmaxClassificationGradients(...
           softmaxMatrix, labelProbs, [data(:).label]', extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams, ...
            multipliers);
+    elseif hyperParams.sentimentBigramMode
+        [ localSoftmaxGradient, softmaxDelta ] = ...
+        ComputeSoftmaxClassificationGradients(...
+          softmaxMatrix, labelProbs, [], extraClassifierLayerInputs(:, :, hyperParams.topDepth), hyperParams, [], [data(:).score_dist]);
     else
         [ localSoftmaxGradient, softmaxDelta ] = ...
         ComputeSoftmaxClassificationGradients(...

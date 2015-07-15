@@ -18,6 +18,11 @@ if random
     hyperParams.randomEmbeddingIndices = [1:99];
 end
 
+if et == -1
+	options.miniBatchSize = 4;
+	et = 1;
+end
+
 hyperParams.dim = dim;
 hyperParams.embeddingDim = dim;
 hyperParams.useEmbeddingTransform = et;
@@ -26,8 +31,6 @@ hyperParams.penultDim = dim;
 hyperParams.lambda = lambda;
 
 hyperParams = CompositionSetup(hyperParams, composition);
-
-hyperParams.lineLimit = 5000;
 
 options.examplesFreq = 25000; 
 
@@ -49,6 +52,15 @@ elseif strcmp(dataflag, 'sat-l')
 	hyperParams.trainFilenames = {};    
 	hyperParams.splitFilenames = {'./sat-data/sat_l.txt'};    
 	hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'sat-4')
+	hyperParams.trainFilenames = {};    
+	hyperParams.splitFilenames = {'./sat-data/sat_4.txt'};    
+	hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'sat-3-25')
+	hyperParams.trainFilenames = {};    
+	hyperParams.splitFilenames = {'./sat-data/sat_3-25.txt'};    
+	hyperParams.testFilenames = {};
+	hyperParams.lineLimit = 10000;
 elseif strcmp(dataflag, 'sat-ls')
 	hyperParams.trainFilenames = {};    
 	hyperParams.splitFilenames = {'./sat-data/sat_l_shuf.txt'};    

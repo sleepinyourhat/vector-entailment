@@ -6,7 +6,11 @@ function [ theta ] = TrainSGD(CostGradFunc, modelState, options, trainingData, .
 
 if modelState.step == 0
     Log(hyperParams.examplelog, 'Initializing SGD.')
-    modelState.bestTestAcc = [0 0];
+    if hyperParams.sentimentBigramMode
+        modelState.bestTestAcc = inf;
+    else
+        modelState.bestTestAcc = [0 0];
+    end  
     modelState.lr = options.lr;
     modelState.pass = 0;
     modelState.lastHundredCosts = zeros(100, 1);
