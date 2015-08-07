@@ -1,6 +1,6 @@
 \section{Our data as a platform for evaluation}
 
-% The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training  parameter-rich models like neural networks for this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
+The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competetive at this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
 
 \subsection{Standard entailment models}
 
@@ -67,7 +67,7 @@ We evaluate against two algorithms included in the distribution:
 \def\t#1{\small{#1}}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
 \toprule
-\b{System} & \b{Our corpus} & \b{SICK} & \b{RTE-3} \\
+\b{System} & \b{SNLI} & \b{SICK} & \b{RTE-3} \\
 \midrule
 \t{Edit Distance Based}        & \t{71.9} & \t{65.4} & \b{61.9} \\
 \t{Classifier Based}           & \b{72.2} & \b{71.4} & \t{61.5} \\
@@ -98,9 +98,9 @@ Each of the models was trained on its own training set.
 %The results for RTE-3 are taken from \newcite{magnini2014excitement}.
 The edit distance and classifier based models are evaluated only on
   2-class entailment; all RTE results are likewise reported for 2-class entailment.
-To convert 3-class problems like SICK and our corpus to this setting, all instances
+To convert 3-class problems like SICK and SNLI to this setting, all instances
   of \contradiction\ and \unknown\ are converted to nonentailment.
-This yields a chance baseline accuracy of 66\% on our corpus, and 71\% on SICK.
+This yields a chance baseline accuracy of 66\% on SNLI, and 71\% on SICK.
 We train these models without using any of the included lexical
   resources, so these results do not represent state-of-the-art
   RTE systems, but rather give an indication of the relative
@@ -123,7 +123,7 @@ We train these models without using any of the included lexical
 % Lexicalized Classifier
 %
 \paragraph{Lexicalized Classifier}
-Unlike the RTE datasets, our corpus's size supports approaches which make use of rich lexicalized features.
+Unlike the RTE datasets, SNLI's size supports approaches which make use of rich lexicalized features.
 We evaluate a simple lexicalized classifier to explore the ability of non-specialized models to exploit these features in lieu of more involved language understanding.
 Our classifier implements 6 feature types:
 \begin{enumerate}
@@ -157,7 +157,7 @@ Our classifier implements 6 feature types:
 \begin{center}
 \begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c}
 \toprule
-\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{Our corpus}} & \b{SICK}\\
+\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{SNLI}} & \b{SICK}\\
  & \t{Train} & \t{Test} & \t{Test}\\
 \midrule
 \t{Lexicalized}            & \t{99.7}  & \b{78.2} & \b{77.3} \\ % & \t{78.7}
@@ -171,7 +171,7 @@ Our classifier implements 6 feature types:
 \label{tab:bowresults}
 3-class accuracy, training on either our data or SICK, including models lacking cross-bigram features 
   (Feature \ref{lst:bigram}), and lacking all lexical
-  features (Features \ref{lst:ngram}--\ref{lst:bigram}).
+  features (Features \ref{lst:ngram}--\ref{lst:bigram}). For the model trained on SNLI, we report results both on the test set and the training set to judge overfitting.
 }
 \end{table}
 %
@@ -208,7 +208,7 @@ Although we expect that richer models would perform better,
 
 \subsection{Sentence embeddings and NLI}\label{sentence-embedding}
 
-Our corpus is suitably large and diverse to make it possible to train neural network models that produce distributed representations of sentence meaning. In this section, we compare the performance of three such models on the corpus. To focus specifically on the strengths of these models at producing informative sentence representations, we use sentence embedding as an intermediate step in the NLI classification task: each model must produce a vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on existing models for sentence embedding, and it allows us to evaluate the ability of those models to learn useful representations of meaning (which may be independently useful for subsequent tasks), at the cost of excluding from consideration possible strong neural models for NLI that directly compare the two inputs at the word or phrase level.
+SNLI is suitably large and diverse to make it possible to train neural network models that produce distributed representations of sentence meaning. In this section, we compare the performance of three such models on the corpus. To focus specifically on the strengths of these models at producing informative sentence representations, we use sentence embedding as an intermediate step in the NLI classification task: each model must produce a vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on existing models for sentence embedding, and it allows us to evaluate the ability of those models to learn useful representations of meaning (which may be independently useful for subsequent tasks), at the cost of excluding from consideration possible strong neural models for NLI that directly compare the two inputs at the word or phrase level.
 
 \input{model_structure_fig.tex}
 
@@ -253,7 +253,7 @@ The results are shown in \reftab{tab:nnresults}. The sum of words model performe
 
 \subsection{Analysis and discussion}
 
-\Reffig{fig:bowlearncurve} shows a learning curve for the LSTM and the lexicalized and unlexicalized feature-based models. This learning curve shows that the large size of the corpus is crucial to both the LSTM and the lexicalized model, and suggests that additional data would yield still better performance for both. In addition, though the LSTM and the lexicalized model show similar performance when trained on the current full corpus, the steeper slope for the LSTM suggests that its ability to learn arbitrarily structured representations of sentence meaning would give it an advantage over the more constrained lexicalized model on still larger datasets.
+\Reffig{fig:bowlearncurve} shows a learning curve for the LSTM and the lexicalized and unlexicalized feature-based models. This learning curve shows that the large size of the corpus is crucial to both the LSTM and the lexicalized model, and suggests that additional data would yield still better performance for both. In addition, though the LSTM and the lexicalized model show similar performance when trained on the current full corpus, the somewhat steeper slope for the LSTM hints that its ability to learn arbitrarily structured representations of sentence meaning may give it an advantage over the more constrained lexicalized model on still larger datasets.
 
 % useful resource in the development of more sophisticated SE models
 
@@ -325,7 +325,7 @@ report two very different stories.
 
 \section{Transfer learning with SICK}
 
-To the extent that successfully training a neural network model like our LSTM on our corpus forces that model to encode broadly accurate representations of English scene descriptions and to build an entailment classifier over those relations, we should expect it to be readily possible to adapt the trained model for use on other NLI tasks. In this section, we evaluate on the SICK entailment task using a simple transfer learning method and achieve competitive results.
+To the extent that successfully training a neural network model like our LSTM on SNLI forces that model to encode broadly accurate representations of English scene descriptions and to build an entailment classifier over those relations, we should expect it to be readily possible to adapt the trained model for use on other NLI tasks. In this section, we evaluate on the SICK entailment task using a simple transfer learning method and achieve competitive results.
 
 \begin{table}
 \begin{center}
@@ -346,12 +346,13 @@ To the extent that successfully training a neural network model like our LSTM on
 
 \caption{\label{tab:transferresults}
 LSTM 3-class accuracy on the SICK train and test sets under three training regimes.} 
+% TODO (Gabor): Report training accuracy for the model trained on SICK.
 \end{table}
 
 
-To perform transfer, we take the parameters of the LSTM RNN model trained on our corpus and use them to initialize a new model, which is trained from that point only on the training portion of SICK. The only newly initialized parameters are softmax layer parameters and the embeddings for words that appear in SICK, but not in our corpus (which are populated with GloVe embeddings as above). We use the same model hyperparameters that were used to train the original model, with the exception of the L2 regularization strength, which is re-tuned. We additionally transfer the accumulators that are used by AdaDelta to set the learning rates. This lowers the starting learning rates, and is intended to ensure that the model does not learn too quickly in its first few epochs after transfer and destroy the knowledge accumulated in the pre-transfer phase of training. We tune the regularization parameter separately for each case. 
+To perform transfer, we take the parameters of the LSTM RNN model trained on SNLI and use them to initialize a new model, which is trained from that point only on the training portion of SICK. The only newly initialized parameters are softmax layer parameters and the embeddings for words that appear in SICK, but not in SNLI (which are populated with GloVe embeddings as above). We use the same model hyperparameters that were used to train the original model, with the exception of the L2 regularization strength, which is re-tuned. We additionally transfer the accumulators that are used by AdaDelta to set the learning rates. This lowers the starting learning rates, and is intended to ensure that the model does not learn too quickly in its first few epochs after transfer and destroy the knowledge accumulated in the pre-transfer phase of training. We tune the regularization parameter separately for each case. 
 
-The results are shown in \reftab{tab:transferresults}. Training on SICK alone yields poor performance, and the model trained on our data alone misunderstands the subtly different meanings of the (identically named) SICK labels, labeling more \ii{neutral} examples as \ii{contradiction}s than correctly. Transferring representations, in contrast, yields the best performance yet reported on SICK for an unaugmented neural network model, surpasses the available EOP models, and approaches both the overall state of the art at 84.6\% \cite{lai2014illinois} and the 84\% level of interannotator agreement, which likely represents an approximate performance ceiling. This suggests that the introduction of a large high-quality corpus makes it  possible to train representation-learning models for sentence meaning that are competitive with the best hand-engineered models on inference tasks.
+The results are shown in \reftab{tab:transferresults}. Training on SICK alone yields poor performance, and the model trained on SNLI fails when tested on SICK data, labeling more \ii{neutral} examples as \ii{contradiction}s than correctly, possibly as a result of subtle differences in the label definitions. Transferring representations, in contrast, yields the best performance yet reported on SICK for an unaugmented neural network model, surpasses the available EOP models, and approaches both the overall state of the art at 84.6\% \cite{lai2014illinois} and the 84\% level of interannotator agreement, which likely represents an approximate performance ceiling. This suggests that the introduction of a large high-quality corpus makes it  possible to train representation-learning models for sentence meaning that are competitive with the best hand-engineered models on inference tasks.
 
 We attempted to apply this same transfer evaluation technique to the RTE-3 challenge, but found that the small training set (800 examples) did not allow the model to adapt to the unfamiliar genre of text used in that corpus, such that no training configuration yielded competitive performance.
 Further research on effective transfer learning on small data sets with neural models might facilitate improvements here.

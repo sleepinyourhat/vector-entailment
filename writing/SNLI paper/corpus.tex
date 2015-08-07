@@ -9,17 +9,19 @@ These are generally high-quality, hand-labeled data sets, and they
 have stimulated innovative logical and statistical models of natural
 language reasoning, but their small size (fewer than a thousand examples each)
 limits their utility as a testbed for learned distributed representations. 
-The data for the SemEval 2014 task called Sentences Involving Compositional Knowledge (SICK) is a
-step up in terms of size, but only to 4,500 training examples, and its
+The data for the SemEval 2014 task called Sentences Involving Compositional Knowledge (SICK) is a step up in terms of size, but only to 4,500 training examples, and its
 partly automatic construction introduced some spurious patterns into
-the data (\citealt{marelli2014semeval}, $\S$6). Finally, the
+the data (\citealt{marelli2014semeval}, $\S$6). The
 Denotation Graph entailment set \cite{hodoshimage} contains millions of
 examples of entailments between sentences and artificially constructed
 short phrases, but it was labeled using fully automatic methods, and is
 noisy enough that it is probably suitable only as a source of
-supplementary training data. The Paraphase Database of \newcite{ganitkevitch2013ppdb}
-addresses these issues of size and quality, but only for the limited
-fragment of the NLI problem that is captured by paraphrase.
+supplementary training data. 
+Outside the domain of sentence-level entailment, \newcite{levy2014focused} introduce
+a large corpus of semi-automatically annotated entailment examples 
+between subject--verb--object relation triples, and the second release of the 
+Paraphase Database \cite{ganitkevitch2ppdb} includes automatically generated entailment annotations
+over a large corpus of pairs of words and short phrases.
 
 Existing resources suffer from a subtler issue that impacts even
 projects using only human-provided annotations: indeterminacies of
@@ -37,8 +39,7 @@ that is not the Pacific, then the two events are (commonsense) contradictory. Th
 kind of indeterminacy can be resolved only once the questions of
 coreference are resolved.
 
-
-With our corpus, we sought to address the issues of size, quality, and
+With SNLI, we sought to address the issues of size, quality, and
 indeterminacy. To do this, we employed a crowdsourcing framework with
 the following crucial innovations. First, the examples were grounded
 in specific scenarios, and the premise and hypothesis sentences in each example 
@@ -88,7 +89,7 @@ The instructions that we provided to the workers are shown in \reffig{instructio
 
 For the premises, we used captions from the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, and they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \word{Our trip to the Olympic Peninsula}).
 
-\Reftab{collection-stats} reports some key statistics about the collected corpus, and \reffig{length-dist} shows the distributions of sentence lengths for both our source hypotheses and our newly collected premises. We observed that while premise sentences varied considerably in length, hypothesis sentences tended to be as short as possible while still providing enough information to yield a clear judgment, clustering at around seven words.
+\Reftab{collection-stats} reports some key statistics about the collected corpus, and \reffig{length-dist} shows the distributions of sentence lengths for both our source hypotheses and our newly collected premises. We observed that while premise sentences varied considerably in length, hypothesis sentences tended to be as short as possible while still providing enough information to yield a clear judgment, clustering at around seven words. We also observed that the bulk of the sentences from both sources were syntactically complete rather than fragments, and the frequency with which the parser produces a parse rooted with an `S' (sentence) node attests to this.
 
 \begin{table}
 \center
@@ -112,7 +113,7 @@ Distinct words (ignoring case) & 37,026\\
     \bottomrule
   \end{tabular}
 % From 1.0rc3
-\caption{\label{collection-stats}Key statistics for the raw sentence pairs. Since the two halves of each pair were collected separately, we report some statistics for both.} 
+\caption{\label{collection-stats}Key statistics for the raw sentence pairs in SNLI. Since the two halves of each pair were collected separately, we report some statistics for both.} 
 \end{table}
 
 
@@ -191,6 +192,7 @@ No gold label (no 3 labels match) & 2.0\%\\
 The data will be released upon publication under a CreativeCommons
 Attribution-ShareAlike license, the same license used for the Flickr30k source captions.
 
+\todo{Upload SNLI and add a URL}
 
 \paragraph{Partition} 
 

@@ -1,6 +1,6 @@
 \section{NLI data and transfer learning}\label{sec:transfer}
 
-We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on our corpus should transfer well to any other task that involves understanding sentence meaning, at least to the extent that the style of language used in that task is broadly similar to the style of our corpus. To test this, we perform transfer learning experiments on four other tasks, in which models are initialized using the parameters of an LSTM RNN-based model trained on our corpus (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
+We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on SNLI should transfer well to any other task that involves understanding sentence meaning, at least to the extent that the style of language used in that task is broadly similar to the style of SNLI. To test this, we perform transfer learning experiments on four other tasks, in which models are initialized using the parameters of an LSTM RNN-based model trained on SNLI (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
 
 We first evaluate on SICK (\citealt{marelli2014sick}), the smaller entailment corpus ours was modeled on, training on the standard 4.5k training sentence pairs. We then evaluate on SUBJ (\citealt{pang2004sentimental}), a two-way sentence classification task, using 5-fold cross-validation over the 10k sentences. We next evaluate on the Stanford Sentiment Treebank (SST; \citealt{socher2013acl1}), a five-way sentiment classification task with labels for both phrases and sentences. We train on both types of label within the 8.5k sentence training set and test on only the sentence-level labels in the test set. We finally evaluate on PragBank, an 800 example 6-way sentence classification task focused on veridicality. \todo{Cite} ....
 \noindent\todo{Pick best 2-3 tasks.}
@@ -26,7 +26,7 @@ We use pretrained parameters for all of the LSTM parameters, pretrained paramete
 \end{center}
 
 \caption{\label{tab:transferresults}
-The performance of an LSTM RNN model on four tasks under both a random initialization and a transfer initialization copied from a model trained on our corpus. All figures are classification accuracy, except for PragBank, where report macroaveraged F1 to enable comparison with existing results on that task. \todo{Final numbers.}} 
+The performance of an LSTM RNN model on four tasks under both a random initialization and a transfer initialization copied from a model trained on SNLI. All figures are classification accuracy, except for PragBank, where report macroaveraged F1 to enable comparison with existing results on that task. \todo{Final numbers.}} 
 
 \end{table}
 
