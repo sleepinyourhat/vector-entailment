@@ -265,9 +265,8 @@ The results are shown in \reftab{tab:nnresults}. The sum of words model performe
 
 % useful resource in the development of more sophisticated SE models
 
-\Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
-A learning curve for the lexicalized and unlexicalized baseline classifiers and the LSTM,
-plotted on a log scale. The y-axis starts at a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
+\Fig{new_lcc.pdf}{0.83}{bowlearncurve}{
+A learning curve showing how the baseline classifiers and the LSTM perform when trained to convergence on varied amounts of training data. The y-axis starts near a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
 
 % Insights 2: the learning curve for the unlexicalized classifier is sad
 We were struck by the speed with which the lexicalized classifier outperforms its unlexicalized counterpart.
