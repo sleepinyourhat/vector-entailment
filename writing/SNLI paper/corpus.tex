@@ -36,7 +36,10 @@ indeterminacy. To do this, we employed a crowdsourcing framework with
 the following crucial innovations. First, the examples were grounded
 in specific scenarios, and the premise and hypothesis sentences in each example 
 were constrained to describe that scenario from the same perspective, 
-which helps greatly in controlling event and entity coreference. Second, the prompt
+which helps greatly in controlling event and entity coreference.\footnote{
+For example, with the premise sentence \word{A dog is lying in the grass}, a worker could safely assume that the dog is the most prominent thing in the photo, and very likely the only dog, and  build contradicting sentences that violate these assumptions.
+} 
+Second, the prompt
 gave participants the freedom to produce entirely novel sentences
 within the task setting, which led to richer examples than we see with
 the more proscribed string-editing techniques of earlier approaches,
@@ -48,15 +51,11 @@ reliable set of annotations over the same data, and at identifying areas of infe
 
 % \subsection{Grounding with imagined images}
 
-% \todo{Rewrite and expand (CP?)} --- I incorporated this above.
-
 % Quote from SICK paper \cite{marelli2014sick}:
 
 % \begin{quote}
 % Not unreasonably, subjects found that, say, \ii{A woman is wearing an Egyptian headdress} does not contradict \ii{A woman is wearing an Indian headdress}, since one could easily imagine both sentences truthfully uttered to refer to a single scene where two different women are wearing different headdresses. In the future, a higher proportion of CONTRADICTION labels could be elicited by using grammatical and possibly visual cues (pictures) encouraging co-indexing of the entities in the two sentences.
 % \end{quote}
-
-%\todo{SICK is referenced below, so we should set it up as a point of reference either here or in the intro, including mentioning that it had both entailment and similarity labels.}
 
 \subsection{Data collection}
 
@@ -74,13 +73,13 @@ We will show you the caption for a photo. We will not show you the photo. Using 
 \caption{\label{instructions-1}The instructions used on Mechanical Turk for data collection.}
 \end{figure}
 
-We used Amazon Mechanical Turk for data collection. In each individual task (each HIT), a worker was presented with premise scene descriptions from a preexisting corpus, and asked to supply hypotheses for each of our three labels---\ii{entailment}, \ii{neutral}, and \ii{contradiction}---forcing the data to be balanced among these classes.
+We used Amazon Mechanical Turk for data collection. In each individual task (each HIT), a worker was presented with premise scene descriptions from a pre-existing corpus, and asked to supply hypotheses for each of our three labels---\ii{entailment}, \ii{neutral}, and \ii{contradiction}---forcing the data to be balanced among these classes.
 
 The instructions that we provided to the workers are shown in \reffig{instructions-1}. Below the instructions were three fields for each of three requested sentences, corresponding to our \ii{entailment}, \ii{neutral}, and \ii{contradiction} labels, a fourth field (marked optional) for reporting problems, and a link to an FAQ page. That FAQ grew over the course of data collection. It warned about disallowed techniques (e.g., reusing the same sentence for many different prompts, which we saw in a few cases), provided guidance concerning sentence length and complexity (we did not enforce a minimum length, and we allowed bare NPs as well as full sentences), and reviewed logistical issues around payment timing. About 2,500 workers contributed.
 
 For the premises, we used captions from the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions (corresponding to about 30k images) collected in an earlier crowdsourced effort.\footnote{
-We additionally include about 4k sentence pairs from a pilot study in which the premise sentences were instead drawn from the VisualGenome corpus (CITE CITE CITE CITE CITE). These examples appear only in the training set, and have pair identifiers prefixed with \texttt{vg} in the corpus.
- } 
+We additionally include about 4k sentence pairs from a pilot study in which the premise sentences were instead drawn from the VisualGenome corpus (under construction). These examples appear only in the training set, and have pair identifiers prefixed with \texttt{vg} in the corpus.
+ } % TODO: Insert citation.
 The captions were not authored by the photographers who took the source images, and they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \word{Our trip to the Olympic Peninsula}). In order to ensure that the label for each sentence pair can be recovered solely based on the available text, we did not use the images at all during corpus collection.
 
 \Reftab{collection-stats} reports some key statistics about the collected corpus, and \reffig{length-dist} shows the distributions of sentence lengths for both our source hypotheses and our newly collected premises. We observed that while premise sentences varied considerably in length, hypothesis sentences tended to be as short as possible while still providing enough information to yield a clear judgment, clustering at around seven words. We also observed that the bulk of the sentences from both sources were syntactically complete rather than fragments, and the frequency with which the parser produces a parse rooted with an `S' (sentence) node attests to this.
@@ -89,7 +88,7 @@ The captions were not authored by the photographers who took the source images, 
 \center
   %\setlength{\tabcolsep}{15pt}
   %\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{l l} 
+  \begin{tabular}{l r} 
     \toprule
 \multicolumn{2}{l}{\textbf{Data set sizes:}}\\
 Training pairs &  550,152\\
@@ -130,7 +129,6 @@ discuss in this paper.
 \center
 \includegraphics[width=3.05in]{length_dist}
     % From 1.0rc2, though still accurate as of rc3
-% \todo{Replace w/ mean+SD if low on space.}
 \caption{\label{length-dist}The distribution of sentence length.} 
 \end{figure}
  
@@ -155,7 +153,7 @@ challenging but realistic machine learning task.
 \center
   %\setlength{\tabcolsep}{15pt}
   %\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{l l} 
+  \begin{tabular}{l r} 
     \toprule
 \multicolumn{2}{l}{\textbf{General:}}\\
 Validated pairs & 56,951\\

@@ -102,13 +102,13 @@ The edit distance and classifier based models are evaluated only on
   2-class entailment; all RTE results are likewise reported for 2-class entailment.
 To convert 3-class problems like SICK and SNLI to this setting, all instances
   of \contradiction\ and \unknown\ are converted to nonentailment.
-This yields a chance baseline accuracy of 66\% on SNLI, and 71\% on SICK.
+This yields a most-frequent-class baseline accuracy of 66\% on SNLI, and 71\% on SICK.
 This is intended to demonstrate the difficulty of the task, rather than necessarily
   the performance of a state-of-the-art RTE system.
-In particular, we omit the models which rely on richer lexical resources or more
+In particular, we could not evaluate models which rely on richer lexical resources or more
   sophisticated algorithms. 
 None of the strongest Excitement Open Platform models
-  are not designed to scale to large training corpora without modification, 
+  are designed to scale to large training corpora without modification, 
   and none of them succeeded at training on the full SNLI training set, with no 
   model showing any measurable progress after several days.
 We include the performance of one such model on the SICK and RTE-3 datasets to
@@ -130,7 +130,6 @@ We include the performance of one such model on the SICK and RTE-3 datasets to
 %Unsurprisingly, the classification-based approach outperforms simple
 %  edit distance metrics, and performs quite well despite relatively
 %  little lexicalization.
-%\todo{Is the RTE3 model trained on RTE3?}
 
 %
 % Lexicalized Classifier
@@ -201,13 +200,13 @@ We report results in \reftab{tab:bowresults}, along with ablation studies for re
 On our large corpus in particular, there is a substantial jump in accuracy from using
   lexicalized features, and another from using the very sparse
   cross-bigram features.
-The latter  result can be explained if
-  the classifier automatically learns to recognize explicit negations and adjective
-  modification, and a similar result was shown in
+The latter  result suggests that there is value in letting
+  the classifier automatically learn to recognize structures like explicit negations and adjective
+  modification. A similar result was shown in
   \newcite{sidaw12simple} for bigram features in sentiment analysis.
   
 % Insight 2: do well without alignments
-Another surprising fact is that the classifier performs as well as it
+It is surprising that the classifier performs as well as it
   does without any notion of alignment or tree transformations.
 Although we expect that richer models would perform better,
   the results suggest that given enough data, cross bigrams with the noisy 
@@ -228,7 +227,7 @@ SNLI is suitably large and diverse to make it possible to train neural network m
 
 Our neural network classifier, depicted in \reffig{modelstructure} (and based on a one-layer model in \citealt{Bowman:Potts:Manning:2014}), is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the sentence embedding model itself.
 
-We test three sentence embedding models, each set to use 100d phrase and sentence embeddings. Our baseline sentence embedding model simply sums the embeddings of the words in each sentence. In addition, we experiment with two simple sequence embedding models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}. Both use the simple conventional layout with one layer per input token.
+We test three sentence embedding models, each set to use 100d phrase and sentence embeddings. Our baseline sentence embedding model simply sums the embeddings of the words in each sentence. In addition, we experiment with two simple sequence embedding models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}.
 
 The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine-tuned as part of training. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each, and additionally applied dropout \cite{srivastava2014dropout} to the inputs and outputs of the sentence embedding models (though not to its internal connections) with a fixed dropout rate. All models were implemented in a common framework for this paper, and the implementations will be made available at publication time.
 
@@ -263,7 +262,7 @@ Accuracy in 3-class classification on our training and test sets for each model.
 }
 \end{table}
 
-The results are shown in \reftab{tab:nnresults}. The sum of words model performed slightly worse than the fundamentally similar lexicalized classifier---while the sum of words model is able to use pretrained word embeddings to better handle rare words, it lacks even the rudimentary sensitivity to word order that the lexicalized model's bigram features provide. Of the two RNN models, the LSTM's more robust ability to learn long-term dependencies serves it well, giving it a substantial advantage over the plain RNN, and  resulting in performance that is essentially equivalent to the lexicalized classifier on the test set (LSTM performance near the stopping iteration varies by up to 0.5\% between evaluation steps). While the lexicalized model fits the test set perfectly, the gap between train and test set accuracy is relatively small for all three neural network models, suggesting that research into significantly higher capacity versions of these models could be productive.
+The results are shown in \reftab{tab:nnresults}. The sum of words model performed slightly worse than the fundamentally similar lexicalized classifier---while the sum of words model is able to use pretrained word embeddings to better handle rare words, it lacks even the rudimentary sensitivity to word order that the lexicalized model's bigram features provide. Of the two RNN models, the LSTM's more robust ability to learn long-term dependencies serves it well, giving it a substantial advantage over the plain RNN, and  resulting in performance that is essentially equivalent to the lexicalized classifier on the test set (LSTM performance near the stopping iteration varies by up to 0.5\% between evaluation steps). While the lexicalized model fits the training set almost perfectly, the gap between train and test set accuracy is relatively small for all three neural network models, suggesting that research into significantly higher capacity versions of these models would be productive.
 
 \subsection{Analysis and discussion}
 
@@ -334,7 +333,10 @@ expectations about parallelism are not met. Another headline example
 of this type is \emph{A man wearing padded arm protection is being
   bitten by a German shepherd dog}/\emph{A man bit a dog}, which all
 the models wrongly diagnose as \ii{entailment}, though the sentences
-report two very different stories.
+report two very different stories. We would expect a model with access
+to explicit information about syntactic or semantic structure to perform
+better on cases like these.
+% CP is a fan of ``headline'' -- newspaper theme -- so didn't delete.
 
 \section{Transfer learning with SICK}
 
@@ -342,14 +344,14 @@ To the extent that successfully training a neural network model like our LSTM on
 
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
+\begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}r@{\hskip \colspaceL}r}
 \toprule
 \textbf{Training sets} & \b{Train}  & \b{Test}\\
 \midrule
 \t{Our data only}            & \t{42.0} & \t{46.7} \\
 % scr/transfer5-sick-only-transfer-l0.0001-dim100-ed300-td3-pen200-do0.95-0.95-ws3-adi1-comp2-cdim1/stat_log
 % Step 0, no learning intended after transfer
-\t{SICK only}            & \t{100} & \t{71.3} \\
+\t{SICK only}            & \t{100.0} & \t{71.3} \\
 % From: ~/quant/transfer-sick-only-l0.0001-dim50-ed200-td3-pen100-do0.9-0.9-ws1-par0-comp2-cdim1/
 \t{Our data and SICK (transfer)}            & \t{99.9} & \b{80.8} \\
 % From: ~/quant/transfer5-sick-only-transfer-l0.0001-dim100-ed300-td3-pen200-do0.95-0.95-ws3-adi0-comp2-cdim1/stat_log
@@ -363,9 +365,9 @@ LSTM 3-class accuracy on the SICK train and test sets under three training regim
 \end{table}
 
 
-To perform transfer, we take the parameters of the LSTM RNN model trained on SNLI and use them to initialize a new model, which is trained from that point only on the training portion of SICK. The only newly initialized parameters are softmax layer parameters and the embeddings for words that appear in SICK, but not in SNLI (which are populated with GloVe embeddings as above). We use the same model hyperparameters that were used to train the original model, with the exception of the L2 regularization strength, which is re-tuned. We additionally transfer the accumulators that are used by AdaDelta to set the learning rates. This lowers the starting learning rates, and is intended to ensure that the model does not learn too quickly in its first few epochs after transfer and destroy the knowledge accumulated in the pre-transfer phase of training. We tune the regularization parameter separately for each case. 
+To perform transfer, we take the parameters of the LSTM RNN model trained on SNLI and use them to initialize a new model, which is trained from that point only on the training portion of SICK. The only newly initialized parameters are softmax layer parameters and the embeddings for words that appear in SICK, but not in SNLI (which are populated with GloVe embeddings as above). We use the same model hyperparameters that were used to train the original model, with the exception of the L2 regularization strength, which is re-tuned. We additionally transfer the accumulators that are used by AdaDelta to set the learning rates. This lowers the starting learning rates, and is intended to ensure that the model does not learn too quickly in its first few epochs after transfer and destroy the knowledge accumulated in the pre-transfer phase of training.
 
-The results are shown in \reftab{tab:transferresults}. Training on SICK alone yields poor performance, and the model trained on SNLI fails when tested on SICK data, labeling more \ii{neutral} examples as \ii{contradiction}s than correctly, possibly as a result of subtle differences in the label definitions. Transferring representations, in contrast, yields the best performance yet reported on SICK for an unaugmented neural network model, surpasses the available EOP models, and approaches both the overall state of the art at 84.6\% \cite{lai2014illinois} and the 84\% level of interannotator agreement, which likely represents an approximate performance ceiling. This suggests that the introduction of a large high-quality corpus makes it  possible to train representation-learning models for sentence meaning that are competitive with the best hand-engineered models on inference tasks.
+The results are shown in \reftab{tab:transferresults}. Training on SICK alone yields poor performance, and the model trained on SNLI fails when tested on SICK data, labeling more \ii{neutral} examples as \ii{contradiction}s than correctly, possibly as a result of subtle differences in how the labeling task was presented. Transferring representations, in contrast, yields the best performance yet reported on SICK for an unaugmented neural network model, surpasses the available EOP models, and approaches both the overall state of the art at 84.6\% \cite{lai2014illinois} and the 84\% level of interannotator agreement, which likely represents an approximate performance ceiling. This suggests that the introduction of a large high-quality corpus makes it  possible to train representation-learning models for sentence meaning that are competitive with the best hand-engineered models on inference tasks.
 
 We attempted to apply this same transfer evaluation technique to the RTE-3 challenge, but found that the small training set (800 examples) did not allow the model to adapt to the unfamiliar genre of text used in that corpus, such that no training configuration yielded competitive performance.
 Further research on effective transfer learning on small data sets with neural models might facilitate improvements here.
