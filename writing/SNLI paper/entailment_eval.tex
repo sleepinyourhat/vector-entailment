@@ -1,6 +1,6 @@
 \section{Our data as a platform for evaluation}
 
-The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competetive at this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
+The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competitive at this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
 
 \subsection{Standard entailment models}
 
@@ -9,8 +9,8 @@ The first class of models is from the Excitement Open
   \citealt{pado2014design,magnini2014excitement})---an open source platform for RTE research.
 %  which
 %  is distributed alongside a number of RTE pipelines.
-We additionally evaluate against a strong but simple classifier-based model with
-  both unlexicalized and lexicalized features.
+We additionally evaluate against a strong but simple classifier-based model 
+  making use of both unlexicalized and lexicalized features.
 
 %
 % EOP
@@ -94,7 +94,7 @@ We evaluate against two algorithms included in the distribution:
 % the best systems
 We report results in \reftab{tab:eopresults}, covering both our own test set,
   the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
-Each of the models was trained on its own training set.
+Each of the models was re-trained on the training set of each corpus.
 %The results for RTE-3 are taken from \newcite{magnini2014excitement}.
 The edit distance and classifier based models are evaluated only on
   2-class entailment; all RTE results are likewise reported for 2-class entailment.
