@@ -105,8 +105,11 @@ This yields a chance baseline accuracy of 66\% on SNLI, and 71\% on SICK.
 This is intended to demonstrate the difficulty of the task, rather than necessarily
   the performance of a state-of-the-art RTE system.
 In particular, we omit the models which rely on richer lexical resources or more
-  sophisticated algorithms, as the training for these algorithms did not finish
-  after multiple days.
+  sophisticated algorithms. None of the strongest Excitement Open Platform models
+  are designed to scale to large training corpora without modification, and none of them
+  succeded at training on the full SNLI training set, with no model showing any measurable    
+  progress after several days.
+  
 %We train these models without using any of the included lexical
 %  resources, so these results do not represent state-of-the-art
 %  RTE systems, but rather give an indication of the relative
@@ -263,9 +266,8 @@ The results are shown in \reftab{tab:nnresults}. The sum of words model performe
 
 % useful resource in the development of more sophisticated SE models
 
-\Fig{learning_curves_bow.pdf}{0.45}{bowlearncurve}{
-A learning curve for the lexicalized and unlexicalized baseline classifiers and the LSTM,
-plotted on a log scale. The y-axis starts at a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
+\Fig{new_lcc.pdf}{0.83}{bowlearncurve}{
+A learning curve showing how the baseline classifiers and the LSTM perform when trained to convergence on varied amounts of training data. The y-axis starts near a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
 
 % Insights 2: the learning curve for the unlexicalized classifier is sad
 We were struck by the speed with which the lexicalized classifier outperforms its unlexicalized counterpart.

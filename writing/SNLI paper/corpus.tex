@@ -16,7 +16,7 @@ Denotation Graph entailment set \cite{hodoshimage} contains millions of
 examples of entailments between sentences and artificially constructed
 short phrases, but it was labeled using fully automatic methods, and is
 noisy enough that it is probably suitable only as a source of
-supplementary training data. 
+supplementary training data.
 Outside the domain of sentence-level entailment, \newcite{levy2014focused} introduce
 a large corpus of semi-automatically annotated entailment examples 
 between subject--verb--object relation triples, and the second release of the 
@@ -78,8 +78,10 @@ We used Amazon Mechanical Turk for data collection. In each individual task (eac
 
 The instructions that we provided to the workers are shown in \reffig{instructions-1}. Below the instructions were three fields for each of three requested sentences, corresponding to our \ii{entailment}, \ii{neutral}, and \ii{contradiction} labels, a fourth field (marked optional) for reporting problems, and a link to an FAQ page. That FAQ grew over the course of data collection. It warned about disallowed techniques (e.g., reusing the same sentence for many different prompts, which we saw in a few cases), provided guidance concerning sentence length and complexity (we did not enforce a minimum length, and we allowed bare NPs as well as full sentences), and reviewed logistical issues around payment timing. About 2,500 workers contributed.
 
-
-For the premises, we used captions from the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions (corresponding to about 30k images) collected in an earlier crowdsourced effort. The captions were not authored by the photographers who took the source images, and they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \word{Our trip to the Olympic Peninsula}).
+For the premises, we used captions from the Flickr30k corpus \cite{hodoshimage}, a collection of approximately 160k captions (corresponding to about 30k images) collected in an earlier crowdsourced effort.\footnote{
+We additionally include about 4k sentence pairs from a pilot study in which the premise sentences were instead drawn from the VisualGenome corpus (CITE CITE CITE CITE CITE). These examples appear only in the training set, and have pair identifiers prefixed with \texttt{vg} in the corpus.
+ } 
+The captions were not authored by the photographers who took the source images, and they tend to contain relatively literal scene descriptions that are suited to our approach, rather than those typically associated with personal photographs (as in their example: \word{Our trip to the Olympic Peninsula}). In order to ensure that the label for each sentence pair can be recovered solely based on the available text, we did not use the images at all during corpus collection.
 
 \Reftab{collection-stats} reports some key statistics about the collected corpus, and \reffig{length-dist} shows the distributions of sentence lengths for both our source hypotheses and our newly collected premises. We observed that while premise sentences varied considerably in length, hypothesis sentences tended to be as short as possible while still providing enough information to yield a clear judgment, clustering at around seven words. We also observed that the bulk of the sentences from both sources were syntactically complete rather than fragments, and the frequency with which the parser produces a parse rooted with an `S' (sentence) node attests to this.
 
