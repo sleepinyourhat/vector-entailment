@@ -315,6 +315,7 @@ export MATLABCMD="cd quant; lambda = 0.00003; dim = 150; ed = 300; td = 3; penul
 
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 100; ed = 300; td = 3; penult = 200; dropout = [0.8\, 0.8]; tot = 2; wordsource = 3; dataflag='snlirc3-only'; name='/scr/sbowman/snlirc3d'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, wordsource\, 1\, 5\, 5);" ; qsub -v MATLABCMD quant/run.sh -l mem=3gb  -l nodes=1:ppn=4 -q john
 export MATLABCMD="cd quant; lambda = 0.00003; dim = 100; ed = 300; td = 3; penult = 200; dropout = [0.75\, 0.75]; tot = 2; wordsource = 3; dataflag='snlirc3-only'; name='/scr/sbowman/snlirc3d'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, wordsource\, 1\, 5\, 5);" ; qsub -v MATLABCMD quant/run.sh -l mem=3gb  -l nodes=1:ppn=4 -q john
+export MATLABCMD="cd quant; lambda = 0.00003; dim = 150; ed = 300; td = 3; penult = 200; dropout = [0.75\, 0.75]; tot = 2; wordsource = 3; dataflag='snlirc3-only'; name='/scr/sbowman/snlirc3d'; TrainModel(''\, 1\, @SNLI\, name\, dataflag\, ed\, dim\, td\, penult\, lambda\, tot\, dropout(1)\, dropout(2)\, wordsource\, 1\, 5\, 5);" ; qsub -v MATLABCMD quant/run.sh -l mem=3gb  -l nodes=1:ppn=4 -q john
 
 
 -
