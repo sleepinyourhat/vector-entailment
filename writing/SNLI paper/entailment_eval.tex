@@ -104,8 +104,11 @@ This yields a chance baseline accuracy of 66\% on SNLI, and 71\% on SICK.
 This is intended to demonstrate the difficulty of the task, rather than necessarily
   the performance of a state-of-the-art RTE system.
 In particular, we omit the models which rely on richer lexical resources or more
-  sophisticated algorithms, as the training for these algorithms did not finish
-  after multiple days.
+  sophisticated algorithms. None of the strongest Excitement Open Platform models
+  are designed to scale to large training corpora without modification, and none of them
+  succeded at training on the full SNLI training set, with no model showing any measurable    
+  progress after several days.
+  
 %We train these models without using any of the included lexical
 %  resources, so these results do not represent state-of-the-art
 %  RTE systems, but rather give an indication of the relative
