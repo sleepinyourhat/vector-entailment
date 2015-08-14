@@ -80,7 +80,7 @@ We evaluate against two algorithms included in the distribution:
 % The caption
 \caption{
 \label{tab:eopresults}
-2-class test accuracy for two systems included in the
+2-class test accuracy for two simple baseline systems included in the
   Excitement Open Platform.
 %All RTE results are 2-class accuracy.
 %The transformation-based model allows for 3-class predictions on our
@@ -101,10 +101,15 @@ The edit distance and classifier based models are evaluated only on
 To convert 3-class problems like SICK and SNLI to this setting, all instances
   of \contradiction\ and \unknown\ are converted to nonentailment.
 This yields a chance baseline accuracy of 66\% on SNLI, and 71\% on SICK.
-We train these models without using any of the included lexical
-  resources, so these results do not represent state-of-the-art
-  RTE systems, but rather give an indication of the relative
-  difficulties of the datasets.
+This is intended to demonstrate the difficulty of the task, rather than necessarily
+  the performance of a state-of-the-art RTE system.
+In particular, we omit the models which rely on richer lexical resources or more
+  sophisticated algorithms, as the training for these algorithms did not finish
+  after multiple days.
+%We train these models without using any of the included lexical
+%  resources, so these results do not represent state-of-the-art
+%  RTE systems, but rather give an indication of the relative
+%  difficulties of the datasets.
 
 %The best edit distance algorithm tunes the weight of the three 
 %  case-insensitive edit distance operations on the training set, 
@@ -125,7 +130,7 @@ We train these models without using any of the included lexical
 \paragraph{Lexicalized Classifier}
 Unlike the RTE datasets, SNLI's size supports approaches which make use of rich lexicalized features.
 We evaluate a simple lexicalized classifier to explore the ability of non-specialized models to exploit these features in lieu of more involved language understanding.
-Our classifier implements 6 feature types:
+Our classifier implements 6 feature types; 3 unlexicalized and 3 lexicalized:
 \begin{enumerate}
 \setlength\itemsep{-0.25em}
   \item The BLEU score of the \hypothesis\ with respect
