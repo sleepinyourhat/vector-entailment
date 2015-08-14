@@ -168,14 +168,14 @@ Our classifier implements 6 feature types; 3 unlexicalized and 3 lexicalized:
 % The table
 \begin{table}
 \begin{center}
-\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
 \toprule
-\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{SNLI}} & \b{SICK}\\
- & \t{Train} & \t{Test} & \t{Test}\\
+\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{SNLI}} & \multicolumn{2}{c}{\b{SICK}}\\
+ & \t{Train} & \t{Test} & \t{Train} & \t{Test}\\
 \midrule
-\t{Lexicalized}            & \t{99.7}  & \b{78.2} & \b{77.3} \\ % & \t{78.7}
-\t{Unigrams Only}          & \t{93.1} & \t{71.6} & \t{74.0} \\ % & \t{72.2}
-\t{Unlexicalized}          & \t{49.4} & \t{50.4} & \t{69.4}\\ % & \t{50.1} % Last value was 50.39; rounded for consistency.
+\t{Lexicalized}            & \t{99.7}  & \b{78.2} & \t{90.4} & \b{77.8} \\ % & \t{78.7}
+\t{Unigrams Only}          & \t{93.1} & \t{71.6}  & \t{88.1} & \t{77.0} \\ % & \t{72.2}
+\t{Unlexicalized}          & \t{49.4} & \t{50.4}  & \t{69.9} & \t{69.6} \\ % & \t{50.1} % Last value was 50.39; rounded for consistency.
 \bottomrule
 \end{tabular}
 \end{center}
@@ -184,7 +184,8 @@ Our classifier implements 6 feature types; 3 unlexicalized and 3 lexicalized:
 \label{tab:bowresults}
 3-class accuracy, training on either our data or SICK, including models lacking cross-bigram features 
   (Feature \ref{lst:bigram}), and lacking all lexical
-  features (Features \ref{lst:ngram}--\ref{lst:bigram}). For the model trained on SNLI, we report results both on the test set and the training set to judge overfitting.
+  features (Features \ref{lst:ngram}--\ref{lst:bigram}).
+We report results both on the test set and the training set to judge overfitting.
 }
 \end{table}
 %
