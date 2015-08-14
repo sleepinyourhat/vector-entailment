@@ -109,14 +109,6 @@ Distinct words (ignoring case) & 37,026\\
 \end{table}
 
 
-\begin{figure}
-\center
-\includegraphics[width=3.05in]{length_dist}
-    % From 1.0rc2, though still accurate as of rc3
-% \todo{Replace w/ mean+SD if low on space.}
-\caption{\label{length-dist}The distribution of sentence length.} 
-\end{figure}
-
 \subsection{Data validation}
 
 In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we performed an additional round of validation for about 10\% of our data.
@@ -129,7 +121,17 @@ occurred in about 2\% of cases, we assigned the placeholder label `-'.
 While these unlabeled examples are included in the corpus distribution, they are
 unlikely to be helpful for the standard NLI classification task, and
 we do not include them in either training or evaluation in the experiments that we 
-discuss in this paper. 
+discuss in this paper.
+
+ 
+\begin{figure}
+\center
+\includegraphics[width=3.05in]{length_dist}
+    % From 1.0rc2, though still accurate as of rc3
+% \todo{Replace w/ mean+SD if low on space.}
+\caption{\label{length-dist}The distribution of sentence length.} 
+\end{figure}
+ 
 
 The results of this validation process
 are summarized in \reftab{validation-stats}. 
