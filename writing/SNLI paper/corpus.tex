@@ -27,20 +27,9 @@ Existing resources suffer from a subtler issue that impacts even
 projects using only human-provided annotations: indeterminacies of
 event and entity coreference lead to insurmountable indeterminacy
 concerning the correct semantic label (\citealt{de2008finding} $\S4.3$; \citealt{marelli2014sick}). 
-For instance, the sentence pair \word{A boat sank in the Pacific Ocean} and \word{A boat sank in the Atlantic Ocean} could be labeled as a contradiction if the annotator assumes that the two events under discussion are coreferent, but could also be reasonably labeled as neutral if that assumption is not made. In order to ensure that our labeling scheme is consistent across annotators, we need to select one of these approaches, but there are pitfalls to both choices. If we instruct annotators not to assume that entities are coreferent, than we will only ever see contradictions between sentences that make broad universal assertions, but if we instruct them to always assume coreference, other problems emerge. 
-For a similar example with potentially different inutitions, \ii{Ruth Bader Ginsburg was appointed to the US Supreme Court} and \ii{I had a sandwich for lunch today} would be labeled as neutral if the annotator allows that they need not be refer to the same event, but is unintuitively a contradiction if we require that events corefer. 
+For an example of the pitfalls surrounding entity coreference, consider the sentence pair \word{A boat sank in the Pacific Ocean} and \word{A boat sank in the Atlantic Ocean}. The pair could be labeled as a contradiction if one assumes that the two sentences refer to the same single event, but could also be reasonably labeled as neutral if that assumption is not made. In order to ensure that our labeling scheme assigns a single correct label to every pair, we must select one of these approaches across the board, but both choices present problems. If we opt not to assume that events are coreferent, then we will only ever find contradictions between sentences that make broad universal assertions, but if we opt to assume coreference, new counterintuitive predictions emerge. For example, \ii{Ruth Bader Ginsburg was appointed to the US Supreme Court} and \ii{I had a sandwich for lunch today} would unintuitively be labeled as a contradiction, rather than neutral, under this assumption.
 
-Entity coreference presents a similar kind of uncertainty, as in the pair \word{A tourist visited New York} and \word{A tourist visited the city}. Assuming coreference between \ii{New York} and \ii{the city} justifies labeling the pair as an entailment, but without that assumption \ii{the city} could be taken to refer to a specific unknown city, leaving the pair neutral. This kind of indeterminacy can be resolved only once the questions of coreference are resolved.
-
-% If
-% the two boats are assumed to be different, then the sentences are semantically
-% independent. If the boats and the oceans are assumed to be the same,
-%then the first sentence entails the second (in the relevant
-%commonsense way). If the boats are assumed to be the same and 
-%\word{an ocean} in the second sentence is interpreted with a specific referent 
-%that is not the Pacific, then the two events are (commonsense) contradictory. This
-%kind of indeterminacy can be resolved only once the questions of
-%coreference are resolved.
+Entity coreference presents a similar kind of indeterminacy, as in the pair \word{A tourist visited New York} and \word{A tourist visited the city}. Assuming coreference between \ii{New York} and \ii{the city} justifies labeling the pair as an entailment, but without that assumption \ii{the city} could be taken to refer to a specific unknown city, leaving the pair neutral. This kind of indeterminacy of label can be resolved only once the questions of coreference are resolved.
 
 With SNLI, we sought to address the issues of size, quality, and
 indeterminacy. To do this, we employed a crowdsourcing framework with
@@ -120,14 +109,6 @@ Distinct words (ignoring case) & 37,026\\
 \end{table}
 
 
-\begin{figure}
-\center
-\includegraphics[width=3.05in]{length_dist}
-    % From 1.0rc2, though still accurate as of rc3
-% \todo{Replace w/ mean+SD if low on space.}
-\caption{\label{length-dist}The distribution of sentence length.} 
-\end{figure}
-
 \subsection{Data validation}
 
 In order to measure the quality of our corpus, and in order to construct maximally useful testing and development sets, we performed an additional round of validation for about 10\% of our data.
@@ -140,7 +121,17 @@ occurred in about 2\% of cases, we assigned the placeholder label `-'.
 While these unlabeled examples are included in the corpus distribution, they are
 unlikely to be helpful for the standard NLI classification task, and
 we do not include them in either training or evaluation in the experiments that we 
-discuss in this paper. 
+discuss in this paper.
+
+ 
+\begin{figure}
+\center
+\includegraphics[width=3.05in]{length_dist}
+    % From 1.0rc2, though still accurate as of rc3
+% \todo{Replace w/ mean+SD if low on space.}
+\caption{\label{length-dist}The distribution of sentence length.} 
+\end{figure}
+ 
 
 The results of this validation process
 are summarized in \reftab{validation-stats}. 
