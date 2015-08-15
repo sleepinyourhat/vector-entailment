@@ -1,26 +1,24 @@
 \section{Our data as a platform for evaluation}
 
-The most immediate application for our corpus is in developing models for the task of NLI. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competitive at this task. In this section, we explore the performance of a range of standard and novel models trained on the corpus.
+The most immediate application for our corpus is in developing models for the task of NLI\@. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competitive at this task. In this section, we explore the performance of three classes of models: (i)~models from a well-known NLI system, the Excitement Open Platform; (ii)~variants of a strong but simple feature-based classifier model, which makes use of both unlexicalized and lexicalized features, and (iii)~distributed representation models, including a baseline model and neural network sequence models.
 
-\subsection{Standard entailment models}
+%
+% EOP
+%
+
+\subsection{Excitement Open Platform models}
 
 The first class of models is from the Excitement Open
   Platform (EOP,
   \citealt{pado2014design,magnini2014excitement})---an open source platform for RTE research.
 %  which
 %  is distributed alongside a number of RTE pipelines.
-We additionally evaluate against a strong but simple classifier-based model 
-  making use of both unlexicalized and lexicalized features.
-
 %
-% EOP
-%
-\paragraph{Excitement Open Platform}
 % what is EOP
-The Excitement Open Platform is a tool to quickly develop NLI systems
+EOP is a tool for quickly developing NLI systems
   while sharing components such as common lexical resources and 
   evaluation sets.
-We evaluate against two algorithms included in the distribution:
+We evaluate on two algorithms included in the distribution:
 %  and also evaluated in \newcite{magnini2014excitement}.
 %These are: 
   a simple edit-distance based algorithm and
@@ -94,18 +92,19 @@ We evaluate against two algorithms included in the distribution:
 %
 
 % the best systems
-We report results in \reftab{tab:eopresults}, covering both our own test set,
-  the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
-Each of the models was re-trained on the training set of each corpus.
+Our initial goal was to better understand the difficulty of the task of classifying SNLI corpus inferences, rather than necessarily the performance of a state-of-the-art RTE system.
+We approached this by running the same system on several data sets:
+our own test set,
+the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
+We report results in \reftab{tab:eopresults}.
+Each of the models was separately trained on the training set of each corpus.
 %The results for RTE-3 are taken from \newcite{magnini2014excitement}.
 The edit distance and classifier based models are evaluated only on
-  2-class entailment; all RTE results are likewise reported for 2-class entailment.
+2-class entailment; all RTE results are likewise reported for 2-class entailment.
 To convert 3-class problems like SICK and SNLI to this setting, all instances
   of \contradiction\ and \unknown\ are converted to nonentailment.
-This yields a most-frequent-class baseline accuracy of 66\% on SNLI, and 71\% on SICK.
-This is intended to demonstrate the difficulty of the task, rather than necessarily
-  the performance of a state-of-the-art RTE system.
-In particular, we could not evaluate models which rely on richer lexical resources or more
+This yields a most-frequent-class baseline accuracy of 66\% on SNLI, and 71\% on SICK\@.
+We were unable to run EOP models which rely on richer lexical resources or more
   sophisticated algorithms. 
 None of the strongest Excitement Open Platform models
   are designed to scale to large training corpora without modification, 
@@ -134,7 +133,7 @@ We include the performance of one such model on the SICK and RTE-3 datasets to
 %
 % Lexicalized Classifier
 %
-\paragraph{Lexicalized Classifier}
+\subsection{Lexicalized Classifier}
 Unlike the RTE datasets, SNLI's size supports approaches which make use of rich lexicalized features.
 We evaluate a simple lexicalized classifier to explore the ability of non-specialized models to exploit these features in lieu of more involved language understanding.
 Our classifier implements 6 feature types; 3 unlexicalized and 3 lexicalized:
