@@ -1,6 +1,6 @@
 \section{Our data as a platform for evaluation}
 
-The most immediate application for our corpus is in developing models for the task of NLI\@. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competitive at this task. In this section, we explore the performance of three classes of models: (i)~models from a well-known NLI system, the Excitement Open Platform; (ii)~variants of a strong but simple feature-based classifier model, which makes use of both unlexicalized and lexicalized features, and (iii)~distributed representation models, including a baseline model and neural network sequence models.
+The most immediate application for our corpus is in developing models for the task of NLI\@. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competitive at this task. Our ability to evaluate standard classifier-base NLI models, however, was limited to those which were designed to scale to SNLI's size without modification, so a more complete comparison of approaches will have to wait for future work. In this section, we explore the performance of three classes of models which could scale readily: (i)~models from a well-known NLI system, the Excitement Open Platform; (ii)~variants of a strong but simple feature-based classifier model, which makes use of both unlexicalized and lexicalized features, and (iii)~distributed representation models, including a baseline model and neural network sequence models.
 
 %
 % EOP
@@ -19,10 +19,9 @@ EOP is a tool for quickly developing NLI systems
   while sharing components such as common lexical resources and 
   evaluation sets.
 We evaluate on two algorithms included in the distribution:
-%  and also evaluated in \newcite{magnini2014excitement}.
-%These are: 
   a simple edit-distance based algorithm and
-  a classifier-based algorithm.
+  a classifier-based algorithm, the latter both in a bare form and augmented 
+  with EOP's full suite of lexical resources.
 %  (3) an algorithm based around tree transformations.
 
 %% 9 systems compared against
