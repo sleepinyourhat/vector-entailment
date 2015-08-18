@@ -70,8 +70,8 @@ We evaluate against two algorithms included in the distribution:
 \b{System} & \b{SNLI} & \b{SICK} & \b{RTE-3} \\
 \midrule
 \t{Edit Distance Based}            & \t{71.9} & \t{65.4} & \t{61.9} \\
-\t{Classifier Based}               & \b{72.2} & \t{71.4} & \t{61.5} \\
-\t{Classifier + Lexical Resources} & \t{--}   & \b{78.8} & \b{63.6} \\
+\t{Classifier Based}               & \t{72.2} & \t{71.4} & \t{61.5} \\
+\t{$~~~$ + Lexical Resources} & \b{75.0} & \b{78.8} & \b{63.6} \\
 %\midrule
 %\t{Classifier Based (3-class)} & \t{??.?} & \t{65.6} & \t{} \\
 %\t{Transformation Based} & \t{36.0} & \t{76.7} & \t{56.4} \\  % broken! At least, on SNLI...
@@ -98,21 +98,31 @@ We report results in \reftab{tab:eopresults}, covering both our own test set,
   the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
 Each of the models was re-trained on the training set of each corpus.
 %The results for RTE-3 are taken from \newcite{magnini2014excitement}.
-The edit distance and classifier based models are evaluated only on
+These models are evaluated only on
   2-class entailment; all RTE results are likewise reported for 2-class entailment.
 To convert 3-class problems like SICK and SNLI to this setting, all instances
   of \contradiction\ and \unknown\ are converted to nonentailment.
 This yields a most-frequent-class baseline accuracy of 66\% on SNLI, and 71\% on SICK.
-This is intended to demonstrate the difficulty of the task, rather than necessarily
+This is intended primarily to demonstrate the difficulty of the task, rather than necessarily
   the performance of a state-of-the-art RTE system.
-In particular, we could not evaluate models which rely on richer lexical resources or more
-  sophisticated algorithms. 
-None of the strongest Excitement Open Platform models
-  are designed to scale to large training corpora without modification, 
-  and none of them succeeded at training on the full SNLI training set, with no 
-  model showing any measurable progress after several days.
-We include the performance of one such model on the SICK and RTE-3 datasets to
-  gauge its relative performance.
+The edit distance algorithm tunes the weight of the three 
+  case-insensitive edit distance operations on the training set, 
+  after removing stop words.
+In addition to the base classifier-based system distributed with the platform, we
+  train a variant which includes information from
+  WordNet \cite{miller1995wordnet} and VerbOcean
+  \cite{chklovski2004verbocean}, and makes use of features
+  based on tree patterns and dependency tree skeletons
+  \cite{wang2007recognizing}.
+
+%In particular, we could not evaluate models which rely on richer lexical resources or more
+%  sophisticated algorithms. 
+%None of the strongest Excitement Open Platform models
+%  are designed to scale to large training corpora without modification, 
+%  and none of them succeeded at training on the full SNLI training set, with no 
+%  model showing any measurable progress after several days.
+%We include the performance of one such model on the SICK and RTE-3 datasets to
+%  gauge its relative performance.
   
 %We train these models without using any of the included lexical
 %  resources, so these results do not represent state-of-the-art
