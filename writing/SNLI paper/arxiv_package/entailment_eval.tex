@@ -1,0 +1,386 @@
+\section{Our data as a platform for evaluation}
+
+The most immediate application for our corpus is in developing models for the task of NLI\@. In particular, since it is dramatically larger than any existing corpus of comparable quality, we expect it to be suitable for training parameter-rich models like neural networks, which have not previously been competitive at this task. Our ability to evaluate standard classifier-base NLI models, however, was limited to those which were designed to scale to SNLI's size without modification, so a more complete comparison of approaches will have to wait for future work. In this section, we explore the performance of three classes of models which could scale readily: (i)~models from a well-known NLI system, the Excitement Open Platform; (ii)~variants of a strong but simple feature-based classifier model, which makes use of both unlexicalized and lexicalized features, and (iii)~distributed representation models, including a baseline model and neural network sequence models.
+
+%
+% EOP
+%
+
+\subsection{Excitement Open Platform models}
+
+The first class of models is from the Excitement Open
+  Platform (EOP,
+  \citealt{pado2014design,magnini2014excitement})---an open source platform for RTE research.
+%  which
+%  is distributed alongside a number of RTE pipelines.
+%
+% what is EOP
+EOP is a tool for quickly developing NLI systems
+  while sharing components such as common lexical resources and 
+  evaluation sets.
+We evaluate on two algorithms included in the distribution:
+  a simple edit-distance based algorithm and
+  a classifier-based algorithm, the latter both in a bare form and augmented 
+  with EOP's full suite of lexical resources.
+%  (3) an algorithm based around tree transformations.
+
+%% 9 systems compared against
+%A number of systems have been built using the platform, 9 of them
+%  applicable to English are publicly distributed with version 1.2.1
+%  of the software.
+%% these fall into 2 classes
+%These fall into two classes of algorithms: 2 are edit distance based,
+%  whereas the remaining 7 make use of different features in a
+%  maximum entropy classifier.
+%
+%%% methodology
+%%We convert the 3-way classification task in SNLI into the RTE setting
+%%  by labeling both the \unknown\ and \contradiction\
+%%  labels as negative entailment, and treating the \entailment\ label as
+%%  the positive entailment.
+%%This creates a biased dataset of 66\% negative examples.
+%% we report the best results from each class
+%We run the top performing edit-distance based algorithm and the top
+%  performing classifier-based algorithm on our test set, as
+%  determined by performance on the development set.
+%Note that these models were run using the default configuration
+%  with minimal tuning.
+%The results should therefore be taken as a strong baseline for
+%  NLI-style approaches to the problem, rather than necessarily
+%  representing the state-of-the-art system's performance on the
+%  task.
+%%We run each of the 9 algorithms distributed with EOP on the 2-class
+%%  SNLI dataset, and report results for the best edit distance 
+%%  configuration and the best classifier based configuration, as
+%%  determined by performance on the development set.
+
+%
+% EOP RESULTS TABLE
+%
+
+% The table
+\begin{table}
+\begin{center}
+\def\t#1{\small{#1}}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
+\toprule
+\b{System} & \b{SNLI} & \b{SICK} & \b{RTE-3} \\
+\midrule
+\t{Edit Distance Based}            & \t{71.9} & \t{65.4} & \t{61.9} \\
+\t{Classifier Based}               & \t{72.2} & \t{71.4} & \t{61.5} \\
+\t{$~~~$ + Lexical Resources} & \b{75.0} & \b{78.8} & \b{63.6} \\
+%\midrule
+%\t{Classifier Based (3-class)} & \t{??.?} & \t{65.6} & \t{} \\
+%\t{Transformation Based} & \t{36.0} & \t{76.7} & \t{56.4} \\  % broken! At least, on SNLI...
+\bottomrule
+\end{tabular}
+\end{center}
+% The caption
+\caption{
+\label{tab:eopresults}
+2-class test accuracy for two simple baseline systems included in the
+  Excitement Open Platform, as well as SICK and RTE results for
+  a model making use of more sophisticated lexical resources.
+%All RTE results are 2-class accuracy.
+%The transformation-based model allows for 3-class predictions on our
+%  corpus and SICK; these are reported in the last row.
+}
+\end{table}
+%
+% END EOP RESULTS TABLE
+%
+
+% the best systems
+Our initial goal was to better understand the difficulty of the task of classifying SNLI corpus inferences, rather than necessarily the performance of a state-of-the-art RTE system.
+We approached this by running the same system on several data sets:
+our own test set,
+the SICK test data, and the standard RTE-3 test set \cite{giampiccolo2007third}.
+We report results in \reftab{tab:eopresults}.
+Each of the models was separately trained on the training set of each corpus.
+%The results for RTE-3 are taken from \newcite{magnini2014excitement}.
+All models are evaluated only on 2-class entailment.
+To convert 3-class problems like SICK and SNLI to this setting, all instances
+  of \contradiction\ and \unknown\ are converted to nonentailment.
+This yields a most-frequent-class baseline accuracy of 66\% on SNLI, and 71\% on SICK\@.
+This is intended primarily to demonstrate the difficulty of the task, rather than necessarily
+  the performance of a state-of-the-art RTE system.
+The edit distance algorithm tunes the weight of the three 
+  case-insensitive edit distance operations on the training set, 
+  after removing stop words.
+In addition to the base classifier-based system distributed with the platform, we
+  train a variant which includes information from
+  WordNet \cite{miller1995wordnet} and VerbOcean
+  \cite{chklovski2004verbocean}, and makes use of features
+  based on tree patterns and dependency tree skeletons
+  \cite{wang2007recognizing}.
+
+%In particular, we could not evaluate models which rely on richer lexical resources or more
+%  sophisticated algorithms. 
+%None of the strongest Excitement Open Platform models
+%  are designed to scale to large training corpora without modification, 
+%  and none of them succeeded at training on the full SNLI training set, with no 
+%  model showing any measurable progress after several days.
+%We include the performance of one such model on the SICK and RTE-3 datasets to
+%  gauge its relative performance.
+  
+%We train these models without using any of the included lexical
+%  resources, so these results do not represent state-of-the-art
+%  RTE systems, but rather give an indication of the relative
+%  difficulties of the datasets.
+
+%The best edit distance algorithm tunes the weight of the three 
+%  case-insensitive edit distance operations on the training set, 
+%  after removing stop words.
+%The best classifier-based system makes use of information from
+%  WordNet \cite{miller1995wordnet} and VerbOcean
+%  \cite{chklovski2004verbocean}, and makes use of features
+%  based on tree patterns and dependency tree skeletons
+%  \cite{wang2007recognizing}.
+%Unsurprisingly, the classification-based approach outperforms simple
+%  edit distance metrics, and performs quite well despite relatively
+%  little lexicalization.
+
+%
+% Lexicalized Classifier
+%
+\subsection{Lexicalized Classifier}
+Unlike the RTE datasets, SNLI's size supports approaches which make use of rich lexicalized features.
+We evaluate a simple lexicalized classifier to explore the ability of non-specialized models to exploit these features in lieu of more involved language understanding.
+Our classifier implements 6 feature types; 3 unlexicalized and 3 lexicalized:
+\begin{enumerate}
+\setlength\itemsep{-0.25em}
+  \item The BLEU score of the \hypothesis\ with respect
+  to the \premise, using an n-gram length between 1 and 4.
+
+  \item The length difference between the \hypothesis\ and the \premise, as a real-valued
+  feature.
+
+  \item The overlap between words in the \premise\ and \hypothesis,
+  both as an absolute count and a percentage of possible overlap, and both over 
+  all words and over just nouns, verbs, adjectives, 
+  and adverbs.
+  
+  \item\label{lst:ngram} An indicator for every unigram and bigram in the \hypothesis.
+
+  \item\label{lst:unigram} Cross-unigrams: for every pair of words across the \premise\ and \hypothesis\ which share a 
+  POS tag, an indicator feature over the two words.
+  
+  \item\label{lst:bigram} Cross-bigrams: for every pair of bigrams across the \premise\ and \hypothesis\ which share a 
+  POS tag on the second word, an indicator feature over the two bigrams.
+\end{enumerate}
+
+%
+% BOW RESULTS TABLE
+%
+
+% The table
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceL}c@{\hskip \colspaceS}c}
+\toprule
+\b{System}	 & \multicolumn{2}{c}{\hspace{-1.2em}\b{SNLI}} & \multicolumn{2}{c}{\b{SICK}}\\
+ & \t{Train} & \t{Test} & \t{Train} & \t{Test}\\
+\midrule
+\t{Lexicalized}            & \t{99.7}  & \b{78.2} & \t{90.4} & \b{77.8} \\ % & \t{78.7}
+\t{Unigrams Only}          & \t{93.1} & \t{71.6}  & \t{88.1} & \t{77.0} \\ % & \t{72.2}
+\t{Unlexicalized}          & \t{49.4} & \t{50.4}  & \t{69.9} & \t{69.6} \\ % & \t{50.1} % Last value was 50.39; rounded for consistency.
+\bottomrule
+\end{tabular}
+\end{center}
+% The caption
+\caption{
+\label{tab:bowresults}
+3-class accuracy, training on either our data or SICK, including models lacking cross-bigram features 
+  (Feature \ref{lst:bigram}), and lacking all lexical
+  features (Features \ref{lst:ngram}--\ref{lst:bigram}).
+We report results both on the test set and the training set to judge overfitting.
+}
+\end{table}
+%
+% END BOW RESULTS TABLE
+%
+
+
+% Results
+We report results in \reftab{tab:bowresults}, along with ablation studies for removing
+  the cross-bigram features (leaving only the cross-unigram feature)
+  and for removing all lexicalized features.
+% Insights 1: lexicalization helps a bunch
+On our large corpus in particular, there is a substantial jump in accuracy from using
+  lexicalized features, and another from using the very sparse
+  cross-bigram features.
+The latter  result suggests that there is value in letting
+  the classifier automatically learn to recognize structures like explicit negations and adjective
+  modification. A similar result was shown in
+  \newcite{sidaw12simple} for bigram features in sentiment analysis.
+  
+% Insight 2: do well without alignments
+It is surprising that the classifier performs as well as it
+  does without any notion of alignment or tree transformations.
+Although we expect that richer models would perform better,
+  the results suggest that given enough data, cross bigrams with the noisy 
+  part-of-speech overlap constraint can produce an effective model.
+
+%In fact, the addition of these features alone allow the classifier to
+%  outperform many of the .
+%  This seems initially surprising, but it makes sense given how our corpus differs from existing ones:
+%  the EOP systems have been tuned on relatively small corpora
+%  ($\approx$1600 examples), whereas a classifier trained on our corpus can make use of
+%  over two orders of magnitude more data.
+
+\subsection{Sentence embeddings and NLI}\label{sentence-embedding}
+
+SNLI is suitably large and diverse to make it possible to train neural network models that produce distributed representations of sentence meaning. In this section, we compare the performance of three such models on the corpus. To focus specifically on the strengths of these models at producing informative sentence representations, we use sentence embedding as an intermediate step in the NLI classification task: each model must produce a vector representation of each of the two sentences without using any context from the other sentence, and the two resulting vectors are then passed to a neural network classifier which predicts the label for the pair. This choice allows us to focus on existing models for sentence embedding, and it allows us to evaluate the ability of those models to learn useful representations of meaning (which may be independently useful for subsequent tasks), at the cost of excluding from consideration possible strong neural models for NLI that directly compare the two inputs at the word or phrase level.
+
+\input{model_structure_fig.tex}
+
+Our neural network classifier, depicted in \reffig{modelstructure} (and based on a one-layer model in \citealt{Bowman:Potts:Manning:2014}), is simply a stack of three 200d $\tanh$ layers, with the bottom layer taking the concatenated sentence representations as input and the top layer feeding a softmax classifier, all trained jointly with the sentence embedding model itself.
+
+We test three sentence embedding models, each set to use 100d phrase and sentence embeddings. Our baseline sentence embedding model simply sums the embeddings of the words in each sentence. In addition, we experiment with two simple sequence embedding models: a plain RNN and an LSTM RNN \cite{hochreiter1997long}.
+
+The word embeddings for all of the models are initialized with the 300d reference GloVe vectors (840B token version, \citealt{pennington2014glove}) and fine-tuned as part of training. In addition, all of the models use an additional $\tanh$ neural network layer to map these 300d embeddings into the lower-dimensional phrase and sentence embedding space. All of the models are randomly initialized using standard techniques and trained using AdaDelta \cite{zeiler2012adadelta} minibatch SGD until performance on the development set stops improving. We applied L2 regularization to all models, manually tuning the strength coefficient $\lambda$ for each, and additionally applied dropout \cite{srivastava2014dropout} to the inputs and outputs of the sentence embedding models (though not to its internal connections) with a fixed dropout rate. All models were implemented in a common framework for this paper, and the implementations will be made available at publication time.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}c@{\hskip \colspaceL}c}
+\toprule
+\textbf{Sentence model} & \b{Train}  & \b{Test}\\
+\midrule
+\t{100d Sum of words}            & \t{79.3} & \t{75.3} \\
+% scr/snlirc3d-snlirc3-only-l0.0001-dim100-ed300-td3-pen200-do0.9-0.9-co3-comp-1-dp1-gc5-lstminit5/stat_log
+% 290500, dev 76.4, converged
+
+\t{100d RNN}            & \t{73.1} & \t{72.2} \\	
+% scr/snlirc3d-snlirc3-only-l0.0001-dim100-ed300-td3-pen200-do0.9-0.9-co3-comp3-dp1-gc5-lstminit5/stat_log
+% 338500, dev 72.5, mostly converged
+
+\t{100d LSTM RNN}            & \t{84.8} & \b{77.6} \\
+% scr/snlirc3d-snlirc3-only-l3e-05-dim100-ed300-td3-pen200-do0.95-0.95-co3-comp2-dp1-gc5-lstminit5/stat_log
+% 372000, dev 79.11, mostly converged
+
+% \t{100d TreeRNN}            & \t{69?} & \t{69?} \\
+% \t{50d TreeRNTN}            & \t{61?} & \t{60?} \\
+% \t{100d LSTM TreeRNN}            & \t{72?} & \t{73?} \\
+\bottomrule
+\end{tabular}
+\end{center}
+% The caption
+\caption{
+\label{tab:nnresults}
+Accuracy in 3-class classification on our training and test sets for each model.
+}
+\end{table}
+
+The results are shown in \reftab{tab:nnresults}. The sum of words model performed slightly worse than the fundamentally similar lexicalized classifier---while the sum of words model can use pretrained word embeddings to better handle rare words, it lacks even the rudimentary sensitivity to word order that the lexicalized model's bigram features provide. Of the two RNN models, the LSTM's more robust ability to learn long-term dependencies serves it well, giving it a substantial advantage over the plain RNN, and  resulting in performance that is essentially equivalent to the lexicalized classifier on the test set (LSTM performance near the stopping iteration varies by up to 0.5\% between evaluation steps). While the lexicalized model fits the training set almost perfectly, the gap between train and test set accuracy is relatively small for all three neural network models, suggesting that research into significantly higher capacity versions of these models would be productive.
+
+\subsection{Analysis and discussion}
+
+\Reffig{fig:bowlearncurve} shows a learning curve for the LSTM and the lexicalized and unlexicalized feature-based models. It shows that the large size of the corpus is crucial to both the LSTM and the lexicalized model, and suggests that additional data would yield still better performance for both. In addition, though the LSTM and the lexicalized model show similar performance when trained on the current full corpus, the somewhat steeper slope for the LSTM hints that its ability to learn arbitrarily structured representations of sentence meaning may give it an advantage over the more constrained lexicalized model on still larger datasets.
+
+% useful resource in the development of more sophisticated SE models
+
+\Fig{new_lcc.pdf}{0.83}{bowlearncurve}{
+A learning curve showing how the baseline classifiers and the LSTM perform when trained to convergence on varied amounts of training data. The y-axis starts near a random-chance accuracy of 33\%. The minibatch size of 64 that we used to tune the LSTM sets a lower bound on data for that model.}
+
+% Insights 2: the learning curve for the unlexicalized classifier is sad
+We were struck by the speed with which the lexicalized classifier outperforms its unlexicalized counterpart.
+With only 100 training examples, the cross-bigram classifier is already performing better.
+Empirically, we find that the top weighted features for the classifier
+  trained on 100 examples tend to be high precision entailments;
+  e.g.,
+  \textit{playing} $\rightarrow$ \textit{outside}
+  (most scenes are outdoors), \textit{a banana} $\rightarrow$
+  \textit{person eating}.
+If relatively few spurious entailments get high weight---as it appears
+is the case---then it makes sense that, when these do fire, they
+boost accuracy in identifying entailments.
+  
+There are revealing patterns in the errors common to all the models
+considered here. Despite the large size of the training corpus and the
+distributional information captured by GloVe initialization, many
+lexical relationships are still misanalyzed, leading to incorrect
+predictions of \ii{independent}, even for pairs that are common in the
+training corpus like \word{beach}/\word{surf} and
+\word{sprinter}/\word{runner}. Semantic mistakes at the phrasal level
+(e.g., predicting contradiction for \word{A male is placing an order in a 
+deli}/\word{A man buying a sandwich at a deli}) indicate
+that additional attention to compositional semantics would pay off.
+%
+% Others that could replace the above:
+% \word{Two teen girls relax on a black futon}/\word{Two young girls are sitting inside}
+% \word{A male is placing an order in a deli}/\word{A man buying a sandwich at a deli}
+% \word{A shopper buys cat food at a Walmart}/\word{A person shops for their pet at a store}
+However, many of the persistent problems run deeper, to inferences
+that depend on world knowledge and context-specific inferences, as in
+the entailment pair \word{A race car driver leaps from a burning
+  car}/\word{A race car driver escaping danger}, for which both
+the lexicalized classifier and the LSTM predict \ii{neutral}. 
+In other cases, the models' attempts to shortcut this kind of inference 
+through lexical cues can lead them astray. 
+Some of these examples have qualities
+reminiscent of Winograd schemas \cite{Winograd:1972,Levesque:2013}. For
+example, all the models wrongly predict
+entailment for \word{A young girl throws sand toward the
+  ocean}/\word{A girl can't stand the ocean}, presumably because of
+distributional associations between \word{throws} and \word{can't
+  stand}.
+
+Analysis of the models' predictions also yields insights into the
+extent to which they grapple with event and entity coreference. For
+the most part, the original image prompts contained a focal element
+that the caption writer identified with a syntactic subject, following
+information structuring conventions associating subjects and topics in
+English \cite{Ward04}. Our annotators generally followed suit, writing
+sentences that, while structurally diverse, share topic/focus (theme/rheme)
+structure with their premises.
+This promotes a coherent, situation-specific construal of each sentence
+pair. This is information that our models can easily take advantage
+of, but it can lead them astray. For instance, all of them stumble
+with the amusingly simple case \emph{A woman prepares ingredients for
+  a bowl of soup}/\emph{A soup bowl prepares a woman}, in which prior
+expectations about parallelism are not met. Another headline example
+of this type is \emph{A man wearing padded arm protection is being
+  bitten by a German shepherd dog}/\emph{A man bit a dog}, which all
+the models wrongly diagnose as \ii{entailment}, though the sentences
+report two very different stories. A model with access
+to explicit information about syntactic or semantic structure should perform
+better on cases like these.
+% CP is a fan of ``headline'' -- newspaper theme -- so didn't delete.
+
+\section{Transfer learning with SICK}
+
+To the extent that successfully training a neural network model like our LSTM on SNLI forces that model to encode broadly accurate representations of English scene descriptions and to build an entailment classifier over those relations, we should expect it to be readily possible to adapt the trained model for use on other NLI tasks. In this section, we evaluate on the SICK entailment task using a simple transfer learning method \cite{pratt1991direct} and achieve competitive results.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}@{\hskip \colspaceL}r@{\hskip \colspaceL}r}
+\toprule
+\textbf{Training sets} & \b{Train}  & \b{Test}\\
+\midrule
+\t{Our data only}            & \t{42.0} & \t{46.7} \\
+% scr/transfer5-sick-only-transfer-l0.0001-dim100-ed300-td3-pen200-do0.95-0.95-ws3-adi1-comp2-cdim1/stat_log
+% Step 0, no learning intended after transfer
+\t{SICK only}            & \t{100.0} & \t{71.3} \\
+% From: ~/quant/transfer-sick-only-l0.0001-dim50-ed200-td3-pen100-do0.9-0.9-ws1-par0-comp2-cdim1/
+\t{Our data and SICK (transfer)}            & \t{99.9} & \b{80.8} \\
+% From: ~/quant/transfer5-sick-only-transfer-l0.0001-dim100-ed300-td3-pen200-do0.95-0.95-ws3-adi0-comp2-cdim1/stat_log
+\bottomrule
+\end{tabular}
+\end{center}
+
+\caption{\label{tab:transferresults}
+LSTM 3-class accuracy on the SICK train and test sets under three training regimes.} 
+% TODO (Gabor): Report training accuracy for the model trained on SICK.
+\end{table}
+
+
+To perform transfer, we take the parameters of the LSTM RNN model trained on SNLI and use them to initialize a new model, which is trained from that point only on the training portion of SICK. The only newly initialized parameters are softmax layer parameters and the embeddings for words that appear in SICK, but not in SNLI (which are populated with GloVe embeddings as above). We use the same model hyperparameters that were used to train the original model, with the exception of the L2 regularization strength, which is re-tuned. We additionally transfer the accumulators that are used by AdaDelta to set the learning rates. This lowers the starting learning rates, and is intended to ensure that the model does not learn too quickly in its first few epochs after transfer and destroy the knowledge accumulated in the pre-transfer phase of training.
+
+The results are shown in \reftab{tab:transferresults}. Training on SICK alone yields poor performance, and the model trained on SNLI fails when tested on SICK data, labeling more \ii{neutral} examples as \ii{contradiction}s than correctly, possibly as a result of subtle differences in how the labeling task was presented. In contrast, transferring SNLI representations to SICK yields the best performance yet reported for an unaugmented neural network model, surpasses the available EOP models, and approaches both the overall state of the art at 84.6\% \cite{lai2014illinois} and the 84\% level of interannotator agreement, which likely represents an approximate performance ceiling. This suggests that the introduction of a large high-quality corpus makes it  possible to train representation-learning models for sentence meaning that are competitive with the best hand-engineered models on inference tasks.
+
+We attempted to apply this same transfer evaluation technique to the RTE-3 challenge, but found that the small training set (800 examples) did not allow the model to adapt to the unfamiliar genre of text used in that corpus, such that no training configuration yielded competitive performance.
+Further research on effective transfer learning on small data sets with neural models might facilitate improvements here.
+
+
+% A woman prepares ingredients for a bowl of soup.	A soup bowl prepares a woman.
+

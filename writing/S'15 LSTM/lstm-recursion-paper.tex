@@ -1,6 +1,5 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage{acl2015}
-\usepackage{times}
+\documentclass{article}
+\usepackage{nips15submit_e,times}
 \usepackage{latexsym}
 % \setlength\titlebox{5cm}    % Expanding the titlebox
 
@@ -13,12 +12,13 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{colortbl}
-% \usepackage{caption}
+\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{xcolor}
 \usepackage{color}
 \usepackage{tikz}
 \usepackage{todonotes}
+\usepackage[numbers]{natbib}
 
 \newcount\colveccount
 \newcommand*\colvec[1]{
@@ -73,45 +73,21 @@
 
 \def\ii#1{\textit{#1}}
 \newcommand{\word}[1]{\emph{#1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Code to simulate natbib's citealt, which prints citations with
-%%%%% no parentheses:
-
-\makeatletter
-\def\citealt{\def\citename##1{{\frenchspacing##1} }\@internalcitec}
-\def\@citexc[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
-  \def\@citea{}\@citealt{\@for\@citeb:=#2\do
-    {\@citea\def\@citea{;\penalty\@m\ }\@ifundefined
-       {b@\@citeb}{{\bf ?}\@warning
-       {Citation `\@citeb' on page \thepage \space undefined}}%
-{\csname b@\@citeb\endcsname}}}{#1}}
-\def\@internalcitec{\@ifnextchar [{\@tempswatrue\@citexc}{\@tempswafalse\@citexc[]}}
-\def\@citealt#1#2{{#1\if@tempswa, #2\fi}}
-\makeatother
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newcommand{\newcite}[1]{\cite{#1}}
 
 %%% %%%
 
-\title{Tree-structured composition in neural networks\\without tree-structured architectures}
+\title{Tree-Structured Composition in Neural Networks\\without Tree-Structured Architectures}
+
+% TODO
 
 %\Thanks{}}
 
 \author{
-Samuel R.\ Bowman$^{\ast\dag}$ \\
-\texttt{sbowman@stanford.edu} \\
-\And
-Christopher D.\ Manning$^{\ast\dag\ddag}$\\
-\texttt{manning@stanford.edu}\\
-\And
-Christopher Potts$^{\ast}$\\
-\texttt{cgpotts@stanford.edu}
-\AND\\[-3ex]
-{$^{\ast}$Stanford Linguistics\quad
-$^{\dag}$Stanford NLP Group\quad
-$^{\ddag}$Stanford Computer Science}
+Samuel R.\ Bowman, Christopher D. Manning, and Christopher Potts\\
+Stanford University\\
+Stanford, CA 94305-2150\\
+\texttt{\{sbowman, manning, cgpotts\}@stanford.edu} \\
 }
 
 
@@ -123,6 +99,8 @@ $^{\ddag}$Stanford Computer Science}
 \definecolor{black}{rgb}{0,0,0}
 \makeatother
 \usepackage[breaklinks, draft, colorlinks, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+
+\nipsfinalcopy
 
 \begin{document}
 \maketitle
@@ -137,7 +115,26 @@ $^{\ddag}$Stanford Computer Science}
 
 % We thank Jeffrey Pennington, Richard Socher, and audiences at CSLI, Nuance, and BayLearn, as well as Neha Nayak for developing the SICK collapsing technique.
 
-\bibliographystyle{acl}
+\subsubsection*{Acknowledgments}
+
+%
+We gratefully acknowledge support from %
+a Google Faculty Research Award, %
+a gift from Bloomberg L.P., 
+the Defense Advanced Research Projects Agency (DARPA) Deep Exploration and Filtering of Text (DEFT) Program under Air Force Research Laboratory (AFRL) contract no.~FA8750-13-2-0040,
+the National Science Foundation under grant no.~IIS 1159679, and %
+the Department of the Navy, Office of Naval Research, under grant no.~N00014-10-1-0109.
+%
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of 
+Google, 
+Bloomberg L.P.,
+DARPA,
+AFRL
+NSF, 
+ONR, or 
+the US government.
+
+\bibliographystyle{unsrtnat}
 \bibliography{MLSemantics} 
 
 \end{document}

@@ -1,0 +1,138 @@
+%sample file for QITL 2013 Abstract 
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{graphicx}
+% uncomment according to your operating system:
+% ------------------------------------------------
+\usepackage[latin1]{inputenc}    %% european characters can be used (Windows, old Linux)
+%\usepackage[utf8]{inputenc}     %% european characters can be used (Linux)
+%\usepackage[applemac]{inputenc} %% european characters can be used (Mac OS)
+% ------------------------------------------------
+\usepackage[T1]{fontenc}   %% get hyphenation and accented letters right
+\usepackage{mathptmx}      %% use fitting times fonts also in formulas
+\usepackage{linguex}       %% for linguistics glosses
+\usepackage[round,colon]{natbib} %% for authornames with years for in-text references 
+\bibliographystyle{author1} 
+% do not change these lines:
+\pagestyle{empty}                %% no page numbers!
+\usepackage[left=35mm, right=35mm, top=15mm, bottom=20mm, noheadfoot]{geometry}
+%% please don't change geometry settings!
+
+
+% begin the document
+\begin{document}
+\thispagestyle{empty}
+
+\title{\textbf{{\LaTeX} template for the QITL5 abstract \\ Leuven, Sept. 12-14, 2013}}
+\author{Kris Heylen\quad Dirk Speelman\\
+University of Leuven\\
+\{kris.heylen,dirk.speelman\}@arts.kuleuven.be}
+
+\date{} % <--- leave date empty
+\maketitle\thispagestyle{empty} %% <-- you need this for the first page
+
+\section{General information}
+The abstract should be written in English (with consistent British or American spelling), be approx. 500 to 1000 words long (not including references, figures or tables), and  be prepared as an A4 sized  (210$\times$297 mm) PDF file. Please use the Times font, 18 pt for the title, 13 pt for the authors' names and affiliations, 14pt for section titles, and 11 pt for the text. The left and right margins should be 3.5 cm, the top margin 3 cm and the bottom margin 2 cm.  We advise you to use the {\LaTeX} and MS Word templates provided on the conference website in order to ensure the correct formatting.
+
+Paragraphs directly following another paragraph have an indent of 0.5cm. Paragraphs following a section title, a figure, a table, or an example should have no indents. Text should be justified throughout and  single spaced.
+
+
+\section{Tables, figures, examples, formulae and references}
+
+Tables, like table \ref{tab:corpussizes}, should be centered and numbered with captions in bold face below the table. Tables should have outer borders, but the choice of inner bordering is free. Please, use a Times font no smaller than 9 pt.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|r|cccc|l|}
+\hline
+    & Usenet     & Popular news & Quality news & Legalese    & Total\\
+\hline
+BE    & 22 million & 905 million        & 373 million        & 70 million  & 1.4 billion\\
+NL    & 26 million & 126 million        & 161 million        & 115 million & 428 million\\
+\hline
+Total & 48 million & 1 billion          & 499 million        & 185 million & 1.8 billion\\
+\hline
+\end{tabular}
+{\bf \caption{Corpus sizes}
+\label{tab:corpussizes}}
+\end{table}
+
+
+
+\noindent
+Examples should be numbered with arabic numerals. There is an extra 8 pt spacing before and after example blocks  A simple example should look like:
+
+\ex.  This is$_{[COPULA]}$ an example in English 
+
+\noindent
+Examples with glosses should look like this:
+
+\exg. *Taro-ga   Hanako-ni   ringo-o    age-ta\\
+  Taro-\textsc{nom} Hanako-\textsc{dat}  apple-\textsc{acc} give-\textsc{pst}\\ 
+  `Taro gave an apple to Hanako.' 
+
+\noindent
+Also possible are repeated or contrasted examples with an additional numbering level, using small Latin letters:
+
+
+\ex.  
+\ag.  Taro-ga   Hanako-ni   ringo-o    age-ta\\
+      Taro-\textsc{nom} Hanako-\textsc{dat}  apple-\textsc{acc} 
+      give-\textsc{pst}\\
+      `Taro gave an apple to Hanako.'
+\bg.  **Taro-ga   Hanako-ni   ringo-o    tabe-ta\\
+      Taro-\textsc{nom} Hanako-\textsc{dat}  ringo-\textsc{acc} 
+      eat-\textsc{pst}\\
+      `Taro ate an apple to Hanako.'
+
+
+\noindent
+You can include figures, like figure \ref{fig:varieties}. Figures should be centered with captions below in bold face. There is no fixed size for figures, but they should be readable and stay within the margins. 
+
+\begin{figure}[h]
+%uncomment next line to include a graphic file
+%\centerline{\includegraphics[width=10cm]{fig1.eps}}
+%and comment out next line
+\centerline{\framebox[6cm]{\rule{0cm}{3.5cm} figure example}}
+{\bf \caption{Example figure} 
+\label{fig:varieties}}
+\end{figure}
+
+\noindent
+Formulae, like formula \ref{eq:cosine}, should be centered and numbered on the right. 
+
+\begin{equation}
+cos(V_1,V_2) = cos(\vec{x}, \vec{y}) = 1 - \frac{\vec{x} \cdot \vec{y}}{|\vec{x}| |\vec{y}|} = \frac{\sum_{i=1}^{n} x_i y_i}{\sum_{i=1}^{n} x_i^2 \sum_{i=1}^{n}y_i^2}
+\label{eq:cosine}
+\end{equation}
+
+\noindent
+In-text references should have author names and years. Author names integrated in the text should have the publication year in round brackets behind the name with optional page numbers separated by a comma. Non-integrated references between brackets should have author names and year, separated by a comma. References should have maximally 2 author names. More than 2 author names are abbreviated with {\em et al.} Multiple references between brackets are separated by a semicolon. 
+
+Here are some example uses of references: \citet{HeylenSpeelmanGeeraerts2012} present a visualization technique for semantic vector spaces. \citet[p.~47-100]{geeraerts10theories} gives an historical overview of structuralist lexical theories. Some studies have stressed the importance of concept characteristics \citep{speelman09concept,SpeelmanGrondelaersGeeraerts2010}.
+
+Please, also use the bibliography style for books, journal articles, proceedings and book chapters as exemplified in the references section below.    
+
+
+\begin{thebibliography}{00}
+\addcontentsline{toc}{chapter}{References}
+
+\bibitem[\protect\citename{Geeraerts}, 2010]{geeraerts10theories}
+Geeraerts, Dirk. 2010. {\em Theories of Lexical Semantics.} Berlin: Mouton De Gruyter.
+
+
+\bibitem[\protect\citename{Heylen \bgroup et al.\egroup}, 2012]{HeylenSpeelmanGeeraerts2012}
+Heylen, Kris, Dirk Speelman and Dirk Geeraerts. 2012. Looking at word meaning. An interactive visualization of Semantic Vector Spaces for Dutch synsets. In: {\em Proceedings of the EACL-2012 joint workshop of LINGVIS \& UNCLH: Visualization of Language Patters and Uncovering Language History from Multilingual Resources}, 16--24.
+  
+
+
+\bibitem[\protect\citename{Speelman and Geeraerts}, 2008]{speelman09concept}
+Speelman, Dirk, and Dirk Geeraerts. 2008. The Role of Concept Characteristics in Lexical Dialectometry. {\em International Journal of Humanities and Arts Computing} 2 (1-2): 221--242.
+
+\bibitem[\protect\citename{Speelman \bgroup et al.\egroup}, 2010]{SpeelmanGrondelaersGeeraerts2010}	
+Speelman, Dirk, Stefan Grondelaers,  and Dirk Geeraerts. 2006. A profile-based calculation of region and register variation: the synchronic and diachronic status of the two main national varieties of Dutch. In: Wilson, Archer and Rayson (eds.), {\em Corpus Linguistics around the World}, 195--202. Amsterdam: Rodopi.
+
+\end{thebibliography}
+
+\end{document}

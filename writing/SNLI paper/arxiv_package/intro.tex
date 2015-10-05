@@ -1,0 +1,85 @@
+\begin{table*}[t]
+  \centering\small
+  \begin{tabular}{p{6.4cm}p{1.7cm}p{6.4cm}}
+  \toprule
+A man inspects the uniform of a figure in some East Asian country. & \fulllabel{contradiction}{c c c c c} & The man is sleeping\\
+\rule{0pt}{3ex}An older and younger man smiling. & \fulllabel{neutral}{n n e n n} & Two men are smiling and laughing at the cats playing on the floor.\\
+\rule{0pt}{3ex}A black race car starts up in front of a crowd of people. & \fulllabel{contradiction}{c c c c c} & A man is driving down a lonely road.\\
+\rule{0pt}{3ex}A soccer game with multiple males playing. & \fulllabel{entailment}{e e e e e} & Some men are playing a sport.\\
+\rule{0pt}{3ex}A smiling costumed woman is holding an umbrella. & \fulllabel{neutral}{n n e c n} & A happy woman in a fairy costume holds an umbrella.\\
+    \bottomrule
+% From 1.0rc3
+  \end{tabular}
+  \caption{\label{snli-examples}Randomly chosen examples from the development section of our new corpus, shown with both the selected gold labels and the full set of labels (abbreviated) from the individual annotators, including (in the first position) the label used by the initial author of the pair.}
+\end{table*}
+
+\section{Introduction}\label{sec:introduction}
+
+The semantic concepts of entailment and contradiction are central to
+all aspects of natural language meaning
+\cite{Katz72,vanBenthem08NATLOG}, from the lexicon to the content of
+entire texts. Thus, \emph{natural language
+  inference} (NLI) --- characterizing and using these relations in
+computational systems
+\cite{Fyodorov-etal:2000,Condoravdi-etAl:2003,BosMar:2005,dagan2006pascal,maccartney2009extended} --- is
+essential in tasks ranging from information retrieval to semantic
+parsing to commonsense reasoning.
+
+NLI has been addressed using a variety of techniques, including
+those based on symbolic logic, knowledge bases, and neural networks. 
+In recent years, it has become an important testing ground for
+approaches employing \emph{distributed} word and phrase
+representations. Distributed representations excel at capturing
+relations based in similarity, and have proven effective at
+modeling simple dimensions of meaning like evaluative sentiment
+(e.g., \citealt{socher2013recursive}), but it is less clear that they can be
+trained to support the full range of logical and commonsense
+inferences required for NLI \cite{Bowman:Potts:Manning:2014,Weston-etal:2015,Weston-etal:2015Q}. 
+In a SemEval 2014 task aimed at evaluating distributed
+representations for NLI, the best-performing systems relied heavily on
+additional features and reasoning capabilities
+\cite{marelli2014semeval}. 
+
+Our ultimate objective is to provide an empirical
+evaluation of learning-centered approaches to NLI,
+advancing the case for NLI as a tool for the evaluation of 
+domain-general approaches to semantic representation. 
+However, in our view, existing NLI corpora do not
+permit such an assessment. They are generally too small for training
+modern data-intensive, wide-coverage models, many contain sentences
+that were algorithmically generated, and they are often beset with
+indeterminacies of event and entity coreference that significantly
+impact annotation quality.
+
+To address this, this paper introduces the Stanford Natural Language
+Inference (SNLI) corpus, a collection of sentence pairs labeled for
+entailment, contradiction, and semantic independence. At 570,152
+sentence pairs, SNLI is two orders of magnitude larger than all
+other resources of its type. And, in contrast to many such resources,
+all of its sentences and labels were written by humans in a grounded,
+naturalistic context. In a separate validation phase, we collected
+four additional judgments for each label for 56,941 of the examples.
+Of these, 98\% of cases emerge with a three-annotator consensus, 
+and 58\% see a unanimous consensus from all five annotators.
+
+In this paper, we use this corpus to evaluate a variety of models
+for natural language inference, including rule-based systems, simple
+linear classifiers, and neural network-based models. 
+We find that two models achieve comparable performance: a feature-rich
+classifier model and a neural network model centered around a Long Short-Term Memory network (LSTM; 
+\citealt{hochreiter1997long}). We further evaluate the LSTM model
+by taking advantage of its ready support for transfer learning, and show that it can be adapted to an existing
+NLI challenge task, yielding the best reported performance by a neural network model and approaching the overall state of the art.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% One point of comparison that might be good to set up (maybe not in these words, this is Sam's sketch):
+
+% Translation can also be used to train/evaluate NNs, and also demands some degree of sensitivity to compositional syntactic and semantic structure. Plus, it's easier to get good data for that task. But NLI is the better benchmark for developing NNs for language understanding, because:
+
+% (i) Typical translation tasks require natural language generation, which is a separate difficult problem that must be learned in parallel with the semantic encoding task of interest, making results harder to interpret. We can just a vanilla well-understood classifier on top of our sentence model.
+
+% (ii) Contradiction vs. entailment decisions in particular specifically target the abilities of NN models to learn lexical and phrasal representations (like alternation) that don't resemble similarity, either in their correlation with distributional information or their transitivity behavior. MT doesn't seem to have a good parallel to this. Since modeling similarity is almost the only aspect of NN behavior in NLP that's reasonably well understood and basically known to work, using a benchmark that explicitly demands something more sophisticated than this is likely to pay off by better exposing the weaknesses of current standard models.
+
+% It might be also worth making an explicit comparison with sentiment as a benchmark, but that's low-hanging fruit.

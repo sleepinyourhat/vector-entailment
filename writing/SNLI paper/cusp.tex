@@ -1,0 +1,76 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[12pt]{article} % use larger type; default would be 10pt
+
+\usepackage[round]{natbib}
+\bibpunct[,~]{(}{)}{,}{a}{,}{,}
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{letterpaper} % or letterpaper (US) or a5paper or....
+\geometry{margin=1in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+\usepackage[breaklinks, colorlinks, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\def\ii#1{\textit{#1}}
+\newcommand{\word}[1]{\emph{#1}}
+\newcommand{\fulllabel}[2]{\textbf{#1}\newline\textsc{#2}}
+
+\begin{document}
+{\centering \textbf{A large annotated corpus of entailments and contradictions}\\
+ Samuel R. Bowman, Gabor Angeli, Christopher Potts, and Christopher D. Manning\\
+ Stanford University\\~\\
+ }
+
+Corpus methods have the potential to offer a range of fast reproducible experimantal designs to researchers in semantics. However, these methods have been largely impractical due to a lack of large corpora with any kind of semantic grounding. While there are serious obstacles to collecting such data, we argue that focusing on inferences of entailment and contradiction as a form of grounding mitigates these, and we present a large new corpus of utterance pairs labeled for the  entailment and contradiction, the Stanford Natural Language Inference corpus \citep[introduced earlier this year in][]{snli:emnlp2015}.
+
+An ideal corpus for model-theoretic semantics would pair utterances in context with either a truth value or, even better, a set of truth conditions expressed in a logical form of some kind. Doing this requires specifying a representational system to describe the contexts of utterances, and in the latter case, the contents of those utterances as well. How best to represent this kind of information, though, is very much an open problem, and in fact it is the very problem that such a corpus would be meant to help solve.
+
+Following work in natural logic \citep{Moss09} and focusing on grounding the meanings of utterances in inferences that they licence, rather than in their truth conditions, makes it possible to collect a representation-agnostic corpus. In this framing, natural language is treated as its own representation language, and the semantic annotation for a sentence consists simply of examples of sentences with respect to which it is entailing, contradictory, or semantically neutral. High quality corpora of this kind exist \citep{dagan2006pascal, marelli2014sick}, but at a few thousand examples they have so far been too small for corpus methods to offer much insight. Our new corpus of 570k examples aims to remedy this.
+
+In our data collection effort, annotators rercuited through Amazon Mechanical Turk were presented with short scene descriptions (either sentences or complex NPs), and asked to redescribe each scene first faithfully (yielding a pair with the label \ii{entailment}), then deliberately unfaithfully (\ii{contradiction}), and then with the introduction of uncertain details (\ii{neutral}). We collected 570k such pairs of utterances, and had additional annotators relabel 57k of these, including those shown in Table~\ref{examples}.  We find the resulting pairs reliably evince valid semantic relationships between sentences with diverse surface forms, and we hope that they can serve as a valuable resource in exploratory and experimental research on meaning. They are available for download at: \href{http://nlp.stanford.edu/projects/snli/}{\texttt{nlp.stanford.edu/projects/snli/}}
+
+\begin{table}[bh!]
+  \centering\small
+  \begin{tabular}{p{6.0cm}p{2.3cm}p{6.0cm}}
+  \toprule
+\rule{0pt}{3ex}A black race car starts up in front of a crowd of people. & \fulllabel{contradiction}{c c c c c} & A man is driving down a lonely road.\\
+\rule{0pt}{3ex}A soccer game with multiple males playing. & \fulllabel{entailment}{e e e e e} & Some men are playing a sport.\\
+\rule{0pt}{3ex}A smiling costumed woman is holding an umbrella. & \fulllabel{neutral}{n n e c n} & A happy woman in a fairy costume holds an umbrella.\\
+    \bottomrule
+% From 1.0rc3
+  \end{tabular}
+\caption{Randomly chosen examples from our corpus, shown with both labels from individual annotators and consensus labels.\label{examples}}
+\end{table}
+
+\bibliographystyle{plainnat}
+\bibliography{MLSemantics} 
+
+\end{document}

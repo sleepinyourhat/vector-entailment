@@ -12,13 +12,19 @@
 \usepackage{qtree}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{colortbl}
-% \usepackage{caption}
+\usepackage{caption}
 \usepackage{subcaption}
-\usepackage{xcolor}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage{tikz}
-\usepackage{todonotes}
+\usepackage{ifthen}
+\usepackage{framed}
+
+\hyphenation{Verb-Ocean}
+
+\input{macros.tex}
 
 \newcount\colveccount
 \newcommand*\colvec[1]{
@@ -47,13 +53,9 @@
 \newcommand{\natalt}{\mathbin{|}}
 \newcommand{\natcov}{\mathbin{\smallsmile}}
 
-\newcommand{\qq}{\hspace{0.1em}}
-\newcommand{\plneg}{\mathop{\textit{not}\qq}}
-\newcommand{\pland}{\mathbin{\qq\textit{and}\qq}}
-\newcommand{\plor}{\mathbin{\qq\textit{or}\qq}}
-
-
-
+\newcommand{\plneg}{\mathop{\textit{not}}}
+\newcommand{\pland}{\mathbin{\textit{and}}}
+\newcommand{\plor}{\mathbin{\textit{or}}}
 
 % Strikeout
 \newlength{\howlong}\newcommand{\strikeout}[1]{\settowidth{\howlong}{#1}#1\unitlength0.5ex%
@@ -70,9 +72,11 @@
 
 \usepackage{gb4e}
 \noautomath
-
+ 
+ 
 \def\ii#1{\textit{#1}}
 \newcommand{\word}[1]{\emph{#1}}
+\newcommand{\fulllabel}[2]{\b{#1}\newline\textsc{#2}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Code to simulate natbib's citealt, which prints citations with
@@ -95,17 +99,20 @@
 
 %%% %%%
 
-\title{Tree-structured composition in neural networks\\without tree-structured architectures}
+\title{A large annotated corpus for learning natural language inference}
 
 \author{
 Samuel R.\ Bowman$^{\ast\dag}$ \\
 \texttt{sbowman@stanford.edu} \\
 \And
-Christopher D.\ Manning$^{\ast\dag\ddag}$\\
-\texttt{manning@stanford.edu}\\
-\And
+Gabor Angeli$^{\dag\ddag}$ \\
+\texttt{angeli@stanford.edu} \\
+\AND
 Christopher Potts$^{\ast}$\\
 \texttt{cgpotts@stanford.edu}
+\And
+Christopher D.\ Manning$^{\ast\dag\ddag}$\\
+\texttt{manning@stanford.edu}\\
 \AND\\[-3ex]
 {$^{\ast}$Stanford Linguistics\quad
 $^{\dag}$Stanford NLP Group\quad
@@ -119,16 +126,24 @@ $^{\ddag}$Stanford Computer Science}
 \newcommand{\@emptybiblabel}[1]{}
 \definecolor{black}{rgb}{0,0,0}
 \makeatother
-\usepackage[breaklinks, draft, colorlinks, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+\usepackage[breaklinks, colorlinks, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+
+\def\t#1{#1}
+\def\b#1{\t{\textbf{#1}}}
+\def\colspaceS{2.25mm}
+\def\colspaceM{4.0mm}
+\def\colspaceL{4.25mm}
 
 \begin{document}
 \maketitle
 
 \input{abstract.tex}
 \input{intro.tex}
-\input{data.tex}
-\input{methods.tex}
-\input{discussion.tex}
+\input{corpus.tex}
+\input{entailment_eval.tex}
+% \input{transfer.tex}
+
+\input{conclusion.tex}
 
 \subsubsection*{Acknowledgments}
 
@@ -147,9 +162,17 @@ DARPA,
 AFRL
 NSF, 
 ONR, or 
-the US government.
+the US government. We also thank our many excellent Mechanical Turk contributors.
+
+
+
+% Do not number the acknowledgment section.
 
 \bibliographystyle{acl}
+% We get two pages for references, so I suggest leaving the page
+% numbers in -- it's not worth the time to remove them, and they
+% could be helpful to people!
+%\noindent\todo{Omit page numbers for proceedings in bib?}
 \bibliography{MLSemantics} 
 
 \end{document}

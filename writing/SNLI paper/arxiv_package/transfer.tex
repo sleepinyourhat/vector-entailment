@@ -1,0 +1,37 @@
+\section{NLI data and transfer learning}\label{sec:transfer}
+
+We argue that for a sentence representation to provide the information necessary to reliably perform NLI classification, it must contain a faithful and thorough description of the sentence's meaning. This claim has a readily testable consequence: the knowledge that a representation learning system learns when it is trained on SNLI should transfer well to any other task that involves understanding sentence meaning, at least to the extent that the style of language used in that task is broadly similar to the style of SNLI. To test this, we perform transfer learning \cite{pratt1991direct} experiments on four other tasks, in which models are initialized using the parameters of an LSTM RNN-based model trained on SNLI (as in \S\ref{sentence-embedding}) and then trained to convergence on the target tasks. 
+
+We first evaluate on SICK (\citealt{marelli2014sick}), the smaller entailment corpus ours was modeled on, training on the standard 4.5k training sentence pairs. We then evaluate on SUBJ (\citealt{pang2004sentimental}), a two-way sentence classification task, using 5-fold cross-validation over the 10k sentences. We next evaluate on the Stanford Sentiment Treebank (SST; \citealt{socher2013acl1}), a five-way sentiment classification task with labels for both phrases and sentences. We train on both types of label within the 8.5k sentence training set and test on only the sentence-level labels in the test set. We finally evaluate on PragBank, an 800 example 6-way sentence classification task focused on veridicality. \todo{Cite} ....
+\noindent\todo{Pick best 2-3 tasks.}
+
+We use pretrained parameters for all of the LSTM parameters, pretrained parameters for the $\tanh$ layers in the classifier stack, and pretrained embeddings for all of the words that occurred in both corpora, randomly initializing only the softmax layer and the remaining word embeddings. In order to use this strategy in sentence classification tasks, we pass the classifier the embedding of the sentence to be classified in the hypothesis input position, as well as a zero vector in the premise input position. After transfer, we re-initialize the accumulators in AdaDelta to re-set the learning rates to high values. We additionally use L2 regularization with each task, separately tuning the regularization strength on the transfer model and the corresponding baseline model without transfer.
+
+\noindent\todo{Do we still want to re-initialize LRs?}
+
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l@{\hskip \colspaceL}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c@{\hskip \colspaceS}c}
+\hline
+\textbf{Corpus} & \multicolumn{2}{c}{\b{Train Acc.}} &\multicolumn{3}{c}{ \b{Test Acc.}} \\
+ & \t{cold start} & \t{transfer} & \t{cold start} & \t{transfer} & \t{SotA} \\
+\hline
+\t{SICK}            & \t{100} & \t{99} & \t{71.3?} & \t{80.1?} & \t{84.5} \\
+\t{SUBJ}          & \t{??.?} & \t{??.?} & \t{90?} & \t{91?}& \t{95.5} \\
+\t{SST}          & \t{??.?} & \t{??.?} & \t{43?} & \t{42?} & \t{50.6}\\
+\t{PragBank}          & \t{??.?} & \t{??.?} & \t{50} & \t{56}& \t{~75} \\
+\hline
+\end{tabular}
+\end{center}
+
+\caption{\label{tab:transferresults}
+The performance of an LSTM RNN model on four tasks under both a random initialization and a transfer initialization copied from a model trained on SNLI. All figures are classification accuracy, except for PragBank, where report macroaveraged F1 to enable comparison with existing results on that task. \todo{Final numbers.}} 
+
+\end{table}
+
+The final column shows the state of the art results from \citealt{lai2014illinois}, \citealt{zhao2015self}, \citealt{tai2015improved}, and \todo{CITE}.
+
+The results are shown in \tabref{tab:transferresults}. For each task, the transfer model is compared with a model that was initialized randomly as normal. Note that \todo{something interesting happens}. Within the domain of NLI, our transfer model shows the best number yet reported on SICK for a fully-learned model, and approaches the overall state of the art (and to the 84\% level of interannotator agreement, a likely performance ceiling), while the randomly initialized model performs poorly. This suggests that the introduction of a large high-quality corpus makes it newly possible to train representation learning models for sentence meaning of a level of quality that is competitive with the best hand-engineered models on semantically sophisticated tasks.
+
+\noindent\todo{something about SotA on the other tasks.}

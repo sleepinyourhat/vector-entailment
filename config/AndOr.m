@@ -70,6 +70,13 @@ elseif strcmp(dataflag, 'and-or-deep-6')
     hyperParams.trainFilenames = {};
     hyperParams.splitFilenames = {'./propositionallogic/longer2/train0', './propositionallogic/longer2/train1', './propositionallogic/longer2/train2', './propositionallogic/longer2/train3', './propositionallogic/longer2/train4', './propositionallogic/longer2/train5', './propositionallogic/longer2/train6', './propositionallogic/longer2/test1', './propositionallogic/longer2/test2', './propositionallogic/longer2/test3', './propositionallogic/longer2/test4', './propositionallogic/longer2/test5', './propositionallogic/longer2/test6', './propositionallogic/longer2/test7', './propositionallogic/longer2/test8', './propositionallogic/longer2/test9', './propositionallogic/longer2/test10', './propositionallogic/longer2/test11', './propositionallogic/longer2/test12'};
     hyperParams.testFilenames = {};
+elseif strcmp(dataflag, 'and-or-deep-10') 
+    % Split longer test sets for crossvalidation without training on them.
+    hyperParams.specialAndOrMode = 10;
+
+    hyperParams.trainFilenames = {};
+    hyperParams.splitFilenames = {'./propositionallogic/longer2/train0', './propositionallogic/longer2/train1', './propositionallogic/longer2/train2', './propositionallogic/longer2/train3', './propositionallogic/longer2/train4', './propositionallogic/longer2/train5', './propositionallogic/longer2/train6', './propositionallogic/longer2/train7', './propositionallogic/longer2/train8', './propositionallogic/longer2/train9', './propositionallogic/longer2/train10', './propositionallogic/longer2/test1', './propositionallogic/longer2/test2', './propositionallogic/longer2/test3', './propositionallogic/longer2/test4', './propositionallogic/longer2/test5', './propositionallogic/longer2/test6', './propositionallogic/longer2/test7', './propositionallogic/longer2/test8', './propositionallogic/longer2/test9', './propositionallogic/longer2/test10', './propositionallogic/longer2/test11', './propositionallogic/longer2/test12'};
+    hyperParams.testFilenames = {};
 elseif strcmp(dataflag, 'and-or-deep-static') 
     hyperParams.trainFilenames = {'./propositionallogic/longer2/train0', './propositionallogic/longer2/train1', './propositionallogic/longer2/train2', './propositionallogic/longer2/train3', './propositionallogic/longer2/train4'};
     hyperParams.splitFilenames = {};

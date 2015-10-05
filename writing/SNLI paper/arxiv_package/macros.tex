@@ -1,0 +1,51 @@
+
+\def\entailment{\textit{entailment}}
+\def\unknown{\textit{unknown}}
+\def\contradiction{\textit{contradiction}}
+\def\hypothesis{hypothesis}
+\def\premise{premise}
+
+
+\usepackage{color}
+\newcommand{\hl}[2]{\colorbox{#2}{#1}}
+\newcommand{\hly}[1]{\hl{yellow}{#1}}
+\def\todo#1{\hl{{\bf TODO:} #1}{yellow}}
+\def\needcite{\hl{{$^{\tt\small[citation\ needed]}$}}{blue}}
+\def\needfig{\hl{Figure X}{green}}
+\def\needtab{\hl{Table Y}{green}}
+
+\newcommand\fig[1]{\begin{center} \includegraphics{#1} \end{center}}
+\newcommand\Fig[4]{\begin{figure}[tb] \begin{center} \includegraphics[scale=#2]{#1} \end{center} \caption{\label{fig:#3} #4} \end{figure}}
+\newcommand\FigTop[4]{\begin{figure}[t] \begin{center} \includegraphics[scale=#2]{#1} \end{center} \caption{\label{fig:#3} #4} \end{figure}}
+\newcommand\FigStar[4]{\begin{figure*}[tb] \begin{center} \includegraphics[scale=#2]{#1} \end{center} \caption{\label{fig:#3} #4} \end{figure*}}
+
+\newcommand\refeqn[1]{(\ref{eqn:#1})}
+\newcommand\refeqns[2]{(\ref{eqn:#1}) and (\ref{eqn:#2})}
+\newcommand\refchp[1]{Chapter~\ref{chp:#1}}
+\newcommand\refsec[1]{Section~\ref{sec:#1}}
+\newcommand\refsecs[2]{Sections~\ref{sec:#1} and~\ref{sec:#2}}
+
+\newcommand\Reffig[1]{Figure~\ref{#1}}
+\newcommand\Reffigs[2]{Figures~\ref{#1} and~\ref{#2}}
+\newcommand\Reffigss[3]{Figures~\ref{#1},~\ref{#2}, and~\ref{#3}}
+\newcommand\Reffigsss[4]{Figures~\ref{#1},~\ref{#2},~\ref{#3}, and~\ref{#4}}
+
+\newcommand\reffig[1]{Figure~\ref{#1}}
+\newcommand\reffigs[2]{Figures~\ref{#1} and~\ref{#2}}
+\newcommand\reffigss[3]{Figures~\ref{#1},~\ref{#2}, and~\ref{#3}}
+\newcommand\reffigsss[4]{Figures~\ref{#1},~\ref{#2},~\ref{#3}, and~\ref{#4}}
+
+\newcommand\reftab[1]{Table~\ref{#1}}
+\newcommand\Reftab[1]{Table~\ref{#1}}
+\newcommand\reftabs[2]{Tables~\ref{#1} and \ref{#2}}
+
+
+\newcommand\refapp[1]{Appendix~\ref{sec:#1}}
+\newcommand\refthm[1]{Theorem~\ref{thm:#1}}
+\newcommand\refthms[2]{Theorems~\ref{thm:#1} and~\ref{thm:#2}}
+\newcommand\reflem[1]{Lemma~\ref{lem:#1}}
+\newcommand\reflems[2]{Lemmas~\ref{lem:#1} and~\ref{lem:#2}}
+\newcommand\refprop[1]{Proposition~\ref{prop:#1}}
+\newcommand\refdef[1]{Definition~\ref{def:#1}}
+\newcommand\refcor[1]{Corollary~\ref{cor:#1}}
+\newcommand\refalg[1]{Algorithm~\ref{alg:#1}}
