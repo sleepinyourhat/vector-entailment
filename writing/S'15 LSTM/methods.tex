@@ -10,22 +10,22 @@
 \begin{figure*}[t]
   \centering
   \begin{subfigure}[t]{0.04\textwidth}
-      \includegraphics[height=1.4in]{scale.pdf}
+      \includegraphics[height=1.2in]{scale.pdf}
 \end{subfigure}
 \begin{subfigure}[t]{0.24\textwidth}
-  \includegraphics[height=1.4in]{fig3c.pdf}
+  \includegraphics[height=1.2in]{fig3c.pdf}
   \caption{Training on sz. $\le$3.}
-  \end{subfigure}~~~~
+  \end{subfigure}~~~
 \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[height=1.4in]{fig4c.pdf}
+    \includegraphics[height=1.2in]{fig4c.pdf}
   \caption{Training on sz. $\le$4.}
-  \end{subfigure}~~~~
+  \end{subfigure}~~~
 \begin{subfigure}[t]{0.24\textwidth}
-      \includegraphics[height=1.4in]{fig6c.pdf}
+      \includegraphics[height=1.2in]{fig6c.pdf}
   \caption{Training on sz. $\le$6.}
 \end{subfigure}~~
 \begin{subfigure}[t]{0.08\textwidth}
-      \includegraphics[height=1.4in]{leg.pdf}
+      \includegraphics[height=1.2in]{leg.pdf}
 \end{subfigure}
   \caption{Test accuracy on three experiments with increasingly rich training sets. The horizontal axis on each graph divides the test set expression pairs into bins by the number of logical operators in the more complex of the two expressions in the pair. The dotted line shows the maximum size in each training set.}
   \label{prop-results} 
@@ -35,7 +35,7 @@ We use the architecture depicted in Figure~\ref{fig:model:top}, which builds on 
 
 \paragraph{Classifier}
 The classifier component of the model consists of a combining layer which takes the two sentence representations as inputs, followed by two neural network layers, then a softmax classifier.
-For the combining layer, we use a neural tensor network (NTN, \citealt{chen2013learning}) layer, which sums the output of a plain recursive/recurrent neural network layer with a vector computed using two multiplications with a learned (full rank) third-order tensor parameter:
+For the combining layer, we use a neural tensor network (NTN, \cite{chen2013learning}) layer, which sums the output of a plain recursive/recurrent neural network layer with a vector computed using two multiplications with a learned (full rank) third-order tensor parameter:
 \begin{gather} 
 \label{TreeRNN}
 \vec{y}_{\textit{NN}} = \tanh(\mathbf{M} \colvec{2}{\vec{x}^{(l)}}{\vec{x}^{(r)}} + \vec{b}\,) \\
@@ -43,7 +43,9 @@ For the combining layer, we use a neural tensor network (NTN, \citealt{chen2013l
 \vec{y}_{\textit{NTN}} = \vec{y}_{\textit{NN}} + \tanh(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
 \end{gather} 
 
-Our model is largely identical to the Bowman et al.~model, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all three models, rather than just the TreeRNTN model, so as to ensure that the three sentence models are compared in as similar a setting as possible.
+Our model is largely identical to the model from \newcite{Bowman:Potts:Manning:2014}, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all three models, rather than just the TreeRNTN model, so as to ensure that the three sentence models are compared in as similar a setting as possible.
+
+We only study models that encode entire sentences in fixed length vectors, rather than models with attention \cite{bahdanau2014neural}, which gives the downstream model (here, the classifier) the potential to access access each input token individually through a soft content addressing system. While attention simplifies the problem of learning complex correspondances between input and output, there is no reason to believe that it should improve or harm a model's ability to track structural information like a given token's position in a tree. As such, we expect our results to reflect the same basic behaviors that would be seen in attention-based models.
 
 \paragraph{Sentence models}
 The sentence encoding component of the model transforms the (jointly learned) embeddings of the input words into a single sentence vector. We experiment with tree models (Figure~\ref{fig:model:tree}) with TreeRNN (eqn.~\ref{TreeRNN}), TreeRNTN (eqn.~\ref{TreeRNTN}), and TreeLSTM \cite{tai2015improved} activation functions. In addition, we use a sequence model (Figure~\ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} implemented as in \newcite{zaremba2015recurrent}. Experiments with simpler non-LSTM RNN sequence models tended to badly underfit the training data, and are not included here.

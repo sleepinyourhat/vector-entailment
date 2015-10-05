@@ -57,11 +57,11 @@ $ \plor p_6 )  \plor p_4 ) )$ &&$ \pland ( \plneg p_5 ) )\pland ( p_6 \pland p_6
       %<	( not ( c ( or b ) ) )	( ( c ( and ( not a ) ) ) ( or ( not c ) ) )
       \bottomrule
     \end{tabular}
-    \caption{Examples of short to moderate length pairs from the artificial data introduced in \protect\citealt{Bowman:Potts:Manning:2014}. We only show the parentheses that are needed to disambiguate the sentences rather than the full binary bracketings.}\label{tab:plexs}
+    \caption{Examples of short to moderate length pairs from the artificial data introduced in \protect\cite{Bowman:Potts:Manning:2014}. We only show the parentheses that are needed to disambiguate the sentences rather than the full binary bracketings.}\label{tab:plexs}
 \end{table}
 
 
-\paragraph{The artificial language} The language described in Bowman et al.~(\S4) is designed to highlight the use of recursive structure with minimal additional complexity. Its vocabulary consists only of six unanalyzed word types ($p_1, p_2, p_3, p_4, p_5, p_6$), \word{and}, \word{or}, and \word{not}. Sentences of the language can be straightforwardly interpreted as statements of propositional logic (where the six unanalyzed words are variables), and labeled sentence pairs can be interpreted as theorems of that logic. Some example pairs are provided in Table~\ref{tab:plexs}.
+\paragraph{The artificial language} The language described in \newcite{Bowman:Potts:Manning:2014} (\S4) is designed to highlight the use of recursive structure with minimal additional complexity. Its vocabulary consists only of six unanalyzed word types ($p_1, p_2, p_3, p_4, p_5, p_6$), \word{and}, \word{or}, and \word{not}. Sentences of the language can be straightforwardly interpreted as statements of propositional logic (where the six unanalyzed words are variables), and labeled sentence pairs can be interpreted as theorems of that logic. Some example pairs are provided in Table~\ref{tab:plexs}.
 
 Crucially, the language is defined such that any sentence can be embedded under negation or conjunction to create a new sentence, allowing for arbitrary-depth recursion, and the scope of negation and conjunction are determined only by bracketing with parentheses (rather than bare word order). The compositional structure of each sentence can thus be an arbitrary tree, and interpreting a sentence correctly requires using that structure.
 

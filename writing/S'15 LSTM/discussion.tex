@@ -1,6 +1,6 @@
 \begin{figure}[t]
   \centering
-      \includegraphics[height=1.3in]{lcc.pdf}
+      \includegraphics[height=1.3in]{lc.pdf}
   \caption{Learning curve for the $\le$6 experiment.}
   \label{fig:lc} 
 \end{figure}
@@ -12,12 +12,13 @@ The tree models fit the training data well, reaching 98.9, 98.8, and 98.4\% over
 In that setting, all models generalized well to structures of familiar length, with the tree models all surpassing 97\% on examples of size 4, and the LSTM reaching 94.8\%.
 On the longer test sentences, the tree models decayed smoothly in performance across the board, while the LSTM decayed more quickly and more abruptly, with a striking difference in the $\le$4 setting, where LSTM performance falls 10\% from 4 to 5, compared to 4.4\% for the next worse model. However, the LSTM improves considerably with more ample training data in the $\le$6 condition, showing only a 3\% drop and generalization results better than the best model's in the $\le$3 setting.
 
-All four models robustly beat the simple baselines reported in Bowman et al.: the most frequent class occurs just over 50\% of the time and a neural bag of words model does reasonably on the shortest examples but falls below 60\% by bin~4.
+All four models robustly beat the simple baselines reported in \newcite{Bowman:Potts:Manning:2014}: the most frequent class occurs just over 50\% of the time and a neural bag of words model does reasonably on the shortest examples but falls below 60\% by bin~4.
 
 The learning curve (Figure~\ref{fig:lc}) suggests that additional data is unlikely to change these basic results. The LSTM lags behind the tree models across the curve, but appears to gain accuracy at a similar rate.
 
 \section{Conclusion}
 
-We find that all four models can exploit a recursively defined language to interpret sentences with complex unseen structures, and that tree models' biases allow them to learn to do this more effectively from less data.
+We found that all four models were able to effectively exploit a recursively defined language to interpret sentences with complex unseen structures.
+We find that tree models' biases allow them to do this with greater efficiency, outperforming sequence-based models in every experiment. However, our sequence model was nonetheless able to generalize smoothly to from seen sentence structures to unseen ones, showing that its lack of explicit recursive structure did not prevent it from recognizing recursive structure in our artificial language. 
 We interpret these results as evidence that both tree and sequence architectures can play valuable roles in the construction of sentence models over data with recursive syntactic structure: tree architectures provide an explicit bias that makes it possible to learn from relatively small and impoverished data sets, while sequence-based architectures can solve the same problems---given sufficient data---without being constrained by this bias. Finally, we suggest that, because of the well-supported linguistic claim that the kind of recursive structure that we study here is key to the understanding of real natural languages, there is likely to be value in developing sequence models that can more efficiently exploit this structure without fully sacrificing the flexibility that makes them succeed.
 
