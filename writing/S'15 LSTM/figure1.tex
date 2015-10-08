@@ -8,13 +8,13 @@
     \tikzstyle{label}=[text width=40mm,align=center,text height=2mm]    
     \tikzstyle{softmax}=[fill=red!40,text width=40mm,align=center,text height=2mm]
     \tikzstyle{preclass}=[fill=orange!40,text width=50mm,align=center,text height=2mm]
-    \tikzstyle{e}=[fill=green!40,text width=26mm,align=center,text height=2mm]
+    \tikzstyle{e}=[fill=cyan!40,text width=26mm,align=center,text height=2mm]
     \tikzstyle{m}=[draw=black,text width=38mm,align=center,text height=2mm]    
     
     \node[softmax]  (softmax) at (0*\dx,6*\dy) {7-way softmax classifier};
-    \node[preclass]  (pc3) at (0*\dx,5*\dy) {100d $\tanh$ NN layer};
-    \node[preclass]  (pc2) at (0*\dx,4*\dy) {100d $\tanh$ NN layer};
-    \node[preclass,fill=yellow!40]  (pc1) at (0*\dx,3*\dy) {100d $\tanh$ NTN layer};
+    \node[preclass,fill=orange!40]  (pc3) at (0*\dx,5*\dy) {100d $\tanh$ NN layer};
+    \node[preclass,fill=yellow!40]  (pc2) at (0*\dx,4*\dy) {100d $\tanh$ NN layer};
+    \node[preclass,fill=green!40]  (pc1) at (0*\dx,3*\dy) {100d $\tanh$ NTN layer};
     \node[e]  (pe) at (-3*\dx,1.75*\dy) {50d premise};
     \node[e]  (he) at (3*\dx,1.75*\dy) {50d hypothesis};
     \node[m]  (pem) at (-3*\dx,0.5*\dy) {sentence model\\ with premise input};

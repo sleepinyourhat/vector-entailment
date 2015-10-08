@@ -24,6 +24,7 @@ The data we use are labeled with the seven mutually exclusive logical relations 
 %  } %-%
 %\end{table}
 
+
 \begin{table}[tp]
   \centering\small
 %  \begin{subtable}[t]{0.45\textwidth}
@@ -51,8 +52,7 @@ The data we use are labeled with the seven mutually exclusive logical relations 
 %      $p_1 \plor (p_2 \plor p_4)$               & $\natrev$ & $p_2 \pland  \plneg p_4$ \\
       $(\plneg p_2) \pland p_6  $ & $\natalt$ & $     \plneg ( p_6 \plor ( p_5 \plor p_3 ) ) $\\
       %$(a \natfor b)$   & $\nateq$  & $(b \natrev a)$ \\	
- $    p_4 \plor ( \plneg ( ( p_1   $ & $ \natfor $ & $  \plneg ( ( ( ( \plneg p_6 ) \plor ( \plneg p_4 ) )   $\\      
-$ \plor p_6 )  \plor p_4 ) )$ &&$ \pland ( \plneg p_5 ) )\pland ( p_6 \pland p_6 ) ) $\\
+ $    p_4 \plor ( \plneg ( ( p_1  \plor p_6 )  \plor p_4 ) ) $ & $ \natfor $ & $  \plneg ( ( ( ( \plneg p_6 ) \plor ( \plneg p_4 ) )  \pland ( \plneg p_5 ) )\pland ( p_6 \pland p_6 ) ) $\\      
 % $(p_3 \pland \plneg p_1 ) \plor \plneg p_3$    & $\natrev$& $\plneg\, (p_3 \plor p_2)$ \\
       %<	( not ( c ( or b ) ) )	( ( c ( and ( not a ) ) ) ( or ( not c ) ) )
       \bottomrule
@@ -61,11 +61,12 @@ $ \plor p_6 )  \plor p_4 ) )$ &&$ \pland ( \plneg p_5 ) )\pland ( p_6 \pland p_6
 \end{table}
 
 
-\paragraph{The artificial language} The language described in \newcite{Bowman:Potts:Manning:2014} (\S4) is designed to highlight the use of recursive structure with minimal additional complexity. Its vocabulary consists only of six unanalyzed word types ($p_1, p_2, p_3, p_4, p_5, p_6$), \word{and}, \word{or}, and \word{not}. Sentences of the language can be straightforwardly interpreted as statements of propositional logic (where the six unanalyzed words are variables), and labeled sentence pairs can be interpreted as theorems of that logic. Some example pairs are provided in Table~\ref{tab:plexs}.
 
-Crucially, the language is defined such that any sentence can be embedded under negation or conjunction to create a new sentence, allowing for arbitrary-depth recursion, and the scope of negation and conjunction are determined only by bracketing with parentheses (rather than bare word order). The compositional structure of each sentence can thus be an arbitrary tree, and interpreting a sentence correctly requires using that structure.
+\paragraph{The artificial language} The language described in \newcite{Bowman:Potts:Manning:2014} (\S4) is designed to highlight the use of recursive structure with minimal additional complexity. Its vocabulary consists only of six unanalyzed word types ($p_1, p_2, p_3, p_4, p_5, p_6$), \word{and}, \word{or}, and \word{not}. Sentences of the language can be straightforwardly interpreted as statements of propositional logic (where the six unanalyzed words types are variable names), and labeled sentence pairs can be interpreted as theorems of that logic. Some example pairs are provided in Table~\ref{tab:plexs}.
 
-The data come with parentheses representing a complete binary bracketing. Our models use this information in two ways. For the tree models, the parentheses are not word tokens, but rather used in the expected way to build the tree. For the sequence model, the parentheses are words with associated learned embeddings. This provides the models with equivalent data, so their ability to handle unseen structures can be fairly compared.
+Crucially, the language is defined such that any sentence can be embedded under negation or conjunction to create a new sentence, allowing for arbitrary-depth recursion, and such that the scope of negation and conjunction are determined only by bracketing with parentheses (rather than bare word order). The compositional structure of each sentence can thus be an arbitrary tree, and interpreting a sentence correctly requires using that structure.
+
+The data come with parentheses representing a complete binary bracketing. Our models use this information in two ways. For the tree models, the parentheses are not word tokens, but rather are used in the expected way to build the tree. For the sequence model, the parentheses are word tokens with associated learned embeddings. This approach provides the models with equivalent data, so their ability to handle unseen structures can be reasonably compared.
 
 \paragraph{The corpus}
 The sentence pairs in the corpus are divided into thirteen bins according to the number of logical connectives (\word{and, or, not}) in the longer of the two sentences in the pair. We test the model on each bin separately (58k total examples, using an 80/20\% train/test split) in order to evaluate how its performance depends on the complexity of the sentences. In three experiments, we train our models on the training portions of bins 0--3 (62k examples), 0--4 (90k), and 0--6 (160k), and test on every bin but the trivial bin 0. Capping the size of the training sentences allows us to evaluate how the models interpret the sentences: if their performance falls off abruptly above the cutoff, it is reasonable to assume that the models are depending heavily on specific sentence structures, and cannot generalize to new structures. If their performance decays gradually\footnote{Since sentences are fixed-dimensional vectors of fixed-precision floating point numbers, all models will make errors on sentences above some length, and L2 regularization (which helps overall performance) exacerbates this by discouraging the model from using the kind of numerically precise, nonlinearity-saturating functions that generalize best.} with no such abrupt change, then it must have learned a more generally valid interpretation function for the language which respects its recursive structure.
