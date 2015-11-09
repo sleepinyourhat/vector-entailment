@@ -1,11 +1,11 @@
 \section{Testing sentence models on entailment} \label{methods}
 
-We use the architecture depicted in Figure~\ref{fig:model:top}, which builds on the one used in \newcite{Bowman:Potts:Manning:2014}. The model architecture uses two copies of a single sentence model (a tree or sequence model) to encode the premise and hypothesis (left and right side) expressions, and then uses those encodings as the features for a multilayer classifier which predicts one of the seven relations. Since the encodings are computed separately, the sentence models are forced to encode every element of the sentence meaning that the downstream model will need.
+We use the architecture depicted in Figure~\ref{fig:model:top}, which builds on the one used in \newcite{Bowman:Potts:Manning:2014}. The model architecture uses two copies of a single sentence model (a tree or sequence model) to encode the premise and hypothesis (left and right side) expressions, and then uses those encodings as the features for a multilayer classifier which predicts one of the seven relations. Since the encodings are computed separately, the sentence models must encode complete representations of the meanings of the two sentences for the downstream model to be able to succeed.
 
 \begin{figure*}[t]
   \centering
   \input{figure1}
-  \caption{In our model, two copies of a sentence model---based on either tree (b) or sequence (c) models---encode the two sentences. A multilayer classifier component (a) then uses the resulting vectors to predict a label that reflects the logical relationship between the two sentences.}
+  \caption{In our model, two copies of a sentence model---based on either tree (b) or sequence (c) models---encode the two input sentences. A multilayer classifier component (a) then uses the resulting vectors to predict a label that reflects the logical relationship between the two sentences.}
   \label{sample-figure}
 \end{figure*}
 
@@ -20,11 +20,11 @@ For the combining layer, we use a neural tensor network (NTN, \cite{chen2013lear
 \vec{y}_{\textit{NTN}} = \vec{y}_{\textit{NN}} + \tanh(\vec{x}^{(l)T} \mathbf{T}^{[1 \ldots n]} \vec{x}^{(r)})
 \end{gather} 
 
-Our model is largely identical to the model from \newcite{Bowman:Potts:Manning:2014}, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all three models, rather than just the TreeRNTN model, so as to ensure that the three sentence models are compared in as similar a setting as possible.
+Our model is largely identical to the model from \newcite{Bowman:Potts:Manning:2014}, but adds the two additional $\tanh$ NN layers, which we found help performance across the board, and also uses the NTN combination layer when evaluating all four models, rather than just the TreeRNTN model, so as to ensure that the sentence models are compared in as similar a setting as possible.
 
 We only study models that encode entire sentences in fixed length vectors, and we set aside models with attention \cite{bahdanau2014neural}, a technique which gives the downstream model (here, the classifier) the potential to access each input token individually through a soft content addressing system. While attention simplifies the problem of learning complex correspondences between input and output, there is no apparent reason to believe that it should improve or harm a model's ability to track structural information like a given token's position in a tree. As such, we expect our results to reflect the same basic behaviors that would be seen in attention-based models.
 
 \paragraph{Sentence models}
-The sentence encoding component of the model transforms the (jointly learned) embeddings of the input words into a single sentence vector. We experiment with tree-structured models (Figure~\ref{fig:model:tree}) with TreeRNN (eqn.~\ref{TreeRNN}), TreeRNTN (eqn.~\ref{TreeRNTN}), and TreeLSTM \cite{tai2015improved} activation functions. In addition, we use a sequence model (Figure~\ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} implemented as in \newcite{zaremba2015recurrent}. In experiments with a simpler non-LSTM RNN sequence model, the model tended to badly underfit the training data, and those results are not included here.
+The sentence encoding component of the model transforms the (learned) embeddings of the input words for each sentence into a single vector representing that sentence. We experiment with tree-structured models (Figure~\ref{fig:model:tree}) with TreeRNN (eqn.~\ref{TreeRNN}), TreeRNTN (eqn.~\ref{TreeRNTN}), and TreeLSTM \cite{tai2015improved} activation functions. In addition, we use a sequence model (Figure~\ref{fig:model:seq}) with an LSTM activation function \cite{hochreiter1997long} implemented as in \newcite{zaremba2015recurrent}. In experiments with a simpler non-LSTM RNN sequence model, the model tended to badly underfit the training data, and those results are not included here.
 
 \paragraph{Training} We randomly initialize all embeddings and layer parameters, and train them using minibatch stochastic gradient descent with AdaDelta \cite{zeiler2012adadelta} learning rates. Our objective is the standard negative log likelihood classification objective with L2 regularization (tuned on a separate train/test split). All models were trained for 100 epochs, after which all had largely converged without significantly declining from their peak performances.
