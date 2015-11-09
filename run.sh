@@ -8,7 +8,7 @@
 #PBS -q nlp
 
 # Usage example:
-# export MATLABCMD="cd quant; lambda = 0.0001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 0; name='tq'; relu = 1; TrainModel(''\, 1\, @Quantifiers\, name\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);"; qsub -v MATLABCMD quant/run.sh
+# export REMBED_FLAGS="--learning_rate 0.1"; qsub -v REMBED_FLAGS run.sh
 
 # Change to the submission directory. (Usually ~ for me... I include a 'cd some/dir;' 
 # at the start of MATLABCMD to get to my real working directory.)

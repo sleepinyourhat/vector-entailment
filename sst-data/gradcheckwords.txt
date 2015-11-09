@@ -1,7 +1,0 @@
-very
-bad
-good
-just
-<unk>
-<s>
-</s>

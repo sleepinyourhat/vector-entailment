@@ -1,13 +1,13 @@
 % Recursion experiments
 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf2'; relu = 1; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf2'; relu = 1; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf2'; relu = 1; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf2'; relu = 1; TrainModel(''\, 3\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf2'; relu = 1; TrainModel(''\, 4\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf2'; relu = 1; TrainModel(''\, 5\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf3'; relu = 1; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf3'; relu = 1; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf3'; relu = 1; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf3'; relu = 1; TrainModel(''\, 3\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf3'; relu = 1; TrainModel(''\, 4\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 25; td = 1; penult = 75; dropout = 1; tot = 1; name='taf3'; relu = 1; TrainModel(''\, 5\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, relu\, dropout\, 32);" ; qsub -v MATLABCMD quant/run.sh 
@@ -183,35 +183,35 @@ export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 5
 
 --
 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.3);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh -q john
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.1);" ; qsub -v MATLABCMD quant/run.sh
 
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
-export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-gLC'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 0.03);" ; qsub -v MATLABCMD quant/run.sh
 
 export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-d'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning6-d'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
@@ -223,8 +223,125 @@ export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.001; dim = 50
 export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
 export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning6-e'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 32);" ; qsub -v MATLABCMD quant/run.sh
 
+# Massive re-tuning
 
-cd quant; 
-dataflag = 'and-or-deep-6'; lambda = 0.000005; dim = 50; td = 3; penult = 100; dropout = 1; tot = 2; name='dimtest4'; relu = 1; TrainModel('/scr/sbowman/tuning6-e-and-or-deep-d50-pen100-top3-comp2-mbs32-l0.0003-f2/ckpt-best-tr150612132029@55000.mat', 1, @AndOr, name, dataflag, dim, penult, td, lambda, tot, 1);
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
 
-qdel 940236 939675 939676 939671 939672 939667 939668
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.00003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.00003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.00003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+# comp0 => 0003.
+# comp1 => 0001.
+# comp2 => 0001.
+# comp7 => 0001.
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+
+# comp1 => 0003.
+# comp0 => 001.
+# comp2 => 0003.
+# comp7 => 0003.
+
+# Dead => why?
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.01; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 1\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+### Final runs ###
+
+# deep-3
+# comp0 => 001.
+# comp1 => 0003.
+# comp2 => 0003.
+# comp7 => 001.
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-3'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+# deep (4)
+# comp1 => 0003.
+# comp0 => 001.
+# comp2 => 0003.
+# comp7 => 0003.
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-b'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-b'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-b'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-b'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+# deep-6
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-6'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+
+
+# comp0 => 0003.
+# comp1 => 0001.
+# comp2 => 0001.
+# comp7 => 0001.
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 1; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 7; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh
+
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0001; dim = 50; td = 3; penult = 100; tot = 2; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john 
+export MATLABCMD="cd quant; dataflag = 'and-or-deep-10'; lambda = 0.0003; dim = 50; td = 3; penult = 100; tot = 0; name='/scr/sbowman/tuning_all-a'; TrainModel(''\, 2\, @AndOr\, name\, dataflag\, dim\, penult\, td\, lambda\, tot\, 1);" ; qsub -v MATLABCMD quant/run.sh -q john 
