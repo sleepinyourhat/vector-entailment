@@ -1,7 +1,12 @@
 vector-entailment
 =================
 
-The code for the experiments reported on in Bowman (2014) and Bowman, Potts and Manning (2014)
+This is code for the experiments reported on in these papers:
+
+https://arxiv.org/abs/1506.04834
+http://aclweb.org/anthology/W/W15/W15-4002.pdf
+http://www.aaai.org/ocs/index.php/SSS/SSS15/paper/download/10221/10027
+https://arxiv.org/abs/1312.6192
 
 WARNING: I have made every effort to ensure that this code is as inefficient as possible
 and violates every convention of MATLAB style. If the code could be made worse on either 
